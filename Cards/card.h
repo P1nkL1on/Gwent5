@@ -106,6 +106,7 @@ bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
+void take(const Card *card, Field &field);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos);
@@ -127,6 +128,7 @@ bool startChoiceToPlayCard(Field &field, const Filters &filters = {});
 bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters = {});
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
+void disposeChoice(Field &field);
 
 
 #endif // CARD_H

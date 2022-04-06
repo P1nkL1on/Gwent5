@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
 
     startChoiceToPlayCard(_ally);
-    onChoiceDoneCard(dp, _ally, _enemy);
-    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
-    onChoiceDoneCard(td, _ally, _enemy);
-    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
+//    onChoiceDoneCard(dp, _ally, _enemy);
+//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
+//    onChoiceDoneCard(td, _ally, _enemy);
+//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
 //    onChoiceDoneCard(dp, _ally, _enemy);
 
 //    startChoiceToPlayCard(_ally);
@@ -36,10 +36,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const auto cardAt = [=](const QPoint &pos) -> Card * {
-        const double posWidth = (rect().width() - _view.spacingPx) / 11.0;
-        const double posHeight = (rect().height() - _view.spacingPx) / 8.0;
+    const double posWidth = (rect().width() - _view.spacingPx) / 11.0;
+    const double posHeight = (rect().height() - _view.spacingPx) / 8.0;
 
+    const auto cardAt = [=](const QPoint &point) -> Card * {
         for (int j = 0; j < 6; ++j) {
 
             const Field *field = j < 3 ? &_enemy : &_ally;
@@ -55,35 +55,56 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                     continue;
 
                 const QRectF cardRect(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight);
-                if (cardRect.contains(pos))
+                if (cardRect.contains(point))
                     return cards[i];
             }
         }
 
         for (size_t i = 0; i < _ally.hand.size(); ++i) {
             const QRectF cardRect(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight);
-            if (cardRect.contains(pos))
+            if (cardRect.contains(point))
                 return _ally.hand[i];
         }
 
         return nullptr;
     };
 
+    const auto rowAndPostAt = [=](const QPoint &point, Row &row, Pos &pos) -> bool {
+        for (int j = 0; j < 6; ++j) {
+            const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
+            for (size_t i = 0; i < 9; ++i) {
+                const QRectF cardRect(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight);
+                if (cardRect.contains(point)) {
+                    row = _row;
+                    pos = Pos(i);
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
 
-        Card *card = cardAt(em->pos());
-        if (card == nullptr)
+        if ((_ally.choice == Play) || (_ally.choice == Target)) {
+            Card *card = cardAt(em->pos());
+            if (card == nullptr || !isIn(card, _ally.choiceBetween))
+                goto event;
+            onChoiceDoneCard(card, _ally, _enemy);
+            repaint();
             goto event;
+        }
 
-        if ((_ally.choice != Play) && (_ally.choice != Target))
+        if (_ally.choice == SelectAllyRowAndPos) {
+            Row row;
+            Pos pos;
+            if (!rowAndPostAt(em->pos(), row, pos))
+                goto event;
+            onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
+            repaint();
             goto event;
-
-        if (!isIn(card, _ally.choiceBetween))
-            goto event;
-
-        onChoiceDoneCard(card, _ally, _enemy);
-        repaint();
+        }
     }
 
     event:
@@ -152,7 +173,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
             if (i >= count) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
-                painter.setPen(Qt::gray);
+                const bool canBePlaced = ((_ally.choice == SelectAllyRowAndPos && j >= 3) || (_ally.choice == SelectEnemyRowAndPos && j < 3)) && (i < count + 1);
+                painter.setPen(canBePlaced ? Qt::green : Qt::gray);
                 painter.drawRect(rect);
                 continue;
             }

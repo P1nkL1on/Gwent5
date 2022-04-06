@@ -29,6 +29,18 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
+void take(const Card *card, Field &field)
+{
+    std::vector<std::vector<Card *> *> cards {&field.rowMeele, &field.rowRange, &field.rowSeige, &field.hand, &field.deck, &field.discard};
+    for (std::vector<Card *> *_cards : cards)
+        for (size_t i = 0; i < _cards->size(); ++i)
+            if (_cards->at(i) == card) {
+                _cards->erase(_cards->begin() + int(i));
+                return;
+            }
+    assert(false);
+}
+
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial();
@@ -136,24 +148,18 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
         }
         ally.choice = card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos;
         ally.cardStack.push_back(card);
+        ally.choiceBetween.clear();
         return;
 
     } else if (ally.choice == Target) {
-        if (card == nullptr) {
-            ally.choice = NoChoice;
-            ally.cardStack.pop_back();
-            ally.choiceBetween.clear();
-            return;
-        }
+        if (card == nullptr)
+            return disposeChoice(ally);;
 
         Card *cardSrc = ally.cardStack.back();
-        ally.choice = NoChoice;
-        ally.cardStack.pop_back();
-        ally.choiceBetween.clear();
+        disposeChoice(ally);
 
         cardSrc->onTargetChoosen(card, ally, enemy);
         return;
-
     }
 
     assert(false);
@@ -167,14 +173,13 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
     ally.cardStack.pop_back();
 
     const Choice choice = ally.choice;
-    ally.choice = NoChoice;
-    ally.choiceBetween.clear();
+    disposeChoice(ally);
 
-    if (choice == SelectAllyRowAndPos)
-        return putOnField(card, row, pos, ally, enemy);
-
-    if (choice == SelectEnemyRowAndPos)
-        return putOnField(card, row, pos, enemy, ally);
+    if (choice == SelectAllyRowAndPos) {
+        take(card, ally);
+        putOnField(card, row, pos, ally, enemy);
+        return;
+    }
 
     assert(false);
 }
@@ -257,9 +262,16 @@ bool drawACard(Field &)
     return true;
 }
 
-void boost(Card *card, const int x, Field &ally, Field &enemy)
+void boost(Card *card, const int x, Field &, Field &)
 {
     assert(x > 0);
 
     card->power += x;
+}
+
+void disposeChoice(Field &field)
+{
+    field.choice = NoChoice;
+    field.cardStack.clear();
+    field.choiceBetween.clear();
 }
