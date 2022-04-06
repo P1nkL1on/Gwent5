@@ -3,13 +3,31 @@
 
 #include <QMainWindow>
 
+#include "../Cards/cards.h"
+
+struct View
+{
+    int spacingPx = 10;
+    int borderCardPx = 5;
+    int borderTextPx = 2;
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    MainWindow(QWidget *parent = nullptr);
+
+private:
+    bool eventFilter(QObject*, QEvent* e) override;
+    void paintEvent(QPaintEvent *e) override;
+
+    View _view;
+
+    std::vector<Card *> _cards;
+    Field _ally ;
+    Field _enemy;
 };
 
 #endif // MAINWINDOW_H
