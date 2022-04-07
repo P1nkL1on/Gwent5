@@ -29,7 +29,7 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
-void take(const Card *card, Field &field)
+void takeCard(const Card *card, Field &field)
 {
     std::vector<std::vector<Card *> *> cards {&field.rowMeele, &field.rowRange, &field.rowSeige, &field.hand, &field.deck, &field.discard};
     for (std::vector<Card *> *_cards : cards)
@@ -106,16 +106,6 @@ bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-bool startChoiceToPlayCard(Field &field, const Filters &filters)
-{
-    if (field.hand.size() == 0)
-        return false;
-
-    field.choice = Play;
-    field.choiceBetween = filtered(filters, field.hand);
-    return true;
-}
-
 /// no need to pass self (leave as nullptr), if no ally cards involved
 Filters canBeSelected(Card *self)
 {
@@ -126,58 +116,51 @@ Filters canBeSelected(Card *self)
     };
 }
 
+bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
+{
+    if (field.hand.size() == 0)
+        return false;
+    // TODO: if hand has exact 1 card
+    const std::vector<Card *> hand = field.hand;
+    field.cardStack.push_back({Play, self, filtered(filters, hand)});
+    return true;
+}
+
 bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters)
 {
     const std::vector<Card *> allies = united(Rows{field.rowMeele, field.rowRange, field.rowSeige});
-    field.choiceBetween = filtered(canBeSelected(self), filtered(filters, allies));
-    if (field.choiceBetween.size() == 0)
+    const std::vector<Card *> alliesFiltered = filtered(canBeSelected(self), filtered(filters, allies));
+    if (alliesFiltered.size() == 0)
         return false;
-
-    field.choice = Target;
-    field.cardStack.push_back(self);
+    // TODO: if alliesFiltered has exact 1 card
+    field.cardStack.push_back({Target, self, alliesFiltered});
     return true;
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
-    if (ally.choice == Play) {
+    const Snapshot snapshot = ally.takeSnapshot();
+
+    if (snapshot.choice == Play) {
         assert(card != nullptr);
         if (card->isSpecial) {
             playAsSpecial(card, ally, enemy);
             return;
         }
-        ally.choice = card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos;
-        ally.cardStack.push_back(card);
-        ally.choiceBetween.clear();
-        return;
-
-    } else if (ally.choice == Target) {
-        if (card == nullptr)
-            return disposeChoice(ally);;
-
-        Card *cardSrc = ally.cardStack.back();
-        disposeChoice(ally);
-
-        cardSrc->onTargetChoosen(card, ally, enemy);
-        return;
+        return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
     }
-
+    if (snapshot.choice == Target) {
+        return snapshot.cardSource->onTargetChoosen(card, ally, enemy);
+    }
     assert(false);
 }
 
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy)
 {
-    assert(ally.cardStack.size() > 0);
-
-    Card *card = ally.cardStack.back();
-    ally.cardStack.pop_back();
-
-    const Choice choice = ally.choice;
-    disposeChoice(ally);
-
-    if (choice == SelectAllyRowAndPos) {
-        take(card, ally);
-        putOnField(card, row, pos, ally, enemy);
+    const Snapshot snapshot = ally.takeSnapshot();
+    if (snapshot.choice == SelectAllyRowAndPos) {
+        takeCard(snapshot.cardSource, ally);
+        putOnField(snapshot.cardSource, row, pos, ally, enemy);
         return;
     }
 
@@ -196,9 +179,10 @@ void traceField(Field &field)
     for (Card *_card : field.rowSeige)
         std::cout << _card->power << " ";
 
-    switch (field.choice) {
-    case NoChoice:
+    if (field.cardStack.size() == 0)
         return;
+
+    switch (field.snapshot().choice) {
     case Play:
         std::cout << "\n\nSelect a card to play:\n";
         break;
@@ -213,7 +197,7 @@ void traceField(Field &field)
         break;
     }
 
-    for (Card *card : field.choiceBetween)
+    for (Card *card : field.snapshot().cardOptions)
         std::cout << card->power << "\n";
 }
 
@@ -227,6 +211,26 @@ bool isOkRowAndPos(const Row row, const Pos pos, const Field &field)
 
     const std::vector<Card *> &_row = field.row(row);
     return !isRowFull(_row) && (pos <= int(_row.size()));
+}
+
+const Snapshot &Field::snapshot() const
+{
+    assert(cardStack.size() > 0);
+    return cardStack.back();
+}
+
+Snapshot &Field::snapshot()
+{
+    assert(cardStack.size() > 0);
+    return cardStack.back();
+}
+
+Snapshot Field::takeSnapshot()
+{
+    assert(cardStack.size() > 0);
+    Snapshot res = cardStack.back();
+    cardStack.pop_back();
+    return res;
 }
 
 const std::vector<Card *> &Field::row(Row _row) const
@@ -269,9 +273,30 @@ void boost(Card *card, const int x, Field &, Field &)
     card->power += x;
 }
 
-void disposeChoice(Field &field)
+std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
 {
-    field.choice = NoChoice;
-    field.cardStack.clear();
-    field.choiceBetween.clear();
+    std::string res;
+    for (const Snapshot &snapShot : cardStack) {
+        if (res.size() > 0)
+            res += " -> ";
+        switch (snapShot.choice) {
+        case Play:
+            res += "Choose a card to play";
+            break;
+        case SelectAllyRowAndPos:
+            res += "Chosse an allied row and pos";
+            break;
+        case SelectEnemyRowAndPos:
+            res += "Chosse an enemy row and pos";
+            break;
+        case Target:
+            res += "Chosse an ability option";
+            break;
+        }
+        if (snapShot.cardSource != nullptr)
+            res += " (" + snapShot.cardSource->name + ")";
+    }
+    if (res.size() == 0)
+        return "Card stack is empty...";
+    return res;
 }

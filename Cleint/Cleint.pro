@@ -11,3 +11,6 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h
+
+RESOURCES += \
+    covers.qrc

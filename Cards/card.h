@@ -40,7 +40,6 @@ enum Tag
 
 enum Choice
 {
-    NoChoice,
     Play,
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
@@ -68,6 +67,7 @@ struct Card
     bool isImmune = false;
     bool isDoomed = false;
     bool isSpecial = false;
+    std::string name;
 
     inline virtual void onEnter(const Row, const Pos, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
@@ -84,6 +84,13 @@ struct Card
     inline virtual void onOtherEnemyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
 };
 
+struct Snapshot
+{
+    Choice choice;
+    Card * cardSource;
+    std::vector<Card *> cardOptions;
+};
+
 struct Field
 {
     std::vector<Card *> rowMeele;
@@ -93,20 +100,24 @@ struct Field
     std::vector<Card *> deck;
     std::vector<Card *> discard;
 
-    Choice choice = NoChoice;
-    std::vector<Card *> cardStack;
-    std::vector<Card *> choiceBetween;
+    std::vector<Snapshot> cardStack;
 
+    const Snapshot &snapshot() const;
+    Snapshot &snapshot();
+    Snapshot takeSnapshot();
     const std::vector<Card *> &row(Row _row) const;
     std::vector<Card *> &row(Row _row);
 };
 
 
+
+
+std::string stringSnapShots(const std::vector<Snapshot> &cardStack);
 bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
-void take(const Card *card, Field &field);
+void takeCard(const Card *card, Field &field);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos);
@@ -124,11 +135,10 @@ void traceField(Field &field);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 
-bool startChoiceToPlayCard(Field &field, const Filters &filters = {});
+bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
 bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters = {});
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
-void disposeChoice(Field &field);
 
 
 #endif // CARD_H

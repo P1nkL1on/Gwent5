@@ -10,6 +10,7 @@ struct View
     int spacingPx = 10;
     int borderCardPx = 5;
     int borderTextPx = 2;
+    int borderNamePx = 5;
 };
 
 class MainWindow : public QMainWindow

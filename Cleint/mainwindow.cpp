@@ -14,11 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     _ally.hand = _cards;
 
-    startChoiceToPlayCard(_ally);
-    onChoiceDoneCard(td2, _ally, _enemy);
-    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
+    startChoiceToPlayCard(_ally, nullptr);
+//    onChoiceDoneCard(td2, _ally, _enemy);
+//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
 
-    startChoiceToPlayCard(_ally);
+//    startChoiceToPlayCard(_ally, nullptr);
 //    onChoiceDoneCard(dp, _ally, _enemy);
 //    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
 //    onChoiceDoneCard(td, _ally, _enemy);
@@ -87,21 +87,32 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
 
-        if ((_ally.choice == Play) || (_ally.choice == Target)) {
+        if (_ally.cardStack.size() == 0)
+            goto event;
+
+        if ((_ally.snapshot().choice == Play) || (_ally.snapshot().choice == Target)) {
             Card *card = cardAt(em->pos());
-            if (card == nullptr || !isIn(card, _ally.choiceBetween))
+            if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
                 goto event;
             onChoiceDoneCard(card, _ally, _enemy);
+            // TODO: remove it, its a next turn advance
+            std::cout << stringSnapShots(_ally.cardStack) << " (" << (_ally.cardStack.size() ? _ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
+            if (!_ally.cardStack.size())
+                startChoiceToPlayCard(_ally, nullptr);
             repaint();
             goto event;
         }
 
-        if (_ally.choice == SelectAllyRowAndPos) {
+        if (_ally.snapshot().choice == SelectAllyRowAndPos) {
             Row row;
             Pos pos;
             if (!rowAndPostAt(em->pos(), row, pos))
                 goto event;
             onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
+            // TODO: remove it, its a next turn advance
+            std::cout << stringSnapShots(_ally.cardStack) << " (" << (_ally.cardStack.size() ? _ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
+            if (!_ally.cardStack.size())
+                startChoiceToPlayCard(_ally, nullptr);
             repaint();
             goto event;
         }
@@ -134,7 +145,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
-        if (isIn(card, _ally.choiceBetween)) {
+        if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptions)) {
             painter.setPen(Qt::green);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
@@ -158,6 +169,15 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
         painter.setPen(card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black);
         painter.drawText(rectText.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->power));
+
+        const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - textHeight, posWidth, textHeight);
+        painter.fillRect(rectNameText, Qt::white);
+        painter.setPen(Qt::black);
+        painter.drawRect(rectNameText);
+
+        const QString name = QString::fromStdString(card->name);
+        const QString nameElided = metrics.elidedText(name, Qt::ElideRight, posWidth - 2 * _view.borderNamePx);
+        painter.drawText(rectNameText.marginsRemoved(QMarginsF(_view.borderNamePx, 0, _view.borderNamePx, 0)), nameElided);
     };
 
     for (int j = 0; j < 6; ++j) {
@@ -173,7 +193,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
             if (i >= count) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
-                const bool canBePlaced = ((_ally.choice == SelectAllyRowAndPos && j >= 3) || (_ally.choice == SelectEnemyRowAndPos && j < 3)) && (i < count + 1);
+                const bool canBePlaced = (_ally.cardStack.size()) && ((_ally.snapshot().choice == SelectAllyRowAndPos && j >= 3) || (_ally.snapshot().choice == SelectEnemyRowAndPos && j < 3)) && (i < count + 1);
                 painter.setPen(canBePlaced ? Qt::green : Qt::gray);
                 painter.drawRect(rect);
                 continue;

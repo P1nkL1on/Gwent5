@@ -7,6 +7,7 @@ struct AddaStriga : Card
 {
     inline AddaStriga()
     {
+        name = "Adda: Striga";
         power = powerBase = 6;
         rarity = Silver;
         faction = Monster;
@@ -30,6 +31,7 @@ struct DaoLesser : Card
 {
     inline DaoLesser()
     {
+        name = "D'ao Lesser";
         power = powerBase = 4;
         rarity = Bronze;
         faction = Monster;
@@ -42,6 +44,7 @@ struct Dao : Card
 {
     inline Dao()
     {
+        name = "D'ao";
         power = powerBase = 6;
         rarity = Bronze;
         faction = Monster;
@@ -56,6 +59,7 @@ struct DeithwenArbalest : Card
 {
     inline DeithwenArbalest()
     {
+        name = "Deithwen Arbalest";
         power = powerBase = 7;
         rarity = Bronze;
         faction = Nilfgaard;
@@ -70,6 +74,7 @@ struct TemerianDrummer : Card
 {
     inline TemerianDrummer()
     {
+        name = "Temerian Drummer";
         power = powerBase = 5;
         rarity = Bronze;
         faction = NothernRealms;
@@ -89,6 +94,7 @@ struct DandelionPoet : Card
 {
     inline DandelionPoet()
     {
+        name = "Dandelion: Poet";
         power = powerBase = 5;
         rarity = Gold;
         faction = Neutral;
@@ -97,7 +103,7 @@ struct DandelionPoet : Card
     inline void onEnter(const Row, const Pos, Field &ally, Field &) override
     {
         drawACard(ally);
-        startChoiceToPlayCard(ally);
+        startChoiceToPlayCard(ally, this);
     }
 };
 
@@ -105,6 +111,7 @@ struct SileDeTansarville : Card
 {
     inline SileDeTansarville()
     {
+        name = "S'ile de Tansarville";
         power = powerBase = 4;
         rarity = Silver;
         faction = NothernRealms;
@@ -116,7 +123,7 @@ struct SileDeTansarville : Card
     }
     inline void onEnter(const Row, const Pos, Field &ally, Field &) override
     {
-        startChoiceToPlayCard(ally, {isBronzeOrSilverSpecialCard});
+        startChoiceToPlayCard(ally, this, {isBronzeOrSilverSpecialCard});
     }
 };
 
