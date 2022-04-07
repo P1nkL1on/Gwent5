@@ -17,7 +17,7 @@ struct AddaStriga : Card
     {
         return card->faction != Monster;
     }
-    inline void onEnter(const Row, const Pos, Field &, Field &enemy) override
+    inline void onEnter(Field &, Field &enemy) override
     {
         startChoiceToTargetCard(enemy, this, {isNonMonster});
     }
@@ -27,21 +27,22 @@ struct AddaStriga : Card
     }
 };
 
-struct DaoLesser : Card
-{
-    inline DaoLesser()
-    {
-        name = "D'ao Lesser";
-        power = powerBase = 4;
-        rarity = Bronze;
-        faction = Monster;
-        tags = { Construct };
-        isDoomed = true;
-    }
-};
 
 struct Dao : Card
 {
+    struct DaoLesser : Card
+    {
+        inline DaoLesser()
+        {
+            name = "D'ao Lesser";
+            power = powerBase = 4;
+            rarity = Bronze;
+            faction = Monster;
+            tags = { Construct };
+            isDoomed = true;
+        }
+    };
+
     inline Dao()
     {
         name = "D'ao";
@@ -55,6 +56,56 @@ struct Dao : Card
     }
 };
 
+struct PoorFingInfantry : Card
+{
+    struct LeftFlankInfantry : Card
+    {
+        inline LeftFlankInfantry()
+        {
+            name = "Left Flank Infantry";
+            power = powerBase = 2;
+            rarity = Bronze;
+            faction = NothernRealms;
+            tags = { Soldier, Temeria };
+            isDoomed = true;
+        }
+
+    };
+    struct RightFlankInfantry : Card
+    {
+        inline RightFlankInfantry()
+        {
+            name = "Right Flank Infantry";
+            power = powerBase = 2;
+            rarity = Bronze;
+            faction = NothernRealms;
+            tags = { Soldier, Temeria };
+            isDoomed = true;
+        }
+    };
+    inline PoorFingInfantry()
+    {
+        name = "Poor F'ing Infantry";
+        power = powerBase = 6;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Soldier, Temeria };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, ally, row, pos))
+            return;
+        if (isOkRowAndPos(row, pos, ally))
+            putOnField(new LeftFlankInfantry, row, pos, ally, enemy);
+        if (!rowAndPos(this, ally, row, pos))
+            return;
+        if (isOkRowAndPos(row, pos + 1, ally))
+            putOnField(new RightFlankInfantry, row, pos + 1, ally, enemy);
+    }
+};
+
 struct DeithwenArbalest : Card
 {
     inline DeithwenArbalest()
@@ -65,7 +116,7 @@ struct DeithwenArbalest : Card
         faction = Nilfgaard;
         tags = { Nilfgaard };
     }
-    inline void onEnter(const Row, const Pos, Field &, Field &) override
+    inline void onEnter(Field &, Field &) override
     {
     }
 };
@@ -78,9 +129,9 @@ struct TemerianDrummer : Card
         power = powerBase = 5;
         rarity = Bronze;
         faction = NothernRealms;
-        tags = { Temerian, Support };
+        tags = { Temeria, Support };
     }
-    inline void onEnter(const Row, const Pos, Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &) override
     {
         startChoiceToTargetCard(ally, this);
     }
@@ -100,7 +151,7 @@ struct DandelionPoet : Card
         faction = Neutral;
         tags = {  };
     }
-    inline void onEnter(const Row, const Pos, Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &) override
     {
         drawACard(ally);
         startChoiceToPlayCard(ally, this);
@@ -121,9 +172,39 @@ struct SileDeTansarville : Card
     {
         return card->isSpecial && (card->rarity == Bronze || card->rarity == Silver);
     }
-    inline void onEnter(const Row, const Pos, Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &) override
     {
         startChoiceToPlayCard(ally, this, {isBronzeOrSilverSpecialCard});
+    }
+};
+
+struct RedanianKnightElect : Card
+{
+    inline RedanianKnightElect()
+    {
+        name = "Redanian Knight Elect";
+        power = powerBase = 7;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Redania, Soldier };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        gainArmor(this, 2, ally, enemy);
+    }
+    inline void onTurnEnd(Field &ally, Field &enemy) override
+    {
+        if (!this->armor)
+            return;
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, ally, row, pos))
+            return;
+
+        if (Card *left = cardAtRowAndPos(row, pos - 1, ally))
+            boost(left, 1, ally, enemy);
+        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+            boost(right, 1, ally, enemy);
     }
 };
 

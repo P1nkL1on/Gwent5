@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto *td = new TemerianDrummer;
     auto *td2 = new TemerianDrummer;
     auto *sd = new SileDeTansarville;
-    _cards = {new AddaStriga, new DeithwenArbalest, dp, td, td2, new TemerianDrummer, sd};
+    _cards = {new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, td, td2, new TemerianDrummer, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
 
     _ally.hand = _cards;
 
@@ -95,10 +95,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
                 goto event;
             onChoiceDoneCard(card, _ally, _enemy);
-            // TODO: remove it, its a next turn advance
-            std::cout << stringSnapShots(_ally.cardStack) << " (" << (_ally.cardStack.size() ? _ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
-            if (!_ally.cardStack.size())
-                startChoiceToPlayCard(_ally, nullptr);
+            tryFinishTurn(_ally, _enemy);
             repaint();
             goto event;
         }
@@ -108,11 +105,10 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             Pos pos;
             if (!rowAndPostAt(em->pos(), row, pos))
                 goto event;
+            if (!isOkRowAndPos(row, pos, _ally))
+                goto event;
             onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
-            // TODO: remove it, its a next turn advance
-            std::cout << stringSnapShots(_ally.cardStack) << " (" << (_ally.cardStack.size() ? _ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
-            if (!_ally.cardStack.size())
-                startChoiceToPlayCard(_ally, nullptr);
+            tryFinishTurn(_ally, _enemy);
             repaint();
             goto event;
         }
@@ -145,16 +141,26 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
+        /// draw selection border
         if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptions)) {
             painter.setPen(Qt::green);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
+        /// draw source border
+        if (_ally.cardStack.size() && (card == _ally.snapshot().cardSource)) {
+            painter.setPen(Qt::cyan);
+            painter.drawLine(rect.topLeft(), rect.bottomRight());
+            painter.drawLine(rect.topRight(), rect.bottomLeft());
+        }
+
+        /// draw rarity
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
         painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
         painter.drawRect(rectBorder);
 
+        /// draw power
         const QFontMetricsF metrics(QFont{});
         const double textHeight = metrics.height();
         const double textWidth = metrics.width(QString::number(card->power));
@@ -170,6 +176,17 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.setPen(card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black);
         painter.drawText(rectText.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->power));
 
+        /// draw armor
+        if (card->armor) {
+            const double armorWidth = metrics.width(QString::number(card->armor));
+            const QRectF rectArmorBorder(topLeft.x() + textWidth + 3 * _view.borderTextPx, topLeft.y(), armorWidth + 2 * _view.borderTextPx, textHeight + 2 * _view.borderTextPx);
+            painter.fillRect(rectArmorBorder, Qt::yellow);
+            painter.setPen(Qt::black);
+            painter.drawRect(rectArmorBorder);
+            painter.drawText(rectArmorBorder.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->armor));
+        }
+
+        /// draw name
         const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - textHeight, posWidth, textHeight);
         painter.fillRect(rectNameText, Qt::white);
         painter.setPen(Qt::black);

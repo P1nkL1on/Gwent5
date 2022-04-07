@@ -45,14 +45,12 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial();
 
-    for (std::vector<Card *> &_vector : Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck})
-        for (Card *_card : _vector)
-            if (_card != card)
-                _card->onOtherAllySpecialPlayed(card);
+    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
+        if (_card != card)
+            _card->onOtherAllySpecialPlayed(card);
 
-    for (std::vector<Card *> &_vector : Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck})
-        for (Card *_card : _vector)
-            _card->onOtherEnemySpecialPlayed(card);
+    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
+        _card->onOtherEnemySpecialPlayed(card);
 }
 
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
@@ -76,16 +74,14 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
         break;
     }
 
-    card->onEnter(row, pos, ally, enemy);
+    card->onEnter(ally, enemy);
 
-    for (std::vector<Card *> &_vector : Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck})
-        for (Card *_card : _vector)
-            if (_card != card)
+    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
+        if (_card != card)
                 _card->onOtherAllyEntered(card);
 
-    for (std::vector<Card *> &_vector : Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck})
-        for (Card *_card : _vector)
-            _card->onOtherEnemyEntered(card);
+    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
+         _card->onOtherEnemyEntered(card);
 
 }
 
@@ -213,6 +209,20 @@ bool isOkRowAndPos(const Row row, const Pos pos, const Field &field)
     return !isRowFull(_row) && (pos <= int(_row.size()));
 }
 
+
+Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field)
+{
+    if (pos < 0)
+        return nullptr;
+
+    const std::vector<Card *> &_row = field.row(row);
+
+    if (size_t(pos) >= _row.size())
+        return nullptr;
+
+    return _row[size_t(pos)];
+}
+
 const Snapshot &Field::snapshot() const
 {
     assert(cardStack.size() > 0);
@@ -273,6 +283,13 @@ void boost(Card *card, const int x, Field &, Field &)
     card->power += x;
 }
 
+void gainArmor(Card *card, const int x, Field &, Field &)
+{
+    assert(x > 0);
+
+    card->armor += x;
+}
+
 std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
 {
     std::string res;
@@ -299,4 +316,26 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
     if (res.size() == 0)
         return "Card stack is empty...";
     return res;
+}
+
+// TODO: is only 1 playe
+bool tryFinishTurn(Field &ally, Field &enemy)
+{
+    if (ally.cardStack.size() > 0) {
+        std::cout << stringSnapShots(ally.cardStack) << " (" << (ally.cardStack.size() ? ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
+        return false;
+    }
+
+    // finish turn
+    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+        _card->onTurnEnd(ally, enemy);
+
+    ally.nTurns++;
+
+    // start next turn
+    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+        _card->onTurnStart(ally, enemy);
+
+    // play a new card on a new turn
+    return startChoiceToPlayCard(ally, nullptr);
 }

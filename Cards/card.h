@@ -28,9 +28,11 @@ enum Tag
     Cursed,
     Relict,
     Construct,
-    Temerian,
+    Temeria,
+    Redania,
     Support,
     Mage,
+    Soldier,
 
     Neutral,
     Monster,
@@ -69,7 +71,9 @@ struct Card
     bool isSpecial = false;
     std::string name;
 
-    inline virtual void onEnter(const Row, const Pos, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDraw() {}
     inline virtual void onDiscard() {}
@@ -101,6 +105,7 @@ struct Field
     std::vector<Card *> discard;
 
     std::vector<Snapshot> cardStack;
+    int nTurns = 0;
 
     const Snapshot &snapshot() const;
     Snapshot &snapshot();
@@ -117,6 +122,7 @@ bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
+Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 void takeCard(const Card *card, Field &field);
 
 /// find a place of a card in the field. returns false if non found
@@ -129,6 +135,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
 void boost(Card *card, const int x, Field &ally, Field &enemy);
+void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 
 bool drawACard(Field &field);
 void traceField(Field &field);
@@ -139,6 +146,7 @@ bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {}
 bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters = {});
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
+bool tryFinishTurn(Field &ally, Field &enemy);
 
 
 #endif // CARD_H
