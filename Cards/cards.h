@@ -18,7 +18,7 @@ struct AddaStriga : Card
     {
         return card->faction != Monster;
     }
-    inline void onEnter(Field &, Field &enemy, const Row) override
+    inline void onEnter(Field &, Field &enemy) override
     {
         startChoiceToTargetCard(enemy, this, {isNonMonster});
     }
@@ -97,7 +97,7 @@ struct PoorFingInfantry : Card
         faction = NothernRealms;
         tags = { Soldier, Temeria };
     }
-    inline void onEnter(Field &ally, Field &enemy, const Row) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
         Row row;
         Pos pos;
@@ -118,7 +118,7 @@ struct DeithwenArbalest : Card
         faction = Nilfgaard;
         tags = { Nilfgaard };
     }
-    inline void onEnter(Field &, Field &, const Row) override
+    inline void onEnter(Field &, Field &) override
     {
     }
 };
@@ -134,7 +134,7 @@ struct TemerianDrummer : Card
         faction = NothernRealms;
         tags = { Temeria, Support };
     }
-    inline void onEnter(Field &ally, Field &, const Row) override
+    inline void onEnter(Field &ally, Field &) override
     {
         startChoiceToTargetCard(ally, this);
     }
@@ -155,7 +155,7 @@ struct DandelionPoet : Card
         faction = Neutral;
         tags = { Support };
     }
-    inline void onEnter(Field &ally, Field &, const Row) override
+    inline void onEnter(Field &ally, Field &) override
     {
         drawACard(ally);
         startChoiceToPlayCard(ally, this);
@@ -177,7 +177,7 @@ struct SileDeTansarville : Card
     {
         return card->isSpecial && (card->rarity == Bronze || card->rarity == Silver);
     }
-    inline void onEnter(Field &ally, Field &, const Row) override
+    inline void onEnter(Field &ally, Field &) override
     {
         startChoiceToPlayCard(ally, this, {isBronzeOrSilverSpecialCard});
     }
@@ -194,7 +194,7 @@ struct RedanianKnightElect : Card
         faction = NothernRealms;
         tags = { Redania, Soldier };
     }
-    inline void onEnter(Field &ally, Field &enemy, const Row) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
         gainArmor(this, 2, ally, enemy);
     }
@@ -225,12 +225,14 @@ struct KaedweniKnight : Card
         faction = NothernRealms;
         tags = { Soldier, Kaedwen };
     }
-    inline void onEnter(Field &ally, Field &enemy, const Row from) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
         gainArmor(this, 2, ally, enemy);
-
-        if (from == Deck)
-            boost(this, 5, ally, enemy);
+    }
+    inline void onEnterFromDeck(Field &ally, Field &enemy) override
+    {
+        gainArmor(this, 2, ally, enemy);
+        boost(this, 5, ally, enemy);
     }
 };
 
@@ -258,7 +260,7 @@ struct AnCraiteGreatsword : Card
         faction = Skellige;
         tags = { Soldier, ClanAnCraite };
     }
-    inline void onEnter(Field &, Field &, const Row) override
+    inline void onEnter(Field &, Field &) override
     {
         timer = 2;
     }
@@ -324,9 +326,31 @@ struct TuirseachBearmaster : Card
         faction = Skellige;
         tags = { ClanTuirseach, Soldier };
     }
-    inline void onEnter(Field &ally, Field &enemy, const Row) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
         spawn(new Bear, ally, enemy);
+    }
+};
+
+struct AlzursThunder : Card
+{
+    inline AlzursThunder()
+    {
+        name = "Alzur's Thunder";
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Spell };
+        isSpecial = true;
+        url = "https://gwent.one/image/card/low/cid/png/113301.png";
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        // TODO: change to any taget
+        startChoiceToTargetCard(ally, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        damage(target, 9, ally, enemy);
     }
 };
 
@@ -337,7 +361,7 @@ struct Swallow : Card
         name = "Swallow";
         rarity = Bronze;
         faction = Neutral;
-        tags = {Alchemy, Special, Item};
+        tags = { Alchemy, Item };
         isSpecial = true;
         url = "https://gwent.one/image/card/low/cid/png/113310.png";
     }
@@ -348,6 +372,90 @@ struct Swallow : Card
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
         boost(target, 10, ally, enemy);
+    }
+};
+
+struct Thunderbolt : Card
+{
+    inline Thunderbolt()
+    {
+        name = "Thunderbolt";
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Alchemy, Item };
+        isSpecial = true;
+        url = "https://gwent.one/image/card/low/cid/png/113311.png";
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        // TODO: change to any target
+        startChoiceToTargetCard(ally, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        Row row;
+        Pos pos;
+        if (!rowAndPos(target, ally, row, pos))
+            return;
+        boost(target, 3, ally, enemy);
+        gainArmor(target, 2, ally, enemy);
+        if (Card *left = cardAtRowAndPos(row, pos - 1, ally)) {
+            boost(left, 3, ally, enemy);
+            gainArmor(left, 2, ally, enemy);
+        }
+        if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
+            boost(right, 3, ally, enemy);
+            gainArmor(right, 2, ally, enemy);
+        }
+    }
+};
+
+struct ArachasVenom : Card
+{
+    inline ArachasVenom()
+    {
+        name = "Arachas Venom";
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Organic };
+        isSpecial = true;
+        url = "https://gwent.one/image/card/low/cid/png/200023.png";
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        // TODO: change to any target
+        startChoiceToTargetCard(ally, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        Row row;
+        Pos pos;
+        if (!rowAndPos(target, ally, row, pos))
+            return;
+        damage(target, 4, ally, enemy);
+        if (Card *left = cardAtRowAndPos(row, pos - 1, ally))
+            damage(left, 4, ally, enemy);
+        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+            damage(right, 4, ally, enemy);
+    }
+};
+
+struct KeiraMetz : Card
+{
+    inline KeiraMetz()
+    {
+        name = "Keira Metz";
+        power = powerBase = 6;
+        rarity = Gold;
+        faction = NothernRealms;
+        tags = { Mage, Temeria };
+        url = "https://gwent.one/image/card/low/cid/png/122108.png";
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        spawn(new AlzursThunder, ally, enemy);
+        spawn(new Thunderbolt, ally, enemy);
+        spawn(new ArachasVenom, ally, enemy);
     }
 };
 

@@ -43,8 +43,9 @@ enum Tag
     Soldier,
     Machine,
     Alchemy,
-    Special,
     Item,
+    Organic,
+    Spell,
 
     Neutral,
     Monster,
@@ -85,7 +86,9 @@ struct Card
     std::string name;
     std::string url;
 
-    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/, const Row/*from*/) {}
+    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onEnterFromDiscard(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
+    inline virtual void onEnterFromDeck(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
     inline virtual void onMoveFromRowToRow(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}

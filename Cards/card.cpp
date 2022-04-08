@@ -93,8 +93,14 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    assert(takenFrom == Hand || takenFrom == Deck || takenFrom == Discard || takenFrom == AlreadyCreated);
-    card->onEnter(ally, enemy, takenFrom);
+    if (takenFrom == Deck)
+        card->onEnterFromDeck(ally, enemy);
+    else if (takenFrom == Discard)
+        card->onEnterFromDiscard(ally, enemy);
+    else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+        card->onEnter(ally, enemy);
+    else
+        assert(false);
 
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
@@ -327,6 +333,8 @@ bool drawACard(Field &)
 
 void damage(Card *card, const int x, Field &, Field &)
 {
+    // TODO: check armor exist
+    // TODO: check death and rest
     assert(x > 0);
 
     card->power -= x;
