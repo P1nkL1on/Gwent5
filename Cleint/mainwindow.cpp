@@ -13,19 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     _ally.hand = _cards;
 
     startChoiceToPlayCard(_ally, nullptr);
-//    onChoiceDoneCard(td2, _ally, _enemy);
-//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
-
-//    startChoiceToPlayCard(_ally, nullptr);
-//    onChoiceDoneCard(dp, _ally, _enemy);
-//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
-//    onChoiceDoneCard(td, _ally, _enemy);
-//    onChoiceDoneRowAndPlace(Meele, 0, _ally, _enemy);
-//    onChoiceDoneCard(dp, _ally, _enemy);
-
-//    startChoiceToPlayCard(_ally);
-//    onChoiceDoneCard(sd, _ally, _enemy);
-//    onChoiceDoneRowAndPlace(Meele, 2, _ally, _enemy);
 
     resize(600, 450);
 
@@ -111,7 +98,6 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             goto event;
         }
     }
-
     event:
     return QMainWindow::eventFilter(o, e);
 }
@@ -132,8 +118,39 @@ void MainWindow::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.fillRect(rect, Qt::white);
 
-    const auto paintCard = [=, &painter](const Card *card, const QPointF &topLeft) {
+    const QFontMetricsF metrics(QFont{});
 
+    const auto paintTextInPoint = [=, &painter](
+            const QString &text,
+            const QPointF &topLeft,
+            const Qt::GlobalColor colorBack = Qt::white,
+            const Qt::GlobalColor colorFore = Qt::black)
+            -> double
+    {
+        const double textHeight = metrics.height();
+        const double textWidth = metrics.width(text);
+        const QRectF rect(topLeft, QSizeF(textWidth + 2 * _view.borderTextPx, textHeight));
+        painter.fillRect(rect, colorBack);
+        painter.setPen(Qt::black);
+        painter.drawRect(rect);
+        painter.setPen(colorFore);
+        const QRectF rectText(QPointF(topLeft.x() + _view.borderTextPx, topLeft.y()), QSizeF(textWidth, textHeight));
+        painter.drawText(rectText, text);
+        return textWidth + 2 * _view.borderTextPx;
+    };
+
+    const auto paintTextInRect = [=, &painter](const QString &text, const QRectF &rect)
+    {
+        painter.fillRect(rect, Qt::white);
+        painter.setPen(Qt::black);
+        painter.drawRect(rect);
+
+        const QString textElided = metrics.elidedText(text, Qt::ElideRight, rect.width() - 2 * _view.borderNamePx);
+        painter.drawText(rect.marginsRemoved(QMarginsF(_view.borderNamePx, 0, _view.borderNamePx, 0)), textElided);
+    };
+
+    const auto paintCard = [=, &painter](const Card *card, const QPointF &topLeft)
+    {
         const QSizeF size(posWidth, posHeight);
         const QRectF rect(topLeft, size);
         painter.setPen(Qt::black);
@@ -159,47 +176,26 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.drawRect(rectBorder);
 
         /// draw power
-        const QFontMetricsF metrics(QFont{});
-        const double textHeight = metrics.height();
-        const double textWidth = metrics.width(QString::number(card->power));
+        double width = 0;
         if (card->power) {
-            const QRectF rectText(topLeft, QSizeF(textWidth, textHeight));
-            const QRectF rectTextBorder(topLeft, QSizeF(textWidth + 2 * _view.borderTextPx, textHeight + 2 * _view.borderTextPx));
-
-            painter.fillRect(rectTextBorder, Qt::white);
-            painter.fillRect(rectText.translated(_view.borderTextPx, _view.borderTextPx), card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray);
-
-            painter.setPen(Qt::black);
-            painter.drawRect(rectTextBorder);
-
-            painter.setPen(card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black);
-            painter.drawText(rectText.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->power));
+            const Qt::GlobalColor back = card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray;
+            const Qt::GlobalColor fore = card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black;
+            width = paintTextInPoint(QString::number(card->power), topLeft, back, fore);
         }
 
         /// draw armor
         if (card->armor) {
-            const double armorWidth = metrics.width(QString::number(card->armor));
-            const QRectF rectArmorBorder(topLeft.x() + textWidth + 3 * _view.borderTextPx, topLeft.y(), armorWidth + 2 * _view.borderTextPx, textHeight + 2 * _view.borderTextPx);
-            painter.fillRect(rectArmorBorder, Qt::yellow);
-            painter.setPen(Qt::black);
-            painter.drawRect(rectArmorBorder);
-            painter.drawText(rectArmorBorder.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->armor));
+            paintTextInPoint(QString::number(card->armor), QPointF(topLeft.x() + width + _view.borderTextPx, topLeft.y()), Qt::yellow, Qt::black);
         }
 
         /// draw name
-        const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - textHeight, posWidth, textHeight);
-        painter.fillRect(rectNameText, Qt::white);
-        painter.setPen(Qt::black);
-        painter.drawRect(rectNameText);
-
-        const QString name = QString::fromStdString(card->name);
-        const QString nameElided = metrics.elidedText(name, Qt::ElideRight, posWidth - 2 * _view.borderNamePx);
-        painter.drawText(rectNameText.marginsRemoved(QMarginsF(_view.borderNamePx, 0, _view.borderNamePx, 0)), nameElided);
+        const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - metrics.height(), posWidth, metrics.height());
+        paintTextInRect(QString::fromStdString(card->name), rectNameText);
     };
 
     for (int j = 0; j < 6; ++j) {
-        // determine a row
 
+        /// determine a row
         const Field *field = j < 3 ? &_enemy : &_ally;
         const Row row = Row(j < 3 ? (2 - j) : (j - 3));
         const std::vector<Card *> &cards = field->row(row);
@@ -220,9 +216,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
             paintCard(card, topLeft);
         }
 
-        const QFontMetricsF metrics(QFont{});
         const int power = powerRow(cards);
-        painter.drawText(QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight + metrics.height()), QString::number(power));
+        paintTextInPoint(QString::number(power), QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
     }
 
     for (size_t i = 0; i < _ally.hand.size(); ++i) {
