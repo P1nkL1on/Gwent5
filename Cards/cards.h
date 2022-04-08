@@ -451,11 +451,25 @@ struct KeiraMetz : Card
         tags = { Mage, Temeria };
         url = "https://gwent.one/image/card/low/cid/png/122108.png";
     }
-    inline void onEnter(Field &ally, Field &enemy) override
+    Card *c1 = nullptr;
+    Card *c2 = nullptr;
+    Card *c3 = nullptr;
+    inline void onEnter(Field &ally, Field &/*enemy*/) override
     {
-        spawn(new AlzursThunder, ally, enemy);
-        spawn(new Thunderbolt, ally, enemy);
-        spawn(new ArachasVenom, ally, enemy);
+        c1 = new AlzursThunder;
+        c2 = new Thunderbolt;
+        c3 = new ArachasVenom;
+        ally.cardStack.push_back({Target, this, {c1, c2, c3}});
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        if (c1 != target)
+            delete c1;
+        if (c2 != target)
+            delete c2;
+        if (c3 != target)
+            delete c3;
+        spawn(target, ally, enemy);
     }
 };
 

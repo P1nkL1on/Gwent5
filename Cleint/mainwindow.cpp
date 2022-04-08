@@ -61,8 +61,8 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const double posWidth = (rect().width() - _view.spacingPx) / 11.0;
-    const double posHeight = (rect().height() - _view.spacingPx) / 8.0;
+    const double posWidth = (rect().width() - 2 * _view.spacingPx) / 11.0;
+    const double posHeight = (rect().height() - 2 * _view.spacingPx) / 8.0;
 
     const auto cardAt = [=](const QPoint &point) -> Card * {
         for (int j = 0; j < 6; ++j) {
@@ -85,10 +85,12 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             }
         }
 
-        for (size_t i = 0; i < _ally.hand.size(); ++i) {
-            const QRectF cardRect(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight);
-            if (cardRect.contains(point))
-                return _ally.hand[i];
+        if (_ally.cardStack.size() > 0) {
+            for (size_t i = 0; i < _ally.snapshot().cardOptions.size(); ++i) {
+                const QRectF cardRect(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight);
+                if (cardRect.contains(point))
+                    return _ally.snapshot().cardOptions[i];
+            }
         }
 
         return nullptr;
@@ -138,6 +140,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             goto event;
         }
     }
+
     event:
     return QMainWindow::eventFilter(o, e);
 }
@@ -272,8 +275,12 @@ void MainWindow::paintEvent(QPaintEvent *e)
         paintTextInPoint(QString::number(power), QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
     }
 
-    for (size_t i = 0; i < _ally.hand.size(); ++i) {
-        const QPointF topLeft(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
-        paintCard(_ally.hand[i], topLeft);
+    if (_ally.cardStack.size() > 0) {
+        for (size_t i = 0; i < _ally.snapshot().cardOptions.size(); ++i) {
+            const QPointF topLeft(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
+            paintCard(_ally.snapshot().cardOptions[i], topLeft);
+        }
     }
+
+    paintTextInPoint(QString::fromStdString(stringSnapShots(_ally.cardStack)), QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
 }

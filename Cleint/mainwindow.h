@@ -9,7 +9,7 @@
 
 struct View
 {
-    int spacingPx = 20;
+    int spacingPx = 30;
     int borderCardPx = 1;
     int borderTextPx = 2;
     int borderNamePx = 5;
