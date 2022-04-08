@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {new KaedweniKnight, new Swallow, new Swallow, new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {new AnCraiteGreatsword, new DimunDracar, new DimunDracar, new AnCraiteGreatsword, new KaedweniKnight, new Swallow, new Swallow, new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
 
     _ally.hand = _cards;
 
@@ -180,12 +180,17 @@ void MainWindow::paintEvent(QPaintEvent *e)
         if (card->power) {
             const Qt::GlobalColor back = card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray;
             const Qt::GlobalColor fore = card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black;
-            width = paintTextInPoint(QString::number(card->power), topLeft, back, fore);
+            width += paintTextInPoint(QString::number(card->power), topLeft, back, fore) + _view.borderTextPx;
         }
 
         /// draw armor
         if (card->armor) {
-            paintTextInPoint(QString::number(card->armor), QPointF(topLeft.x() + width + _view.borderTextPx, topLeft.y()), Qt::yellow, Qt::black);
+            width += paintTextInPoint("@" + QString::number(card->armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black) + _view.borderTextPx;
+        }
+
+        /// draw timer
+        if (card->timer) {
+            width += paintTextInPoint("»" + QString::number(card->timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black) + _view.borderTextPx;
         }
 
         /// draw name

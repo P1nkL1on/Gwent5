@@ -239,6 +239,58 @@ struct AnCraiteMarauder : Card
     }
 };
 
+struct AnCraiteGreatsword : Card
+{
+    inline AnCraiteGreatsword()
+    {
+        name = "An Craite Greatsword";
+        power = powerBase = 8;
+        rarity = Bronze;
+        faction = Skellige;
+        tags = { Soldier, ClanAnCraite };
+    }
+    inline void onEnter(Field &, Field &, const Row) override
+    {
+        timer = 2;
+    }
+    inline void onTurnStart(Field &ally, Field &enemy) override
+    {
+        if (--timer)
+            return;
+
+        timer = 2;
+
+        if (power >= powerBase)
+            return;
+
+        boost(this, powerBase - power, ally, enemy);
+        strengthen(this, 2, ally, enemy);
+    }
+};
+
+struct DimunDracar : Card
+{
+    inline DimunDracar()
+    {
+        name = "Dimun Dracard";
+        power = powerBase = 7;
+        rarity = Bronze;
+        faction = Skellige;
+        tags = { ClanDimun, Machine };
+    }
+    inline void onTurnEnd(Field &ally, Field &enemy) override
+    {
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, ally, row, pos))
+            return;
+        if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
+            damage(right, 1, ally, enemy);
+            boost(this, 2, ally, enemy);
+        }
+    }
+};
+
 struct Swallow : Card
 {
     inline Swallow()
@@ -248,6 +300,7 @@ struct Swallow : Card
         faction = Neutral;
         tags = {Alchemy, Special, Item};
         isSpecial = true;
+        url = "https://gwent.one/image/card/low/cid/png/113310.png";
     }
     inline void onPlaySpecial(Field &ally, Field &) override
     {

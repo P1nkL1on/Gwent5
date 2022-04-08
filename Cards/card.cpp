@@ -308,11 +308,26 @@ bool drawACard(Field &)
     return true;
 }
 
+void damage(Card *card, const int x, Field &, Field &)
+{
+    assert(x > 0);
+
+    card->power -= x;
+}
+
 void boost(Card *card, const int x, Field &, Field &)
 {
     assert(x > 0);
 
     card->power += x;
+}
+
+void strengthen(Card *card, const int x, Field &, Field &)
+{
+    assert(x > 0);
+
+    card->power += x;
+    card->powerBase += x;
 }
 
 void gainArmor(Card *card, const int x, Field &, Field &)

@@ -36,9 +36,11 @@ enum Tag
     Redania,
     Kaedwen,
     ClanAnCraite,
+    ClanDimun,
     Support,
     Mage,
     Soldier,
+    Machine,
     Alchemy,
     Special,
     Item,
@@ -80,6 +82,7 @@ struct Card
     bool isDoomed = false;
     bool isSpecial = false;
     std::string name;
+    std::string url;
 
     inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/, const Row/*from*/) {}
     inline virtual void onMoveFromRowToRow(Field &/*ally*/, Field &/*enemy*/) {}
@@ -146,7 +149,9 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
+void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
+void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 
 bool drawACard(Field &field);
