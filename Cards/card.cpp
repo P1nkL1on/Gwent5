@@ -195,6 +195,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
         assert(card != nullptr);
         if (card->isSpecial) {
             playAsSpecial(card, ally, enemy);
+            putOnDiscard(card, ally, enemy);
             return;
         }
         return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
@@ -450,6 +451,7 @@ void spawn(Card *card, Field &ally, Field &enemy)
     ally.cardsAdded.push_back(card);
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy);
+        putOnDiscard(card, ally, enemy);
         return;
     }
     return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});

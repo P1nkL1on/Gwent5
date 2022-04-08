@@ -104,6 +104,7 @@ struct Card
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherEnemyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
 };
 
 struct Snapshot

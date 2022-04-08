@@ -200,7 +200,7 @@ struct RedanianKnightElect : Card
     }
     inline void onTurnEnd(Field &ally, Field &enemy) override
     {
-        if (!this->armor)
+        if (armor == 0)
             return;
         Row row;
         Pos pos;
@@ -329,6 +329,79 @@ struct TuirseachBearmaster : Card
     inline void onEnter(Field &ally, Field &enemy) override
     {
         spawn(new Bear, ally, enemy);
+    }
+};
+
+struct RedanianElite : Card
+{
+    inline RedanianElite()
+    {
+        name = "Redanian Elite";
+        url = "https://gwent.one/image/card/low/cid/png/122317.png";
+        power = powerBase = 8;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Redania, Soldier };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        gainArmor(this, 4, ally, enemy);
+    }
+    inline void onArmorLost(Field &ally, Field &enemy) override
+    {
+        boost(this, 5, ally, enemy);
+    }
+};
+
+struct RedanianKnight : Card
+{
+    inline RedanianKnight()
+    {
+        name = "Redanian Knight";
+        url = "https://gwent.one/image/card/low/cid/png/122308.png";
+        power = powerBase = 7;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Redania, Soldier };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        gainArmor(this, 2, ally, enemy);
+    }
+    inline void onTurnEnd(Field &ally, Field &enemy) override
+    {
+        if (armor != 0)
+            return;
+        boost(this, 2, ally, enemy);
+        gainArmor(this, 2, ally, enemy);
+    }
+};
+
+struct KaedweniCavalry : Card
+{
+    inline KaedweniCavalry()
+    {
+        name = "Kaedweni Cavalry";
+        url = "https://gwent.one/image/card/low/cid/png/122314.png";
+        power = powerBase = 8;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Kaedwen, Soldier };
+    }
+    inline static bool hasArmor(Card *card)
+    {
+        return card->armor > 0;
+    }
+    inline void onEnter(Field &ally, Field &) override
+    {
+        // TODO: change to any taget
+        startChoiceToTargetCard(ally, this, {hasArmor});
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        const int armorTarget = target->armor;
+        damage(target, armorTarget, ally, enemy);
+        boost(this, armorTarget, ally, enemy);
     }
 };
 

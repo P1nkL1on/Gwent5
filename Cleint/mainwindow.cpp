@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {new KeiraMetz, new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {new KaedweniCavalry, new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz, new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
     _ally.deckStarting = _ally.hand = _cards;
 
 
