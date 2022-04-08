@@ -9,7 +9,11 @@ enum Row
 {
     Meele,
     Range,
-    Seige
+    Seige,
+    Hand,
+    Deck,
+    Discard,
+    AlreadyCreated
 };
 
 using Pos = int;
@@ -30,14 +34,20 @@ enum Tag
     Construct,
     Temeria,
     Redania,
+    Kaedwen,
+    ClanAnCraite,
     Support,
     Mage,
     Soldier,
+    Alchemy,
+    Special,
+    Item,
 
     Neutral,
     Monster,
     Nilfgaard,
     NothernRealms,
+    Skellige,
 };
 
 enum Choice
@@ -71,7 +81,8 @@ struct Card
     bool isSpecial = false;
     std::string name;
 
-    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/, const Row/*from*/) {}
+    inline virtual void onMoveFromRowToRow(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
@@ -80,7 +91,7 @@ struct Card
     inline virtual void onDie(const Row, const Pos, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyEntered(Card *) {}
     inline virtual void onOtherEnemyEntered(Card *) {}
-    inline virtual void onPlaySpecial() {}
+    inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllySpecialPlayed(Card *) {}
     inline virtual void onOtherEnemySpecialPlayed(Card *) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
@@ -116,14 +127,15 @@ struct Field
 
 
 
-
+int powerField(const Field &field);
+int powerRow(const std::vector<Card *> &vector);
 std::string stringSnapShots(const std::vector<Snapshot> &cardStack);
 bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
-void takeCard(const Card *card, Field &field);
+Row takeCard(const Card *card, Field &field);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos);

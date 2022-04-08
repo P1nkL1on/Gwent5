@@ -7,10 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     auto *dp = new DandelionPoet;
-    auto *td = new TemerianDrummer;
-    auto *td2 = new TemerianDrummer;
     auto *sd = new SileDeTansarville;
-    _cards = {new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, td, td2, new TemerianDrummer, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {new KaedweniKnight, new Swallow, new Swallow, new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
 
     _ally.hand = _cards;
 
@@ -164,17 +162,19 @@ void MainWindow::paintEvent(QPaintEvent *e)
         const QFontMetricsF metrics(QFont{});
         const double textHeight = metrics.height();
         const double textWidth = metrics.width(QString::number(card->power));
-        const QRectF rectText(topLeft, QSizeF(textWidth, textHeight));
-        const QRectF rectTextBorder(topLeft, QSizeF(textWidth + 2 * _view.borderTextPx, textHeight + 2 * _view.borderTextPx));
+        if (card->power) {
+            const QRectF rectText(topLeft, QSizeF(textWidth, textHeight));
+            const QRectF rectTextBorder(topLeft, QSizeF(textWidth + 2 * _view.borderTextPx, textHeight + 2 * _view.borderTextPx));
 
-        painter.fillRect(rectTextBorder, Qt::white);
-        painter.fillRect(rectText.translated(_view.borderTextPx, _view.borderTextPx), card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray);
+            painter.fillRect(rectTextBorder, Qt::white);
+            painter.fillRect(rectText.translated(_view.borderTextPx, _view.borderTextPx), card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray);
 
-        painter.setPen(Qt::black);
-        painter.drawRect(rectTextBorder);
+            painter.setPen(Qt::black);
+            painter.drawRect(rectTextBorder);
 
-        painter.setPen(card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black);
-        painter.drawText(rectText.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->power));
+            painter.setPen(card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black);
+            painter.drawText(rectText.translated(_view.borderTextPx, _view.borderTextPx), QString::number(card->power));
+        }
 
         /// draw armor
         if (card->armor) {
@@ -219,6 +219,10 @@ void MainWindow::paintEvent(QPaintEvent *e)
             const Card *card = cards.at(i);
             paintCard(card, topLeft);
         }
+
+        const QFontMetricsF metrics(QFont{});
+        const int power = powerRow(cards);
+        painter.drawText(QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight + metrics.height()), QString::number(power));
     }
 
     for (size_t i = 0; i < _ally.hand.size(); ++i) {

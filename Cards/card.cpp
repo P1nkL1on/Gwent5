@@ -29,21 +29,32 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
-void takeCard(const Card *card, Field &field)
+Row takeCard(const Card *card, Field &field)
 {
-    std::vector<std::vector<Card *> *> cards {&field.rowMeele, &field.rowRange, &field.rowSeige, &field.hand, &field.deck, &field.discard};
-    for (std::vector<Card *> *_cards : cards)
-        for (size_t i = 0; i < _cards->size(); ++i)
-            if (_cards->at(i) == card) {
-                _cards->erase(_cards->begin() + int(i));
-                return;
+    const std::vector<std::vector<Card *> *> cards {
+        &field.rowMeele,
+        &field.rowRange,
+        &field.rowSeige,
+        &field.hand,
+        &field.deck,
+        &field.discard
+    };
+    for (size_t i = 0; i < cards.size(); ++i) {
+        std::vector<Card *> *_cards = cards[i];
+        for (size_t j = 0; j < _cards->size(); ++j)
+            if (_cards->at(j) == card) {
+                _cards->erase(_cards->begin() + int(j));
+                return Row(i);
             }
-    assert(false);
+    }
+    /// assume, that all cards, that weren't
+    /// previously anywhere, were already created
+    return AlreadyCreated;
 }
 
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
-    card->onPlaySpecial();
+    card->onPlaySpecial(ally, enemy);
 
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
@@ -56,6 +67,8 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
 {
     assert(isOkRowAndPos(row, pos, ally));
+
+    const Row takenFrom = takeCard(card, ally);
 
     switch (row) {
     case Meele:
@@ -72,9 +85,16 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
         assert(!isIn(card, ally.rowSeige));
         ally.rowSeige.insert(ally.rowSeige.begin() + pos, card);
         break;
+
+    default:
+        assert(row == Meele || row == Range || row == Seige);
     }
 
-    card->onEnter(ally, enemy);
+    if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
+        return card->onMoveFromRowToRow(ally, enemy);
+
+    assert(takenFrom == Hand || takenFrom == Deck || takenFrom == Discard || takenFrom == AlreadyCreated);
+    card->onEnter(ally, enemy, takenFrom);
 
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
@@ -102,12 +122,23 @@ bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-/// no need to pass self (leave as nullptr), if no ally cards involved
+/// return filter: `can be manually selected`
+/// pass self (card source), if any
 Filters canBeSelected(Card *self)
 {
     return Filters{
         [self](Card *card) {
             return !card->isImmune && !card->isAmbush && (card != self);
+        },
+    };
+}
+
+/// return filter: `must be counted to count row(field) power`
+Filters canBeCount()
+{
+    return Filters{
+        [](Card *card) {
+            return !card->isAmbush;
         },
     };
 }
@@ -155,7 +186,6 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
 {
     const Snapshot snapshot = ally.takeSnapshot();
     if (snapshot.choice == SelectAllyRowAndPos) {
-        takeCard(snapshot.cardSource, ally);
         putOnField(snapshot.cardSource, row, pos, ally, enemy);
         return;
     }
@@ -245,7 +275,6 @@ Snapshot Field::takeSnapshot()
 
 const std::vector<Card *> &Field::row(Row _row) const
 {
-    assert(_row == Meele || _row == Range || _row == Seige);
 
     switch (_row) {
     case Meele:
@@ -254,12 +283,13 @@ const std::vector<Card *> &Field::row(Row _row) const
         return rowRange;
     case Seige:
         return rowSeige;
+    default:
+        assert(_row == Meele || _row == Range || _row == Seige);
     }
 }
 
 std::vector<Card *> &Field::row(Row _row)
 {
-    assert(_row == Meele || _row == Range || _row == Seige);
 
     switch (_row) {
     case Meele:
@@ -268,6 +298,8 @@ std::vector<Card *> &Field::row(Row _row)
         return rowRange;
     case Seige:
         return rowSeige;
+    default:
+        assert(_row == Meele || _row == Range || _row == Seige);
     }
 }
 
@@ -318,7 +350,7 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
     return res;
 }
 
-// TODO: is only 1 playe
+// TODO: is only 1 player
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
     if (ally.cardStack.size() > 0) {
@@ -338,4 +370,21 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     // play a new card on a new turn
     return startChoiceToPlayCard(ally, nullptr);
+}
+
+int powerField(const Field &field)
+{
+    int res = 0;
+    const std::vector<Card *> units = united(Rows{field.rowMeele, field.rowRange, field.rowSeige});
+    for (const Card *card : filtered(canBeCount(), units))
+        res += card->power;
+    return res;
+}
+
+int powerRow(const std::vector<Card *> &vector)
+{
+    int res = 0;
+    for (const Card *card : filtered(canBeCount(), vector))
+        res += card->power;
+    return res;
 }

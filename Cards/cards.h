@@ -17,7 +17,7 @@ struct AddaStriga : Card
     {
         return card->faction != Monster;
     }
-    inline void onEnter(Field &, Field &enemy) override
+    inline void onEnter(Field &, Field &enemy, const Row) override
     {
         startChoiceToTargetCard(enemy, this, {isNonMonster});
     }
@@ -91,7 +91,7 @@ struct PoorFingInfantry : Card
         faction = NothernRealms;
         tags = { Soldier, Temeria };
     }
-    inline void onEnter(Field &ally, Field &enemy) override
+    inline void onEnter(Field &ally, Field &enemy, const Row) override
     {
         Row row;
         Pos pos;
@@ -116,7 +116,7 @@ struct DeithwenArbalest : Card
         faction = Nilfgaard;
         tags = { Nilfgaard };
     }
-    inline void onEnter(Field &, Field &) override
+    inline void onEnter(Field &, Field &, const Row) override
     {
     }
 };
@@ -131,7 +131,7 @@ struct TemerianDrummer : Card
         faction = NothernRealms;
         tags = { Temeria, Support };
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &, const Row) override
     {
         startChoiceToTargetCard(ally, this);
     }
@@ -151,7 +151,7 @@ struct DandelionPoet : Card
         faction = Neutral;
         tags = {  };
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &, const Row) override
     {
         drawACard(ally);
         startChoiceToPlayCard(ally, this);
@@ -172,7 +172,7 @@ struct SileDeTansarville : Card
     {
         return card->isSpecial && (card->rarity == Bronze || card->rarity == Silver);
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &, const Row) override
     {
         startChoiceToPlayCard(ally, this, {isBronzeOrSilverSpecialCard});
     }
@@ -188,7 +188,7 @@ struct RedanianKnightElect : Card
         faction = NothernRealms;
         tags = { Redania, Soldier };
     }
-    inline void onEnter(Field &ally, Field &enemy) override
+    inline void onEnter(Field &ally, Field &enemy, const Row) override
     {
         gainArmor(this, 2, ally, enemy);
     }
@@ -205,6 +205,57 @@ struct RedanianKnightElect : Card
             boost(left, 1, ally, enemy);
         if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
             boost(right, 1, ally, enemy);
+    }
+};
+
+struct KaedweniKnight : Card
+{
+    inline KaedweniKnight()
+    {
+        name = "Kaedweni Knight";
+        power = powerBase = 8;
+        rarity = Bronze;
+        faction = NothernRealms;
+        tags = { Soldier, Kaedwen };
+    }
+    inline void onEnter(Field &ally, Field &enemy, const Row from) override
+    {
+        gainArmor(this, 2, ally, enemy);
+
+        if (from == Deck)
+            boost(this, 5, ally, enemy);
+    }
+};
+
+struct AnCraiteMarauder : Card
+{
+    inline AnCraiteMarauder()
+    {
+        name = "An Craite Marauder";
+        power = powerBase = 7;
+        rarity = Bronze;
+        faction = Skellige;
+        tags = { Soldier, ClanAnCraite };
+    }
+};
+
+struct Swallow : Card
+{
+    inline Swallow()
+    {
+        name = "Swallow";
+        rarity = Bronze;
+        faction = Neutral;
+        tags = {Alchemy, Special, Item};
+        isSpecial = true;
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToTargetCard(ally, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        boost(target, 10, ally, enemy);
     }
 };
 
