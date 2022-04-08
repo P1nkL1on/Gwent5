@@ -105,6 +105,23 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 }
 
+void putOnDiscard(Card *card, Field &ally, Field &enemy)
+{
+    // TODO: only ally is checked for takeCard
+    const Row takenFrom = takeCard(card, ally);
+
+    if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
+        assert(!card->isSpecial);
+        // TODO: check 0 power
+        card->onDie(ally, enemy);
+    } else if (takenFrom == Hand || takenFrom == Deck) {
+        if (!card->isSpecial)
+            card->onDiscard(ally, enemy);
+    }
+
+    ally.discard.push_back(card);
+}
+
 bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos)
 {
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
@@ -402,4 +419,30 @@ int powerRow(const std::vector<Card *> &vector)
     for (const Card *card : filtered(canBeCount(), vector))
         res += card->power;
     return res;
+}
+
+void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
+{
+    assert(card != nullptr);
+    assert(!card->isSpecial);
+
+    if (!isOkRowAndPos(row, pos, ally)) {
+        delete card;
+        return;
+    }
+
+    ally.cardsAdded.push_back(card);
+    putOnField(card, row, pos, ally, enemy);
+}
+
+void spawn(Card *card, Field &ally, Field &enemy)
+{
+    assert(card != nullptr);
+
+    ally.cardsAdded.push_back(card);
+    if (card->isSpecial) {
+        playAsSpecial(card, ally, enemy);
+        return;
+    }
+    return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
 }

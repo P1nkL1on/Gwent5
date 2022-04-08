@@ -2,21 +2,61 @@
 
 #include <QPaintEvent>
 #include <QPainter>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    _networkAccessManager = new QNetworkAccessManager(this);
+    connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
+
+
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {new AnCraiteGreatsword, new DimunDracar, new DimunDracar, new AnCraiteGreatsword, new KaedweniKnight, new Swallow, new Swallow, new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect, new AddaStriga, new DeithwenArbalest, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _ally.deckStarting = _ally.hand = _cards;
 
-    _ally.hand = _cards;
 
     startChoiceToPlayCard(_ally, nullptr);
 
-    resize(600, 450);
 
+    resize(600, 450);
     installEventFilter(this);
+}
+
+void MainWindow::requestImageByUrl(const std::string &url)
+{
+    if (url.size() == 0)
+        return;
+
+    const QString qString = QString::fromStdString(url);
+    if (_pixMapsLoaded.contains(qString))
+        return;
+
+    if (_pixMapsRequested.contains(qString))
+        return;
+
+    QUrl qUrl(qString);
+    QNetworkRequest request(qUrl);
+    _pixMapsRequested.insert(qString);
+    _networkAccessManager->get(request);
+}
+
+
+void MainWindow::onImageRequestFinished(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        qDebug() << reply->url() << "err";
+        _pixMapsLoaded.insert(reply->url().toString(), QImage());
+        return;
+    }
+    qDebug() << reply->url() << "ok";
+    QByteArray jpegData = reply->readAll();
+    QPixmap pixmap;
+    pixmap.loadFromData(jpegData);
+    _pixMapsLoaded.insert(reply->url().toString(), pixmap.toImage());
+    repaint();
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
@@ -156,6 +196,19 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
+        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
+
+        /// draw url image
+        if (card->url.size() > 0) {
+            requestImageByUrl(card->url);
+            const QImage image = _pixMapsLoaded.value(QString::fromStdString(card->url));
+            painter.drawImage(rectBorder, image);
+        }
+
+        /// draw rarity
+        painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
+        painter.drawRect(rectBorder);
+
         /// draw selection border
         if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptions)) {
             painter.setPen(Qt::green);
@@ -169,12 +222,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
-
-        /// draw rarity
-        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
-        painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
-        painter.drawRect(rectBorder);
-
         /// draw power
         double width = 0;
         if (card->power) {

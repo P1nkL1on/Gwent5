@@ -8,6 +8,7 @@ struct AddaStriga : Card
     inline AddaStriga()
     {
         name = "Adda: Striga";
+        url = "https://gwent.one/image/card/low/cid/png/200073.png";
         power = powerBase = 6;
         rarity = Silver;
         faction = Monster;
@@ -35,6 +36,7 @@ struct Dao : Card
         inline DaoLesser()
         {
             name = "D'ao Lesser";
+            url = "https://gwent.one/image/card/low/cid/png/132405.png";
             power = powerBase = 4;
             rarity = Bronze;
             faction = Monster;
@@ -46,12 +48,13 @@ struct Dao : Card
     inline Dao()
     {
         name = "D'ao";
+        url = "https://gwent.one/image/card/low/cid/png/132213.png";
         power = powerBase = 6;
         rarity = Bronze;
         faction = Monster;
         tags = { Construct };
     }
-    inline void onDie(const Row, const Pos, Field &, Field &) override
+    inline void onDie(Field &, Field &) override
     {
     }
 };
@@ -63,6 +66,7 @@ struct PoorFingInfantry : Card
         inline LeftFlankInfantry()
         {
             name = "Left Flank Infantry";
+            url = "https://gwent.one/image/card/low/cid/png/200302.png";
             power = powerBase = 2;
             rarity = Bronze;
             faction = NothernRealms;
@@ -76,6 +80,7 @@ struct PoorFingInfantry : Card
         inline RightFlankInfantry()
         {
             name = "Right Flank Infantry";
+            url = "https://gwent.one/image/card/low/cid/png/200303.png";
             power = powerBase = 2;
             rarity = Bronze;
             faction = NothernRealms;
@@ -86,6 +91,7 @@ struct PoorFingInfantry : Card
     inline PoorFingInfantry()
     {
         name = "Poor F'ing Infantry";
+        url = "https://gwent.one/image/card/low/cid/png/200234.png";
         power = powerBase = 6;
         rarity = Bronze;
         faction = NothernRealms;
@@ -97,12 +103,8 @@ struct PoorFingInfantry : Card
         Pos pos;
         if (!rowAndPos(this, ally, row, pos))
             return;
-        if (isOkRowAndPos(row, pos, ally))
-            putOnField(new LeftFlankInfantry, row, pos, ally, enemy);
-        if (!rowAndPos(this, ally, row, pos))
-            return;
-        if (isOkRowAndPos(row, pos + 1, ally))
-            putOnField(new RightFlankInfantry, row, pos + 1, ally, enemy);
+        spawn(new LeftFlankInfantry, row, pos, ally, enemy);
+        spawn(new RightFlankInfantry, row, pos + 2, ally, enemy);
     }
 };
 
@@ -126,6 +128,7 @@ struct TemerianDrummer : Card
     inline TemerianDrummer()
     {
         name = "Temerian Drummer";
+        url = "https://gwent.one/image/card/low/cid/png/200299.png";
         power = powerBase = 5;
         rarity = Bronze;
         faction = NothernRealms;
@@ -146,10 +149,11 @@ struct DandelionPoet : Card
     inline DandelionPoet()
     {
         name = "Dandelion: Poet";
+        url = "https://gwent.one/image/card/low/cid/png/201776.png";
         power = powerBase = 5;
         rarity = Gold;
         faction = Neutral;
-        tags = {  };
+        tags = { Support };
     }
     inline void onEnter(Field &ally, Field &, const Row) override
     {
@@ -163,6 +167,7 @@ struct SileDeTansarville : Card
     inline SileDeTansarville()
     {
         name = "S'ile de Tansarville";
+        url = "https://gwent.one/image/card/low/cid/png/122205.png";
         power = powerBase = 4;
         rarity = Silver;
         faction = NothernRealms;
@@ -183,6 +188,7 @@ struct RedanianKnightElect : Card
     inline RedanianKnightElect()
     {
         name = "Redanian Knight Elect";
+        url = "https://gwent.one/image/card/low/cid/png/123301.png";
         power = powerBase = 7;
         rarity = Bronze;
         faction = NothernRealms;
@@ -213,6 +219,7 @@ struct KaedweniKnight : Card
     inline KaedweniKnight()
     {
         name = "Kaedweni Knight";
+        url = "https://gwent.one/image/card/low/cid/png/201622.png";
         power = powerBase = 8;
         rarity = Bronze;
         faction = NothernRealms;
@@ -232,6 +239,7 @@ struct AnCraiteMarauder : Card
     inline AnCraiteMarauder()
     {
         name = "An Craite Marauder";
+        url = "https://gwent.one/image/card/low/cid/png/201578.png";
         power = powerBase = 7;
         rarity = Bronze;
         faction = Skellige;
@@ -244,6 +252,7 @@ struct AnCraiteGreatsword : Card
     inline AnCraiteGreatsword()
     {
         name = "An Craite Greatsword";
+        url = "https://gwent.one/image/card/low/cid/png/200040.png";
         power = powerBase = 8;
         rarity = Bronze;
         faction = Skellige;
@@ -288,6 +297,36 @@ struct DimunDracar : Card
             damage(right, 1, ally, enemy);
             boost(this, 2, ally, enemy);
         }
+    }
+};
+
+struct Bear : Card
+{
+    inline Bear()
+    {
+        name = "Bear";
+        url = "https://gwent.one/image/card/low/cid/png/152406.png";
+        power = powerBase = 11;
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Beast, Cursed };
+    }
+};
+
+struct TuirseachBearmaster : Card
+{
+    inline TuirseachBearmaster()
+    {
+        name = "Tuirseach Bearmaster";
+        url = "https://gwent.one/image/card/low/cid/png/200144.png";
+        power = powerBase = 1;
+        rarity = Bronze;
+        faction = Skellige;
+        tags = { ClanTuirseach, Soldier };
+    }
+    inline void onEnter(Field &ally, Field &enemy, const Row) override
+    {
+        spawn(new Bear, ally, enemy);
     }
 };
 

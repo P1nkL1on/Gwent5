@@ -2,16 +2,21 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
+#include <QSet>
 
 #include "../Cards/cards.h"
 
 struct View
 {
     int spacingPx = 20;
-    int borderCardPx = 5;
+    int borderCardPx = 1;
     int borderTextPx = 2;
     int borderNamePx = 5;
 };
+
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class MainWindow : public QMainWindow
 {
@@ -20,15 +25,23 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
+private slots:
+    void onImageRequestFinished(QNetworkReply *reply);
+
 private:
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
+    void requestImageByUrl(const std::string &url);
 
     View _view;
 
     std::vector<Card *> _cards;
     Field _ally ;
     Field _enemy;
+
+    QNetworkAccessManager *_networkAccessManager = nullptr;
+    QSet<QString> _pixMapsRequested;
+    QMap<QString, QImage> _pixMapsLoaded;
 };
 
 #endif // MAINWINDOW_H

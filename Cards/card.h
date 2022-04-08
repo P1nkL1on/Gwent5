@@ -37,6 +37,7 @@ enum Tag
     Kaedwen,
     ClanAnCraite,
     ClanDimun,
+    ClanTuirseach,
     Support,
     Mage,
     Soldier,
@@ -90,8 +91,8 @@ struct Card
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDraw() {}
-    inline virtual void onDiscard() {}
-    inline virtual void onDie(const Row, const Pos, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDie(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyEntered(Card *) {}
     inline virtual void onOtherEnemyEntered(Card *) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
@@ -118,6 +119,8 @@ struct Field
     std::vector<Card *> deck;
     std::vector<Card *> discard;
 
+    std::vector<Card *> deckStarting;
+    std::vector<Card *> cardsAdded;
     std::vector<Snapshot> cardStack;
     int nTurns = 0;
 
@@ -146,9 +149,14 @@ bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos);
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 
+/// put any card to discard
+void putOnDiscard(Card *card, Field &ally, Field &enemy);
+
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
+void spawn(Card *card, Field &ally, Field &enemy);
+void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
