@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {new KaedweniCavalry, new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz, new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {new Ambassador, new Ambassador, new Ambassador, new Ambassador, new HalfElfHunter, new HalfElfHunter, new DolBlathannaArcher, new DolBlathannaArcher, new KaedweniCavalry, new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz, new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
     _ally.deckStarting = _ally.hand = _cards;
 
 
@@ -133,6 +133,19 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             if (!rowAndPostAt(em->pos(), row, pos))
                 goto event;
             if (!isOkRowAndPos(row, pos, _ally))
+                goto event;
+            onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
+            tryFinishTurn(_ally, _enemy);
+            repaint();
+            goto event;
+        }
+
+        if (_ally.snapshot().choice == SelectEnemyRowAndPos) {
+            Row row;
+            Pos pos;
+            if (!rowAndPostAt(em->pos(), row, pos))
+                goto event;
+            if (!isOkRowAndPos(row, pos, _enemy))
                 goto event;
             onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
             tryFinishTurn(_ally, _enemy);
@@ -282,5 +295,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
         }
     }
 
-    paintTextInPoint(QString::fromStdString(stringSnapShots(_ally.cardStack)), QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+    const QString stringStatus = QString::fromStdString(stringSnapShots(_ally.cardStack));
+    const QString stringTurn = QString::number(1 + _ally.nTurns);
+    paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
 }

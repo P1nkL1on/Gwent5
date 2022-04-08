@@ -29,22 +29,29 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
-Row takeCard(const Card *card, Field &field)
+Row takeCard(const Card *card, Field &ally, Field &enemy)
 {
     const std::vector<std::vector<Card *> *> cards {
-        &field.rowMeele,
-        &field.rowRange,
-        &field.rowSeige,
-        &field.hand,
-        &field.deck,
-        &field.discard
+        &ally.rowMeele,
+        &ally.rowRange,
+        &ally.rowSeige,
+        &ally.hand,
+        &ally.deck,
+        &ally.discard,
+        &enemy.rowMeele,
+        &enemy.rowRange,
+        &enemy.rowSeige,
+        &enemy.hand,
+        &enemy.deck,
+        &enemy.discard
     };
     for (size_t i = 0; i < cards.size(); ++i) {
         std::vector<Card *> *_cards = cards[i];
         for (size_t j = 0; j < _cards->size(); ++j)
             if (_cards->at(j) == card) {
                 _cards->erase(_cards->begin() + int(j));
-                return Row(i);
+                // isAlly = i < 6;
+                return Row(i % 6);
             }
     }
     /// assume, that all cards, that weren't
@@ -68,7 +75,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 {
     assert(isOkRowAndPos(row, pos, ally));
 
-    const Row takenFrom = takeCard(card, ally);
+    const Row takenFrom = takeCard(card, ally, enemy);
 
     switch (row) {
     case Meele:
@@ -113,8 +120,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
 {
-    // TODO: only ally is checked for takeCard
-    const Row takenFrom = takeCard(card, ally);
+    const Row takenFrom = takeCard(card, ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -128,7 +134,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
     ally.discard.push_back(card);
 }
 
-bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos)
+bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
 {
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         const std::vector<Card *> &__row = field.row(_row);
@@ -176,14 +182,21 @@ bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
     return true;
 }
 
-bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters)
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group)
 {
-    const std::vector<Card *> allies = united(Rows{field.rowMeele, field.rowRange, field.rowSeige});
+    const std::vector<Card *> allies = [&]{
+        if (group == Ally)
+            return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
+        if (group == Enemy)
+            return united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
+        assert(group == Any);
+        return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
+    }();
     const std::vector<Card *> alliesFiltered = filtered(canBeSelected(self), filtered(filters, allies));
     if (alliesFiltered.size() == 0)
         return false;
     // TODO: if alliesFiltered has exact 1 card
-    field.cardStack.push_back({Target, self, alliesFiltered});
+    ally.cardStack.push_back({Target, self, alliesFiltered});
     return true;
 }
 
@@ -211,6 +224,11 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
     const Snapshot snapshot = ally.takeSnapshot();
     if (snapshot.choice == SelectAllyRowAndPos) {
         putOnField(snapshot.cardSource, row, pos, ally, enemy);
+        return;
+    }
+
+    if (snapshot.choice == SelectEnemyRowAndPos) {
+        putOnField(snapshot.cardSource, row, pos, enemy, ally);
         return;
     }
 
@@ -277,6 +295,17 @@ Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field)
     return _row[size_t(pos)];
 }
 
+Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset)
+{
+    Row row;
+    Pos pos;
+    if (rowAndPos(card, ally, row, pos))
+        return cardAtRowAndPos(row, pos + offset, ally);
+    if (rowAndPos(card, enemy, row, pos))
+        return cardAtRowAndPos(row, pos + offset, enemy);
+    return nullptr;
+}
+
 const Snapshot &Field::snapshot() const
 {
     assert(cardStack.size() > 0);
@@ -332,13 +361,25 @@ bool drawACard(Field &)
     return true;
 }
 
-void damage(Card *card, const int x, Field &, Field &)
+void damage(Card *card, const int x, Field &ally, Field &enemy)
 {
-    // TODO: check armor exist
     // TODO: check death and rest
     assert(x > 0);
 
-    card->power -= x;
+    int dmgInPower = x;
+
+    if (card->armor > 0) {
+        const int dmgInArmor = std::min(card->armor, x);
+        dmgInPower = std::max(0, x - card->armor);
+        card->armor -= dmgInArmor;
+
+        if (card->power > dmgInPower)
+            card->onArmorLost(ally, enemy);
+
+        if (dmgInPower == 0)
+            return;
+    }
+    card->power -= dmgInPower;
 }
 
 void boost(Card *card, const int x, Field &, Field &)
@@ -394,10 +435,8 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
 // TODO: is only 1 player
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
-    if (ally.cardStack.size() > 0) {
-        std::cout << stringSnapShots(ally.cardStack) << " (" << (ally.cardStack.size() ? ally.snapshot().cardOptions.size() : 0) << ")" << std::endl;
+    if (ally.cardStack.size() > 0)
         return false;
-    }
 
     // finish turn
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))

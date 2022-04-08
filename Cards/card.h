@@ -41,6 +41,7 @@ enum Tag
     Support,
     Mage,
     Soldier,
+    Elf,
     Machine,
     Alchemy,
     Item,
@@ -51,6 +52,7 @@ enum Tag
     Monster,
     Nilfgaard,
     NothernRealms,
+    Scoiatael,
     Skellige,
 };
 
@@ -60,6 +62,15 @@ enum Choice
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
     Target,
+};
+
+enum ChoiceGroup
+{
+    /// on a table
+    Any,
+    Ally,
+    Enemy,
+    /// others
 };
 
 
@@ -145,10 +156,11 @@ bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
-Row takeCard(const Card *card, Field &field);
+Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
+Row takeCard(const Card *card, Field &ally, Field &enemy);
 
 /// find a place of a card in the field. returns false if non found
-bool rowAndPos(Card *card, const Field &field, Row &row, Pos &pos);
+bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
@@ -172,7 +184,7 @@ void traceField(Field &field);
 using Filters = std::vector<std::function<bool(Card *)> >;
 
 bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
-bool startChoiceToTargetCard(Field &field, Card *self, const Filters &filters = {});
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 bool tryFinishTurn(Field &ally, Field &enemy);

@@ -18,9 +18,9 @@ struct AddaStriga : Card
     {
         return card->faction != Monster;
     }
-    inline void onEnter(Field &, Field &enemy) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
-        startChoiceToTargetCard(enemy, this, {isNonMonster});
+        startChoiceToTargetCard(ally, enemy, this, {isNonMonster});
     }
     inline void onTargetChoosen(Card *, Field &, Field &) override
     {
@@ -134,9 +134,9 @@ struct TemerianDrummer : Card
         faction = NothernRealms;
         tags = { Temeria, Support };
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
-        startChoiceToTargetCard(ally, this);
+        startChoiceToTargetCard(ally, enemy, this, {}, Ally);
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
@@ -202,14 +202,9 @@ struct RedanianKnightElect : Card
     {
         if (armor == 0)
             return;
-        Row row;
-        Pos pos;
-        if (!rowAndPos(this, ally, row, pos))
-            return;
-
-        if (Card *left = cardAtRowAndPos(row, pos - 1, ally))
+        if (Card *left = cardNextTo(this, ally, enemy, -1))
             boost(left, 1, ally, enemy);
-        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+        if (Card *right = cardNextTo(this, ally, enemy, 1))
             boost(right, 1, ally, enemy);
     }
 };
@@ -392,10 +387,9 @@ struct KaedweniCavalry : Card
     {
         return card->armor > 0;
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
-        // TODO: change to any taget
-        startChoiceToTargetCard(ally, this, {hasArmor});
+        startChoiceToTargetCard(ally, enemy, this, {hasArmor});
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
@@ -410,16 +404,15 @@ struct AlzursThunder : Card
     inline AlzursThunder()
     {
         name = "Alzur's Thunder";
+        url = "https://gwent.one/image/card/low/cid/png/113301.png";
         rarity = Bronze;
         faction = Neutral;
         tags = { Spell };
         isSpecial = true;
-        url = "https://gwent.one/image/card/low/cid/png/113301.png";
     }
-    inline void onPlaySpecial(Field &ally, Field &) override
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
     {
-        // TODO: change to any taget
-        startChoiceToTargetCard(ally, this);
+        startChoiceToTargetCard(ally, enemy, this);
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
@@ -432,15 +425,15 @@ struct Swallow : Card
     inline Swallow()
     {
         name = "Swallow";
+        url = "https://gwent.one/image/card/low/cid/png/113310.png";
         rarity = Bronze;
         faction = Neutral;
         tags = { Alchemy, Item };
         isSpecial = true;
-        url = "https://gwent.one/image/card/low/cid/png/113310.png";
     }
-    inline void onPlaySpecial(Field &ally, Field &) override
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
     {
-        startChoiceToTargetCard(ally, this);
+        startChoiceToTargetCard(ally, enemy, this);
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
@@ -453,30 +446,25 @@ struct Thunderbolt : Card
     inline Thunderbolt()
     {
         name = "Thunderbolt";
+        url = "https://gwent.one/image/card/low/cid/png/113311.png";
         rarity = Bronze;
         faction = Neutral;
         tags = { Alchemy, Item };
         isSpecial = true;
-        url = "https://gwent.one/image/card/low/cid/png/113311.png";
     }
-    inline void onPlaySpecial(Field &ally, Field &) override
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
     {
-        // TODO: change to any target
-        startChoiceToTargetCard(ally, this);
+        startChoiceToTargetCard(ally, enemy, this);
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
-        Row row;
-        Pos pos;
-        if (!rowAndPos(target, ally, row, pos))
-            return;
         boost(target, 3, ally, enemy);
         gainArmor(target, 2, ally, enemy);
-        if (Card *left = cardAtRowAndPos(row, pos - 1, ally)) {
+        if (Card *left = cardNextTo(target, ally, enemy, -1)) {
             boost(left, 3, ally, enemy);
             gainArmor(left, 2, ally, enemy);
         }
-        if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
+        if (Card *right = cardNextTo(target, ally, enemy, 1)) {
             boost(right, 3, ally, enemy);
             gainArmor(right, 2, ally, enemy);
         }
@@ -488,27 +476,22 @@ struct ArachasVenom : Card
     inline ArachasVenom()
     {
         name = "Arachas Venom";
-        rarity = Bronze;
+        url = "https://gwent.one/image/card/low/cid/png/200023.png";
+        rarity = Bronze ;
         faction = Neutral;
         tags = { Organic };
         isSpecial = true;
-        url = "https://gwent.one/image/card/low/cid/png/200023.png";
     }
-    inline void onPlaySpecial(Field &ally, Field &) override
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
     {
-        // TODO: change to any target
-        startChoiceToTargetCard(ally, this);
+        startChoiceToTargetCard(ally, enemy, this);
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
-        Row row;
-        Pos pos;
-        if (!rowAndPos(target, ally, row, pos))
-            return;
         damage(target, 4, ally, enemy);
-        if (Card *left = cardAtRowAndPos(row, pos - 1, ally))
+        if (Card *left = cardNextTo(target, ally, enemy, -1))
             damage(left, 4, ally, enemy);
-        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+        if (Card *right = cardNextTo(target, ally, enemy, 1))
             damage(right, 4, ally, enemy);
     }
 };
@@ -518,31 +501,110 @@ struct KeiraMetz : Card
     inline KeiraMetz()
     {
         name = "Keira Metz";
+        url = "https://gwent.one/image/card/low/cid/png/122108.png";
         power = powerBase = 6;
         rarity = Gold;
         faction = NothernRealms;
         tags = { Mage, Temeria };
-        url = "https://gwent.one/image/card/low/cid/png/122108.png";
     }
-    Card *c1 = nullptr;
-    Card *c2 = nullptr;
-    Card *c3 = nullptr;
     inline void onEnter(Field &ally, Field &/*enemy*/) override
     {
-        c1 = new AlzursThunder;
-        c2 = new Thunderbolt;
-        c3 = new ArachasVenom;
-        ally.cardStack.push_back({Target, this, {c1, c2, c3}});
+        _c1 = new AlzursThunder;
+        _c2 = new Thunderbolt;
+        _c3 = new ArachasVenom;
+        ally.cardStack.push_back({Target, this, {_c1, _c2, _c3}});
     }
     inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
     {
-        if (c1 != target)
-            delete c1;
-        if (c2 != target)
-            delete c2;
-        if (c3 != target)
-            delete c3;
+        if (_c1 != target)
+            delete _c1;
+        if (_c2 != target)
+            delete _c2;
+        if (_c3 != target)
+            delete _c3;
         spawn(target, ally, enemy);
+    }
+private:
+    Card *_c1 = nullptr;
+    Card *_c2 = nullptr;
+    Card *_c3 = nullptr;
+};
+
+struct DolBlathannaArcher : Card
+{
+    inline DolBlathannaArcher()
+    {
+        name = "Dol Blathanna Archer";
+        url = "https://gwent.one/image/card/low/cid/png/142310.png";
+        power = powerBase = 7;
+        rarity = Bronze;
+        faction = Scoiatael;
+        tags = { Soldier, Elf };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        _nShots = 0;
+        startChoiceToTargetCard(ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy);
+    }
+private:
+    int _nShots = 0;
+};
+
+struct HalfElfHunter : Card
+{
+    inline HalfElfHunter()
+    {
+        name = "Half-Elf Hunter";
+        url = "https://gwent.one/image/card/low/cid/png/201636.png";
+        power = powerBase = 6;
+        rarity = Bronze;
+        faction = Scoiatael;
+        tags = { Soldier, Elf };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        if (!_maySpawnCopy)
+            return;
+
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, ally, row, pos))
+            return;
+
+        auto *copy = new HalfElfHunter;
+        copy->isDoomed = true;
+        copy->_maySpawnCopy = false;
+
+        spawn(copy, row, pos + 1, ally, enemy);
+    }
+private:
+    bool _maySpawnCopy = true;
+};
+
+struct Ambassador : Card
+{
+    inline Ambassador()
+    {
+        name = "Ambassador";
+        url = "https://gwent.one/image/card/low/cid/png/162315.png";
+        power = powerBase = 2;
+        isSpy = true;
+        rarity = Bronze;
+        faction = Nilfgaard;
+        tags = {};
+    }
+    inline void onEnter(Field &enemy, Field &ally) override
+    {
+        startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        boost(target, 12, ally, enemy);
     }
 };
 
