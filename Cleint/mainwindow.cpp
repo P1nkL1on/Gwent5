@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     const std::vector<Card *> deckStarting = {
         new Vaedermakar, new Vaedermakar, new Ves, new TuirseachBearmaster, new DandelionPoet,
-//        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
         new TuirseachArcher, new TuirseachArcher, new TemerianDrummer,
 //        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
 //        new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
         nCards--;
 
 
-    _ally.cardStack.push_back({RoundStartSwap, nullptr, _ally.hand});
+    _ally.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, _ally.hand, 3, true));
 
 
     resize(600, 450);
@@ -227,6 +227,11 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         }
 
         if (_ally.snapshot().choice == RoundStartSwap) {
+            if (isFinishChoiceButton(em->pos())) {
+                onChoiceDoneRoundStartSwap(nullptr, _ally, _enemy);
+                repaint();
+                goto event;
+            }
             Card *card = cardAt(em->pos());
             if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
                 goto event;

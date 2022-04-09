@@ -358,13 +358,17 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     const Snapshot snapshot = ally.takeSnapshot();
     assert(snapshot.choice == RoundStartSwap);
 
-    swapACard(card, ally, enemy);
+    if (card != nullptr) {
+        swapACard(card, ally, enemy);
+
+        if (snapshot.nTargets > 1) {
+            ally.cardStack.push_back(Snapshot(RoundStartSwap, snapshot.cardSource, ally.hand, snapshot.nTargets - 1, snapshot.isOptional));
+            return;
+        }
+    }
 
     /// start a game after start swap
     startChoiceToPlayCard(ally, nullptr);
-
-    // TODO: only swap exact 1 card then start a game.
-    // TODO: change to swap any up to 3 cards, then start
 }
 
 void traceField(Field &field)
@@ -625,11 +629,19 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
             res += "Choose an ability option";
             break;
         case RoundStartSwap:
-            res += "Choose a card to swap";
+            res += "Choose a card to swap [" + std::to_string(snapShot.nTargets) + " left]";
             break;
         }
         if (snapShot.cardSource != nullptr)
-            res += " (" + snapShot.cardSource->name + ")";
+            res += " (Source: " + snapShot.cardSource->name + ")";
+
+        if ((snapShot.choice == Target) && ((snapShot.nTargets > 1) || (snapShot.isOptional))) {
+            res += " [";
+            if (snapShot.isOptional)
+                res += "optional ";
+            res += std::to_string(snapShot.cardOptionsSelected.size()) + "/" + std::to_string(snapShot.nTargets);
+            res += "]";
+        }
     }
     if (res.size() == 0)
         return "Card stack is empty...";
