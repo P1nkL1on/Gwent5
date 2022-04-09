@@ -256,7 +256,7 @@ bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
 
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
-    const std::vector<Card *> allies = [&]{
+    const std::vector<Card *> cards = [&]{
         if (group == Ally)
             return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
         if (group == Enemy)
@@ -266,11 +266,18 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
         assert(group == Any);
         return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
-    const std::vector<Card *> alliesFiltered = filtered(canBeSelected(self), filtered(filters, allies));
-    if (alliesFiltered.size() == 0)
+    const std::vector<Card *> cardsFiltered = filtered(canBeSelected(self), filtered(filters, cards));
+    if (cardsFiltered.size() == 0)
         return false;
-    // TODO: if alliesFiltered has exact 1 card
-    ally.cardStack.push_back(Snapshot(Target, self, alliesFiltered, nTargets, isOptional));
+
+    /// checking if already can be selected
+    if (!isOptional && int(cardsFiltered.size()) <= nTargets) {
+        for (Card *card : cardsFiltered)
+            self->onTargetChoosen(card, ally, enemy);
+        return true;
+    }
+
+    ally.cardStack.push_back(Snapshot(Target, self, cardsFiltered, nTargets, isOptional));
     return true;
 }
 
@@ -451,17 +458,28 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
     return nullptr;
 }
 
-Card *highest(const std::vector<Card *> &row)
+std::vector<Card *> highests(const std::vector<Card *> &row)
 {
     int powerMax = INT_MIN;
-    Card *res = nullptr;
-    for (Card *c : row) {
-        if (c->power < powerMax)
-            continue;
-        powerMax = c->power;
-        res = c;
-    }
+    for (Card *card : row)
+        powerMax = std::max(card->power, powerMax);
+
+    std::vector<Card *> res;
+    for (Card *card : row)
+        if (card->power == powerMax)
+            res.push_back(card);
+
     return res;
+}
+
+Card *highest(const std::vector<Card *> &row)
+{
+    std::vector<Card *> res = highests(row);
+    if (res.size() == 0)
+        return nullptr;
+
+    // TODO: using random
+    return res[std::default_random_engine{}() % res.size()];
 }
 
 const Snapshot &Field::snapshot() const
@@ -560,6 +578,11 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(drawn);
 }
 
+void destroy(Card *card, Field &, Field &)
+{
+    // TODO: destoy
+}
+
 void damage(Card *card, const int x, Field &ally, Field &enemy)
 {
     // TODO: check death and rest
@@ -594,6 +617,16 @@ void strengthen(Card *card, const int x, Field &, Field &)
 
     card->power += x;
     card->powerBase += x;
+}
+
+void weaken(Card *card, const int x, Field &, Field &)
+{
+    assert(x > 0);
+
+    card->power -= x;
+    card->powerBase -= x;
+
+    // TODO: check banish
 }
 
 void gainArmor(Card *card, const int x, Field &, Field &)

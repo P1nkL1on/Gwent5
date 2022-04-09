@@ -38,6 +38,7 @@ enum Tag
     ClanAnCraite,
     ClanDimun,
     ClanTuirseach,
+    Agent,
     Support,
     Mage,
     Soldier,
@@ -197,6 +198,7 @@ bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
+std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
 void triggerRowEffects(Field &ally, Field &enemy);
@@ -222,9 +224,11 @@ void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
+void weaken(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
+void destroy(Card *card, Field &ally, Field &enemy);
 
 void traceField(Field &field);
 

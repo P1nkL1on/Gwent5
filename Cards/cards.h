@@ -894,4 +894,71 @@ private:
     Card *_c3 = nullptr;
 };
 
+struct Frightener : Card
+{
+    Frightener()
+    {
+        name = "Frightener";
+        url = "https://gwent.one/image/card/low/cid/png/132204.png";
+        power = powerBase = 13;
+        isSpy = true;
+        timer = 1;
+        rarity = Silver;
+        faction = Monster;
+        tags = { Construct, Agent };
+    }
+    inline static bool isOnAnotherRow(Card *self, Card *card, const Field &field)
+    {
+        Row rowSelf;
+        Pos _;
+        if (!rowAndPos(self, field, rowSelf, _))
+            return false;
+        Row rowCard;
+        Pos __;
+        if (!rowAndPos(card, field, rowCard, __))
+            return false;
+        return rowSelf != rowCard;
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        if (timer--)
+            drawACard(ally, enemy);
+
+        /// can't move another to this row, if its already full
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, enemy, row, pos) || isRowFull(enemy.row(row)))
+            return;
+        startChoiceToTargetCard(ally, enemy, this, {std::bind(isOnAnotherRow, std::placeholders::_1, this, enemy)}, Enemy);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        Row row;
+        Pos pos;
+        if (!rowAndPos(this, enemy, row, pos))
+            return;
+        if (isRowFull(enemy.row(row)))
+            return;
+        putOnField(target, row, Pos(enemy.row(row).size()), enemy, ally);
+    }
+};
+
+struct Scorch : Card
+{
+    inline Scorch()
+    {
+        name = "Scorch";
+        url = "https://gwent.one/image/card/low/cid/png/113309.png";
+        isSpecial = true;
+        rarity = Silver;
+        faction = Neutral;
+        tags = { Spell };
+    }
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
+    {
+        for (Card *card : highests(united(std::vector<std::vector<Card *>>{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige})))
+            destroy(card, ally, enemy);
+    }
+};
+
 #endif // CARDS_H
