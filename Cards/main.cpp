@@ -24,7 +24,7 @@ int main(int, char *[])
         traceField(enemy);
     };
     {
-        startChoiceToPlayCard(ally);
+        startChoiceToPlayCard(ally, nullptr);
         traceFields();
         onChoiceDoneCard(&dp, ally, enemy);
         onChoiceDoneRowAndPlace(Meele, 0, ally, enemy);
