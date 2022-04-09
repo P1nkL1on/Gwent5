@@ -35,7 +35,6 @@ private:
 
     View _view;
 
-    std::vector<Card *> _cards;
     Field _ally ;
     Field _enemy;
 

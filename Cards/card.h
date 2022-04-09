@@ -82,6 +82,7 @@ enum Choice
     SelectAllyRow,
     SelectEnemyRow,
     Target,
+    RoundStartSwap,
 };
 
 enum ChoiceGroup
@@ -185,6 +186,8 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
 Card *highest(const std::vector<Card *> &row);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
 void triggerRowEffects(Field &ally, Field &enemy);
+void initField(const std::vector<Card *> &deckStarting, Field &field);
+void shuffle(std::vector<Card *> &cards);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -206,8 +209,9 @@ void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
+bool drawACard(Field &ally, Field &enemy);
+void swapACard(Card *card, Field &ally, Field &enemy);
 
-bool drawACard(Field &field);
 void traceField(Field &field);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
@@ -219,6 +223,7 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
+void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 

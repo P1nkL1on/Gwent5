@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {
+    const std::vector<Card *> deckStarting = {
         new Vaedermakar, new Vaedermakar,
         new ManticoreVenom, new ImperialManticore, new GloriousHunt,
         new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
@@ -23,11 +23,19 @@ MainWindow::MainWindow(QWidget *parent)
         new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd,
         new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry
     };
-    _ally.deckStarting = _ally.hand = _cards;
+    initField(deckStarting, _ally);
+    shuffle(_ally.deck);
 
 
-    startChoiceToPlayCard(_ally, nullptr);
+    int nCards = 10;
+    while (nCards && drawACard(_ally, _enemy))
+        nCards--;
 
+
+    _ally.cardStack.push_back({RoundStartSwap, nullptr, _ally.hand});
+
+
+    // startChoiceToPlayCard(_ally, nullptr);
 
     resize(600, 450);
     installEventFilter(this);
@@ -196,6 +204,17 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             repaint();
             goto event;
         }
+
+        if (_ally.snapshot().choice == RoundStartSwap) {
+            Card *card = cardAt(em->pos());
+            if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
+                goto event;
+            onChoiceDoneRoundStartSwap(card, _ally, _enemy);
+            repaint();
+            goto event;
+        }
+
+        Q_ASSERT(false);
     }
 
     event:

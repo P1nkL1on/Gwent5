@@ -161,9 +161,9 @@ struct DandelionPoet : Card
         faction = Neutral;
         tags = { Support };
     }
-    inline void onEnter(Field &ally, Field &) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
-        drawACard(ally);
+        drawACard(ally, enemy);
         startChoiceToPlayCard(ally, this);
     }
 };

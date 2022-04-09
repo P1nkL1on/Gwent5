@@ -2,6 +2,8 @@
 
 #include <assert.h>
 #include <iostream>
+#include <algorithm>
+#include <random>
 
 using Rows = std::vector<std::vector<Card *>>;
 
@@ -112,6 +114,30 @@ void triggerRowEffects(Field &ally, Field &enemy)
     applyRowEffect(ally.rowMeele, ally.rowEffectMeele);
     applyRowEffect(ally.rowRange, ally.rowEffectRange);
     applyRowEffect(ally.rowSeige, ally.rowEffectSeige);
+}
+
+void initField(const std::vector<Card *> &deckStarting, Field &field)
+{
+    assert(field.rowMeele.size() == 0);
+    assert(field.rowRange.size() == 0);
+    assert(field.rowSeige.size() == 0);
+    assert(field.hand.size() == 0);
+    assert(field.discard.size() == 0);
+    assert(field.cardsAdded.size() == 0);
+    assert(field.cardStack.size() == 0);
+
+    /// init a deck
+    field.deck = field.deckStarting = deckStarting;
+    field.rowEffectMeele = NoRowEffect;
+    field.rowEffectRange = NoRowEffect;
+    field.rowEffectSeige = NoRowEffect;
+    field.nTurns = 0;
+}
+
+void shuffle(std::vector<Card *> &cards)
+{
+    // TODO: random must be used
+    std::shuffle(std::begin(cards), std::end(cards), std::default_random_engine {});
 }
 
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
@@ -303,6 +329,17 @@ void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
     assert(false);
 }
 
+void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
+{
+    const Snapshot snapshot = ally.takeSnapshot();
+    assert(snapshot.choice == RoundStartSwap);
+
+    swapACard(card, ally, enemy);
+
+    /// start a game after start swap
+    startChoiceToPlayCard(ally, nullptr);
+}
+
 void traceField(Field &field)
 {
     std::cout << "meele: ";
@@ -336,6 +373,9 @@ void traceField(Field &field)
         break;
     case Target:
         std::cout << "\n\nChoose target:\n";
+        break;
+    case RoundStartSwap:
+        std::cout << "\n\nChoose a card to swap:\n";
         break;
     }
 
@@ -455,9 +495,38 @@ RowEffect &Field::rowEffect(const Row _row)
     }
 }
 
-bool drawACard(Field &)
+bool drawACard(Field &ally, Field &)
 {
+    if (ally.deck.size() == 0)
+        return false;
+
+    Card *card = ally.deck.front();
+    ally.deck.erase(ally.deck.begin());
+    ally.hand.push_back(card);
+
+    // TODO: trigger all onDrawn abilities
+
     return true;
+}
+
+void swapACard(Card *card, Field &ally, Field &enemy)
+{
+    if (ally.deck.size() == 0) {
+        // TODO: trigger all onSwap abilities
+        return;
+    }
+
+    const Row from = takeCard(card, ally, enemy);
+    assert(from == Hand);
+
+    /// move to any place in the deck, but not first
+    // TODO: use random
+    const int ind = 1 + (std::default_random_engine {})() % ally.deck.size();
+    ally.deck.insert(ally.deck.begin() + ind, card);
+
+    // TODO: trigger all onSwap abilities
+    const bool drawn = drawACard(ally, enemy);
+    assert(drawn);
 }
 
 void damage(Card *card, const int x, Field &ally, Field &enemy)
@@ -514,19 +583,22 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
             res += "Choose a card to play";
             break;
         case SelectAllyRowAndPos:
-            res += "Chosse an allied row and pos";
+            res += "Choose an allied row and pos";
             break;
         case SelectEnemyRowAndPos:
-            res += "Chosse an enemy row and pos";
+            res += "Choose an enemy row and pos";
             break;
         case SelectAllyRow:
-            res += "Chosse an allied row";
+            res += "Choose an allied row";
             break;
         case SelectEnemyRow:
-            res += "Chosse an enemy row";
+            res += "Choose an enemy row";
             break;
         case Target:
-            res += "Chosse an ability option";
+            res += "Choose an ability option";
+            break;
+        case RoundStartSwap:
+            res += "Choose a card to swap";
             break;
         }
         if (snapShot.cardSource != nullptr)
