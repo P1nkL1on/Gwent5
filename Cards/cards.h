@@ -839,6 +839,27 @@ struct GloriousHunt : Card
     }
 };
 
+struct Ves : Card
+{
+    inline Ves()
+    {
+        name = "Ves";
+        url = "https://gwent.one/image/card/low/cid/png/122204.png";
+        power = powerBase = 12;
+        rarity = Silver;
+        faction = NothernRealms;
+        tags = { Soldier, Temeria };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2, true);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        swapACard(target, ally, enemy);
+    }
+};
+
 struct Vaedermakar : Card
 {
     inline Vaedermakar()

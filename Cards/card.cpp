@@ -250,17 +250,19 @@ bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
         return false;
     // TODO: if hand has exact 1 card
     const std::vector<Card *> hand = field.hand;
-    field.cardStack.push_back(Snapshot(Play, self, filtered(filters, hand)));
+    field.cardStack.push_back(Snapshot(RoundStartPlay, self, filtered(filters, hand)));
     return true;
 }
 
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets)
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
     const std::vector<Card *> allies = [&]{
         if (group == Ally)
             return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
         if (group == Enemy)
             return united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
+        if (group == AllyHand)
+            return ally.hand;
         assert(group == Any);
         return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
@@ -268,7 +270,7 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
     if (alliesFiltered.size() == 0)
         return false;
     // TODO: if alliesFiltered has exact 1 card
-    ally.cardStack.push_back(Snapshot(Target, self, alliesFiltered, nTargets));
+    ally.cardStack.push_back(Snapshot(Target, self, alliesFiltered, nTargets, isOptional));
     return true;
 }
 
@@ -286,7 +288,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
     const Snapshot snapshot = ally.takeSnapshot();
 
-    if (snapshot.choice == Play) {
+    if (snapshot.choice == RoundStartPlay) {
         assert(card != nullptr);
         assert(snapshot.nTargets == 1);
         if (card->isSpecial) {
@@ -298,18 +300,22 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
     }
     if (snapshot.choice == Target) {
         Snapshot snapshotNext = snapshot;
-        /// remove a previously selected card
-        for (size_t j = 0; j < snapshotNext.cardOptions.size(); ++j)
-            if (snapshotNext.cardOptions.at(j) == card) {
-                snapshotNext.cardOptions.erase(snapshotNext.cardOptions.begin() + int(j));
-                break;
-            }
-        /// add it to selected cards
-        snapshotNext.cardOptionsSelected.push_back(card);
+        if (card != nullptr) {
+            /// remove a previously selected card
+            for (size_t j = 0; j < snapshotNext.cardOptions.size(); ++j)
+                if (snapshotNext.cardOptions.at(j) == card) {
+                    snapshotNext.cardOptions.erase(snapshotNext.cardOptions.begin() + int(j));
+                    break;
+                }
+            /// add it to selected cards
+            snapshotNext.cardOptionsSelected.push_back(card);
 
-        if ((int(snapshotNext.cardOptionsSelected.size()) < snapshotNext.nTargets) && (snapshotNext.cardOptions.size() > 0)) {
-            ally.cardStack.push_back(snapshotNext);
-            return;
+            if ((int(snapshotNext.cardOptionsSelected.size()) < snapshotNext.nTargets) && (snapshotNext.cardOptions.size() > 0)) {
+                ally.cardStack.push_back(snapshotNext);
+                return;
+            }
+        } else {
+            assert(snapshot.isOptional);
         }
 
         for (Card *card : snapshotNext.cardOptionsSelected)
@@ -377,7 +383,7 @@ void traceField(Field &field)
         return;
 
     switch (field.snapshot().choice) {
-    case Play:
+    case RoundStartPlay:
         std::cout << "\n\nSelect a card to play:\n";
         break;
     case SelectAllyRowAndPos:
@@ -600,7 +606,7 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
         if (res.size() > 0)
             res += " -> ";
         switch (snapShot.choice) {
-        case Play:
+        case RoundStartPlay:
             res += "Choose a card to play";
             break;
         case SelectAllyRowAndPos:

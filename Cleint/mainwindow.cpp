@@ -13,14 +13,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Vaedermakar, new Vaedermakar,
+        new Vaedermakar, new Vaedermakar, new Ves, new TuirseachBearmaster, new DandelionPoet,
+//        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+        new TuirseachArcher, new TuirseachArcher, new TemerianDrummer,
 //        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
 //        new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
 //        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
 //        new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster,
 //        new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-        new TuirseachArcher, new TuirseachArcher, new TemerianDrummer, new TemerianDrummer
     };
     initField(deckStarting, _ally);
     shuffle(_ally.deck);
@@ -140,13 +140,37 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         return false;
     };
 
+    const auto isFinishChoiceButton = [=](const QPoint &point) {
+        const QFontMetricsF metrics(QFont{});
+        const QString string = QString("Turn %1: %2").arg(1 + _ally.nTurns).arg(QString::fromStdString(stringSnapShots(_ally.cardStack)));
+        const QPointF topLeft(metrics.width(string) + _view.borderTextPx, 2 * _view.spacingPx + 7 * posHeight - metrics.height());
+        const QRectF rect(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height()));
+        return rect.contains(point);
+    };
+
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
 
         if (_ally.cardStack.size() == 0)
             goto event;
 
-        if ((_ally.snapshot().choice == Play) || (_ally.snapshot().choice == Target)) {
+        if (_ally.snapshot().choice == RoundStartPlay) {
+            Card *card = cardAt(em->pos());
+            if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
+                goto event;
+            onChoiceDoneCard(card, _ally, _enemy);
+            tryFinishTurn(_ally, _enemy);
+            repaint();
+            goto event;
+        }
+
+        if (_ally.snapshot().choice == Target) {
+            if (_ally.snapshot().isOptional && isFinishChoiceButton(em->pos())) {
+                onChoiceDoneCard(nullptr, _ally, _enemy);
+                tryFinishTurn(_ally, _enemy);
+                repaint();
+                goto event;
+            }
             Card *card = cardAt(em->pos());
             if (card == nullptr || !isIn(card, _ally.snapshot().cardOptions))
                 goto event;
@@ -240,7 +264,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
             const QString &text,
             const QPointF &topLeft,
             const Qt::GlobalColor colorBack = Qt::white,
-            const Qt::GlobalColor colorFore = Qt::black)
+            const Qt::GlobalColor colorFore = Qt::black,
+            QRectF *rectRes = nullptr)
             -> double
     {
         const double textHeight = metrics.height();
@@ -252,6 +277,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
         painter.setPen(colorFore);
         const QRectF rectText(QPointF(topLeft.x() + _view.borderTextPx, topLeft.y()), QSizeF(textWidth, textHeight));
         painter.drawText(rectText, text);
+        if (rectRes != nullptr)
+            *rectRes = rect;
         return textWidth + 2 * _view.borderTextPx;
     };
 
@@ -411,5 +438,11 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     const QString stringStatus = QString::fromStdString(stringSnapShots(_ally.cardStack));
     const QString stringTurn = QString::number(1 + _ally.nTurns);
-    paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+    double statusWidth = 0;
+    if ((_ally.cardStack.size() > 0)){
+        statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _view.borderTextPx;
+    }
+    if ((_ally.cardStack.size() > 0) && _ally.snapshot().isOptional) {
+        statusWidth += paintTextInPoint("Finish Choice", QPointF(statusWidth, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _view.borderTextPx;
+    }
 }

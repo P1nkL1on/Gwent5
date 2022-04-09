@@ -76,7 +76,7 @@ enum RowEffect
 
 enum Choice
 {
-    Play,
+    RoundStartPlay,
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
     SelectAllyRow,
@@ -92,6 +92,7 @@ enum ChoiceGroup
     Ally,
     Enemy,
     /// others
+    AllyHand,
 };
 
 
@@ -142,17 +143,19 @@ struct Card
 
 struct Snapshot
 {
-    inline Snapshot(const Choice choice, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1) :
+    inline Snapshot(const Choice choice, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
         choice(choice),
         cardSource(cardSource),
         cardOptions(cardOptions),
-        nTargets(nTargets)
+        nTargets(nTargets),
+        isOptional(isOptional)
     {
     }
     Choice choice;
-    Card * cardSource = nullptr;
+    Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
     int nTargets = 1;
+    bool isOptional = false;
 
     /// for nTargets > 1
     std::vector<Card *> cardOptionsSelected;
@@ -230,7 +233,7 @@ using Filters = std::vector<std::function<bool(Card *)> >;
 bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1);
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
