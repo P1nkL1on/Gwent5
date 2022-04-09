@@ -250,11 +250,11 @@ bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
         return false;
     // TODO: if hand has exact 1 card
     const std::vector<Card *> hand = field.hand;
-    field.cardStack.push_back({Play, self, filtered(filters, hand)});
+    field.cardStack.push_back(Snapshot(Play, self, filtered(filters, hand)));
     return true;
 }
 
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group)
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets)
 {
     const std::vector<Card *> allies = [&]{
         if (group == Ally)
@@ -268,18 +268,18 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
     if (alliesFiltered.size() == 0)
         return false;
     // TODO: if alliesFiltered has exact 1 card
-    ally.cardStack.push_back({Target, self, alliesFiltered});
+    ally.cardStack.push_back(Snapshot(Target, self, alliesFiltered, nTargets));
     return true;
 }
 
 void startChoiceToSelectAllyRow(Field &field, Card *self)
 {
-    field.cardStack.push_back({SelectAllyRow, self, {}});
+    field.cardStack.push_back(Snapshot(SelectAllyRow, self));
 }
 
 void startChoiceToSelectEnemyRow(Field &field, Card *self)
 {
-    field.cardStack.push_back({SelectEnemyRow, self, {}});
+    field.cardStack.push_back(Snapshot(SelectEnemyRow, self));
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
@@ -288,15 +288,33 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 
     if (snapshot.choice == Play) {
         assert(card != nullptr);
+        assert(snapshot.nTargets == 1);
         if (card->isSpecial) {
             playAsSpecial(card, ally, enemy);
             putOnDiscard(card, ally, enemy);
             return;
         }
-        return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
+        return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
     }
     if (snapshot.choice == Target) {
-        return snapshot.cardSource->onTargetChoosen(card, ally, enemy);
+        Snapshot snapshotNext = snapshot;
+        /// remove a previously selected card
+        for (size_t j = 0; j < snapshotNext.cardOptions.size(); ++j)
+            if (snapshotNext.cardOptions.at(j) == card) {
+                snapshotNext.cardOptions.erase(snapshotNext.cardOptions.begin() + int(j));
+                break;
+            }
+        /// add it to selected cards
+        snapshotNext.cardOptionsSelected.push_back(card);
+
+        if ((int(snapshotNext.cardOptionsSelected.size()) < snapshotNext.nTargets) && (snapshotNext.cardOptions.size() > 0)) {
+            ally.cardStack.push_back(snapshotNext);
+            return;
+        }
+
+        for (Card *card : snapshotNext.cardOptionsSelected)
+            snapshot.cardSource->onTargetChoosen(card, ally, enemy);
+        return;
     }
     assert(false);
 }
@@ -338,6 +356,9 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
     /// start a game after start swap
     startChoiceToPlayCard(ally, nullptr);
+
+    // TODO: only swap exact 1 card then start a game.
+    // TODO: change to swap any up to 3 cards, then start
 }
 
 void traceField(Field &field)
@@ -685,7 +706,7 @@ void spawn(Card *card, Field &ally, Field &enemy)
         putOnDiscard(card, ally, enemy);
         return;
     }
-    return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
+    return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
 }
 
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)

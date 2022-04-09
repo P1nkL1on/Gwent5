@@ -633,6 +633,27 @@ struct Assassin : Card
     }
 };
 
+struct TuirseachArcher : Card
+{
+    inline TuirseachArcher()
+    {
+        name = "Tuirseach Archer";
+        url = "https://gwent.one/image/card/low/cid/png/152315.png";
+        power = powerBase = 8;
+        rarity = Bronze;
+        faction = Skellige;
+        tags = { ClanTuirseach, Soldier };
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        startChoiceToTargetCard(ally, enemy, this, {}, Any, 3);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        damage(target, 1, ally, enemy);
+    }
+};
+
 struct Infiltrator : Card
 {
     inline Infiltrator()

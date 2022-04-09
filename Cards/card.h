@@ -142,9 +142,20 @@ struct Card
 
 struct Snapshot
 {
+    inline Snapshot(const Choice choice, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1) :
+        choice(choice),
+        cardSource(cardSource),
+        cardOptions(cardOptions),
+        nTargets(nTargets)
+    {
+    }
     Choice choice;
-    Card * cardSource;
+    Card * cardSource = nullptr;
     std::vector<Card *> cardOptions;
+    int nTargets = 1;
+
+    /// for nTargets > 1
+    std::vector<Card *> cardOptionsSelected;
 };
 
 struct Field
@@ -219,7 +230,7 @@ using Filters = std::vector<std::function<bool(Card *)> >;
 bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any);
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);

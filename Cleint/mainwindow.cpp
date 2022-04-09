@@ -12,16 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
 
-    auto *dp = new DandelionPoet;
-    auto *sd = new SileDeTansarville;
     const std::vector<Card *> deckStarting = {
         new Vaedermakar, new Vaedermakar,
-        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
-        new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
-        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
-        new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster,
-        new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry
+//        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
+//        new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
+//        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
+//        new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster,
+//        new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+        new TuirseachArcher, new TuirseachArcher, new TemerianDrummer, new TemerianDrummer
     };
     initField(deckStarting, _ally);
     shuffle(_ally.deck);
@@ -34,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     _ally.cardStack.push_back({RoundStartSwap, nullptr, _ally.hand});
 
-
-    // startChoiceToPlayCard(_ally, nullptr);
 
     resize(600, 450);
     installEventFilter(this);
@@ -291,6 +288,13 @@ void MainWindow::paintEvent(QPaintEvent *e)
         /// draw selection border
         if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptions)) {
             painter.setPen(Qt::green);
+            painter.drawLine(rect.topLeft(), rect.bottomRight());
+            painter.drawLine(rect.topRight(), rect.bottomLeft());
+        }
+
+        /// draw selected border
+        if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptionsSelected)) {
+            painter.setPen(Qt::red);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
