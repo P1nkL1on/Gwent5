@@ -14,7 +14,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto *dp = new DandelionPoet;
     auto *sd = new SileDeTansarville;
-    _cards = {new Ambassador, new Ambassador, new Ambassador, new Ambassador, new HalfElfHunter, new HalfElfHunter, new DolBlathannaArcher, new DolBlathannaArcher, new KaedweniCavalry, new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz, new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster, new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd, new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry};
+    _cards = {
+        new Vaedermakar, new Vaedermakar,
+        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
+        new Infiltrator, new Infiltrator, new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
+        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
+        new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster,
+        new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect, dp, sd,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry
+    };
     _ally.deckStarting = _ally.hand = _cards;
 
 
@@ -96,8 +104,10 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         return nullptr;
     };
 
-    const auto rowAndPostAt = [=](const QPoint &point, Row &row, Pos &pos) -> bool {
-        for (int j = 0; j < 6; ++j) {
+    const auto rowAndPostAt = [=](const bool ally, const QPoint &point, Row &row, Pos &pos) -> bool {
+        const int jFrom = ally ? 3 : 0;
+        const int jTo = ally ? 6 : 3;
+        for (int j = jFrom; j < jTo; ++j) {
             const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
             for (size_t i = 0; i < 9; ++i) {
                 const QRectF cardRect(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight);
@@ -106,6 +116,20 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                     pos = Pos(i);
                     return true;
                 }
+            }
+        }
+        return false;
+    };
+
+    const auto rowAt = [=](const bool ally, const QPoint &point, Row &row) -> bool {
+        const int iFrom = ally ? 3 : 0;
+        const int iTo = ally ? 6 : 3;
+        for (int i = iFrom; i < iTo; ++i) {
+            const Row _row = Row(i < 3 ? (2 - i) : (i - 3));
+            const QRectF rowRect(0, _view.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight);
+            if (rowRect.contains(point)) {
+                row = _row;
+                return true;
             }
         }
         return false;
@@ -130,7 +154,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         if (_ally.snapshot().choice == SelectAllyRowAndPos) {
             Row row;
             Pos pos;
-            if (!rowAndPostAt(em->pos(), row, pos))
+            if (!rowAndPostAt(true, em->pos(), row, pos))
                 goto event;
             if (!isOkRowAndPos(row, pos, _ally))
                 goto event;
@@ -143,11 +167,31 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         if (_ally.snapshot().choice == SelectEnemyRowAndPos) {
             Row row;
             Pos pos;
-            if (!rowAndPostAt(em->pos(), row, pos))
+            if (!rowAndPostAt(false, em->pos(), row, pos))
                 goto event;
             if (!isOkRowAndPos(row, pos, _enemy))
                 goto event;
             onChoiceDoneRowAndPlace(row, pos, _ally, _enemy);
+            tryFinishTurn(_ally, _enemy);
+            repaint();
+            goto event;
+        }
+
+        if (_ally.snapshot().choice == SelectAllyRow) {
+            Row row;
+            if (!rowAt(true, em->pos(), row))
+                goto event;
+            onChoiceDoneRow(row, _ally, _enemy);
+            tryFinishTurn(_ally, _enemy);
+            repaint();
+            goto event;
+        }
+
+        if (_ally.snapshot().choice == SelectEnemyRow) {
+            Row row;
+            if (!rowAt(false, em->pos(), row))
+                goto event;
+            onChoiceDoneRow(row, _ally, _enemy);
             tryFinishTurn(_ally, _enemy);
             repaint();
             goto event;
@@ -243,17 +287,25 @@ void MainWindow::paintEvent(QPaintEvent *e)
         if (card->power) {
             const Qt::GlobalColor back = card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray;
             const Qt::GlobalColor fore = card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black;
-            width += paintTextInPoint(QString::number(card->power), topLeft, back, fore) + _view.borderTextPx;
+            width += paintTextInPoint(QString::number(card->power), topLeft, back, fore);
+            width += _view.borderTextPx;
         }
 
         /// draw armor
         if (card->armor) {
-            width += paintTextInPoint("@" + QString::number(card->armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black) + _view.borderTextPx;
+            width += paintTextInPoint("A" + QString::number(card->armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black);
+            width += _view.borderTextPx;
         }
 
         /// draw timer
         if (card->timer) {
-            width += paintTextInPoint("»" + QString::number(card->timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black) + _view.borderTextPx;
+            width += paintTextInPoint("T" + QString::number(card->timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
+            width += _view.borderTextPx;
+        }
+
+        if (card->isSpy) {
+            width += paintTextInPoint("SPY", QPointF(topLeft.x() + width, topLeft.y()), Qt::white, Qt::red);
+            width += _view.borderTextPx;
         }
 
         /// draw name
@@ -286,6 +338,45 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
         const int power = powerRow(cards);
         paintTextInPoint(QString::number(power), QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
+
+        /// draw a row back
+        const QRectF rowRect(0, _view.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height());
+        const RowEffect rowEffect = (j == 0 || j == 5) ? field->rowEffectSeige : (j == 1 || j == 4) ? field->rowEffectRange : field->rowEffectMeele;
+        switch (rowEffect) {
+        case NoRowEffect:
+            break;
+        case TorrentialRainEffect:
+            painter.fillRect(rowRect, QBrush(Qt::gray, Qt::BDiagPattern));
+            break;
+        case BitingFrostEffect:
+            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::Dense7Pattern));
+            break;
+        case ImpenetrableFogEffect:
+            painter.fillRect(rowRect, QBrush(Qt::gray, Qt::Dense6Pattern));
+            break;
+        case GoldenFrothEffect:
+            painter.fillRect(rowRect, QBrush(Qt::yellow, Qt::FDiagPattern));
+            break;
+        case SkelligeStormEffect:
+            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::HorPattern));
+            break;
+        case DragonsDreamEffect:
+//            painter.fillRect(rowRect, QBrush(Qt::darkCyan, Qt::Dense7Pattern));
+            break;
+        case KorathiHeatwaveEffect:
+//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense5Pattern));
+            break;
+        case RaghNarRoogEffect:
+//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense6Pattern));
+            break;
+        case FullMoonEffect:
+//            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::Dense1Pattern));
+            break;
+        case BloodMoonEffect:
+//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense1Pattern));
+            break;
+        }
+        painter.setBrush(QBrush(Qt::NoBrush));
     }
 
     if (_ally.cardStack.size() > 0) {

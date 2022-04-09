@@ -113,13 +113,19 @@ struct DeithwenArbalest : Card
     inline DeithwenArbalest()
     {
         name = "Deithwen Arbalest";
+        url = "https://gwent.one/image/card/low/cid/png/162305.png";
         power = powerBase = 7;
         rarity = Bronze;
         faction = Nilfgaard;
         tags = { Nilfgaard };
     }
-    inline void onEnter(Field &, Field &) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
+        startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        damage(target, target->isSpy ? 6 : 3, ally, enemy);
     }
 };
 
@@ -598,7 +604,7 @@ struct Ambassador : Card
         faction = Nilfgaard;
         tags = {};
     }
-    inline void onEnter(Field &enemy, Field &ally) override
+    inline void onEnter(Field &ally, Field &enemy) override
     {
         startChoiceToTargetCard(ally, enemy, this, {}, Ally);
     }
@@ -606,6 +612,244 @@ struct Ambassador : Card
     {
         boost(target, 12, ally, enemy);
     }
+};
+
+struct Assassin : Card
+{
+    inline Assassin()
+    {
+        name = "Assassin";
+        url = "https://gwent.one/image/card/low/cid/png/200115.png";
+        power = powerBase = 1;
+        isSpy = true;
+        rarity = Bronze;
+        faction = Nilfgaard;
+        tags = {};
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        if (Card *left = cardNextTo(this, ally, enemy, -1))
+            damage(left, 10, ally, enemy);
+    }
+};
+
+struct Infiltrator : Card
+{
+    inline Infiltrator()
+    {
+        name = "Infiltrator";
+        url = "https://gwent.one/image/card/low/cid/png/200118.png";
+        power = powerBase = 10;
+        rarity = Bronze;
+        faction = Nilfgaard;
+        tags = {};
+    }
+    inline void onEnter(Field &ally, Field &enemy) override
+    {
+        startChoiceToTargetCard(ally, enemy, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &, Field &) override
+    {
+        target->isSpy = !target->isSpy;
+    }
+};
+
+struct ImpenetrableFog : Card
+{
+    inline ImpenetrableFog()
+    {
+        name = "Impenetrable Fog";
+        url = "https://gwent.one/image/card/low/cid/png/113305.png";
+        isSpecial = true;
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Hazard };
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToSelectEnemyRow(ally, this);
+    }
+
+    inline RowEffect rowEffect() const override
+    {
+        return ImpenetrableFogEffect;
+    }
+};
+
+struct TorrentialRain : Card
+{
+    inline TorrentialRain()
+    {
+        name = "Torrential Rain";
+        url = "https://gwent.one/image/card/low/cid/png/113312.png";
+        isSpecial = true;
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Hazard };
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToSelectEnemyRow(ally, this);
+    }
+
+    inline RowEffect rowEffect() const override
+    {
+        return TorrentialRainEffect;
+    }
+};
+
+struct BitingFrost : Card
+{
+    inline BitingFrost()
+    {
+        name = "Biting Frost";
+        url = "https://gwent.one/image/card/low/cid/png/113302.png";
+        isSpecial = true;
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Hazard };
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToSelectEnemyRow(ally, this);
+    }
+
+    inline RowEffect rowEffect() const override
+    {
+        return BitingFrostEffect;
+    }
+};
+
+struct GoldenFroth : Card
+{
+    inline GoldenFroth()
+    {
+        name = "Golden Froth";
+        url = "https://gwent.one/image/card/low/cid/png/201749.png";
+        isSpecial = true;
+        rarity = Bronze;
+        faction = Neutral;
+        tags = { Hazard };
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToSelectAllyRow(ally, this);
+    }
+
+    inline RowEffect rowEffect() const override
+    {
+        return GoldenFrothEffect;
+    }
+};
+
+struct SkelligeStorm : Card
+{
+    inline SkelligeStorm()
+    {
+        name = "Skellige Storm";
+        url = "https://gwent.one/image/card/low/cid/png/113203.png";
+        isSpecial = true;
+        rarity = Silver;
+        faction = Neutral;
+        tags = { Hazard };
+    }
+    inline void onPlaySpecial(Field &ally, Field &) override
+    {
+        startChoiceToSelectEnemyRow(ally, this);
+    }
+
+    inline RowEffect rowEffect() const override
+    {
+        return SkelligeStormEffect;
+    }
+};
+
+struct ImperialManticore : Card
+{
+    inline ImperialManticore()
+    {
+        name = "Imperial Manticore";
+        url = "https://gwent.one/image/card/low/cid/png/132209.png";
+        power = powerBase = 13;
+        rarity = Silver;
+        faction = Monster;
+        tags = { Beast };
+    }
+};
+
+struct ManticoreVenom : Card
+{
+    inline ManticoreVenom()
+    {
+        name = "Manticore Venom";
+        url = "https://gwent.one/image/card/low/cid/png/113306.png";
+        isSpecial = true;
+        rarity = Silver;
+        faction = Neutral;
+        tags = { Organic };
+    }
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
+    {
+        startChoiceToTargetCard(ally, enemy, this);
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        damage(target, 13, ally, enemy);
+    }
+};
+
+struct GloriousHunt : Card
+{
+    inline GloriousHunt()
+    {
+        name = "Glorious Hunt";
+        url = "https://gwent.one/image/card/low/cid/png/201635.png";
+        isSpecial = true;
+        rarity = Silver;
+        faction = Neutral;
+        tags = { Tactics };
+    }
+    inline void onPlaySpecial(Field &ally, Field &enemy) override
+    {
+        if (powerField(ally) < powerField(enemy))
+            return spawn(new ImperialManticore, ally, enemy);
+
+        return spawn(new ManticoreVenom, ally, enemy);
+    }
+};
+
+struct Vaedermakar : Card
+{
+    inline Vaedermakar()
+    {
+        name = "Vaedermakar";
+        url = "https://gwent.one/image/card/low/cid/png/113208.png";
+        power = powerBase = 4;
+        rarity = Silver;
+        faction = Neutral;
+        tags = { Mage };
+    }
+    inline void onEnter(Field &ally, Field &/*enemy*/) override
+    {
+        _c1 = new BitingFrost;
+        _c2 = new ImpenetrableFog;
+        _c3 = new AlzursThunder;
+        ally.cardStack.push_back({Target, this, {_c1, _c2, _c3}});
+    }
+    inline void onTargetChoosen(Card *target, Field &ally, Field &enemy) override
+    {
+        if (_c1 != target)
+            delete _c1;
+        if (_c2 != target)
+            delete _c2;
+        if (_c3 != target)
+            delete _c3;
+        spawn(target, ally, enemy);
+    }
+private:
+    Card *_c1 = nullptr;
+    Card *_c2 = nullptr;
+    Card *_c3 = nullptr;
 };
 
 #endif // CARDS_H

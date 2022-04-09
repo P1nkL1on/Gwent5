@@ -59,6 +59,61 @@ Row takeCard(const Card *card, Field &ally, Field &enemy)
     return AlreadyCreated;
 }
 
+/// return filter: `can be manually selected`
+/// pass self (card source), if any
+Filters canBeSelected(Card *self)
+{
+    return Filters{
+        [self](Card *card) {
+            return !card->isImmune && !card->isAmbush && (card != self);
+        },
+    };
+}
+
+/// return filter: `must be counted to count row(field) power`
+Filters canBeCount()
+{
+    return Filters{
+        [](Card *card) {
+            return !card->isAmbush;
+        },
+    };
+}
+
+void triggerRowEffects(Field &ally, Field &enemy)
+{
+    const auto applyRowEffect = [&](const std::vector<Card *> &row, const RowEffect effect) {
+        const std::vector<Card *> rowFiltered = filtered(canBeCount(), row);
+        switch (effect) {
+        case NoRowEffect:
+            break;
+        case TorrentialRainEffect:
+            break;
+        case BitingFrostEffect:
+        case KorathiHeatwaveEffect:
+            break;
+        case RaghNarRoogEffect:
+        case ImpenetrableFogEffect:
+            if (Card *target = highest(rowFiltered))
+                damage(target, 2, ally, enemy);
+            break;
+        case GoldenFrothEffect:
+            break;
+        case SkelligeStormEffect:
+            break;
+        case DragonsDreamEffect:
+            break;
+        case FullMoonEffect:
+            break;
+        case BloodMoonEffect:
+            break;
+        }
+    };
+    applyRowEffect(ally.rowMeele, ally.rowEffectMeele);
+    applyRowEffect(ally.rowRange, ally.rowEffectRange);
+    applyRowEffect(ally.rowSeige, ally.rowEffectSeige);
+}
+
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial(ally, enemy);
@@ -100,14 +155,26 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    if (takenFrom == Deck)
-        card->onEnterFromDeck(ally, enemy);
-    else if (takenFrom == Discard)
-        card->onEnterFromDiscard(ally, enemy);
-    else if (takenFrom == Hand || takenFrom == AlreadyCreated)
-        card->onEnter(ally, enemy);
-    else
-        assert(false);
+    if (!card->isSpy) {
+        if (takenFrom == Deck)
+            card->onEnterFromDeck(ally, enemy);
+        else if (takenFrom == Discard)
+            card->onEnterFromDiscard(ally, enemy);
+        else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            card->onEnter(ally, enemy);
+        else
+            assert(false);
+
+    } else {
+        if (takenFrom == Deck)
+            card->onEnterFromDeck(enemy, ally);
+        else if (takenFrom == Discard)
+            card->onEnterFromDiscard(enemy, ally);
+        else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            card->onEnter(enemy, ally);
+        else
+            assert(false);
+    }
 
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
@@ -151,27 +218,6 @@ bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-/// return filter: `can be manually selected`
-/// pass self (card source), if any
-Filters canBeSelected(Card *self)
-{
-    return Filters{
-        [self](Card *card) {
-            return !card->isImmune && !card->isAmbush && (card != self);
-        },
-    };
-}
-
-/// return filter: `must be counted to count row(field) power`
-Filters canBeCount()
-{
-    return Filters{
-        [](Card *card) {
-            return !card->isAmbush;
-        },
-    };
-}
-
 bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
 {
     if (field.hand.size() == 0)
@@ -198,6 +244,16 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
     // TODO: if alliesFiltered has exact 1 card
     ally.cardStack.push_back({Target, self, alliesFiltered});
     return true;
+}
+
+void startChoiceToSelectAllyRow(Field &field, Card *self)
+{
+    field.cardStack.push_back({SelectAllyRow, self, {}});
+}
+
+void startChoiceToSelectEnemyRow(Field &field, Card *self)
+{
+    field.cardStack.push_back({SelectEnemyRow, self, {}});
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
@@ -235,6 +291,18 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
     assert(false);
 }
 
+void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
+{
+    const Snapshot snapshot = ally.takeSnapshot();
+    if (snapshot.choice == SelectAllyRow)
+        return applyRowEffect(ally, row, snapshot.cardSource->rowEffect());
+
+    if (snapshot.choice == SelectEnemyRow)
+        return applyRowEffect(enemy, row, snapshot.cardSource->rowEffect());
+
+    assert(false);
+}
+
 void traceField(Field &field)
 {
     std::cout << "meele: ";
@@ -259,6 +327,12 @@ void traceField(Field &field)
         break;
     case SelectEnemyRowAndPos:
         std::cout << "\n\nSelect an opponent row and pos to play a card:\n";
+        break;
+    case SelectAllyRow:
+        std::cout << "\n\nSelect a row:\n";
+        break;
+    case SelectEnemyRow:
+        std::cout << "\n\nSelect an opponent row:\n";
         break;
     case Target:
         std::cout << "\n\nChoose target:\n";
@@ -306,6 +380,19 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
     return nullptr;
 }
 
+Card *highest(const std::vector<Card *> &row)
+{
+    int powerMax = INT_MIN;
+    Card *res = nullptr;
+    for (Card *c : row) {
+        if (c->power < powerMax)
+            continue;
+        powerMax = c->power;
+        res = c;
+    }
+    return res;
+}
+
 const Snapshot &Field::snapshot() const
 {
     assert(cardStack.size() > 0);
@@ -326,9 +413,8 @@ Snapshot Field::takeSnapshot()
     return res;
 }
 
-const std::vector<Card *> &Field::row(Row _row) const
+const std::vector<Card *> &Field::row(const Row _row) const
 {
-
     switch (_row) {
     case Meele:
         return rowMeele;
@@ -341,9 +427,8 @@ const std::vector<Card *> &Field::row(Row _row) const
     }
 }
 
-std::vector<Card *> &Field::row(Row _row)
+std::vector<Card *> &Field::row(const Row _row)
 {
-
     switch (_row) {
     case Meele:
         return rowMeele;
@@ -351,6 +436,20 @@ std::vector<Card *> &Field::row(Row _row)
         return rowRange;
     case Seige:
         return rowSeige;
+    default:
+        assert(_row == Meele || _row == Range || _row == Seige);
+    }
+}
+
+RowEffect &Field::rowEffect(const Row _row)
+{
+    switch (_row) {
+    case Meele:
+        return rowEffectMeele;
+    case Range:
+        return rowEffectRange;
+    case Seige:
+        return rowEffectSeige;
     default:
         assert(_row == Meele || _row == Range || _row == Seige);
     }
@@ -420,6 +519,12 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
         case SelectEnemyRowAndPos:
             res += "Chosse an enemy row and pos";
             break;
+        case SelectAllyRow:
+            res += "Chosse an allied row";
+            break;
+        case SelectEnemyRow:
+            res += "Chosse an enemy row";
+            break;
         case Target:
             res += "Chosse an ability option";
             break;
@@ -444,7 +549,22 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     ally.nTurns++;
 
+
+    // enemy turn
+    triggerRowEffects(enemy, ally);
+
+    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+        _card->onTurnStart(ally, enemy);
+
+    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+        _card->onTurnEnd(ally, enemy);
+
+    enemy.nTurns++;
+
+
     // start next turn
+    triggerRowEffects(ally, enemy);
+
     for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnStart(ally, enemy);
 
@@ -494,4 +614,11 @@ void spawn(Card *card, Field &ally, Field &enemy)
         return;
     }
     return ally.cardStack.push_back({card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card, {}});
+}
+
+void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)
+{
+    assert(row == Meele || row == Range || row == Seige);
+
+    field.rowEffect(row) = rowEffect;
 }

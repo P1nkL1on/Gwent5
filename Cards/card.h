@@ -46,7 +46,10 @@ enum Tag
     Alchemy,
     Item,
     Organic,
+    Tactics,
     Spell,
+    Hazard,
+    Boon,
 
     Neutral,
     Monster,
@@ -56,11 +59,28 @@ enum Tag
     Skellige,
 };
 
+enum RowEffect
+{
+    NoRowEffect,
+    TorrentialRainEffect,
+    BitingFrostEffect,
+    ImpenetrableFogEffect,
+    GoldenFrothEffect,
+    SkelligeStormEffect,
+    DragonsDreamEffect,
+    KorathiHeatwaveEffect,
+    RaghNarRoogEffect,
+    FullMoonEffect,
+    BloodMoonEffect,
+};
+
 enum Choice
 {
     Play,
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
+    SelectAllyRow,
+    SelectEnemyRow,
     Target,
 };
 
@@ -116,6 +136,7 @@ struct Card
     inline virtual void onOtherAllyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherEnemyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
 struct Snapshot
@@ -133,6 +154,9 @@ struct Field
     std::vector<Card *> hand;
     std::vector<Card *> deck;
     std::vector<Card *> discard;
+    RowEffect rowEffectMeele = NoRowEffect;
+    RowEffect rowEffectRange = NoRowEffect;
+    RowEffect rowEffectSeige = NoRowEffect;
 
     std::vector<Card *> deckStarting;
     std::vector<Card *> cardsAdded;
@@ -142,8 +166,9 @@ struct Field
     const Snapshot &snapshot() const;
     Snapshot &snapshot();
     Snapshot takeSnapshot();
-    const std::vector<Card *> &row(Row _row) const;
-    std::vector<Card *> &row(Row _row);
+    const std::vector<Card *> &row(const Row _row) const;
+    std::vector<Card *> &row(const Row _row);
+    RowEffect &rowEffect(const Row _row);
 };
 
 
@@ -157,7 +182,9 @@ bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
+Card *highest(const std::vector<Card *> &row);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
+void triggerRowEffects(Field &ally, Field &enemy);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -170,6 +197,8 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
+
+void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
@@ -184,9 +213,12 @@ void traceField(Field &field);
 using Filters = std::vector<std::function<bool(Card *)> >;
 
 bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
+void startChoiceToSelectAllyRow(Field &field, Card *self);
+void startChoiceToSelectEnemyRow(Field &field, Card *self);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
+void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 
