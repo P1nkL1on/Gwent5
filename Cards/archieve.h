@@ -75,24 +75,9 @@ struct RedanianKnightElect : Card
 
 struct KaedweniKnight : Card
 {
-    KaedweniKnight()
-    {
-        name = "Kaedweni Knight";
-        url = "https://gwent.one/image/card/low/cid/png/201622.png";
-        power = powerBase = 8;
-        rarity = Bronze;
-        faction = NothernRealms;
-        tags = { Soldier, Kaedwen };
-    }
-    void onEnter(Field &ally, Field &enemy) override
-    {
-        gainArmor(this, 2, ally, enemy);
-    }
-    void onEnterFromDeck(Field &ally, Field &enemy) override
-    {
-        gainArmor(this, 2, ally, enemy);
-        boost(this, 5, ally, enemy);
-    }
+    KaedweniKnight();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onEnterFromDeck(Field &ally, Field &enemy) override;
 };
 
 struct AnCraiteMarauder : Card
@@ -351,6 +336,21 @@ struct ReaverScout : Card
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 
+};
+
+struct HeymaeySpearmaiden : Card
+{
+    HeymaeySpearmaiden();
+    static bool isBronzeSoldierOrMachineAllyWhichHasCopyInADeck(Card *card, const Field &field);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct VriheddSappers : Card
+{
+    VriheddSappers();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTurnStart(Field &ally, Field &enemy) override;
 };
 
 #endif // CARDS_H

@@ -13,7 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Eleyas, new Eleyas, new ReaverScout, new ReaverScout,
+        new VriheddSappers, new VriheddSappers, new VriheddSappers,
+        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+        new Eleyas, new Eleyas, new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
         new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new Reinforcements, new Reinforcements,
         new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
 //        new SileDeTansarville, new Ves, new TemerianDrummer, new JohnNatalis,
@@ -298,15 +300,17 @@ void MainWindow::paintEvent(QPaintEvent *e)
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
 
         /// draw url image
-        if (card->url.size() > 0) {
+        if (!card->isAmbush && (card->url.size() > 0)) {
             requestImageByUrl(card->url);
             const QImage image = _pixMapsLoaded.value(QString::fromStdString(card->url));
             painter.drawImage(rectBorder, image);
         }
 
         /// draw rarity
-        painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
-        painter.drawRect(rectBorder);
+        if (!card->isAmbush) {
+            painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
+            painter.drawRect(rectBorder);
+        }
 
         /// draw selection border
         if (_ally.cardStack.size() && isIn(card, _ally.snapshot().cardOptions)) {
@@ -328,6 +332,10 @@ void MainWindow::paintEvent(QPaintEvent *e)
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
+
+        if (card->isAmbush)
+            return;
+
         /// draw power
         double width = 0;
         if (card->power) {

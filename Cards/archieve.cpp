@@ -7,7 +7,7 @@ AddaStriga::AddaStriga()
     power = powerBase = 6;
     rarity = Silver;
     faction = Monster;
-    tags = { Cursed, Relict };
+    tags = { Relict, Cursed };
 }
 
 bool AddaStriga::isNonMonster(Card *card)
@@ -57,7 +57,7 @@ PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
     power = powerBase = 2;
     rarity = Bronze;
     faction = NothernRealms;
-    tags = { Soldier, Temeria };
+    tags = { Temeria, Soldier };
     isDoomed = true;
 }
 
@@ -68,7 +68,7 @@ PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
     power = powerBase = 2;
     rarity = Bronze;
     faction = NothernRealms;
-    tags = { Soldier, Temeria };
+    tags = { Temeria, Soldier };
     isDoomed = true;
 }
 
@@ -79,7 +79,7 @@ PoorFingInfantry::PoorFingInfantry()
     power = powerBase = 6;
     rarity = Bronze;
     faction = NothernRealms;
-    tags = { Soldier, Temeria };
+    tags = { Temeria, Soldier };
 }
 
 void PoorFingInfantry::onEnter(Field &ally, Field &enemy)
@@ -99,7 +99,7 @@ DeithwenArbalest::DeithwenArbalest()
     power = powerBase = 7;
     rarity = Bronze;
     faction = Nilfgaard;
-    tags = { Nilfgaard };
+    tags = { Soldier };
 }
 
 void DeithwenArbalest::onEnter(Field &ally, Field &enemy)
@@ -211,7 +211,7 @@ AnCraiteMarauder::AnCraiteMarauder()
     power = powerBase = 7;
     rarity = Bronze;
     faction = Skellige;
-    tags = { Soldier, ClanAnCraite };
+    tags = { ClanAnCraite, Soldier };
 }
 
 AnCraiteGreatsword::AnCraiteGreatsword()
@@ -221,7 +221,7 @@ AnCraiteGreatsword::AnCraiteGreatsword()
     power = powerBase = 8;
     rarity = Bronze;
     faction = Skellige;
-    tags = { Soldier, ClanAnCraite };
+    tags = { ClanAnCraite, Soldier };
 }
 
 void AnCraiteGreatsword::onEnter(Field &, Field &)
@@ -459,7 +459,7 @@ KeiraMetz::KeiraMetz()
     power = powerBase = 6;
     rarity = Gold;
     faction = NothernRealms;
-    tags = { Mage, Temeria };
+    tags = { Temeria, Mage };
 }
 
 void KeiraMetz::onEnter(Field &ally, Field &)
@@ -488,7 +488,7 @@ DolBlathannaArcher::DolBlathannaArcher()
     power = powerBase = 7;
     rarity = Bronze;
     faction = Scoiatael;
-    tags = { Soldier, Elf };
+    tags = { Elf, Soldier };
 }
 
 void DolBlathannaArcher::onEnter(Field &ally, Field &enemy)
@@ -510,7 +510,7 @@ HalfElfHunter::HalfElfHunter()
     power = powerBase = 6;
     rarity = Bronze;
     faction = Scoiatael;
-    tags = { Soldier, Elf };
+    tags = { Elf, Soldier };
 }
 
 void HalfElfHunter::onEnter(Field &ally, Field &enemy)
@@ -763,7 +763,7 @@ Ves::Ves()
     power = powerBase = 12;
     rarity = Silver;
     faction = NothernRealms;
-    tags = { Soldier, Temeria };
+    tags = { Temeria, Soldier };
 }
 
 void Ves::onEnter(Field &ally, Field &enemy)
@@ -947,7 +947,7 @@ Eleyas::Eleyas()
     power = powerBase = 10;
     rarity = Silver;
     faction = Scoiatael;
-    tags = { Soldier, Elf };
+    tags = { Elf, Soldier };
 }
 
 void Eleyas::onDraw(Field &ally, Field &enemy)
@@ -984,4 +984,77 @@ void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (Card *copy = findCopy(target, ally.deck))
         playACard(copy, ally, enemy);
+}
+
+HeymaeySpearmaiden::HeymaeySpearmaiden()
+{
+    name = "Heymaey Spearmaiden";
+    url = "https://gwent.one/image/card/low/cid/png/200528.png";
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanAnCraite, Support };
+}
+
+bool HeymaeySpearmaiden::isBronzeSoldierOrMachineAllyWhichHasCopyInADeck(Card *card, const Field &field)
+{
+    return (card->rarity == Bronze) && (hasTag(card, Soldier) || hasTag(card, Machine)) && (findCopy(card, field.deck) != nullptr);
+}
+
+void HeymaeySpearmaiden::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {std::bind(isBronzeSoldierOrMachineAllyWhichHasCopyInADeck, std::placeholders::_1, ally)}, Ally);
+}
+
+void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    damage(target, 1, ally, enemy);
+    if (Card *copy = findCopy(target, ally.deck))
+        playACard(copy, ally, enemy);
+}
+
+KaedweniKnight::KaedweniKnight()
+{
+    name = "Kaedweni Knight";
+    url = "https://gwent.one/image/card/low/cid/png/201622.png";
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+}
+
+void KaedweniKnight::onEnter(Field &ally, Field &enemy)
+{
+    gainArmor(this, 2, ally, enemy);
+}
+
+void KaedweniKnight::onEnterFromDeck(Field &ally, Field &enemy)
+{
+    gainArmor(this, 2, ally, enemy);
+    boost(this, 5, ally, enemy);
+}
+
+VriheddSappers::VriheddSappers()
+{
+    name = "Vrihedd Sappers";
+    url = "https://gwent.one/image/card/low/cid/png/142307.png";
+    power = powerBase = 11;
+    rarity = Bronze;
+    faction = Scoiatael;
+    tags = { Elf, Soldier };
+}
+
+void VriheddSappers::onEnter(Field &, Field &)
+{
+    timer = 2;
+    isAmbush = true;
+}
+
+void VriheddSappers::onTurnStart(Field &, Field &)
+{
+    if (!timer)
+        return;
+    if (--timer)
+        return;
+    isAmbush = false;
 }
