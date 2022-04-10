@@ -178,6 +178,7 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
 
 void playACard(Card *card, Field &ally, Field &enemy)
 {
+    assert(card != nullptr);
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy);
         putOnDiscard(card, ally, enemy);
@@ -504,6 +505,26 @@ std::vector<Card *> highests(const std::vector<Card *> &row)
 Card *highest(const std::vector<Card *> &row)
 {
     std::vector<Card *> res = highests(row);
+    if (res.size() == 0)
+        return nullptr;
+
+    // TODO: using random
+    return res[std::default_random_engine{}() % res.size()];
+}
+
+std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
+{
+    std::vector<Card *> res;
+    for (Card *_card : cards)
+        if (_card->name == card->name)
+            res.push_back(_card);
+
+    return res;
+}
+
+Card *findCopy(const Card *card, const std::vector<Card *> &cards)
+{
+    std::vector<Card *> res = findCopies(card, cards);
     if (res.size() == 0)
         return nullptr;
 

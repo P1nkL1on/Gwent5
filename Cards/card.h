@@ -208,6 +208,8 @@ Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row);
+std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
+Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
@@ -228,6 +230,7 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
 /// call play as special or start choosing a row and pos to play a unit
 void playACard(Card *card, Field &ally, Field &enemy);
+
 
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 

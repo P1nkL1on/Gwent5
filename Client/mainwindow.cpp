@@ -13,11 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Eleyas, new Eleyas,
-        new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new AlzursThunder,
+        new Eleyas, new Eleyas, new ReaverScout, new ReaverScout,
+        new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new Reinforcements, new Reinforcements,
         new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-        new SileDeTansarville, new Ves, new TemerianDrummer, new JohnNatalis,
-        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
+//        new SileDeTansarville, new Ves, new TemerianDrummer, new JohnNatalis,
+//        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
         new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
     };
 

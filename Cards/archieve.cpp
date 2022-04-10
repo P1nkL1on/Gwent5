@@ -959,3 +959,29 @@ void Eleyas::onSwap(Field &ally, Field &enemy)
 {
     boost(this, 2, ally, enemy);
 }
+
+ReaverScout::ReaverScout()
+{
+    name = "Reaver Scout";
+    url = "https://gwent.one/image/card/low/cid/png/122307.png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Redania, Support };
+}
+
+bool ReaverScout::isDifferentBronzeAllyWhichHasCopyInADeck(Card *card, const Field &field)
+{
+    return (card->name != "Reaver Scout") && (card->rarity == Bronze) && (findCopy(card, field.deck) != nullptr);
+}
+
+void ReaverScout::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {std::bind(isDifferentBronzeAllyWhichHasCopyInADeck, std::placeholders::_1, ally)}, Ally);
+}
+
+void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (Card *copy = findCopy(target, ally.deck))
+        playACard(copy, ally, enemy);
+}

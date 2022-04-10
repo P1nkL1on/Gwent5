@@ -344,4 +344,13 @@ struct Eleyas : Card
     void onSwap(Field &ally, Field &enemy) override;
 };
 
+struct ReaverScout : Card
+{
+    ReaverScout();
+    static bool isDifferentBronzeAllyWhichHasCopyInADeck(Card *card, const Field &field);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+
+};
+
 #endif // CARDS_H
