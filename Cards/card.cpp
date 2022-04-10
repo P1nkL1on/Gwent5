@@ -85,7 +85,7 @@ Filters canBeCount()
 void triggerRowEffects(Field &ally, Field &enemy)
 {
     const auto applyRowEffect = [&](const std::vector<Card *> &row, const RowEffect effect) {
-        const std::vector<Card *> rowFiltered = filtered(canBeCount(), row);
+        const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
         switch (effect) {
         case NoRowEffect:
             break;
@@ -144,12 +144,22 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial(ally, enemy);
 
-    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
             _card->onOtherAllySpecialPlayed(card);
 
-    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
         _card->onOtherEnemySpecialPlayed(card);
+}
+
+void playACard(Card *card, Field &ally, Field &enemy)
+{
+    if (card->isSpecial) {
+        playAsSpecial(card, ally, enemy);
+        putOnDiscard(card, ally, enemy);
+        return;
+    }
+    return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
 }
 
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
@@ -202,11 +212,11 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             assert(false);
     }
 
-    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
         if (_card != card)
                 _card->onOtherAllyEntered(card);
 
-    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
          _card->onOtherEnemyEntered(card);
 
 }
@@ -244,40 +254,20 @@ bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters)
-{
-    if (field.hand.size() == 0)
-        return false;
-    // TODO: if hand has exact 1 card
-    const std::vector<Card *> hand = field.hand;
-    field.cardStack.push_back(Snapshot(RoundStartPlay, self, filtered(filters, hand)));
-    return true;
-}
-
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
-    const std::vector<Card *> cards = [&]{
-        if (group == Ally)
-            return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
-        if (group == Enemy)
-            return united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
-        if (group == AllyHand)
-            return ally.hand;
-        assert(group == Any);
-        return united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
-    }();
-    const std::vector<Card *> cardsFiltered = filtered(canBeSelected(self), filtered(filters, cards));
-    if (cardsFiltered.size() == 0)
+    const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
+    if (cards.size() == 0)
         return false;
 
     /// checking if already can be selected
-    if (!isOptional && int(cardsFiltered.size()) <= nTargets) {
-        for (Card *card : cardsFiltered)
+    if (!isOptional && int(cards.size()) <= nTargets) {
+        for (Card *card : cards)
             self->onTargetChoosen(card, ally, enemy);
         return true;
     }
 
-    ally.cardStack.push_back(Snapshot(Target, self, cardsFiltered, nTargets, isOptional));
+    ally.cardStack.push_back(Snapshot(Target, self, cards, nTargets, isOptional));
     return true;
 }
 
@@ -298,12 +288,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
     if (snapshot.choice == RoundStartPlay) {
         assert(card != nullptr);
         assert(snapshot.nTargets == 1);
-        if (card->isSpecial) {
-            playAsSpecial(card, ally, enemy);
-            putOnDiscard(card, ally, enemy);
-            return;
-        }
-        return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
+        return playACard(card, ally, enemy);
     }
     if (snapshot.choice == Target) {
         Snapshot snapshotNext = snapshot;
@@ -375,7 +360,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     }
 
     /// start a game after start swap
-    startChoiceToPlayCard(ally, nullptr);
+    ally.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, ally.hand, 1, true));
 }
 
 void traceField(Field &field)
@@ -456,6 +441,31 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
     if (rowAndPos(card, enemy, row, pos))
         return cardAtRowAndPos(row, pos + offset, enemy);
     return nullptr;
+}
+
+std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group)
+{
+    const std::vector<Card *> cards = [ally, enemy, group]{
+        if (group == Ally)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
+
+        if (group == Enemy)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
+
+        if (group == AllyHand)
+            return ally.hand;
+
+        if (group == AllyDeckShuffled) {
+            std::vector<Card *> deck = ally.deck;
+            shuffle(deck);
+            return deck;
+        }
+
+        assert(group == Any);
+        return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
+    }();
+
+    return _filtered(filters, cards);
 }
 
 std::vector<Card *> highests(const std::vector<Card *> &row)
@@ -688,7 +698,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
         return false;
 
     // finish turn
-    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
     ally.nTurns++;
@@ -697,10 +707,10 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     // enemy turn
     triggerRowEffects(enemy, ally);
 
-    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
         _card->onTurnStart(ally, enemy);
 
-    for (Card *_card : united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
     enemy.nTurns++;
@@ -709,18 +719,19 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     // start next turn
     triggerRowEffects(ally, enemy);
 
-    for (Card *_card : united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnStart(ally, enemy);
 
     // play a new card on a new turn
-    return startChoiceToPlayCard(ally, nullptr);
+    ally.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, ally.hand, 1, false));
+    return true;
 }
 
 int powerField(const Field &field)
 {
     int res = 0;
-    const std::vector<Card *> units = united(Rows{field.rowMeele, field.rowRange, field.rowSeige});
-    for (const Card *card : filtered(canBeCount(), units))
+    const std::vector<Card *> units = _united(Rows{field.rowMeele, field.rowRange, field.rowSeige});
+    for (const Card *card : _filtered(canBeCount(), units))
         res += card->power;
     return res;
 }
@@ -728,7 +739,7 @@ int powerField(const Field &field)
 int powerRow(const std::vector<Card *> &vector)
 {
     int res = 0;
-    for (const Card *card : filtered(canBeCount(), vector))
+    for (const Card *card : _filtered(canBeCount(), vector))
         res += card->power;
     return res;
 }

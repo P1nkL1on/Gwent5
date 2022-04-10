@@ -40,9 +40,11 @@ enum Tag
     ClanTuirseach,
     Agent,
     Support,
+    Officer,
     Mage,
     Soldier,
     Elf,
+    Dwarf,
     Machine,
     Alchemy,
     Item,
@@ -94,6 +96,7 @@ enum ChoiceGroup
     Enemy,
     /// others
     AllyHand,
+    AllyDeckShuffled,
 };
 
 
@@ -217,6 +220,9 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy);
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
+/// call play as special or start choosing a row and pos to play a unit
+void playACard(Card *card, Field &ally, Field &enemy);
+
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
@@ -234,7 +240,7 @@ void traceField(Field &field);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 
-bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
+std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1, const bool isOptional = false);

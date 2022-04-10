@@ -10,10 +10,10 @@ template <typename ItBase>
 struct ItFilter;
 
 template <typename Ts>
-Ts filtered(const std::vector<typename ItFilter<typename Ts::const_iterator>::Filter> &filters, const Ts &ts);
+Ts _filtered(const std::vector<typename ItFilter<typename Ts::const_iterator>::Filter> &filters, const Ts &ts);
 
 template <typename Ts>
-Ts united(const std::vector<const Ts &> &tss);
+Ts _united(const std::vector<const Ts &> &tss);
 
 
 
@@ -26,7 +26,7 @@ Ts united(const std::vector<const Ts &> &tss);
 /// imlementation
 
 template <typename Ts>
-Ts filtered(const std::vector<std::function<bool (typename Ts::const_iterator::value_type)>> &filters, const Ts &ts)
+Ts _filtered(const std::vector<std::function<bool (typename Ts::const_iterator::value_type)>> &filters, const Ts &ts)
 {
     Ts dst;
     for (size_t i = 0; i < ts.size(); ++i) {
@@ -44,7 +44,7 @@ Ts filtered(const std::vector<std::function<bool (typename Ts::const_iterator::v
 }
 
 template <typename Ts>
-Ts united(const std::vector<Ts> &vectors)
+Ts _united(const std::vector<Ts> &vectors)
 {
     size_t total = 0;
     for (const Ts &ts : vectors)

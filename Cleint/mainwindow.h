@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QSet>
 
-#include "../Cards/cards.h"
+#include "../Cards/archieve.h"
 
 struct View
 {

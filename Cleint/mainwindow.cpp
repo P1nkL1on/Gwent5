@@ -13,17 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Frightener, new Frightener, new Frightener, new Scorch,
-        new Vaedermakar, new Vaedermakar, new Ves, new TuirseachBearmaster, //new DandelionPoet,
-//        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-        new TuirseachArcher, new TuirseachArcher, new TemerianDrummer,
-//        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
-//        new Infiltrator, new Infiltrator,
-        new Ambassador, new Ambassador, new Assassin, new Assassin, new Assassin,
-        new DolBlathannaArcher, new DolBlathannaArcher,
-//        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
-//        new KeiraMetz, new ArachasVenom, new Thunderbolt, new AlzursThunder, new TuirseachBearmaster, new TuirseachBearmaster,
-//        new AnCraiteGreatsword, new DimunDracar, new Swallow, new RedanianKnightElect, new RedanianKnightElect,
+        new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new AlzursThunder,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+        new SileDeTansarville, new Ves, new TemerianDrummer, new JohnNatalis,
+        new ManticoreVenom, new ImperialManticore, new GloriousHunt,
+        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
     };
     initField(deckStarting, _ally);
     shuffle(_ally.deck);
