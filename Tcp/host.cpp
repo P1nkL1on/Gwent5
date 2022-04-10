@@ -1,8 +1,8 @@
 #include "host.h"
 
 #include <QTcpSocket>
+#include <QTcpServer>
 #include <QNetworkInterface>
-
 
 Host::Host(QObject *parent) :
     QObject(parent)
@@ -31,7 +31,16 @@ Host::Host(QObject *parent) :
             Qt::UniqueConnection);
 }
 
-bool Host::addressResAndPort(QHostAddress &hostAddress, int &port) const
+Host::~Host()
+{
+    if (_tcpServer != nullptr)
+        delete _tcpServer;
+
+    if (_tcpSocket != nullptr)
+        delete _tcpSocket;
+}
+
+bool Host::addressResAndPort(QHostAddress &hostAddress, quint16 &port) const
 {
     if (_tcpServer == nullptr)
         return false;
@@ -41,24 +50,30 @@ bool Host::addressResAndPort(QHostAddress &hostAddress, int &port) const
     return true;
 }
 
+void Host::sendMessage(const QString &string)
+{
+    Q_ASSERT(_tcpSocket != nullptr);
+
+    _tcpSocket->write(string.toLatin1());
+}
+
 void Host::onNewConnection()
 {
     Q_ASSERT(_tcpServer != nullptr);
+    Q_ASSERT(_tcpSocket == nullptr);
 
-    auto *socket = _tcpServer->nextPendingConnection();
+    _tcpSocket = _tcpServer->nextPendingConnection();
 
-    connect(socket, &QTcpSocket::readyRead, this, &Host::onReadyRead,
+    connect(_tcpSocket, &QTcpSocket::readyRead, this, &Host::onReadyRead,
             Qt::UniqueConnection);
+    emit connected();
 }
 
 void Host::onReadyRead()
 {
-    QObject *tcpSocket = sender();
-    Q_ASSERT(tcpSocket != nullptr);
-    QTcpSocket *_tcpSocket = dynamic_cast<QTcpSocket *>(tcpSocket);
     Q_ASSERT(_tcpSocket != nullptr);
 
     const QString socketMessage = QString::fromLatin1(_tcpSocket->readAll());
-
     qInfo() << "Host::onReadyRead()" << socketMessage;
+    emit message(socketMessage);
 }

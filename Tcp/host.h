@@ -1,17 +1,24 @@
 #ifndef HOST_H
 #define HOST_H
 
-#include <QTcpServer>
+#include <QObject>
+#include <QHostAddress>
+
+class QTcpServer;
+class QTcpSocket;
 
 class Host : public QObject
 {
     Q_OBJECT
 public:
     explicit Host(QObject *parent = nullptr);
-    bool addressResAndPort(QHostAddress &hostAddress, int &port) const;
+    ~Host() override;
+    bool addressResAndPort(QHostAddress &hostAddress, quint16 &port) const;
+    void sendMessage(const QString &string);
 
 signals:
     void connected();
+    void message(const QString &string);
 
 private slots:
     void onNewConnection();
@@ -19,6 +26,7 @@ private slots:
 
 private:
     QTcpServer *_tcpServer = nullptr;
+    QTcpSocket *_tcpSocket = nullptr;
 };
 
 #endif // HOST_H

@@ -6,8 +6,10 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    host.cpp
+    host.cpp \
+    client.cpp
 
 HEADERS += \
     mainwindow.h \
-    host.h
+    host.h \
+    client.h
