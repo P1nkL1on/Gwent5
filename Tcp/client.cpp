@@ -22,7 +22,7 @@ bool Client::connectTo(const QHostAddress &hostAddress, const quint16 port)
     _tcpSocket = new QTcpSocket(this);
     _tcpSocket->abort();
     _tcpSocket->connectToHost(hostAddress.toString(), port);
-    if (!_tcpSocket->waitForConnected(5000)) {
+    if (!_tcpSocket->waitForConnected(_msTimeout)) {
         delete _tcpSocket;
         _tcpSocket = nullptr;
         qCritical() << "Can't connect tcp client" << _tcpSocket->errorString();
@@ -30,6 +30,20 @@ bool Client::connectTo(const QHostAddress &hostAddress, const quint16 port)
     }
 
     connect(_tcpSocket, &QAbstractSocket::readyRead, this, &Client::onReadyRead, Qt::UniqueConnection);
+    return true;
+}
+
+bool Client::disconnect()
+{
+    Q_ASSERT(_tcpSocket != nullptr);
+
+    _tcpSocket->disconnectFromHost();
+    if (!_tcpSocket->waitForDisconnected(_msTimeout)) {
+        return false;
+    }
+
+    delete _tcpSocket;
+    _tcpSocket = nullptr;
     return true;
 }
 
@@ -48,3 +62,4 @@ void Client::onReadyRead()
     qInfo() << "Client::onReadyRead()" << socketMessage;
     emit message(socketMessage);
 }
+

@@ -1,30 +1,91 @@
 #include "mainwindow.h"
 
 #include <QEventLoop>
+#include <QFormLayout>
+#include <QLabel>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    _host = new Host();
+    auto *formLayout = new QFormLayout;
 
-    QHostAddress hostAddress;
-    quint16 port;
+    auto *buttonStartHost = new QPushButton("Start");
+    auto *buttonCloseHost = new QPushButton("Close");
+    auto *buttonMessageHost = new QPushButton("Send Message");
+    auto *buttonConnectClient = new QPushButton("Connect");
+    auto *buttonCloseClient = new QPushButton("Close");
+    auto *buttonMessageClient = new QPushButton("Send Message");
+    auto *labelAddress = new QLabel;
+    auto *labelPort = new QLabel;
 
-    if (!_host->addressResAndPort(hostAddress, port))
-        return;
+    formLayout->addRow("Host", buttonStartHost);
+    formLayout->addRow("", buttonCloseHost);
+    formLayout->addRow("", buttonMessageHost);
+    formLayout->addRow("Address", labelAddress);
+    formLayout->addRow("Port", labelPort);
+    formLayout->addRow("Client", buttonConnectClient);
+    formLayout->addRow("", buttonCloseClient);
+    formLayout->addRow("", buttonMessageClient);
 
-    qInfo() << "TCP Server started" << hostAddress << port;
+    auto *centralWidget = new QWidget;
+    centralWidget->setLayout(formLayout);
+
+    setCentralWidget(centralWidget);
+
+    buttonCloseHost->setEnabled(false);
+    buttonMessageHost->setEnabled(false);
+    buttonCloseClient->setEnabled(false);
+    buttonMessageClient->setEnabled(false);
 
     _client = new Client();
-    if (!_client->connectTo(hostAddress, port))
-        return;
 
-    qInfo() << "TCP Client connected";
+    connect(buttonStartHost, &QPushButton::clicked, this, [=]{
+        Q_ASSERT(_host == nullptr);
+        _host = new Host;
+        buttonStartHost->setEnabled(false);
+        QHostAddress address;
+        quint16 port;
+        if (!_host->addressResAndPort(address, port)) {
+            buttonStartHost->setEnabled(true);
+            delete _host;
+            _host = nullptr;
+            return;
+        }
 
-    QEventLoop loop;
-    connect(_host, &Host::connected, &loop, &QEventLoop::quit);
-    loop.exec(QEventLoop::ExcludeUserInputEvents);
+        labelAddress->setText(address.toString());
+        labelPort->setText(QString::number(port));
+        buttonCloseHost->setEnabled(true);
+        buttonConnectClient->setEnabled(true);
+        connect(_host, &Host::clientConnected, this, [=]{
+            buttonMessageHost->setEnabled(true);
+        });
+    });
 
-    _client->sendMessage("Hello, its a client!");
-    _host->sendMessage("Hello, its a host!");
+    connect(buttonConnectClient, &QPushButton::clicked, this, [=]{
+        if (_host == nullptr) {
+            qWarning() << "No server";
+            return;
+        }
+        buttonConnectClient->setEnabled(false);
+        QHostAddress address;
+        quint16 port;
+        const bool isOk = _host->addressResAndPort(address, port);
+        Q_ASSERT(isOk);
+        if (!_client->connectTo(address, port)) {
+            buttonConnectClient->setEnabled(true);
+            return;
+        }
+
+        buttonCloseClient->setEnabled(true);
+        buttonMessageClient->setEnabled(true);
+    });
+
+    connect(buttonMessageHost, &QPushButton::clicked, this, [=]{
+        _host->sendMessage("Host sends a message!");
+    });
+
+    connect(buttonMessageClient, &QPushButton::clicked, this, [=]{
+        _client->sendMessage("Client sends a message!");
+    });
 }

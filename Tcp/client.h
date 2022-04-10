@@ -13,7 +13,10 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = nullptr);
     ~Client() override;
+    /// try connect, wait in main thread, return if success
     bool connectTo(const QHostAddress &hostAddress, const quint16 port);
+    /// if connected try disconnect, wait in main thread, return if success
+    bool disconnect();
     void sendMessage(const QString &string);
 
 signals:
@@ -24,6 +27,7 @@ private slots:
 
 private:
     QTcpSocket *_tcpSocket = nullptr;
+    int _msTimeout = 5000;
 };
 
 #endif // CLIENT_H

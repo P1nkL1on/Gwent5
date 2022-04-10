@@ -11,13 +11,14 @@ class Host : public QObject
 {
     Q_OBJECT
 public:
+    /// try start, wait in main thread
     explicit Host(QObject *parent = nullptr);
     ~Host() override;
     bool addressResAndPort(QHostAddress &hostAddress, quint16 &port) const;
     void sendMessage(const QString &string);
 
 signals:
-    void connected();
+    void clientConnected();
     void message(const QString &string);
 
 private slots:

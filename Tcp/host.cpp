@@ -66,7 +66,7 @@ void Host::onNewConnection()
 
     connect(_tcpSocket, &QTcpSocket::readyRead, this, &Host::onReadyRead,
             Qt::UniqueConnection);
-    emit connected();
+    emit clientConnected();
 }
 
 void Host::onReadyRead()
