@@ -132,6 +132,35 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
     field.rowEffectRange = NoRowEffect;
     field.rowEffectSeige = NoRowEffect;
     field.nTurns = 0;
+
+    /// shuffle a deck
+    shuffle(field.deck);
+}
+
+void startNextRound(Field &ally, Field &enemy)
+{
+    ally.nRounds++;
+
+    int nDraw = 0;
+    int nSwap = 0;
+    if (ally.nRounds == 1) {
+        nDraw = 10;
+        nSwap = 3;
+    } else if (ally.nRounds == 2) {
+        nDraw = 2;
+        nSwap = 1;
+    } else if (ally.nRounds == 3) {
+        nDraw = 1;
+        nSwap = 1;
+    } else {
+        assert(false);
+    }
+
+    while (nDraw--)
+        drawACard(ally, enemy);
+
+    /// start a round start swapping
+    ally.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, ally.hand, nSwap, true));
 }
 
 void shuffle(std::vector<Card *> &cards)
@@ -144,12 +173,7 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial(ally, enemy);
 
-    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
-        if (_card != card)
-            _card->onOtherAllySpecialPlayed(card);
-
-    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
-        _card->onOtherEnemySpecialPlayed(card);
+    // TODO: others trigger special
 }
 
 void playACard(Card *card, Field &ally, Field &enemy)
@@ -212,13 +236,8 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             assert(false);
     }
 
-    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck}))
-        if (_card != card)
-                _card->onOtherAllyEntered(card);
 
-    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck}))
-         _card->onOtherEnemyEntered(card);
-
+    // TODO: others trigger enter
 }
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
@@ -522,8 +541,10 @@ const std::vector<Card *> &Field::row(const Row _row) const
     case Seige:
         return rowSeige;
     default:
-        assert(_row == Meele || _row == Range || _row == Seige);
+        break;
     }
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return rowMeele;
 }
 
 std::vector<Card *> &Field::row(const Row _row)
@@ -536,8 +557,10 @@ std::vector<Card *> &Field::row(const Row _row)
     case Seige:
         return rowSeige;
     default:
-        assert(_row == Meele || _row == Range || _row == Seige);
+        break;
     }
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return rowMeele;
 }
 
 RowEffect &Field::rowEffect(const Row _row)
@@ -550,11 +573,13 @@ RowEffect &Field::rowEffect(const Row _row)
     case Seige:
         return rowEffectSeige;
     default:
-        assert(_row == Meele || _row == Range || _row == Seige);
+        break;
     }
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return rowEffectMeele;
 }
 
-bool drawACard(Field &ally, Field &)
+bool drawACard(Field &ally, Field &enemy)
 {
     if (ally.deck.size() == 0)
         return false;
@@ -563,6 +588,7 @@ bool drawACard(Field &ally, Field &)
     ally.deck.erase(ally.deck.begin());
     ally.hand.push_back(card);
 
+    card->onDraw(ally, enemy);
     // TODO: trigger all onDrawn abilities
 
     return true;
@@ -571,7 +597,10 @@ bool drawACard(Field &ally, Field &)
 void swapACard(Card *card, Field &ally, Field &enemy)
 {
     if (ally.deck.size() == 0) {
-        // TODO: trigger all onSwap abilities
+        card->onSwap(ally, enemy);
+        // TODO: trigger all others onSwap abilities
+        card->onDraw(ally, enemy);
+        // TODO: trigger all others onDrawn abilities
         return;
     }
 
@@ -582,13 +611,14 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     // TODO: use random
     const int ind = 1 + (std::default_random_engine {})() % ally.deck.size();
     ally.deck.insert(ally.deck.begin() + ind, card);
+    card->onSwap(ally, enemy);
+    // TODO: trigger all others onSwap abilities
 
-    // TODO: trigger all onSwap abilities
     const bool drawn = drawACard(ally, enemy);
     assert(drawn);
 }
 
-void destroy(Card *card, Field &, Field &)
+void destroy(Card *, Field &, Field &)
 {
     // TODO: destoy
 }
@@ -612,6 +642,11 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
             return;
     }
     card->power -= dmgInPower;
+
+    if (card->power > 0) {
+        card->onDamaged(dmgInPower, ally, enemy);
+    }
+    // TODO: others trigger on damaged
 }
 
 void boost(Card *card, const int x, Field &, Field &)
@@ -619,6 +654,8 @@ void boost(Card *card, const int x, Field &, Field &)
     assert(x > 0);
 
     card->power += x;
+
+    // TODO: others trigger on boosted
 }
 
 void strengthen(Card *card, const int x, Field &, Field &)
@@ -627,6 +664,8 @@ void strengthen(Card *card, const int x, Field &, Field &)
 
     card->power += x;
     card->powerBase += x;
+
+    // TODO: others trigger on strengthen
 }
 
 void weaken(Card *card, const int x, Field &, Field &)
@@ -637,6 +676,8 @@ void weaken(Card *card, const int x, Field &, Field &)
     card->powerBase -= x;
 
     // TODO: check banish
+
+    // TODO: others trigger on weaken
 }
 
 void gainArmor(Card *card, const int x, Field &, Field &)

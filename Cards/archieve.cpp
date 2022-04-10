@@ -939,3 +939,23 @@ void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playACard(target, ally, enemy);
 }
+
+Eleyas::Eleyas()
+{
+    name = "Ele'yas";
+    url = "https://gwent.one/image/card/low/cid/png/142214.png";
+    power = powerBase = 10;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Soldier, Elf };
+}
+
+void Eleyas::onDraw(Field &ally, Field &enemy)
+{
+    boost(this, 2, ally, enemy);
+}
+
+void Eleyas::onSwap(Field &ally, Field &enemy)
+{
+    boost(this, 2, ally, enemy);
+}

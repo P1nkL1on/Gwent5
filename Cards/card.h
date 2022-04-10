@@ -130,18 +130,22 @@ struct Card
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDraw() {}
+    inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDie(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyEntered(Card *) {}
-    inline virtual void onOtherEnemyEntered(Card *) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllySpecialPlayed(Card *) {}
-    inline virtual void onOtherEnemySpecialPlayed(Card *) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherEnemyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherAllyEntered(Card *) {}
+//    inline virtual void onOtherEnemyEntered(Card *) {}
+//    inline virtual void onOtherAllySpecialPlayed(Card *) {}
+//    inline virtual void onOtherEnemySpecialPlayed(Card *) {}
+//    inline virtual void onOtherAllyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
@@ -181,6 +185,7 @@ struct Field
     std::vector<Card *> cardsAdded;
     std::vector<Snapshot> cardStack;
     int nTurns = 0;
+    int nRounds = 0;
 
     const Snapshot &snapshot() const;
     Snapshot &snapshot();
@@ -206,6 +211,7 @@ Card *highest(const std::vector<Card *> &row);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
+void startNextRound(Field &ally, Field &enemy);
 void shuffle(std::vector<Card *> &cards);
 
 /// find a place of a card in the field. returns false if non found

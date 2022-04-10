@@ -337,4 +337,11 @@ struct JohnNatalis : Card
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
+struct Eleyas : Card
+{
+    Eleyas();
+    void onDraw(Field &ally, Field &enemy) override;
+    void onSwap(Field &ally, Field &enemy) override;
+};
+
 #endif // CARDS_H

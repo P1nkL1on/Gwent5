@@ -13,22 +13,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
+        new Eleyas, new Eleyas,
         new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new AlzursThunder,
         new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
         new SileDeTansarville, new Ves, new TemerianDrummer, new JohnNatalis,
         new ManticoreVenom, new ImperialManticore, new GloriousHunt,
         new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
     };
+
     initField(deckStarting, _ally);
-    shuffle(_ally.deck);
-
-
-    int nCards = 10;
-    while (nCards && drawACard(_ally, _enemy))
-        nCards--;
-
-
-    _ally.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, _ally.hand, 3, true));
+    startNextRound(_ally, _enemy);
 
 
     resize(600, 450);
