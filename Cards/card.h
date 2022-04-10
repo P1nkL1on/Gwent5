@@ -38,10 +38,13 @@ enum Tag
     ClanAnCraite,
     ClanDimun,
     ClanTuirseach,
+    Agent,
     Support,
+    Officer,
     Mage,
     Soldier,
     Elf,
+    Dwarf,
     Machine,
     Alchemy,
     Item,
@@ -76,12 +79,13 @@ enum RowEffect
 
 enum Choice
 {
-    Play,
+    RoundStartPlay,
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
     SelectAllyRow,
     SelectEnemyRow,
     Target,
+    RoundStartSwap,
 };
 
 enum ChoiceGroup
@@ -91,6 +95,8 @@ enum ChoiceGroup
     Ally,
     Enemy,
     /// others
+    AllyHand,
+    AllyDeckShuffled,
 };
 
 
@@ -124,26 +130,43 @@ struct Card
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDraw() {}
+    inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDie(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyEntered(Card *) {}
-    inline virtual void onOtherEnemyEntered(Card *) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllySpecialPlayed(Card *) {}
-    inline virtual void onOtherEnemySpecialPlayed(Card *) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherEnemyBoosted(const int, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherAllyEntered(Card *) {}
+//    inline virtual void onOtherEnemyEntered(Card *) {}
+//    inline virtual void onOtherAllySpecialPlayed(Card *) {}
+//    inline virtual void onOtherEnemySpecialPlayed(Card *) {}
+//    inline virtual void onOtherAllyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+//    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
 struct Snapshot
 {
+    inline Snapshot(const Choice choice, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
+        choice(choice),
+        cardSource(cardSource),
+        cardOptions(cardOptions),
+        nTargets(nTargets),
+        isOptional(isOptional)
+    {
+    }
     Choice choice;
-    Card * cardSource;
+    Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
+    int nTargets = 1;
+    bool isOptional = false;
+
+    /// for nTargets > 1
+    std::vector<Card *> cardOptionsSelected;
 };
 
 struct Field
@@ -162,6 +185,7 @@ struct Field
     std::vector<Card *> cardsAdded;
     std::vector<Snapshot> cardStack;
     int nTurns = 0;
+    int nRounds = 0;
 
     const Snapshot &snapshot() const;
     Snapshot &snapshot();
@@ -182,9 +206,13 @@ bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
+std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row);
 Row takeCard(const Card *card, Field &ally, Field &enemy);
 void triggerRowEffects(Field &ally, Field &enemy);
+void initField(const std::vector<Card *> &deckStarting, Field &field);
+void startNextRound(Field &ally, Field &enemy);
+void shuffle(std::vector<Card *> &cards);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -198,6 +226,9 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy);
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
+/// call play as special or start choosing a row and pos to play a unit
+void playACard(Card *card, Field &ally, Field &enemy);
+
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
@@ -205,20 +236,24 @@ void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
+void weaken(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
+bool drawACard(Field &ally, Field &enemy);
+void swapACard(Card *card, Field &ally, Field &enemy);
+void destroy(Card *card, Field &ally, Field &enemy);
 
-bool drawACard(Field &field);
 void traceField(Field &field);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 
-bool startChoiceToPlayCard(Field &field, Card *self, const Filters &filters = {});
+std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any);
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
+void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 
