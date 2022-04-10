@@ -66,6 +66,8 @@ void Host::onNewConnection()
 
     connect(_tcpSocket, &QTcpSocket::readyRead, this, &Host::onReadyRead,
             Qt::UniqueConnection);
+    connect(_tcpSocket, &QTcpSocket::disconnected, this, &Host::onDisconnected,
+            Qt::UniqueConnection);
     emit clientConnected();
 }
 
@@ -76,4 +78,13 @@ void Host::onReadyRead()
     const QString socketMessage = QString::fromLatin1(_tcpSocket->readAll());
     qInfo() << "Host::onReadyRead()" << socketMessage;
     emit message(socketMessage);
+}
+
+void Host::onDisconnected()
+{
+    Q_ASSERT(_tcpSocket != nullptr);
+
+    delete _tcpSocket;
+    _tcpSocket = nullptr;
+    emit clientDisconnected();
 }

@@ -16,7 +16,7 @@ public:
     /// try connect, wait in main thread, return if success
     bool connectTo(const QHostAddress &hostAddress, const quint16 port);
     /// if connected try disconnect, wait in main thread, return if success
-    bool disconnect();
+    bool disconnectFromHost();
     void sendMessage(const QString &string);
 
 signals:

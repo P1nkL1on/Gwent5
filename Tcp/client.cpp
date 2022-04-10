@@ -33,12 +33,12 @@ bool Client::connectTo(const QHostAddress &hostAddress, const quint16 port)
     return true;
 }
 
-bool Client::disconnect()
+bool Client::disconnectFromHost()
 {
     Q_ASSERT(_tcpSocket != nullptr);
 
     _tcpSocket->disconnectFromHost();
-    if (!_tcpSocket->waitForDisconnected(_msTimeout)) {
+    if (_tcpSocket->state() != QTcpSocket::UnconnectedState && !_tcpSocket->waitForDisconnected(_msTimeout)) {
         return false;
     }
 

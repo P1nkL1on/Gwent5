@@ -19,11 +19,13 @@ public:
 
 signals:
     void clientConnected();
+    void clientDisconnected();
     void message(const QString &string);
 
 private slots:
     void onNewConnection();
     void onReadyRead();
+    void onDisconnected();
 
 private:
     QTcpServer *_tcpServer = nullptr;

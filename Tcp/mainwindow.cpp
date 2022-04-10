@@ -60,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent)
         connect(_host, &Host::clientConnected, this, [=]{
             buttonMessageHost->setEnabled(true);
         });
+        connect(_host, &Host::clientDisconnected, this, [=]{
+            buttonMessageHost->setEnabled(false);
+        });
     });
 
     connect(buttonConnectClient, &QPushButton::clicked, this, [=]{
@@ -79,6 +82,15 @@ MainWindow::MainWindow(QWidget *parent)
 
         buttonCloseClient->setEnabled(true);
         buttonMessageClient->setEnabled(true);
+    });
+
+    connect(buttonCloseClient, &QPushButton::clicked, this, [=]{
+        if (!_client->disconnectFromHost()) {
+            return;
+        }
+        buttonConnectClient->setEnabled(true);
+        buttonCloseClient->setEnabled(false);
+        buttonMessageClient->setEnabled(false);
     });
 
     connect(buttonMessageHost, &QPushButton::clicked, this, [=]{
