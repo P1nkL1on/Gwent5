@@ -772,20 +772,8 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
         _card->onTurnStart(ally, enemy);
 
-    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
-        _card->onTurnEnd(ally, enemy);
-
-    enemy.nTurns++;
-
-
-    // start next turn
-    triggerRowEffects(ally, enemy);
-
-    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
-        _card->onTurnStart(ally, enemy);
-
-    // play a new card on a new turn
-    ally.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, ally.hand, 1, false));
+    // give a choice to enemy
+    enemy.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, enemy.hand, 1, false));
     return true;
 }
 
