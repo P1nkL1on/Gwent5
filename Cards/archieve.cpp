@@ -35,7 +35,7 @@ Dao::Dao()
     tags = { Construct };
 }
 
-void Dao::onDie(Field &, Field &)
+void Dao::onDestroy(Field &, Field &)
 {
 }
 

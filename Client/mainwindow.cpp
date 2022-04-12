@@ -13,11 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-        new Eleyas, new Eleyas, new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
-        new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new Reinforcements, new Reinforcements,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-        new KaedweniCavalry, new RedanianElite, new RedanianElite, new RedanianKnight, new RedanianKnight, new KeiraMetz,
+        new ReaverScout, new Vaedermakar, new Vaedermakar, new Vaedermakar,
+        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
+        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+        new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
+        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
+        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
     };
 
     initField(deckStarting, _ally);
@@ -25,11 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting2 = {
-        new TuirseachArcher, new TuirseachArcher, new TuirseachArcher,
-        new Eleyas, new Eleyas, new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
-        new DandelionPoet, new Ves, new Reinforcements, new Reinforcements, new Reinforcements, new Reinforcements,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster
+        new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz,
     };
 
     initField(deckStarting2, _enemy);
@@ -57,10 +54,10 @@ void MainWindow::requestImageByUrl(const std::string &url)
     _networkAccessManager->get(request);
 }
 
-void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
+void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
-    const double posWidth = (rect().width() - 2 * _view.spacingPx) / 11.0;
-    const double posHeight = (rect().height() - 2 * _view.spacingPx) / 8.0;
+    const double posWidth = (rect.width() - 2 * _view.spacingPx) / 11.0;
+    const double posHeight = (rect.height() - 2 * _view.spacingPx) / 8.0;
 
     const auto cardAt = [=](const QPoint &point) -> Card * {
         for (int j = 0; j < 6; ++j) {
@@ -77,7 +74,7 @@ void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
                 if (i >= count)
                     continue;
 
-                const QRectF cardRect(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight);
+                const QRectF cardRect = QRectF(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
                     return cards[i];
             }
@@ -85,7 +82,7 @@ void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
 
         if (ally.cardStack.size() > 0) {
             for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
-                const QRectF cardRect(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight);
+                const QRectF cardRect = QRectF(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
                     return ally.snapshot().cardOptions[i];
             }
@@ -99,7 +96,7 @@ void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
         for (int j = jFrom; j < jTo; ++j) {
             const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
             for (size_t i = 0; i < 9; ++i) {
-                const QRectF cardRect(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight);
+                const QRectF cardRect = QRectF(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point)) {
                     row = _row;
                     pos = Pos(i);
@@ -115,7 +112,7 @@ void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
         const int iTo = ally ? 6 : 3;
         for (int i = iFrom; i < iTo; ++i) {
             const Row _row = Row(i < 3 ? (2 - i) : (i - 3));
-            const QRectF rowRect(0, _view.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight);
+            const QRectF rowRect = QRectF(0, _view.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
             if (rowRect.contains(point)) {
                 row = _row;
                 return true;
@@ -128,8 +125,8 @@ void MainWindow::mouseClick(const QPoint &point, Field &ally, Field &enemy)
         const QFontMetricsF metrics(QFont{});
         const QString string = QString("Turn %1: %2").arg(1 + ally.nTurns).arg(QString::fromStdString(stringSnapShots(ally.cardStack)));
         const QPointF topLeft(metrics.width(string) + _view.borderTextPx, 2 * _view.spacingPx + 7 * posHeight - metrics.height());
-        const QRectF rect(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height()));
-        return rect.contains(point);
+        const QRectF rectRes = QRectF(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height())).translated(rect.topLeft());
+        return rectRes.contains(point);
     };
 
     if (ally.cardStack.size() == 0)
@@ -358,7 +355,7 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         const size_t count = cards.size();
 
         for (size_t i = 0; i < 9; ++i) {
-            const QPointF topLeft(i * posWidth, _view.spacingPx + (j + 1) * posHeight);
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, _view.spacingPx + (j + 1) * posHeight);
 
             if (i >= count) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
@@ -373,10 +370,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         }
 
         const int power = powerRow(cards);
-        paintTextInPoint(QString::number(power), QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
+        paintTextInPoint(QString::number(power), rect.topLeft() + QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
 
         /// draw a row back
-        const QRectF rowRect(0, _view.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height());
+        const QRectF rowRect = QRectF(0, _view.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
         const RowEffect rowEffect = (j == 0 || j == 5) ? field->rowEffectSeige : (j == 1 || j == 4) ? field->rowEffectRange : field->rowEffectMeele;
         switch (rowEffect) {
         case NoRowEffect:
@@ -415,9 +412,21 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         painter.setBrush(QBrush(Qt::NoBrush));
     }
 
+    paintTextInPoint(QString::number(enemy.discard.size()), rect.topLeft() + QPointF(_view.spacingPx + 10 * posWidth, _view.spacingPx + 1 * posHeight));
+    for (size_t i = 0; i < enemy.discard.size(); ++i) {
+        const QPointF topLeft = rect.topLeft() + QPointF(_view.spacingPx + 9 * posWidth, _view.spacingPx + 1 * posHeight);
+        paintCard(enemy.discard[i], topLeft);
+    }
+
+    paintTextInPoint(QString::number(ally.discard.size()), rect.topLeft() + QPointF(_view.spacingPx + 10 * posWidth, _view.spacingPx + 6 * posHeight));
+    for (size_t i = 0; i < ally.discard.size(); ++i) {
+        const QPointF topLeft = rect.topLeft() + QPointF(_view.spacingPx + 9 * posWidth, _view.spacingPx + 6 * posHeight);
+        paintCard(ally.discard[i], topLeft);
+    }
+
     if (ally.cardStack.size() > 0) {
         for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
-            const QPointF topLeft(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
             paintCard(ally.snapshot().cardOptions[i], topLeft);
         }
     }
@@ -426,10 +435,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
     const QString stringTurn = QString::number(1 + ally.nTurns);
     double statusWidth = 0;
     if ((ally.cardStack.size() > 0)){
-        statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _view.borderTextPx;
+        statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _view.borderTextPx;
     }
     if ((ally.cardStack.size() > 0) && ally.snapshot().isOptional) {
-        statusWidth += paintTextInPoint("Finish Choice", QPointF(statusWidth, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _view.borderTextPx;
+        statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _view.borderTextPx;
     }
 }
 
@@ -451,19 +460,21 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
+    const QRect rect = this->rect().marginsRemoved(QMargins(100, 10, 10, 10));
+
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
         if (_ally.cardStack.size())
-            mouseClick(em->pos(), _ally, _enemy);
+            mouseClick(rect, em->pos(), _ally, _enemy);
         else
-            mouseClick(em->pos(), _enemy, _ally);
+            mouseClick(rect, em->pos(), _enemy, _ally);
     }
     return QMainWindow::eventFilter(o, e);
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect();
+    const QRect rect = e->rect().marginsRemoved(QMargins(100, 10, 10, 10));
 
     if (_ally.cardStack.size())
         paintInRect(rect, _ally, _enemy);

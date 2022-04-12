@@ -19,7 +19,7 @@ struct Dao : Card
         DaoLesser();
     };
     Dao();
-    void onDie(Field &, Field &) override;
+    void onDestroy(Field &, Field &) override;
 };
 
 struct PoorFingInfantry : Card

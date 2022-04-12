@@ -136,7 +136,7 @@ struct Card
     inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDie(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
@@ -213,7 +213,7 @@ std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
-Row takeCard(const Card *card, Field &ally, Field &enemy);
+Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly = nullptr);
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
 void startNextRound(Field &ally, Field &enemy);

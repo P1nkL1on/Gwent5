@@ -31,7 +31,7 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
-Row takeCard(const Card *card, Field &ally, Field &enemy)
+Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly)
 {
     const std::vector<std::vector<Card *> *> cards {
         &ally.rowMeele,
@@ -52,7 +52,8 @@ Row takeCard(const Card *card, Field &ally, Field &enemy)
         for (size_t j = 0; j < _cards->size(); ++j)
             if (_cards->at(j) == card) {
                 _cards->erase(_cards->begin() + int(j));
-                // isAlly = i < 6;
+                if (isAlly != nullptr)
+                    *isAlly = i < 6;
                 return Row(i % 6);
             }
     }
@@ -248,7 +249,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
         // TODO: check 0 power
-        card->onDie(ally, enemy);
+        card->onDestroy(ally, enemy);
     } else if (takenFrom == Hand || takenFrom == Deck) {
         if (!card->isSpecial)
             card->onDiscard(ally, enemy);
@@ -639,9 +640,18 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(drawn);
 }
 
-void destroy(Card *, Field &, Field &)
+void destroy(Card *card, Field &ally, Field &enemy)
 {
-    // TODO: destoy
+    card->onDestroy(ally, enemy);
+    /// restore power
+    card->power = card->powerBase;
+
+    bool isAlly = false;
+    const Row row = takeCard(card, ally, enemy, &isAlly);
+    assert(row != AlreadyCreated);
+    (isAlly ? &ally : &enemy)->discard.push_back(card);
+
+    // TODO: trigger other on destroy
 }
 
 void damage(Card *card, const int x, Field &ally, Field &enemy)
@@ -666,8 +676,11 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
+        // TODO: trigger other on damaged
+        return;
     }
-    // TODO: others trigger on damaged
+
+    destroy(card, ally, enemy);
 }
 
 void boost(Card *card, const int x, Field &, Field &)

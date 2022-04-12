@@ -32,7 +32,7 @@ private:
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
     void requestImageByUrl(const std::string &url);
-    void mouseClick(const QPoint &point, Field &ally, Field &enemy);
+    void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
     void paintInRect(const QRect rect, Field &ally, Field &enemy);
 
     View _view;
