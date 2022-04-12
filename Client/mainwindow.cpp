@@ -270,8 +270,17 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         painter.drawText(rect.marginsRemoved(QMarginsF(_view.borderNamePx, 0, _view.borderNamePx, 0)), textElided);
     };
 
+    const auto paintCardHidden = [=, &painter](const QPointF &topLeft)
+    {
+        const QSizeF size(posWidth, posHeight);
+        const QRectF rect(topLeft, size);
+        painter.setPen(Qt::black);
+        painter.drawRect(rect);
+    };
+
     const auto paintCard = [=, &painter](const Card *card, const QPointF &topLeft)
     {
+        Q_ASSERT(!card->isAmbush);
         const QSizeF size(posWidth, posHeight);
         const QRectF rect(topLeft, size);
         painter.setPen(Qt::black);
@@ -280,17 +289,16 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
 
         /// draw url image
-        if (!card->isAmbush && (card->url.size() > 0)) {
+        if (card->url.size() > 0) {
             requestImageByUrl(card->url);
             const QImage image = _pixMapsLoaded.value(QString::fromStdString(card->url));
             painter.drawImage(rectBorder, image);
         }
 
         /// draw rarity
-        if (!card->isAmbush) {
-            painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
-            painter.drawRect(rectBorder);
-        }
+        painter.setPen(card->rarity == Bronze ? Qt::darkRed : card->rarity == Silver ? Qt::gray : Qt::yellow);
+        painter.drawRect(rectBorder);
+
 
         /// draw selection border
         if (ally.cardStack.size() && isIn(card, ally.snapshot().cardOptions)) {
@@ -312,9 +320,6 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
-
-        if (card->isAmbush)
-            return;
 
         /// draw power
         double width = 0;
@@ -367,6 +372,11 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             }
 
             const Card *card = cards.at(i);
+            if (card->isAmbush) {
+                paintCardHidden(topLeft);
+                continue;
+            }
+
             paintCard(card, topLeft);
         }
 
@@ -426,8 +436,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
     }
 
     paintTextInPoint(QString::number(enemy.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 1 * posHeight));
+    paintCardHidden(rect.topLeft() + QPointF(2 * _view.spacingPx + 10 * posWidth, _view.spacingPx + 1 * posHeight));
 
     paintTextInPoint(QString::number(ally.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 6 * posHeight));
+    paintCardHidden(rect.topLeft() + QPointF(2 * _view.spacingPx + 10 * posWidth, _view.spacingPx + 6 * posHeight));
 
     if (ally.cardStack.size() > 0) {
         for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
