@@ -353,4 +353,12 @@ struct VriheddSappers : Card
     void onTurnStart(Field &ally, Field &enemy) override;
 };
 
+struct PriestessOfFreya : Card
+{
+    PriestessOfFreya();
+    static bool isBronzeSoldier(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
 #endif // CARDS_H

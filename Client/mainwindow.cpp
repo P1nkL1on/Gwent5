@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
+        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
         new VriheddSappers, new VriheddSappers, new VriheddSappers, new VriheddSappers,
-        new ReaverScout, new Vaedermakar, new Vaedermakar, new Vaedermakar,
         new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
         new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
         new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting2 = {
+        new AlzursThunder, new AlzursThunder, new AlzursThunder, new AlzursThunder, new AlzursThunder,
         new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz,
     };
 
@@ -130,6 +131,13 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rectRes.contains(point);
     };
 
+    const auto popAnimations = [&ally] {
+        while (ally.animations.size() > 0) {
+            ally.animations.back()->run();
+            ally.animations.pop_back();
+        }
+    };
+
     if (ally.cardStack.size() == 0)
         return;
 
@@ -140,6 +148,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneCard(card, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -148,6 +157,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             onChoiceDoneCard(nullptr, ally, enemy);
             tryFinishTurn(ally, enemy);
             repaint();
+            popAnimations();
             return;
         }
         Card *card = cardAt(point);
@@ -156,6 +166,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneCard(card, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -169,6 +180,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -182,6 +194,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -192,6 +205,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRow(row, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -202,6 +216,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRow(row, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 
@@ -216,6 +231,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             return;
         onChoiceDoneRoundStartSwap(card, ally, enemy);
         repaint();
+        popAnimations();
         return;
     }
 

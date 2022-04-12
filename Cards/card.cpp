@@ -83,6 +83,20 @@ Filters canBeCount()
     };
 }
 
+//struct AnimationText : Animation
+//{
+//    AnimationText(const std::string &string) :
+//        _string(string)
+//    {
+//    }
+//    void run() override
+//    {
+//        std::cout << _string << std::endl;
+//    }
+//private:
+//    std::string _string;
+//};
+
 void triggerRowEffects(Field &ally, Field &enemy)
 {
     const auto applyRowEffect = [&](const std::vector<Card *> &row, const RowEffect effect) {
@@ -238,7 +252,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             assert(false);
     }
 
-
+//    addAnimation(new AnimationText(card->name + " put on field"), ally, enemy);
     // TODO: others trigger enter
 }
 
@@ -476,6 +490,9 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
         if (group == AllyHand)
             return ally.hand;
 
+        if (group == AllyDiscard)
+            return ally.discard;
+
         if (group == AllyDeckShuffled) {
             std::vector<Card *> deck = ally.deck;
             shuffle(deck);
@@ -642,16 +659,27 @@ void swapACard(Card *card, Field &ally, Field &enemy)
 
 void destroy(Card *card, Field &ally, Field &enemy)
 {
+    if (card->isDoomed) {
+        return banish(card, ally, enemy);
+    }
+
     card->onDestroy(ally, enemy);
-    /// restore power
-    card->power = card->powerBase;
 
     bool isAlly = false;
     const Row row = takeCard(card, ally, enemy, &isAlly);
     assert(row != AlreadyCreated);
+
+    card->power = card->powerBase;
     (isAlly ? &ally : &enemy)->discard.push_back(card);
 
     // TODO: trigger other on destroy
+}
+
+void banish(Card *card, Field &ally, Field &enemy)
+{
+    bool isAlly = false;
+    const Row row = takeCard(card, ally, enemy, &isAlly);
+    assert(row != AlreadyCreated);
 }
 
 void damage(Card *card, const int x, Field &ally, Field &enemy)
@@ -666,8 +694,10 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
         dmgInPower = std::max(0, x - card->armor);
         card->armor -= dmgInArmor;
 
-        if (card->power > dmgInPower)
+        if (card->power > dmgInPower){
             card->onArmorLost(ally, enemy);
+//            addAnimation(new AnimationText(card->name + " armor lost"), ally, enemy);
+        }
 
         if (dmgInPower == 0)
             return;
@@ -676,6 +706,7 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
+//        addAnimation(new AnimationText(card->name + " damaged"), ally, enemy);
         // TODO: trigger other on damaged
         return;
     }
@@ -683,42 +714,50 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
     destroy(card, ally, enemy);
 }
 
-void boost(Card *card, const int x, Field &, Field &)
+void boost(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
 
     card->power += x;
 
+//    addAnimation(new AnimationText(card->name + " boosted"), ally, enemy);
+
     // TODO: others trigger on boosted
 }
 
-void strengthen(Card *card, const int x, Field &, Field &)
+void strengthen(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
 
     card->power += x;
     card->powerBase += x;
 
+//    addAnimation(new AnimationText(card->name + " strenghten"), ally, enemy);
+
     // TODO: others trigger on strengthen
 }
 
-void weaken(Card *card, const int x, Field &, Field &)
+void weaken(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
 
     card->power -= x;
     card->powerBase -= x;
 
+//    addAnimation(new AnimationText(card->name + " weaken"), ally, enemy);
+
     // TODO: check banish
 
     // TODO: others trigger on weaken
 }
 
-void gainArmor(Card *card, const int x, Field &, Field &)
+void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
 
     card->armor += x;
+
+//    addAnimation(new AnimationText(card->name + " gain armor"), ally, enemy);
 }
 
 std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
@@ -840,3 +879,9 @@ void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)
 
     field.rowEffect(row) = rowEffect;
 }
+
+//void addAnimation(Animation *animation, Field &ally, Field &enemy)
+//{
+//    ally.animations.insert(ally.animations.begin(), animation);
+//    enemy.animations.insert(enemy.animations.begin(), animation);
+//}

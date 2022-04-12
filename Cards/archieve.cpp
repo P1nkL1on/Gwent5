@@ -198,9 +198,13 @@ void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
 {
     if (armor == 0)
         return;
-    if (Card *left = cardNextTo(this, ally, enemy, -1))
+
+    Card *left = cardNextTo(this, ally, enemy, -1);
+    Card *right = cardNextTo(this, ally, enemy, 1);
+
+    if (left != nullptr)
         boost(left, 1, ally, enemy);
-    if (Card *right = cardNextTo(this, ally, enemy, 1))
+    if (right != nullptr)
         boost(right, 1, ally, enemy);
 }
 
@@ -418,11 +422,15 @@ void Thunderbolt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     boost(target, 3, ally, enemy);
     gainArmor(target, 2, ally, enemy);
-    if (Card *left = cardNextTo(target, ally, enemy, -1)) {
+
+    Card *left = cardNextTo(target, ally, enemy, -1);
+    Card *right = cardNextTo(target, ally, enemy, 1);
+
+    if (left != nullptr) {
         boost(left, 3, ally, enemy);
         gainArmor(left, 2, ally, enemy);
     }
-    if (Card *right = cardNextTo(target, ally, enemy, 1)) {
+    if (right != nullptr) {
         boost(right, 3, ally, enemy);
         gainArmor(right, 2, ally, enemy);
     }
@@ -445,10 +453,13 @@ void ArachasVenom::onPlaySpecial(Field &ally, Field &enemy)
 
 void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    Card *left = cardNextTo(target, ally, enemy, -1);
+    Card *right = cardNextTo(target, ally, enemy, 1);
+
     damage(target, 4, ally, enemy);
-    if (Card *left = cardNextTo(target, ally, enemy, -1))
+    if (left != nullptr)
         damage(left, 4, ally, enemy);
-    if (Card *right = cardNextTo(target, ally, enemy, 1))
+    if (right != nullptr)
         damage(right, 4, ally, enemy);
 }
 
@@ -1057,4 +1068,30 @@ void VriheddSappers::onTurnStart(Field &, Field &)
     if (--timer)
         return;
     isAmbush = false;
+}
+
+PriestessOfFreya::PriestessOfFreya()
+{
+    name = "Priestess of Freya";
+    url = "https://gwent.one/image/card/low/cid/png/152310.png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanHeymaey, Support };
+    isDoomed = true;
+}
+
+bool PriestessOfFreya::isBronzeSoldier(Card *card)
+{
+    return (card->rarity == Bronze) && hasTag(card, Soldier);
+}
+
+void PriestessOfFreya::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeSoldier}, AllyDiscard);
+}
+
+void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playACard(target, ally, enemy);
 }

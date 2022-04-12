@@ -99,6 +99,7 @@ enum ChoiceGroup
     Enemy,
     /// others
     AllyHand,
+    AllyDiscard,
     AllyDeckShuffled,
 };
 
@@ -119,6 +120,7 @@ struct Card
     std::vector<Tag> tags;
     bool isLocked = false;
     bool isSpy = false;
+    // TODO: still can damage unit in ambush (with near)
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
@@ -172,6 +174,12 @@ struct Snapshot
     std::vector<Card *> cardOptionsSelected;
 };
 
+struct Animation
+{
+    virtual ~Animation() = default;
+    virtual void run() = 0;
+};
+
 struct Field
 {
     std::vector<Card *> rowMeele;
@@ -189,6 +197,7 @@ struct Field
     std::vector<Snapshot> cardStack;
     int nTurns = 0;
     int nRounds = 0;
+    std::vector<Animation *> animations;
 
     const Snapshot &snapshot() const;
     Snapshot &snapshot();
@@ -247,6 +256,7 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
 void destroy(Card *card, Field &ally, Field &enemy);
+void banish(Card *card, Field &ally, Field &enemy);
 
 void traceField(Field &field);
 
