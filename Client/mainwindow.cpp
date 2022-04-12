@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
+        new VriheddSappers, new VriheddSappers, new VriheddSappers, new VriheddSappers,
         new ReaverScout, new Vaedermakar, new Vaedermakar, new Vaedermakar,
         new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
         new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
@@ -424,6 +425,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         paintCard(ally.discard[i], topLeft);
     }
 
+    paintTextInPoint(QString::number(enemy.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 1 * posHeight));
+
+    paintTextInPoint(QString::number(ally.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 6 * posHeight));
+
     if (ally.cardStack.size() > 0) {
         for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
@@ -460,7 +465,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const QRect rect = this->rect().marginsRemoved(QMargins(100, 10, 10, 10));
+    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 100, 10));
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
@@ -474,7 +479,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect().marginsRemoved(QMargins(100, 10, 10, 10));
+    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 100, 10));
 
     if (_ally.cardStack.size())
         paintInRect(rect, _ally, _enemy);
