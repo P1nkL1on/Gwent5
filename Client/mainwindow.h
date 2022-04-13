@@ -39,7 +39,7 @@ private:
 
     enum View { ViewStack, ViewHand, ViewDiscard, ViewDeck, View_count };
     View _view = ViewStack;
-
+    QPoint _pos;
     Field _ally ;
     Field _enemy;
 

@@ -18,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
         new Thunderbolt, new Thunderbolt, new Thunderbolt,
         new ElvenMercenary, new ElvenMercenary, new Sage,
         new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
-        new Reconnaissance, new Reconnaissance, new Reconnaissance
+        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+        new Ambassador, new Ambassador, new Ambassador, new Ambassador,
     };
 
     initField(deckStarting, _ally);
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     startNextRound(_enemy, _ally);
 
     resize(600, 450);
+    setMouseTracking(true);
     installEventFilter(this);
 }
 
@@ -452,11 +454,23 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
                 const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
                 paintCard(ally.snapshot().cardOptions[i], topLeft);
             }
-            Row row;
-            Pos pos;
-            if ((ally.snapshot().cardSource != nullptr) && !rowAndPos(ally.snapshot().cardSource, ally, row, pos)) {
-                const QPointF topLeft = rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
-                paintCard(ally.snapshot().cardSource, topLeft);
+            if ((ally.snapshot().cardSource != nullptr)) {
+                Row row;
+                Pos pos;
+                QPointF topLeft;
+                if (rowAndPos(ally.snapshot().cardSource, ally, row, pos)) {
+                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (4 + row) * posHeight);
+                } else if (rowAndPos(ally.snapshot().cardSource, enemy, row, pos)) {
+                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
+                } else {
+                    topLeft = rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
+                    paintCard(ally.snapshot().cardSource, topLeft);
+                }
+                if (!_pos.isNull()) {
+                    painter.setPen(Qt::cyan);
+                    const QPointF center = topLeft + QPointF(posWidth * 0.5, posHeight * 0.5);
+                    painter.drawLine(_pos, center);
+                }
             }
         }
     } else if (_view == ViewHand) {
@@ -509,8 +523,21 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         auto *em = static_cast<QMouseEvent *>(e);
         if (_ally.cardStack.size())
             mouseClick(rect, em->pos(), _ally, _enemy);
-        else
+        else if (_enemy.cardStack.size())
             mouseClick(rect, em->pos(), _enemy, _ally);
+    }
+
+    if (e->type() == QEvent::MouseMove) {
+        auto *em = static_cast<QMouseEvent *>(e);
+        if (_ally.cardStack.size() && _ally.snapshot().cardSource != nullptr) {
+            _pos = em->pos();
+            repaint();
+        } else if (_enemy.cardStack.size() && _enemy.snapshot().cardSource != nullptr) {
+            _pos = em->pos();
+            repaint();
+        } else {
+            _pos = QPoint();
+        }
     }
 
     if (e->type() == QEvent::Wheel) {
@@ -538,6 +565,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     if (_ally.cardStack.size())
         paintInRect(rect, _ally, _enemy);
-    else
+    else if (_enemy.cardStack.size())
         paintInRect(rect, _enemy, _ally);
 }

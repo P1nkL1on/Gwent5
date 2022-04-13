@@ -335,7 +335,6 @@ struct ReaverScout : Card
     static bool isDifferentBronzeAllyWhichHasCopyInADeck(Card *card, const Field &field);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-
 };
 
 struct HeymaeySpearmaiden : Card
