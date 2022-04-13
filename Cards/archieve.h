@@ -361,4 +361,28 @@ struct PriestessOfFreya : Card
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
+struct Sage : Card
+{
+    Sage();
+    static bool isBronzeAlchemyOrSpell(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct Reconnaissance : Card
+{
+    Reconnaissance();
+    static bool isBronzeUnit(Card *card);
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct ElvenMercenary : Card
+{
+    ElvenMercenary();
+    static bool isBronzeSpecial(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
 #endif // CARDS_H

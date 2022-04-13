@@ -101,8 +101,8 @@ enum ChoiceGroup
     AllyHand,
     AllyDiscard,
     AllyDeckShuffled,
+    AllyDeck,
 };
-
 
 struct Field;
 
@@ -227,6 +227,8 @@ void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
 void startNextRound(Field &ally, Field &enemy);
 void shuffle(std::vector<Card *> &cards);
+std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms);
+Card *random(const std::vector<Card *> &cards);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);

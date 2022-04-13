@@ -877,7 +877,8 @@ Cleaver::Cleaver()
 
 void Cleaver::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Any);
+    if (ally.hand.size() != 0)
+        startChoiceToTargetCard(ally, enemy, this, {}, Any);
 }
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -918,7 +919,7 @@ bool Reinforcements::isBronzeOrSilverSoldierMachineOfficerOrSupport(Card *card)
 
 void Reinforcements::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSoldierMachineOfficerOrSupport}, AllyDeckShuffled);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSoldierMachineOfficerOrSupport}, AllyDeck);
 }
 
 void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1092,6 +1093,82 @@ void PriestessOfFreya::onEnter(Field &ally, Field &enemy)
 }
 
 void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playACard(target, ally, enemy);
+}
+
+Sage::Sage()
+{
+    name = "Sage";
+    url = "https://gwent.one/image/card/low/cid/png/200138.png";
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Scoiatael;
+    tags = { Elf, Mage };
+}
+
+bool Sage::isBronzeAlchemyOrSpell(Card *card)
+{
+    return (card->rarity == Bronze) && (hasTag(card, Alchemy) || hasTag(card, Spell));
+}
+
+void Sage::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeAlchemyOrSpell}, AllyDiscard);
+}
+
+void Sage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playACard(target, ally, enemy);
+    banish(target, ally, enemy);
+}
+
+Reconnaissance::Reconnaissance()
+{
+    name = "Reconnaissance";
+    url = "https://gwent.one/image/card/low/cid/png/201704.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Tactics };
+}
+
+bool Reconnaissance::isBronzeUnit(Card *card)
+{
+    return !card->isSpecial && (card->rarity == Bronze);
+}
+
+void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
+{
+    ally.cardStack.push_back(Snapshot(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
+}
+
+void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playACard(target, ally, enemy);
+}
+
+ElvenMercenary::ElvenMercenary()
+{
+    name = "Elven Mercenary";
+    url = "https://gwent.one/image/card/low/cid/png/142308.png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Scoiatael;
+    tags = { Elf, Soldier };
+}
+
+bool ElvenMercenary::isBronzeSpecial(Card *card)
+{
+    return (card->rarity == Bronze) && card->isSpecial;
+}
+
+void ElvenMercenary::onEnter(Field &ally, Field &enemy)
+{
+    ally.cardStack.push_back(Snapshot(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeSpecial}, AllyDeckShuffled), 2), 1, true));
+}
+
+void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playACard(target, ally, enemy);
 }

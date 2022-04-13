@@ -184,6 +184,28 @@ void shuffle(std::vector<Card *> &cards)
     std::shuffle(std::begin(cards), std::end(cards), std::default_random_engine {});
 }
 
+std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms)
+{
+    std::vector<Card *> res;
+
+    std::vector<Card *> tmp = cards;
+    for (int n = 0; n < nRandoms; ++n) {
+        if (tmp.size() == 0)
+            break;
+        const auto ind = std::default_random_engine{}() % tmp.size();
+        res.push_back(tmp[ind]);
+        tmp.erase(tmp.begin() + int(ind));
+    }
+
+    return res;
+}
+
+Card *random(const std::vector<Card *> &cards)
+{
+    const std::vector<Card *> _cards = randoms(cards, 1);
+    return _cards.size() == 0 ? nullptr : _cards[0];
+}
+
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
     card->onPlaySpecial(ally, enemy);
@@ -493,6 +515,9 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
         if (group == AllyDiscard)
             return ally.discard;
 
+        if (group == AllyDeck)
+            return ally.deck;
+
         if (group == AllyDeckShuffled) {
             std::vector<Card *> deck = ally.deck;
             shuffle(deck);
@@ -795,8 +820,12 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
         if ((snapShot.choice == Target) && ((snapShot.nTargets > 1) || (snapShot.isOptional))) {
             res += " [";
             if (snapShot.isOptional)
-                res += "optional ";
-            res += std::to_string(snapShot.cardOptionsSelected.size()) + "/" + std::to_string(snapShot.nTargets);
+                res += "optional";
+            if (snapShot.nTargets > 1) {
+                if (snapShot.isOptional)
+                    res += " ";
+                res += std::to_string(snapShot.cardOptionsSelected.size()) + "/" + std::to_string(snapShot.nTargets);
+            }
             res += "]";
         }
     }
@@ -879,9 +908,3 @@ void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)
 
     field.rowEffect(row) = rowEffect;
 }
-
-//void addAnimation(Animation *animation, Field &ally, Field &enemy)
-//{
-//    ally.animations.insert(ally.animations.begin(), animation);
-//    enemy.animations.insert(enemy.animations.begin(), animation);
-//}

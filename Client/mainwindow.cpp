@@ -13,13 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
-        new VriheddSappers, new VriheddSappers, new VriheddSappers, new VriheddSappers,
-        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
-        new ReaverScout, new ReaverScout, new ReaverScout, new ReaverScout,
-        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+        new Sage, new Sage, new Sage,
+        new Swallow, new Swallow, new Swallow,
+        new Thunderbolt, new Thunderbolt, new Thunderbolt,
+        new ElvenMercenary, new ElvenMercenary, new Sage,
+        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
+        new Reconnaissance, new Reconnaissance, new Reconnaissance
     };
 
     initField(deckStarting, _ally);
@@ -27,8 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting2 = {
-        new AlzursThunder, new AlzursThunder, new AlzursThunder, new AlzursThunder, new AlzursThunder,
-        new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz, new KeiraMetz,
+        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
     };
 
     initField(deckStarting2, _enemy);
@@ -58,8 +56,8 @@ void MainWindow::requestImageByUrl(const std::string &url)
 
 void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
-    const double posWidth = (rect.width() - 2 * _view.spacingPx) / 11.0;
-    const double posHeight = (rect.height() - 2 * _view.spacingPx) / 8.0;
+    const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
+    const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 
     const auto cardAt = [=](const QPoint &point) -> Card * {
         for (int j = 0; j < 6; ++j) {
@@ -76,7 +74,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
                 if (i >= count)
                     continue;
 
-                const QRectF cardRect = QRectF(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
                     return cards[i];
             }
@@ -84,7 +82,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
 
         if (ally.cardStack.size() > 0) {
             for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
-                const QRectF cardRect = QRectF(i * posWidth, 2 * _view.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
                     return ally.snapshot().cardOptions[i];
             }
@@ -98,7 +96,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         for (int j = jFrom; j < jTo; ++j) {
             const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
             for (size_t i = 0; i < 9; ++i) {
-                const QRectF cardRect = QRectF(i * posWidth, _view.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point)) {
                     row = _row;
                     pos = Pos(i);
@@ -114,7 +112,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         const int iTo = ally ? 6 : 3;
         for (int i = iFrom; i < iTo; ++i) {
             const Row _row = Row(i < 3 ? (2 - i) : (i - 3));
-            const QRectF rowRect = QRectF(0, _view.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
+            const QRectF rowRect = QRectF(0, _layout.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
             if (rowRect.contains(point)) {
                 row = _row;
                 return true;
@@ -126,7 +124,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     const auto isFinishChoiceButton = [=](const QPoint &point) {
         const QFontMetricsF metrics(QFont{});
         const QString string = QString("Turn %1: %2").arg(1 + ally.nTurns).arg(QString::fromStdString(stringSnapShots(ally.cardStack)));
-        const QPointF topLeft(metrics.width(string) + _view.borderTextPx, 2 * _view.spacingPx + 7 * posHeight - metrics.height());
+        const QPointF topLeft(metrics.width(string) + _layout.borderTextPx, 2 * _layout.spacingPx + 7 * posHeight - metrics.height());
         const QRectF rectRes = QRectF(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height())).translated(rect.topLeft());
         return rectRes.contains(point);
     };
@@ -240,14 +238,14 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
 
 void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
 {
-    if (rect.width() < _view.spacingPx * 2)
+    if (rect.width() < _layout.spacingPx * 2)
         return;
 
-    if (rect.height() < _view.spacingPx * 2)
+    if (rect.height() < _layout.spacingPx * 2)
         return;
 
-    const double posWidth = (rect.width() - 2 * _view.spacingPx) / 11.0;
-    const double posHeight = (rect.height() - 2 * _view.spacingPx) / 8.0;
+    const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
+    const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 
     QPainter painter(this);
     painter.fillRect(rect, Qt::white);
@@ -264,16 +262,16 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
     {
         const double textHeight = metrics.height();
         const double textWidth = metrics.width(text);
-        const QRectF rect(topLeft, QSizeF(textWidth + 2 * _view.borderTextPx, textHeight));
+        const QRectF rect(topLeft, QSizeF(textWidth + 2 * _layout.borderTextPx, textHeight));
         painter.fillRect(rect, colorBack);
         painter.setPen(Qt::black);
         painter.drawRect(rect);
         painter.setPen(colorFore);
-        const QRectF rectText(QPointF(topLeft.x() + _view.borderTextPx, topLeft.y()), QSizeF(textWidth, textHeight));
+        const QRectF rectText(QPointF(topLeft.x() + _layout.borderTextPx, topLeft.y()), QSizeF(textWidth, textHeight));
         painter.drawText(rectText, text);
         if (rectRes != nullptr)
             *rectRes = rect;
-        return textWidth + 2 * _view.borderTextPx;
+        return textWidth + 2 * _layout.borderTextPx;
     };
 
     const auto paintTextInRect = [=, &painter](const QString &text, const QRectF &rect)
@@ -282,8 +280,8 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
-        const QString textElided = metrics.elidedText(text, Qt::ElideRight, rect.width() - 2 * _view.borderNamePx);
-        painter.drawText(rect.marginsRemoved(QMarginsF(_view.borderNamePx, 0, _view.borderNamePx, 0)), textElided);
+        const QString textElided = metrics.elidedText(text, Qt::ElideRight, rect.width() - 2 * _layout.borderNamePx);
+        painter.drawText(rect.marginsRemoved(QMarginsF(_layout.borderNamePx, 0, _layout.borderNamePx, 0)), textElided);
     };
 
     const auto paintCardHidden = [=, &painter](const QPointF &topLeft)
@@ -302,7 +300,7 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
-        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
+        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
 
         /// draw url image
         if (card->url.size() > 0) {
@@ -343,24 +341,24 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             const Qt::GlobalColor back = card->power > card->powerBase ? Qt::green : card->power < card->powerBase ? Qt::red : Qt::gray;
             const Qt::GlobalColor fore = card->power > card->powerBase ? Qt::darkGreen : card->power < card->powerBase ? Qt::darkRed : Qt::black;
             width += paintTextInPoint(QString::number(card->power), topLeft, back, fore);
-            width += _view.borderTextPx;
+            width += _layout.borderTextPx;
         }
 
         /// draw armor
         if (card->armor) {
             width += paintTextInPoint("A" + QString::number(card->armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black);
-            width += _view.borderTextPx;
+            width += _layout.borderTextPx;
         }
 
         /// draw timer
         if (card->timer) {
             width += paintTextInPoint("T" + QString::number(card->timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
-            width += _view.borderTextPx;
+            width += _layout.borderTextPx;
         }
 
         if (card->isSpy) {
             width += paintTextInPoint("SPY", QPointF(topLeft.x() + width, topLeft.y()), Qt::white, Qt::red);
-            width += _view.borderTextPx;
+            width += _layout.borderTextPx;
         }
 
         /// draw name
@@ -377,10 +375,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         const size_t count = cards.size();
 
         for (size_t i = 0; i < 9; ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, _view.spacingPx + (j + 1) * posHeight);
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight);
 
             if (i >= count) {
-                const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_view.borderCardPx, _view.borderCardPx, _view.borderCardPx, _view.borderCardPx));
+                const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
                 const bool canBePlaced = (ally.cardStack.size()) && ((ally.snapshot().choice == SelectAllyRowAndPos && j >= 3) || (ally.snapshot().choice == SelectEnemyRowAndPos && j < 3)) && (i < count + 1);
                 painter.setPen(canBePlaced ? Qt::green : Qt::gray);
                 painter.drawRect(rect);
@@ -397,10 +395,10 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         }
 
         const int power = powerRow(cards);
-        paintTextInPoint(QString::number(power), rect.topLeft() + QPointF(9 * posWidth, _view.spacingPx + (j + 1) * posHeight));
+        paintTextInPoint(QString::number(power), rect.topLeft() + QPointF(9 * posWidth, _layout.spacingPx + (j + 1) * posHeight));
 
         /// draw a row back
-        const QRectF rowRect = QRectF(0, _view.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
+        const QRectF rowRect = QRectF(0, _layout.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
         const RowEffect rowEffect = (j == 0 || j == 5) ? field->rowEffectSeige : (j == 1 || j == 4) ? field->rowEffectRange : field->rowEffectMeele;
         switch (rowEffect) {
         case NoRowEffect:
@@ -439,39 +437,51 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         painter.setBrush(QBrush(Qt::NoBrush));
     }
 
-    paintTextInPoint(QString::number(enemy.discard.size()), rect.topLeft() + QPointF(_view.spacingPx + 10 * posWidth, _view.spacingPx + 1 * posHeight));
-    for (size_t i = 0; i < enemy.discard.size(); ++i) {
-        const QPointF topLeft = rect.topLeft() + QPointF(_view.spacingPx + 9 * posWidth, _view.spacingPx + 1 * posHeight);
-        paintCard(enemy.discard[i], topLeft);
-    }
-
-    paintTextInPoint(QString::number(ally.discard.size()), rect.topLeft() + QPointF(_view.spacingPx + 10 * posWidth, _view.spacingPx + 6 * posHeight));
-    for (size_t i = 0; i < ally.discard.size(); ++i) {
-        const QPointF topLeft = rect.topLeft() + QPointF(_view.spacingPx + 9 * posWidth, _view.spacingPx + 6 * posHeight);
-        paintCard(ally.discard[i], topLeft);
-    }
-
-    paintTextInPoint(QString::number(enemy.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 1 * posHeight));
-    paintCardHidden(rect.topLeft() + QPointF(2 * _view.spacingPx + 10 * posWidth, _view.spacingPx + 1 * posHeight));
-
-    paintTextInPoint(QString::number(ally.deck.size()), rect.topLeft() + QPointF(2 * _view.spacingPx + 11 * posWidth, _view.spacingPx + 6 * posHeight));
-    paintCardHidden(rect.topLeft() + QPointF(2 * _view.spacingPx + 10 * posWidth, _view.spacingPx + 6 * posHeight));
-
-    if (ally.cardStack.size() > 0) {
-        for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _view.spacingPx + 7 * posHeight);
-            paintCard(ally.snapshot().cardOptions[i], topLeft);
+    if (_view == ViewStack) {
+        const QString stringStatus = QString::fromStdString(stringSnapShots(ally.cardStack));
+        const QString stringTurn = QString::number(1 + ally.nTurns);
+        double statusWidth = 0;
+        if ((ally.cardStack.size() > 0)){
+            statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _layout.borderTextPx;
         }
-    }
-
-    const QString stringStatus = QString::fromStdString(stringSnapShots(ally.cardStack));
-    const QString stringTurn = QString::number(1 + ally.nTurns);
-    double statusWidth = 0;
-    if ((ally.cardStack.size() > 0)){
-        statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _view.borderTextPx;
-    }
-    if ((ally.cardStack.size() > 0) && ally.snapshot().isOptional) {
-        statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _view.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _view.borderTextPx;
+        if ((ally.cardStack.size() > 0) && ally.snapshot().isOptional) {
+            statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _layout.borderTextPx;
+        }
+        if (ally.cardStack.size() > 0) {
+            for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
+                const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+                paintCard(ally.snapshot().cardOptions[i], topLeft);
+            }
+            Row row;
+            Pos pos;
+            if ((ally.snapshot().cardSource != nullptr) && !rowAndPos(ally.snapshot().cardSource, ally, row, pos)) {
+                const QPointF topLeft = rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
+                paintCard(ally.snapshot().cardSource, topLeft);
+            }
+        }
+    } else if (_view == ViewHand) {
+        const QString stringStatus = QString("Hand (%1):").arg(ally.hand.size());
+        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+        for (size_t i = 0; i < ally.hand.size(); ++i) {
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+            paintCard(ally.hand[i], topLeft);
+        }
+    } else if (_view == ViewDiscard) {
+        const QString stringStatus = QString("Discard (%1):").arg(ally.discard.size());
+        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+        for (size_t i = 0; i < ally.discard.size(); ++i) {
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+            paintCard(ally.discard[i], topLeft);
+        }
+    } else if (_view == ViewDeck) {
+        const QString stringStatus = QString("Deck (%1):").arg(ally.deck.size());
+        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+        for (size_t i = 0; i < ally.deck.size(); ++i) {
+            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+            paintCardHidden(topLeft);
+        }
+    } else {
+        Q_ASSERT(false);
     }
 }
 
@@ -502,6 +512,23 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         else
             mouseClick(rect, em->pos(), _enemy, _ally);
     }
+
+    if (e->type() == QEvent::Wheel) {
+        auto *ew = static_cast<QWheelEvent *>(e);
+        if (rect.contains(ew->pos())) {
+            int view = _view;
+            if (ew->delta() > 0) {
+                view = (view + 1) % 4;
+            } else {
+                view--;
+                if (view < 0)
+                    view += 4;
+            }
+            _view = View(view);
+            repaint();
+        }
+    }
+
     return QMainWindow::eventFilter(o, e);
 }
 

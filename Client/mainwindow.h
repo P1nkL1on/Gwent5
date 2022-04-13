@@ -7,7 +7,7 @@
 
 #include "../Cards/archieve.h"
 
-struct View
+struct Layout
 {
     int spacingPx = 30;
     int borderCardPx = 1;
@@ -35,7 +35,10 @@ private:
     void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
     void paintInRect(const QRect rect, Field &ally, Field &enemy);
 
-    View _view;
+    Layout _layout;
+
+    enum View { ViewStack, ViewHand, ViewDiscard, ViewDeck, View_count };
+    View _view = ViewStack;
 
     Field _ally ;
     Field _enemy;
