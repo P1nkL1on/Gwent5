@@ -185,7 +185,10 @@ struct Snapshot
 
 struct Animation
 {
-    enum Type { Unknown, Draw, PutOnField, Damage, Boost };
+    enum Type {
+        Unknown, Draw, PutOnField, Spawn,
+        ArmorLost, ArmorGain, Damage, Boost, Strengthen, Weaken
+    };
     inline Animation(
             const std::string &sound,
             const Type type,

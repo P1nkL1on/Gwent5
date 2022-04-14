@@ -76,6 +76,11 @@ PoorFingInfantry::PoorFingInfantry()
 {
     name = "Poor F'ing Infantry";
     url = "https://gwent.one/image/card/low/cid/png/200234.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3"
+        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00519831.mp3",
+        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00518009.mp3",
+    };
     power = powerBase = 6;
     rarity = Bronze;
     faction = NothernRealms;
@@ -116,6 +121,11 @@ TemerianDrummer::TemerianDrummer()
 {
     name = "Temerian Drummer";
     url = "https://gwent.one/image/card/low/cid/png/200299.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.407.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.408.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.409.mp3",
+    };
     power = powerBase = 5;
     rarity = Bronze;
     faction = NothernRealms;
@@ -157,6 +167,11 @@ SileDeTansarville::SileDeTansarville()
 {
     name = "S'ile de Tansarville";
     url = "https://gwent.one/image/card/low/cid/png/122205.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.29.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.30.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.31.mp3",
+    };
     power = powerBase = 4;
     rarity = Silver;
     faction = NothernRealms;
@@ -183,6 +198,13 @@ RedanianKnightElect::RedanianKnightElect()
 {
     name = "Redanian Knight Elect";
     url = "https://gwent.one/image/card/low/cid/png/123301.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.320.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.321.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.322.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.323.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.324.mp3",
+    };
     power = powerBase = 7;
     rarity = Bronze;
     faction = NothernRealms;
@@ -212,6 +234,11 @@ AnCraiteMarauder::AnCraiteMarauder()
 {
     name = "An Craite Marauder";
     url = "https://gwent.one/image/card/low/cid/png/201578.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.395.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.396.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.397.mp3",
+    };
     power = powerBase = 7;
     rarity = Bronze;
     faction = Skellige;
@@ -222,6 +249,11 @@ AnCraiteGreatsword::AnCraiteGreatsword()
 {
     name = "An Craite Greatsword";
     url = "https://gwent.one/image/card/low/cid/png/200040.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.314.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.315.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.316.mp3",
+    };
     power = powerBase = 8;
     rarity = Bronze;
     faction = Skellige;
@@ -282,6 +314,13 @@ TuirseachBearmaster::TuirseachBearmaster()
 {
     name = "Tuirseach Bearmaster";
     url = "https://gwent.one/image/card/low/cid/png/200144.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.26.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.27.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.28.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.29.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.30.mp3",
+    };
     power = powerBase = 1;
     rarity = Bronze;
     faction = Skellige;
@@ -297,6 +336,11 @@ RedanianElite::RedanianElite()
 {
     name = "Redanian Elite";
     url = "https://gwent.one/image/card/low/cid/png/122317.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516089.mp3",
+        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516091.mp3",
+        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516093.mp3",
+    };
     power = powerBase = 8;
     rarity = Bronze;
     faction = NothernRealms;
@@ -317,6 +361,11 @@ RedanianKnight::RedanianKnight()
 {
     name = "Redanian Knight";
     url = "https://gwent.one/image/card/low/cid/png/122308.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508445.mp3",
+        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508451.mp3",
+        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508237.mp3",
+    };
     power = powerBase = 7;
     rarity = Bronze;
     faction = NothernRealms;
@@ -340,6 +389,11 @@ KaedweniCavalry::KaedweniCavalry()
 {
     name = "Kaedweni Cavalry";
     url = "https://gwent.one/image/card/low/cid/png/122314.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0003.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0004.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG02_200565_0005.mp3",
+    };
     power = powerBase = 8;
     rarity = Bronze;
     faction = NothernRealms;
@@ -467,6 +521,11 @@ KeiraMetz::KeiraMetz()
 {
     name = "Keira Metz";
     url = "https://gwent.one/image/card/low/cid/png/122108.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_01040781.mp3",
+        "https://gwent.one/audio/card/ob/en/KEIR_SQ101_00565661.mp3",
+        "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_00475332.mp3",
+    };
     power = powerBase = 6;
     rarity = Gold;
     faction = NothernRealms;
@@ -771,6 +830,12 @@ Ves::Ves()
 {
     name = "Ves";
     url = "https://gwent.one/image/card/low/cid/png/122204.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VESS_Q403_00546798.mp3",
+        "https://gwent.one/audio/card/ob/en/VESS_VES_01070698.mp3",
+        "https://gwent.one/audio/card/ob/en/VESS_MQ3035_01064809.mp3",
+        "https://gwent.one/audio/card/ob/en/VESS_MQ3035_01071150.mp3",
+    };
     power = powerBase = 12;
     rarity = Silver;
     faction = NothernRealms;
@@ -931,6 +996,10 @@ JohnNatalis::JohnNatalis()
 {
     name = "John Natalis";
     url = "https://gwent.one/image/card/low/cid/png/122103.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_JANT_900381_0141.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_JANT_300862_0253.mp3",
+    };
     power = powerBase = 6;
     rarity = Gold;
     faction = NothernRealms;
@@ -976,6 +1045,11 @@ ReaverScout::ReaverScout()
 {
     name = "Reaver Scout";
     url = "https://gwent.one/image/card/low/cid/png/122307.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0060.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0008.mp3"
+    };
     power = powerBase = 1;
     rarity = Bronze;
     faction = NothernRealms;
@@ -1002,6 +1076,11 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
 {
     name = "Heymaey Spearmaiden";
     url = "https://gwent.one/image/card/low/cid/png/200528.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3"
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.85.mp3",
+    };
     power = powerBase = 2;
     rarity = Bronze;
     faction = Skellige;
@@ -1029,6 +1108,11 @@ KaedweniKnight::KaedweniKnight()
 {
     name = "Kaedweni Knight";
     url = "https://gwent.one/image/card/low/cid/png/201622.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.10.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.11.mp3"
+    };
     power = powerBase = 8;
     rarity = Bronze;
     faction = NothernRealms;
@@ -1177,6 +1261,10 @@ ChampionOfHov::ChampionOfHov()
 {
     name = "Champion of Hov";
     url = "https://gwent.one/image/card/low/cid/png/152202.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053125.mp3",
+        "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053127.mp3",
+    };
     power = powerBase = 7;
     rarity = Silver;
     faction = Skellige;
@@ -1195,11 +1283,6 @@ void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 GeraltIgni::GeraltIgni(const Lang lang)
 {
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
-
     name = "Geralt: Igni";
     url = "https://gwent.one/image/card/low/cid/png/112102.png";
     if (lang == En) {
@@ -1219,4 +1302,8 @@ GeraltIgni::GeraltIgni(const Lang lang)
             "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01054169.mp3"
         };
     }
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
 }

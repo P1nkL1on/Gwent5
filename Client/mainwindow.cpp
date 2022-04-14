@@ -5,6 +5,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QMediaPlayer>
+#include <QPropertyAnimation>
+#include <QFrame>
+#include <QEventLoop>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
+        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
         new Reconnaissance, new Reconnaissance, new Reconnaissance,
         new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
         new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
@@ -25,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
-        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
-        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
         new ReaverScout, new ReaverScout, new ReaverScout,
         new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
         new JohnNatalis, new Vaedermakar, new KeiraMetz,
         new TemerianDrummer, new TemerianDrummer, new TemerianDrummer,
         new SileDeTansarville,
+        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
+        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
     };
 
     initField(deckStarting, _ally);
@@ -154,11 +157,88 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rectRes.contains(point);
     };
 
+    const auto topLeftOf = [=](const Card *card) -> QPointF {
+        Row row;
+        Pos pos;
+        if (rowAndPos(card, ally, row, pos))
+            return QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
+        if (rowAndPos(card, enemy, row, pos))
+            return QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
+        return QPointF(0, 0);
+    };
+
     const auto popAnimations = [=, &ally] {
         while (ally.animations.size() > 0) {
-            const std::string sound = ally.animations.back()->sound;
+            const Animation *animation = ally.animations.front();
+            const std::string sound = animation->sound;
             requestSoundByUrl(sound);
-            ally.animations.pop_back();
+
+            switch (animation->type) {
+            case Animation::Unknown:
+                Q_ASSERT(false);
+                break;
+            case Animation::Draw:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
+                break;
+            case Animation::PutOnField:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
+                break;
+            case Animation::ArmorLost:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor lost";
+                break;
+            case Animation::ArmorGain:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
+                break;
+            case Animation::Damage:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
+                break;
+            case Animation::Boost:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
+                break;
+            case Animation::Strengthen:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "strenthened";
+                break;
+            case Animation::Weaken:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "weakened";
+                break;
+            }
+
+            ally.animations.erase(ally.animations.begin());
+
+//            if (animation->type == Animation::Damage || animation->type == Animation::Boost) {
+//                Q_ASSERT(animation->src != nullptr);
+//                auto *frame = new QFrame(this);
+//                frame->show();
+//                frame->setStyleSheet(animation->type == Animation::Damage ? "QFrame { background-color: red; }" : "QFrame { background-color: green; }");
+//                auto *sizeAnimation = new QPropertyAnimation(frame, "size");
+//                const QPoint center = (topLeftOf(animation->src) + QPointF(posWidth / 2, posHeight / 2)).toPoint();
+//                const QSize sizeStart(0, 0);
+//                const QSize sizeEnd(30, 30);
+//                const int time = 200;
+//                sizeAnimation->setStartValue(sizeStart);
+//                sizeAnimation->setEndValue(sizeEnd);
+//                sizeAnimation->setDuration(time);
+//                sizeAnimation->setEasingCurve(QEasingCurve::OutCubic);
+//                QEventLoop loop(this);
+//                connect(sizeAnimation, &QAbstractAnimation::finished, &loop, &QEventLoop::quit);
+//                connect(sizeAnimation, &QAbstractAnimation::finished, frame, [=]{
+//                    frame->hide();
+//                    frame->deleteLater();
+//                });
+
+//                auto *posAnimation = new QPropertyAnimation(frame, "pos");
+//                posAnimation->setStartValue(center - QPoint(sizeStart.width() / 2, sizeStart.height() / 2));
+//                posAnimation->setEndValue(center - QPoint(sizeEnd.width() / 2, sizeEnd.height() / 2));
+//                posAnimation->setDuration(time);
+//                posAnimation->setEasingCurve(QEasingCurve::OutCubic);
+
+//                frame->move(center);
+//                frame->resize(0, 0);
+//                posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+//                sizeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+//                loop.exec(QEventLoop::AllEvents);
+//                repaint();
+//            }
         }
     };
 
@@ -538,13 +618,11 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 {
     const QString urlString = reply->url().toString();
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << urlString << "err";
         _pixMapsLoaded.insert(urlString, QImage());
         return;
     }
 
     if (urlString.endsWith(".png")) {
-        qDebug() << reply->url() << "image ok";
         QByteArray pngData = reply->readAll();
         QPixmap pixmap;
         pixmap.loadFromData(pngData);

@@ -138,19 +138,12 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
     shuffle(field.deck);
 
     // TODO: remove test units
-    for (int i = 1; i <= 9; ++i) {
-        auto *c = new Card;
-        c->name = "Dummy";
-        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-        c->power = c->powerBase = i;
-        field.rowMeele.push_back(c);
-    }
     for (int i = 10; i <= 15; ++i) {
         auto *c = new Card;
         c->name = "Dummy";
         c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
         c->power = c->powerBase = i;
-        field.rowRange.push_back(c);
+        field.rowMeele.push_back(c);
     }
 }
 
@@ -262,6 +255,17 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
+    const std::string sound = [=]{
+        if (card->sounds.size() > 0) {
+            // TODO: random
+            const size_t ind = std::default_random_engine{}() % card->sounds.size();
+            return card->sounds[ind];
+        }
+        return std::string();
+    }();
+
+    ally.animations.push_back(new Animation(sound, Animation::PutOnField, card));
+
     if (!card->isSpy) {
         if (takenFrom == Deck)
             card->onEnterFromDeck(ally, enemy);
@@ -284,17 +288,6 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     }
 
     // TODO: others trigger enter
-
-    const std::string sound = [=]{
-        if (card->sounds.size() > 0) {
-            // TODO: random
-            const size_t ind = std::default_random_engine{}() % card->sounds.size();
-            return card->sounds[ind];
-        }
-        return std::string();
-    }();
-
-    ally.animations.push_back(new Animation(sound, Animation::PutOnField, card));
 }
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
@@ -753,7 +746,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
 
         if (card->power > dmgInPower){
             card->onArmorLost(ally, enemy);
-//            addAnimation(new AnimationText(card->name + " armor lost"), ally, enemy);
+            ally.animations.push_back(new Animation("", Animation::ArmorLost, card));
         }
 
         if (dmgInPower == 0)
@@ -763,7 +756,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-//        addAnimation(new AnimationText(card->name + " damaged"), ally, enemy);
+        ally.animations.push_back(new Animation("", Animation::Damage, card));
         // TODO: trigger other on damaged
         return false;
     }
@@ -778,7 +771,7 @@ void boost(Card *card, const int x, Field &ally, Field &enemy)
 
     card->power += x;
 
-//    addAnimation(new AnimationText(card->name + " boosted"), ally, enemy);
+    ally.animations.push_back(new Animation("", Animation::Boost, card));
 
     // TODO: others trigger on boosted
 }
@@ -790,7 +783,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     card->power += x;
     card->powerBase += x;
 
-//    addAnimation(new AnimationText(card->name + " strenghten"), ally, enemy);
+    ally.animations.push_back(new Animation("", Animation::Strengthen, card));
 
     // TODO: others trigger on strengthen
 }
@@ -802,7 +795,7 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
     card->power -= x;
     card->powerBase -= x;
 
-//    addAnimation(new AnimationText(card->name + " weaken"), ally, enemy);
+    ally.animations.push_back(new Animation("", Animation::Weaken, card));
 
     if (card->powerBase < 0)
         return banish(card, ally, enemy);
@@ -816,7 +809,7 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 
     card->armor += x;
 
-//    addAnimation(new AnimationText(card->name + " gain armor"), ally, enemy);
+    ally.animations.push_back(new Animation("", Animation::ArmorGain, card));
 }
 
 std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
@@ -938,6 +931,8 @@ void spawn(Card *card, Field &ally, Field &enemy)
     assert(card != nullptr);
 
     ally.cardsAdded.push_back(card);
+    ally.animations.push_back(new Animation("", Animation::Spawn, card));
+
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy);
         putOnDiscard(card, ally, enemy);
