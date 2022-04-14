@@ -384,4 +384,16 @@ struct ElvenMercenary : Card
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
+struct ChampionOfHov : Card
+{
+    ChampionOfHov();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct GeraltIgni : Card
+{
+    GeraltIgni(const Lang lang = En);
+};
+
 #endif // CARDS_H

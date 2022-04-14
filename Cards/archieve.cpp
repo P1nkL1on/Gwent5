@@ -1172,3 +1172,51 @@ void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playACard(target, ally, enemy);
 }
+
+ChampionOfHov::ChampionOfHov()
+{
+    name = "Champion of Hov";
+    url = "https://gwent.one/image/card/low/cid/png/152202.png";
+    power = powerBase = 7;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Ogroid };
+}
+
+void ChampionOfHov::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+}
+
+void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    duel(this, target, ally, enemy);
+}
+
+GeraltIgni::GeraltIgni(const Lang lang)
+{
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    name = "Geralt: Igni";
+    url = "https://gwent.one/image/card/low/cid/png/112102.png";
+    if (lang == En) {
+        sounds = {
+            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3"
+        };
+    } else if (lang == Ru) {
+        sounds = {
+            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01129033.mp3",
+            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.2.mp3",
+            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.1.mp3",
+            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.3.mp3",
+            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01054169.mp3"
+        };
+    }
+}

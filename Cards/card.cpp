@@ -83,20 +83,6 @@ Filters canBeCount()
     };
 }
 
-//struct AnimationText : Animation
-//{
-//    AnimationText(const std::string &string) :
-//        _string(string)
-//    {
-//    }
-//    void run() override
-//    {
-//        std::cout << _string << std::endl;
-//    }
-//private:
-//    std::string _string;
-//};
-
 void triggerRowEffects(Field &ally, Field &enemy)
 {
     const auto applyRowEffect = [&](const std::vector<Card *> &row, const RowEffect effect) {
@@ -150,11 +136,31 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
     /// shuffle a deck
     shuffle(field.deck);
+
+    // TODO: remove test units
+    for (int i = 1; i <= 9; ++i) {
+        auto *c = new Card;
+        c->name = "Dummy";
+        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->power = c->powerBase = i;
+        field.rowMeele.push_back(c);
+    }
+    for (int i = 10; i <= 15; ++i) {
+        auto *c = new Card;
+        c->name = "Dummy";
+        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->power = c->powerBase = i;
+        field.rowRange.push_back(c);
+    }
 }
 
 void startNextRound(Field &ally, Field &enemy)
 {
     ally.nRounds++;
+    ally.passed = false;
+
+    enemy.nRounds++;
+    enemy.passed = false;
 
     int nDraw = 0;
     int nSwap = 0;
@@ -171,11 +177,14 @@ void startNextRound(Field &ally, Field &enemy)
         assert(false);
     }
 
-    while (nDraw--)
+    while (nDraw--) {
         drawACard(ally, enemy);
+        drawACard(enemy, ally);
+    }
 
     /// start a round start swapping
     ally.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, ally.hand, nSwap, true));
+    enemy.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, enemy.hand, nSwap, true));
 }
 
 void shuffle(std::vector<Card *> &cards)
@@ -274,8 +283,18 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             assert(false);
     }
 
-//    addAnimation(new AnimationText(card->name + " put on field"), ally, enemy);
     // TODO: others trigger enter
+
+    const std::string sound = [=]{
+        if (card->sounds.size() > 0) {
+            // TODO: random
+            const size_t ind = std::default_random_engine{}() % card->sounds.size();
+            return card->sounds[ind];
+        }
+        return std::string();
+    }();
+
+    ally.animations.push_back(new Animation(sound, Animation::PutOnField, card));
 }
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
@@ -343,7 +362,11 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
     const Snapshot snapshot = ally.takeSnapshot();
 
     if (snapshot.choice == RoundStartPlay) {
-        assert(card != nullptr);
+        /// passed
+        if (card == nullptr) {
+            ally.passed = true;
+            return;
+        }
         assert(snapshot.nTargets == 1);
         return playACard(card, ally, enemy);
     }
@@ -707,7 +730,16 @@ void banish(Card *card, Field &ally, Field &enemy)
     assert(row != AlreadyCreated);
 }
 
-void damage(Card *card, const int x, Field &ally, Field &enemy)
+void duel(Card *first, Card *second, Field &ally, Field &enemy)
+{
+    while (true) {
+        if (damage(second, first->power, ally, enemy))
+            break;
+        std::swap(first, second);
+    }
+}
+
+bool damage(Card *card, const int x, Field &ally, Field &enemy)
 {
     // TODO: check death and rest
     assert(x > 0);
@@ -725,7 +757,7 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
         }
 
         if (dmgInPower == 0)
-            return;
+            return false;
     }
     card->power -= dmgInPower;
 
@@ -733,10 +765,11 @@ void damage(Card *card, const int x, Field &ally, Field &enemy)
         card->onDamaged(dmgInPower, ally, enemy);
 //        addAnimation(new AnimationText(card->name + " damaged"), ally, enemy);
         // TODO: trigger other on damaged
-        return;
+        return false;
     }
 
     destroy(card, ally, enemy);
+    return true;
 }
 
 void boost(Card *card, const int x, Field &ally, Field &enemy)
@@ -771,7 +804,8 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
 
 //    addAnimation(new AnimationText(card->name + " weaken"), ally, enemy);
 
-    // TODO: check banish
+    if (card->powerBase < 0)
+        return banish(card, ally, enemy);
 
     // TODO: others trigger on weaken
 }
@@ -840,7 +874,13 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     if (ally.cardStack.size() > 0)
         return false;
 
-    // finish turn
+    /// finish turn if neither of player has been passed
+    if (ally.passed && enemy.passed) {
+        startNextRound(ally, enemy);
+        return true;
+    }
+
+    /// finish turn if noone passed
     for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
@@ -853,8 +893,12 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
         _card->onTurnStart(ally, enemy);
 
-    // give a choice to enemy
-    enemy.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, enemy.hand, 1, false));
+    /// finish turn if only enemy passed
+    if (enemy.passed)
+        return tryFinishTurn(enemy, ally);
+
+    /// give a choice to enemy
+    enemy.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, enemy.hand, 1, true));
     return true;
 }
 

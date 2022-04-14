@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QMediaPlayer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,25 +14,31 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Sage, new Sage, new Sage,
-        new Swallow, new Swallow, new Swallow,
-        new Thunderbolt, new Thunderbolt, new Thunderbolt,
-        new ElvenMercenary, new ElvenMercenary, new Sage,
-        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
+        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
         new Reconnaissance, new Reconnaissance, new Reconnaissance,
-        new Ambassador, new Ambassador, new Ambassador, new Ambassador,
+        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
+        new AnCraiteGreatsword, new AnCraiteGreatsword, new AnCraiteGreatsword,
+        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
+        new TuirseachBearmaster, new TuirseachBearmaster,
+        new DimunDracar, new DimunDracar,
+    };
+
+    const std::vector<Card *> deckStarting2 = {
+        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
+        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
+        new JohnNatalis, new Vaedermakar, new KeiraMetz,
+        new TemerianDrummer, new TemerianDrummer, new TemerianDrummer,
+        new SileDeTansarville,
     };
 
     initField(deckStarting, _ally);
-    startNextRound(_ally, _enemy);
-
-
-    const std::vector<Card *> deckStarting2 = {
-        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-    };
-
     initField(deckStarting2, _enemy);
-    startNextRound(_enemy, _ally);
+
+    startNextRound(_ally, _enemy);
 
     resize(600, 450);
     setMouseTracking(true);
@@ -54,6 +61,22 @@ void MainWindow::requestImageByUrl(const std::string &url)
     QNetworkRequest request(qUrl);
     _pixMapsRequested.insert(qString);
     _networkAccessManager->get(request);
+}
+
+void MainWindow::requestSoundByUrl(const std::string &url)
+{
+    if (url.size() == 0)
+        return;
+
+    const QString qString = QString::fromStdString(url);
+    if (!_sounds.contains(qString)) {
+        auto *mediaPlayer = new QMediaPlayer(this);
+        mediaPlayer->setMedia(QUrl(qString));
+        mediaPlayer->setVolume(_sound);
+        _sounds.insert(qString, mediaPlayer);
+    }
+
+    _sounds.value(qString)->play();
 }
 
 void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
@@ -131,9 +154,10 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rectRes.contains(point);
     };
 
-    const auto popAnimations = [&ally] {
+    const auto popAnimations = [=, &ally] {
         while (ally.animations.size() > 0) {
-            ally.animations.back()->run();
+            const std::string sound = ally.animations.back()->sound;
+            requestSoundByUrl(sound);
             ally.animations.pop_back();
         }
     };
@@ -142,6 +166,13 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return;
 
     if (ally.snapshot().choice == RoundStartPlay) {
+        if (ally.snapshot().isOptional && isFinishChoiceButton(point)) {
+            onChoiceDoneCard(nullptr, ally, enemy);
+            tryFinishTurn(ally, enemy);
+            repaint();
+            popAnimations();
+            return;
+        }
         Card *card = cardAt(point);
         if (card == nullptr || !isIn(card, ally.snapshot().cardOptions))
             return;
@@ -497,22 +528,32 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
     } else {
         Q_ASSERT(false);
     }
+
+    paintTextInPoint(QString("Ally: %1%2").arg(powerField(ally)).arg(ally.passed ? " PASS" : ""), QPointF(0, 0), Qt::black, Qt::cyan);
+    paintTextInPoint(QString("Enemy: %1%2").arg(powerField(enemy)).arg(enemy.passed ? " PASS" : ""), QPointF(0, 15), Qt::black, Qt::red);
 }
 
 
 void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 {
+    const QString urlString = reply->url().toString();
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << reply->url() << "err";
-        _pixMapsLoaded.insert(reply->url().toString(), QImage());
+        qDebug() << urlString << "err";
+        _pixMapsLoaded.insert(urlString, QImage());
         return;
     }
-    qDebug() << reply->url() << "ok";
-    QByteArray jpegData = reply->readAll();
-    QPixmap pixmap;
-    pixmap.loadFromData(jpegData);
-    _pixMapsLoaded.insert(reply->url().toString(), pixmap.toImage());
-    repaint();
+
+    if (urlString.endsWith(".png")) {
+        qDebug() << reply->url() << "image ok";
+        QByteArray pngData = reply->readAll();
+        QPixmap pixmap;
+        pixmap.loadFromData(pngData);
+        _pixMapsLoaded.insert(urlString, pixmap.toImage());
+        repaint();
+
+    } else {
+        Q_ASSERT(false);
+    }
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)

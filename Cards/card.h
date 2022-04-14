@@ -40,6 +40,7 @@ enum Tag
     ClanHeymaey,
     ClanDimun,
     ClanTuirseach,
+    Ogroid,
 
     Cursed,
     Support,
@@ -48,6 +49,7 @@ enum Tag
     Soldier,
     Machine,
     Agent,
+    Witcher,
 
     Alchemy,
     Tactics,
@@ -104,6 +106,12 @@ enum ChoiceGroup
     AllyDeck,
 };
 
+enum Lang
+{
+    En,
+    Ru,
+};
+
 struct Field;
 
 struct Card
@@ -127,6 +135,7 @@ struct Card
     bool isSpecial = false;
     std::string name;
     std::string url;
+    std::vector<std::string> sounds;
 
     inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onEnterFromDiscard(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
@@ -176,8 +185,22 @@ struct Snapshot
 
 struct Animation
 {
-    virtual ~Animation() = default;
-    virtual void run() = 0;
+    enum Type { Unknown, Draw, PutOnField, Damage, Boost };
+    inline Animation(
+            const std::string &sound,
+            const Type type,
+            const Card *src,
+            const Card *dst = nullptr) :
+        sound(sound),
+        type(type),
+        src(src),
+        dst(dst)
+    {
+    }
+    std::string sound;
+    Type type = Unknown;
+    const Card *src = nullptr;
+    const Card *dst = nullptr;
 };
 
 struct Field
@@ -197,6 +220,7 @@ struct Field
     std::vector<Snapshot> cardStack;
     int nTurns = 0;
     int nRounds = 0;
+    bool passed = false;
     std::vector<Animation *> animations;
 
     const Snapshot &snapshot() const;
@@ -206,7 +230,6 @@ struct Field
     std::vector<Card *> &row(const Row _row);
     RowEffect &rowEffect(const Row _row);
 };
-
 
 
 int powerField(const Field &field);
@@ -245,12 +268,13 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy);
 /// call play as special or start choosing a row and pos to play a unit
 void playACard(Card *card, Field &ally, Field &enemy);
 
+/// returns true if destroyed a unit
+bool damage(Card *card, const int x, Field &ally, Field &enemy);
 
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
-void damage(Card *card, const int x, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 void weaken(Card *card, const int x, Field &ally, Field &enemy);
@@ -259,6 +283,7 @@ bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
 void destroy(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
+void duel(Card *first, Card *second, Field &ally, Field &enemy);
 
 void traceField(Field &field);
 
