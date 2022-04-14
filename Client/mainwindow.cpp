@@ -8,6 +8,7 @@
 #include <QPropertyAnimation>
 #include <QFrame>
 #include <QEventLoop>
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,31 +18,50 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
-        new AnCraiteGreatsword, new AnCraiteGreatsword, new AnCraiteGreatsword,
-        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
-        new TuirseachBearmaster, new TuirseachBearmaster,
-        new DimunDracar, new DimunDracar,
+        new Priscilla, new Priscilla, new SeltkirkOfGulet, new SeltkirkOfGulet,
+        new Frightener, new Ambassador, new Assassin, new AdrenalineRush, new AdrenalineRush,
+        new PoorFingInfantry,
+//        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
+//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+//        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+//        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
+//        new AnCraiteGreatsword, new AnCraiteGreatsword, new AnCraiteGreatsword,
+//        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
+//        new TuirseachBearmaster, new TuirseachBearmaster,
+//        new DimunDracar, new DimunDracar,
     };
 
     const std::vector<Card *> deckStarting2 = {
-        new ReaverScout, new ReaverScout, new ReaverScout,
-        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
-        new JohnNatalis, new Vaedermakar, new KeiraMetz,
-        new TemerianDrummer, new TemerianDrummer, new TemerianDrummer,
-        new SileDeTansarville,
-        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
-        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
+//        new ReaverScout, new ReaverScout, new ReaverScout,
+//        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
+//        new JohnNatalis, new Vaedermakar, new KeiraMetz,
+//        new TemerianDrummer, new TemerianDrummer, new TemerianDrummer,
+//        new SileDeTansarville,
+//        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
+//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+//        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
     };
 
     initField(deckStarting, _ally);
     initField(deckStarting2, _enemy);
-
     startNextRound(_ally, _enemy);
+
+    // TODO: remove test units
+    for (int i = 10; i <= 15; ++i) {
+        auto *c = new Card;
+        c->name = "Dummy";
+        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->power = c->powerBase = i;
+        _ally.rowMeele.push_back(c);
+    }
+    for (int i = 10; i <= 15; ++i) {
+        auto *c = new Card;
+        c->name = "Dummy";
+        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->power = c->powerBase = i;
+        _enemy.rowMeele.push_back(c);
+    }
+
 
     resize(600, 450);
     setMouseTracking(true);
@@ -174,8 +194,11 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             requestSoundByUrl(sound);
 
             switch (animation->type) {
-            case Animation::Unknown:
+            default:
                 Q_ASSERT(false);
+                break;
+            case Animation::Spawn:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "spawned";
                 break;
             case Animation::Draw:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
@@ -189,9 +212,23 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             case Animation::ArmorGain:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
                 break;
-            case Animation::Damage:
+            case Animation::Damage: {
+//                auto *_variantAnimation = new QVariantAnimation(this);
+//                _variantAnimation->setStartValue(QSize(0, 0));
+//                _variantAnimation->setStartValue(QSize(30, 30));
+//                _variantAnimation->setDuration(2000);
+//                _variantAnimation->setEasingCurve(QEasingCurve::Linear);
+//                QEventLoop loop;
+//                connect(_variantAnimation, &QVariantAnimation::valueChanged, this, [=](const QVariant &variant) {
+//                    qDebug() << "variant" << variant;
+//                    repaint();
+//                });
+//                connect(_variantAnimation, &QVariantAnimation::finished, &loop, &QEventLoop::quit);
+//                _variantAnimation->start();
+//                loop.exec(QEventLoop::AllEvents);
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
                 break;
+            }
             case Animation::Boost:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
                 break;
@@ -204,41 +241,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             }
 
             ally.animations.erase(ally.animations.begin());
-
-//            if (animation->type == Animation::Damage || animation->type == Animation::Boost) {
-//                Q_ASSERT(animation->src != nullptr);
-//                auto *frame = new QFrame(this);
-//                frame->show();
-//                frame->setStyleSheet(animation->type == Animation::Damage ? "QFrame { background-color: red; }" : "QFrame { background-color: green; }");
-//                auto *sizeAnimation = new QPropertyAnimation(frame, "size");
-//                const QPoint center = (topLeftOf(animation->src) + QPointF(posWidth / 2, posHeight / 2)).toPoint();
-//                const QSize sizeStart(0, 0);
-//                const QSize sizeEnd(30, 30);
-//                const int time = 200;
-//                sizeAnimation->setStartValue(sizeStart);
-//                sizeAnimation->setEndValue(sizeEnd);
-//                sizeAnimation->setDuration(time);
-//                sizeAnimation->setEasingCurve(QEasingCurve::OutCubic);
-//                QEventLoop loop(this);
-//                connect(sizeAnimation, &QAbstractAnimation::finished, &loop, &QEventLoop::quit);
-//                connect(sizeAnimation, &QAbstractAnimation::finished, frame, [=]{
-//                    frame->hide();
-//                    frame->deleteLater();
-//                });
-
-//                auto *posAnimation = new QPropertyAnimation(frame, "pos");
-//                posAnimation->setStartValue(center - QPoint(sizeStart.width() / 2, sizeStart.height() / 2));
-//                posAnimation->setEndValue(center - QPoint(sizeEnd.width() / 2, sizeEnd.height() / 2));
-//                posAnimation->setDuration(time);
-//                posAnimation->setEasingCurve(QEasingCurve::OutCubic);
-
-//                frame->move(center);
-//                frame->resize(0, 0);
-//                posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-//                sizeAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-//                loop.exec(QEventLoop::AllEvents);
-//                repaint();
-//            }
         }
     };
 
@@ -463,7 +465,11 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             width += _layout.borderTextPx;
         }
 
-        /// draw timer
+        if (card->isLocked) {
+            width += paintTextInPoint("LOCKED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::white);
+            width += _layout.borderTextPx;
+        }
+
         if (card->timer) {
             width += paintTextInPoint("T" + QString::number(card->timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
             width += _layout.borderTextPx;
@@ -471,6 +477,21 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
 
         if (card->isSpy) {
             width += paintTextInPoint("SPY", QPointF(topLeft.x() + width, topLeft.y()), Qt::white, Qt::red);
+            width += _layout.borderTextPx;
+        }
+
+        if (card->isResilient) {
+            width += paintTextInPoint("RESILIENCE", QPointF(topLeft.x() + width, topLeft.y()), Qt::white, Qt::darkGreen);
+            width += _layout.borderTextPx;
+        }
+
+        if (card->isImmune) {
+            width += paintTextInPoint("IMMUNE", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::green);
+            width += _layout.borderTextPx;
+        }
+
+        if (card->isDoomed) {
+            width += paintTextInPoint("DOOMED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::cyan);
             width += _layout.borderTextPx;
         }
 

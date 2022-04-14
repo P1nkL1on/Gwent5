@@ -33,6 +33,7 @@ enum Tag
     Construct,
     Elf,
     Dwarf,
+    Aedirn,
     Temeria,
     Redania,
     Kaedwen,
@@ -124,15 +125,20 @@ struct Card
     int armor = 0;
     int rarity = 0;
     int timer = 0;
+
     int faction = Neutral;
     std::vector<Tag> tags;
+    bool isLoyal = true;
+    bool isSpecial = false;
+
     bool isLocked = false;
     bool isSpy = false;
+    bool isResilient = false;
     // TODO: still can damage unit in ambush (with near)
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
-    bool isSpecial = false;
+
     std::string name;
     std::string url;
     std::vector<std::string> sounds;

@@ -391,6 +391,26 @@ struct ChampionOfHov : Card
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
+struct Priscilla : Card
+{
+    Priscilla();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+struct SeltkirkOfGulet : Card
+{
+    SeltkirkOfGulet();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct AdrenalineRush : Card
+{
+    AdrenalineRush();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
 struct GeraltIgni : Card
 {
     GeraltIgni(const Lang lang = En);

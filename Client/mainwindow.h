@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QSet>
 #include <QMediaPlayer>
+#include <QVariantAnimation>
 
 #include "../Cards/archieve.h"
 
@@ -50,6 +51,7 @@ private:
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
     QMap<QString, QMediaPlayer *> _sounds;
+//    QVariantAnimation *_variantAnimation = nullptr;
 };
 
 #endif // MAINWINDOW_H

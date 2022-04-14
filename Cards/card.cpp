@@ -136,19 +136,41 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
     /// shuffle a deck
     shuffle(field.deck);
-
-    // TODO: remove test units
-    for (int i = 10; i <= 15; ++i) {
-        auto *c = new Card;
-        c->name = "Dummy";
-        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-        c->power = c->powerBase = i;
-        field.rowMeele.push_back(c);
-    }
 }
 
 void startNextRound(Field &ally, Field &enemy)
 {
+    /// clean all the mess from previous round
+    for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
+        ally.rowEffect(row) = NoRowEffect;
+        enemy.rowEffect(row) = NoRowEffect;
+
+        const std::vector<Card *> rowAlly = ally.row(row);
+        for (Card *card : rowAlly) {
+            if (!card->isResilient) {
+                takeCard(card, ally, enemy);
+                ally.discard.push_back(card);
+            } else {
+                card->isResilient = false;
+                if (card->power > card->powerBase)
+                    card->power = card->powerBase;
+            }
+        }
+
+        const std::vector<Card *> rowEnemy = enemy.row(row);
+        for (Card *card : rowEnemy) {
+            if (!card->isResilient) {
+                takeCard(card, enemy, enemy);
+                enemy.discard.push_back(card);
+            } else {
+                card->isResilient = false;
+                if (card->power > card->powerBase)
+                    card->power = card->powerBase;
+            }
+        }
+    }
+
+    /// start next round
     ally.nRounds++;
     ally.passed = false;
 
@@ -223,7 +245,7 @@ void playACard(Card *card, Field &ally, Field &enemy)
         putOnDiscard(card, ally, enemy);
         return;
     }
-    return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
+    return ally.cardStack.push_back(Snapshot(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
@@ -266,7 +288,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
     ally.animations.push_back(new Animation(sound, Animation::PutOnField, card));
 
-    if (!card->isSpy) {
+    if (card->isLoyal) {
         if (takenFrom == Deck)
             card->onEnterFromDeck(ally, enemy);
         else if (takenFrom == Discard)
@@ -277,6 +299,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             assert(false);
 
     } else {
+        card->isSpy = true;
         if (takenFrom == Deck)
             card->onEnterFromDeck(enemy, ally);
         else if (takenFrom == Discard)
@@ -938,7 +961,7 @@ void spawn(Card *card, Field &ally, Field &enemy)
         putOnDiscard(card, ally, enemy);
         return;
     }
-    return ally.cardStack.push_back(Snapshot(card->isSpy ? SelectEnemyRowAndPos : SelectAllyRowAndPos, card));
+    return ally.cardStack.push_back(Snapshot(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
 void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)

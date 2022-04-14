@@ -605,7 +605,7 @@ Ambassador::Ambassador()
     name = "Ambassador";
     url = "https://gwent.one/image/card/low/cid/png/162315.png";
     power = powerBase = 2;
-    isSpy = true;
+    isLoyal = false;
     rarity = Bronze;
     faction = Nilfgaard;
     tags = {};
@@ -626,7 +626,7 @@ Assassin::Assassin()
     name = "Assassin";
     url = "https://gwent.one/image/card/low/cid/png/200115.png";
     power = powerBase = 1;
-    isSpy = true;
+    isLoyal = false;
     rarity = Bronze;
     faction = Nilfgaard;
     tags = {};
@@ -886,7 +886,7 @@ Frightener::Frightener()
     name = "Frightener";
     url = "https://gwent.one/image/card/low/cid/png/132204.png";
     power = powerBase = 13;
-    isSpy = true;
+    isLoyal = false;
     timer = 1;
     rarity = Silver;
     faction = Monster;
@@ -1306,4 +1306,72 @@ GeraltIgni::GeraltIgni(const Lang lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
+}
+
+Priscilla::Priscilla()
+{
+    name = "Priscilla";
+    url = "https://gwent.one/image/card/low/cid/png/122202.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/PRIS_Q305_00489643.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.9.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.10.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.11.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Gold;
+    faction = NothernRealms;
+    tags = { Support };
+}
+
+void Priscilla::onEnter(Field &ally, Field &enemy)
+{
+    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, Ally), 5))
+        boost(card, 3, ally, enemy);
+}
+
+SeltkirkOfGulet::SeltkirkOfGulet()
+{
+    name = "Seltkirk of Gulet";
+    url = "https://gwent.one/image/card/low/cid/png/201618.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.117.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.118.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.119.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Gold;
+    faction = NothernRealms;
+    tags = { Aedirn, Officer, Cursed };
+}
+
+void SeltkirkOfGulet::onEnter(Field &ally, Field &enemy)
+{
+    gainArmor(this, 3, ally, enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+}
+
+void SeltkirkOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    duel(this, target, ally, enemy);
+}
+
+AdrenalineRush::AdrenalineRush()
+{
+    name = "Adrenaline Rush";
+    url = "https://gwent.one/image/card/low/cid/png/113307.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Organic };
+}
+
+void AdrenalineRush::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this);
+}
+
+void AdrenalineRush::onTargetChoosen(Card *target, Field &, Field &)
+{
+    target->isResilient = !target->isResilient;
 }
