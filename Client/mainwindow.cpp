@@ -18,9 +18,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Priscilla, new Priscilla, new SeltkirkOfGulet, new SeltkirkOfGulet,
+        new Vaedermakar, new Vaedermakar, new Vaedermakar,
+        new Decoy, new Decoy, new Decoy,
+        new ShupesDayOff, new ShupesDayOff, new ShupesDayOff,
         new Frightener, new Ambassador, new Assassin, new AdrenalineRush, new AdrenalineRush,
-        new PoorFingInfantry,
+        new PoorFingInfantry, new KeiraMetz, new KeiraMetz, new KeiraMetz, new Mandrake, new Mandrake
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new Reconnaissance, new Reconnaissance, new Reconnaissance,
 //        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
@@ -202,6 +204,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
                 break;
             case Animation::Draw:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
+                break;
+            case Animation::PlaySpecial:
+                qDebug().noquote() << QString::fromStdString(animation->src->name) << "played special";
                 break;
             case Animation::PutOnField:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
@@ -541,7 +546,7 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             painter.fillRect(rowRect, QBrush(Qt::gray, Qt::BDiagPattern));
             break;
         case BitingFrostEffect:
-            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::Dense7Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::cyan, Qt::Dense7Pattern));
             break;
         case ImpenetrableFogEffect:
             painter.fillRect(rowRect, QBrush(Qt::gray, Qt::Dense6Pattern));
@@ -553,19 +558,22 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
             painter.fillRect(rowRect, QBrush(Qt::blue, Qt::HorPattern));
             break;
         case DragonsDreamEffect:
-//            painter.fillRect(rowRect, QBrush(Qt::darkCyan, Qt::Dense7Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::darkCyan, Qt::HorPattern));
             break;
         case KorathiHeatwaveEffect:
-//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense5Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense5Pattern));
             break;
         case RaghNarRoogEffect:
-//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense6Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense4Pattern));
             break;
         case FullMoonEffect:
-//            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::Dense1Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::VerPattern));
             break;
         case BloodMoonEffect:
-//            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense1Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::red, Qt::VerPattern));
+            break;
+        case PitTrapEffect:
+            painter.fillRect(rowRect, QBrush(Qt::darkYellow, Qt::VerPattern));
             break;
         }
         painter.setBrush(QBrush(Qt::NoBrush));

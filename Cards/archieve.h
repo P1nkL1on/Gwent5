@@ -164,10 +164,6 @@ struct KeiraMetz : Card
     KeiraMetz();
     void onEnter(Field &ally, Field &/*enemy*/) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-private:
-    Card *_c1 = nullptr;
-    Card *_c2 = nullptr;
-    Card *_c3 = nullptr;
 };
 
 struct DolBlathannaArcher : Card
@@ -409,6 +405,76 @@ struct AdrenalineRush : Card
     AdrenalineRush();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct Mandrake : Card
+{
+    Mandrake();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Buff : Card {};
+    struct Debuff : Card {};
+    Card *_choosen = nullptr;
+};
+
+struct Decoy : Card
+{
+    Decoy();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct ShupesDayOff : Card
+{
+    ShupesDayOff();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+struct ShupeKnight : Card
+{
+    ShupeKnight();
+    static bool isFourOrLessPower(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Destroy : Card {};
+    struct Reset : Card {};
+    struct Duel : Card {};
+    struct Strengthen : Card {};
+    struct Resilient : Card {};
+    Card *_choosen = nullptr;
+};
+
+struct ShupeHunter : Card
+{
+    ShupeHunter();
+    static bool isBronzeOrSilverUnit(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Play : Card {};
+    struct Shot : Card {};
+    struct Replay : Card {};
+    struct Clear : Card {};
+    struct Barrage : Card {};
+    Card *_choosen = nullptr;
+};
+
+struct ShupeMage : Card
+{
+    ShupeMage();
+    static bool isBronzeOrSilverSpecial(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Draw : Card {};
+    struct Charm : Card {};
+    struct Hazards : Card {};
+    struct Meteor : Card {};
+    struct Play : Card {};
+    Card *_choosen = nullptr;
 };
 
 struct GeraltIgni : Card

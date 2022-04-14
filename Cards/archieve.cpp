@@ -1,5 +1,8 @@
 #include "archieve.h"
 
+#include <cassert>
+#include <random>
+
 AddaStriga::AddaStriga()
 {
     name = "Adda: Striga";
@@ -275,7 +278,7 @@ void AnCraiteGreatsword::onTurnStart(Field &ally, Field &enemy)
     if (power >= powerBase)
         return;
 
-    boost(this, powerBase - power, ally, enemy);
+    heal(this, ally, enemy);
     strengthen(this, 2, ally, enemy);
 }
 
@@ -534,20 +537,12 @@ KeiraMetz::KeiraMetz()
 
 void KeiraMetz::onEnter(Field &ally, Field &)
 {
-    _c1 = new AlzursThunder;
-    _c2 = new Thunderbolt;
-    _c3 = new ArachasVenom;
-    ally.cardStack.push_back({Target, this, {_c1, _c2, _c3}});
+    startChoiceToSelectOption(ally, this, {new AlzursThunder, new Thunderbolt, new ArachasVenom});
 }
 
 void KeiraMetz::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    if (_c1 != target)
-        delete _c1;
-    if (_c2 != target)
-        delete _c2;
-    if (_c3 != target)
-        delete _c3;
+    acceptOptionAndDeleteOthers(this, target);
     spawn(target, ally, enemy);
 }
 
@@ -864,20 +859,12 @@ Vaedermakar::Vaedermakar()
 
 void Vaedermakar::onEnter(Field &ally, Field &)
 {
-    _c1 = new BitingFrost;
-    _c2 = new ImpenetrableFog;
-    _c3 = new AlzursThunder;
-    ally.cardStack.push_back({Target, this, {_c1, _c2, _c3}});
+    startChoiceToSelectOption(ally, this, {new BitingFrost, new ImpenetrableFog, new AlzursThunder});
 }
 
 void Vaedermakar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    if (_c1 != target)
-        delete _c1;
-    if (_c2 != target)
-        delete _c2;
-    if (_c3 != target)
-        delete _c3;
+    acceptOptionAndDeleteOthers(this, target);
     spawn(target, ally, enemy);
 }
 
@@ -984,7 +971,7 @@ bool Reinforcements::isBronzeOrSilverSoldierMachineOfficerOrSupport(Card *card)
 
 void Reinforcements::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSoldierMachineOfficerOrSupport}, AllyDeck);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSoldierMachineOfficerOrSupport}, AllyDeckShuffled);
 }
 
 void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1374,4 +1361,425 @@ void AdrenalineRush::onPlaySpecial(Field &ally, Field &enemy)
 void AdrenalineRush::onTargetChoosen(Card *target, Field &, Field &)
 {
     target->isResilient = !target->isResilient;
+}
+
+ShupesDayOff::ShupesDayOff()
+{
+    name = "Shupe's Day Off";
+    url = "https://gwent.one/image/card/low/cid/png/201627.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.168.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.169.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.170.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.171.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.172.mp3",
+    };
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Organic };
+}
+
+void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new ShupeKnight, new ShupeHunter, new ShupeMage});
+}
+
+void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    playACard(target, ally, enemy);
+}
+
+ShupeHunter::ShupeHunter()
+{
+    name = "Shupe: Hunter";
+    url = "https://gwent.one/image/card/low/cid/png/201731.png";
+    power = powerBase = 8;
+    isDoomed = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Ogroid };
+}
+
+bool ShupeHunter::isBronzeOrSilverUnit(Card *card)
+{
+    return !card->isSpecial && ((card->rarity == Bronze) || (card->rarity == Silver));
+}
+
+void ShupeHunter::onEnter(Field &ally, Field &)
+{
+    auto *option1 = new ShupeHunter::Play;
+    copyCardText(this, option1);
+    option1->text = "Play a bronze or silver unit from deck.";
+
+    auto *option2 = new ShupeHunter::Shot;
+    copyCardText(this, option2);
+    option2->text = "Deal 15 damage.";
+
+    auto *option3 = new ShupeHunter::Replay;
+    copyCardText(this, option3);
+    option3->text = "Replay a bronze or silver unit and boost it by 5.";
+
+    auto *option4 = new ShupeHunter::Clear;
+    copyCardText(this, option4);
+    option4->text = "Clear all hazards from your side and boost allies by 1.";
+
+    auto *option5 = new ShupeHunter::Barrage;
+    copyCardText(this, option5);
+    option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+}
+
+void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverUnit}, AllyDeck);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverUnit}, Ally);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {}, Ally))
+                boost(card, 1, ally, enemy);
+            clearAllHazards(ally);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
+            for (int n = 0; n < 8; ++n)
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+                    damage(card, 2, ally, enemy);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    }
+
+    if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
+        playACard(target, ally, enemy);
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
+        damage(target, 15, ally, enemy);
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
+        //
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    assert(false);
+}
+
+ShupeMage::ShupeMage()
+{
+    name = "Shupe: Mage";
+    url = "https://gwent.one/image/card/low/cid/png/201725.png";
+    power = powerBase = 4;
+    isDoomed = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Ogroid };
+}
+
+bool ShupeMage::isBronzeOrSilverSpecial(Card *card)
+{
+    return card->isSpecial && ((card->rarity == Bronze) || (card->rarity == Silver));
+}
+
+void ShupeMage::onEnter(Field &ally, Field &)
+{
+    auto *option1 = new ShupeMage::Draw;
+    copyCardText(this, option1);
+    option1->text = "Draw a card.";
+
+    auto *option2 = new ShupeMage::Charm;
+    copyCardText(this, option2);
+    option2->text = "Charm a random enemy.";
+
+    auto *option3 = new ShupeMage::Hazards;
+    copyCardText(this, option3);
+    option3->text = "Spawn a random hazard on each enemy row.";
+
+    auto *option4 = new ShupeMage::Meteor;
+    copyCardText(this, option4);
+    option4->text = "Deal 10 damage to an enemy and 5 damage to each adjacent enemy.";
+
+    auto *option5 = new ShupeMage::Play;
+    copyCardText(this, option5);
+    option5->text = "Play a bronze or silver special card from your deck.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+}
+
+void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<ShupeMage::Draw *>(_choosen)) {
+            drawACard(ally, enemy);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
+            charm(random(cardsFiltered(ally, enemy, {}, Enemy)), ally, enemy);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
+            applyRowEffect(enemy, Meele, randomHazardEffect());
+            applyRowEffect(enemy, Range, randomHazardEffect());
+            applyRowEffect(enemy, Seige, randomHazardEffect());
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSpecial}, AllyDeckShuffled);
+            return;
+        }
+
+        assert(false);
+    }
+
+    if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
+
+        damage(target, 10, ally, enemy);
+        if (left != nullptr)
+            damage(left, 5, ally, enemy);
+        if (right != nullptr)
+            damage(right, 5, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
+        playACard(target, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    assert(false);
+}
+
+Mandrake::Mandrake()
+{
+    name = "Mandrake";
+    url = "https://gwent.one/image/card/low/cid/png/200223.png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Alchemy, Organic };
+}
+
+void Mandrake::onPlaySpecial(Field &ally, Field &)
+{
+    auto *option1 = new Mandrake::Buff;
+    copyCardText(this, option1);
+    option1->text = "Heal and strengthen by 6.";
+
+    auto *option2 = new Mandrake::Debuff;
+    copyCardText(this, option2);
+    option2->text = "Reset and weaken by 6.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void Mandrake::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+        startChoiceToTargetCard(ally, enemy, this);
+        return;
+    }
+
+    if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
+        heal(target, ally, enemy);
+        strengthen(target, 6, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
+        reset(target, ally, enemy);
+        weaken(target, 6, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    assert(false);
+}
+
+ShupeKnight::ShupeKnight()
+{
+    name = "Shupe: Knight";
+    url = "https://gwent.one/image/card/low/cid/png/201737.png";
+    power = powerBase = 12;
+    isDoomed = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Ogroid };
+}
+
+bool ShupeKnight::isFourOrLessPower(Card *card)
+{
+    return card->power <= 4;
+}
+
+void ShupeKnight::onEnter(Field &ally, Field &)
+{
+    auto *option1 = new ShupeKnight::Destroy;
+    copyCardText(this, option1);
+    option1->text = "Destroy enemies with 4 or less power.";
+
+    auto *option2 = new ShupeKnight::Reset;
+    copyCardText(this, option2);
+    option2->text = "Reset a unit.";
+
+    auto *option3 = new ShupeKnight::Duel;
+    copyCardText(this, option3);
+    option3->text = "Duel an enemy.";
+
+    auto *option4 = new ShupeKnight::Strengthen;
+    copyCardText(this, option4);
+    option4->text = "Strengthen self to 25.";
+
+    auto *option5 = new ShupeKnight::Resilient;
+    copyCardText(this, option5);
+    option5->text = "Resilent.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+}
+
+void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, Enemy))
+                destroy(card, ally, enemy);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this);
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
+            power = power + (25 - powerBase);
+            powerBase = 25;
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Resilient *>(_choosen)) {
+            isResilient = true;
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    }
+
+    if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
+        target->power = target->powerBase;
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
+        duel(this, target, ally, enemy);
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    assert(false);
+
+}
+
+Decoy::Decoy()
+{
+    name = "Decoy";
+    url = "https://gwent.one/image/card/low/cid/png/113201.png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Tactics };
+}
+
+void Decoy::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+}
+
+void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    takeCard(target, ally, enemy);
+    target->power = target->powerBase;
+    boost(target, 3, ally, enemy);
+    playACard(target, ally, enemy);
 }

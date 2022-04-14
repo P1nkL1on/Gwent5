@@ -71,16 +71,19 @@ enum Tag
 enum RowEffect
 {
     NoRowEffect,
+    /// Hazards
     TorrentialRainEffect,
     BitingFrostEffect,
     ImpenetrableFogEffect,
-    GoldenFrothEffect,
     SkelligeStormEffect,
     DragonsDreamEffect,
     KorathiHeatwaveEffect,
     RaghNarRoogEffect,
-    FullMoonEffect,
     BloodMoonEffect,
+    PitTrapEffect,
+    /// Boons
+    GoldenFrothEffect,
+    FullMoonEffect,
 };
 
 enum Choice
@@ -140,8 +143,12 @@ struct Card
     bool isDoomed = false;
 
     std::string name;
+    std::string text;
     std::string url;
     std::vector<std::string> sounds;
+
+    /// temporary created options
+    std::vector<Card *> _options;
 
     inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onEnterFromDiscard(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
@@ -192,7 +199,7 @@ struct Snapshot
 struct Animation
 {
     enum Type {
-        Unknown, Draw, PutOnField, Spawn,
+        Unknown, Draw, PutOnField, Spawn, PlaySpecial,
         ArmorLost, ArmorGain, Damage, Boost, Strengthen, Weaken
     };
     inline Animation(
@@ -261,6 +268,11 @@ void startNextRound(Field &ally, Field &enemy);
 void shuffle(std::vector<Card *> &cards);
 std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms);
 Card *random(const std::vector<Card *> &cards);
+void copyCardText(const Card *card, Card *dst);
+void acceptOptionAndDeleteOthers(Card *card, const Card *option);
+void clearAllHazards(Field &field);
+std::string randomSound(const Card *card);
+RowEffect randomHazardEffect();
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -284,6 +296,8 @@ void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
+void heal(Card *card, Field &ally, Field &enemy);
+void reset(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 void weaken(Card *card, const int x, Field &ally, Field &enemy);
@@ -293,6 +307,7 @@ void swapACard(Card *card, Field &ally, Field &enemy);
 void destroy(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
 void duel(Card *first, Card *second, Field &ally, Field &enemy);
+void charm(Card *card, Field &ally, Field &enemy);
 
 void traceField(Field &field);
 
@@ -301,6 +316,8 @@ using Filters = std::vector<std::function<bool(Card *)> >;
 std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
+/// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
+void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
