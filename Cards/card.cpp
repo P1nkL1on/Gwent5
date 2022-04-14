@@ -241,7 +241,7 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy)
     // TODO: others trigger special
 }
 
-void playACard(Card *card, Field &ally, Field &enemy)
+void playCard(Card *card, Field &ally, Field &enemy)
 {
     assert(card != nullptr);
     if (card->isSpecial) {
@@ -407,7 +407,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
         assert(snapshot.nTargets == 1);
-        return playACard(card, ally, enemy);
+        return playCard(card, ally, enemy);
     }
     if (snapshot.choice == Target) {
         Snapshot snapshotNext = snapshot;

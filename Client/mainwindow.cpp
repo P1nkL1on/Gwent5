@@ -505,6 +505,56 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         paintTextInRect(QString::fromStdString(card->name), rectNameText);
     };
 
+
+
+    // ___________________
+    // TODO: tmp copypaste
+    const auto cardAt = [=](const QPoint &point) -> Card * {
+        for (int j = 0; j < 6; ++j) {
+            const Field *field = j < 3 ? &enemy : &ally;
+            const Row row = Row(j < 3 ? (2 - j) : (j - 3));
+            const std::vector<Card *> &cards = field->row(row);
+            const size_t count = cards.size();
+            if (count == 0)
+                continue;
+            for (size_t i = 0; i < 9; ++i) {
+                if (i >= count)
+                    continue;
+                const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                if (cardRect.contains(point))
+                    return cards[i];
+            }
+        }
+        if (ally.cardStack.size() > 0) {
+            for (size_t i = 0; i < ally.snapshot().cardOptions.size(); ++i) {
+                const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                if (cardRect.contains(point))
+                    return ally.snapshot().cardOptions[i];
+            }
+        }
+        return nullptr;
+    };
+    if (Card *card = cardAt(_pos)) {
+        const QPointF topLeft = QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft();
+        paintCard(card, topLeft);
+        paintTextInPoint(QString("Power = %1").arg(card->power), topLeft + QPointF(0, posHeight + 0 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Power Base = %1").arg(card->powerBase), topLeft + QPointF(0, posHeight + 1 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Armor = %1").arg(card->armor), topLeft + QPointF(0, posHeight + 2 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Special? %1").arg(card->isSpecial), topLeft + QPointF(0, posHeight + 3 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Locked? %1").arg(card->isLocked), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Resilient? %1").arg(card->isResilient), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Spying? %1").arg(card->isSpy), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Immune? %1").arg(card->isImmune), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Doomed? %1").arg(card->isDoomed), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(card->name)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(card->text)), topLeft + QPointF(0, posHeight + 10 * metrics.height()), Qt::white, Qt::black);
+
+    }
+    // TODO: tmp remove all above
+    // __________________________
+
+
+
     for (int j = 0; j < 6; ++j) {
 
         /// determine a row
@@ -684,7 +734,10 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             _pos = em->pos();
             repaint();
         } else {
-            _pos = QPoint();
+            // _pos = QPoint();
+            // TODO: tmp show card description
+            _pos = em->pos();
+            repaint();
         }
     }
 

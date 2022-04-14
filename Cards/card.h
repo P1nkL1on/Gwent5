@@ -287,7 +287,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy);
 void playAsSpecial(Card *card, Field &ally, Field &enemy);
 
 /// call play as special or start choosing a row and pos to play a unit
-void playACard(Card *card, Field &ally, Field &enemy);
+void playCard(Card *card, Field &ally, Field &enemy);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy);

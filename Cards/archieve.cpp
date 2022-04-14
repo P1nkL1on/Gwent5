@@ -163,7 +163,7 @@ void DandelionPoet::onEnter(Field &ally, Field &enemy)
 
 void DandelionPoet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 SileDeTansarville::SileDeTansarville()
@@ -193,7 +193,7 @@ void SileDeTansarville::onEnter(Field &ally, Field &enemy)
 
 void SileDeTansarville::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
     drawACard(ally, enemy);
 }
 
@@ -423,6 +423,7 @@ void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 AlzursThunder::AlzursThunder()
 {
     name = "Alzur's Thunder";
+    text = "Deal 9 damage.";
     url = "https://gwent.one/image/card/low/cid/png/113301.png";
     rarity = Bronze;
     faction = Neutral;
@@ -443,6 +444,7 @@ void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Swallow::Swallow()
 {
     name = "Swallow";
+    text = "Boost a unit by 10.";
     url = "https://gwent.one/image/card/low/cid/png/113310.png";
     rarity = Bronze;
     faction = Neutral;
@@ -496,6 +498,7 @@ void Thunderbolt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 ArachasVenom::ArachasVenom()
 {
     name = "Arachas Venom";
+    text = "Deal 4 damage to 3 adjacent units.";
     url = "https://gwent.one/image/card/low/cid/png/200023.png";
     rarity = Bronze ;
     faction = Neutral;
@@ -676,6 +679,7 @@ void Infiltrator::onTargetChoosen(Card *target, Field &, Field &)
 ImpenetrableFog::ImpenetrableFog()
 {
     name = "Impenetrable Fog";
+    text = "Apply a Hazard to an enemy row that deals 2 damage to the Highest unit on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/113305.png";
     isSpecial = true;
     rarity = Bronze;
@@ -716,6 +720,7 @@ RowEffect TorrentialRain::rowEffect() const
 BitingFrost::BitingFrost()
 {
     name = "Biting Frost";
+    text = "Apply a Hazard to an enemy row that deals 2 damage to the Lowest unit on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/113302.png";
     isSpecial = true;
     rarity = Bronze;
@@ -850,6 +855,7 @@ void Ves::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Vaedermakar::Vaedermakar()
 {
     name = "Vaedermakar";
+    text = "Spawn Biting Frost, Impenetrable Fog or Alzur's Thunder.";
     url = "https://gwent.one/image/card/low/cid/png/113208.png";
     power = powerBase = 4;
     rarity = Silver;
@@ -976,7 +982,7 @@ void Reinforcements::onPlaySpecial(Field &ally, Field &enemy)
 
 void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 JohnNatalis::JohnNatalis()
@@ -1005,7 +1011,7 @@ void JohnNatalis::onEnter(Field &ally, Field &enemy)
 
 void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 Eleyas::Eleyas()
@@ -1056,7 +1062,7 @@ void ReaverScout::onEnter(Field &ally, Field &enemy)
 void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (Card *copy = findCopy(target, ally.deck))
-        playACard(copy, ally, enemy);
+        playCard(copy, ally, enemy);
 }
 
 HeymaeySpearmaiden::HeymaeySpearmaiden()
@@ -1088,7 +1094,7 @@ void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy
 {
     damage(target, 1, ally, enemy);
     if (Card *copy = findCopy(target, ally.deck))
-        playACard(copy, ally, enemy);
+        playCard(copy, ally, enemy);
 }
 
 KaedweniKnight::KaedweniKnight()
@@ -1165,7 +1171,7 @@ void PriestessOfFreya::onEnter(Field &ally, Field &enemy)
 
 void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 Sage::Sage()
@@ -1190,13 +1196,14 @@ void Sage::onEnter(Field &ally, Field &enemy)
 
 void Sage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
     banish(target, ally, enemy);
 }
 
 Reconnaissance::Reconnaissance()
 {
     name = "Reconnaissance";
+    text = "Look at 2 random Bronze units in your deck, then play 1.";
     url = "https://gwent.one/image/card/low/cid/png/201704.png";
     isSpecial = true;
     rarity = Bronze;
@@ -1216,7 +1223,7 @@ void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 ElvenMercenary::ElvenMercenary()
@@ -1241,7 +1248,7 @@ void ElvenMercenary::onEnter(Field &ally, Field &enemy)
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 ChampionOfHov::ChampionOfHov()
@@ -1346,6 +1353,7 @@ void SeltkirkOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 AdrenalineRush::AdrenalineRush()
 {
     name = "Adrenaline Rush";
+    text = "Toggle a unit's Resilience status.";
     url = "https://gwent.one/image/card/low/cid/png/113307.png";
     isSpecial = true;
     rarity = Bronze;
@@ -1388,7 +1396,7 @@ void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
 void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     acceptOptionAndDeleteOthers(this, target);
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }
 
 ShupeHunter::ShupeHunter()
@@ -1411,7 +1419,7 @@ void ShupeHunter::onEnter(Field &ally, Field &)
 {
     auto *option1 = new ShupeHunter::Play;
     copyCardText(this, option1);
-    option1->text = "Play a bronze or silver unit from deck.";
+    option1->text = "Play a Bronze or Silver unit from Deck.";
 
     auto *option2 = new ShupeHunter::Shot;
     copyCardText(this, option2);
@@ -1419,11 +1427,11 @@ void ShupeHunter::onEnter(Field &ally, Field &)
 
     auto *option3 = new ShupeHunter::Replay;
     copyCardText(this, option3);
-    option3->text = "Replay a bronze or silver unit and boost it by 5.";
+    option3->text = "Replay a Bronze or Silver unit and Boost it by 5.";
 
     auto *option4 = new ShupeHunter::Clear;
     copyCardText(this, option4);
-    option4->text = "Clear all hazards from your side and boost allies by 1.";
+    option4->text = "Clear all Hazards from your side and Boost allies by 1.";
 
     auto *option5 = new ShupeHunter::Barrage;
     copyCardText(this, option5);
@@ -1475,7 +1483,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-        playACard(target, ally, enemy);
+        playCard(target, ally, enemy);
         delete _choosen;
         _choosen = nullptr;
         return;
@@ -1489,7 +1497,10 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-        //
+        takeCard(target, ally, enemy);
+        reset(target, ally, enemy);
+        boost(target, 3, ally, enemy);
+        playCard(target, ally, enemy);
         delete _choosen;
         _choosen = nullptr;
         return;
@@ -1526,7 +1537,7 @@ void ShupeMage::onEnter(Field &ally, Field &)
 
     auto *option3 = new ShupeMage::Hazards;
     copyCardText(this, option3);
-    option3->text = "Spawn a random hazard on each enemy row.";
+    option3->text = "Spawn a random Hazard on each enemy row.";
 
     auto *option4 = new ShupeMage::Meteor;
     copyCardText(this, option4);
@@ -1534,7 +1545,7 @@ void ShupeMage::onEnter(Field &ally, Field &)
 
     auto *option5 = new ShupeMage::Play;
     copyCardText(this, option5);
-    option5->text = "Play a bronze or silver special card from your deck.";
+    option5->text = "Play a Bronze or Silver special card from your deck.";
 
     startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
 }
@@ -1597,7 +1608,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-        playACard(target, ally, enemy);
+        playCard(target, ally, enemy);
 
         delete _choosen;
         _choosen = nullptr;
@@ -1621,11 +1632,11 @@ void Mandrake::onPlaySpecial(Field &ally, Field &)
 {
     auto *option1 = new Mandrake::Buff;
     copyCardText(this, option1);
-    option1->text = "Heal and strengthen by 6.";
+    option1->text = "Heal and Strengthen by 6.";
 
     auto *option2 = new Mandrake::Debuff;
     copyCardText(this, option2);
-    option2->text = "Reset and weaken by 6.";
+    option2->text = "Reset and Weaken by 6.";
 
     startChoiceToSelectOption(ally, this, {option1, option2});
 }
@@ -1758,12 +1769,12 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     assert(false);
-
 }
 
 Decoy::Decoy()
 {
     name = "Decoy";
+    text = "Replay a Bronze or Silver ally and boost it by 3.";
     url = "https://gwent.one/image/card/low/cid/png/113201.png";
     isSpecial = true;
     rarity = Silver;
@@ -1771,15 +1782,20 @@ Decoy::Decoy()
     tags = { Tactics };
 }
 
+bool Decoy::isBronzeOrSilver(Card *card)
+{
+    return (card->rarity == Bronze) || (card->rarity == Silver);
+}
+
 void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, Ally);
 }
 
 void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     takeCard(target, ally, enemy);
-    target->power = target->powerBase;
+    reset(target, ally, enemy);
     boost(target, 3, ally, enemy);
-    playACard(target, ally, enemy);
+    playCard(target, ally, enemy);
 }

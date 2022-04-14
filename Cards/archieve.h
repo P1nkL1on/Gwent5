@@ -421,6 +421,7 @@ private:
 struct Decoy : Card
 {
     Decoy();
+    static bool isBronzeOrSilver(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
