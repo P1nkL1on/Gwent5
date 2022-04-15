@@ -495,6 +495,30 @@ struct Epidemic : Card
     void onPlaySpecial(Field &ally, Field &enemy) override;
 };
 
+struct Moonlight : Card
+{
+    Moonlight();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+    RowEffect rowEffect() const override;
+private:
+    struct FullMoon : Card {};
+    struct BloodMoon : Card {};
+    bool _isFullMoon = false;
+};
+
+struct CiriNova : Card
+{
+    CiriNova();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+struct HaraldTheCripple : Card
+{
+    HaraldTheCripple();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
 struct GeraltIgni : Card
 {
     GeraltIgni(const Lang lang = En);

@@ -80,7 +80,7 @@ PoorFingInfantry::PoorFingInfantry()
     name = "Poor F'ing Infantry";
     url = "https://gwent.one/image/card/low/cid/png/200234.png";
     sounds = {
-        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3"
+        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3",
         "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00519831.mp3",
         "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00518009.mp3",
     };
@@ -117,6 +117,7 @@ void DeithwenArbalest::onEnter(Field &ally, Field &enemy)
 
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, target->isSpy ? 6 : 3, ally, enemy);
 }
 
@@ -149,6 +150,15 @@ DandelionPoet::DandelionPoet()
 {
     name = "Dandelion: Poet";
     url = "https://gwent.one/image/card/low/cid/png/201776.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+    };
     power = powerBase = 5;
     rarity = Gold;
     faction = Neutral;
@@ -298,6 +308,7 @@ void DimunDracar::onTurnEnd(Field &ally, Field &enemy)
     if (!rowAndPos(this, ally, row, pos))
         return;
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
         damage(right, 1, ally, enemy);
         boost(this, 2, ally, enemy);
     }
@@ -416,6 +427,7 @@ void KaedweniCavalry::onEnter(Field &ally, Field &enemy)
 void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int armorTarget = target->armor;
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, armorTarget, ally, enemy);
     boost(this, armorTarget, ally, enemy);
 }
@@ -438,6 +450,7 @@ void AlzursThunder::onPlaySpecial(Field &ally, Field &enemy)
 
 void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 9, ally, enemy);
 }
 
@@ -516,11 +529,16 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     Card *left = cardNextTo(target, ally, enemy, -1);
     Card *right = cardNextTo(target, ally, enemy, 1);
 
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 4, ally, enemy);
-    if (left != nullptr)
+    if (left != nullptr) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 4, ally, enemy);
-    if (right != nullptr)
+    }
+    if (right != nullptr) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
         damage(right, 4, ally, enemy);
+    }
 }
 
 KeiraMetz::KeiraMetz()
@@ -568,6 +586,7 @@ void DolBlathannaArcher::onEnter(Field &ally, Field &enemy)
 
 void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy);
 }
 
@@ -632,8 +651,10 @@ Assassin::Assassin()
 
 void Assassin::onEnter(Field &ally, Field &enemy)
 {
-    if (Card *left = cardNextTo(this, ally, enemy, -1))
+    if (Card *left = cardNextTo(this, ally, enemy, -1)) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 10, ally, enemy);
+    }
 }
 
 TuirseachArcher::TuirseachArcher()
@@ -653,6 +674,7 @@ void TuirseachArcher::onEnter(Field &ally, Field &enemy)
 
 void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy);
 }
 
@@ -807,6 +829,7 @@ void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
 
 void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 13, ally, enemy);
 }
 
@@ -944,6 +967,7 @@ void Cleaver::onEnter(Field &ally, Field &enemy)
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, int(ally.hand.size()), ally, enemy);
 }
 
@@ -1045,7 +1069,7 @@ ReaverScout::ReaverScout()
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
         "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0060.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0008.mp3"
+        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0008.mp3",
     };
     power = powerBase = 1;
     rarity = Bronze;
@@ -1075,7 +1099,7 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
     url = "https://gwent.one/image/card/low/cid/png/200528.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3"
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.85.mp3",
     };
     power = powerBase = 2;
@@ -1096,6 +1120,7 @@ void HeymaeySpearmaiden::onEnter(Field &ally, Field &enemy)
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy);
     if (Card *copy = findCopy(target, ally.deck))
         playCard(copy, ally, enemy);
@@ -1108,7 +1133,7 @@ KaedweniKnight::KaedweniKnight()
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.10.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.11.mp3"
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.11.mp3",
     };
     power = powerBase = 8;
     rarity = Bronze;
@@ -1289,7 +1314,7 @@ GeraltIgni::GeraltIgni(const Lang lang)
             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3"
+            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
         };
     } else if (lang == Ru) {
         sounds = {
@@ -1297,7 +1322,7 @@ GeraltIgni::GeraltIgni(const Lang lang)
             "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.2.mp3",
             "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.1.mp3",
             "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.3.mp3",
-            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01054169.mp3"
+            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01054169.mp3",
         };
     }
     power = powerBase = 5;
@@ -1394,6 +1419,9 @@ ShupesDayOff::ShupesDayOff()
 
 void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
 {
+    if (!hasNoDuplicates(ally.deckStarting))
+        return;
+
     startChoiceToSelectOption(ally, this, {new ShupeKnight, new ShupeHunter, new ShupeMage});
 }
 
@@ -1476,8 +1504,10 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy))) {
+                    ally.animations.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy);
+                }
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -1494,6 +1524,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 15, ally, enemy);
         delete _choosen;
         _choosen = nullptr;
@@ -1601,11 +1632,16 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         Card *left = cardNextTo(target, ally, enemy, -1);
         Card *right = cardNextTo(target, ally, enemy, 1);
 
+        ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 10, ally, enemy);
-        if (left != nullptr)
+        if (left != nullptr) {
+            ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
             damage(left, 5, ally, enemy);
-        if (right != nullptr)
+        }
+        if (right != nullptr) {
+            ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
             damage(right, 5, ally, enemy);
+        }
 
         delete _choosen;
         _choosen = nullptr;
@@ -1743,8 +1779,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
-            power = power + (25 - powerBase);
-            powerBase = 25;
+            strengthen(this, 25 - powerBase, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -1873,4 +1908,107 @@ void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : lowests(cardsFiltered(ally, enemy, {}, Any)))
         destroy(card, ally, enemy);
+}
+
+Moonlight::Moonlight()
+{
+    name = "Moonlight";
+    text = "Choose One: Apply a Full Moon Boon; or Apply a Blood Moon Hazard.";
+    url = "https://gwent.one/image/card/low/cid/png/200067.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Hazard, Boon };
+}
+
+void Moonlight::onPlaySpecial(Field &ally, Field &)
+{
+    auto *option1 = new Moonlight::FullMoon;
+    copyCardText(this, option1);
+    option1->name = "Full Moon";
+    option1->text = "Apply a Boon to an allied row that boosts a random Beast or Vampire by 2 on turn start.";
+
+    auto *option2 = new Moonlight::BloodMoon;
+    copyCardText(this, option2);
+    option2->name = "Blood Moon";
+    option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void Moonlight::onTargetChoosen(Card *target, Field &ally, Field &)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    if (dynamic_cast<Moonlight::FullMoon *>(target)) {
+        _isFullMoon = true;
+        startChoiceToSelectAllyRow(ally, this);
+
+    } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
+        _isFullMoon = false;
+        startChoiceToSelectEnemyRow(ally, this);
+
+    } else
+        assert(false);
+
+    delete target;
+}
+
+RowEffect Moonlight::rowEffect() const
+{
+    return _isFullMoon ? FullMoonEffect : BloodMoonEffect;
+}
+
+CiriNova::CiriNova()
+{
+    name = "Ciri: Nova";
+    text = "If you have exactly 2 copies of each Bronze card in your starting deck, set base power to 22.";
+    url = "https://gwent.one/image/card/low/cid/png/201626.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
+    };
+    power = powerBase = 1;
+    isDoomed = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Cintra, Witcher };
+}
+
+void CiriNova::onEnter(Field &ally, Field &enemy)
+{
+    if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
+        return;
+
+    strengthen(this, 22 - powerBase, ally, enemy);
+}
+
+HaraldTheCripple::HaraldTheCripple()
+{
+    name = "Harald the Cripple";
+    text = "Deal 1 damage to a random enemy on the opposite row. Repeat 9 times.";
+    url = "https://gwent.one/image/card/low/cid/png/200161.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.196.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.197.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.198.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { ClanAnCraite, Leader };
+}
+
+void HaraldTheCripple::onEnter(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    for (int n = 0; n < 9; ++n)
+        if (Card *card = random(enemy.row(row))) {
+            ally.animations.push_back(new Animation("", Animation::LineDamage, this, card));
+            damage(card, 1, ally, enemy);
+        }
 }

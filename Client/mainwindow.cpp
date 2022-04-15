@@ -9,6 +9,7 @@
 #include <QFrame>
 #include <QEventLoop>
 #include <QThread>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,11 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Vaedermakar, new Vaedermakar, new Vaedermakar,
-        new Decoy, new Decoy, new Decoy,
-        new ShupesDayOff, new FirstLight, new FirstLight,
-        new Frightener, new Ambassador, new Assassin, new AdrenalineRush, new AdrenalineRush,
-        new PoorFingInfantry, new KeiraMetz, new KeiraMetz, new KeiraMetz, new Mandrake, new Mandrake
+        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
+        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new Reconnaissance, new Reconnaissance, new Reconnaissance,
 //        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
@@ -34,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
-        new ShupesDayOff, new ShupesDayOff, new ShupesDayOff,
+        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
 //        new JohnNatalis, new Vaedermakar, new KeiraMetz,
@@ -64,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent)
         c->power = c->powerBase = i;
         _enemy.rowMeele.push_back(c);
     }
-
 
     resize(600, 450);
     setMouseTracking(true);
@@ -184,10 +181,10 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         Row row;
         Pos pos;
         if (rowAndPos(card, ally, row, pos))
-            return QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
+            return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
         if (rowAndPos(card, enemy, row, pos))
-            return QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
-        return QPointF(0, 0);
+            return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
+        return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
 
     const auto popAnimations = [=, &ally] {
@@ -197,6 +194,21 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             requestSoundByUrl(sound);
 
             switch (animation->type) {
+            case Animation::LineDamage: {
+                Q_ASSERT(animation->src != nullptr);
+                Q_ASSERT(animation->dst != nullptr);
+                _animationPosSrc = topLeftOf(animation->src) + QPointF(posWidth, posHeight) * 0.5;
+                _animationPosDst = topLeftOf(animation->dst) + QPointF(posWidth, posHeight) * 0.5;
+                _animationColor = Qt::red;
+                repaint();
+                QEventLoop loop;
+                QTimer::singleShot(200, &loop, &QEventLoop::quit);
+                loop.exec(QEventLoop::AllEvents);
+                _animationPosSrc = {};
+                _animationPosDst = {};
+                repaint();
+                break;
+            }
             default:
                 Q_ASSERT(false);
                 break;
@@ -212,36 +224,22 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             case Animation::PutOnField:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
                 break;
-            case Animation::ArmorLost:
+            case Animation::ArmorAllLost:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor lost";
                 break;
-            case Animation::ArmorGain:
+            case Animation::ArmorGainText:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
                 break;
-            case Animation::Damage: {
-//                auto *_variantAnimation = new QVariantAnimation(this);
-//                _variantAnimation->setStartValue(QSize(0, 0));
-//                _variantAnimation->setStartValue(QSize(30, 30));
-//                _variantAnimation->setDuration(2000);
-//                _variantAnimation->setEasingCurve(QEasingCurve::Linear);
-//                QEventLoop loop;
-//                connect(_variantAnimation, &QVariantAnimation::valueChanged, this, [=](const QVariant &variant) {
-//                    qDebug() << "variant" << variant;
-//                    repaint();
-//                });
-//                connect(_variantAnimation, &QVariantAnimation::finished, &loop, &QEventLoop::quit);
-//                _variantAnimation->start();
-//                loop.exec(QEventLoop::AllEvents);
+            case Animation::DamageText:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
                 break;
-            }
-            case Animation::Boost:
+            case Animation::BoostText:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
                 break;
-            case Animation::Strengthen:
+            case Animation::StrengthenText:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "strenthened";
                 break;
-            case Animation::Weaken:
+            case Animation::WeakenText:
                 qDebug().noquote() << QString::fromStdString(animation->src->name) << "weakened";
                 break;
             }
@@ -258,7 +256,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             onChoiceDoneCard(nullptr, ally, enemy);
             tryFinishTurn(ally, enemy);
             repaint();
-            popAnimations();
             return;
         }
         Card *card = cardAt(point);
@@ -267,7 +264,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneCard(card, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -276,7 +272,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             onChoiceDoneCard(nullptr, ally, enemy);
             tryFinishTurn(ally, enemy);
             repaint();
-            popAnimations();
             return;
         }
         Card *card = cardAt(point);
@@ -285,7 +280,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneCard(card, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -299,7 +293,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -313,7 +306,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -324,7 +316,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRow(row, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -335,7 +326,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         onChoiceDoneRow(row, ally, enemy);
         tryFinishTurn(ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -350,7 +340,6 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             return;
         onChoiceDoneRoundStartSwap(card, ally, enemy);
         repaint();
-        popAnimations();
         return;
     }
 
@@ -411,6 +400,28 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         const QRectF rect(topLeft, size);
         painter.setPen(Qt::black);
         painter.drawRect(rect);
+    };
+
+    const auto paintCardGrayscale = [=, &painter](const Card *card, const QPointF &topLeft)
+    {
+        Q_ASSERT(!card->isAmbush);
+        const QSizeF size(posWidth, posHeight);
+        const QRectF rect(topLeft, size);
+        painter.setPen(Qt::black);
+        painter.drawRect(rect);
+
+        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
+
+        /// draw url image
+        if (card->url.size() > 0) {
+            requestImageByUrl(card->url);
+            const QImage image = _pixMapsLoaded.value(QString::fromStdString(card->url)).convertToFormat(QImage::Format_Grayscale8);
+            painter.drawImage(rectBorder, image);
+        }
+
+        /// draw name
+        const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - metrics.height(), posWidth, metrics.height());
+        paintTextInRect(QString::fromStdString(card->name), rectNameText);
     };
 
     const auto paintCard = [=, &painter](const Card *card, const QPointF &topLeft)
@@ -669,14 +680,14 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
         for (size_t i = 0; i < ally.hand.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCard(ally.hand[i], topLeft);
+            paintCardGrayscale(ally.hand[i], topLeft);
         }
     } else if (_view == ViewDiscard) {
         const QString stringStatus = QString("Discard (%1):").arg(ally.discard.size());
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
         for (size_t i = 0; i < ally.discard.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCard(ally.discard[i], topLeft);
+            paintCardGrayscale(ally.discard[i], topLeft);
         }
     } else if (_view == ViewDeck) {
         const QString stringStatus = QString("Deck (%1):").arg(ally.deck.size());
@@ -691,6 +702,11 @@ void MainWindow::paintInRect(const QRect rect, Field &ally, Field &enemy)
 
     paintTextInPoint(QString("Ally: %1%2").arg(powerField(ally)).arg(ally.passed ? " PASS" : ""), QPointF(0, 0), Qt::black, Qt::cyan);
     paintTextInPoint(QString("Enemy: %1%2").arg(powerField(enemy)).arg(enemy.passed ? " PASS" : ""), QPointF(0, 15), Qt::black, Qt::red);
+
+    // _______________
+    // TODO: remove animation block
+    painter.setPen(QPen(_animationColor, 2));
+    painter.drawLine(_animationPosDst, _animationPosSrc);
 }
 
 

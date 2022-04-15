@@ -38,6 +38,7 @@ enum Tag
     Temeria,
     Redania,
     Kaedwen,
+    Cintra,
     ClanAnCraite,
     ClanHeymaey,
     ClanDimun,
@@ -52,6 +53,7 @@ enum Tag
     Machine,
     Agent,
     Witcher,
+    Leader,
 
     Alchemy,
     Tactics,
@@ -109,6 +111,7 @@ enum ChoiceGroup
     AllyDiscard,
     AllyDeckShuffled,
     AllyDeck,
+    AllyDeckStarting,
 };
 
 enum Lang
@@ -200,8 +203,20 @@ struct Snapshot
 struct Animation
 {
     enum Type {
-        Unknown, Draw, PutOnField, Spawn, PlaySpecial,
-        ArmorLost, ArmorGain, Damage, Boost, Strengthen, Weaken
+        Unknown,
+        Draw,
+        PutOnField,
+        Spawn,
+        PlaySpecial,
+        ArmorAllLost,
+        /// Line
+        LineDamage,
+        /// Texts
+        ArmorGainText,
+        DamageText,
+        BoostText,
+        StrengthenText,
+        WeakenText
     };
     inline Animation(
             const std::string &sound,
@@ -276,6 +291,8 @@ void acceptOptionAndDeleteOthers(Card *card, const Card *option);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 std::string randomSound(const Card *card);
 RowEffect randomHazardEffect();
+bool hasNoDuplicates(const std::vector<Card *> &cards);
+bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);

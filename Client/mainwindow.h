@@ -51,6 +51,10 @@ private:
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
     QMap<QString, QMediaPlayer *> _sounds;
+
+    QPointF _animationPosSrc;
+    QPointF _animationPosDst;
+    Qt::GlobalColor _animationColor;
 //    QVariantAnimation *_variantAnimation = nullptr;
 };
 

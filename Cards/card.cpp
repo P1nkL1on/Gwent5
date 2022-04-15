@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <map>
 
 using Rows = std::vector<std::vector<Card *>>;
 
@@ -605,6 +606,9 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
         if (group == AllyDeck)
             return ally.deck;
 
+        if (group == AllyDeckStarting)
+            return ally.deckStarting;
+
         if (group == AllyDeckShuffled) {
             std::vector<Card *> deck = ally.deck;
             shuffle(deck);
@@ -821,6 +825,7 @@ void banish(Card *card, Field &ally, Field &enemy)
 void duel(Card *first, Card *second, Field &ally, Field &enemy)
 {
     while (true) {
+        ally.animations.push_back(new Animation("", Animation::LineDamage, first, second));
         if (damage(second, first->power, ally, enemy))
             break;
         std::swap(first, second);
@@ -829,7 +834,6 @@ void duel(Card *first, Card *second, Field &ally, Field &enemy)
 
 bool damage(Card *card, const int x, Field &ally, Field &enemy)
 {
-    // TODO: check death and rest
     assert(x > 0);
 
     int dmgInPower = x;
@@ -839,9 +843,10 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
         dmgInPower = std::max(0, x - card->armor);
         card->armor -= dmgInArmor;
 
-        if (card->power > dmgInPower){
+        /// if armor broken, but will survive
+        if ((card->armor == 0) && (card->power > dmgInPower)){
             card->onArmorLost(ally, enemy);
-            ally.animations.push_back(new Animation("", Animation::ArmorLost, card));
+            ally.animations.push_back(new Animation("", Animation::ArmorAllLost, card));
         }
 
         if (dmgInPower == 0)
@@ -851,7 +856,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-        ally.animations.push_back(new Animation("", Animation::Damage, card));
+        ally.animations.push_back(new Animation("", Animation::DamageText, card));
         // TODO: trigger other on damaged
         return false;
     }
@@ -877,7 +882,7 @@ void boost(Card *card, const int x, Field &ally, Field &enemy)
 
     card->power += x;
 
-    ally.animations.push_back(new Animation("", Animation::Boost, card));
+    ally.animations.push_back(new Animation("", Animation::BoostText, card));
 
     // TODO: others trigger on boosted
 }
@@ -889,7 +894,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     card->power += x;
     card->powerBase += x;
 
-    ally.animations.push_back(new Animation("", Animation::Strengthen, card));
+    ally.animations.push_back(new Animation("", Animation::StrengthenText, card));
 
     // TODO: others trigger on strengthen
 }
@@ -901,7 +906,7 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
     card->power -= x;
     card->powerBase -= x;
 
-    ally.animations.push_back(new Animation("", Animation::Weaken, card));
+    ally.animations.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase < 0)
         return banish(card, ally, enemy);
@@ -915,7 +920,7 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 
     card->armor += x;
 
-    ally.animations.push_back(new Animation("", Animation::ArmorGain, card));
+    ally.animations.push_back(new Animation("", Animation::ArmorGainText, card));
 }
 
 std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
@@ -1107,6 +1112,41 @@ RowEffect randomHazardEffect()
 {
     // TODO: random
     return RowEffect(_rng() % 9 + 1);
+}
+
+bool hasNoDuplicates(const std::vector<Card *> &cards)
+{
+    std::map<std::string, int> nameToCount;
+    for (Card *card : cards) {
+        auto it = nameToCount.find(card->name);
+        if (it != nameToCount.end()) {
+            return false;
+        } else {
+            nameToCount.insert({card->name, 1});
+        }
+    }
+    return true;
+}
+
+bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards)
+{
+    std::map<std::string, int> nameToCount;
+    for (Card *card : cards) {
+        if (card->rarity != Bronze)
+            continue;
+        auto it = nameToCount.find(card->name);
+        if (it != nameToCount.end()) {
+            ++it->second;
+        } else {
+            nameToCount.insert({card->name, 1});
+        }
+    }
+
+    for (const std::pair<std::string, int> &nameAndCount : nameToCount)
+        if (nameAndCount.second != 2)
+            return false;
+
+    return true;
 }
 
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards)
