@@ -700,6 +700,7 @@ RowEffect ImpenetrableFog::rowEffect() const
 TorrentialRain::TorrentialRain()
 {
     name = "Torrential Rain";
+    text = "Apply a Hazard to an enemy row that deals 1 damage to 2 random units on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/113312.png";
     isSpecial = true;
     rarity = Bronze;
@@ -791,6 +792,7 @@ ImperialManticore::ImperialManticore()
 ManticoreVenom::ManticoreVenom()
 {
     name = "Manticore Venom";
+    text = "Deal 13 damage.";
     url = "https://gwent.one/image/card/low/cid/png/113306.png";
     isSpecial = true;
     rarity = Silver;
@@ -811,6 +813,7 @@ void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 GloriousHunt::GloriousHunt()
 {
     name = "Glorious Hunt";
+    text = "If losing, Spawn an Imperial Manticore, otherwise Spawn Manticore Venom.";
     url = "https://gwent.one/image/card/low/cid/png/201635.png";
     isSpecial = true;
     rarity = Silver;
@@ -947,6 +950,7 @@ void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Scorch::Scorch()
 {
     name = "Scorch";
+    text = "Destroy all the Highest units.";
     url = "https://gwent.one/image/card/low/cid/png/113309.png";
     isSpecial = true;
     rarity = Silver;
@@ -956,7 +960,7 @@ Scorch::Scorch()
 
 void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 {
-    for (Card *card : highests(_united(std::vector<std::vector<Card *>>{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige})))
+    for (Card *card : highests(cardsFiltered(ally, enemy, {}, Any)))
         destroy(card, ally, enemy);
 }
 
@@ -1564,16 +1568,17 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
-            charm(random(cardsFiltered(ally, enemy, {}, Enemy)), ally, enemy);
+            if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+                charm(card, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
 
         if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-            applyRowEffect(enemy, Meele, randomHazardEffect());
-            applyRowEffect(enemy, Range, randomHazardEffect());
-            applyRowEffect(enemy, Seige, randomHazardEffect());
+            applyRowEffect(enemy, ally, Meele, randomHazardEffect());
+            applyRowEffect(enemy, ally, Range, randomHazardEffect());
+            applyRowEffect(enemy, ally, Seige, randomHazardEffect());
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -1621,6 +1626,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Mandrake::Mandrake()
 {
     name = "Mandrake";
+    text = "Choose One: Heal a unit and Strengthen it by 6; or Reset a unit and Weaken it by 6.";
     url = "https://gwent.one/image/card/low/cid/png/200223.png";
     isSpecial = true;
     rarity = Silver;
@@ -1632,11 +1638,11 @@ void Mandrake::onPlaySpecial(Field &ally, Field &)
 {
     auto *option1 = new Mandrake::Buff;
     copyCardText(this, option1);
-    option1->text = "Heal and Strengthen by 6.";
+    option1->text = "Heal a unit and and Strengthen it by 6.";
 
     auto *option2 = new Mandrake::Debuff;
     copyCardText(this, option2);
-    option2->text = "Reset and Weaken by 6.";
+    option2->text = "Reset a unit and Weaken it by 6.";
 
     startChoiceToSelectOption(ally, this, {option1, option2});
 }
@@ -1798,4 +1804,73 @@ void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     reset(target, ally, enemy);
     boost(target, 3, ally, enemy);
     playCard(target, ally, enemy);
+}
+
+FirstLight::FirstLight()
+{
+    name = "First Light";
+    text = "Choose One: Boost all damaged allies under Hazards by 2 and clear all Hazards from your side; or Play a random Bronze unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/113303.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Tactics };
+}
+
+bool FirstLight::isBronzeUnit(Card *card)
+{
+    return !card->isSpecial && (card->rarity == Bronze);
+}
+
+void FirstLight::onPlaySpecial(Field &ally, Field &enemy)
+{
+    auto *option1 = new FirstLight::Clear;
+    copyCardText(this, option1);
+    option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
+
+    auto *option2 = new FirstLight::Play;
+    copyCardText(this, option2);
+    option2->text = "Play a random Bronze unit from your deck.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+     acceptOptionAndDeleteOthers(this, target);
+
+     if (dynamic_cast<FirstLight::Clear *>(target)) {
+         std::vector<Card *> damagedUnitsUnderHazards;
+         clearAllHazards(ally, &damagedUnitsUnderHazards);
+         for (Card *card : damagedUnitsUnderHazards)
+             boost(card, 2, ally, enemy);
+         delete target;
+         return;
+     }
+
+     if (dynamic_cast<FirstLight::Play *>(target)) {
+         if (Card *card = random(cardsFiltered(ally, enemy, { isBronzeUnit }, AllyDeck)))
+             playCard(card, ally, enemy);
+         delete target;
+         return;
+     }
+
+     assert(false);
+}
+
+Epidemic::Epidemic()
+{
+    name = "Epidemic";
+    text = "Destroy all the Lowest units.";
+    url = "https://gwent.one/image/card/low/cid/png/113308.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Organic, Spell };
+}
+
+void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
+{
+    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, Any)))
+        destroy(card, ally, enemy);
 }

@@ -30,6 +30,7 @@ enum Tag
 {
     Beast,
     Relict,
+    Vampire,
     Construct,
     Elf,
     Dwarf,
@@ -259,6 +260,8 @@ Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row);
+std::vector<Card *> lowests(const std::vector<Card *> &row);
+Card *lowest(const std::vector<Card *> &row);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly = nullptr);
@@ -270,7 +273,7 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
 Card *random(const std::vector<Card *> &cards);
 void copyCardText(const Card *card, Card *dst);
 void acceptOptionAndDeleteOthers(Card *card, const Card *option);
-void clearAllHazards(Field &field);
+void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 std::string randomSound(const Card *card);
 RowEffect randomHazardEffect();
 
@@ -292,7 +295,7 @@ void playCard(Card *card, Field &ally, Field &enemy);
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy);
 
-void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect);
+void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 
 void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);

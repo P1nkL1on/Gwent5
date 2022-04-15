@@ -88,12 +88,14 @@ void triggerRowEffects(Field &ally, Field &enemy)
     const auto applyRowEffect = [&](const std::vector<Card *> &row, const RowEffect effect) {
         const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
         switch (effect) {
-        case NoRowEffect:
-            break;
         case TorrentialRainEffect:
+            for (Card *card : randoms(rowFiltered, 2))
+                damage(card, 1, ally, enemy);
             break;
         case BitingFrostEffect:
         case KorathiHeatwaveEffect:
+            if (Card *target = lowest(rowFiltered))
+                damage(target, 2, ally, enemy);
             break;
         case RaghNarRoogEffect:
         case ImpenetrableFogEffect:
@@ -101,16 +103,34 @@ void triggerRowEffects(Field &ally, Field &enemy)
                 damage(target, 2, ally, enemy);
             break;
         case GoldenFrothEffect:
+            for (Card *target : randoms(rowFiltered, 2))
+                boost(target, 1, ally, enemy);
             break;
-        case SkelligeStormEffect:
+        case SkelligeStormEffect: {
+            Card *targetFirst=   (row.size() >= 1) && (!row[0]->isAmbush) ? row[0] : nullptr;
+            Card *targetSecond = (row.size() >= 2) && (!row[1]->isAmbush) ? row[1] : nullptr;
+            Card *targetThird =  (row.size() >= 3) && (!row[2]->isAmbush) ? row[2] : nullptr;
+            if (targetFirst != nullptr)
+                damage(targetFirst, 2, ally, enemy);
+            if (targetSecond != nullptr)
+                damage(targetSecond, 1, ally, enemy);
+            if (targetThird != nullptr)
+                damage(targetThird, 1, ally, enemy);
             break;
-        case DragonsDreamEffect:
+        }
+        case FullMoonEffect: {
+            const std::vector<Card *> beastOrVampire = _filtered({[](Card *card){ return !card->isAmbush && (hasTag(card, Beast) || hasTag(card, Vampire)); }}, row);
+            if (Card *target = random(beastOrVampire))
+                boost(target, 2, ally, enemy);
             break;
-        case FullMoonEffect:
-            break;
+        }
         case BloodMoonEffect:
             break;
         case PitTrapEffect:
+            break;
+        case DragonsDreamEffect:
+            break;
+        case NoRowEffect:
             break;
         }
     };
@@ -277,6 +297,11 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     default:
         assert(row == Meele || row == Range || row == Seige);
     }
+
+    if (ally.rowEffect(row) == BloodMoonEffect)
+        damage(card, 2, ally, enemy);
+    else if (ally.rowEffect(row) == PitTrapEffect)
+        damage(card, 3, ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
@@ -456,10 +481,10 @@ void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
 {
     const Snapshot snapshot = ally.takeSnapshot();
     if (snapshot.choice == SelectAllyRow)
-        return applyRowEffect(ally, row, snapshot.cardSource->rowEffect());
+        return applyRowEffect(ally, enemy, row, snapshot.cardSource->rowEffect());
 
     if (snapshot.choice == SelectEnemyRow)
-        return applyRowEffect(enemy, row, snapshot.cardSource->rowEffect());
+        return applyRowEffect(enemy, ally, row, snapshot.cardSource->rowEffect());
 
     assert(false);
 }
@@ -614,7 +639,31 @@ Card *highest(const std::vector<Card *> &row)
         return nullptr;
 
     // TODO: using random
-    return res[std::default_random_engine{}() % res.size()];
+    return res[_rng() % res.size()];
+}
+
+std::vector<Card *> lowests(const std::vector<Card *> &row)
+{
+    int powerMin = INT_MAX;
+    for (Card *card : row)
+        powerMin = std::min(card->power, powerMin);
+
+    std::vector<Card *> res;
+    for (Card *card : row)
+        if (card->power == powerMin)
+            res.push_back(card);
+
+    return res;
+}
+
+Card *lowest(const std::vector<Card *> &row)
+{
+    std::vector<Card *> res = lowests(row);
+    if (res.size() == 0)
+        return nullptr;
+
+    // TODO: using random
+    return res[_rng() % res.size()];
 }
 
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
@@ -998,11 +1047,17 @@ void spawn(Card *card, Field &ally, Field &enemy)
     return ally.cardStack.push_back(Snapshot(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
-void applyRowEffect(Field &field, const Row row, const RowEffect rowEffect)
+void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect)
 {
     assert(row == Meele || row == Range || row == Seige);
 
-    field.rowEffect(row) = rowEffect;
+    ally.rowEffect(row) = rowEffect;
+
+    for (Card *card : ally.row(row))
+        if (rowEffect == BloodMoonEffect)
+            damage(card, 2, ally, enemy);
+        else if (ally.rowEffect(row) == PitTrapEffect)
+            damage(card, 3, ally, enemy);
 }
 
 void charm(Card *card, Field &ally, Field &enemy)
@@ -1054,12 +1109,20 @@ RowEffect randomHazardEffect()
     return RowEffect(_rng() % 9 + 1);
 }
 
-void clearAllHazards(Field &field)
+void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards)
 {
+    if (damagedUnitsUnderHazards != nullptr)
+        damagedUnitsUnderHazards->clear();
+
     for (const Row row : std::vector<Row>{ Meele, Range, Seige }) {
         RowEffect &rowEffect = field.rowEffect(row);
-        if (int(rowEffect) > 9)
+        if ((int(rowEffect) > 9) || (rowEffect == NoRowEffect))
             continue;
+
+        if (damagedUnitsUnderHazards != nullptr)
+            for (Card *card : field.row(row))
+                if (card->power < card->powerBase)
+                    damagedUnitsUnderHazards->push_back(card);
 
         rowEffect = NoRowEffect;
     }

@@ -478,6 +478,23 @@ private:
     Card *_choosen = nullptr;
 };
 
+struct FirstLight : Card
+{
+    FirstLight();
+    static bool isBronzeUnit(Card *card);
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Clear : Card {};
+    struct Play : Card {};
+};
+
+struct Epidemic : Card
+{
+    Epidemic();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+};
+
 struct GeraltIgni : Card
 {
     GeraltIgni(const Lang lang = En);

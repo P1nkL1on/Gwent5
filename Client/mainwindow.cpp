@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     const std::vector<Card *> deckStarting = {
         new Vaedermakar, new Vaedermakar, new Vaedermakar,
         new Decoy, new Decoy, new Decoy,
-        new ShupesDayOff, new ShupesDayOff, new ShupesDayOff,
+        new ShupesDayOff, new FirstLight, new FirstLight,
         new Frightener, new Ambassador, new Assassin, new AdrenalineRush, new AdrenalineRush,
         new PoorFingInfantry, new KeiraMetz, new KeiraMetz, new KeiraMetz, new Mandrake, new Mandrake
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
+        new ShupesDayOff, new ShupesDayOff, new ShupesDayOff,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
 //        new JohnNatalis, new Vaedermakar, new KeiraMetz,
