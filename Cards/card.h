@@ -5,6 +5,7 @@
 
 #include "iterator.h"
 
+
 enum Row
 {
     Meele,
@@ -15,6 +16,7 @@ enum Row
     Discard,
     AlreadyCreated
 };
+
 
 using Pos = int;
 
@@ -71,6 +73,7 @@ enum Tag
     Skellige,
 };
 
+
 enum RowEffect
 {
     NoRowEffect,
@@ -89,6 +92,7 @@ enum RowEffect
     FullMoonEffect,
 };
 
+
 enum ChoiceType
 {
     RoundStartPlay,
@@ -99,6 +103,7 @@ enum ChoiceType
     Target,
     RoundStartSwap,
 };
+
 
 enum ChoiceGroup
 {
@@ -114,11 +119,13 @@ enum ChoiceGroup
     AllyDeckStarting,
 };
 
+
 enum Lang
 {
     En,
     Ru,
 };
+
 
 struct Field;
 
@@ -180,6 +187,7 @@ struct Card
     inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
+
 struct Choice
 {
     inline Choice(const ChoiceType choiceType, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
@@ -197,6 +205,7 @@ struct Choice
     int nTargets = 1;
     bool isOptional = false;
 };
+
 
 struct Field
 {

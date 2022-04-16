@@ -8,6 +8,7 @@
 #include <QVariantAnimation>
 
 #include "../Cards/archieve.h"
+#include "../Cards/view.h"
 
 struct Layout
 {

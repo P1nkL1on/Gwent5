@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
         c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
         c->power = c->powerBase = i;
         _ally.rowMeele.push_back(c);
+        _ally.cardsAdded.push_back(c);
     }
     for (int i = 10; i <= 15; ++i) {
         auto *c = new Card;
@@ -61,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
         c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
         c->power = c->powerBase = i;
         _enemy.rowMeele.push_back(c);
+        _ally.cardsAdded.push_back(c);
     }
 
     resize(600, 450);
@@ -104,6 +106,8 @@ void MainWindow::requestSoundByUrl(const std::string &url)
 
 void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
+    FieldView view = fieldView(ally);
+
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
     const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 

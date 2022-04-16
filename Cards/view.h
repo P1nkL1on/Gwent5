@@ -3,9 +3,10 @@
 
 #include "card.h"
 
+
 struct CardView
 {
-    int id = 0;
+    int id = -1;
     int power = 0;
     int powerBase = 0;
     int armor = 0;
@@ -27,16 +28,18 @@ struct CardView
     std::string url;
 };
 
+
 struct ChoiceView
 {
-    int id = 0;
+    int id = -1;
     ChoiceType choiceType;
-    Card *cardSource = nullptr;
+    int cardSourceId = -1;
     std::vector<int> cardOptionIds;
     std::vector<int> cardOptionIdsSelected;
     int nTargets = 1;
     bool isOptional = false;
 };
+
 
 struct Animation
 {
@@ -57,9 +60,10 @@ struct Animation
     };
     std::string sound;
     Type type;
-    int srcId = 0;
-    int dstId = 0;
+    int srcId = -1;
+    int dstId = -1;
 };
+
 
 struct FieldView
 {
@@ -80,5 +84,8 @@ struct FieldView
     int nWins = 0;
     bool passed = false;
 };
+
+CardView cardView(const Card *card, const int id);
+FieldView fieldView(const Field &field);
 
 #endif // VIEW_H
