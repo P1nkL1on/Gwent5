@@ -27,15 +27,24 @@ CardView cardView(const Card *card, const int id)
     return view;
 }
 
-FieldView fieldView(const Field &field)
+FieldView fieldView(const Field &ally, const Field &enemy)
 {
     std::map<const Card *, CardView> cardToView;
 
     int cardViewId = 0;
-    for (const Card *card : field.deckStarting)
+    for (const Card *card : ally.deckStarting)
         cardToView.insert({card, cardView(card, cardViewId++)});
-    for (const Card *card : field.cardsAdded)
+    for (const Card *card : ally.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+    for (const Card *card : enemy.deckStarting)
+        cardToView.insert({card, cardView(card, cardViewId++)});
+    for (const Card *card : enemy.cardsAdded)
+        cardToView.insert({card, cardView(card, cardViewId++)});
+    /// add extra crads that are just options)
+    for (const Choice &choice : ally.cardStack)
+        for (const Card *card : choice.cardOptions)
+            cardToView.insert({card, cardView(card, cardViewId++)});
+
     const auto id = [cardToView](const Card *card) -> int {
         if (card == nullptr)
             return -1;
@@ -47,7 +56,7 @@ FieldView fieldView(const Field &field)
     std::vector<ChoiceView> choiceViews;
 
     int choiceViewId = 0;
-    for (const Choice &choice : field.cardStack) {
+    for (const Choice &choice : ally.cardStack) {
         ChoiceView view;
         view.id = choiceViewId++;
         view.choiceType = choice.choiceType;
@@ -64,25 +73,42 @@ FieldView fieldView(const Field &field)
     FieldView res;
 
     // TODO: check hidden cards
-    for (const Card *card : field.rowMeele)
-        res.rowMeeleIds.push_back(id(card));
-    for (const Card *card : field.rowRange)
-        res.rowRangeIds.push_back(id(card));
-    for (const Card *card : field.rowSeige)
-        res.rowSeigeIds.push_back(id(card));
-    for (const Card *card : field.hand)
-        res.handIds.push_back(id(card));
-    for (const Card *card : field.deck)
-        res.deckIds.push_back(id(card));
-    for (const Card *card : field.discard)
-        res.discardIds.push_back(id(card));
-    res.rowEffectMeele = field.rowEffectMeele;
-    res.rowEffectRange = field.rowEffectRange;
-    res.rowEffectSeige = field.rowEffectSeige;
-    res.nTurns = field.nTurns;
-    res.nRounds = field.nRounds;
-    res.nWins = field.nWins;
-    res.passed = field.passed;
+    for (const Card *card : ally.rowMeele)
+        res.allyRowMeeleIds.push_back(id(card));
+    for (const Card *card : ally.rowRange)
+        res.allyRowRangeIds.push_back(id(card));
+    for (const Card *card : ally.rowSeige)
+        res.allyRowSeigeIds.push_back(id(card));
+    for (const Card *card : ally.hand)
+        res.allyHandIds.push_back(id(card));
+    for (const Card *card : ally.deck)
+        res.allyDeckIds.push_back(id(card));
+    for (const Card *card : ally.discard)
+        res.allyDiscardIds.push_back(id(card));
+    for (const Card *card : enemy.rowMeele)
+        res.enemyRowMeeleIds.push_back(id(card));
+    for (const Card *card : enemy.rowRange)
+        res.enemyRowRangeIds.push_back(id(card));
+    for (const Card *card : enemy.rowSeige)
+        res.enemyRowSeigeIds.push_back(id(card));
+    for (const Card *card : enemy.hand)
+        res.enemyHandIds.push_back(id(card));
+    for (const Card *card : enemy.deck)
+        res.enemyDeckIds.push_back(id(card));
+    for (const Card *card : enemy.discard)
+        res.enemyDiscardIds.push_back(id(card));
+    res.allyRowEffectMeele = ally.rowEffectMeele;
+    res.allyRowEffectRange = ally.rowEffectRange;
+    res.allyRowEffectSeige = ally.rowEffectSeige;
+    res.enemyRowEffectMeele = enemy.rowEffectMeele;
+    res.enemyRowEffectRange = enemy.rowEffectRange;
+    res.enemyRowEffectSeige = enemy.rowEffectSeige;
+    res.nTurns = ally.nTurns;
+    res.nRounds = ally.nRounds;
+    res.nAllyWins = ally.nWins;
+    res.allyPassed = ally.passed; 
+    res.nEnemyWins = enemy.nWins;
+    res.enemyPassed = enemy.passed;
 
     /// move all cards to a vector
     for (const std::pair<const Card *, CardView> &cardAndViewPair : cardToView)
@@ -117,4 +143,106 @@ const CardView &FieldView::cardView(const int id) const
         if (cardView.id == id)
             return cardView;
     assert(false);
+}
+
+bool FieldView::idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id, int *n) const
+{
+    assert((0 <= screenRow) && (screenRow <= 6));
+    assert((0 <= screenPos) && (screenPos <= 9));
+
+    const std::vector<int> *rowIds = nullptr;
+    switch (screenRow) {
+    case 0: rowIds = &enemyRowSeigeIds; break;
+    case 1: rowIds = &enemyRowRangeIds; break;
+    case 2: rowIds = &enemyRowMeeleIds; break;
+    case 3: rowIds = &allyRowMeeleIds;  break;
+    case 4: rowIds = &allyRowRangeIds;  break;
+    case 5: rowIds = &allyRowSeigeIds;  break;
+    default: assert(false);             break;
+    }
+
+    if (n)
+        *n = int(rowIds->size());
+
+    if (size_t(screenPos) >= rowIds->size())
+        return false;
+
+    if (id)
+        *id = rowIds->at(size_t(screenPos));
+
+    return true;
+}
+
+bool FieldView::rowAndPos(const int id, Row *row, Pos *pos, bool *isAlly) const
+{
+    Row _row;
+    Pos _pos;
+    bool _isAlly;
+    for (size_t i = 0; i < allyRowMeeleIds.size(); ++i)
+        if (id == allyRowMeeleIds[i]) {
+            _row = Meele;
+            _pos = i;
+            _isAlly = true;
+            goto found;
+        }
+    for (size_t i = 0; i < allyRowRangeIds.size(); ++i)
+        if (id == allyRowRangeIds[i]) {
+            _row = Range;
+            _pos = i;
+            _isAlly = true;
+            goto found;
+        }
+    for (size_t i = 0; i < allyRowSeigeIds.size(); ++i)
+        if (id == allyRowSeigeIds[i]) {
+            _row = Seige;
+            _pos = i;
+            _isAlly = true;
+            goto found;
+        }
+    for (size_t i = 0; i < enemyRowMeeleIds.size(); ++i)
+        if (id == enemyRowMeeleIds[i]) {
+            _row = Meele;
+            _pos = i;
+            _isAlly = false;
+            goto found;
+        }
+    for (size_t i = 0; i < enemyRowRangeIds.size(); ++i)
+        if (id == enemyRowRangeIds[i]) {
+            _row = Range;
+            _pos = i;
+            _isAlly = false;
+            goto found;
+        }
+    for (size_t i = 0; i < enemyRowSeigeIds.size(); ++i)
+        if (id == enemyRowSeigeIds[i]) {
+            _row = Seige;
+            _pos = i;
+            _isAlly = false;
+            goto found;
+        }
+    return false;
+
+found:
+    if (row)
+        *row = _row;
+    if (pos)
+        *pos = _pos;
+    if (isAlly)
+        *isAlly = _isAlly;
+    return true;
+}
+
+RowEffect FieldView::rowEffect(const Row screenRow) const
+{
+    assert((0 <= screenRow) && (screenRow <= 6));
+    switch (screenRow) {
+    case 0: return enemyRowEffectSeige;
+    case 1: return enemyRowEffectRange;
+    case 2: return enemyRowEffectMeele;
+    case 3: return allyRowEffectMeele;
+    case 4: return allyRowEffectRange;
+    case 5: return allyRowEffectSeige;
+    default: assert(false);
+    }
+    return NoRowEffect;
 }

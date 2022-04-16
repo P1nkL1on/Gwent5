@@ -67,29 +67,42 @@ struct Animation
 
 struct FieldView
 {
-    std::vector<CardView> cards;
+    std::vector<CardView> cards; /// ally + enemy
     std::vector<ChoiceView> choices;
-    std::vector<int> rowMeeleIds;
-    std::vector<int> rowRangeIds;
-    std::vector<int> rowSeigeIds;
-    std::vector<int> handIds;
-    std::vector<int> deckIds;
-    std::vector<int> discardIds;
-    std::vector<int> cardStackIds;
-    RowEffect rowEffectMeele = NoRowEffect;
-    RowEffect rowEffectRange = NoRowEffect;
-    RowEffect rowEffectSeige = NoRowEffect;
+    std::vector<int> allyRowMeeleIds;
+    std::vector<int> allyRowRangeIds;
+    std::vector<int> allyRowSeigeIds;
+    std::vector<int> allyHandIds;
+    std::vector<int> allyDeckIds;
+    std::vector<int> allyDiscardIds;
+    RowEffect allyRowEffectMeele = NoRowEffect;
+    RowEffect allyRowEffectRange = NoRowEffect;
+    RowEffect allyRowEffectSeige = NoRowEffect;
+    std::vector<int> enemyRowMeeleIds;
+    std::vector<int> enemyRowRangeIds;
+    std::vector<int> enemyRowSeigeIds;
+    std::vector<int> enemyHandIds;
+    std::vector<int> enemyDeckIds;
+    std::vector<int> enemyDiscardIds;
+    RowEffect enemyRowEffectMeele = NoRowEffect;
+    RowEffect enemyRowEffectRange = NoRowEffect;
+    RowEffect enemyRowEffectSeige = NoRowEffect;
     int nTurns = 0;
     int nRounds = 0;
-    int nWins = 0;
-    bool passed = false;
+    int nAllyWins = 0;
+    int nEnemyWins = 0;
+    bool allyPassed = false;
+    bool enemyPassed = false;
 
     CardView &cardView(const int id);
     const CardView &cardView(const int id) const;
+    bool idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id = nullptr, int *n = nullptr) const;
+    bool rowAndPos(const int id, Row *row = nullptr, Pos *pos = nullptr, bool *isAlly = nullptr) const;
+    RowEffect rowEffect(const Row screenRow) const;
 };
 
 bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);
-FieldView fieldView(const Field &field);
+FieldView fieldView(const Field &ally, const Field &enemy);
 
 #endif // VIEW_H

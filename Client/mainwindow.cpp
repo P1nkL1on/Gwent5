@@ -356,13 +356,15 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
     if (rect.height() < _layout.spacingPx * 2)
         return;
 
+    const FieldView view = fieldView(___ally, ___enemy);
+    const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.back() : nullptr;
+
+    const QFontMetricsF metrics(QFont{});
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
     const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 
     QPainter painter(this);
     painter.fillRect(rect, Qt::white);
-
-    const QFontMetricsF metrics(QFont{});
 
     const auto paintTextInPoint = [=, &painter](
             const QString &text,
@@ -426,11 +428,6 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
         paintTextInRect(QString::fromStdString(cardView.name), rectNameText);
     };
 
-
-    const FieldView allyView = fieldView(___ally);
-    const FieldView enemyView = fieldView(___enemy);
-
-
     const auto paintCard = [=, &painter](const CardView &cardView, const QPointF &topLeft)
     {
         Q_ASSERT(!cardView.isAmbush);
@@ -454,21 +451,21 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
 
         /// draw selection border
-        if (allyView.choices.size() && isIn(cardView.id, allyView.choices.back().cardOptionIds)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIds)) {
             painter.setPen(Qt::green);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw selected border
-        if (allyView.choices.size() && isIn(cardView.id, allyView.choices.back().cardOptionIdsSelected)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIdsSelected)) {
             painter.setPen(Qt::red);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw source border
-        if (allyView.choices.size() && (cardView.id == allyView.choices.back().cardSourceId)) {
+        if (view.choices.size() && (cardView.id == view.choices.back().cardSourceId)) {
             painter.setPen(Qt::cyan);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
@@ -572,32 +569,20 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
 
 
-    for (int j = 0; j < 6; ++j) {
-        /// determine a row
-        const FieldView *fieldView = j < 3 ? &enemyView : &allyView;
-        const Row row = Row(j < 3 ? (2 - j) : (j - 3));
-        const std::vector<int> &rowCardIds = row == Meele ? fieldView->rowMeeleIds : row == Range ? fieldView->rowRangeIds : fieldView->rowSeigeIds;
-        const size_t nCards = rowCardIds.size();
-
+    for (int j = 0; j < 6; ++j) {        
         for (size_t i = 0; i < 9; ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight);
-
-            if (i >= nCards) {
+            int id;
+            int n;
+            if (!view.idAtRowAndPos(Row(j), Pos(i), &id, &n)) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
-                const bool canBePlaced = (___ally.cardStack.size()) && ((___ally.choice().choiceType == SelectAllyRowAndPos && j >= 3) || (___ally.choice().choiceType == SelectEnemyRowAndPos && j < 3)) && (i < nCards + 1);
+                const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRowAndPos && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRowAndPos && j < 3)) && (i <= n);
                 painter.setPen(canBePlaced ? Qt::green : Qt::gray);
                 painter.drawRect(rect);
-                continue;
+            } else {
+                const CardView &cardView = view.cardView(id);
+                paintCard(cardView, topLeft);
             }
-
-            const CardView &cardView = fieldView->cardView(rowCardIds[i]);
-            // TODO; move it to FieldView::card checker
-            if (cardView.isAmbush) {
-                paintCardHidden(topLeft);
-                continue;
-            }
-
-            paintCard(cardView, topLeft);
         }
 
         // TODO: return showing a power
@@ -606,8 +591,7 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
         /// draw a row back
         const QRectF rowRect = QRectF(0, _layout.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
-        const RowEffect rowEffect = (j == 0 || j == 5) ? fieldView->rowEffectSeige : (j == 1 || j == 4) ? fieldView->rowEffectRange : fieldView->rowEffectMeele;
-        switch (rowEffect) {
+        switch (view.rowEffect(Row(j))) {
         case NoRowEffect:
             break;
         case TorrentialRainEffect:
@@ -649,30 +633,31 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
     if (_view == ViewStack) {
         const QString stringStatus = QString::fromStdString(stringChoices(___ally.cardStack));
-        const QString stringTurn = QString::number(1 + ___ally.nTurns);
+        const QString stringTurn = QString::number(1 + view.nTurns);
         double statusWidth = 0;
-        if ((___ally.cardStack.size() > 0)){
+        if (currentChoiceView){
             statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _layout.borderTextPx;
         }
-        if ((___ally.cardStack.size() > 0) && ___ally.choice().isOptional) {
+        if (currentChoiceView && currentChoiceView->isOptional) {
             statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _layout.borderTextPx;
         }
-        if (___ally.cardStack.size() > 0) {
-            for (size_t i = 0; i < ___ally.choice().cardOptions.size(); ++i) {
+        if (currentChoiceView) {
+            for (size_t i = 0; i < currentChoiceView->cardOptionIds.size(); ++i) {
                 const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-                paintCard(cardView(___ally.choice().cardOptions[i], -1), topLeft);
+                paintCard(view.cardView(currentChoiceView->cardOptionIds[i]), topLeft);
             }
-            if ((___ally.choice().cardSource != nullptr)) {
+            if (currentChoiceView->cardSourceId >= 0) {
                 Row row;
                 Pos pos;
+                bool isAlly;
                 QPointF topLeft;
-                if (rowAndPos(___ally.choice().cardSource, ___ally, row, pos)) {
-                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (4 + row) * posHeight);
-                } else if (rowAndPos(___ally.choice().cardSource, ___enemy, row, pos)) {
-                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
-                } else {
+                if (!view.rowAndPos(currentChoiceView->cardSourceId, &row, &pos, &isAlly)) {
                     topLeft = rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
-                    paintCard(cardView(___ally.choice().cardSource, -1), topLeft);
+                    paintCard(view.cardView(currentChoiceView->cardSourceId), topLeft);
+                } else if (isAlly) {
+                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (4 + row) * posHeight);
+                } else {
+                    topLeft = rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
                 }
                 if (!_pos.isNull()) {
                     painter.setPen(Qt::cyan);
@@ -682,23 +667,23 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
             }
         }
     } else if (_view == ViewHand) {
-        const QString stringStatus = QString("Hand (%1):").arg(___ally.hand.size());
+        const QString stringStatus = QString("Hand (%1):").arg(view.allyHandIds.size());
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < ___ally.hand.size(); ++i) {
+        for (size_t i = 0; i < view.allyHandIds.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCardGrayscale(cardView(___ally.hand[i], -1), topLeft);
+            paintCardGrayscale(view.cardView(view.allyHandIds[i]), topLeft);
         }
     } else if (_view == ViewDiscard) {
-        const QString stringStatus = QString("Discard (%1):").arg(___ally.discard.size());
+        const QString stringStatus = QString("Discard (%1):").arg(view.allyDiscardIds.size());
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < ___ally.discard.size(); ++i) {
+        for (size_t i = 0; i < view.allyDiscardIds.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCardGrayscale(cardView(___ally.discard[i], -1), topLeft);
+            paintCardGrayscale(view.cardView(view.allyDiscardIds[i]), topLeft);
         }
     } else if (_view == ViewDeck) {
-        const QString stringStatus = QString("Deck (%1):").arg(___ally.deck.size());
+        const QString stringStatus = QString("Deck (%1):").arg(view.allyDeckIds.size());
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < ___ally.deck.size(); ++i) {
+        for (size_t i = 0; i < view.allyDeckIds.size(); ++i) {
             const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
             paintCardHidden(topLeft);
         }
