@@ -163,6 +163,23 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
 void startNextRound(Field &ally, Field &enemy)
 {
+    /// if prev round wasn't first, check winners
+    if (ally.nRounds) {
+        const int nPowerAlly = powerField(ally);
+        const int nPowerEnemy = powerField(ally);
+        const bool isLoosing = nPowerAlly < nPowerEnemy;
+        const bool isTied = nPowerAlly == nPowerEnemy;
+        if (isLoosing) {
+            enemy.nWins++;
+        } else if (isTied) {
+            ally.nWins++;
+            enemy.nWins++;
+        } else {
+            ally.nWins++;
+        }
+        // TODO: check winners
+    }
+
     /// clean all the mess from previous round
     for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
         ally.rowEffect(row) = NoRowEffect;
@@ -255,7 +272,7 @@ Card *random(const std::vector<Card *> &cards)
 
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
-    ally.animations.push_back(new Animation(randomSound(card), Animation::PlaySpecial, card));
+//    ally.animations.push_back(new Animation(randomSound(card), Animation::PlaySpecial, card));
 
     card->onPlaySpecial(ally, enemy);
 
@@ -307,7 +324,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    ally.animations.push_back(new Animation(randomSound(card), Animation::PutOnField, card));
+//    ally.animations.push_back(new Animation(randomSound(card), Animation::PutOnField, card));
 
     if (card->isLoyal) {
         if (takenFrom == Deck)
@@ -825,7 +842,7 @@ void banish(Card *card, Field &ally, Field &enemy)
 void duel(Card *first, Card *second, Field &ally, Field &enemy)
 {
     while (true) {
-        ally.animations.push_back(new Animation("", Animation::LineDamage, first, second));
+//        ally.animations.push_back(new Animation("", Animation::LineDamage, first, second));
         if (damage(second, first->power, ally, enemy))
             break;
         std::swap(first, second);
@@ -846,7 +863,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
         /// if armor broken, but will survive
         if ((card->armor == 0) && (card->power > dmgInPower)){
             card->onArmorLost(ally, enemy);
-            ally.animations.push_back(new Animation("", Animation::ArmorAllLost, card));
+//            ally.animations.push_back(new Animation("", Animation::ArmorAllLost, card));
         }
 
         if (dmgInPower == 0)
@@ -856,7 +873,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-        ally.animations.push_back(new Animation("", Animation::DamageText, card));
+//        ally.animations.push_back(new Animation("", Animation::DamageText, card));
         // TODO: trigger other on damaged
         return false;
     }
@@ -882,7 +899,7 @@ void boost(Card *card, const int x, Field &ally, Field &enemy)
 
     card->power += x;
 
-    ally.animations.push_back(new Animation("", Animation::BoostText, card));
+//    ally.animations.push_back(new Animation("", Animation::BoostText, card));
 
     // TODO: others trigger on boosted
 }
@@ -894,7 +911,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     card->power += x;
     card->powerBase += x;
 
-    ally.animations.push_back(new Animation("", Animation::StrengthenText, card));
+//    ally.animations.push_back(new Animation("", Animation::StrengthenText, card));
 
     // TODO: others trigger on strengthen
 }
@@ -906,7 +923,7 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
     card->power -= x;
     card->powerBase -= x;
 
-    ally.animations.push_back(new Animation("", Animation::WeakenText, card));
+//    ally.animations.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase < 0)
         return banish(card, ally, enemy);
@@ -920,7 +937,7 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 
     card->armor += x;
 
-    ally.animations.push_back(new Animation("", Animation::ArmorGainText, card));
+//    ally.animations.push_back(new Animation("", Animation::ArmorGainText, card));
 }
 
 std::string stringChoices(const std::vector<Choice> &cardStack)
@@ -1042,7 +1059,7 @@ void spawn(Card *card, Field &ally, Field &enemy)
     assert(card != nullptr);
 
     ally.cardsAdded.push_back(card);
-    ally.animations.push_back(new Animation("", Animation::Spawn, card));
+//    ally.animations.push_back(new Animation("", Animation::Spawn, card));
 
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy);

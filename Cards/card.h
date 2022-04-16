@@ -193,46 +193,9 @@ struct Choice
     ChoiceType choiceType;
     Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
+    std::vector<Card *> cardOptionsSelected;
     int nTargets = 1;
     bool isOptional = false;
-
-    /// for nTargets > 1
-    std::vector<Card *> cardOptionsSelected;
-};
-
-struct Animation
-{
-    enum Type {
-        Unknown,
-        Draw,
-        PutOnField,
-        Spawn,
-        PlaySpecial,
-        ArmorAllLost,
-        /// Line
-        LineDamage,
-        /// Texts
-        ArmorGainText,
-        DamageText,
-        BoostText,
-        StrengthenText,
-        WeakenText
-    };
-    inline Animation(
-            const std::string &sound,
-            const Type type,
-            const Card *src,
-            const Card *dst = nullptr) :
-        sound(sound),
-        type(type),
-        src(src),
-        dst(dst)
-    {
-    }
-    std::string sound;
-    Type type = Unknown;
-    const Card *src = nullptr;
-    const Card *dst = nullptr;
 };
 
 struct Field
@@ -252,8 +215,9 @@ struct Field
     std::vector<Choice> cardStack;
     int nTurns = 0;
     int nRounds = 0;
+    int nWins = 0;
     bool passed = false;
-    std::vector<Animation *> animations;
+//    std::vector<Animation *> animations;
 
     const Choice &choice() const;
     Choice &choice();

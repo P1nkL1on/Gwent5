@@ -187,66 +187,66 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
 
-    const auto popAnimations = [=, &ally] {
-        while (ally.animations.size() > 0) {
-            const Animation *animation = ally.animations.front();
-            const std::string sound = animation->sound;
-            requestSoundByUrl(sound);
+//    const auto popAnimations = [=, &ally] {
+//        while (ally.animations.size() > 0) {
+//            const Animation *animation = ally.animations.front();
+//            const std::string sound = animation->sound;
+//            requestSoundByUrl(sound);
 
-            switch (animation->type) {
-            case Animation::LineDamage: {
-                Q_ASSERT(animation->src != nullptr);
-                Q_ASSERT(animation->dst != nullptr);
-                _animationPosSrc = topLeftOf(animation->src) + QPointF(posWidth, posHeight) * 0.5;
-                _animationPosDst = topLeftOf(animation->dst) + QPointF(posWidth, posHeight) * 0.5;
-                _animationColor = Qt::red;
-                repaint();
-                QEventLoop loop;
-                QTimer::singleShot(200, &loop, &QEventLoop::quit);
-                loop.exec(QEventLoop::AllEvents);
-                _animationPosSrc = {};
-                _animationPosDst = {};
-                repaint();
-                break;
-            }
-            default:
-                Q_ASSERT(false);
-                break;
-            case Animation::Spawn:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "spawned";
-                break;
-            case Animation::Draw:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
-                break;
-            case Animation::PlaySpecial:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "played special";
-                break;
-            case Animation::PutOnField:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
-                break;
-            case Animation::ArmorAllLost:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor lost";
-                break;
-            case Animation::ArmorGainText:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
-                break;
-            case Animation::DamageText:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
-                break;
-            case Animation::BoostText:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
-                break;
-            case Animation::StrengthenText:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "strenthened";
-                break;
-            case Animation::WeakenText:
-                qDebug().noquote() << QString::fromStdString(animation->src->name) << "weakened";
-                break;
-            }
+//            switch (animation->type) {
+//            case Animation::LineDamage: {
+//                Q_ASSERT(animation->src != nullptr);
+//                Q_ASSERT(animation->dst != nullptr);
+//                _animationPosSrc = topLeftOf(animation->src) + QPointF(posWidth, posHeight) * 0.5;
+//                _animationPosDst = topLeftOf(animation->dst) + QPointF(posWidth, posHeight) * 0.5;
+//                _animationColor = Qt::red;
+//                repaint();
+//                QEventLoop loop;
+//                QTimer::singleShot(200, &loop, &QEventLoop::quit);
+//                loop.exec(QEventLoop::AllEvents);
+//                _animationPosSrc = {};
+//                _animationPosDst = {};
+//                repaint();
+//                break;
+//            }
+//            default:
+//                Q_ASSERT(false);
+//                break;
+//            case Animation::Spawn:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "spawned";
+//                break;
+//            case Animation::Draw:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
+//                break;
+//            case Animation::PlaySpecial:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "played special";
+//                break;
+//            case Animation::PutOnField:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
+//                break;
+//            case Animation::ArmorAllLost:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor lost";
+//                break;
+//            case Animation::ArmorGainText:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
+//                break;
+//            case Animation::DamageText:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
+//                break;
+//            case Animation::BoostText:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
+//                break;
+//            case Animation::StrengthenText:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "strenthened";
+//                break;
+//            case Animation::WeakenText:
+//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "weakened";
+//                break;
+//            }
 
-            ally.animations.erase(ally.animations.begin());
-        }
-    };
+//            ally.animations.erase(ally.animations.begin());
+//        }
+//    };
 
     if (ally.cardStack.size() == 0)
         return;
