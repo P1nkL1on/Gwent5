@@ -83,8 +83,12 @@ struct FieldView
     int nRounds = 0;
     int nWins = 0;
     bool passed = false;
+
+    CardView &cardView(const int id);
+    const CardView &cardView(const int id) const;
 };
 
+bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);
 FieldView fieldView(const Field &field);
 

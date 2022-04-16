@@ -1,6 +1,7 @@
 #include "view.h"
 
 #include <map>
+#include <cassert>
 
 
 CardView cardView(const Card *card, const int id)
@@ -8,7 +9,7 @@ CardView cardView(const Card *card, const int id)
     CardView view;
     view.id = id;
     view.power = card->power;
-    view.powerBase = card->power;
+    view.powerBase = card->powerBase;
     view.armor = card->armor;
     view.rarity = card->rarity;
     view.timer = card->timer;
@@ -90,4 +91,30 @@ FieldView fieldView(const Field &field)
     res.choices = std::move(choiceViews);
 
     return res;
+}
+
+bool isIn(const int id, const std::vector<int> &vector)
+{
+    for (const int _id : vector)
+        if (id == _id)
+            return true;
+    return false;
+}
+
+CardView &FieldView::cardView(const int id)
+{
+    assert(id > -1);
+    for (CardView &cardView : cards)
+        if (cardView.id == id)
+            return cardView;
+    assert(false);
+}
+
+const CardView &FieldView::cardView(const int id) const
+{
+    assert(id > -1);
+    for (const CardView &cardView : cards)
+        if (cardView.id == id)
+            return cardView;
+    assert(false);
 }

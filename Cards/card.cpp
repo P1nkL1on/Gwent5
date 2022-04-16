@@ -943,10 +943,10 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 std::string stringChoices(const std::vector<Choice> &cardStack)
 {
     std::string res;
-    for (const Choice &Choice : cardStack) {
+    for (const Choice &choice : cardStack) {
         if (res.size() > 0)
             res += " -> ";
-        switch (Choice.choiceType) {
+        switch (choice.choiceType) {
         case RoundStartPlay:
             res += "Choose a card to play";
             break;
@@ -966,20 +966,20 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
             res += "Choose an ability option";
             break;
         case RoundStartSwap:
-            res += "Choose a card to swap [" + std::to_string(Choice.nTargets) + " left]";
+            res += "Choose a card to swap [" + std::to_string(choice.nTargets) + " left]";
             break;
         }
-        if (Choice.cardSource != nullptr)
-            res += " (Source: " + Choice.cardSource->name + ")";
+        if (choice.cardSource != nullptr)
+            res += " (Source: " + choice.cardSource->name + ")";
 
-        if ((Choice.choiceType == Target) && ((Choice.nTargets > 1) || (Choice.isOptional))) {
+        if ((choice.choiceType == Target) && ((choice.nTargets > 1) || (choice.isOptional))) {
             res += " [";
-            if (Choice.isOptional)
+            if (choice.isOptional)
                 res += "optional";
-            if (Choice.nTargets > 1) {
-                if (Choice.isOptional)
+            if (choice.nTargets > 1) {
+                if (choice.isOptional)
                     res += " ";
-                res += std::to_string(Choice.cardOptionsSelected.size()) + "/" + std::to_string(Choice.nTargets);
+                res += std::to_string(choice.cardOptionsSelected.size()) + "/" + std::to_string(choice.nTargets);
             }
             res += "]";
         }

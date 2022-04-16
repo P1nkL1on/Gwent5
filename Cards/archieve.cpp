@@ -1428,7 +1428,7 @@ void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
 void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     acceptOptionAndDeleteOthers(this, target);
-    playCard(target, ally, enemy);
+    spawn(target, ally, enemy);
 }
 
 ShupeHunter::ShupeHunter()
