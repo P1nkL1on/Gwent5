@@ -15,7 +15,8 @@ SOURCES += \
 }
 
 HEADERS += \
-    $$PWD/view.h
+    $$PWD/view.h \
+    $$PWD/enums.h
 
 SOURCES += \
     $$PWD/view.cpp

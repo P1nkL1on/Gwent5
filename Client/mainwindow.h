@@ -38,6 +38,7 @@ private:
     void paintEvent(QPaintEvent *e) override;
     void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
     void paintInRect(const QRect rect, const FieldView &view);
+    void repaintAllSnapshots();
 
     Layout _layout;
     int _sound = 20;
@@ -47,6 +48,7 @@ private:
     QPoint _pos;
     Field _ally ;
     Field _enemy;
+    FieldView _snapshot;
 
     QNetworkAccessManager *_networkAccessManager = nullptr;
     QSet<QString> _pixMapsRequested;

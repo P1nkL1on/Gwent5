@@ -4,127 +4,7 @@
 #include <string>
 
 #include "iterator.h"
-
-
-enum Row
-{
-    Meele,
-    Range,
-    Seige,
-    Hand,
-    Deck,
-    Discard,
-    AlreadyCreated
-};
-
-
-using Pos = int;
-
-enum Rarity
-{
-    Bronze,
-    Silver,
-    Gold
-};
-
-
-enum Tag
-{
-    Beast,
-    Relict,
-    Vampire,
-    Construct,
-    Elf,
-    Dwarf,
-    Aedirn,
-    Temeria,
-    Redania,
-    Kaedwen,
-    Cintra,
-    ClanAnCraite,
-    ClanHeymaey,
-    ClanDimun,
-    ClanTuirseach,
-    Ogroid,
-
-    Cursed,
-    Support,
-    Officer,
-    Mage,
-    Soldier,
-    Machine,
-    Agent,
-    Witcher,
-    Leader,
-
-    Alchemy,
-    Tactics,
-    Spell,
-    Item,
-    Organic,
-    Hazard,
-    Boon,
-
-    Neutral,
-    Monster,
-    Nilfgaard,
-    NothernRealms,
-    Scoiatael,
-    Skellige,
-};
-
-
-enum RowEffect
-{
-    NoRowEffect,
-    /// Hazards
-    TorrentialRainEffect,
-    BitingFrostEffect,
-    ImpenetrableFogEffect,
-    SkelligeStormEffect,
-    DragonsDreamEffect,
-    KorathiHeatwaveEffect,
-    RaghNarRoogEffect,
-    BloodMoonEffect,
-    PitTrapEffect,
-    /// Boons
-    GoldenFrothEffect,
-    FullMoonEffect,
-};
-
-
-enum ChoiceType
-{
-    RoundStartPlay,
-    SelectAllyRowAndPos,
-    SelectEnemyRowAndPos,
-    SelectAllyRow,
-    SelectEnemyRow,
-    Target,
-    RoundStartSwap,
-};
-
-
-enum ChoiceGroup
-{
-    /// on a table
-    Any,
-    Ally,
-    Enemy,
-    /// others
-    AllyHand,
-    AllyDiscard,
-    AllyDeckShuffled,
-    AllyDeck,
-    AllyDeckStarting,
-};
-
-
-enum Lang
-{
-    En,
-    Ru,
-};
+#include "view.h"
 
 
 struct Field;
@@ -206,7 +86,6 @@ struct Choice
     bool isOptional = false;
 };
 
-
 struct Field
 {
     std::vector<Card *> rowMeele;
@@ -226,7 +105,7 @@ struct Field
     int nRounds = 0;
     int nWins = 0;
     bool passed = false;
-//    std::vector<Animation *> animations;
+    std::vector<FieldView> snapshots;
 
     const Choice &choice() const;
     Choice &choice();
@@ -316,6 +195,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
+void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound = "");
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 

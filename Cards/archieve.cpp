@@ -117,7 +117,7 @@ void DeithwenArbalest::onEnter(Field &ally, Field &enemy)
 
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, target->isSpy ? 6 : 3, ally, enemy);
 }
 
@@ -308,7 +308,7 @@ void DimunDracar::onTurnEnd(Field &ally, Field &enemy)
     if (!rowAndPos(this, ally, row, pos))
         return;
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
         damage(right, 1, ally, enemy);
         boost(this, 2, ally, enemy);
     }
@@ -427,7 +427,7 @@ void KaedweniCavalry::onEnter(Field &ally, Field &enemy)
 void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int armorTarget = target->armor;
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, armorTarget, ally, enemy);
     boost(this, armorTarget, ally, enemy);
 }
@@ -450,7 +450,7 @@ void AlzursThunder::onPlaySpecial(Field &ally, Field &enemy)
 
 void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 9, ally, enemy);
 }
 
@@ -529,14 +529,14 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     Card *left = cardNextTo(target, ally, enemy, -1);
     Card *right = cardNextTo(target, ally, enemy, 1);
 
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 4, ally, enemy);
     if (left != nullptr) {
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 4, ally, enemy);
     }
     if (right != nullptr) {
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
         damage(right, 4, ally, enemy);
     }
 }
@@ -586,7 +586,7 @@ void DolBlathannaArcher::onEnter(Field &ally, Field &enemy)
 
 void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy);
 }
 
@@ -652,7 +652,7 @@ Assassin::Assassin()
 void Assassin::onEnter(Field &ally, Field &enemy)
 {
     if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 10, ally, enemy);
     }
 }
@@ -674,7 +674,7 @@ void TuirseachArcher::onEnter(Field &ally, Field &enemy)
 
 void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy);
 }
 
@@ -829,7 +829,7 @@ void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
 
 void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 13, ally, enemy);
 }
 
@@ -967,7 +967,7 @@ void Cleaver::onEnter(Field &ally, Field &enemy)
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, int(ally.hand.size()), ally, enemy);
 }
 
@@ -1120,7 +1120,7 @@ void HeymaeySpearmaiden::onEnter(Field &ally, Field &enemy)
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy);
     if (Card *copy = findCopy(target, ally.deck))
         playCard(copy, ally, enemy);
@@ -1506,7 +1506,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
                 if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy))) {
-//                    ally.animations.push_back(new Animation("", Animation::LineDamage, this, card));
+//                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy);
                 }
             delete _choosen;
@@ -1525,7 +1525,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 15, ally, enemy);
         delete _choosen;
         _choosen = nullptr;
@@ -1633,14 +1633,14 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         Card *left = cardNextTo(target, ally, enemy, -1);
         Card *right = cardNextTo(target, ally, enemy, 1);
 
-//        ally.animations.push_back(new Animation("", Animation::LineDamage, this, target));
+//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 10, ally, enemy);
         if (left != nullptr) {
-//            ally.animations.push_back(new Animation("", Animation::LineDamage, this, left));
+//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
             damage(left, 5, ally, enemy);
         }
         if (right != nullptr) {
-//            ally.animations.push_back(new Animation("", Animation::LineDamage, this, right));
+//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
             damage(right, 5, ally, enemy);
         }
 
@@ -2009,7 +2009,7 @@ void HaraldTheCripple::onEnter(Field &ally, Field &enemy)
         return;
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row))) {
-//            ally.animations.push_back(new Animation("", Animation::LineDamage, this, card));
+//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
             damage(card, 1, ally, enemy);
         }
 }

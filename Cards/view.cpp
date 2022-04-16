@@ -3,6 +3,7 @@
 #include <map>
 #include <cassert>
 
+#include "card.h"
 
 CardView cardView(const Card *card, const int id)
 {

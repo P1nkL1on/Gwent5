@@ -1,8 +1,10 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "card.h"
+#include <string>
+#include <vector>
 
+#include "enums.h"
 
 struct CardView
 {
@@ -101,6 +103,7 @@ struct FieldView
     int nEnemyWins = 0;
     bool allyPassed = false;
     bool enemyPassed = false;
+    std::string sound;
 
     CardView &cardView(const int id);
     const CardView &cardView(const int id) const;
@@ -109,6 +112,9 @@ struct FieldView
     RowEffect rowEffect(const Row screenRow) const;
     int rowPower(const Row screenRow) const;
 };
+
+struct Card;
+struct Field;
 
 bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);

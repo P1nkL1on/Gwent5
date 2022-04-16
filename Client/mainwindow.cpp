@@ -10,6 +10,7 @@
 #include <QEventLoop>
 #include <QThread>
 #include <QTimer>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,11 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new CeallachDyffryn, new CeallachDyffryn,
-        new Reconnaissance, new Reconnaissance,
-        new Ambassador, new Ambassador,
-        new Assassin, new Assassin,
-        new Emissary, new Emissary,
         new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
         new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
@@ -37,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
+        new CeallachDyffryn, new CeallachDyffryn,
+        new Reconnaissance, new Reconnaissance,
+        new Ambassador, new Ambassador,
+        new Assassin, new Assassin,
+        new Emissary, new Emissary,
         new ShupesDayOff, new ArachasVenom, new AlzursThunder,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
@@ -70,9 +71,10 @@ MainWindow::MainWindow(QWidget *parent)
         _enemy.cardsAdded.push_back(c);
     }
 
-    resize(600, 450);
+    resize(600, 550);
     setMouseTracking(true);
     installEventFilter(this);
+    _snapshot = fieldView(_ally, _enemy);
 }
 
 void MainWindow::requestImageByUrl(const std::string &url)
@@ -194,100 +196,31 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
 
-//    const auto popAnimations = [=, &ally] {
-//        while (ally.animations.size() > 0) {
-//            const Animation *animation = ally.animations.front();
-//            const std::string sound = animation->sound;
-//            requestSoundByUrl(sound);
-
-//            switch (animation->type) {
-//            case Animation::LineDamage: {
-//                Q_ASSERT(animation->src != nullptr);
-//                Q_ASSERT(animation->dst != nullptr);
-//                _animationPosSrc = topLeftOf(animation->src) + QPointF(posWidth, posHeight) * 0.5;
-//                _animationPosDst = topLeftOf(animation->dst) + QPointF(posWidth, posHeight) * 0.5;
-//                _animationColor = Qt::red;
-//                repaint();
-//                QEventLoop loop;
-//                QTimer::singleShot(200, &loop, &QEventLoop::quit);
-//                loop.exec(QEventLoop::AllEvents);
-//                _animationPosSrc = {};
-//                _animationPosDst = {};
-//                repaint();
-//                break;
-//            }
-//            default:
-//                Q_ASSERT(false);
-//                break;
-//            case Animation::Spawn:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "spawned";
-//                break;
-//            case Animation::Draw:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "drawned";
-//                break;
-//            case Animation::PlaySpecial:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "played special";
-//                break;
-//            case Animation::PutOnField:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "puted on field";
-//                break;
-//            case Animation::ArmorAllLost:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor lost";
-//                break;
-//            case Animation::ArmorGainText:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "armor gained";
-//                break;
-//            case Animation::DamageText:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "damaged";
-//                break;
-//            case Animation::BoostText:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "boosted";
-//                break;
-//            case Animation::StrengthenText:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "strenthened";
-//                break;
-//            case Animation::WeakenText:
-//                qDebug().noquote() << QString::fromStdString(animation->src->name) << "weakened";
-//                break;
-//            }
-
-//            ally.animations.erase(ally.animations.begin());
-//        }
-//    };
-
     if (ally.cardStack.size() == 0)
         return;
 
     if (ally.choice().choiceType == RoundStartPlay) {
         if (ally.choice().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
-            tryFinishTurn(ally, enemy);
-            repaint();
-            return;
+            goto finish_turn;
         }
         Card *card = cardAt(point);
         if (card == nullptr || !isIn(card, ally.choice().cardOptions))
             return;
         onChoiceDoneCard(card, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == Target) {
         if (ally.choice().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
-            tryFinishTurn(ally, enemy);
-            repaint();
-            return;
+            goto finish_turn;
         }
         Card *card = cardAt(point);
         if (card == nullptr || !isIn(card, ally.choice().cardOptions))
             return;
         onChoiceDoneCard(card, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectAllyRowAndPos) {
@@ -298,9 +231,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         if (!isOkRowAndPos(row, pos, ally))
             return;
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectEnemyRowAndPos) {
@@ -311,9 +242,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         if (!isOkRowAndPos(row, pos, enemy))
             return;
         onChoiceDoneRowAndPlace(row, pos, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectAllyRow) {
@@ -321,9 +250,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         if (!rowAt(true, point, row))
             return;
         onChoiceDoneRow(row, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectEnemyRow) {
@@ -331,9 +258,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         if (!rowAt(false, point, row))
             return;
         onChoiceDoneRow(row, ally, enemy);
-        tryFinishTurn(ally, enemy);
-        repaint();
-        return;
+        goto finish_turn;
     }
 
     if (ally.choice().choiceType == RoundStartSwap) {
@@ -351,6 +276,12 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     }
 
     Q_ASSERT(false);
+
+finish_turn:
+    ally.snapshots.clear();
+    repaint();
+    tryFinishTurn(ally, enemy);
+    repaintAllSnapshots();
 }
 
 void MainWindow::paintInRect(const QRect rect, const FieldView &view)
@@ -629,10 +560,10 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     }
 
     if (_view == ViewStack) {
-        const QString stringStatus = QString::fromStdString(currentChoiceView->toString());
-        const QString stringTurn = QString::number(1 + view.nTurns);
         double statusWidth = 0;
         if (currentChoiceView){
+            const QString stringStatus = QString::fromStdString(currentChoiceView->toString());
+            const QString stringTurn = QString::number(1 + view.nTurns);
             statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _layout.borderTextPx;
         }
         if (currentChoiceView && currentChoiceView->isOptional) {
@@ -699,7 +630,6 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     paintTextInPoint(stringStatusEnemy, QPointF(0, 15), Qt::black, Qt::red);
 }
 
-
 void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 {
     const QString urlString = reply->url().toString();
@@ -736,15 +666,15 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         auto *em = static_cast<QMouseEvent *>(e);
         if (_ally.cardStack.size() && _ally.choice().cardSource != nullptr) {
             _pos = em->pos();
-            repaint();
+            repaintAllSnapshots();
         } else if (_enemy.cardStack.size() && _enemy.choice().cardSource != nullptr) {
             _pos = em->pos();
-            repaint();
+            repaintAllSnapshots();
         } else {
             // _pos = QPoint();
             // TODO: tmp show card description
             _pos = em->pos();
-            repaint();
+            repaintAllSnapshots();
         }
     }
 
@@ -760,25 +690,44 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                     view += 4;
             }
             _view = View(view);
-            repaint();
+            repaintAllSnapshots();
         }
     }
-
     return QMainWindow::eventFilter(o, e);
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 150));
+    paintInRect(rect, _snapshot);
+}
 
-    const FieldView view = fieldView(_ally, _enemy);
 
+void MainWindow::repaintAllSnapshots()
+{
     if (_ally.cardStack.size()) {
-        const FieldView view = fieldView(_ally, _enemy);
-        paintInRect(rect, view);
-
+        for (const FieldView &snapshot : _ally.snapshots) {
+            requestSoundByUrl(snapshot.sound);
+            _snapshot = snapshot;
+            repaint();
+            QEventLoop loop;
+            QTimer::singleShot(300, &loop, &QEventLoop::quit);
+            loop.exec(QEventLoop::ExcludeUserInputEvents);
+        }
+        _ally.snapshots.clear();
+        _snapshot = fieldView(_ally, _enemy);
+        repaint();
     } else if (_enemy.cardStack.size()) {
-        const FieldView view = fieldView(_enemy, _ally);
-        paintInRect(rect, view);
+        for (const FieldView &snapshot : _enemy.snapshots) {
+            requestSoundByUrl(snapshot.sound);
+            _snapshot = snapshot;
+            repaint();
+            QEventLoop loop;
+            QTimer::singleShot(300, &loop, &QEventLoop::quit);
+            loop.exec(QEventLoop::ExcludeUserInputEvents);
+        }
+        _enemy.snapshots.clear();
+        _snapshot = fieldView(_enemy, _ally);
+        repaint();
     }
 }
