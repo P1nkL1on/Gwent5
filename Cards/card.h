@@ -89,7 +89,7 @@ enum RowEffect
     FullMoonEffect,
 };
 
-enum Choice
+enum ChoiceType
 {
     RoundStartPlay,
     SelectAllyRowAndPos,
@@ -180,17 +180,17 @@ struct Card
     inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
-struct Snapshot
+struct Choice
 {
-    inline Snapshot(const Choice choice, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
-        choice(choice),
+    inline Choice(const ChoiceType choiceType, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
+        choiceType(choiceType),
         cardSource(cardSource),
         cardOptions(cardOptions),
         nTargets(nTargets),
         isOptional(isOptional)
     {
     }
-    Choice choice;
+    ChoiceType choiceType;
     Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
     int nTargets = 1;
@@ -249,15 +249,15 @@ struct Field
 
     std::vector<Card *> deckStarting;
     std::vector<Card *> cardsAdded;
-    std::vector<Snapshot> cardStack;
+    std::vector<Choice> cardStack;
     int nTurns = 0;
     int nRounds = 0;
     bool passed = false;
     std::vector<Animation *> animations;
 
-    const Snapshot &snapshot() const;
-    Snapshot &snapshot();
-    Snapshot takeSnapshot();
+    const Choice &choice() const;
+    Choice &choice();
+    Choice takeChoice();
     const std::vector<Card *> &row(const Row _row) const;
     std::vector<Card *> &row(const Row _row);
     RowEffect &rowEffect(const Row _row);
@@ -266,7 +266,7 @@ struct Field
 
 int powerField(const Field &field);
 int powerRow(const std::vector<Card *> &vector);
-std::string stringSnapShots(const std::vector<Snapshot> &cardStack);
+std::string stringChoices(const std::vector<Choice> &cardStack);
 bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);

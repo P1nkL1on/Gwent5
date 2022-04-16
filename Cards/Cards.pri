@@ -13,3 +13,9 @@ SOURCES += \
     $$PWD/card.cpp \
     $$PWD/archieve.cpp
 }
+
+HEADERS += \
+    $$PWD/view.h
+
+SOURCES += \
+    $$PWD/view.cpp

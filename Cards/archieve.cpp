@@ -1247,7 +1247,7 @@ bool Reconnaissance::isBronzeUnit(Card *card)
 
 void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Snapshot(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
 }
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1272,7 +1272,7 @@ bool ElvenMercenary::isBronzeSpecial(Card *card)
 
 void ElvenMercenary::onEnter(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Snapshot(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeSpecial}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeSpecial}, AllyDeckShuffled), 2), 1, true));
 }
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)

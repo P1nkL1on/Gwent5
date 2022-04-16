@@ -219,8 +219,8 @@ void startNextRound(Field &ally, Field &enemy)
     }
 
     /// start a round start swapping
-    ally.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, ally.hand, nSwap, true));
-    enemy.cardStack.push_back(Snapshot(RoundStartSwap, nullptr, enemy.hand, nSwap, true));
+    ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, nSwap, true));
+    enemy.cardStack.push_back(Choice(RoundStartSwap, nullptr, enemy.hand, nSwap, true));
 }
 
 std::default_random_engine _rng;
@@ -270,7 +270,7 @@ void playCard(Card *card, Field &ally, Field &enemy)
         putOnDiscard(card, ally, enemy);
         return;
     }
-    return ally.cardStack.push_back(Snapshot(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
+    return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
 void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
@@ -378,7 +378,7 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
     /// if window is to wide, then show all options as well
     if ((nWindow < 0) || (nOptions <= nWindow)) {
         self->_options = options;
-        ally.cardStack.push_back(Snapshot(Target, self, options, nTargets, true));
+        ally.cardStack.push_back(Choice(Target, self, options, nTargets, true));
         return;
     }
 
@@ -392,7 +392,7 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
     optionsShuffled.resize(size_t(nWindow));
 
     self->_options = optionsShuffled;
-    ally.cardStack.push_back(Snapshot(Target, self, optionsShuffled, nTargets, true));
+    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, true));
 }
 
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -408,55 +408,55 @@ bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
         return true;
     }
 
-    ally.cardStack.push_back(Snapshot(Target, self, cards, nTargets, isOptional));
+    ally.cardStack.push_back(Choice(Target, self, cards, nTargets, isOptional));
     return true;
 }
 
 void startChoiceToSelectAllyRow(Field &field, Card *self)
 {
-    field.cardStack.push_back(Snapshot(SelectAllyRow, self));
+    field.cardStack.push_back(Choice(SelectAllyRow, self));
 }
 
 void startChoiceToSelectEnemyRow(Field &field, Card *self)
 {
-    field.cardStack.push_back(Snapshot(SelectEnemyRow, self));
+    field.cardStack.push_back(Choice(SelectEnemyRow, self));
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
-    const Snapshot snapshot = ally.takeSnapshot();
+    const Choice choice = ally.takeChoice();
 
-    if (snapshot.choice == RoundStartPlay) {
+    if (choice.choiceType == RoundStartPlay) {
         /// passed
         if (card == nullptr) {
             ally.passed = true;
             return;
         }
-        assert(snapshot.nTargets == 1);
+        assert(choice.nTargets == 1);
         return playCard(card, ally, enemy);
     }
-    if (snapshot.choice == Target) {
-        Snapshot snapshotNext = snapshot;
+    if (choice.choiceType == Target) {
+        Choice choiceNext = choice;
         if (card != nullptr) {
             /// remove a previously selected card
-            for (size_t j = 0; j < snapshotNext.cardOptions.size(); ++j)
-                if (snapshotNext.cardOptions.at(j) == card) {
-                    snapshotNext.cardOptions.erase(snapshotNext.cardOptions.begin() + int(j));
+            for (size_t j = 0; j < choiceNext.cardOptions.size(); ++j)
+                if (choiceNext.cardOptions.at(j) == card) {
+                    choiceNext.cardOptions.erase(choiceNext.cardOptions.begin() + int(j));
                     break;
                 }
             /// add it to selected cards
-            snapshotNext.cardOptionsSelected.push_back(card);
+            choiceNext.cardOptionsSelected.push_back(card);
 
-            if ((int(snapshotNext.cardOptionsSelected.size()) < snapshotNext.nTargets) && (snapshotNext.cardOptions.size() > 0)) {
-                ally.cardStack.push_back(snapshotNext);
+            if ((int(choiceNext.cardOptionsSelected.size()) < choiceNext.nTargets) && (choiceNext.cardOptions.size() > 0)) {
+                ally.cardStack.push_back(choiceNext);
                 return;
             }
         } else {
-            assert(snapshot.isOptional);
+            assert(choice.isOptional);
         }
 
-        for (Card *card : snapshotNext.cardOptionsSelected)
-            snapshot.cardSource->onTargetChoosen(card, ally, enemy);
+        for (Card *card : choiceNext.cardOptionsSelected)
+            choice.cardSource->onTargetChoosen(card, ally, enemy);
         return;
     }
     assert(false);
@@ -464,14 +464,14 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy)
 {
-    const Snapshot snapshot = ally.takeSnapshot();
-    if (snapshot.choice == SelectAllyRowAndPos) {
-        putOnField(snapshot.cardSource, row, pos, ally, enemy);
+    const Choice Choice = ally.takeChoice();
+    if (Choice.choiceType == SelectAllyRowAndPos) {
+        putOnField(Choice.cardSource, row, pos, ally, enemy);
         return;
     }
 
-    if (snapshot.choice == SelectEnemyRowAndPos) {
-        putOnField(snapshot.cardSource, row, pos, enemy, ally);
+    if (Choice.choiceType == SelectEnemyRowAndPos) {
+        putOnField(Choice.cardSource, row, pos, enemy, ally);
         return;
     }
 
@@ -480,32 +480,32 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
 
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
 {
-    const Snapshot snapshot = ally.takeSnapshot();
-    if (snapshot.choice == SelectAllyRow)
-        return applyRowEffect(ally, enemy, row, snapshot.cardSource->rowEffect());
+    const Choice Choice = ally.takeChoice();
+    if (Choice.choiceType == SelectAllyRow)
+        return applyRowEffect(ally, enemy, row, Choice.cardSource->rowEffect());
 
-    if (snapshot.choice == SelectEnemyRow)
-        return applyRowEffect(enemy, ally, row, snapshot.cardSource->rowEffect());
+    if (Choice.choiceType == SelectEnemyRow)
+        return applyRowEffect(enemy, ally, row, Choice.cardSource->rowEffect());
 
     assert(false);
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 {
-    const Snapshot snapshot = ally.takeSnapshot();
-    assert(snapshot.choice == RoundStartSwap);
+    const Choice choice = ally.takeChoice();
+    assert(choice.choiceType == RoundStartSwap);
 
     if (card != nullptr) {
         swapACard(card, ally, enemy);
 
-        if (snapshot.nTargets > 1) {
-            ally.cardStack.push_back(Snapshot(RoundStartSwap, snapshot.cardSource, ally.hand, snapshot.nTargets - 1, snapshot.isOptional));
+        if (choice.nTargets > 1) {
+            ally.cardStack.push_back(Choice(RoundStartSwap, choice.cardSource, ally.hand, choice.nTargets - 1, choice.isOptional));
             return;
         }
     }
 
     /// start a game after start swap
-    ally.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, ally.hand, 1, true));
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, true));
 }
 
 void traceField(Field &field)
@@ -523,7 +523,7 @@ void traceField(Field &field)
     if (field.cardStack.size() == 0)
         return;
 
-    switch (field.snapshot().choice) {
+    switch (field.choice().choiceType) {
     case RoundStartPlay:
         std::cout << "\n\nSelect a card to play:\n";
         break;
@@ -547,7 +547,7 @@ void traceField(Field &field)
         break;
     }
 
-    for (Card *card : field.snapshot().cardOptions)
+    for (Card *card : field.choice().cardOptions)
         std::cout << card->power << "\n";
 }
 
@@ -690,22 +690,22 @@ Card *findCopy(const Card *card, const std::vector<Card *> &cards)
     return res[_rng() % res.size()];
 }
 
-const Snapshot &Field::snapshot() const
+const Choice &Field::choice() const
 {
     assert(cardStack.size() > 0);
     return cardStack.back();
 }
 
-Snapshot &Field::snapshot()
+Choice &Field::choice()
 {
     assert(cardStack.size() > 0);
     return cardStack.back();
 }
 
-Snapshot Field::takeSnapshot()
+Choice Field::takeChoice()
 {
     assert(cardStack.size() > 0);
-    Snapshot res = cardStack.back();
+    Choice res = cardStack.back();
     cardStack.pop_back();
     return res;
 }
@@ -923,13 +923,13 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
     ally.animations.push_back(new Animation("", Animation::ArmorGainText, card));
 }
 
-std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
+std::string stringChoices(const std::vector<Choice> &cardStack)
 {
     std::string res;
-    for (const Snapshot &snapShot : cardStack) {
+    for (const Choice &Choice : cardStack) {
         if (res.size() > 0)
             res += " -> ";
-        switch (snapShot.choice) {
+        switch (Choice.choiceType) {
         case RoundStartPlay:
             res += "Choose a card to play";
             break;
@@ -949,20 +949,20 @@ std::string stringSnapShots(const std::vector<Snapshot> &cardStack)
             res += "Choose an ability option";
             break;
         case RoundStartSwap:
-            res += "Choose a card to swap [" + std::to_string(snapShot.nTargets) + " left]";
+            res += "Choose a card to swap [" + std::to_string(Choice.nTargets) + " left]";
             break;
         }
-        if (snapShot.cardSource != nullptr)
-            res += " (Source: " + snapShot.cardSource->name + ")";
+        if (Choice.cardSource != nullptr)
+            res += " (Source: " + Choice.cardSource->name + ")";
 
-        if ((snapShot.choice == Target) && ((snapShot.nTargets > 1) || (snapShot.isOptional))) {
+        if ((Choice.choiceType == Target) && ((Choice.nTargets > 1) || (Choice.isOptional))) {
             res += " [";
-            if (snapShot.isOptional)
+            if (Choice.isOptional)
                 res += "optional";
-            if (snapShot.nTargets > 1) {
-                if (snapShot.isOptional)
+            if (Choice.nTargets > 1) {
+                if (Choice.isOptional)
                     res += " ";
-                res += std::to_string(snapShot.cardOptionsSelected.size()) + "/" + std::to_string(snapShot.nTargets);
+                res += std::to_string(Choice.cardOptionsSelected.size()) + "/" + std::to_string(Choice.nTargets);
             }
             res += "]";
         }
@@ -1002,7 +1002,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
         return tryFinishTurn(enemy, ally);
 
     /// give a choice to enemy
-    enemy.cardStack.push_back(Snapshot(RoundStartPlay, nullptr, enemy.hand, 1, true));
+    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, enemy.hand, 1, true));
     return true;
 }
 
@@ -1049,7 +1049,7 @@ void spawn(Card *card, Field &ally, Field &enemy)
         putOnDiscard(card, ally, enemy);
         return;
     }
-    return ally.cardStack.push_back(Snapshot(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
+    return ally.cardStack.push_back(Choice(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect)
