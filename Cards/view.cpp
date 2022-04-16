@@ -103,6 +103,12 @@ FieldView fieldView(const Field &ally, const Field &enemy)
     res.enemyRowEffectMeele = enemy.rowEffectMeele;
     res.enemyRowEffectRange = enemy.rowEffectRange;
     res.enemyRowEffectSeige = enemy.rowEffectSeige;
+    res.nPowerRowAllyMeele = powerRow(ally.rowMeele);
+    res.nPowerRowAllyRange = powerRow(ally.rowRange);
+    res.nPowerRowAllySeige = powerRow(ally.rowSeige);
+    res.nPowerRowEnemyMeele = powerRow(enemy.rowMeele);
+    res.nPowerRowEnemyRange = powerRow(enemy.rowRange);
+    res.nPowerRowEnemySeige = powerRow(enemy.rowSeige);
     res.nTurns = ally.nTurns;
     res.nRounds = ally.nRounds;
     res.nAllyWins = ally.nWins;
@@ -147,8 +153,8 @@ const CardView &FieldView::cardView(const int id) const
 
 bool FieldView::idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id, int *n) const
 {
-    assert((0 <= screenRow) && (screenRow <= 6));
-    assert((0 <= screenPos) && (screenPos <= 9));
+    assert((0 <= screenRow) && (screenRow < 6));
+    assert((0 <= screenPos) && (screenPos < 9));
 
     const std::vector<int> *rowIds = nullptr;
     switch (screenRow) {
@@ -181,42 +187,42 @@ bool FieldView::rowAndPos(const int id, Row *row, Pos *pos, bool *isAlly) const
     for (size_t i = 0; i < allyRowMeeleIds.size(); ++i)
         if (id == allyRowMeeleIds[i]) {
             _row = Meele;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = true;
             goto found;
         }
     for (size_t i = 0; i < allyRowRangeIds.size(); ++i)
         if (id == allyRowRangeIds[i]) {
             _row = Range;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = true;
             goto found;
         }
     for (size_t i = 0; i < allyRowSeigeIds.size(); ++i)
         if (id == allyRowSeigeIds[i]) {
             _row = Seige;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = true;
             goto found;
         }
     for (size_t i = 0; i < enemyRowMeeleIds.size(); ++i)
         if (id == enemyRowMeeleIds[i]) {
             _row = Meele;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = false;
             goto found;
         }
     for (size_t i = 0; i < enemyRowRangeIds.size(); ++i)
         if (id == enemyRowRangeIds[i]) {
             _row = Range;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = false;
             goto found;
         }
     for (size_t i = 0; i < enemyRowSeigeIds.size(); ++i)
         if (id == enemyRowSeigeIds[i]) {
             _row = Seige;
-            _pos = i;
+            _pos = Pos(i);
             _isAlly = false;
             goto found;
         }
@@ -234,7 +240,7 @@ found:
 
 RowEffect FieldView::rowEffect(const Row screenRow) const
 {
-    assert((0 <= screenRow) && (screenRow <= 6));
+    assert((0 <= screenRow) && (screenRow < 6));
     switch (screenRow) {
     case 0: return enemyRowEffectSeige;
     case 1: return enemyRowEffectRange;
@@ -245,4 +251,53 @@ RowEffect FieldView::rowEffect(const Row screenRow) const
     default: assert(false);
     }
     return NoRowEffect;
+}
+
+int FieldView::rowPower(const Row screenRow) const
+{
+    assert((0 <= screenRow) && (screenRow < 6));
+    switch (screenRow) {
+    case 0: return nPowerRowEnemySeige;
+    case 1: return nPowerRowEnemyRange;
+    case 2: return nPowerRowEnemyMeele;
+    case 3: return nPowerRowAllyMeele;
+    case 4: return nPowerRowAllyRange;
+    case 5: return nPowerRowAllySeige;
+    default: assert(false);
+    }
+    return 0;
+}
+
+std::string ChoiceView::toString() const
+{
+    switch (choiceType) {
+    case RoundStartPlay:
+        return "Choose a card to play";
+    case SelectAllyRowAndPos:
+        return "Choose an allied row and pos";
+    case SelectEnemyRowAndPos:
+        return "Choose an enemy row and pos";
+    case SelectAllyRow:
+        return "Choose an allied row";
+    case SelectEnemyRow:
+        return "Choose an enemy row";
+    case Target: {
+        std::string res = "Choose an ability option";
+        if ((nTargets > 1) || isOptional) {
+            res += " [";
+            if (isOptional)
+                res += "optional";
+            if (nTargets > 1) {
+                if (isOptional)
+                    res += " ";
+                res += std::to_string(cardOptionIdsSelected.size()) + "/" + std::to_string(nTargets);
+            }
+            res += "]";
+        }
+        return res;
+    }
+    case RoundStartSwap:
+        return "Choose a card to swap [" + std::to_string(nTargets) + " left]";
+    }
+    assert(false);
 }

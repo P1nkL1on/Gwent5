@@ -37,7 +37,7 @@ private:
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
     void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
-    void paintInRect(const QRect rect, Field &ally, Field &enemy);
+    void paintInRect(const QRect rect, const FieldView &view);
 
     Layout _layout;
     int _sound = 20;
@@ -52,11 +52,6 @@ private:
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
     QMap<QString, QMediaPlayer *> _sounds;
-
-    QPointF _animationPosSrc;
-    QPointF _animationPosDst;
-    Qt::GlobalColor _animationColor;
-//    QVariantAnimation *_variantAnimation = nullptr;
 };
 
 #endif // MAINWINDOW_H

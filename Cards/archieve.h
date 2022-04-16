@@ -222,6 +222,23 @@ struct Assassin : Card
 };
 
 
+struct Emissary : Card
+{
+    Emissary();
+    static bool isBronzeUnit(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct CeallachDyffryn : Card
+{
+    CeallachDyffryn();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
 struct TuirseachArcher : Card
 {
     TuirseachArcher();
@@ -312,10 +329,6 @@ struct Vaedermakar : Card
     Vaedermakar();
     void onEnter(Field &ally, Field &) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-private:
-    Card *_c1 = nullptr;
-    Card *_c2 = nullptr;
-    Card *_c3 = nullptr;
 };
 
 

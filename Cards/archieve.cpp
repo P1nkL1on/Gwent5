@@ -1403,6 +1403,7 @@ void AdrenalineRush::onTargetChoosen(Card *target, Field &, Field &)
 ShupesDayOff::ShupesDayOff()
 {
     name = "Shupe's Day Off";
+    text = "If your starting deck has no duplicates, Spawn a Shupe: Knight, Shupe: Hunter or Supe: Mage";
     url = "https://gwent.one/image/card/low/cid/png/201627.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.168.mp3",
@@ -2011,4 +2012,63 @@ void HaraldTheCripple::onEnter(Field &ally, Field &enemy)
 //            ally.animations.push_back(new Animation("", Animation::LineDamage, this, card));
             damage(card, 1, ally, enemy);
         }
+}
+
+Emissary::Emissary()
+{
+    name = "Emissary";
+    text = "Look at 2 random Bronze units from your deck, then play 1.";
+    url = "https://gwent.one/image/card/low/cid/png/162314.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526372.mp3",
+        "https://gwent.one/audio/card/ob/en/NIS1_Q002_01048548.mp3",
+        "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526356.mp3",
+    };
+    isLoyal = false;
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { };
+}
+
+bool Emissary::isBronzeUnit(Card *card)
+{
+    return (card->rarity == Bronze) && !card->isSpecial;
+}
+
+void Emissary::onEnter(Field &ally, Field &enemy)
+{
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
+}
+
+void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
+}
+
+CeallachDyffryn::CeallachDyffryn()
+{
+    name = "Ceallach Dyffryn";
+    text = "Spawn an Ambassador, Assassin or Emissary.";
+    url = "https://gwent.one/image/card/low/cid/png/162213.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.109.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.110.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.111.mp3",
+    };
+    power = powerBase = 2;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Officer };
+}
+
+void CeallachDyffryn::onEnter(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new Ambassador, new Assassin, new Emissary});
+}
+
+void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
 }

@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
+        new CeallachDyffryn, new CeallachDyffryn,
+        new Reconnaissance, new Reconnaissance,
+        new Ambassador, new Ambassador,
+        new Assassin, new Assassin,
+        new Emissary, new Emissary,
         new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
         new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
@@ -348,7 +353,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 }
 
-void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
+void MainWindow::paintInRect(const QRect rect, const FieldView &view)
 {
     if (rect.width() < _layout.spacingPx * 2)
         return;
@@ -356,7 +361,6 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
     if (rect.height() < _layout.spacingPx * 2)
         return;
 
-    const FieldView view = fieldView(___ally, ___enemy);
     const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.back() : nullptr;
 
     const QFontMetricsF metrics(QFont{});
@@ -482,7 +486,7 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
         /// draw armor
         if (cardView.armor) {
-            width += paintTextInPoint("A" + QString::number(cardView.armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black);
+            width += paintTextInPoint("ARMOR " + QString::number(cardView.armor), QPointF(topLeft.x() + width, topLeft.y()), Qt::yellow, Qt::black);
             width += _layout.borderTextPx;
         }
 
@@ -492,7 +496,7 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
         }
 
         if (cardView.timer) {
-            width += paintTextInPoint("T" + QString::number(cardView.timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
+            width += paintTextInPoint("TIMER " + QString::number(cardView.timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
             width += _layout.borderTextPx;
         }
 
@@ -523,47 +527,41 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
 
     // ___________________
     // TODO: tmp copypaste
-//    const auto cardAt = [=](const QPoint &point) -> Card * {
-//        for (int j = 0; j < 6; ++j) {
-//            const Field *field = j < 3 ? &___enemy : &___ally;
-//            const Row row = Row(j < 3 ? (2 - j) : (j - 3));
-//            const std::vector<Card *> &cards = field->row(row);
-//            const size_t count = cards.size();
-//            if (count == 0)
-//                continue;
-//            for (size_t i = 0; i < 9; ++i) {
-//                if (i >= count)
-//                    continue;
-//                const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
-//                if (cardRect.contains(point))
-//                    return cards[i];
-//            }
-//        }
-//        if (___ally.cardStack.size() > 0) {
-//            for (size_t i = 0; i < ___ally.choice().cardOptions.size(); ++i) {
-//                const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
-//                if (cardRect.contains(point))
-//                    return ___ally.choice().cardOptions[i];
-//            }
-//        }
-//        return nullptr;
-//    };
-//    if (Card *card = cardAt(_pos)) {
-//        const QPointF topLeft = QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft();
-//        paintCard(card, topLeft);
-//        paintTextInPoint(QString("Power = %1").arg(card->power), topLeft + QPointF(0, posHeight + 0 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Power Base = %1").arg(card->powerBase), topLeft + QPointF(0, posHeight + 1 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Armor = %1").arg(card->armor), topLeft + QPointF(0, posHeight + 2 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Special? %1").arg(card->isSpecial), topLeft + QPointF(0, posHeight + 3 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Locked? %1").arg(card->isLocked), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Resilient? %1").arg(card->isResilient), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Spying? %1").arg(card->isSpy), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Immune? %1").arg(card->isImmune), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Doomed? %1").arg(card->isDoomed), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(card->name)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
-//        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(card->text)), topLeft + QPointF(0, posHeight + 10 * metrics.height()), Qt::white, Qt::black);
-
-//    }
+    const auto cardIdAt = [=](const QPoint &point) -> int {
+        for (int j = 0; j < 6; ++j) {
+            for (size_t i = 0; i < 9; ++i) {
+                int id;
+                if (!view.idAtRowAndPos(Row(j), Pos(i), &id))
+                    continue;
+                const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                if (cardRect.contains(point))
+                    return id;
+            }
+        }
+        if (currentChoiceView)
+            for (size_t i = 0; i < currentChoiceView->cardOptionIds.size(); ++i) {
+                const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
+                if (cardRect.contains(point))
+                    return currentChoiceView->cardOptionIds[i];
+            }
+        return -1;
+    };
+    const int cardIdSelected = cardIdAt(_pos);
+    if (cardIdSelected >= 0) {
+        const CardView &cardView = view.cardView(cardIdSelected);
+        const QPointF topLeft = QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft();
+        paintCard(cardView, topLeft);
+        paintTextInPoint(QString("Power = %1").arg(cardView.power), topLeft + QPointF(0, posHeight + 0 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Power Base = %1").arg(cardView.powerBase), topLeft + QPointF(0, posHeight + 1 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Armor = %1").arg(cardView.armor), topLeft + QPointF(0, posHeight + 2 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, posHeight + 10 * metrics.height()), Qt::white, Qt::black);
+    }
     // TODO: tmp remove all above
     // __________________________
 
@@ -586,8 +584,7 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
         }
 
         // TODO: return showing a power
-//        const int power = powerRow(cards);
-//        paintTextInPoint(QString::number(power), rect.topLeft() + QPointF(9 * posWidth, _layout.spacingPx + (j + 1) * posHeight));
+        paintTextInPoint(QString::number(view.rowPower(Row(j))), rect.topLeft() + QPointF(9 * posWidth, _layout.spacingPx + (j + 1) * posHeight));
 
         /// draw a row back
         const QRectF rowRect = QRectF(0, _layout.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
@@ -632,7 +629,7 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
     }
 
     if (_view == ViewStack) {
-        const QString stringStatus = QString::fromStdString(stringChoices(___ally.cardStack));
+        const QString stringStatus = QString::fromStdString(currentChoiceView->toString());
         const QString stringTurn = QString::number(1 + view.nTurns);
         double statusWidth = 0;
         if (currentChoiceView){
@@ -690,14 +687,16 @@ void MainWindow::paintInRect(const QRect rect, Field &___ally, Field &___enemy)
     } else {
         Q_ASSERT(false);
     }
-
-    paintTextInPoint(QString("Ally: %1%2").arg(powerField(___ally)).arg(___ally.passed ? " PASS" : ""), QPointF(0, 0), Qt::black, Qt::cyan);
-    paintTextInPoint(QString("Enemy: %1%2").arg(powerField(___enemy)).arg(___enemy.passed ? " PASS" : ""), QPointF(0, 15), Qt::black, Qt::red);
-
-    // _______________
-    // TODO: remove animation block
-    painter.setPen(QPen(_animationColor, 2));
-    painter.drawLine(_animationPosDst, _animationPosSrc);
+    const QString stringStatusAlly = QString("ALLY: Power = %1, Pass = %2, Wins = %3")
+            .arg(view.nPowerRowAllyMeele + view.nPowerRowAllyRange + view.nPowerRowAllySeige)
+            .arg(view.allyPassed)
+            .arg(view.nAllyWins);
+    const QString stringStatusEnemy = QString("ENEMY: Power = %1, Pass = %2, Wins = %3")
+            .arg(view.nPowerRowEnemyMeele + view.nPowerRowEnemyRange + view.nPowerRowEnemySeige)
+            .arg(view.enemyPassed)
+            .arg(view.nEnemyWins);
+    paintTextInPoint(stringStatusAlly, QPointF(0, 0), Qt::black, Qt::cyan);
+    paintTextInPoint(stringStatusEnemy, QPointF(0, 15), Qt::black, Qt::red);
 }
 
 
@@ -723,7 +722,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 100, 10));
+    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 200, 150));
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
@@ -770,10 +769,16 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 100, 10));
+    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 150));
 
-    if (_ally.cardStack.size())
-        paintInRect(rect, _ally, _enemy);
-    else if (_enemy.cardStack.size())
-        paintInRect(rect, _enemy, _ally);
+    const FieldView view = fieldView(_ally, _enemy);
+
+    if (_ally.cardStack.size()) {
+        const FieldView view = fieldView(_ally, _enemy);
+        paintInRect(rect, view);
+
+    } else if (_enemy.cardStack.size()) {
+        const FieldView view = fieldView(_enemy, _ally);
+        paintInRect(rect, view);
+    }
 }
