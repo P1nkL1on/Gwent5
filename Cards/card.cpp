@@ -163,7 +163,9 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
 void startNextRound(Field &ally, Field &enemy)
 {
-    /// if prev round wasn't first, check winners
+    /// if prev round wasn't first, and no winner already, check winners
+    if (ally.nWins == 2 || enemy.nWins == 2)
+        return;
     if (ally.nRounds) {
         const int nPowerAlly = powerField(ally);
         const int nPowerEnemy = powerField(ally);
@@ -177,9 +179,13 @@ void startNextRound(Field &ally, Field &enemy)
         } else {
             ally.nWins++;
         }
-        // TODO: check winners
+        if (ally.nWins == 2 && enemy.nWins == 2)
+            return;
+        if (ally.nWins == 2)
+            return;
+        if (enemy.nWins == 2)
+            return;
     }
-
     /// clean all the mess from previous round
     for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
         ally.rowEffect(row) = NoRowEffect;
@@ -189,6 +195,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
+                reset(card, ally, enemy);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -200,6 +207,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
+                reset(card, ally, enemy);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -891,6 +899,13 @@ void heal(Card *card, Field &, Field &)
 
 void reset(Card *card, Field &, Field &)
 {
+    card->power = card->powerBase;
+}
+
+void returnToHand(Card *card, Field &ally, Field &enemy)
+{
+    takeCard(card, ally, enemy);
+
     card->power = card->powerBase;
 }
 

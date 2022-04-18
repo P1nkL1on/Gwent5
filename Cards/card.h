@@ -170,6 +170,7 @@ void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
+void returnToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 void weaken(Card *card, const int x, Field &ally, Field &enemy);

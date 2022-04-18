@@ -41,6 +41,7 @@ enum Tag
     ClanHeymaey,
     ClanDimun,
     ClanTuirseach,
+    ClanDrummond,
     Ogroid,
 
     Cursed,
@@ -52,6 +53,7 @@ enum Tag
     Agent,
     Witcher,
     Leader,
+    Cultist,
 
     Alchemy,
     Tactics,

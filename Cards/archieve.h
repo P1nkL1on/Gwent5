@@ -417,6 +417,32 @@ struct PriestessOfFreya : Card
 };
 
 
+struct DimunCorsair : Card
+{
+    DimunCorsair();
+    static bool isBronzeMachine(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct Sigrdrifa : Card
+{
+    Sigrdrifa();
+    static bool isBronzeOrSilverClanUnit(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct DrummondQueensguard : Card
+{
+    DrummondQueensguard();
+    static bool isCopy(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+
 struct Sage : Card
 {
     Sage();
@@ -484,6 +510,28 @@ private:
     struct Buff : Card {};
     struct Debuff : Card {};
     Card *_choosen = nullptr;
+};
+
+
+struct BoneTalisman : Card
+{
+    BoneTalisman();
+    static bool isBronzeBeastOrCultist(Card *card);
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Buff : Card {};
+    struct Resurrect : Card {};
+    Card *_choosen = nullptr;
+};
+
+
+struct Restore : Card
+{
+    Restore();
+    static bool isBronzeOrSilverSkelligeUnit(Card *card);
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 

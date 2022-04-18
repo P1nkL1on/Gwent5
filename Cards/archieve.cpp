@@ -1181,6 +1181,11 @@ PriestessOfFreya::PriestessOfFreya()
 {
     name = "Priestess of Freya";
     url = "https://gwent.one/image/card/low/cid/png/152310.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553534.mp3",
+        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553573.mp3",
+        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553583.mp3",
+    };
     power = powerBase = 1;
     rarity = Bronze;
     faction = Skellige;
@@ -1199,6 +1204,74 @@ void PriestessOfFreya::onEnter(Field &ally, Field &enemy)
 }
 
 void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
+}
+
+DimunCorsair::DimunCorsair()
+{
+    name = "Dimun Corsair";
+    url = "https://gwent.one/image/card/low/cid/png/200145.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.71.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.72.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.73.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanDimun, Support };
+    isDoomed = true;
+}
+
+bool DimunCorsair::isBronzeMachine(Card *card)
+{
+    return (card->rarity == Bronze) && hasTag(card, Machine);
+}
+
+void DimunCorsair::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeMachine}, AllyDiscard);
+}
+
+void DimunCorsair::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
+}
+
+Sigrdrifa::Sigrdrifa()
+{
+    name = "Sigrdrifa";
+    url = "https://gwent.one/image/card/low/cid/png/152211.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SPR1_VSET_00553157.mp3",
+        "https://gwent.one/audio/card/ob/en/SPR1_SQ201_00499249.mp3",
+        "https://gwent.one/audio/card/ob/en/SPR1_SHOP_00437650.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Support };
+    isDoomed = true;
+}
+
+bool Sigrdrifa::isBronzeOrSilverClanUnit(Card *card)
+{
+    return (card->rarity == Bronze
+            || card->rarity == Silver)
+            && (hasTag(card, ClanAnCraite)
+             || hasTag(card, ClanDimun)
+             || hasTag(card, ClanDrummond)
+             || hasTag(card, ClanHeymaey)
+             || hasTag(card, ClanTuirseach));
+}
+
+void Sigrdrifa::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverClanUnit}, AllyDiscard);
+}
+
+void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playCard(target, ally, enemy);
 }
@@ -1533,9 +1606,8 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-        takeCard(target, ally, enemy);
-        reset(target, ally, enemy);
-        boost(target, 3, ally, enemy);
+        returnToHand(target, ally, enemy);
+        boost(target, 5, ally, enemy);
         playCard(target, ally, enemy);
         delete _choosen;
         _choosen = nullptr;
@@ -1714,6 +1786,70 @@ void Mandrake::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     assert(false);
 }
 
+BoneTalisman::BoneTalisman()
+{
+    name = "Bone Talisman";
+    text = "Choose One: Resurrect a Bronze Beast or Cultist; or Heal an ally and Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/201598.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { Item };
+}
+
+bool BoneTalisman::isBronzeBeastOrCultist(Card *card)
+{
+    return (card->rarity == Bronze) && (hasTag(card, Beast) || hasTag(card, Cultist));
+}
+
+void BoneTalisman::onPlaySpecial(Field &ally, Field &)
+{
+    auto *option1 = new BoneTalisman::Resurrect;
+    copyCardText(this, option1);
+    option1->text = "Resurrect a Bronze Beast or Cultist.";
+
+    auto *option2 = new BoneTalisman::Buff;
+    copyCardText(this, option2);
+    option2->text = "Heal an ally and Strengthen it by 3.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void BoneTalisman::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<BoneTalisman::Resurrect *>(target)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeBeastOrCultist}, AllyDiscard);
+            return;
+        }
+        if (dynamic_cast<BoneTalisman::Buff *>(target)) {
+            startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+            return;
+        }
+        assert(false);
+    }
+
+    if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
+        playCard(target, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+    if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
+        heal(target, ally, enemy);
+        strengthen(target, 3, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+    assert(false);
+}
+
 ShupeKnight::ShupeKnight()
 {
     name = "Shupe: Knight";
@@ -1836,8 +1972,7 @@ void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 
 void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    takeCard(target, ally, enemy);
-    reset(target, ally, enemy);
+    returnToHand(target, ally, enemy);
     boost(target, 3, ally, enemy);
     playCard(target, ally, enemy);
 }
@@ -2071,4 +2206,68 @@ void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     acceptOptionAndDeleteOthers(this, target);
     spawn(target, ally, enemy);
+}
+
+Restore::Restore()
+{
+    name = "Moonlight";
+    text = "Return a Bronze or Silver Skellige unit from your graveyard to your hand, add the Doomed category to it, and set its base power to 8. Then play a card.";
+    url = "https://gwent.one/image/card/low/cid/png/153201.png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Spell };
+}
+
+bool Restore::isBronzeOrSilverSkelligeUnit(Card *card)
+{
+    return (card->rarity == Bronze || card->rarity == Silver) && (card->faction == Skellige);
+}
+
+void Restore::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSkelligeUnit}, AllyDiscard);
+}
+
+void Restore::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    returnToHand(target, ally, enemy);
+    target->isDoomed = true;
+    target->powerBase = target->power = 8;
+    playCard(target, ally, enemy);
+}
+
+DrummondQueensguard::DrummondQueensguard()
+{
+    name = "Drummond Queensguard";
+    text = "Resurrect all copies of this unit on this row.";
+    url = "https://gwent.one/image/card/low/cid/png/152307.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SWO5_Q205_00482375.mp3",
+        "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521383.mp3",
+        "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521512.mp3",
+    };
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanDrummond, Soldier };
+}
+
+bool DrummondQueensguard::isCopy(Card *card)
+{
+    return card->name == "Drummond Queensguard";
+}
+
+void DrummondQueensguard::onEnter(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy}, AllyDiscard)) {
+        if (isRowFull(ally.row(row)))
+            break;
+        putOnField(card, row, pos, ally, enemy);
+        ++pos;
+    }
 }

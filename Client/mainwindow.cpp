@@ -20,8 +20,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
-        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
+        new PriestessOfFreya, new PriestessOfFreya,
+        new TuirseachBearmaster, new TuirseachBearmaster,
+        new DimunDracar, new DimunDracar,
+        new AlzursThunder, new AlzursThunder,
+        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
+        new Sigrdrifa, new Sigrdrifa,
+//        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
+//        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new Reconnaissance, new Reconnaissance, new Reconnaissance,
 //        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
@@ -485,13 +491,13 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         paintTextInPoint(QString("Power = %1").arg(cardView.power), topLeft + QPointF(0, posHeight + 0 * metrics.height()), Qt::white, Qt::black);
         paintTextInPoint(QString("Power Base = %1").arg(cardView.powerBase), topLeft + QPointF(0, posHeight + 1 * metrics.height()), Qt::white, Qt::black);
         paintTextInPoint(QString("Armor = %1").arg(cardView.armor), topLeft + QPointF(0, posHeight + 2 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, posHeight + 10 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, posHeight + 3 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
     }
     // TODO: tmp remove all above
     // __________________________
@@ -705,29 +711,38 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::repaintAllSnapshots()
 {
+    // fast version
     if (_ally.cardStack.size()) {
-        for (const FieldView &snapshot : _ally.snapshots) {
-            requestSoundByUrl(snapshot.sound);
-            _snapshot = snapshot;
-            repaint();
-            QEventLoop loop;
-            QTimer::singleShot(300, &loop, &QEventLoop::quit);
-            loop.exec(QEventLoop::ExcludeUserInputEvents);
-        }
-        _ally.snapshots.clear();
         _snapshot = fieldView(_ally, _enemy);
-        repaint();
     } else if (_enemy.cardStack.size()) {
-        for (const FieldView &snapshot : _enemy.snapshots) {
-            requestSoundByUrl(snapshot.sound);
-            _snapshot = snapshot;
-            repaint();
-            QEventLoop loop;
-            QTimer::singleShot(300, &loop, &QEventLoop::quit);
-            loop.exec(QEventLoop::ExcludeUserInputEvents);
-        }
-        _enemy.snapshots.clear();
         _snapshot = fieldView(_enemy, _ally);
-        repaint();
     }
+    repaint();
+//    return;
+
+//    if (_ally.cardStack.size()) {
+//        for (const FieldView &snapshot : _ally.snapshots) {
+//            requestSoundByUrl(snapshot.sound);
+//            _snapshot = snapshot;
+//            repaint();
+//            QEventLoop loop;
+//            QTimer::singleShot(300, &loop, &QEventLoop::quit);
+//            loop.exec(QEventLoop::ExcludeUserInputEvents);
+//        }
+//        _ally.snapshots.clear();
+//        _snapshot = fieldView(_ally, _enemy);
+//        repaint();
+//    } else if (_enemy.cardStack.size()) {
+//        for (const FieldView &snapshot : _enemy.snapshots) {
+//            requestSoundByUrl(snapshot.sound);
+//            _snapshot = snapshot;
+//            repaint();
+//            QEventLoop loop;
+//            QTimer::singleShot(300, &loop, &QEventLoop::quit);
+//            loop.exec(QEventLoop::ExcludeUserInputEvents);
+//        }
+//        _enemy.snapshots.clear();
+//        _snapshot = fieldView(_enemy, _ally);
+//        repaint();
+//    }
 }
