@@ -7,7 +7,6 @@
 struct AddaStriga : Card
 {
     AddaStriga();
-    static bool isNonMonster(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *, Field &, Field &) override;
 };
@@ -67,7 +66,6 @@ struct DandelionPoet : Card
 struct SileDeTansarville : Card
 {
     SileDeTansarville();
-    static bool isBronzeOrSilverSpecialCard(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -116,6 +114,12 @@ struct Bear : Card
 };
 
 
+struct Wolf : Card
+{
+    Wolf();
+};
+
+
 struct TuirseachBearmaster : Card
 {
     TuirseachBearmaster();
@@ -134,7 +138,6 @@ struct RedanianElite : Card
 struct RedanianKnight : Card
 {
     RedanianKnight();
-    void onEnter(Field &ally, Field &enemy) override;
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
@@ -142,7 +145,6 @@ struct RedanianKnight : Card
 struct KaedweniCavalry : Card
 {
     KaedweniCavalry();
-    static bool hasArmor(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -225,7 +227,6 @@ struct Assassin : Card
 struct Emissary : Card
 {
     Emissary();
-    static bool isBronzeUnit(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -359,7 +360,6 @@ struct Scorch : Card
 struct Reinforcements : Card
 {
     Reinforcements();
-    static bool isBronzeOrSilverSoldierMachineOfficerOrSupport(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -368,7 +368,6 @@ struct Reinforcements : Card
 struct JohnNatalis : Card
 {
     JohnNatalis();
-    static bool isBronzeOrSilverTactics(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -385,7 +384,6 @@ struct Eleyas : Card
 struct ReaverScout : Card
 {
     ReaverScout();
-    static bool isDifferentBronzeAllyWhichHasCopyInADeck(Card *card, const Field &field);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -394,7 +392,6 @@ struct ReaverScout : Card
 struct HeymaeySpearmaiden : Card
 {
     HeymaeySpearmaiden();
-    static bool isBronzeSoldierOrMachineAllyWhichHasCopyInADeck(Card *card, const Field &field);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -411,7 +408,6 @@ struct VriheddSappers : Card
 struct PriestessOfFreya : Card
 {
     PriestessOfFreya();
-    static bool isBronzeSoldier(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -420,7 +416,6 @@ struct PriestessOfFreya : Card
 struct DimunCorsair : Card
 {
     DimunCorsair();
-    static bool isBronzeMachine(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -429,7 +424,6 @@ struct DimunCorsair : Card
 struct Sigrdrifa : Card
 {
     Sigrdrifa();
-    static bool isBronzeOrSilverClanUnit(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -438,7 +432,6 @@ struct Sigrdrifa : Card
 struct DrummondQueensguard : Card
 {
     DrummondQueensguard();
-    static bool isCopy(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
 };
 
@@ -446,7 +439,6 @@ struct DrummondQueensguard : Card
 struct Sage : Card
 {
     Sage();
-    static bool isBronzeAlchemyOrSpell(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -455,7 +447,6 @@ struct Sage : Card
 struct Reconnaissance : Card
 {
     Reconnaissance();
-    static bool isBronzeUnit(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -464,7 +455,6 @@ struct Reconnaissance : Card
 struct ElvenMercenary : Card
 {
     ElvenMercenary();
-    static bool isBronzeSpecial(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -516,7 +506,6 @@ private:
 struct BoneTalisman : Card
 {
     BoneTalisman();
-    static bool isBronzeBeastOrCultist(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -529,7 +518,6 @@ private:
 struct Restore : Card
 {
     Restore();
-    static bool isBronzeOrSilverSkelligeUnit(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -538,7 +526,6 @@ struct Restore : Card
 struct Decoy : Card
 {
     Decoy();
-    static bool isBronzeOrSilver(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -571,7 +558,6 @@ private:
 struct ShupeHunter : Card
 {
     ShupeHunter();
-    static bool isBronzeOrSilverUnit(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -587,7 +573,6 @@ private:
 struct ShupeMage : Card
 {
     ShupeMage();
-    static bool isBronzeOrSilverSpecial(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -603,7 +588,6 @@ private:
 struct FirstLight : Card
 {
     FirstLight();
-    static bool isBronzeUnit(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -657,7 +641,6 @@ struct BranTuirseach : Card
 struct DrummondWarmonger : Card
 {
     DrummondWarmonger();
-    static bool isBronze(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -666,7 +649,6 @@ struct DrummondWarmonger : Card
 struct DimunPirate : Card
 {
     DimunPirate();
-    static bool isCopy(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
 };
 
@@ -681,7 +663,6 @@ struct AnCraiteRaider : Card
 struct MadmanLugos : Card
 {
     MadmanLugos();
-    static bool isBronzeUnit(Card *card);
     void onEnter(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -711,6 +692,33 @@ struct CerysAnCraite : Card
     void onDiscard(Field &ally, Field &enemy) override;
     void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
     void onOtherAllyResurrectededWhileOnDiscard(Card *other, Field &ally, Field &enemy) override;
+};
+
+
+struct WoodlandSpirit : Card
+{
+    WoodlandSpirit();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+
+struct Trollololo : Card
+{
+    Trollololo();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+
+struct PrinceStennis : Card
+{
+    PrinceStennis();
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+struct VincentMeis : Card
+{
+    VincentMeis();
+    void onEnter(Field &ally, Field &enemy) override;
 };
 
 

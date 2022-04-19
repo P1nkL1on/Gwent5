@@ -374,8 +374,6 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
     Pos pos;
     bool isAlly;
     const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
-    assert(takenFrom != AlreadyCreated);
-
 
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
@@ -398,7 +396,8 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
 
     } else {
-        assert(false);
+        assert(takenFrom == AlreadyCreated);
+        cardAlly->discard.push_back(card);
     }
 
 }

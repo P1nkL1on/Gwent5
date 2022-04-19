@@ -7,16 +7,15 @@ INCLUDEPATH *= $$clean_path($$PWD/../)
 HEADERS += \
     $$PWD/card.h \
     $$PWD/iterator.h \
-    $$PWD/archieve.h
+    $$PWD/archieve.h \
+    $$PWD/view.h \
+    $$PWD/enums.h \
+    $$PWD/filters.h
+
 
 SOURCES += \
     $$PWD/card.cpp \
-    $$PWD/archieve.cpp
-}
-
-HEADERS += \
-    $$PWD/view.h \
-    $$PWD/enums.h
-
-SOURCES += \
+    $$PWD/archieve.cpp \
     $$PWD/view.cpp
+
+}

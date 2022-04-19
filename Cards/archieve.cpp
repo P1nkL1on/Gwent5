@@ -3,9 +3,12 @@
 #include <cassert>
 #include <random>
 
+#include "filters.h"
+
 AddaStriga::AddaStriga()
 {
     name = "Adda: Striga";
+    text = "Deal 8 damage to a non-Monster faction unit.";
     url = "https://gwent.one/image/card/low/cid/png/200073.png";
     power = powerBase = 6;
     rarity = Silver;
@@ -13,19 +16,14 @@ AddaStriga::AddaStriga()
     tags = { Relict, Cursed };
 }
 
-bool AddaStriga::isNonMonster(Card *card)
-{
-    return card->faction != Monster;
-}
-
 void AddaStriga::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isNonMonster});
+    startChoiceToTargetCard(ally, enemy, this, {isNonMonsterFaction});
 }
 
-void AddaStriga::onTargetChoosen(Card *, Field &, Field &)
+void AddaStriga::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 {
-    // deal 8 dmg
+    damage(card, 8, ally, enemy);
 }
 
 Dao::Dao()
@@ -81,6 +79,7 @@ PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
 PoorFingInfantry::PoorFingInfantry()
 {
     name = "Poor F'ing Infantry";
+    text = "Spawn Left Flank Infantry and Right Flank Infantry to the left and right of this unit, respectively.";
     url = "https://gwent.one/image/card/low/cid/png/200234.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3",
@@ -106,7 +105,13 @@ void PoorFingInfantry::onEnter(Field &ally, Field &enemy)
 DeithwenArbalest::DeithwenArbalest()
 {
     name = "Deithwen Arbalest";
+    text = "Deal 3 damage to an enemy. If it's Spying, deal 6 damage instead.";
     url = "https://gwent.one/image/card/low/cid/png/162305.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514109.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF3_SQ102_00591494.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514105.mp3",
+    };
     power = powerBase = 7;
     rarity = Bronze;
     faction = Nilfgaard;
@@ -127,6 +132,7 @@ void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 TemerianDrummer::TemerianDrummer()
 {
     name = "Temerian Drummer";
+    text = "Boost an ally by 6.";
     url = "https://gwent.one/image/card/low/cid/png/200299.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.407.mp3",
@@ -152,6 +158,7 @@ void TemerianDrummer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 DandelionPoet::DandelionPoet()
 {
     name = "Dandelion: Poet";
+    text = "Draw a card, then play a card.";
     url = "https://gwent.one/image/card/low/cid/png/201776.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
@@ -182,6 +189,7 @@ void DandelionPoet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 SileDeTansarville::SileDeTansarville()
 {
     name = "S'ile de Tansarville";
+    text = "Play a Bronze or Silver special card, then draw a card.";
     url = "https://gwent.one/image/card/low/cid/png/122205.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.29.mp3",
@@ -194,14 +202,9 @@ SileDeTansarville::SileDeTansarville()
     tags = { Mage };
 }
 
-bool SileDeTansarville::isBronzeOrSilverSpecialCard(Card *card)
-{
-    return card->isSpecial && (card->rarity == Bronze || card->rarity == Silver);
-}
-
 void SileDeTansarville::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSpecialCard}, AllyHand);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyHand);
 }
 
 void SileDeTansarville::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -213,6 +216,7 @@ void SileDeTansarville::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 RedanianKnightElect::RedanianKnightElect()
 {
     name = "Redanian Knight Elect";
+    text = "If this unit has Armor on turn end, boost adjacent units by 1. 2 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/123301.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.320.mp3",
@@ -249,6 +253,7 @@ void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
 AnCraiteMarauder::AnCraiteMarauder()
 {
     name = "An Craite Marauder";
+    text = "Deal 4 damage. If Resurrected, deal 6 damage instead.";
     url = "https://gwent.one/image/card/low/cid/png/201578.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.395.mp3",
@@ -264,6 +269,7 @@ AnCraiteMarauder::AnCraiteMarauder()
 AnCraiteGreatsword::AnCraiteGreatsword()
 {
     name = "An Craite Greatsword";
+    text = "Every 2 turns, if damaged, Heal self and Strengthen by 2 on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/200040.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.314.mp3",
@@ -298,6 +304,7 @@ void AnCraiteGreatsword::onTurnStart(Field &ally, Field &enemy)
 DimunDracar::DimunDracar()
 {
     name = "Dimun Dracard";
+    text = "On turn end, damage the unit to the right by 1, then boost self by 2.";
     power = powerBase = 7;
     rarity = Bronze;
     faction = Skellige;
@@ -327,6 +334,17 @@ Bear::Bear()
     tags = { Beast, Cursed };
 }
 
+Wolf::Wolf()
+{
+    name = "Wolf";
+    url = "https://gwent.one/image/card/low/cid/png/132403.png";
+    power = powerBase = 1;
+    isDoomed = true;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+}
+
 TuirseachBearmaster::TuirseachBearmaster()
 {
     name = "Tuirseach Bearmaster";
@@ -353,6 +371,7 @@ void TuirseachBearmaster::onEnter(Field &ally, Field &enemy)
 RedanianElite::RedanianElite()
 {
     name = "Redanian Elite";
+    text = "Whenever this unit's Armor reaches 0, boost self by 5. 4 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/122317.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516089.mp3",
@@ -378,6 +397,7 @@ void RedanianElite::onArmorLost(Field &ally, Field &enemy)
 RedanianKnight::RedanianKnight()
 {
     name = "Redanian Knight";
+    text = "If this unit has no Armor, boost it by 2 and give it 2 Armor on turn end.";
     url = "https://gwent.one/image/card/low/cid/png/122308.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/RES1_VSET_00508445.mp3",
@@ -388,11 +408,6 @@ RedanianKnight::RedanianKnight()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Redania, Soldier };
-}
-
-void RedanianKnight::onEnter(Field &ally, Field &enemy)
-{
-    gainArmor(this, 2, ally, enemy);
 }
 
 void RedanianKnight::onTurnEnd(Field &ally, Field &enemy)
@@ -406,6 +421,7 @@ void RedanianKnight::onTurnEnd(Field &ally, Field &enemy)
 KaedweniCavalry::KaedweniCavalry()
 {
     name = "Kaedweni Cavalry";
+    text = "Destroy a unit's Armor, then boost self by the amount destroyed.";
     url = "https://gwent.one/image/card/low/cid/png/122314.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0003.mp3",
@@ -418,11 +434,6 @@ KaedweniCavalry::KaedweniCavalry()
     tags = { Kaedwen, Soldier };
 }
 
-bool KaedweniCavalry::hasArmor(Card *card)
-{
-    return card->armor > 0;
-}
-
 void KaedweniCavalry::onEnter(Field &ally, Field &enemy)
 {
     startChoiceToTargetCard(ally, enemy, this, {hasArmor});
@@ -431,7 +442,6 @@ void KaedweniCavalry::onEnter(Field &ally, Field &enemy)
 void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int armorTarget = target->armor;
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, armorTarget, ally, enemy);
     boost(this, armorTarget, ally, enemy);
 }
@@ -482,6 +492,7 @@ void Swallow::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Thunderbolt::Thunderbolt()
 {
     name = "Thunderbolt";
+    text = "Boost 3 adjacent units by 3 and give them 2 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/113311.png";
     rarity = Bronze;
     faction = Neutral;
@@ -548,6 +559,7 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 KeiraMetz::KeiraMetz()
 {
     name = "Keira Metz";
+    text = "Spawn Alzur's Thunder, Thunderbolt or Arachas Venom.";
     url = "https://gwent.one/image/card/low/cid/png/122108.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_01040781.mp3",
@@ -574,6 +586,7 @@ void KeiraMetz::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 DolBlathannaArcher::DolBlathannaArcher()
 {
     name = "Dol Blathanna Archer";
+    text = "Deal 3 damage, then deal 1 damage.";
     url = "https://gwent.one/image/card/low/cid/png/142310.png";
     power = powerBase = 7;
     rarity = Bronze;
@@ -597,6 +610,7 @@ void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy
 HalfElfHunter::HalfElfHunter()
 {
     name = "Half-Elf Hunter";
+    text = "Spawn a Doomed default copy of this unit to the right of this unit.";
     url = "https://gwent.one/image/card/low/cid/png/201636.png";
     power = powerBase = 6;
     rarity = Bronze;
@@ -624,6 +638,7 @@ void HalfElfHunter::onEnter(Field &ally, Field &enemy)
 Ambassador::Ambassador()
 {
     name = "Ambassador";
+    text = "Spying. Boost an ally by 12.";
     url = "https://gwent.one/image/card/low/cid/png/162315.png";
     power = powerBase = 2;
     isLoyal = false;
@@ -645,6 +660,7 @@ void Ambassador::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Assassin::Assassin()
 {
     name = "Assassin";
+    text = "Spying. Deal 10 damage to the unit to the left.";
     url = "https://gwent.one/image/card/low/cid/png/200115.png";
     power = powerBase = 1;
     isLoyal = false;
@@ -664,6 +680,7 @@ void Assassin::onEnter(Field &ally, Field &enemy)
 TuirseachArcher::TuirseachArcher()
 {
     name = "Tuirseach Archer";
+    text = "Deal 1 damage to 3 units.";
     url = "https://gwent.one/image/card/low/cid/png/152315.png";
     power = powerBase = 8;
     rarity = Bronze;
@@ -685,6 +702,7 @@ void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Infiltrator::Infiltrator()
 {
     name = "Infiltrator";
+    text = "Toggle a unit's Spying status.";
     url = "https://gwent.one/image/card/low/cid/png/200118.png";
     power = powerBase = 10;
     rarity = Bronze;
@@ -768,6 +786,7 @@ RowEffect BitingFrost::rowEffect() const
 GoldenFroth::GoldenFroth()
 {
     name = "Golden Froth";
+    text = "Apply a Boon to an allied row that boosts 2 random units by 1 on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/201749.png";
     isSpecial = true;
     rarity = Bronze;
@@ -788,6 +807,7 @@ RowEffect GoldenFroth::rowEffect() const
 SkelligeStorm::SkelligeStorm()
 {
     name = "Skellige Storm";
+    text = "Apply a Hazard to an enemy row that deals 2, 1 and 1 damage to the leftmost units on the row on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/113203.png";
     isSpecial = true;
     rarity = Silver;
@@ -859,6 +879,7 @@ void GloriousHunt::onPlaySpecial(Field &ally, Field &enemy)
 Ves::Ves()
 {
     name = "Ves";
+    text = "Swap up to 2 cards.";
     url = "https://gwent.one/image/card/low/cid/png/122204.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VESS_Q403_00546798.mp3",
@@ -907,6 +928,7 @@ void Vaedermakar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Frightener::Frightener()
 {
     name = "Frightener";
+    text = "Spying. Single-Use: Move an enemy to this row and draw a card.";
     url = "https://gwent.one/image/card/low/cid/png/132204.png";
     power = powerBase = 13;
     isLoyal = false;
@@ -956,6 +978,7 @@ void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Cleaver::Cleaver()
 {
     name = "Cleaver";
+    text = "Deal 1 damage for each card in your hand.";
     url = "https://gwent.one/image/card/low/cid/png/122216.png";
     power = powerBase = 7;
     rarity = Silver;
@@ -995,6 +1018,7 @@ void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 Reinforcements::Reinforcements()
 {
     name = "Reinforcements";
+    text = "Play a Bronze or Silver Soldier, Machine, Officer or Support unit from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/123201.png";
     isSpecial = true;
     rarity = Silver;
@@ -1002,14 +1026,9 @@ Reinforcements::Reinforcements()
     tags = { Tactics };
 }
 
-bool Reinforcements::isBronzeOrSilverSoldierMachineOfficerOrSupport(Card *card)
-{
-    return (card->rarity == Bronze || card->rarity == Silver) && (hasTag(card, Soldier) || hasTag(card, Support) || hasTag(card, Machine) || hasTag(card, Officer));
-}
-
 void Reinforcements::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSoldierMachineOfficerOrSupport}, AllyDeckShuffled);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Soldier, Support, Machine, Officer})}, AllyDeckShuffled);
 }
 
 void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1020,6 +1039,7 @@ void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 JohnNatalis::JohnNatalis()
 {
     name = "John Natalis";
+    text = "Play a Bronze or Silver Tactic from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/122103.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_JANT_900381_0141.mp3",
@@ -1031,14 +1051,9 @@ JohnNatalis::JohnNatalis()
     tags = { Temeria, Officer };
 }
 
-bool JohnNatalis::isBronzeOrSilverTactics(Card *card)
-{
-    return (card->rarity == Bronze || card->rarity == Silver) && hasTag(card, Tactics);
-}
-
 void JohnNatalis::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverTactics}, AllyDeckShuffled);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
 }
 
 void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1049,6 +1064,7 @@ void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Eleyas::Eleyas()
 {
     name = "Ele'yas";
+    text = "Whenever you draw this unit or return it to your deck, boost self by 2.";
     url = "https://gwent.one/image/card/low/cid/png/142214.png";
     power = powerBase = 10;
     rarity = Silver;
@@ -1069,6 +1085,7 @@ void Eleyas::onSwap(Field &ally, Field &enemy)
 ReaverScout::ReaverScout()
 {
     name = "Reaver Scout";
+    text = "Choose a different Bronze ally and play a copy of it from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/122307.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
@@ -1081,14 +1098,9 @@ ReaverScout::ReaverScout()
     tags = { Redania, Support };
 }
 
-bool ReaverScout::isDifferentBronzeAllyWhichHasCopyInADeck(Card *card, const Field &field)
-{
-    return (card->name != "Reaver Scout") && (card->rarity == Bronze) && (findCopy(card, field.deck) != nullptr);
-}
-
 void ReaverScout::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {std::bind(isDifferentBronzeAllyWhichHasCopyInADeck, std::placeholders::_1, ally)}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, Ally);
 }
 
 void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1100,6 +1112,7 @@ void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 HeymaeySpearmaiden::HeymaeySpearmaiden()
 {
     name = "Heymaey Spearmaiden";
+    text = "Deal 1 damage to a Bronze Machine or Soldier ally, then play a copy of it from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/200528.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
@@ -1112,14 +1125,9 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
     tags = { ClanAnCraite, Support };
 }
 
-bool HeymaeySpearmaiden::isBronzeSoldierOrMachineAllyWhichHasCopyInADeck(Card *card, const Field &field)
-{
-    return (card->rarity == Bronze) && (hasTag(card, Soldier) || hasTag(card, Machine)) && (findCopy(card, field.deck) != nullptr);
-}
-
 void HeymaeySpearmaiden::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {std::bind(isBronzeSoldierOrMachineAllyWhichHasCopyInADeck, std::placeholders::_1, ally)}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, Ally);
 }
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1133,6 +1141,7 @@ void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy
 KaedweniKnight::KaedweniKnight()
 {
     name = "Kaedweni Knight";
+    text = "Boost self by 5 if played from the deck. 2 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/201622.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
@@ -1159,6 +1168,7 @@ void KaedweniKnight::onEnterFromDeck(Field &ally, Field &enemy)
 VriheddSappers::VriheddSappers()
 {
     name = "Vrihedd Sappers";
+    text = "Ambush: After 2 turns, flip over on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/142307.png";
     power = powerBase = 11;
     rarity = Bronze;
@@ -1198,14 +1208,9 @@ PriestessOfFreya::PriestessOfFreya()
     isDoomed = true;
 }
 
-bool PriestessOfFreya::isBronzeSoldier(Card *card)
-{
-    return (card->rarity == Bronze) && hasTag(card, Soldier);
-}
-
 void PriestessOfFreya::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeSoldier}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Soldier)}, AllyDiscard);
 }
 
 void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1216,6 +1221,7 @@ void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 DimunCorsair::DimunCorsair()
 {
     name = "Dimun Corsair";
+    text = "Resurrect a Bronze Machine.";
     url = "https://gwent.one/image/card/low/cid/png/200145.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.71.mp3",
@@ -1229,14 +1235,9 @@ DimunCorsair::DimunCorsair()
     isDoomed = true;
 }
 
-bool DimunCorsair::isBronzeMachine(Card *card)
-{
-    return (card->rarity == Bronze) && hasTag(card, Machine);
-}
-
 void DimunCorsair::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeMachine}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Machine)}, AllyDiscard);
 }
 
 void DimunCorsair::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1247,6 +1248,7 @@ void DimunCorsair::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Sigrdrifa::Sigrdrifa()
 {
     name = "Sigrdrifa";
+    text = "Resurrect a Bronze or Silver Clan unit.";
     url = "https://gwent.one/image/card/low/cid/png/152211.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SPR1_VSET_00553157.mp3",
@@ -1260,20 +1262,9 @@ Sigrdrifa::Sigrdrifa()
     isDoomed = true;
 }
 
-bool Sigrdrifa::isBronzeOrSilverClanUnit(Card *card)
-{
-    return (card->rarity == Bronze
-            || card->rarity == Silver)
-            && (hasTag(card, ClanAnCraite)
-             || hasTag(card, ClanDimun)
-             || hasTag(card, ClanDrummond)
-             || hasTag(card, ClanHeymaey)
-             || hasTag(card, ClanTuirseach));
-}
-
 void Sigrdrifa::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverClanUnit}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach})}, AllyDiscard);
 }
 
 void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1284,6 +1275,7 @@ void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 Sage::Sage()
 {
     name = "Sage";
+    text = "Resurrect a Bronze Alchemy or Spell card, then Banish it.";
     url = "https://gwent.one/image/card/low/cid/png/200138.png";
     power = powerBase = 2;
     rarity = Bronze;
@@ -1291,14 +1283,9 @@ Sage::Sage()
     tags = { Elf, Mage };
 }
 
-bool Sage::isBronzeAlchemyOrSpell(Card *card)
-{
-    return (card->rarity == Bronze) && (hasTag(card, Alchemy) || hasTag(card, Spell));
-}
-
 void Sage::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeAlchemyOrSpell}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Alchemy, Spell})}, AllyDiscard);
 }
 
 void Sage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1318,14 +1305,9 @@ Reconnaissance::Reconnaissance()
     tags = { Tactics };
 }
 
-bool Reconnaissance::isBronzeUnit(Card *card)
-{
-    return !card->isSpecial && (card->rarity == Bronze);
-}
-
 void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2), 1, true));
 }
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1336,6 +1318,7 @@ void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 ElvenMercenary::ElvenMercenary()
 {
     name = "Elven Mercenary";
+    text = "Look at 2 random Bronze special cards from your deck, then play 1.";
     url = "https://gwent.one/image/card/low/cid/png/142308.png";
     power = powerBase = 1;
     rarity = Bronze;
@@ -1343,14 +1326,9 @@ ElvenMercenary::ElvenMercenary()
     tags = { Elf, Soldier };
 }
 
-bool ElvenMercenary::isBronzeSpecial(Card *card)
-{
-    return (card->rarity == Bronze) && card->isSpecial;
-}
-
 void ElvenMercenary::onEnter(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeSpecial}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeckShuffled), 2), 1, true));
 }
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1361,6 +1339,7 @@ void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 ChampionOfHov::ChampionOfHov()
 {
     name = "Champion of Hov";
+    text = "Duel an enemy.";
     url = "https://gwent.one/image/card/low/cid/png/152202.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053125.mp3",
@@ -1385,6 +1364,7 @@ void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 GeraltIgni::GeraltIgni(const Lang lang)
 {
     name = "Geralt: Igni";
+    text = "Destroy the Highest units on an enemy row if that row has a total of 25 or more.";
     url = "https://gwent.one/image/card/low/cid/png/112102.png";
     if (lang == En) {
         sounds = {
@@ -1412,6 +1392,7 @@ GeraltIgni::GeraltIgni(const Lang lang)
 Priscilla::Priscilla()
 {
     name = "Priscilla";
+    text = "Boost 5 random allies by 3.";
     url = "https://gwent.one/image/card/low/cid/png/122202.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/PRIS_Q305_00489643.mp3",
@@ -1434,6 +1415,7 @@ void Priscilla::onEnter(Field &ally, Field &enemy)
 SeltkirkOfGulet::SeltkirkOfGulet()
 {
     name = "Seltkirk of Gulet";
+    text = "Duel an enemy. 3 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/201618.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.117.mp3",
@@ -1521,11 +1503,6 @@ ShupeHunter::ShupeHunter()
     tags = { Ogroid };
 }
 
-bool ShupeHunter::isBronzeOrSilverUnit(Card *card)
-{
-    return !card->isSpecial && ((card->rarity == Bronze) || (card->rarity == Silver));
-}
-
 void ShupeHunter::onEnter(Field &ally, Field &)
 {
     auto *option1 = new ShupeHunter::Play;
@@ -1558,7 +1535,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         acceptOptionAndDeleteOthers(this, target);
 
         if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverUnit}, AllyDeck);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
             return;
         }
 
@@ -1568,7 +1545,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverUnit}, Ally);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, Ally);
             return;
         }
 
@@ -1633,11 +1610,6 @@ ShupeMage::ShupeMage()
     tags = { Ogroid };
 }
 
-bool ShupeMage::isBronzeOrSilverSpecial(Card *card)
-{
-    return card->isSpecial && ((card->rarity == Bronze) || (card->rarity == Silver));
-}
-
 void ShupeMage::onEnter(Field &ally, Field &)
 {
     auto *option1 = new ShupeMage::Draw;
@@ -1699,7 +1671,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSpecial}, AllyDeckShuffled);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
             return;
         }
 
@@ -1802,11 +1774,6 @@ BoneTalisman::BoneTalisman()
     tags = { Item };
 }
 
-bool BoneTalisman::isBronzeBeastOrCultist(Card *card)
-{
-    return (card->rarity == Bronze) && (hasTag(card, Beast) || hasTag(card, Cultist));
-}
-
 void BoneTalisman::onPlaySpecial(Field &ally, Field &)
 {
     auto *option1 = new BoneTalisman::Resurrect;
@@ -1827,7 +1794,7 @@ void BoneTalisman::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         acceptOptionAndDeleteOthers(this, target);
 
         if (dynamic_cast<BoneTalisman::Resurrect *>(target)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeBeastOrCultist}, AllyDiscard);
+            startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
             return;
         }
         if (dynamic_cast<BoneTalisman::Buff *>(target)) {
@@ -1965,11 +1932,6 @@ Decoy::Decoy()
     tags = { Tactics };
 }
 
-bool Decoy::isBronzeOrSilver(Card *card)
-{
-    return (card->rarity == Bronze) || (card->rarity == Silver);
-}
-
 void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 {
     startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, Ally);
@@ -1991,11 +1953,6 @@ FirstLight::FirstLight()
     rarity = Bronze;
     faction = Neutral;
     tags = { Tactics };
-}
-
-bool FirstLight::isBronzeUnit(Card *card)
-{
-    return !card->isSpecial && (card->rarity == Bronze);
 }
 
 void FirstLight::onPlaySpecial(Field &ally, Field &enemy)
@@ -2025,7 +1982,7 @@ void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
      }
 
      if (dynamic_cast<FirstLight::Play *>(target)) {
-         if (Card *card = random(cardsFiltered(ally, enemy, { isBronzeUnit }, AllyDeck)))
+         if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck)))
              playCard(card, ally, enemy);
          delete target;
          return;
@@ -2171,14 +2128,9 @@ Emissary::Emissary()
     tags = { };
 }
 
-bool Emissary::isBronzeUnit(Card *card)
-{
-    return (card->rarity == Bronze) && !card->isSpecial;
-}
-
 void Emissary::onEnter(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronzeUnit}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2), 1, true));
 }
 
 void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2224,14 +2176,9 @@ Restore::Restore()
     tags = { Spell };
 }
 
-bool Restore::isBronzeOrSilverSkelligeUnit(Card *card)
-{
-    return (card->rarity == Bronze || card->rarity == Silver) && (card->faction == Skellige);
-}
-
 void Restore::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilverSkelligeUnit}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isSkelligeFaction}, AllyDiscard);
 }
 
 void Restore::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2258,18 +2205,13 @@ DrummondQueensguard::DrummondQueensguard()
     tags = { ClanDrummond, Soldier };
 }
 
-bool DrummondQueensguard::isCopy(Card *card)
-{
-    return card->name == "Drummond Queensguard";
-}
-
 void DrummondQueensguard::onEnter(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
     if (!rowAndPos(this, ally, row, pos))
         return;
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy}, AllyDiscard)) {
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard)) {
         if (isRowFull(ally.row(row)))
             break;
         putOnField(card, row, ++pos, ally, enemy);
@@ -2320,11 +2262,6 @@ DrummondWarmonger::DrummondWarmonger()
     tags = { ClanDrummond, Soldier };
 }
 
-bool DrummondWarmonger::isBronze(Card *card)
-{
-    return card->rarity == Bronze;
-}
-
 void DrummondWarmonger::onEnter(Field &ally, Field &enemy)
 {
     startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyDeckShuffled);
@@ -2351,14 +2288,9 @@ DimunPirate::DimunPirate()
     tags = { ClanDimun, Soldier };
 }
 
-bool DimunPirate::isCopy(Card *card)
-{
-    return card->name == "Dimun Pirate";
-}
-
 void DimunPirate::onEnter(Field &ally, Field &enemy)
 {
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy}, AllyDeck))
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
         putOnDiscard(card, ally, enemy);
 }
 
@@ -2404,14 +2336,9 @@ MadmanLugos::MadmanLugos()
     tags = { ClanDrummond, Officer };
 }
 
-bool MadmanLugos::isBronzeUnit(Card *card)
-{
-    return (card->rarity == Bronze) && !card->isSpecial;
-}
-
 void MadmanLugos::onEnter(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeUnit}, AllyDeckShuffled);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDeckShuffled);
 }
 
 void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2523,4 +2450,105 @@ void CerysAnCraite::onOtherAllyResurrectededWhileOnDiscard(Card *, Field &ally, 
     Pos pos;
     if (timer == 0 && randomRowAndPos(ally, row, pos))
         putOnField(this, row, pos, ally, enemy);
+}
+
+WoodlandSpirit::WoodlandSpirit()
+{
+    name = "Woodland Spirit";
+    text = "Spawn 3 Wolves on the melee row and apply Impenetrable Fog to the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/132103.png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Relict };
+}
+
+void WoodlandSpirit::onEnter(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+    for (int n = 0; n < 3; ++n)
+        if (!isRowFull(ally.rowMeele))
+            spawn(new Wolf, Meele, Pos(ally.rowMeele.size()), ally, enemy);
+}
+
+Trollololo::Trollololo()
+{
+    name = "Trollololo";
+    text = "9 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/122209.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00411733.mp3",
+        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468246.mp3",
+        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00466604.mp3",
+        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468244.mp3",
+        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468248.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Redania, Ogroid };
+}
+
+void Trollololo::onEnter(Field &ally, Field &enemy)
+{
+    gainArmor(this, 9, ally, enemy);
+}
+
+PrinceStennis::PrinceStennis()
+{
+    name = "Prince Stennis";
+    text = "Play the top non-Spying Bronze or Silver unit from your deck and give it 5 Armor. 3 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/122208.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0302.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_STEN_200098_0258.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0316.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Aedirn, Officer };
+}
+
+void PrinceStennis::onEnter(Field &ally, Field &enemy)
+{
+    gainArmor(this, 3, ally, enemy);
+    const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isNonSpying, isBronzeOrSilver, isUnit}, AllyDeck);
+    if (cards.size() == 0)
+        return;
+
+    Card *target = cards.front();
+    playCard(target, ally, enemy);
+    gainArmor(target, 5, ally, enemy);
+}
+
+VincentMeis::VincentMeis()
+{
+    name = "Vincent Meis";
+    text = "Destroy the Armor of all units, then boost self by half the value destroyed.";
+    url = "https://gwent.one/image/card/low/cid/png/200098.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.203.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.202.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.201.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Beast, Cursed };
+}
+
+void VincentMeis::onEnter(Field &ally, Field &enemy)
+{
+    int _armor = 0;
+    for (Card *target: cardsFiltered(ally, enemy, {}, Any)) {
+        const int armorTarget = target->armor;
+        damage(target, armorTarget, ally, enemy);
+        _armor += armorTarget;
+    }
+    boost(this, _armor / 2, ally, enemy);
 }

@@ -119,5 +119,7 @@ struct Field;
 bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);
 FieldView fieldView(const Field &ally, const Field &enemy);
+std::string stringRarity(const Rarity rarity);
+std::string stringTag(const Tag tag);
 
 #endif // VIEW_H

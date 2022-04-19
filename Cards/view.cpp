@@ -302,3 +302,64 @@ std::string ChoiceView::toString() const
     }
     assert(false);
 }
+
+std::string stringRarity(const Rarity rarity)
+{
+    switch (rarity) {
+    case Bronze: return "Bronze";
+    case Silver: return "Silver";
+    case Gold: return "Gold";
+    default:
+        assert(false);
+        return "Rarity?";
+    }
+}
+
+std::string stringTag(const Tag tag)
+{
+    switch (tag) {
+    case Beast: return "Beast";
+    case Relict: return "Relict";
+    case Vampire: return "Vampire";
+    case Construct: return "Construct";
+    case Elf: return "Elf";
+    case Dwarf: return "Dwarf";
+    case Aedirn: return "Aedirn";
+    case Temeria: return "Temeria";
+    case Redania: return "Redania";
+    case Kaedwen: return "Kaedwen";
+    case Cintra: return "Cintra";
+    case ClanAnCraite: return "Clan an Craite";
+    case ClanHeymaey: return "Clan Heymaey";
+    case ClanDimun: return "Clan Dimun";
+    case ClanTuirseach: return "Clan Tuirseach";
+    case ClanDrummond: return "Clan Drummond";
+    case Ogroid: return "Ogroid";
+    case Cursed: return "Cursed";
+    case Support: return "Support";
+    case Officer: return "Officer";
+    case Mage: return "Mage";
+    case Soldier: return "Soldier";
+    case Machine: return "Machine";
+    case Agent: return "Agent";
+    case Witcher: return "Witcher";
+    case Leader: return "Leader";
+    case Cultist: return "Cultist";
+    case Alchemy: return "Alchemy";
+    case Tactics: return "Tactics";
+    case Spell: return "Spell";
+    case Item: return "Item";
+    case Organic: return "Organic";
+    case Hazard: return "Hazard";
+    case Boon: return "Boon";
+    case Neutral: return "Neutral";
+    case Monster: return "Monster";
+    case Nilfgaard: return "Nilfgaard";
+    case NothernRealms: return "Nothern Realms";
+    case Scoiatael: return "Scoia'tael";
+    case Skellige: return "Skellige";
+    default:
+        assert(false);
+        return "Tag?";
+    }
+}
