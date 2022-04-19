@@ -6,6 +6,7 @@
 #include <QSet>
 #include <QMediaPlayer>
 #include <QVariantAnimation>
+#include <QMetaEnum>
 
 #include "../Cards/archieve.h"
 #include "../Cards/view.h"
@@ -38,7 +39,7 @@ private:
     void paintEvent(QPaintEvent *e) override;
     void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
     void paintInRect(const QRect rect, const FieldView &view);
-    void repaintAllSnapshots();
+    void repaintCustom();
 
     Layout _layout;
     int _sound = 20;

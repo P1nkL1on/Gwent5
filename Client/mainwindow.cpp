@@ -20,7 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new PriestessOfFreya, new Dao, new Dao,
+        /// armors
+        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+        new Reinforcements, new Ves, new SileDeTansarville,
+        new Trollololo, new PrinceStennis, new VincentMeis,
+        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+        new RedanianElite, new RedanianElite, new RedanianElite,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+//        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
+//        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
+//        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
 //        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
@@ -34,12 +45,13 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
-        new CeallachDyffryn, new CeallachDyffryn,
-        new Reconnaissance, new Reconnaissance,
-        new Ambassador, new Ambassador,
-        new Assassin, new Assassin,
-        new Emissary, new Emissary,
-        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
+//        new WoodlandSpirit,
+//        new CeallachDyffryn, new CeallachDyffryn,
+//        new Reconnaissance, new Reconnaissance,
+//        new Ambassador, new Ambassador,
+//        new Assassin, new Assassin,
+//        new Emissary, new Emissary,
+//        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
 //        new JohnNatalis, new Vaedermakar, new KeiraMetz,
@@ -55,26 +67,26 @@ MainWindow::MainWindow(QWidget *parent)
     startNextRound(_ally, _enemy);
 
     // TODO: remove test units
-    for (int i = 1; i <= 7; ++i) {
-        auto *c = new Card;
-        c->name = "Dummy";
-        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-        c->isDoomed = true;
-        c->power = c->powerBase = i;
-        _ally.rowMeele.push_back(c);
-        _ally.cardsAdded.push_back(c);
-    }
-    for (int i = 1; i <= 5; ++i) {
-        auto *c = new Card;
-        c->name = "Egg";
-        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
-        c->isDoomed = true;
-        c->power = c->powerBase = i;
-        _enemy.rowMeele.push_back(c);
-        _enemy.cardsAdded.push_back(c);
-    }
+//    for (int i = 1; i <= 7; ++i) {
+//        auto *c = new Card;
+//        c->name = "Dummy";
+//        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+//        c->isDoomed = true;
+//        c->power = c->powerBase = i;
+//        _ally.rowMeele.push_back(c);
+//        _ally.cardsAdded.push_back(c);
+//    }
+//    for (int i = 1; i <= 5; ++i) {
+//        auto *c = new Card;
+//        c->name = "Egg";
+//        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
+//        c->isDoomed = true;
+//        c->power = c->powerBase = i;
+//        _enemy.rowMeele.push_back(c);
+//        _enemy.cardsAdded.push_back(c);
+//    }
 
-    resize(600, 550);
+    resize(1300, 1000);
     setMouseTracking(true);
     installEventFilter(this);
     _snapshot = fieldView(_ally, _enemy);
@@ -102,6 +114,7 @@ void MainWindow::requestSoundByUrl(const std::string &url)
 {
     if (url.size() == 0)
         return;
+
 
     const QString qString = QString::fromStdString(url);
     if (!_sounds.contains(qString)) {
@@ -281,10 +294,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 
 finish_turn:
-    ally.snapshots.clear();
     repaint();
     tryFinishTurn(ally, enemy);
-    repaintAllSnapshots();
+    repaintCustom();
 }
 
 void MainWindow::paintInRect(const QRect rect, const FieldView &view)
@@ -366,6 +378,55 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         paintTextInRect(QString::fromStdString(cardView.name), rectNameText);
     };
 
+    const QMap<int, QString> rarityToBorderUrl {
+        {Bronze, "https://gwent.one/image/card/medium/assets/open-beta/border-bronze.png"},
+        {Silver, "https://gwent.one/image/card/medium/assets/open-beta/border-silver.png"},
+        {Gold, "https://gwent.one/image/card/medium/assets/open-beta/border-gold.png"},
+    };
+    const QMap<int, QString> factionToSilverCornerUrl {
+        {Neutral, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-nt.png"},
+        {NothernRealms, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-nr.png"},
+        {Monster, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-mo.png"},
+        {Nilfgaard, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-ng.png"},
+        {Scoiatael, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-st.png"},
+        {Skellige, "https://gwent.one/image/card/medium/assets/open-beta/banner-sb-sk.png"},
+    };
+    const QMap<int, QString> factionToGoldCornerUrl {
+        {Neutral, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-nt.png"},
+        {NothernRealms, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-nr.png"},
+        {Monster, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-mo.png"},
+        {Nilfgaard, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-ng.png"},
+        {Scoiatael, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-st.png"},
+        {Skellige, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-sk.png"},
+    };
+    const auto paintCardLarge = [=, &painter](const CardView &cardView, const QRectF &rect)
+    {
+        const double wa = 97 / 130.0;
+        const double wb = 30 / 130.0;
+        const double ha = 138 / 163.0;
+        const double hb = 22 / 163.0;
+        const QPointF topLeft(rect.left() + rect.width() * wb, rect.top() + rect.height() * hb);
+        const QSizeF size(rect.width() * wa, rect.height() * ha);
+        const QRectF rectImage(topLeft, size);
+
+        if (cardView.url.size() > 0) {
+            requestImageByUrl(cardView.url);
+            const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url));
+            painter.drawImage(rectImage, image);
+        }
+        {
+            const QString borderUrl = rarityToBorderUrl.value(cardView.rarity);
+            requestImageByUrl(borderUrl.toStdString());
+            const QImage image = _pixMapsLoaded.value(borderUrl);
+            painter.drawImage(rect, image);
+        }
+        {
+            const QString cornerUrl = cardView.rarity == Gold ? factionToGoldCornerUrl.value(cardView.faction) : factionToSilverCornerUrl.value(cardView.faction);
+            requestImageByUrl(cornerUrl.toStdString());
+            const QImage image = _pixMapsLoaded.value(cornerUrl);
+            painter.drawImage(rect, image);
+        }
+    };
     const auto paintCard = [=, &painter](const CardView &cardView, const QPointF &topLeft)
     {
         Q_ASSERT(!cardView.isAmbush);
@@ -386,7 +447,6 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         /// draw rarity
         painter.setPen(cardView.rarity == Bronze ? Qt::darkRed : cardView.rarity == Silver ? Qt::gray : Qt::yellow);
         painter.drawRect(rectBorder);
-
 
         /// draw selection border
         if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIds)) {
@@ -484,17 +544,17 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     if (cardIdSelected >= 0) {
         const CardView &cardView = view.cardView(cardIdSelected);
         const QPointF topLeft = QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft();
-        paintCard(cardView, topLeft);
-        paintTextInPoint(QString("Power = %1").arg(cardView.power), topLeft + QPointF(0, posHeight + 0 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Power Base = %1").arg(cardView.powerBase), topLeft + QPointF(0, posHeight + 1 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Armor = %1").arg(cardView.armor), topLeft + QPointF(0, posHeight + 2 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, posHeight + 3 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, posHeight + 4 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, posHeight + 5 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, posHeight + 6 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, posHeight + 7 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, posHeight + 8 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, posHeight + 9 * metrics.height()), Qt::white, Qt::black);
+        paintCardLarge(cardView, QRectF(QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft(), QSizeF(posWidth * 2 + _layout.spacingPx, posHeight * 2)));
+        paintTextInPoint(QString("Power = %1").arg(cardView.power), topLeft + QPointF(0, 2 * posHeight + 0 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Power Base = %1").arg(cardView.powerBase), topLeft + QPointF(0, 2 * posHeight + 1 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Armor = %1").arg(cardView.armor), topLeft + QPointF(0, 2 * posHeight + 2 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, 2 * posHeight + 3 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, 2 * posHeight + 4 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, 2 * posHeight + 5 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, 2 * posHeight + 6 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, 2 * posHeight + 7 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, 2 * posHeight + 8 * metrics.height()), Qt::white, Qt::black);
+        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, 2 * posHeight + 9 * metrics.height()), Qt::white, Qt::black);
     }
     // TODO: tmp remove all above
     // __________________________
@@ -655,7 +715,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 200, 150));
+    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 200, 20));
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
@@ -669,15 +729,15 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         auto *em = static_cast<QMouseEvent *>(e);
         if (_ally.cardStack.size() && _ally.choice().cardSource != nullptr) {
             _pos = em->pos();
-            repaintAllSnapshots();
+            repaint();
         } else if (_enemy.cardStack.size() && _enemy.choice().cardSource != nullptr) {
             _pos = em->pos();
-            repaintAllSnapshots();
+            repaint();
         } else {
             // _pos = QPoint();
             // TODO: tmp show card description
             _pos = em->pos();
-            repaintAllSnapshots();
+            repaint();
         }
     }
 
@@ -693,7 +753,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                     view += 4;
             }
             _view = View(view);
-            repaintAllSnapshots();
+            repaint();
         }
     }
     return QMainWindow::eventFilter(o, e);
@@ -701,13 +761,19 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 150));
+    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 20));
     paintInRect(rect, _snapshot);
 }
 
 
-void MainWindow::repaintAllSnapshots()
+void MainWindow::repaintCustom()
 {
+    for (const FieldView &snapshot : _ally.snapshots)
+       requestSoundByUrl(snapshot.sound);
+    _ally.snapshots.clear();
+    _enemy.snapshots.clear();
+
+
     // fast version
     if (_ally.cardStack.size()) {
         _snapshot = fieldView(_ally, _enemy);
