@@ -21,14 +21,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     const std::vector<Card *> deckStarting = {
         /// armors
-        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
-        new Reinforcements, new Ves, new SileDeTansarville,
-        new Trollololo, new PrinceStennis, new VincentMeis,
-        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
-        new RedanianElite, new RedanianElite, new RedanianElite,
-        new ReaverScout, new ReaverScout, new ReaverScout,
-        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
-        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+//        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+//        new Reinforcements, new Ves, new SileDeTansarville,
+//        new Trollololo, new PrinceStennis, new VincentMeis,
+//        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+//        new RedanianElite, new RedanianElite, new RedanianElite,
+//        new ReaverScout, new ReaverScout, new ReaverScout,
+//        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+//        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+
+        /// other
+        new TemerianDrummer, new PoorFingInfantry, new Regis,
+        new Regis, new Regis, new Thunderbolt, new Thunderbolt,
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
@@ -54,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent)
         new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
         new Reconnaissance, new Reconnaissance,
         new BranTuirseach, new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya
+
+        /// other
+//        new ArtefactCompression, new ArtefactCompression, new HjalmarAnCraite, new HjalmarAnCraite,
+//        new AlzursThunder, new AlzursThunder,
 //        new WoodlandSpirit,
 //        new CeallachDyffryn, new CeallachDyffryn,
 //        new Reconnaissance, new Reconnaissance,
@@ -76,24 +84,24 @@ MainWindow::MainWindow(QWidget *parent)
     startNextRound(_ally, _enemy);
 
     // TODO: remove test units
-//    for (int i = 1; i <= 7; ++i) {
-//        auto *c = new Card;
-//        c->name = "Dummy";
-//        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _ally.rowMeele.push_back(c);
-//        _ally.cardsAdded.push_back(c);
-//    }
-//    for (int i = 1; i <= 5; ++i) {
-//        auto *c = new Card;
-//        c->name = "Egg";
-//        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _enemy.rowMeele.push_back(c);
-//        _enemy.cardsAdded.push_back(c);
-//    }
+    for (int i = 1; i <= 7; ++i) {
+        auto *c = new Card;
+        c->name = "Dummy";
+        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->isDoomed = true;
+        c->power = c->powerBase = i;
+        _ally.rowMeele.push_back(c);
+        _ally.cardsAdded.push_back(c);
+    }
+    for (int i = 1; i <= 5; ++i) {
+        auto *c = new Card;
+        c->name = "Egg";
+        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
+        c->isDoomed = true;
+        c->power = c->powerBase = i;
+        _enemy.rowMeele.push_back(c);
+        _enemy.cardsAdded.push_back(c);
+    }
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -553,16 +561,28 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         const CardView &cardView = view.cardView(cardIdSelected);
         const QPointF topLeft = QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft();
         paintCardLarge(cardView, QRectF(QPointF(posWidth * 9 + _layout.spacingPx, posHeight * 1 + _layout.spacingPx) + rect.topLeft(), QSizeF(posWidth * 2 + _layout.spacingPx, posHeight * 2)));
-        paintTextInPoint(QString("Power = %1").arg(cardView.power), topLeft + QPointF(0, 2 * posHeight + 0 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Power Base = %1").arg(cardView.powerBase), topLeft + QPointF(0, 2 * posHeight + 1 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Armor = %1").arg(cardView.armor), topLeft + QPointF(0, 2 * posHeight + 2 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Locked? %1").arg(cardView.isLocked), topLeft + QPointF(0, 2 * posHeight + 3 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Resilient? %1").arg(cardView.isResilient), topLeft + QPointF(0, 2 * posHeight + 4 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Spying? %1").arg(cardView.isSpy), topLeft + QPointF(0, 2 * posHeight + 5 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Immune? %1").arg(cardView.isImmune), topLeft + QPointF(0, 2 * posHeight + 6 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Doomed? %1").arg(cardView.isDoomed), topLeft + QPointF(0, 2 * posHeight + 7 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Name: %1").arg(QString::fromStdString(cardView.name)), topLeft + QPointF(0, 2 * posHeight + 8 * metrics.height()), Qt::white, Qt::black);
-        paintTextInPoint(QString("Text: %1").arg(QString::fromStdString(cardView.text)), topLeft + QPointF(0, 2 * posHeight + 9 * metrics.height()), Qt::white, Qt::black);
+
+        QString tags;
+        for (const Tag tag : cardView.tags)
+            tags += (tags.isEmpty() ? "" : ", ") + QString::fromStdString(stringTag(tag));
+
+        const QStringList infos {
+            QString("Name: %1").arg(QString::fromStdString(cardView.name)),
+            QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(cardView.faction)))),
+            QString("Tags: %1").arg(tags),
+            QString("Text: %1").arg(QString::fromStdString(cardView.text)),
+            QString("Power = %1").arg(cardView.power),
+            QString("Power Base = %1").arg(cardView.powerBase),
+            QString("Armor = %1").arg(cardView.armor),
+            QString("Locked? %1").arg(cardView.isLocked ? "True" : "False"),
+            QString("Resilient? %1").arg(cardView.isResilient ? "True" : "False"),
+            QString("Spying? %1").arg(cardView.isSpy ? "True" : "False"),
+            QString("Immune? %1").arg(cardView.isImmune ? "True" : "False"),
+            QString("Doomed? %1").arg(cardView.isDoomed ? "True" : "False"),
+        };
+
+        for (int i = 0; i < infos.size(); ++i)
+            paintTextInPoint(infos[i], topLeft + QPointF(0, 2 * posHeight + i * metrics.height()), Qt::white, Qt::black);
     }
     // TODO: tmp remove all above
     // __________________________
@@ -709,7 +729,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
         return;
     }
 
-    if (urlString.endsWith(".png")) {
+    if (urlString.endsWith(".png") || urlString.endsWith(".jpg") || urlString.endsWith(".jpeg")) {
         QByteArray pngData = reply->readAll();
         QPixmap pixmap;
         pixmap.loadFromData(pngData);

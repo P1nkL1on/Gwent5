@@ -342,26 +342,26 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
     if (card->isLoyal) {
         if (takenFrom == Deck)
-            card->onEnterFromDeck(ally, enemy);
+            card->onDeployFromDeck(ally, enemy);
         else if (takenFrom == Discard) {
-            card->onEnterFromDiscard(ally, enemy);
+            card->onDeployFromDiscard(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
                 other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
-            card->onEnter(ally, enemy);
+            card->onDeploy(ally, enemy);
         else
             assert(false);
 
     } else {
         card->isSpy = true;
         if (takenFrom == Deck)
-            card->onEnterFromDeck(enemy, ally);
+            card->onDeployFromDeck(enemy, ally);
         else if (takenFrom == Discard) {
-            card->onEnterFromDiscard(enemy, ally);
+            card->onDeployFromDiscard(enemy, ally);
             for (Card *other : cardsFiltered(enemy, ally, {}, AllyDiscard))
                 other->onOtherAllyResurrectededWhileOnDiscard(card, enemy, ally);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
-            card->onEnter(enemy, ally);
+            card->onDeploy(enemy, ally);
         else
             assert(false);
     }
@@ -856,8 +856,7 @@ void swapACard(Card *card, Field &ally, Field &enemy)
 
 void banish(Card *card, Field &ally, Field &enemy)
 {
-    bool isAlly = false;
-    const Row row = takeCard(card, ally, enemy, nullptr, &isAlly);
+    const Row row = takeCard(card, ally, enemy);
     assert(row != AlreadyCreated);
 }
 
@@ -907,6 +906,26 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
 
     putOnDiscard(card, ally, enemy);
     return true;
+}
+
+void drain(Card *self, Card *target, const int x, Field &ally, Field &enemy)
+{
+    assert(x > 0);
+    assert(!target->isSpecial);
+    assert(!self->isSpecial);
+
+    const int powerDrained =  std::min(target->power, x);
+    target->power -= powerDrained;
+    self->power += powerDrained;
+    // TODO: trigger other on boosted
+    if (target->power > 0) {
+        target->onDamaged(powerDrained, ally, enemy);
+        saveFieldsSnapshot(ally, enemy);
+        // TODO: trigger other on damaged
+        return;
+    }
+
+    putOnDiscard(target, ally, enemy);
 }
 
 void heal(Card *card, Field &, Field &)
@@ -1266,3 +1285,5 @@ bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
     pos = Pos(field.row(row).size());
     return true;
 }
+
+

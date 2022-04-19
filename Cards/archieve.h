@@ -7,7 +7,7 @@
 struct AddaStriga : Card
 {
     AddaStriga();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *, Field &, Field &) override;
 };
 
@@ -35,14 +35,14 @@ struct PoorFingInfantry : Card
         RightFlankInfantry();
     };
     PoorFingInfantry();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct DeithwenArbalest : Card
 {
     DeithwenArbalest();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -50,7 +50,7 @@ struct DeithwenArbalest : Card
 struct TemerianDrummer : Card
 {
     TemerianDrummer();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -58,7 +58,7 @@ struct TemerianDrummer : Card
 struct DandelionPoet : Card
 {
     DandelionPoet();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -66,7 +66,7 @@ struct DandelionPoet : Card
 struct SileDeTansarville : Card
 {
     SileDeTansarville();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -74,7 +74,7 @@ struct SileDeTansarville : Card
 struct RedanianKnightElect : Card
 {
     RedanianKnightElect();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
@@ -82,8 +82,8 @@ struct RedanianKnightElect : Card
 struct KaedweniKnight : Card
 {
     KaedweniKnight();
-    void onEnter(Field &ally, Field &enemy) override;
-    void onEnterFromDeck(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onDeployFromDeck(Field &ally, Field &enemy) override;
 };
 
 
@@ -96,7 +96,7 @@ struct AnCraiteMarauder : Card
 struct AnCraiteGreatsword : Card
 {
     AnCraiteGreatsword();
-    void onEnter(Field &, Field &) override;
+    void onDeploy(Field &, Field &) override;
     void onTurnStart(Field &ally, Field &enemy) override;
 };
 
@@ -123,14 +123,14 @@ struct Wolf : Card
 struct TuirseachBearmaster : Card
 {
     TuirseachBearmaster();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct RedanianElite : Card
 {
     RedanianElite();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onArmorLost(Field &ally, Field &enemy) override;
 };
 
@@ -145,7 +145,7 @@ struct RedanianKnight : Card
 struct KaedweniCavalry : Card
 {
     KaedweniCavalry();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -185,7 +185,7 @@ struct ArachasVenom : Card
 struct KeiraMetz : Card
 {
     KeiraMetz();
-    void onEnter(Field &ally, Field &/*enemy*/) override;
+    void onDeploy(Field &ally, Field &/*enemy*/) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -193,7 +193,7 @@ struct KeiraMetz : Card
 struct DolBlathannaArcher : Card
 {
     DolBlathannaArcher();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
     int _nShots = 0;
@@ -203,7 +203,7 @@ private:
 struct HalfElfHunter : Card
 {
     HalfElfHunter();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 private:
     bool _maySpawnCopy = true;
 };
@@ -212,7 +212,7 @@ private:
 struct Ambassador : Card
 {
     Ambassador();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -220,14 +220,14 @@ struct Ambassador : Card
 struct Assassin : Card
 {
     Assassin();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct Emissary : Card
 {
     Emissary();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -235,7 +235,7 @@ struct Emissary : Card
 struct CeallachDyffryn : Card
 {
     CeallachDyffryn();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -243,7 +243,7 @@ struct CeallachDyffryn : Card
 struct TuirseachArcher : Card
 {
     TuirseachArcher();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -251,7 +251,7 @@ struct TuirseachArcher : Card
 struct Infiltrator : Card
 {
     Infiltrator();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &, Field &) override;
 };
 
@@ -320,7 +320,7 @@ struct GloriousHunt : Card
 struct Ves : Card
 {
     Ves();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -328,7 +328,7 @@ struct Ves : Card
 struct Vaedermakar : Card
 {
     Vaedermakar();
-    void onEnter(Field &ally, Field &) override;
+    void onDeploy(Field &ally, Field &) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -337,7 +337,7 @@ struct Frightener : Card
 {
     Frightener();
     static bool isOnAnotherRow(Card *self, Card *card, const Field &field);
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -345,7 +345,7 @@ struct Frightener : Card
 struct Cleaver : Card
 {
     Cleaver();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -368,7 +368,7 @@ struct Reinforcements : Card
 struct JohnNatalis : Card
 {
     JohnNatalis();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -384,7 +384,7 @@ struct Eleyas : Card
 struct ReaverScout : Card
 {
     ReaverScout();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -392,7 +392,7 @@ struct ReaverScout : Card
 struct HeymaeySpearmaiden : Card
 {
     HeymaeySpearmaiden();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -400,7 +400,7 @@ struct HeymaeySpearmaiden : Card
 struct VriheddSappers : Card
 {
     VriheddSappers();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTurnStart(Field &ally, Field &enemy) override;
 };
 
@@ -408,7 +408,7 @@ struct VriheddSappers : Card
 struct PriestessOfFreya : Card
 {
     PriestessOfFreya();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -416,7 +416,7 @@ struct PriestessOfFreya : Card
 struct DimunCorsair : Card
 {
     DimunCorsair();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -424,7 +424,7 @@ struct DimunCorsair : Card
 struct Sigrdrifa : Card
 {
     Sigrdrifa();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -432,14 +432,14 @@ struct Sigrdrifa : Card
 struct DrummondQueensguard : Card
 {
     DrummondQueensguard();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct Sage : Card
 {
     Sage();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -455,7 +455,7 @@ struct Reconnaissance : Card
 struct ElvenMercenary : Card
 {
     ElvenMercenary();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -463,7 +463,7 @@ struct ElvenMercenary : Card
 struct ChampionOfHov : Card
 {
     ChampionOfHov();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -471,14 +471,14 @@ struct ChampionOfHov : Card
 struct Priscilla : Card
 {
     Priscilla();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct SeltkirkOfGulet : Card
 {
     SeltkirkOfGulet();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -543,7 +543,7 @@ struct ShupeKnight : Card
 {
     ShupeKnight();
     static bool isFourOrLessPower(Card *card);
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
     struct Destroy : Card {};
@@ -558,7 +558,7 @@ private:
 struct ShupeHunter : Card
 {
     ShupeHunter();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
     struct Play : Card {};
@@ -573,7 +573,7 @@ private:
 struct ShupeMage : Card
 {
     ShupeMage();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
     struct Draw : Card {};
@@ -619,21 +619,21 @@ private:
 struct CiriNova : Card
 {
     CiriNova();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct HaraldTheCripple : Card
 {
     HaraldTheCripple();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct BranTuirseach : Card
 {
     BranTuirseach();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -641,7 +641,7 @@ struct BranTuirseach : Card
 struct DrummondWarmonger : Card
 {
     DrummondWarmonger();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -649,7 +649,7 @@ struct DrummondWarmonger : Card
 struct DimunPirate : Card
 {
     DimunPirate();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
@@ -663,7 +663,7 @@ struct AnCraiteRaider : Card
 struct MadmanLugos : Card
 {
     MadmanLugos();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
     Card *_discarded = nullptr;
@@ -673,7 +673,7 @@ private:
 struct Ermion : Card
 {
     Ermion();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
@@ -681,7 +681,7 @@ struct Ermion : Card
 struct CerysFearless : Card
 {
     CerysFearless();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
     void onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy) override;
 };
 
@@ -698,27 +698,27 @@ struct CerysAnCraite : Card
 struct WoodlandSpirit : Card
 {
     WoodlandSpirit();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct Trollololo : Card
 {
     Trollololo();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct PrinceStennis : Card
 {
     PrinceStennis();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 struct VincentMeis : Card
 {
     VincentMeis();
-    void onEnter(Field &ally, Field &enemy) override;
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
@@ -727,6 +727,33 @@ struct Morkvarg : Card
     Morkvarg();
     void onDiscard(Field &ally, Field &enemy) override;
     void onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos) override;
+};
+
+
+struct ArtefactCompression : Card
+{
+    ArtefactCompression();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct HjalmarAnCraite : Card
+{
+    struct  LordOfUndvik : Card
+    {
+        LordOfUndvik();
+        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    };
+    HjalmarAnCraite();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+struct Regis : Card
+{
+    Regis();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 

@@ -13,6 +13,7 @@ inline bool hasArmor(Card *card) { return card->armor > 0; }
 inline bool isSkelligeFaction(Card *card) { return card->faction == Skellige; }
 inline bool isNonMonsterFaction(Card *card) { return card->faction != Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }
+inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
 
 
 

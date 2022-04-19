@@ -41,9 +41,9 @@ struct Card
     /// temporary created options
     std::vector<Card *> _options;
 
-    inline virtual void onEnter(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onEnterFromDiscard(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
-    inline virtual void onEnterFromDeck(Field &ally, Field &enemy) { return onEnter(ally, enemy); }
+    inline virtual void onDeploy(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDeployFromDiscard(Field &ally, Field &enemy) { return onDeploy(ally, enemy); }
+    inline virtual void onDeployFromDeck(Field &ally, Field &enemy) { return onDeploy(ally, enemy); }
     inline virtual void onMoveFromRowToRow(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
@@ -167,6 +167,7 @@ void playCard(Card *card, Field &ally, Field &enemy);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy);
+void drain(Card *self, Card *target, const int x, Field &ally, Field &enemy);
 
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 
