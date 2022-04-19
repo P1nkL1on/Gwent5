@@ -20,7 +20,7 @@ struct Dao : Card
         DaoLesser();
     };
     Dao();
-    void onDestroy(Field &, Field &) override;
+    void onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos) override;
 };
 
 
@@ -643,6 +643,74 @@ struct HaraldTheCripple : Card
 {
     HaraldTheCripple();
     void onEnter(Field &ally, Field &enemy) override;
+};
+
+
+struct BranTuirseach : Card
+{
+    BranTuirseach();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct DrummondWarmonger : Card
+{
+    DrummondWarmonger();
+    static bool isBronze(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct DimunPirate : Card
+{
+    DimunPirate();
+    static bool isCopy(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+};
+
+
+struct AnCraiteRaider : Card
+{
+    AnCraiteRaider();
+    void onDiscard(Field &ally, Field &enemy) override;
+};
+
+
+struct MadmanLugos : Card
+{
+    MadmanLugos();
+    static bool isBronzeUnit(Card *card);
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    Card *_discarded = nullptr;
+};
+
+
+struct Ermion : Card
+{
+    Ermion();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct CerysFearless : Card
+{
+    CerysFearless();
+    void onEnter(Field &ally, Field &enemy) override;
+    void onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy) override;
+};
+
+
+struct CerysAnCraite : Card
+{
+    CerysAnCraite();
+    void onDiscard(Field &ally, Field &enemy) override;
+    void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    void onOtherAllyResurrectededWhileOnDiscard(Card *other, Field &ally, Field &enemy) override;
 };
 
 

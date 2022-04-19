@@ -32,7 +32,7 @@ bool hasTag(const Card *card, const Tag tag)
     return false;
 }
 
-Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly)
+Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly)
 {
     const std::vector<std::vector<Card *> *> cards {
         &ally.rowMeele,
@@ -55,6 +55,8 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly)
                 _cards->erase(_cards->begin() + int(j));
                 if (isAlly != nullptr)
                     *isAlly = i < 6;
+                if (pos != nullptr)
+                    *pos = Pos(j);
                 return Row(i % 6);
             }
     }
@@ -337,9 +339,11 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (card->isLoyal) {
         if (takenFrom == Deck)
             card->onEnterFromDeck(ally, enemy);
-        else if (takenFrom == Discard)
+        else if (takenFrom == Discard) {
             card->onEnterFromDiscard(ally, enemy);
-        else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
+                other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
             card->onEnter(ally, enemy);
         else
             assert(false);
@@ -348,9 +352,11 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
         card->isSpy = true;
         if (takenFrom == Deck)
             card->onEnterFromDeck(enemy, ally);
-        else if (takenFrom == Discard)
+        else if (takenFrom == Discard) {
             card->onEnterFromDiscard(enemy, ally);
-        else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyDiscard))
+                other->onOtherAllyResurrectededWhileOnDiscard(card, enemy, ally);
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
             card->onEnter(enemy, ally);
         else
             assert(false);
@@ -361,18 +367,40 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
 {
-    const Row takenFrom = takeCard(card, ally, enemy);
+    if (card->isDoomed || (!card->isSpecial && card->powerBase <= 0)) {
+        return banish(card, ally, enemy);
+    }
+
+    Pos pos;
+    bool isAlly;
+    const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
+    assert(takenFrom != AlreadyCreated);
+
+
+    Field *cardAlly = &ally;
+    Field *cardEnemy = &enemy;
+    if (!isAlly)
+        std::swap(cardAlly, cardEnemy);
+
+    // TODO: reset on putting to discard
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
-        // TODO: check 0 power
-        card->onDestroy(ally, enemy);
+        cardAlly->discard.push_back(card);
+        card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
+        // TODO: on destroy triggers
+
     } else if (takenFrom == Hand || takenFrom == Deck) {
+        cardAlly->discard.push_back(card);
         if (!card->isSpecial)
-            card->onDiscard(ally, enemy);
+            card->onDiscard(*cardAlly, *cardEnemy);
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, Ally))
+            other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
+
+    } else {
+        assert(false);
     }
 
-    ally.discard.push_back(card);
 }
 
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
@@ -822,33 +850,18 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(drawn);
 }
 
-void destroy(Card *card, Field &ally, Field &enemy)
-{
-    if (card->isDoomed) {
-        return banish(card, ally, enemy);
-    }
-
-    card->onDestroy(ally, enemy);
-
-    bool isAlly = false;
-    const Row row = takeCard(card, ally, enemy, &isAlly);
-    assert(row != AlreadyCreated);
-
-    card->power = card->powerBase;
-    (isAlly ? &ally : &enemy)->discard.push_back(card);
-
-    // TODO: trigger other on destroy
-}
-
 void banish(Card *card, Field &ally, Field &enemy)
 {
     bool isAlly = false;
-    const Row row = takeCard(card, ally, enemy, &isAlly);
+    const Row row = takeCard(card, ally, enemy, nullptr, &isAlly);
     assert(row != AlreadyCreated);
 }
 
 void duel(Card *first, Card *second, Field &ally, Field &enemy)
 {
+    assert(!first->isSpecial);
+    assert(!second->isSpecial);
+
     while (true) {
 //        ally.snapshots.push_back(new Animation("", Animation::LineDamage, first, second));
         if (damage(second, first->power, ally, enemy))
@@ -860,6 +873,7 @@ void duel(Card *first, Card *second, Field &ally, Field &enemy)
 bool damage(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
+    assert(!card->isSpecial);
 
     int dmgInPower = x;
 
@@ -887,23 +901,29 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
         return false;
     }
 
-    destroy(card, ally, enemy);
+    putOnDiscard(card, ally, enemy);
     return true;
 }
 
 void heal(Card *card, Field &, Field &)
 {
+    assert(!card->isSpecial);
+
     if (card->power < card->powerBase)
         card->power = card->powerBase;
 }
 
 void reset(Card *card, Field &, Field &)
 {
+    assert(!card->isSpecial);
+
     card->power = card->powerBase;
 }
 
 void returnToHand(Card *card, Field &ally, Field &enemy)
 {
+    assert(!card->isSpecial);
+
     takeCard(card, ally, enemy);
 
     card->power = card->powerBase;
@@ -912,6 +932,7 @@ void returnToHand(Card *card, Field &ally, Field &enemy)
 void boost(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
+    assert(!card->isSpecial);
 
     card->power += x;
 
@@ -923,6 +944,7 @@ void boost(Card *card, const int x, Field &ally, Field &enemy)
 void strengthen(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
+    assert(!card->isSpecial);
 
     card->power += x;
     card->powerBase += x;
@@ -935,13 +957,14 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
 void weaken(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
+    assert(!card->isSpecial);
 
     card->power -= x;
     card->powerBase -= x;
 
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
-    if (card->powerBase < 0)
+    if (card->powerBase <= 0)
         return banish(card, ally, enemy);
 
     // TODO: others trigger on weaken
@@ -950,6 +973,7 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
+    assert(!card->isSpecial);
 
     card->armor += x;
 
@@ -1211,4 +1235,21 @@ void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound)
     FieldView viewEnemy = fieldView(enemy, ally);
     viewAlly.sound = sound;
     enemy.snapshots.push_back(viewEnemy);
+}
+
+bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
+{
+    // TODO: random
+    std::vector<Row> hasFreeSpace;
+    for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
+        if (isRowFull(field.row(_row)))
+            continue;
+        hasFreeSpace.push_back(_row);
+    }
+    if (hasFreeSpace.size() == 0)
+        return false;
+
+    row = hasFreeSpace[_rng() % hasFreeSpace.size()];
+    pos = Pos(field.row(row).size());
+    return true;
 }

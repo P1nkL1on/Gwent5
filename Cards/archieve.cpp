@@ -31,6 +31,7 @@ void AddaStriga::onTargetChoosen(Card *, Field &, Field &)
 Dao::Dao()
 {
     name = "D'ao";
+    text = "Deathwish: Spawn 2 Lesser D'ao on this row.";
     url = "https://gwent.one/image/card/low/cid/png/132213.png";
     power = powerBase = 6;
     rarity = Bronze;
@@ -38,8 +39,10 @@ Dao::Dao()
     tags = { Construct };
 }
 
-void Dao::onDestroy(Field &, Field &)
+void Dao::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
 {
+    spawn(new DaoLesser, row, pos, ally, enemy);
+    spawn(new DaoLesser, row, pos, ally, enemy);
 }
 
 Dao::DaoLesser::DaoLesser()
@@ -327,6 +330,7 @@ Bear::Bear()
 TuirseachBearmaster::TuirseachBearmaster()
 {
     name = "Tuirseach Bearmaster";
+    text = "Spawn a Bear.";
     url = "https://gwent.one/image/card/low/cid/png/200144.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.26.mp3",
@@ -985,7 +989,7 @@ Scorch::Scorch()
 void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : highests(cardsFiltered(ally, enemy, {}, Any)))
-        destroy(card, ally, enemy);
+        putOnDiscard(card, ally, enemy);
 }
 
 Reinforcements::Reinforcements()
@@ -1180,6 +1184,7 @@ void VriheddSappers::onTurnStart(Field &, Field &)
 PriestessOfFreya::PriestessOfFreya()
 {
     name = "Priestess of Freya";
+    text = "Resurrect a Bronze Soldier.";
     url = "https://gwent.one/image/card/low/cid/png/152310.png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553534.mp3",
@@ -1899,7 +1904,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
             for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, Enemy))
-                destroy(card, ally, enemy);
+                putOnDiscard(card, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -2043,7 +2048,7 @@ Epidemic::Epidemic()
 void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : lowests(cardsFiltered(ally, enemy, {}, Any)))
-        destroy(card, ally, enemy);
+        putOnDiscard(card, ally, enemy);
 }
 
 Moonlight::Moonlight()
@@ -2267,7 +2272,255 @@ void DrummondQueensguard::onEnter(Field &ally, Field &enemy)
     for (Card *card : cardsFiltered(ally, enemy, {isCopy}, AllyDiscard)) {
         if (isRowFull(ally.row(row)))
             break;
-        putOnField(card, row, pos, ally, enemy);
-        ++pos;
+        putOnField(card, row, ++pos, ally, enemy);
     }
+}
+
+BranTuirseach::BranTuirseach()
+{
+    name = "Bran Tuirseach";
+    text = "Discard up to 3 cards from your deck and Strengthen them by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/200159.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.193.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.194.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.195.mp3",
+    };
+    power = powerBase = 2;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanTuirseach, Leader };
+}
+
+void BranTuirseach::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, true);
+}
+
+void BranTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putOnDiscard(target, ally, enemy);
+    if (!target->isSpecial)
+        strengthen(target, 1, ally, enemy);
+}
+
+DrummondWarmonger::DrummondWarmonger()
+{
+    name = "Drummond Warmonger";
+    text = "Discard a Bronze card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/200036.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.7.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanDrummond, Soldier };
+}
+
+bool DrummondWarmonger::isBronze(Card *card)
+{
+    return card->rarity == Bronze;
+}
+
+void DrummondWarmonger::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyDeckShuffled);
+}
+
+void DrummondWarmonger::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putOnDiscard(target, ally, enemy);
+}
+
+DimunPirate::DimunPirate()
+{
+    name = "Dimun Pirate";
+    text = "Discard all copies of this unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/152305.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SBD3_VSET_00526925.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD3_VSET_00527400.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD3_MQ2034_01013429.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanDimun, Soldier };
+}
+
+bool DimunPirate::isCopy(Card *card)
+{
+    return card->name == "Dimun Pirate";
+}
+
+void DimunPirate::onEnter(Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy}, AllyDeck))
+        putOnDiscard(card, ally, enemy);
+}
+
+AnCraiteRaider::AnCraiteRaider()
+{
+    name = "An Craite Raider";
+    text = "Whenever you Discard this unit, Resurrect it on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/152316.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SGD1_CHAT_01024106.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD1_VSET_00541470.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD1_FF204_00523558.mp3",
+    };
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanAnCraite, Soldier };
+}
+
+void AnCraiteRaider::onDiscard(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (randomRowAndPos(ally, row, pos)) {
+        putOnField(this, row, pos, ally, enemy);
+    }
+}
+
+MadmanLugos::MadmanLugos()
+{
+    name = "Madman Lugos";
+    text = "Discard a Bronze unit from your deck, then deal damage equal to its base power to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/152106.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LUTM_Q210_00561116.mp3",
+        "https://gwent.one/audio/card/ob/en/LUTM_SQ209_00593785.mp3",
+        "https://gwent.one/audio/card/ob/en/LUTM_LUGOS_01016673.mp3",
+        "https://gwent.one/audio/card/ob/en/LUTM_LUGOS_00437813.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanDrummond, Officer };
+}
+
+bool MadmanLugos::isBronzeUnit(Card *card)
+{
+    return (card->rarity == Bronze) && !card->isSpecial;
+}
+
+void MadmanLugos::onEnter(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeUnit}, AllyDeckShuffled);
+}
+
+void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_discarded == nullptr) {
+        _discarded = target;
+
+        putOnDiscard(target, ally, enemy);
+        startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+        return;
+    }
+
+    damage(target, _discarded->powerBase, ally, enemy);
+}
+
+Ermion::Ermion()
+{
+    name = "Ermion";
+    text = "Draw 2 cards, then Discard 2 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/152103.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MOUS_Q203_01040282.mp3",
+        "https://gwent.one/audio/card/ob/en/MOUS_Q403_00566059.mp3",
+        "https://gwent.one/audio/card/ob/en/MOUS_Q201_00439012.mp3",
+        "https://gwent.one/audio/card/ob/en/MOUS_Q210_00558067.mp3",
+    };
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanAnCraite, Support };
+}
+
+void Ermion::onEnter(Field &ally, Field &enemy)
+{
+    drawACard(ally, enemy);
+    drawACard(ally, enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2);
+}
+
+void Ermion::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putOnDiscard(target, ally, enemy);
+}
+
+CerysFearless::CerysFearless()
+{
+    name = "Cerys: Fearless";
+    text = "Resurrect the next unit you Discard.";
+    url = "https://gwent.one/image/card/low/cid/png/201778.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040275.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanAnCraite, Officer };
+}
+
+void CerysFearless::onEnter(Field &, Field &)
+{
+    timer = 1;
+}
+
+void CerysFearless::onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy)
+{
+    if (timer == 0 || other->isSpecial)
+        return;
+
+    timer--;
+    playCard(other, ally, enemy);
+}
+
+CerysAnCraite::CerysAnCraite()
+{
+    name = "Cerys: Fearless";
+    text = "When 4 units are Resurrected while this unit is in the graveyard, Resurrect it on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/200177.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
+        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040275.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanAnCraite, Officer };
+}
+
+void CerysAnCraite::onDiscard(Field &, Field &)
+{
+    timer = 4;
+}
+
+void CerysAnCraite::onDestroy(Field &, Field &, const Row, const Pos)
+{
+    timer = 4;
+}
+
+void CerysAnCraite::onOtherAllyResurrectededWhileOnDiscard(Card *, Field &ally, Field &enemy)
+{
+    if (timer > 0)
+        timer--;
+
+    Row row;
+    Pos pos;
+    if (timer == 0 && randomRowAndPos(ally, row, pos))
+        putOnField(this, row, pos, ally, enemy);
 }

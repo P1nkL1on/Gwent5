@@ -51,7 +51,7 @@ struct Card
     inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/, const Row, const Pos) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
@@ -64,6 +64,8 @@ struct Card
 //    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherAllyResurrectededWhileOnDiscard(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
@@ -131,7 +133,7 @@ std::vector<Card *> lowests(const std::vector<Card *> &row);
 Card *lowest(const std::vector<Card *> &row);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
-Row takeCard(const Card *card, Field &ally, Field &enemy, bool *isAlly = nullptr);
+Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bool *isAlly = nullptr);
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
 void startNextRound(Field &ally, Field &enemy);
@@ -145,6 +147,7 @@ std::string randomSound(const Card *card);
 RowEffect randomHazardEffect();
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
+bool randomRowAndPos(const Field &field, Row &row, Pos &pos);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -177,7 +180,6 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
-void destroy(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
 void duel(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy);

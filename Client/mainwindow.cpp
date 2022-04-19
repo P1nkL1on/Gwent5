@@ -20,12 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     const std::vector<Card *> deckStarting = {
-        new PriestessOfFreya, new PriestessOfFreya,
-        new TuirseachBearmaster, new TuirseachBearmaster,
-        new DimunDracar, new DimunDracar,
-        new AlzursThunder, new AlzursThunder,
-        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
-        new Sigrdrifa, new Sigrdrifa,
+        new PriestessOfFreya, new Dao, new Dao,
 //        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
 //        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
@@ -60,18 +55,20 @@ MainWindow::MainWindow(QWidget *parent)
     startNextRound(_ally, _enemy);
 
     // TODO: remove test units
-    for (int i = 10; i <= 15; ++i) {
+    for (int i = 1; i <= 7; ++i) {
         auto *c = new Card;
         c->name = "Dummy";
         c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->isDoomed = true;
         c->power = c->powerBase = i;
         _ally.rowMeele.push_back(c);
         _ally.cardsAdded.push_back(c);
     }
-    for (int i = 10; i <= 15; ++i) {
+    for (int i = 1; i <= 5; ++i) {
         auto *c = new Card;
-        c->name = "Dummy";
-        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+        c->name = "Egg";
+        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
+        c->isDoomed = true;
         c->power = c->powerBase = i;
         _enemy.rowMeele.push_back(c);
         _enemy.cardsAdded.push_back(c);
