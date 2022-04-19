@@ -45,6 +45,15 @@ MainWindow::MainWindow(QWidget *parent)
     };
 
     const std::vector<Card *> deckStarting2 = {
+        /// dicards
+        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
+        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
+        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
+        new DimunPirate, new DimunPirate, new DimunPirate,
+        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
+        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
+        new Reconnaissance, new Reconnaissance,
+        new BranTuirseach, new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya
 //        new WoodlandSpirit,
 //        new CeallachDyffryn, new CeallachDyffryn,
 //        new Reconnaissance, new Reconnaissance,
@@ -280,21 +289,20 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     if (ally.choice().choiceType == RoundStartSwap) {
         if (isFinishChoiceButton(point)) {
             onChoiceDoneRoundStartSwap(nullptr, ally, enemy);
-            repaint();
+            repaintCustom();
             return;
         }
         Card *card = cardAt(point);
         if (card == nullptr || !isIn(card, ally.choice().cardOptions))
             return;
         onChoiceDoneRoundStartSwap(card, ally, enemy);
-        repaint();
+        repaintCustom();
         return;
     }
 
     Q_ASSERT(false);
 
 finish_turn:
-    repaint();
     tryFinishTurn(ally, enemy);
     repaintCustom();
 }
@@ -769,6 +777,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
 void MainWindow::repaintCustom()
 {
     for (const FieldView &snapshot : _ally.snapshots)
+       requestSoundByUrl(snapshot.sound);
+    for (const FieldView &snapshot : _enemy.snapshots)
        requestSoundByUrl(snapshot.sound);
     _ally.snapshots.clear();
     _enemy.snapshots.clear();

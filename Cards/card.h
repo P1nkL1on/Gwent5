@@ -106,6 +106,7 @@ struct Field
     int nTurns = 0;
     int nRounds = 0;
     int nWins = 0;
+    int nSwaps = 0;
     bool passed = false;
     std::vector<FieldView> snapshots;
 
@@ -176,7 +177,7 @@ void reset(Card *card, Field &ally, Field &enemy);
 void returnToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
-void weaken(Card *card, const int x, Field &ally, Field &enemy);
+bool weaken(Card *card, const int x, Field &ally, Field &enemy);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
@@ -199,6 +200,7 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound = "");
+/// returns false when no choice left (game end)
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 

@@ -722,6 +722,14 @@ struct VincentMeis : Card
 };
 
 
+struct Morkvarg : Card
+{
+    Morkvarg();
+    void onDiscard(Field &ally, Field &enemy) override;
+    void onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos) override;
+};
+
+
 struct GeraltIgni : Card
 {
     GeraltIgni(const Lang lang = En);

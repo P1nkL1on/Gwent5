@@ -2314,9 +2314,8 @@ void AnCraiteRaider::onDiscard(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (randomRowAndPos(ally, row, pos)) {
+    if (randomRowAndPos(ally, row, pos))
         putOnField(this, row, pos, ally, enemy);
-    }
 }
 
 MadmanLugos::MadmanLugos()
@@ -2545,10 +2544,45 @@ VincentMeis::VincentMeis()
 void VincentMeis::onEnter(Field &ally, Field &enemy)
 {
     int _armor = 0;
-    for (Card *target: cardsFiltered(ally, enemy, {}, Any)) {
+    for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, Any)) {
         const int armorTarget = target->armor;
         damage(target, armorTarget, ally, enemy);
         _armor += armorTarget;
     }
     boost(this, _armor / 2, ally, enemy);
+}
+
+Morkvarg::Morkvarg()
+{
+    name = "Morkvarg";
+    text = "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.";
+    url = "https://gwent.one/image/card/low/cid/png/152209.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00499647.mp3",
+        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00501979.mp3",
+        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00504630.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Beast, Cursed };
+}
+
+void Morkvarg::onDiscard(Field &ally, Field &enemy)
+{
+    if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        return;
+
+    Row row;
+    Pos pos;
+    if (randomRowAndPos(ally, row, pos))
+        putOnField(this, row, pos, ally, enemy);
+}
+
+void Morkvarg::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
+{
+    if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        return;
+
+    putOnField(this, row, pos, ally, enemy);
 }

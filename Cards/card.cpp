@@ -220,9 +220,11 @@ void startNextRound(Field &ally, Field &enemy)
 
     /// start next round
     ally.nRounds++;
+    ally.nTurns = 0;
     ally.passed = false;
 
     enemy.nRounds++;
+    enemy.nTurns = 0;
     enemy.passed = false;
 
     int nDraw = 0;
@@ -245,9 +247,11 @@ void startNextRound(Field &ally, Field &enemy)
         drawACard(enemy, ally);
     }
 
-    /// start a round start swapping
-    ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, nSwap, true));
-    enemy.cardStack.push_back(Choice(RoundStartSwap, nullptr, enemy.hand, nSwap, true));
+    ally.nSwaps = nSwap;
+    enemy.nSwaps = nSwap;
+
+    // TODO: flip a coin to determine first player
+    ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, ally.nSwaps, true));
 }
 
 std::default_random_engine _rng;
@@ -557,6 +561,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     }
 
     /// start a game after start swap
+    ally.nSwaps = 0;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, true));
 }
 
@@ -953,7 +958,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     // TODO: others trigger on strengthen
 }
 
-void weaken(Card *card, const int x, Field &ally, Field &enemy)
+bool weaken(Card *card, const int x, Field &ally, Field &enemy)
 {
     assert(x > 0);
     assert(!card->isSpecial);
@@ -963,10 +968,13 @@ void weaken(Card *card, const int x, Field &ally, Field &enemy)
 
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
-    if (card->powerBase <= 0)
-        return banish(card, ally, enemy);
+    if (card->powerBase <= 0) {
+        banish(card, ally, enemy);
+        return true;
+    }
 
     // TODO: others trigger on weaken
+    return false;
 }
 
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
@@ -1056,6 +1064,12 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     /// finish turn if only enemy passed
     if (enemy.passed)
         return tryFinishTurn(enemy, ally);
+
+    // TODO: remove later, only for a hot-seat
+    if (enemy.nTurns == 0 && enemy.nSwaps != 0){
+        enemy.cardStack.push_back(Choice(RoundStartSwap, nullptr, enemy.hand, enemy.nSwaps, true));
+        return true;
+    }
 
     /// give a choice to enemy
     enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, enemy.hand, 1, true));
