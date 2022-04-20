@@ -1,8 +1,6 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <string>
-
 #include "iterator.h"
 #include "view.h"
 
@@ -196,7 +194,7 @@ void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = Any, const int nTargets = 1, const bool isOptional = false);
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
