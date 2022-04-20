@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
 
+//    AddaStriga *a = new AddaStriga;
+//    Q_ASSERT(dynamic_cast<AddaStriga *>(a));
+//    Q_ASSERT(dynamic_cast<AddaStriga *>(a->createDefaultCopy()));
+
     const std::vector<Card *> deckStarting = {
         /// armors
 //        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,

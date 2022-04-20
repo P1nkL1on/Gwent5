@@ -106,10 +106,10 @@ enum ChoiceType
 
 enum ChoiceGroup
 {
-    /// on a field
-    Any,
-    Ally,
-    Enemy,
+    /// on a board
+    AnyBoard,
+    AllyBoard,
+    EnemyBoard,
     /// others
     AllyHand,
     AllyDiscard,
@@ -117,6 +117,7 @@ enum ChoiceGroup
     AllyDeck,
     AllyDeckStarting,
     AllyBoardHandDeck,
+    AnyCard,
 };
 
 

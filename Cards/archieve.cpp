@@ -221,7 +221,7 @@ DeithwenArbalest::DeithwenArbalest()
 
 void DeithwenArbalest::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
 }
 
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -248,7 +248,7 @@ TemerianDrummer::TemerianDrummer()
 
 void TemerianDrummer::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
 }
 
 void TemerianDrummer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -750,7 +750,7 @@ Ambassador::Ambassador()
 
 void Ambassador::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
 }
 
 void Ambassador::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -791,7 +791,7 @@ TuirseachArcher::TuirseachArcher()
 
 void TuirseachArcher::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Any, 3);
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
 }
 
 void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1047,7 +1047,7 @@ void Frightener::onDeploy(Field &ally, Field &enemy)
     }
 
     /// can't move another to this row, if its already full
-    startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, Enemy);
+    startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, EnemyBoard);
 }
 
 void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1075,7 +1075,7 @@ Cleaver::Cleaver()
 void Cleaver::onDeploy(Field &ally, Field &enemy)
 {
     if (ally.hand.size() != 0)
-        startChoiceToTargetCard(ally, enemy, this, {}, Any);
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
 }
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1097,7 +1097,7 @@ Scorch::Scorch()
 
 void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 {
-    for (Card *card : highests(cardsFiltered(ally, enemy, {}, Any)))
+    for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
         putOnDiscard(card, ally, enemy);
 }
 
@@ -1186,7 +1186,7 @@ ReaverScout::ReaverScout()
 
 void ReaverScout::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, AllyBoard);
 }
 
 void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1213,7 +1213,7 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
 
 void HeymaeySpearmaiden::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, AllyBoard);
 }
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1439,7 +1439,7 @@ ChampionOfHov::ChampionOfHov()
 
 void ChampionOfHov::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
 }
 
 void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1509,7 +1509,7 @@ Priscilla::Priscilla()
 
 void Priscilla::onDeploy(Field &ally, Field &enemy)
 {
-    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, Ally), 5))
+    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5))
         boost(card, 3, ally, enemy);
 }
 
@@ -1532,7 +1532,7 @@ SeltkirkOfGulet::SeltkirkOfGulet()
 void SeltkirkOfGulet::onDeploy(Field &ally, Field &enemy)
 {
     gainArmor(this, 3, ally, enemy);
-    startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
 }
 
 void SeltkirkOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1646,12 +1646,12 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, Ally);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
             return;
         }
 
         if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {}, Ally))
+            for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
                 boost(card, 1, ally, enemy);
             clearAllHazards(ally);
             delete _choosen;
@@ -1661,7 +1661,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy))) {
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard))) {
 //                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy);
                 }
@@ -1750,7 +1750,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
-            if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard)))
                 charm(card, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
@@ -1767,7 +1767,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
 
@@ -1899,7 +1899,7 @@ void BoneTalisman::onTargetChoosen(Card *target, Field &ally, Field &enemy)
             return;
         }
         if (dynamic_cast<BoneTalisman::Buff *>(target)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+            startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
             return;
         }
         assert(false);
@@ -1971,7 +1971,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         acceptOptionAndDeleteOthers(this, target);
 
         if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, Enemy))
+            for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, EnemyBoard))
                 putOnDiscard(card, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
@@ -1984,7 +1984,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
 
@@ -2035,7 +2035,7 @@ Decoy::Decoy()
 
 void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, Ally);
+    startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, AllyBoard);
 }
 
 void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2124,7 +2124,7 @@ Epidemic::Epidemic()
 
 void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 {
-    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, Any)))
+    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
         putOnDiscard(card, ally, enemy);
 }
 
@@ -2469,7 +2469,7 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         _discarded = target;
 
         putOnDiscard(target, ally, enemy);
-        startChoiceToTargetCard(ally, enemy, this, {}, Enemy);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
         return;
     }
 
@@ -2667,7 +2667,7 @@ VincentMeis::VincentMeis()
 void VincentMeis::onDeploy(Field &ally, Field &enemy)
 {
     int _armor = 0;
-    for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, Any)) {
+    for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, AnyBoard)) {
         const int armorTarget = target->armor;
         damage(target, armorTarget, ally, enemy);
         _armor += armorTarget;
@@ -2757,7 +2757,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 
 void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
 {
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, Enemy))
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
         boost(card, 10, ally, enemy);
 }
 
@@ -2807,7 +2807,7 @@ Regis::Regis()
 
 void Regis::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBoosted}, Any);
+    startChoiceToTargetCard(ally, enemy, this, {isBoosted}, AnyBoard);
 }
 
 void Regis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2836,7 +2836,7 @@ LethoOfGulet::LethoOfGulet()
 
 void LethoOfGulet::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, Enemy, 2);
+    startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, EnemyBoard, 2);
 }
 
 void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2858,7 +2858,7 @@ AnCraiteLongship::AnCraiteLongship()
 
 void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
 {
-    if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard)))
         damage(card, 2, ally, enemy);
 }
 
@@ -2960,7 +2960,7 @@ BloodcurdlingRoar::BloodcurdlingRoar()
 
 void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
 }
 
 void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -3026,5 +3026,4 @@ void Operator::onDeploy(Field &ally, Field &enemy)
 
 void Operator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    // TODO: spawn a default copy!
 }

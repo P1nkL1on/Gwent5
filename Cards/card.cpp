@@ -6,8 +6,9 @@
 #include <random>
 #include <map>
 
-using Rows = std::vector<std::vector<Card *>>;
+#include "archieve.h"
 
+using Rows = std::vector<std::vector<Card *>>;
 
 bool isRowFull(const std::vector<Card *> &row)
 {
@@ -396,7 +397,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
         cardAlly->discard.push_back(card);
         if (!card->isSpecial)
             card->onDiscard(*cardAlly, *cardEnemy);
-        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, Ally))
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyBoard))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
 
     } else {
@@ -648,10 +649,10 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
 std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group)
 {
     const std::vector<Card *> cards = [ally, enemy, group]{
-        if (group == Ally)
+        if (group == AllyBoard)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
 
-        if (group == Enemy)
+        if (group == EnemyBoard)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
 
         if (group == AllyHand)
@@ -675,7 +676,7 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
         if (group == AllyBoardHandDeck)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck});
 
-        assert(group == Any);
+        assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
 
