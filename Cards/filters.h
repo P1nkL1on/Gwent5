@@ -49,6 +49,12 @@ inline Filter otherThan(const std::string &name)
         return card->name != name;
     };
 }
+inline Filter otherThan(const Card *card)
+{
+    return [card](Card *_card) {
+        return card != _card;
+    };
+}
 inline Filter isCopy(const std::string &name)
 {
     return [name](Card *card) {

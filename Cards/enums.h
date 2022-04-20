@@ -38,6 +38,7 @@ enum Tag
     Kaedwen,
     Cintra,
     ClanAnCraite,
+    ClanBrokvar,
     ClanHeymaey,
     ClanDimun,
     ClanTuirseach,
@@ -105,7 +106,7 @@ enum ChoiceType
 
 enum ChoiceGroup
 {
-    /// on a table
+    /// on a field
     Any,
     Ally,
     Enemy,
@@ -115,6 +116,7 @@ enum ChoiceGroup
     AllyDeckShuffled,
     AllyDeck,
     AllyDeckStarting,
+    AllyBoardHandDeck,
 };
 
 

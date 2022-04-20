@@ -538,10 +538,10 @@ void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
 {
     const Choice choice = ally.takeChoice();
     if (choice.choiceType == SelectAllyRow)
-        return choice.cardSource->onTargetRowChoosen(ally, enemy, row);
+        return choice.cardSource->onTargetRowAllyChoosen(ally, enemy, row);
 
     if (choice.choiceType == SelectEnemyRow)
-        return choice.cardSource->onTargetRowChoosen(enemy, ally, row);
+        return choice.cardSource->onTargetRowEnemyChoosen(ally, enemy, row);
 
     assert(false);
 }
@@ -671,6 +671,9 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
             shuffle(deck);
             return deck;
         }
+
+        if (group == AllyBoardHandDeck)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck});
 
         assert(group == Any);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -820,13 +823,7 @@ bool drawACard(Field &ally, Field &enemy)
     if (ally.deck.size() == 0)
         return false;
 
-    Card *card = ally.deck.front();
-    ally.deck.erase(ally.deck.begin());
-    ally.hand.push_back(card);
-
-    card->onDraw(ally, enemy);
-    // TODO: trigger all onDrawn abilities
-
+    putToHand(ally.deck.front(), ally, enemy);
     return true;
 }
 
@@ -943,13 +940,24 @@ void reset(Card *card, Field &, Field &)
     card->power = card->powerBase;
 }
 
-void returnToHand(Card *card, Field &ally, Field &enemy)
+void putToHand(Card *card, Field &ally, Field &enemy)
 {
-    assert(!card->isSpecial);
+    const Row row = takeCard(card, ally, enemy);
+    assert(row != Hand);
 
-    takeCard(card, ally, enemy);
-
+    /// reset a card statuses
     card->power = card->powerBase;
+    card->isSpy = false;
+    card->isResilient = false;
+    card->isLocked = false;
+
+    ally.hand.push_back(card);
+
+    if (row == Deck) {
+        card->onDraw(ally, enemy);
+
+        // TODO: other trigger on draw
+    }
 }
 
 void boost(Card *card, const int x, Field &ally, Field &enemy)
@@ -1285,5 +1293,3 @@ bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
     pos = Pos(field.row(row).size());
     return true;
 }
-
-

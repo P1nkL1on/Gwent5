@@ -20,6 +20,7 @@ std::vector<Card *> allCards()
         new ArtefactCompression,
         new Assassin,
         new BitingFrost,
+        new BloodcurdlingRoar,
         new BoneTalisman,
         new BranTuirseach,
         new CeallachDyffryn,
@@ -48,6 +49,7 @@ std::vector<Card *> allCards()
         new GeraltIgni,
         new GloriousHunt,
         new GoldenFroth,
+        new Gremist,
         new HalfElfHunter,
         new HaraldTheCripple,
         new HeymaeySpearmaiden,
@@ -94,10 +96,12 @@ std::vector<Card *> allCards()
         new Trollololo,
         new TuirseachArcher,
         new TuirseachBearmaster,
+        new TuirseachVeteran,
         new Vaedermakar,
         new Ves,
         new VincentMeis,
         new VriheddSappers,
+        new Udalryk,
         new WoodlandSpirit,
     };
 }
@@ -833,9 +837,9 @@ void ImpenetrableFog::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-void ImpenetrableFog::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void ImpenetrableFog::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
 {
-    applyRowEffect(ally, enemy, row, ImpenetrableFogEffect);
+    applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
 }
 
 TorrentialRain::TorrentialRain()
@@ -854,9 +858,9 @@ void TorrentialRain::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-void TorrentialRain::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void TorrentialRain::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
 {
-    applyRowEffect(ally, enemy, row, TorrentialRainEffect);
+    applyRowEffect(enemy, ally, row, TorrentialRainEffect);
 }
 
 BitingFrost::BitingFrost()
@@ -875,9 +879,9 @@ void BitingFrost::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-void BitingFrost::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void BitingFrost::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
 {
-    applyRowEffect(ally, enemy, row, BitingFrostEffect);
+    applyRowEffect(enemy, ally, row, BitingFrostEffect);
 }
 
 GoldenFroth::GoldenFroth()
@@ -896,7 +900,7 @@ void GoldenFroth::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectAllyRow(ally, this);
 }
 
-void GoldenFroth::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void GoldenFroth::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
 {
     applyRowEffect(ally, enemy, row, GoldenFrothEffect);
 }
@@ -917,9 +921,9 @@ void SkelligeStorm::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-void SkelligeStorm::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void SkelligeStorm::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
 {
-    applyRowEffect(ally, enemy, row, SkelligeStormEffect);
+    applyRowEffect(enemy, ally, row, SkelligeStormEffect);
 }
 
 ImperialManticore::ImperialManticore()
@@ -1037,8 +1041,10 @@ Frightener::Frightener()
 
 void Frightener::onDeploy(Field &ally, Field &enemy)
 {
-    if (timer--)
+    if (timer == 1) {
+        timer--;
         drawACard(ally, enemy);
+    }
 
     /// can't move another to this row, if its already full
     startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, Enemy);
@@ -1344,7 +1350,7 @@ Sigrdrifa::Sigrdrifa()
 
 void Sigrdrifa::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach})}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar})}, AllyDiscard);
 }
 
 void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1387,7 +1393,7 @@ Reconnaissance::Reconnaissance()
 
 void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2), 1, true));
 }
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1408,7 +1414,7 @@ ElvenMercenary::ElvenMercenary()
 
 void ElvenMercenary::onDeploy(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2), 1, true));
 }
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1471,7 +1477,17 @@ GeraltIgni::GeraltIgni(const Lang lang)
 
 void GeraltIgni::onDeploy(Field &ally, Field &)
 {
+    // TODO: select onlu between rows with 25 or more power
     startChoiceToSelectEnemyRow(ally, this);
+}
+
+void GeraltIgni::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
+{
+    if (powerRow(enemy.row(row)) < 25)
+        return;
+
+    for (Card *card : highests(enemy.row(row)))
+        putOnDiscard(card, ally, enemy);
 }
 
 Priscilla::Priscilla()
@@ -1673,7 +1689,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-        returnToHand(target, ally, enemy);
+        putToHand(target, ally, enemy);
         boost(target, 5, ally, enemy);
         playCard(target, ally, enemy);
         delete _choosen;
@@ -2024,7 +2040,7 @@ void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 
 void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    returnToHand(target, ally, enemy);
+    putToHand(target, ally, enemy);
     boost(target, 3, ally, enemy);
     playCard(target, ally, enemy);
 }
@@ -2076,6 +2092,25 @@ void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
      assert(false);
 }
 
+ClearSkies::ClearSkies()
+{
+    name = "Clear Skies";
+    text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
+    url = "https://gwent.one/image/card/low/cid/png/113303.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Tactics };
+}
+
+void ClearSkies::onPlaySpecial(Field &ally, Field &enemy)
+{
+    std::vector<Card *> damagedUnitsUnderHazards;
+    clearAllHazards(ally, &damagedUnitsUnderHazards);
+    for (Card *card : damagedUnitsUnderHazards)
+        boost(card, 2, ally, enemy);
+}
+
 Epidemic::Epidemic()
 {
     name = "Epidemic";
@@ -2123,11 +2158,9 @@ void Moonlight::onTargetChoosen(Card *target, Field &ally, Field &)
 {
     acceptOptionAndDeleteOthers(this, target);
     if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-        _isFullMoon = true;
         startChoiceToSelectAllyRow(ally, this);
 
     } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-        _isFullMoon = false;
         startChoiceToSelectEnemyRow(ally, this);
 
     } else
@@ -2136,9 +2169,14 @@ void Moonlight::onTargetChoosen(Card *target, Field &ally, Field &)
     delete target;
 }
 
-void Moonlight::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void Moonlight::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
 {
-    applyRowEffect(ally, enemy, row, _isFullMoon ? FullMoonEffect : BloodMoonEffect);
+    applyRowEffect(ally, enemy, row, FullMoonEffect);
+}
+
+void Moonlight::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
+{
+    applyRowEffect(enemy, ally, row, BloodMoonEffect);
 }
 
 CiriNova::CiriNova()
@@ -2268,7 +2306,7 @@ void Restore::onPlaySpecial(Field &ally, Field &enemy)
 
 void Restore::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    returnToHand(target, ally, enemy);
+    putToHand(target, ally, enemy);
     target->isDoomed = true;
     target->powerBase = target->power = 8;
     playCard(target, ally, enemy);
@@ -2827,4 +2865,166 @@ void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
 void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
 {
     AnCraiteLongship::onDeploy(ally, enemy);
+}
+
+TuirseachVeteran::TuirseachVeteran()
+{
+    name = "Tuirseach Veteran";
+    text = "Strengthen all your other Clan Tuirseach units in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/200046.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.410.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.411.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.412.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanTuirseach, Support };
+}
+
+void TuirseachVeteran::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
+        strengthen(card, 1, ally, enemy);
+}
+
+TuirseachHunter::TuirseachHunter()
+{
+    name = "Tuirseach Hunter";
+    text = "Deal 5 damage.";
+    url = "https://gwent.one/image/card/low/cid/png/152304.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544501.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544569.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544491.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanTuirseach, Soldier };
+}
+
+void TuirseachHunter::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this);
+}
+
+void TuirseachHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    damage(target, 5, ally, enemy);
+}
+
+Udalryk::Udalryk()
+{
+    name = "Udalryk";
+    text = "Spying. Single-Use: Look at 2 cards from your deck. Draw one and Discard the other.";
+    url = "https://gwent.one/image/card/low/cid/png/152214.png";
+    power = powerBase = 13;
+    isLoyal = false;
+    timer = 1;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { ClanBrokvar, Cursed, Agent };
+}
+
+void Udalryk::onDeploy(Field &ally, Field &enemy)
+{
+    if (timer != 1)
+        return;
+
+    timer--;
+    ally.cardStack.push_back(Choice(Target, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2)));
+}
+
+void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putToHand(target, ally, enemy);
+    for (Card *card : _drawn)
+        if (card != target)
+            putOnDiscard(card, ally, enemy);
+
+    _drawn.clear();
+}
+
+BloodcurdlingRoar::BloodcurdlingRoar()
+{
+    name = "Bloodcurdling Roar";
+    text = "Destroy an ally. Spawn a bear.";
+    url = "https://gwent.one/image/card/low/cid/png/152406.png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Organic };
+}
+
+void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, Ally);
+}
+
+void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putOnDiscard(target, ally, enemy);
+    spawn(new Bear, ally, enemy);
+}
+
+Gremist::Gremist()
+{
+    name = "Gremist";
+    text = "Spawn Torrential Rain, Clear Skies or Bloodcurdling Roar.";
+    url = "https://gwent.one/image/card/low/cid/png/152206.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.828.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.829.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.830.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.834.mp3",
+    };
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Support };
+}
+
+void Gremist::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new TorrentialRain, new ClearSkies, new BloodcurdlingRoar});
+}
+
+void Gremist::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
+}
+
+Operator::Operator()
+{
+    name = "Operator";
+    text = "Single-Use, Truce: Make a default copy of a Bronze unit in your hand for both players.";
+    url = "https://gwent.one/image/card/low/cid/png/112208.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0012.mp3",
+    };
+    power = powerBase = 5;
+    timer = 1;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Mage };
+}
+
+void Operator::onDeploy(Field &ally, Field &enemy)
+{
+    if (ally.passed || enemy.passed)
+        return;
+    if (timer != 1)
+        return;
+
+    timer--;
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyHand);
+}
+
+void Operator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    // TODO: spawn a default copy!
 }

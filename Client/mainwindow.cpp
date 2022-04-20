@@ -30,9 +30,16 @@ MainWindow::MainWindow(QWidget *parent)
 //        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
 //        new Reconnaissance, new Thunderbolt, new Thunderbolt,
 
+        /// veterans
+        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
+        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
+        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
+        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+        new PriestessOfFreya, new PriestessOfFreya,
+        new Reconnaissance, new Reconnaissance,
+
         /// other
-        new BitingFrost, new TorrentialRain, new ImpenetrableFog,
-        new SkelligeStorm, new GoldenFroth, new Moonlight, new Moonlight, new Moonlight,
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,

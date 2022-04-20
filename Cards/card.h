@@ -48,7 +48,8 @@ struct Card
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onTargetRowChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
+    inline virtual void onTargetRowAllyChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
+    inline virtual void onTargetRowEnemyChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
     inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
@@ -175,7 +176,7 @@ void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
-void returnToHand(Card *card, Field &ally, Field &enemy);
+void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy);
