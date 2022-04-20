@@ -61,5 +61,31 @@ inline Filter hasCopyInADeck(const Field *field)
         return findCopy(card, field->deck) != nullptr;
     };
 }
+inline Filter isOnSameRow(const Field *field, const Card *self)
+{
+    return [field, self](Card *card) {
+        Row rowSelf;
+        Pos _;
+        if (!rowAndPos(self, *field, rowSelf, _))
+            return false;
+        Row rowCard;
+        if (!rowAndPos(card, *field, rowCard, _))
+            return false;
+        return rowSelf == rowCard;
+    };
+}
+inline Filter isOnAnotherRow(const Field *field, const Card *self)
+{
+    return [field, self](Card *card) {
+        Row rowSelf;
+        Pos _;
+        if (!rowAndPos(self, *field, rowSelf, _))
+            return false;
+        Row rowCard;
+        if (!rowAndPos(card, *field, rowCard, _))
+            return false;
+        return rowSelf != rowCard;
+    };
+}
 
 #endif // FILTERS_H

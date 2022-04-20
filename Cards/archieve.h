@@ -4,6 +4,10 @@
 #include "card.h"
 
 
+/// returns all cards in games (no tokens included)
+std::vector<Card *> allCards();
+
+
 struct AddaStriga : Card
 {
     AddaStriga();
@@ -260,7 +264,7 @@ struct ImpenetrableFog : Card
 {
     ImpenetrableFog();
     void onPlaySpecial(Field &ally, Field &) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
@@ -268,7 +272,7 @@ struct TorrentialRain : Card
 {
     TorrentialRain();
     void onPlaySpecial(Field &ally, Field &) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
@@ -276,7 +280,7 @@ struct BitingFrost : Card
 {
     BitingFrost();
     void onPlaySpecial(Field &ally, Field &) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
@@ -284,7 +288,7 @@ struct GoldenFroth : Card
 {
     GoldenFroth();
     void onPlaySpecial(Field &ally, Field &) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
@@ -292,7 +296,7 @@ struct SkelligeStorm : Card
 {
     SkelligeStorm();
     void onPlaySpecial(Field &ally, Field &) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
@@ -336,7 +340,6 @@ struct Vaedermakar : Card
 struct Frightener : Card
 {
     Frightener();
-    static bool isOnAnotherRow(Card *self, Card *card, const Field &field);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -608,7 +611,7 @@ struct Moonlight : Card
     Moonlight();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-    RowEffect rowEffect() const override;
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row) override;
 private:
     struct FullMoon : Card {};
     struct BloodMoon : Card {};
@@ -757,9 +760,26 @@ struct Regis : Card
 };
 
 
+struct LethoOfGulet : Card
+{
+    LethoOfGulet();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct AnCraiteLongship : Card
+{
+    AnCraiteLongship();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy) override;
+};
+
+
 struct GeraltIgni : Card
 {
     GeraltIgni(const Lang lang = En);
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 

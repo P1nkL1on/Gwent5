@@ -48,6 +48,7 @@ struct Card
     inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onTargetRowChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
     inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
@@ -66,7 +67,6 @@ struct Card
 //    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrectededWhileOnDiscard(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual RowEffect rowEffect() const { return NoRowEffect; }
 };
 
 
@@ -167,7 +167,7 @@ void playCard(Card *card, Field &ally, Field &enemy);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy);
-void drain(Card *self, Card *target, const int x, Field &ally, Field &enemy);
+void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 

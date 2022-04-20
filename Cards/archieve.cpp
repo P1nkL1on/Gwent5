@@ -5,6 +5,103 @@
 
 #include "filters.h"
 
+std::vector<Card *> allCards()
+{
+    return {
+        new AddaStriga,
+        new AdrenalineRush,
+        new AlzursThunder,
+        new Ambassador,
+        new AnCraiteGreatsword,
+        new AnCraiteLongship,
+        new AnCraiteMarauder,
+        new AnCraiteRaider,
+        new ArachasVenom,
+        new ArtefactCompression,
+        new Assassin,
+        new BitingFrost,
+        new BoneTalisman,
+        new BranTuirseach,
+        new CeallachDyffryn,
+        new CerysAnCraite,
+        new CerysFearless,
+        new ChampionOfHov,
+        new CiriNova,
+        new Cleaver,
+        new DandelionPoet,
+        new Dao,
+        new Decoy,
+        new DeithwenArbalest,
+        new DimunCorsair,
+        new DimunDracar,
+        new DimunPirate,
+        new DolBlathannaArcher,
+        new DrummondQueensguard,
+        new DrummondWarmonger,
+        new Eleyas,
+        new ElvenMercenary,
+        new Emissary,
+        new Epidemic,
+        new Ermion,
+        new FirstLight,
+        new Frightener,
+        new GeraltIgni,
+        new GloriousHunt,
+        new GoldenFroth,
+        new HalfElfHunter,
+        new HaraldTheCripple,
+        new HeymaeySpearmaiden,
+        new HjalmarAnCraite,
+        new ImpenetrableFog,
+        new ImperialManticore,
+        new Infiltrator,
+        new JohnNatalis,
+        new KaedweniCavalry,
+        new KaedweniKnight,
+        new KeiraMetz,
+        new LethoOfGulet,
+        new MadmanLugos,
+        new Mandrake,
+        new ManticoreVenom,
+        new Moonlight,
+        new Morkvarg,
+        new PoorFingInfantry,
+        new PriestessOfFreya,
+        new PrinceStennis,
+        new Priscilla,
+        new ReaverScout,
+        new Reconnaissance,
+        new RedanianElite,
+        new RedanianKnight,
+        new RedanianKnightElect,
+        new Regis,
+        new Reinforcements,
+        new Restore,
+        new Sage,
+        new Scorch,
+        new SeltkirkOfGulet,
+        new ShupeHunter,
+        new ShupeKnight,
+        new ShupeMage,
+        new ShupesDayOff,
+        new Sigrdrifa,
+        new SileDeTansarville,
+        new SkelligeStorm,
+        new Swallow,
+        new TemerianDrummer,
+        new Thunderbolt,
+        new TorrentialRain,
+        new Trollololo,
+        new TuirseachArcher,
+        new TuirseachBearmaster,
+        new Vaedermakar,
+        new Ves,
+        new VincentMeis,
+        new VriheddSappers,
+        new WoodlandSpirit,
+    };
+}
+
 AddaStriga::AddaStriga()
 {
     name = "Adda: Striga";
@@ -736,9 +833,9 @@ void ImpenetrableFog::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-RowEffect ImpenetrableFog::rowEffect() const
+void ImpenetrableFog::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return ImpenetrableFogEffect;
+    applyRowEffect(ally, enemy, row, ImpenetrableFogEffect);
 }
 
 TorrentialRain::TorrentialRain()
@@ -757,9 +854,9 @@ void TorrentialRain::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-RowEffect TorrentialRain::rowEffect() const
+void TorrentialRain::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return TorrentialRainEffect;
+    applyRowEffect(ally, enemy, row, TorrentialRainEffect);
 }
 
 BitingFrost::BitingFrost()
@@ -778,9 +875,9 @@ void BitingFrost::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-RowEffect BitingFrost::rowEffect() const
+void BitingFrost::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return BitingFrostEffect;
+    applyRowEffect(ally, enemy, row, BitingFrostEffect);
 }
 
 GoldenFroth::GoldenFroth()
@@ -799,9 +896,9 @@ void GoldenFroth::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectAllyRow(ally, this);
 }
 
-RowEffect GoldenFroth::rowEffect() const
+void GoldenFroth::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return GoldenFrothEffect;
+    applyRowEffect(ally, enemy, row, GoldenFrothEffect);
 }
 
 SkelligeStorm::SkelligeStorm()
@@ -820,9 +917,9 @@ void SkelligeStorm::onPlaySpecial(Field &ally, Field &)
     startChoiceToSelectEnemyRow(ally, this);
 }
 
-RowEffect SkelligeStorm::rowEffect() const
+void SkelligeStorm::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return SkelligeStormEffect;
+    applyRowEffect(ally, enemy, row, SkelligeStormEffect);
 }
 
 ImperialManticore::ImperialManticore()
@@ -938,30 +1035,13 @@ Frightener::Frightener()
     tags = { Construct, Agent };
 }
 
-bool Frightener::isOnAnotherRow(Card *self, Card *card, const Field &field)
-{
-    Row rowSelf;
-    Pos _;
-    if (!rowAndPos(self, field, rowSelf, _))
-        return false;
-    Row rowCard;
-    Pos __;
-    if (!rowAndPos(card, field, rowCard, __))
-        return false;
-    return rowSelf != rowCard;
-}
-
 void Frightener::onDeploy(Field &ally, Field &enemy)
 {
     if (timer--)
         drawACard(ally, enemy);
 
     /// can't move another to this row, if its already full
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, enemy, row, pos) || isRowFull(enemy.row(row)))
-        return;
-    startChoiceToTargetCard(ally, enemy, this, {std::bind(isOnAnotherRow, std::placeholders::_1, this, enemy)}, Enemy);
+    startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, Enemy);
 }
 
 void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1387,6 +1467,11 @@ GeraltIgni::GeraltIgni(const Lang lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
+}
+
+void GeraltIgni::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectEnemyRow(ally, this);
 }
 
 Priscilla::Priscilla()
@@ -2051,9 +2136,9 @@ void Moonlight::onTargetChoosen(Card *target, Field &ally, Field &)
     delete target;
 }
 
-RowEffect Moonlight::rowEffect() const
+void Moonlight::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    return _isFullMoon ? FullMoonEffect : BloodMoonEffect;
+    applyRowEffect(ally, enemy, row, _isFullMoon ? FullMoonEffect : BloodMoonEffect);
 }
 
 CiriNova::CiriNova()
@@ -2690,5 +2775,56 @@ void Regis::onDeploy(Field &ally, Field &enemy)
 void Regis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int x = target->power - target->powerBase;
-    drain(this, target, x, ally, enemy);
+    drain(target, x, ally, enemy, this);
+}
+
+LethoOfGulet::LethoOfGulet()
+{
+    name = "Letho of Gulet";
+    text = "Spying. Apply Lock status to 2 units on this row, then Drain all their power.";
+    url = "https://gwent.one/image/card/low/cid/png/162101.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00593857.mp3",
+    };
+    isLoyal = false;
+    power = powerBase = 1;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Witcher };
+}
+
+void LethoOfGulet::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, Enemy, 2);
+}
+
+void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    target->isLocked = true;
+    drain(target, target->power, ally, enemy, this);
+}
+
+AnCraiteLongship::AnCraiteLongship()
+{
+    name = "An Craite Longship";
+    text = "Deal 2 damage to a random enemy. Repeat this ability whenever you Discard a card.";
+    url = "https://gwent.one/image/card/low/cid/png/152314.png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanAnCraite, Machine };
+}
+
+void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {}, Enemy)))
+        damage(card, 2, ally, enemy);
+}
+
+void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
+{
+    AnCraiteLongship::onDeploy(ally, enemy);
 }

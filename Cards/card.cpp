@@ -536,12 +536,12 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
 
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
 {
-    const Choice Choice = ally.takeChoice();
-    if (Choice.choiceType == SelectAllyRow)
-        return applyRowEffect(ally, enemy, row, Choice.cardSource->rowEffect());
+    const Choice choice = ally.takeChoice();
+    if (choice.choiceType == SelectAllyRow)
+        return choice.cardSource->onTargetRowChoosen(ally, enemy, row);
 
-    if (Choice.choiceType == SelectEnemyRow)
-        return applyRowEffect(enemy, ally, row, Choice.cardSource->rowEffect());
+    if (choice.choiceType == SelectEnemyRow)
+        return choice.cardSource->onTargetRowChoosen(enemy, ally, row);
 
     assert(false);
 }
@@ -908,7 +908,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     return true;
 }
 
-void drain(Card *self, Card *target, const int x, Field &ally, Field &enemy)
+void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
 {
     assert(x > 0);
     assert(!target->isSpecial);

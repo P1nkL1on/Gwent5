@@ -31,8 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 //        new Reconnaissance, new Thunderbolt, new Thunderbolt,
 
         /// other
-        new TemerianDrummer, new PoorFingInfantry, new Regis,
-        new Regis, new Regis, new Thunderbolt, new Thunderbolt,
+        new BitingFrost, new TorrentialRain, new ImpenetrableFog,
+        new SkelligeStorm, new GoldenFroth, new Moonlight, new Moonlight, new Moonlight,
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     const std::vector<Card *> deckStarting2 = {
         /// dicards
+        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
         new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
         new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
         new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
