@@ -1,6 +1,6 @@
-QT       += core gui widgets opengl network
+QT       += core gui widgets opengl multimedia network
 
-TARGET = Cleint
+TARGET = Client
 TEMPLATE = app
 
 include($$PWD/../Cards/Cards.pri)

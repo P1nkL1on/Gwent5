@@ -4,10 +4,14 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QSet>
+#include <QMediaPlayer>
+#include <QVariantAnimation>
+#include <QMetaEnum>
 
 #include "../Cards/archieve.h"
+#include "../Cards/view.h"
 
-struct View
+struct Layout
 {
     int spacingPx = 30;
     int borderCardPx = 1;
@@ -29,18 +33,28 @@ private slots:
     void onImageRequestFinished(QNetworkReply *reply);
 
 private:
+    void requestImageByUrl(const std::string &url);
+    void requestSoundByUrl(const std::string &url);
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
-    void requestImageByUrl(const std::string &url);
+    void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
+    void paintInRect(const QRect rect, const FieldView &view);
+    void repaintCustom();
 
-    View _view;
+    Layout _layout;
+    int _sound = 20;
 
+    enum View { ViewStack, ViewHand, ViewDiscard, ViewDeck, View_count };
+    View _view = ViewStack;
+    QPoint _pos;
     Field _ally ;
     Field _enemy;
+    FieldView _snapshot;
 
     QNetworkAccessManager *_networkAccessManager = nullptr;
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
+    QMap<QString, QMediaPlayer *> _sounds;
 };
 
 #endif // MAINWINDOW_H
