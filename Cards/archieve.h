@@ -758,7 +758,7 @@ struct ArtefactCompression : CardCollectable<ArtefactCompression>
 
 struct HjalmarAnCraite : CardCollectable<HjalmarAnCraite>
 {
-    struct  LordOfUndvik : CardCollectable<LordOfUndvik>
+    struct LordOfUndvik : CardCollectable<LordOfUndvik>
     {
         LordOfUndvik();
         void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
@@ -846,5 +846,14 @@ struct Operator : CardCollectable<Operator>
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
+
+
+struct Renew : CardCollectable<Renew>
+{
+    Renew();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
 
 #endif // CARDS_H

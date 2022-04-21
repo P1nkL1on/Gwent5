@@ -1,6 +1,8 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include <random>
+
 #include "iterator.h"
 #include "view.h"
 
@@ -35,7 +37,7 @@ struct Card
     std::string text;
     std::string url;
     std::vector<std::string> sounds;
-    Patch _patch = PublicBeta_0_9_24_3_432;
+    Patch patch = PublicBeta_0_9_24_3_432;
 
     /// temporary created options
     std::vector<Card *> _options;
@@ -77,13 +79,13 @@ struct CardCollectable : Card
     static Card *create(const Patch patch)
     {
         Card *base = new Card;
-        base->_patch = patch;
+        base->patch = patch;
         T *res = new(base) T();
         return res;
     }
     Card *defaultCopy() override
     {
-        return CardCollectable<T>::create(_patch);
+        return CardCollectable<T>::create(patch);
     }
 };
 
@@ -107,6 +109,8 @@ struct Choice
 };
 
 
+using Rng = std::default_random_engine;
+
 struct Field
 {
     std::vector<Card *> rowMeele;
@@ -127,6 +131,9 @@ struct Field
     int nWins = 0;
     int nSwaps = 0;
     bool passed = false;
+
+    Rng rng;
+
     std::vector<FieldView> snapshots;
 
     const Choice &choice() const;
@@ -148,26 +155,26 @@ bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 std::vector<Card *> highests(const std::vector<Card *> &row);
-Card *highest(const std::vector<Card *> &row);
+Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
-Card *lowest(const std::vector<Card *> &row);
+Card *lowest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bool *isAlly = nullptr);
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Field &field);
 void startNextRound(Field &ally, Field &enemy);
-void shuffle(std::vector<Card *> &cards);
-std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms);
-Card *random(const std::vector<Card *> &cards);
+void shuffle(std::vector<Card *> &cards, Rng &rng);
+std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng);
+Card *random(const std::vector<Card *> &cards, Rng &rng);
 void copyCardText(const Card *card, Card *dst);
 void acceptOptionAndDeleteOthers(Card *card, const Card *option);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
-std::string randomSound(const Card *card);
-RowEffect randomHazardEffect();
+std::string randomSound(const Card *card, Rng &rng);
+RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
-bool randomRowAndPos(const Field &field, Row &row, Pos &pos);
+bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
 /// find a place of a card in the field. returns false if non found
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
@@ -209,7 +216,7 @@ void traceField(Field &field);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 
-std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group);
+std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities

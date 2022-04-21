@@ -1299,7 +1299,7 @@ Reconnaissance::Reconnaissance()
 
 void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng), 1, true));
 }
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1320,7 +1320,7 @@ ElvenMercenary::ElvenMercenary()
 
 void ElvenMercenary::onDeploy(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng), 1, true));
 }
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1415,7 +1415,7 @@ Priscilla::Priscilla()
 
 void Priscilla::onDeploy(Field &ally, Field &enemy)
 {
-    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5))
+    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
         boost(card, 3, ally, enemy);
 }
 
@@ -1567,7 +1567,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard))) {
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
 //                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy);
                 }
@@ -1656,7 +1656,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
-            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
                 charm(card, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
@@ -1664,9 +1664,9 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         }
 
         if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-            applyRowEffect(enemy, ally, Meele, randomHazardEffect());
-            applyRowEffect(enemy, ally, Range, randomHazardEffect());
-            applyRowEffect(enemy, ally, Seige, randomHazardEffect());
+            applyRowEffect(enemy, ally, Meele, randomHazardEffect(ally.rng));
+            applyRowEffect(enemy, ally, Range, randomHazardEffect(ally.rng));
+            applyRowEffect(enemy, ally, Seige, randomHazardEffect(ally.rng));
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -1989,7 +1989,7 @@ void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
      }
 
      if (dynamic_cast<FirstLight::Play *>(target)) {
-         if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck)))
+         if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
              playCard(card, ally, enemy);
          delete target;
          return;
@@ -2134,7 +2134,7 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
     if (!rowAndPos(this, ally, row, pos))
         return;
     for (int n = 0; n < 9; ++n)
-        if (Card *card = random(enemy.row(row))) {
+        if (Card *card = random(enemy.row(row), ally.rng)) {
 //            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
             damage(card, 1, ally, enemy);
         }
@@ -2159,7 +2159,7 @@ Emissary::Emissary()
 
 void Emissary::onDeploy(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2), 1, true));
+    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng), 1, true));
 }
 
 void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2764,7 +2764,7 @@ AnCraiteLongship::AnCraiteLongship()
 
 void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
 {
-    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard)))
+    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
         damage(card, 2, ally, enemy);
 }
 
@@ -2840,7 +2840,7 @@ void Udalryk::onDeploy(Field &ally, Field &enemy)
         return;
 
     timer--;
-    ally.cardStack.push_back(Choice(Target, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2)));
+    ally.cardStack.push_back(Choice(Target, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng)));
 }
 
 void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2961,4 +2961,25 @@ void ZoriaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     acceptOptionAndDeleteOthers(this, target);
     spawn(target, ally, enemy);
+}
+
+Renew::Renew()
+{
+    name = "Renew";
+    text = "Resurrect a non-Leader Gold unit.";
+    url = "https://gwent.one/image/card/low/cid/png/113316.png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Spell };
+}
+
+void Renew::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isGold, isNonLeader}, AllyDiscard);
+}
+
+void Renew::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
 }

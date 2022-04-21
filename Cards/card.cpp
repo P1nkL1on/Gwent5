@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
-#include <random>
 #include <map>
 
 #include "archieve.h"
@@ -93,21 +92,21 @@ void triggerRowEffects(Field &ally, Field &enemy)
         const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
         switch (effect) {
         case TorrentialRainEffect:
-            for (Card *card : randoms(rowFiltered, 2))
+            for (Card *card : randoms(rowFiltered, 2, ally.rng))
                 damage(card, 1, ally, enemy);
             break;
         case BitingFrostEffect:
         case KorathiHeatwaveEffect:
-            if (Card *target = lowest(rowFiltered))
+            if (Card *target = lowest(rowFiltered, ally.rng))
                 damage(target, 2, ally, enemy);
             break;
         case RaghNarRoogEffect:
         case ImpenetrableFogEffect:
-            if (Card *target = highest(rowFiltered))
+            if (Card *target = highest(rowFiltered, ally.rng))
                 damage(target, 2, ally, enemy);
             break;
         case GoldenFrothEffect:
-            for (Card *target : randoms(rowFiltered, 2))
+            for (Card *target : randoms(rowFiltered, 2, ally.rng))
                 boost(target, 1, ally, enemy);
             break;
         case SkelligeStormEffect: {
@@ -124,7 +123,7 @@ void triggerRowEffects(Field &ally, Field &enemy)
         }
         case FullMoonEffect: {
             const std::vector<Card *> beastOrVampire = _filtered({[](Card *card){ return !card->isAmbush && (hasTag(card, Beast) || hasTag(card, Vampire)); }}, row);
-            if (Card *target = random(beastOrVampire))
+            if (Card *target = random(beastOrVampire, ally.rng))
                 boost(target, 2, ally, enemy);
             break;
         }
@@ -161,7 +160,7 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
     field.nTurns = 0;
 
     /// shuffle a deck
-    shuffle(field.deck);
+    shuffle(field.deck, field.rng);
 }
 
 void startNextRound(Field &ally, Field &enemy)
@@ -255,15 +254,12 @@ void startNextRound(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, ally.nSwaps, true));
 }
 
-std::default_random_engine _rng;
-
-void shuffle(std::vector<Card *> &cards)
+void shuffle(std::vector<Card *> &cards, Rng &rng)
 {
-    // TODO: random must be used
-    std::shuffle(std::begin(cards), std::end(cards), _rng);
+    std::shuffle(std::begin(cards), std::end(cards), rng);
 }
 
-std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms)
+std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng)
 {
     std::vector<Card *> res;
 
@@ -271,7 +267,7 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
     for (int n = 0; n < nRandoms; ++n) {
         if (tmp.size() == 0)
             break;
-        const auto ind = _rng() % tmp.size();
+        const auto ind = rng() % tmp.size();
         res.push_back(tmp[ind]);
         tmp.erase(tmp.begin() + int(ind));
     }
@@ -279,15 +275,15 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
     return res;
 }
 
-Card *random(const std::vector<Card *> &cards)
+Card *random(const std::vector<Card *> &cards, Rng &rng)
 {
-    const std::vector<Card *> _cards = randoms(cards, 1);
+    const std::vector<Card *> _cards = randoms(cards, 1, rng);
     return _cards.size() == 0 ? nullptr : _cards[0];
 }
 
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
-    saveFieldsSnapshot(ally, enemy, randomSound(card));
+    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
 
     card->onPlaySpecial(ally, enemy);
 
@@ -339,7 +335,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    saveFieldsSnapshot(ally, enemy, randomSound(card));
+    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
 
     if (card->isLoyal) {
         if (takenFrom == Deck)
@@ -441,7 +437,7 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
 
     assert(nWindow > 1);
     std::vector<Card *> optionsShuffled = options;
-    shuffle(optionsShuffled);
+    shuffle(optionsShuffled, ally.rng);
 
     /// remove last nTargets - nWindow
     for (int i = nWindow; i < nOptions; ++i)
@@ -459,8 +455,8 @@ void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, c
     assert(self != nullptr);
     assert(self->_options.size() == 0);
 
-    std::vector<Card *> options = _filtered(filters, allCards(self->_patch));
-    shuffle(options);
+    std::vector<Card *> options = _filtered(filters, allCards(self->patch));
+    shuffle(options, ally.rng);
 
     for (size_t i = 3; i < options.size(); ++i)
         delete options.at(size_t(i));
@@ -664,9 +660,9 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
     return nullptr;
 }
 
-std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group)
+std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group)
 {
-    const std::vector<Card *> cards = [ally, enemy, group]{
+    const std::vector<Card *> cards = [&]{
         if (group == AllyBoard)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
 
@@ -687,7 +683,7 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
 
         if (group == AllyDeckShuffled) {
             std::vector<Card *> deck = ally.deck;
-            shuffle(deck);
+            shuffle(deck, ally.rng);
             return deck;
         }
 
@@ -715,14 +711,13 @@ std::vector<Card *> highests(const std::vector<Card *> &row)
     return res;
 }
 
-Card *highest(const std::vector<Card *> &row)
+Card *highest(const std::vector<Card *> &row, Rng &rng)
 {
     std::vector<Card *> res = highests(row);
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[rng() % res.size()];
 }
 
 std::vector<Card *> lowests(const std::vector<Card *> &row)
@@ -739,14 +734,13 @@ std::vector<Card *> lowests(const std::vector<Card *> &row)
     return res;
 }
 
-Card *lowest(const std::vector<Card *> &row)
+Card *lowest(const std::vector<Card *> &row, Rng &rng)
 {
     std::vector<Card *> res = lowests(row);
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[rng() % res.size()];
 }
 
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
@@ -765,8 +759,7 @@ Card *findCopy(const Card *card, const std::vector<Card *> &cards)
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[0];
 }
 
 const Choice &Field::choice() const
@@ -860,8 +853,7 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(from == Hand);
 
     /// move to any place in the deck, but not first
-    // TODO: use random
-    const int ind = 1 + _rng() % ally.deck.size();
+    const int ind = 1 + int(ally.rng() % ally.deck.size());
     ally.deck.insert(ally.deck.begin() + ind, card);
     card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
@@ -1082,7 +1074,6 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
     return res;
 }
 
-// TODO: is only 1 player
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
     if (ally.cardStack.size() > 0)
@@ -1214,20 +1205,18 @@ void acceptOptionAndDeleteOthers(Card *card, const Card *option)
     card->_options.clear();
 }
 
-std::string randomSound(const Card *card)
+std::string randomSound(const Card *card, Rng &rng)
 {
     if (card->sounds.size() == 0)
         return std::string();
 
-    // TODO: random
-    const size_t ind = _rng() % card->sounds.size();
+    const size_t ind = rng() % card->sounds.size();
     return card->sounds[ind];
 }
 
-RowEffect randomHazardEffect()
+RowEffect randomHazardEffect(Rng &rng)
 {
-    // TODO: random
-    return RowEffect(_rng() % 9 + 1);
+    return RowEffect(rng() % 9 + 1);
 }
 
 bool hasNoDuplicates(const std::vector<Card *> &cards)
@@ -1296,9 +1285,8 @@ void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound)
     enemy.snapshots.push_back(viewEnemy);
 }
 
-bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
+bool randomRowAndPos(Field &field, Row &row, Pos &pos)
 {
-    // TODO: random
     std::vector<Row> hasFreeSpace;
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         if (isRowFull(field.row(_row)))
@@ -1308,7 +1296,7 @@ bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
     if (hasFreeSpace.size() == 0)
         return false;
 
-    row = hasFreeSpace[_rng() % hasFreeSpace.size()];
+    row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
     pos = Pos(field.row(row).size());
     return true;
 }
