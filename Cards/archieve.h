@@ -5,10 +5,10 @@
 
 
 /// returns all cards in games (no tokens included)
-std::vector<Card *> allCards();
+std::vector<Card *> allCards(const Patch);
 
 
-struct AddaStriga : Card
+struct AddaStriga : CardCollectable<AddaStriga>
 {
     AddaStriga();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -16,9 +16,9 @@ struct AddaStriga : Card
 };
 
 
-struct Dao : Card
+struct Dao : CardCollectable<Dao>
 {
-    struct DaoLesser : Card
+    struct DaoLesser : CardCollectable<DaoLesser>
     {
         DaoLesser();
     };
@@ -27,14 +27,14 @@ struct Dao : Card
 };
 
 
-struct PoorFingInfantry : Card
+struct PoorFingInfantry : CardCollectable<PoorFingInfantry>
 {
-    struct LeftFlankInfantry : Card
+    struct LeftFlankInfantry : CardCollectable<LeftFlankInfantry>
     {
         LeftFlankInfantry();
 
     };
-    struct RightFlankInfantry : Card
+    struct RightFlankInfantry : CardCollectable<RightFlankInfantry>
     {
         RightFlankInfantry();
     };
@@ -43,7 +43,7 @@ struct PoorFingInfantry : Card
 };
 
 
-struct DeithwenArbalest : Card
+struct DeithwenArbalest : CardCollectable<DeithwenArbalest>
 {
     DeithwenArbalest();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -51,7 +51,7 @@ struct DeithwenArbalest : Card
 };
 
 
-struct TemerianDrummer : Card
+struct TemerianDrummer : CardCollectable<TemerianDrummer>
 {
     TemerianDrummer();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -59,7 +59,7 @@ struct TemerianDrummer : Card
 };
 
 
-struct DandelionPoet : Card
+struct DandelionPoet : CardCollectable<DandelionPoet>
 {
     DandelionPoet();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -67,7 +67,7 @@ struct DandelionPoet : Card
 };
 
 
-struct SileDeTansarville : Card
+struct SileDeTansarville : CardCollectable<SileDeTansarville>
 {
     SileDeTansarville();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -75,7 +75,7 @@ struct SileDeTansarville : Card
 };
 
 
-struct RedanianKnightElect : Card
+struct RedanianKnightElect : CardCollectable<RedanianKnightElect>
 {
     RedanianKnightElect();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -83,7 +83,7 @@ struct RedanianKnightElect : Card
 };
 
 
-struct KaedweniKnight : Card
+struct KaedweniKnight : CardCollectable<KaedweniKnight>
 {
     KaedweniKnight();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -91,13 +91,13 @@ struct KaedweniKnight : Card
 };
 
 
-struct AnCraiteMarauder : Card
+struct AnCraiteMarauder : CardCollectable<AnCraiteMarauder>
 {
     AnCraiteMarauder();
 };
 
 
-struct AnCraiteGreatsword : Card
+struct AnCraiteGreatsword : CardCollectable<AnCraiteGreatsword>
 {
     AnCraiteGreatsword();
     void onDeploy(Field &, Field &) override;
@@ -105,33 +105,33 @@ struct AnCraiteGreatsword : Card
 };
 
 
-struct DimunDracar : Card
+struct DimunDracar : CardCollectable<DimunDracar>
 {
     DimunDracar();
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
 
-struct Bear : Card
+struct Bear : CardCollectable<Bear>
 {
     Bear();
 };
 
 
-struct Wolf : Card
+struct Wolf : CardCollectable<Wolf>
 {
     Wolf();
 };
 
 
-struct TuirseachBearmaster : Card
+struct TuirseachBearmaster : CardCollectable<TuirseachBearmaster>
 {
     TuirseachBearmaster();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct TuirseachHunter : Card
+struct TuirseachHunter : CardCollectable<TuirseachHunter>
 {
     TuirseachHunter();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -139,7 +139,7 @@ struct TuirseachHunter : Card
 };
 
 
-struct RedanianElite : Card
+struct RedanianElite : CardCollectable<RedanianElite>
 {
     RedanianElite();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -147,14 +147,14 @@ struct RedanianElite : Card
 };
 
 
-struct RedanianKnight : Card
+struct RedanianKnight : CardCollectable<RedanianKnight>
 {
     RedanianKnight();
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
 
-struct KaedweniCavalry : Card
+struct KaedweniCavalry : CardCollectable<KaedweniCavalry>
 {
     KaedweniCavalry();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -162,7 +162,7 @@ struct KaedweniCavalry : Card
 };
 
 
-struct AlzursThunder : Card
+struct AlzursThunder : CardCollectable<AlzursThunder>
 {
     AlzursThunder();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -170,7 +170,7 @@ struct AlzursThunder : Card
 };
 
 
-struct Swallow : Card
+struct Swallow : CardCollectable<Swallow>
 {
     Swallow();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -178,7 +178,7 @@ struct Swallow : Card
 };
 
 
-struct Thunderbolt : Card
+struct Thunderbolt : CardCollectable<Thunderbolt>
 {
     Thunderbolt();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -186,7 +186,7 @@ struct Thunderbolt : Card
 };
 
 
-struct ArachasVenom : Card
+struct ArachasVenom : CardCollectable<ArachasVenom>
 {
     ArachasVenom();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -194,7 +194,7 @@ struct ArachasVenom : Card
 };
 
 
-struct KeiraMetz : Card
+struct KeiraMetz : CardCollectable<KeiraMetz>
 {
     KeiraMetz();
     void onDeploy(Field &ally, Field &/*enemy*/) override;
@@ -202,7 +202,7 @@ struct KeiraMetz : Card
 };
 
 
-struct DolBlathannaArcher : Card
+struct DolBlathannaArcher : CardCollectable<DolBlathannaArcher>
 {
     DolBlathannaArcher();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -212,7 +212,7 @@ private:
 };
 
 
-struct HalfElfHunter : Card
+struct HalfElfHunter : CardCollectable<HalfElfHunter>
 {
     HalfElfHunter();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -221,7 +221,7 @@ private:
 };
 
 
-struct Ambassador : Card
+struct Ambassador : CardCollectable<Ambassador>
 {
     Ambassador();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -229,14 +229,14 @@ struct Ambassador : Card
 };
 
 
-struct Assassin : Card
+struct Assassin : CardCollectable<Assassin>
 {
     Assassin();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct Emissary : Card
+struct Emissary : CardCollectable<Emissary>
 {
     Emissary();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -244,7 +244,7 @@ struct Emissary : Card
 };
 
 
-struct CeallachDyffryn : Card
+struct CeallachDyffryn : CardCollectable<CeallachDyffryn>
 {
     CeallachDyffryn();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -252,7 +252,7 @@ struct CeallachDyffryn : Card
 };
 
 
-struct TuirseachArcher : Card
+struct TuirseachArcher : CardCollectable<TuirseachArcher>
 {
     TuirseachArcher();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -260,7 +260,7 @@ struct TuirseachArcher : Card
 };
 
 
-struct Infiltrator : Card
+struct Infiltrator : CardCollectable<Infiltrator>
 {
     Infiltrator();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -268,7 +268,7 @@ struct Infiltrator : Card
 };
 
 
-struct ImpenetrableFog : Card
+struct ImpenetrableFog : CardCollectable<ImpenetrableFog>
 {
     ImpenetrableFog();
     void onPlaySpecial(Field &ally, Field &) override;
@@ -276,7 +276,7 @@ struct ImpenetrableFog : Card
 };
 
 
-struct TorrentialRain : Card
+struct TorrentialRain : CardCollectable<TorrentialRain>
 {
     TorrentialRain();
     void onPlaySpecial(Field &ally, Field &) override;
@@ -284,7 +284,7 @@ struct TorrentialRain : Card
 };
 
 
-struct BitingFrost : Card
+struct BitingFrost : CardCollectable<BitingFrost>
 {
     BitingFrost();
     void onPlaySpecial(Field &ally, Field &) override;
@@ -292,7 +292,7 @@ struct BitingFrost : Card
 };
 
 
-struct GoldenFroth : Card
+struct GoldenFroth : CardCollectable<GoldenFroth>
 {
     GoldenFroth();
     void onPlaySpecial(Field &ally, Field &) override;
@@ -300,7 +300,7 @@ struct GoldenFroth : Card
 };
 
 
-struct SkelligeStorm : Card
+struct SkelligeStorm : CardCollectable<SkelligeStorm>
 {
     SkelligeStorm();
     void onPlaySpecial(Field &ally, Field &) override;
@@ -308,13 +308,13 @@ struct SkelligeStorm : Card
 };
 
 
-struct ImperialManticore : Card
+struct ImperialManticore : CardCollectable<ImperialManticore>
 {
     ImperialManticore();
 };
 
 
-struct ManticoreVenom : Card
+struct ManticoreVenom : CardCollectable<ManticoreVenom>
 {
     ManticoreVenom();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -322,14 +322,14 @@ struct ManticoreVenom : Card
 };
 
 
-struct GloriousHunt : Card
+struct GloriousHunt : CardCollectable<GloriousHunt>
 {
     GloriousHunt();
     void onPlaySpecial(Field &ally, Field &enemy) override;
 };
 
 
-struct Ves : Card
+struct Ves : CardCollectable<Ves>
 {
     Ves();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -337,7 +337,7 @@ struct Ves : Card
 };
 
 
-struct Vaedermakar : Card
+struct Vaedermakar : CardCollectable<Vaedermakar>
 {
     Vaedermakar();
     void onDeploy(Field &ally, Field &) override;
@@ -345,7 +345,7 @@ struct Vaedermakar : Card
 };
 
 
-struct Frightener : Card
+struct Frightener : CardCollectable<Frightener>
 {
     Frightener();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -353,7 +353,7 @@ struct Frightener : Card
 };
 
 
-struct Cleaver : Card
+struct Cleaver : CardCollectable<Cleaver>
 {
     Cleaver();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -361,14 +361,14 @@ struct Cleaver : Card
 };
 
 
-struct Scorch : Card
+struct Scorch : CardCollectable<Scorch>
 {
     Scorch();
     void onPlaySpecial(Field &ally, Field &enemy) override;
 };
 
 
-struct Reinforcements : Card
+struct Reinforcements : CardCollectable<Reinforcements>
 {
     Reinforcements();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -376,7 +376,7 @@ struct Reinforcements : Card
 };
 
 
-struct JohnNatalis : Card
+struct JohnNatalis : CardCollectable<JohnNatalis>
 {
     JohnNatalis();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -384,7 +384,7 @@ struct JohnNatalis : Card
 };
 
 
-struct Eleyas : Card
+struct Eleyas : CardCollectable<Eleyas>
 {
     Eleyas();
     void onDraw(Field &ally, Field &enemy) override;
@@ -392,7 +392,7 @@ struct Eleyas : Card
 };
 
 
-struct ReaverScout : Card
+struct ReaverScout : CardCollectable<ReaverScout>
 {
     ReaverScout();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -400,7 +400,7 @@ struct ReaverScout : Card
 };
 
 
-struct HeymaeySpearmaiden : Card
+struct HeymaeySpearmaiden : CardCollectable<HeymaeySpearmaiden>
 {
     HeymaeySpearmaiden();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -408,7 +408,7 @@ struct HeymaeySpearmaiden : Card
 };
 
 
-struct VriheddSappers : Card
+struct VriheddSappers : CardCollectable<VriheddSappers>
 {
     VriheddSappers();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -416,7 +416,7 @@ struct VriheddSappers : Card
 };
 
 
-struct PriestessOfFreya : Card
+struct PriestessOfFreya : CardCollectable<PriestessOfFreya>
 {
     PriestessOfFreya();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -424,7 +424,7 @@ struct PriestessOfFreya : Card
 };
 
 
-struct DimunCorsair : Card
+struct DimunCorsair : CardCollectable<DimunCorsair>
 {
     DimunCorsair();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -432,7 +432,7 @@ struct DimunCorsair : Card
 };
 
 
-struct Sigrdrifa : Card
+struct Sigrdrifa : CardCollectable<Sigrdrifa>
 {
     Sigrdrifa();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -440,14 +440,14 @@ struct Sigrdrifa : Card
 };
 
 
-struct DrummondQueensguard : Card
+struct DrummondQueensguard : CardCollectable<DrummondQueensguard>
 {
     DrummondQueensguard();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct Sage : Card
+struct Sage : CardCollectable<Sage>
 {
     Sage();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -455,7 +455,7 @@ struct Sage : Card
 };
 
 
-struct Reconnaissance : Card
+struct Reconnaissance : CardCollectable<Reconnaissance>
 {
     Reconnaissance();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -463,7 +463,7 @@ struct Reconnaissance : Card
 };
 
 
-struct ElvenMercenary : Card
+struct ElvenMercenary : CardCollectable<ElvenMercenary>
 {
     ElvenMercenary();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -471,7 +471,7 @@ struct ElvenMercenary : Card
 };
 
 
-struct ChampionOfHov : Card
+struct ChampionOfHov : CardCollectable<ChampionOfHov>
 {
     ChampionOfHov();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -479,14 +479,14 @@ struct ChampionOfHov : Card
 };
 
 
-struct Priscilla : Card
+struct Priscilla : CardCollectable<Priscilla>
 {
     Priscilla();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct SeltkirkOfGulet : Card
+struct SeltkirkOfGulet : CardCollectable<SeltkirkOfGulet>
 {
     SeltkirkOfGulet();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -494,7 +494,7 @@ struct SeltkirkOfGulet : Card
 };
 
 
-struct AdrenalineRush : Card
+struct AdrenalineRush : CardCollectable<AdrenalineRush>
 {
     AdrenalineRush();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -502,31 +502,31 @@ struct AdrenalineRush : Card
 };
 
 
-struct Mandrake : Card
+struct Mandrake : CardCollectable<Mandrake>
 {
     Mandrake();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Buff : Card {};
-    struct Debuff : Card {};
+    struct Buff : CardCollectable<Buff> {};
+    struct Debuff : CardCollectable<Debuff> {};
     Card *_choosen = nullptr;
 };
 
 
-struct BoneTalisman : Card
+struct BoneTalisman : CardCollectable<BoneTalisman>
 {
     BoneTalisman();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Buff : Card {};
-    struct Resurrect : Card {};
+    struct Buff : CardCollectable<Buff> {};
+    struct Resurrect : CardCollectable<Resurrect> {};
     Card *_choosen = nullptr;
 };
 
 
-struct Restore : Card
+struct Restore : CardCollectable<Restore>
 {
     Restore();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -534,7 +534,7 @@ struct Restore : Card
 };
 
 
-struct Decoy : Card
+struct Decoy : CardCollectable<Decoy>
 {
     Decoy();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -542,7 +542,7 @@ struct Decoy : Card
 };
 
 
-struct ShupesDayOff : Card
+struct ShupesDayOff : CardCollectable<ShupesDayOff>
 {
     ShupesDayOff();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -550,78 +550,78 @@ struct ShupesDayOff : Card
 };
 
 
-struct ShupeKnight : Card
+struct ShupeKnight : CardCollectable<ShupeKnight>
 {
     ShupeKnight();
     static bool isFourOrLessPower(Card *card);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Destroy : Card {};
-    struct Reset : Card {};
-    struct Duel : Card {};
-    struct Strengthen : Card {};
-    struct Resilient : Card {};
+    struct Destroy : CardCollectable<Destroy> {};
+    struct Reset : CardCollectable<Reset> {};
+    struct Duel : CardCollectable<Duel> {};
+    struct Strengthen : CardCollectable<Strengthen> {};
+    struct Resilient : CardCollectable<Resilient> {};
     Card *_choosen = nullptr;
 };
 
 
-struct ShupeHunter : Card
+struct ShupeHunter : CardCollectable<ShupeHunter>
 {
     ShupeHunter();
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Play : Card {};
-    struct Shot : Card {};
-    struct Replay : Card {};
-    struct Clear : Card {};
-    struct Barrage : Card {};
+    struct Play : CardCollectable<Play> {};
+    struct Shot : CardCollectable<Shot> {};
+    struct Replay : CardCollectable<Replay> {};
+    struct Clear : CardCollectable<Clear> {};
+    struct Barrage : CardCollectable<Barrage> {};
     Card *_choosen = nullptr;
 };
 
 
-struct ShupeMage : Card
+struct ShupeMage : CardCollectable<ShupeMage>
 {
     ShupeMage();
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Draw : Card {};
-    struct Charm : Card {};
-    struct Hazards : Card {};
-    struct Meteor : Card {};
-    struct Play : Card {};
+    struct Draw : CardCollectable<Draw> {};
+    struct Charm : CardCollectable<Charm> {};
+    struct Hazards : CardCollectable<Hazards> {};
+    struct Meteor : CardCollectable<Meteor> {};
+    struct Play : CardCollectable<Play> {};
     Card *_choosen = nullptr;
 };
 
 
-struct FirstLight : Card
+struct FirstLight : CardCollectable<FirstLight>
 {
     FirstLight();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
-    struct Clear : Card {};
-    struct Play : Card {};
+    struct Clear : CardCollectable<Clear> {};
+    struct Play : CardCollectable<Play> {};
 };
 
 
-struct ClearSkies : Card
+struct ClearSkies : CardCollectable<ClearSkies>
 {
     ClearSkies();
     void onPlaySpecial(Field &ally, Field &enemy) override;
 };
 
 
-struct Epidemic : Card
+struct Epidemic : CardCollectable<Epidemic>
 {
     Epidemic();
     void onPlaySpecial(Field &ally, Field &enemy) override;
 };
 
 
-struct Moonlight : Card
+struct Moonlight : CardCollectable<Moonlight>
 {
     Moonlight();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -629,26 +629,26 @@ struct Moonlight : Card
     void onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row) override;
     void onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row) override;
 private:
-    struct FullMoon : Card {};
-    struct BloodMoon : Card {};
+    struct FullMoon : CardCollectable<FullMoon> {};
+    struct BloodMoon : CardCollectable<BloodMoon> {};
 };
 
 
-struct CiriNova : Card
+struct CiriNova : CardCollectable<CiriNova>
 {
     CiriNova();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct HaraldTheCripple : Card
+struct HaraldTheCripple : CardCollectable<HaraldTheCripple>
 {
     HaraldTheCripple();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct BranTuirseach : Card
+struct BranTuirseach : CardCollectable<BranTuirseach>
 {
     BranTuirseach();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -656,7 +656,7 @@ struct BranTuirseach : Card
 };
 
 
-struct DrummondWarmonger : Card
+struct DrummondWarmonger : CardCollectable<DrummondWarmonger>
 {
     DrummondWarmonger();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -664,21 +664,21 @@ struct DrummondWarmonger : Card
 };
 
 
-struct DimunPirate : Card
+struct DimunPirate : CardCollectable<DimunPirate>
 {
     DimunPirate();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct AnCraiteRaider : Card
+struct AnCraiteRaider : CardCollectable<AnCraiteRaider>
 {
     AnCraiteRaider();
     void onDiscard(Field &ally, Field &enemy) override;
 };
 
 
-struct MadmanLugos : Card
+struct MadmanLugos : CardCollectable<MadmanLugos>
 {
     MadmanLugos();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -688,7 +688,7 @@ private:
 };
 
 
-struct Ermion : Card
+struct Ermion : CardCollectable<Ermion>
 {
     Ermion();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -696,7 +696,7 @@ struct Ermion : Card
 };
 
 
-struct CerysFearless : Card
+struct CerysFearless : CardCollectable<CerysFearless>
 {
     CerysFearless();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -704,7 +704,7 @@ struct CerysFearless : Card
 };
 
 
-struct CerysAnCraite : Card
+struct CerysAnCraite : CardCollectable<CerysAnCraite>
 {
     CerysAnCraite();
     void onDiscard(Field &ally, Field &enemy) override;
@@ -713,34 +713,34 @@ struct CerysAnCraite : Card
 };
 
 
-struct WoodlandSpirit : Card
+struct WoodlandSpirit : CardCollectable<WoodlandSpirit>
 {
     WoodlandSpirit();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct Trollololo : Card
+struct Trollololo : CardCollectable<Trollololo>
 {
     Trollololo();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct PrinceStennis : Card
+struct PrinceStennis : CardCollectable<PrinceStennis>
 {
     PrinceStennis();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
-struct VincentMeis : Card
+struct VincentMeis : CardCollectable<VincentMeis>
 {
     VincentMeis();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct Morkvarg : Card
+struct Morkvarg : CardCollectable<Morkvarg>
 {
     Morkvarg();
     void onDiscard(Field &ally, Field &enemy) override;
@@ -748,7 +748,7 @@ struct Morkvarg : Card
 };
 
 
-struct ArtefactCompression : Card
+struct ArtefactCompression : CardCollectable<ArtefactCompression>
 {
     ArtefactCompression();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -756,9 +756,9 @@ struct ArtefactCompression : Card
 };
 
 
-struct HjalmarAnCraite : Card
+struct HjalmarAnCraite : CardCollectable<HjalmarAnCraite>
 {
-    struct  LordOfUndvik : Card
+    struct  LordOfUndvik : CardCollectable<LordOfUndvik>
     {
         LordOfUndvik();
         void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
@@ -767,7 +767,7 @@ struct HjalmarAnCraite : Card
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
-struct Regis : Card
+struct Regis : CardCollectable<Regis>
 {
     Regis();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -775,7 +775,7 @@ struct Regis : Card
 };
 
 
-struct LethoOfGulet : Card
+struct LethoOfGulet : CardCollectable<LethoOfGulet>
 {
     LethoOfGulet();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -783,7 +783,7 @@ struct LethoOfGulet : Card
 };
 
 
-struct AnCraiteLongship : Card
+struct AnCraiteLongship : CardCollectable<AnCraiteLongship>
 {
     AnCraiteLongship();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -791,7 +791,7 @@ struct AnCraiteLongship : Card
 };
 
 
-struct GeraltIgni : Card
+struct GeraltIgni : CardCollectable<GeraltIgni>
 {
     GeraltIgni(const Lang lang = En);
     void onDeploy(Field &ally, Field &enemy) override;
@@ -799,14 +799,14 @@ struct GeraltIgni : Card
 };
 
 
-struct TuirseachVeteran : Card
+struct TuirseachVeteran : CardCollectable<TuirseachVeteran>
 {
     TuirseachVeteran();
     void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
-struct Udalryk : Card
+struct Udalryk : CardCollectable<Udalryk>
 {
     Udalryk();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -816,7 +816,7 @@ private:
 };
 
 
-struct BloodcurdlingRoar : Card
+struct BloodcurdlingRoar : CardCollectable<BloodcurdlingRoar>
 {
     BloodcurdlingRoar();
     void onPlaySpecial(Field &ally, Field &enemy) override;
@@ -824,7 +824,7 @@ struct BloodcurdlingRoar : Card
 };
 
 
-struct Gremist : Card
+struct Gremist : CardCollectable<Gremist>
 {
     Gremist();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -832,7 +832,15 @@ struct Gremist : Card
 };
 
 
-struct Operator : Card
+struct ZoriaRunestone : CardCollectable<ZoriaRunestone>
+{
+    ZoriaRunestone();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct Operator : CardCollectable<Operator>
 {
     Operator();
     void onDeploy(Field &ally, Field &enemy) override;

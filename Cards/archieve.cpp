@@ -5,104 +5,10 @@
 
 #include "filters.h"
 
-std::vector<Card *> allCards()
+std::vector<Card *> allCards(const Patch)
 {
     return {
-        new AddaStriga,
-        new AdrenalineRush,
-        new AlzursThunder,
-        new Ambassador,
-        new AnCraiteGreatsword,
-        new AnCraiteLongship,
-        new AnCraiteMarauder,
-        new AnCraiteRaider,
-        new ArachasVenom,
-        new ArtefactCompression,
-        new Assassin,
-        new BitingFrost,
-        new BloodcurdlingRoar,
-        new BoneTalisman,
-        new BranTuirseach,
-        new CeallachDyffryn,
-        new CerysAnCraite,
-        new CerysFearless,
-        new ChampionOfHov,
-        new CiriNova,
-        new Cleaver,
-        new DandelionPoet,
-        new Dao,
-        new Decoy,
-        new DeithwenArbalest,
-        new DimunCorsair,
-        new DimunDracar,
-        new DimunPirate,
-        new DolBlathannaArcher,
-        new DrummondQueensguard,
-        new DrummondWarmonger,
-        new Eleyas,
-        new ElvenMercenary,
-        new Emissary,
-        new Epidemic,
-        new Ermion,
-        new FirstLight,
-        new Frightener,
-        new GeraltIgni,
-        new GloriousHunt,
-        new GoldenFroth,
-        new Gremist,
-        new HalfElfHunter,
-        new HaraldTheCripple,
-        new HeymaeySpearmaiden,
-        new HjalmarAnCraite,
-        new ImpenetrableFog,
-        new ImperialManticore,
-        new Infiltrator,
-        new JohnNatalis,
-        new KaedweniCavalry,
-        new KaedweniKnight,
-        new KeiraMetz,
-        new LethoOfGulet,
-        new MadmanLugos,
-        new Mandrake,
-        new ManticoreVenom,
-        new Moonlight,
-        new Morkvarg,
-        new PoorFingInfantry,
-        new PriestessOfFreya,
-        new PrinceStennis,
-        new Priscilla,
-        new ReaverScout,
-        new Reconnaissance,
-        new RedanianElite,
-        new RedanianKnight,
-        new RedanianKnightElect,
-        new Regis,
-        new Reinforcements,
-        new Restore,
-        new Sage,
-        new Scorch,
-        new SeltkirkOfGulet,
-        new ShupeHunter,
-        new ShupeKnight,
-        new ShupeMage,
-        new ShupesDayOff,
-        new Sigrdrifa,
-        new SileDeTansarville,
-        new SkelligeStorm,
-        new Swallow,
-        new TemerianDrummer,
-        new Thunderbolt,
-        new TorrentialRain,
-        new Trollololo,
-        new TuirseachArcher,
-        new TuirseachBearmaster,
-        new TuirseachVeteran,
-        new Vaedermakar,
-        new Ves,
-        new VincentMeis,
-        new VriheddSappers,
-        new Udalryk,
-        new WoodlandSpirit,
+        // ...
     };
 }
 
@@ -140,8 +46,8 @@ Dao::Dao()
 
 void Dao::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
 {
-    spawn(new DaoLesser, row, pos, ally, enemy);
-    spawn(new DaoLesser, row, pos, ally, enemy);
+    spawn(new DaoLesser(), row, pos, ally, enemy);
+    spawn(new DaoLesser(), row, pos, ally, enemy);
 }
 
 Dao::DaoLesser::DaoLesser()
@@ -199,8 +105,8 @@ void PoorFingInfantry::onDeploy(Field &ally, Field &enemy)
     Pos pos;
     if (!rowAndPos(this, ally, row, pos))
         return;
-    spawn(new LeftFlankInfantry, row, pos, ally, enemy);
-    spawn(new RightFlankInfantry, row, pos + 2, ally, enemy);
+    spawn(new LeftFlankInfantry(), row, pos, ally, enemy);
+    spawn(new RightFlankInfantry(), row, pos + 2, ally, enemy);
 }
 
 DeithwenArbalest::DeithwenArbalest()
@@ -466,7 +372,7 @@ TuirseachBearmaster::TuirseachBearmaster()
 
 void TuirseachBearmaster::onDeploy(Field &ally, Field &enemy)
 {
-    spawn(new Bear, ally, enemy);
+    spawn(new Bear(), ally, enemy);
 }
 
 RedanianElite::RedanianElite()
@@ -675,7 +581,7 @@ KeiraMetz::KeiraMetz()
 
 void KeiraMetz::onDeploy(Field &ally, Field &)
 {
-    startChoiceToSelectOption(ally, this, {new AlzursThunder, new Thunderbolt, new ArachasVenom});
+    startChoiceToSelectOption(ally, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
 }
 
 void KeiraMetz::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -729,7 +635,7 @@ void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
     if (!rowAndPos(this, ally, row, pos))
         return;
 
-    auto *copy = new HalfElfHunter;
+    HalfElfHunter *copy = static_cast<HalfElfHunter *>(defaultCopy());
     copy->isDoomed = true;
     copy->_maySpawnCopy = false;
 
@@ -972,9 +878,9 @@ GloriousHunt::GloriousHunt()
 void GloriousHunt::onPlaySpecial(Field &ally, Field &enemy)
 {
     if (powerField(ally) < powerField(enemy))
-        return spawn(new ImperialManticore, ally, enemy);
+        return spawn(new ImperialManticore(), ally, enemy);
 
-    return spawn(new ManticoreVenom, ally, enemy);
+    return spawn(new ManticoreVenom(), ally, enemy);
 }
 
 Ves::Ves()
@@ -1017,7 +923,7 @@ Vaedermakar::Vaedermakar()
 
 void Vaedermakar::onDeploy(Field &ally, Field &)
 {
-    startChoiceToSelectOption(ally, this, {new BitingFrost, new ImpenetrableFog, new AlzursThunder});
+    startChoiceToSelectOption(ally, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
 }
 
 void Vaedermakar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1477,7 +1383,7 @@ GeraltIgni::GeraltIgni(const Lang lang)
 
 void GeraltIgni::onDeploy(Field &ally, Field &)
 {
-    // TODO: select onlu between rows with 25 or more power
+    // TODO: select only between rows with 25 or more power
     startChoiceToSelectEnemyRow(ally, this);
 }
 
@@ -1584,7 +1490,7 @@ void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
     if (!hasNoDuplicates(ally.deckStarting))
         return;
 
-    startChoiceToSelectOption(ally, this, {new ShupeKnight, new ShupeHunter, new ShupeMage});
+    startChoiceToSelectOption(ally, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
 }
 
 void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2279,7 +2185,7 @@ CeallachDyffryn::CeallachDyffryn()
 
 void CeallachDyffryn::onDeploy(Field &ally, Field &)
 {
-    startChoiceToSelectOption(ally, this, {new Ambassador, new Assassin, new Emissary});
+    startChoiceToSelectOption(ally, this, {new Ambassador(), new Assassin(), new Emissary()});
 }
 
 void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2594,7 +2500,7 @@ void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
     applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
     for (int n = 0; n < 3; ++n)
         if (!isRowFull(ally.rowMeele))
-            spawn(new Wolf, Meele, Pos(ally.rowMeele.size()), ally, enemy);
+            spawn(new Wolf(), Meele, Pos(ally.rowMeele.size()), ally, enemy);
 }
 
 Trollololo::Trollololo()
@@ -2786,7 +2692,7 @@ void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
         return;
     if (isRowFull(enemy.row(row)))
         return;
-    spawn(new LordOfUndvik, row, Pos(enemy.row(row).size()), enemy, ally);
+    spawn(new LordOfUndvik(), row, Pos(enemy.row(row).size()), enemy, ally);
 }
 
 Regis::Regis()
@@ -2966,7 +2872,7 @@ void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
 void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     putOnDiscard(target, ally, enemy);
-    spawn(new Bear, ally, enemy);
+    spawn(new Bear(), ally, enemy);
 }
 
 Gremist::Gremist()
@@ -2988,7 +2894,7 @@ Gremist::Gremist()
 
 void Gremist::onDeploy(Field &ally, Field &)
 {
-    startChoiceToSelectOption(ally, this, {new TorrentialRain, new ClearSkies, new BloodcurdlingRoar});
+    startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
 }
 
 void Gremist::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -3026,4 +2932,33 @@ void Operator::onDeploy(Field &ally, Field &enemy)
 
 void Operator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    Card *copyAlly = target->defaultCopy();
+    ally.cardsAdded.push_back(copyAlly);
+    putToHand(copyAlly, ally, enemy);
+
+    Card *copyEnemy = target->defaultCopy();
+    enemy.cardsAdded.push_back(copyEnemy);
+    putToHand(copyEnemy, enemy, ally);
+}
+
+ZoriaRunestone::ZoriaRunestone()
+{
+    name = "Zoria Runestone";
+    text = "Create a Bronze or Silver Northern Realms card.";
+    url = "https://gwent.one/image/card/low/cid/png/201582.png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Alchemy, Item };
+}
+
+void ZoriaRunestone::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNothernRealmsFaction});
+}
+
+void ZoriaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
 }

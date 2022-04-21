@@ -127,4 +127,10 @@ enum Lang
     Ru,
 };
 
+
+enum Patch
+{
+    PublicBeta_0_9_24_3_432,
+};
+
 #endif // ENUMS_H

@@ -35,6 +35,7 @@ struct Card
     std::string text;
     std::string url;
     std::vector<std::string> sounds;
+    Patch _patch = PublicBeta_0_9_24_3_432;
 
     /// temporary created options
     std::vector<Card *> _options;
@@ -66,6 +67,24 @@ struct Card
 //    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrectededWhileOnDiscard(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual Card *defaultCopy() { return new Card; }
+};
+
+
+template <class T>
+struct CardCollectable : Card
+{
+    static Card *create(const Patch patch)
+    {
+        Card *base = new Card;
+        base->_patch = patch;
+        T *res = new(base) T();
+        return res;
+    }
+    Card *defaultCopy() override
+    {
+        return CardCollectable<T>::create(_patch);
+    }
 };
 
 
@@ -86,6 +105,7 @@ struct Choice
     int nTargets = 1;
     bool isOptional = false;
 };
+
 
 struct Field
 {
@@ -193,7 +213,8 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
 void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
-void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1);
+void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
+void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = {}, const bool isOptional = false);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);

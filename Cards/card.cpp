@@ -424,7 +424,7 @@ bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow)
+void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
 {
     assert(self != nullptr);
     assert(self->_options.size() == 0);
@@ -444,12 +444,30 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
     shuffle(optionsShuffled);
 
     /// remove last nTargets - nWindow
-    for (int i = nWindow; i < nTargets; ++i)
+    for (int i = nWindow; i < nOptions; ++i)
         delete optionsShuffled.at(size_t(i));
     optionsShuffled.resize(size_t(nWindow));
 
     self->_options = optionsShuffled;
-    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, true));
+    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, isOptional));
+}
+
+void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
+{
+    // TODO: empty allCards, so not implemented
+    assert(false);
+    assert(self != nullptr);
+    assert(self->_options.size() == 0);
+
+    std::vector<Card *> options = _filtered(filters, allCards(self->_patch));
+    shuffle(options);
+
+    for (size_t i = 3; i < options.size(); ++i)
+        delete options.at(size_t(i));
+    options.resize(3);
+
+    self->_options = options;
+    ally.cardStack.push_back(Choice(Target, self, options, 1, isOptional));
 }
 
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)

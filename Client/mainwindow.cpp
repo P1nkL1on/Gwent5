@@ -18,11 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
-
-//    AddaStriga *a = new AddaStriga;
-//    Q_ASSERT(dynamic_cast<AddaStriga *>(a));
-//    Q_ASSERT(dynamic_cast<AddaStriga *>(a->createDefaultCopy()));
-
     const std::vector<Card *> deckStarting = {
         /// armors
 //        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
@@ -35,15 +30,16 @@ MainWindow::MainWindow(QWidget *parent)
 //        new Reconnaissance, new Thunderbolt, new Thunderbolt,
 
         /// veterans
-        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
-        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
-        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
-        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-        new PriestessOfFreya, new PriestessOfFreya,
-        new Reconnaissance, new Reconnaissance,
+//        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
+//        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
+//        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+//        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
+//        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+//        new PriestessOfFreya, new PriestessOfFreya,
+//        new Reconnaissance, new Reconnaissance,
 
         /// other
+        new HalfElfHunter, new AnCraiteMarauder, new Operator, new Operator, new Decoy, new Decoy,
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
@@ -69,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
         new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
         new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
         new Reconnaissance, new Reconnaissance,
-        new BranTuirseach, new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya
+        new BranTuirseach, new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
 
         /// other
 //        new ArtefactCompression, new ArtefactCompression, new HjalmarAnCraite, new HjalmarAnCraite,
