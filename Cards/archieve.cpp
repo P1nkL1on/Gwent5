@@ -1358,24 +1358,31 @@ GeraltIgni::GeraltIgni(const Lang lang)
     name = "Geralt: Igni";
     text = "Destroy the Highest units on an enemy row if that row has a total of 25 or more.";
     url = "https://gwent.one/image/card/low/cid/png/112102.png";
-    if (lang == En) {
-        sounds = {
-            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-            "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-        };
-    } else if (lang == Ru) {
-        sounds = {
-            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01129033.mp3",
-            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.2.mp3",
-            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.1.mp3",
-            "https://gwent.one/audio/card/ob/ru/SAY.Battlecries.3.mp3",
-            "https://gwent.one/audio/card/ob/ru/GRLT_GERALT_01054169.mp3",
-        };
-    }
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
     power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+}
+
+GeraltOfRivia::GeraltOfRivia()
+{
+    name = "Geralt of Rivia";
+    url = "https://gwent.one/image/card/low/cid/png/112103.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 15;
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
@@ -2982,4 +2989,130 @@ void Renew::onPlaySpecial(Field &ally, Field &)
 void Renew::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playCard(target, ally, enemy);
+}
+
+EistTuirseach::EistTuirseach()
+{
+    name = "Eist Tuirseach";
+    text = "Spawn a Bronze Clan Tuirseach Soldier.";
+    url = "https://gwent.one/image/card/low/cid/png/201597.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.47.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.48.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.49.mp3",
+    };
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Skellige;
+    tags = { ClanTuirseach, Leader };
+}
+
+void EistTuirseach::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
+}
+
+void EistTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
+}
+
+TuirseachAxeman::TuirseachAxeman()
+{
+    name = "Tuirseach Axeman";
+    text = "Whenever an enemy on the opposite row is damaged, boost self by 1. 2 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/152312.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.807.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.808.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.809.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanTuirseach, Soldier };
+}
+
+void TuirseachAxeman::onDeploy(Field &ally, Field &enemy)
+{
+    gainArmor(this, 2, ally, enemy);
+}
+
+void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy)
+{
+    Row rowSelf;
+    Pos _;
+    if (!rowAndPos(this, ally, rowSelf, _))
+        return;
+    Row rowCard;
+    if (!rowAndPos(other, enemy, rowCard, _))
+        return;
+    if (rowSelf != rowCard)
+        return;
+    boost(this, 1, ally, enemy);
+}
+
+TuirseachSkirmisher::TuirseachSkirmisher()
+{
+    name = "Tuirseach Skirmisher";
+    text = "Whenever this unit is Resurrected, Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/152313.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00165758.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00526547.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165400.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanTuirseach, Soldier };
+}
+
+void TuirseachSkirmisher::onDeployFromDiscard(Field &ally, Field &enemy)
+{
+    strengthen(this, 3, ally, enemy);
+}
+
+Derran::Derran()
+{
+    name = "Derran";
+    text = "Whenever an enemy is damaged, boost self by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/201646.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.232.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.233.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.234.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { ClanTuirseach, Cursed };
+}
+
+void Derran::onOtherEnemyDamaged(Card *, Field &ally, Field &enemy)
+{
+    boost(this, 1, ally, enemy);
+}
+
+Roach::Roach()
+{
+    name = "Roach";
+    text = "Whenever you play a Gold unit from your hand, Summon this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/112210.png";
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Beast };
+}
+
+void Roach::onOtherAllyPlayedWhileOnDeck(Card *other, Field &ally, Field &enemy)
+{
+    if (other->rarity != Gold)
+        return;
+
+    Row row;
+    Pos pos;
+    if (randomRowAndPos(ally, row, pos))
+        putOnField(this, row, pos, ally, enemy);
 }

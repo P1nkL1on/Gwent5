@@ -338,15 +338,17 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
 
     if (card->isLoyal) {
-        if (takenFrom == Deck)
+        if (takenFrom == Deck) {
             card->onDeployFromDeck(ally, enemy);
-        else if (takenFrom == Discard) {
+        } else if (takenFrom == Discard) {
             card->onDeployFromDiscard(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
                 other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated) {
             card->onDeploy(ally, enemy);
-        else
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyDeck))
+                other->onOtherAllyPlayedWhileOnDeck(card, ally, enemy);
+        } else
             assert(false);
 
     } else {
@@ -904,11 +906,13 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     }
     card->power -= dmgInPower;
 
+    // trigger others on damaged (even if destroyed)
+    for (Card *other : cardsFiltered(ally, enemy, {}, EnemyBoard))
+        other->onOtherEnemyDamaged(card, enemy, ally);
+
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-        saveFieldsSnapshot(ally, enemy);
-//        ally.snapshots.push_back(new Animation("", Animation::DamageText, card));
-        // TODO: trigger other on damaged
+        // saveFieldsSnapshot(ally, enemy);
         return false;
     }
 

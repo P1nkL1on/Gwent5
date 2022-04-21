@@ -66,15 +66,16 @@ struct Card
 //    inline virtual void onOtherAllyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
-//    inline virtual void onOtherEnemyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherEnemyDamaged(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrectededWhileOnDiscard(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherAllyPlayedWhileOnDeck(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual Card *defaultCopy() { return new Card; }
 };
 
 
 template <class T>
-struct CardCollectable : Card
+struct CardCollectible : Card
 {
     static Card *create(const Patch patch)
     {
@@ -85,7 +86,7 @@ struct CardCollectable : Card
     }
     Card *defaultCopy() override
     {
-        return CardCollectable<T>::create(patch);
+        return CardCollectible<T>::create(patch);
     }
 };
 

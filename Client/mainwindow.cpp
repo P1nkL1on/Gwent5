@@ -19,6 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
     const std::vector<Card *> deckStarting = {
+        /// axes
+        new EistTuirseach, new Derran, new Reconnaissance,
+        new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
+        new SkelligeStorm, new Gremist, new Reconnaissance,
+        new GeraltOfRivia, new Roach,
+
         /// armors
 //        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
 //        new Reinforcements, new Ves, new SileDeTansarville,
@@ -39,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
 //        new Reconnaissance, new Reconnaissance,
 
         /// other
-        new HalfElfHunter, new AnCraiteMarauder, new Operator, new Operator, new Decoy, new Decoy,
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
