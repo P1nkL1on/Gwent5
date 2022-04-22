@@ -610,8 +610,13 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             if (!view.idAtRowAndPos(Row(j), Pos(i), &id, &n)) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
                 const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRowAndPos && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRowAndPos && j < 3)) && (i <= n);
-                painter.setPen(canBePlaced ? Qt::green : Qt::gray);
+                painter.setPen(Qt::gray);
                 painter.drawRect(rect);
+                if (canBePlaced) {
+                    painter.setPen(Qt::green);
+                    painter.drawLine(rect.topLeft(), rect.bottomRight());
+                    painter.drawLine(rect.topRight(), rect.bottomLeft());
+                }
             } else {
                 const CardView &cardView = view.cardView(id);
                 paintCard(cardView, topLeft);
@@ -661,6 +666,13 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             break;
         }
         painter.setBrush(QBrush(Qt::NoBrush));
+
+        const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRow && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRow && j < 3));
+        if (canBePlaced) {
+            painter.setPen(Qt::green);
+            painter.drawLine(rowRect.topLeft(), rowRect.bottomRight());
+            painter.drawLine(rowRect.topRight(), rowRect.bottomLeft());
+        }
     }
 
     if (_view == ViewStack) {

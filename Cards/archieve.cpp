@@ -2627,7 +2627,7 @@ ArtefactCompression::ArtefactCompression()
 {
     name = "Artefact Compression";
     text = "Transform a Bronze or Silver unit into a Jade Figurine.";
-    url = "https://gwent.one/image/gwent/assets/card/art/medium/1356.jpg";
+    url = "https://gwent.one/image/card/low/cid/png/200053.png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
