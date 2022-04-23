@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QScrollArea>
+#include <qtimer.h>
 
 #include "../Cards/archieve.h"
 
@@ -25,11 +26,24 @@ MainWindow::MainWindow(QWidget *parent)
     auto *_resourceManager = new ResourceManager();
     _cardsLineView = new CardsLineView(_resourceManager, cardViews, {});
 
+    connect(_cardsLineView, &CardsLineView::hovered, this, [](const int id) {
+        qDebug() << "hovered" << id;
+    });
+
+    QTimer *t = new QTimer;
+    t->setInterval(100);
 
     auto *_scrollArea = new QScrollArea();
     _scrollArea->setWidget(_cardsLineView);
-    _scrollArea->setWidgetResizable(false);
+    _scrollArea->setWidgetResizable(true);
     _scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setCentralWidget(_scrollArea);
+
+    show();
+//    connect(t, &QTimer::timeout, this, [=]{
+//        qDebug() << _scrollArea->rect() << _scrollArea->widget()->size() << _scrollArea->widget();
+//    });
+
+    t->start();
 }

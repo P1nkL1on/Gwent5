@@ -15,15 +15,21 @@ public:
             const ChoiceView &choice,
             QWidget *parent = nullptr);
 
+signals:
+    void hovered(const int id);
+    void clicked(const int id);
+
 private:
-    QSize sizeHint() const override;
+    bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
+    int widthByHeight(const int height) const;
 
     ResourceManager *_resourceManager = nullptr;
     std::vector<CardView> _views;
     ChoiceView _choice;
     int _spacing = 10;
-    double _aspectRation = 650.0 / 816;
+    int _id = -1;
+    double _aspectRatio = 650.0 / 816;
 };
 
 #endif // CARDSLINEVIEW_H
