@@ -37,7 +37,7 @@ void CardSingleView::paintEvent(QPaintEvent *e)
         QString("Name: %1").arg(QString::fromStdString(_view.name)),
         QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(_view.faction)))),
         QString("Tags: %1").arg(tags),
-        QString("Power = %1").arg(_view.power),
+        _view.powerBase ? QString("Power = %1").arg(_view.power) : QString("Special"),
         QString("Text: %1").arg(QString::fromStdString(_view.text)),
     };
 

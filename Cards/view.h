@@ -14,6 +14,7 @@ struct CardView
     int armor = 0;
     int rarity = 0;
     int timer = 0;
+    int count = 1;
 
     int faction = Neutral;
     std::vector<Tag> tags;
@@ -121,5 +122,6 @@ CardView cardView(const Card *card, const int id);
 FieldView fieldView(const Field &ally, const Field &enemy);
 std::string stringRarity(const Rarity rarity);
 std::string stringTag(const Tag tag);
+bool isLeader(const CardView &view);
 
 #endif // VIEW_H

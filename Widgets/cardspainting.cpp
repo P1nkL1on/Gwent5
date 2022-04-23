@@ -12,7 +12,9 @@ void paintCard(QPainter &painter, ResourceManager *resourceManager, const Layout
     if (cardView.url.size() > 0) {
         const QString url = QString::fromStdString(cardView.url);
         resourceManager->requestImageByUrl(url);
-        const QImage image = resourceManager->imageByUrl(url);
+        QImage image = resourceManager->imageByUrl(url);
+        if (cardView.count == 0)
+            image = image.convertToFormat(QImage::Format_Grayscale8);
         painter.drawImage(rectBorder, image);
     }
 
@@ -45,10 +47,15 @@ void paintCard(QPainter &painter, ResourceManager *resourceManager, const Layout
     const QPointF topLeft = rect.topLeft();
     double width = 0;
     if (cardView.power) {
-        const Qt::GlobalColor back = cardView.power > cardView.powerBase ? Qt::green : cardView.power < cardView.powerBase ? Qt::red : Qt::gray;
+        const Qt::GlobalColor back = cardView.power > cardView.powerBase ? Qt::green : cardView.power < cardView.powerBase ? Qt::red : Qt::white;
         const Qt::GlobalColor fore = cardView.power > cardView.powerBase ? Qt::darkGreen : cardView.power < cardView.powerBase ? Qt::darkRed : Qt::black;
         width += paintTextInPoint(painter, layout, QString::number(cardView.power), topLeft, back, fore);
         width += layout.borderTextPx;
+    }
+
+    if (cardView.count > 1) {
+        const QString string = QString("x%1").arg(cardView.count);
+        paintTextInPoint(painter, layout, string, rect.topRight() - QPointF(layout.metrics.width(string), 0), Qt::gray, Qt::black);
     }
 
     /// draw armor
@@ -102,11 +109,11 @@ double paintTextInPoint(QPainter &painter, const Layout &layout, const QString &
     } else {
         const double textHeight = layout.metrics.height();
         const double textWidth = layout.metrics.width(text);
-        rect = QRectF(topLeft, QSizeF(textWidth + 2 * layout.borderTextPx, textHeight));
+        rect = QRectF(topLeft, QSizeF(textWidth, textHeight));
         width = textWidth + 2 * layout.borderTextPx;
     }
     painter.fillRect(rect, colorBack);
-    painter.setPen(Qt::gray);
+    painter.setPen(Qt::black);
     painter.drawRect(rect);
     painter.setPen(colorFore);
     painter.setFont(layout.font);

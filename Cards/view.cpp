@@ -364,3 +364,11 @@ std::string stringTag(const Tag tag)
         return "Tag?";
     }
 }
+
+bool isLeader(const CardView &view)
+{
+    for (const Tag tag : view.tags)
+        if (tag == Leader)
+            return true;
+    return false;
+}

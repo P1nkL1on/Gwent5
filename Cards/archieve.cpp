@@ -2232,7 +2232,7 @@ HaraldTheCripple::HaraldTheCripple()
     };
     power = powerBase = 6;
     rarity = Gold;
-    faction = Neutral;
+    faction = Skellige;
     tags = { ClanAnCraite, Leader };
 }
 
@@ -2305,12 +2305,12 @@ void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Restore::Restore()
 {
-    name = "Moonlight";
+    name = "Restore";
     text = "Return a Bronze or Silver Skellige unit from your graveyard to your hand, add the Doomed category to it, and set its base power to 8. Then play a card.";
     url = "https://gwent.one/image/card/low/cid/png/153201.png";
     isSpecial = true;
     rarity = Silver;
-    faction = Monster;
+    faction = Skellige;
     tags = { Spell };
 }
 

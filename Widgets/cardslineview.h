@@ -28,6 +28,7 @@ signals:
 private:
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
+    void updateSize(const QSize &size);
 
     ResourceManager *_resourceManager = nullptr;
     std::vector<CardView> _views;

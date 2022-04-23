@@ -23,26 +23,16 @@ void CardsLineView::setCardAndChoiceViews(const std::vector<CardView> &views, co
     _views = views;
     _choice = choice;
 
+    updateSize(rect().size());
     update();
 }
 
 bool CardsLineView::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::Resize) {
+    if (e->type() == QEvent::Resize && _views.size()) {
         auto *er = static_cast<QResizeEvent *>(e);
-        const int nTuples = int(std::ceil(_views.size() / double(_nLines)));
-        if (_orientation == Qt::Horizontal) {
-            const double height = er->size().height();
-            const double width = _aspectRatio * height * nTuples + _spacing * (nTuples - 1);
-            setFixedWidth(int(width));
-            return true;
-        } else if (_orientation == Qt::Vertical) {
-            const double width = (er->size().width() - (_nLines - 1) * _spacing) / double(_nLines);
-            const double height = width / _aspectRatio * nTuples + _spacing * (nTuples - 1);
-            setFixedHeight(int(height));
-            return true;
-        }
-        Q_UNREACHABLE();
+        updateSize(er->size());
+        return true;
     }
 
     const bool isPress = e->type() == QEvent::MouseButtonPress;
@@ -114,6 +104,23 @@ void CardsLineView::paintEvent(QPaintEvent *e)
         }();
         paintCard(painter, _resourceManager, {}, _views[i], _choice, rectCard, false);
     }
+}
+
+void CardsLineView::updateSize(const QSize &size)
+{
+    const int nTuples = int(std::ceil(_views.size() / double(_nLines)));
+    if (_orientation == Qt::Horizontal) {
+        const double height = size.height();
+        const double width = _aspectRatio * height * nTuples + _spacing * (nTuples - 1);
+        setFixedWidth(int(width));
+        return;
+    } else if (_orientation == Qt::Vertical) {
+        const double width = (size.width() - (_nLines - 1) * _spacing) / double(_nLines);
+        const double height = width / _aspectRatio * nTuples + _spacing * (nTuples - 1);
+        setFixedHeight(int(height));
+        return;
+    }
+    Q_UNREACHABLE();
 }
 
 Qt::Orientation CardsLineView::orientation() const
