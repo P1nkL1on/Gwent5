@@ -10,10 +10,12 @@ SOURCES += \
     mainwindow.cpp \
     resourcemanager.cpp \
     cardslineview.cpp \
-    cardspainting.cpp
+    cardspainting.cpp \
+    cardsingleview.cpp
 
 HEADERS += \
     mainwindow.h \
     resourcemanager.h \
     cardslineview.h \
-    cardspainting.h
+    cardspainting.h \
+    cardsingleview.h

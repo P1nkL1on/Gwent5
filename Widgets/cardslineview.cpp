@@ -5,24 +5,44 @@
 
 #include "../Widgets/cardspainting.h"
 
-CardsLineView::CardsLineView(ResourceManager *resourceManager, const std::vector<CardView> &views, const ChoiceView &choice, QWidget *parent) :
+CardsLineView::CardsLineView(ResourceManager *resourceManager, const std::vector<CardView> &views, const ChoiceView &choice, const Qt::Orientation orientation, const int nLines, QWidget *parent) :
     QWidget(parent),
     _resourceManager(resourceManager),
     _views(views),
-    _choice(choice)
+    _choice(choice),
+    _orientation(orientation),
+    _nLines(nLines)
 {
     QObject::connect(resourceManager, &ResourceManager::imageRequestSucceed, this, static_cast<void (CardsLineView::*)()>(&CardsLineView::update));
     installEventFilter(this);
     setMouseTracking(true);
 }
 
+void CardsLineView::setCardAndChoiceViews(const std::vector<CardView> &views, const ChoiceView &choice)
+{
+    _views = views;
+    _choice = choice;
+
+    update();
+}
+
 bool CardsLineView::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::Resize) {
         auto *er = static_cast<QResizeEvent *>(e);
-        const int width = widthByHeight(er->size().height());
-        setFixedWidth(width);
-        return true;
+        const int nTuples = int(std::ceil(_views.size() / double(_nLines)));
+        if (_orientation == Qt::Horizontal) {
+            const double height = er->size().height();
+            const double width = _aspectRatio * height * nTuples + _spacing * (nTuples - 1);
+            setFixedWidth(int(width));
+            return true;
+        } else if (_orientation == Qt::Vertical) {
+            const double width = (er->size().width() - (_nLines - 1) * _spacing) / double(_nLines);
+            const double height = width / _aspectRatio * nTuples + _spacing * (nTuples - 1);
+            setFixedHeight(int(height));
+            return true;
+        }
+        Q_UNREACHABLE();
     }
 
     const bool isPress = e->type() == QEvent::MouseButtonPress;
@@ -36,20 +56,33 @@ bool CardsLineView::eventFilter(QObject *o, QEvent *e)
 
     const int id = [=]{
         for (size_t i = 0; i < _views.size(); ++i) {
-            const double height = _rect.height();
-            const double width = _aspectRatio * height;
-            const QRectF rectCard((width + _spacing) * i, 0, width, height);
-            if (rectCard.contains(pos))
-                return _views[i].id;
+            if (_orientation == Qt::Horizontal) {
+                const double height = _rect.height();
+                const double width = _aspectRatio * height;
+                const QRectF rectCard((width + _spacing) * i, 0, width, height);
+                if (rectCard.contains(pos))
+                    return _views[i].id;
+            } else if (_orientation == Qt::Vertical) {
+                const int x = int(i) % _nLines;
+                const int y = int(i) / _nLines;
+                const double width = (_rect.width() - (_nLines - 1) * _spacing) / double(_nLines);
+                const double height = width / _aspectRatio;
+                const QRectF rectCard((width + _spacing) * x, (height + _spacing) * y, width, height);
+                if (rectCard.contains(pos))
+                    return _views[i].id;
+            } else {
+                Q_UNREACHABLE();
+            }
         }
         return -1;
     }();
 
+    if (isPress)
+        emit clicked(id);
+
     if (id != _id) {
         if (isMove)
             emit hovered(id);
-        if (isPress)
-            emit clicked(id);
         _id = id;
     }
     return QWidget::eventFilter(o, e);
@@ -65,16 +98,25 @@ void CardsLineView::paintEvent(QPaintEvent *e)
         return;
 
     for (size_t i = 0; i < _views.size(); ++i) {
-        const double height = _rect.height();
-        const double width = _aspectRatio * height;
-        const QRectF rectCard((width + _spacing) * i, 0, width, height);
-        paintCard(painter, _resourceManager, {}, _views[i], _choice, rectCard);
-        paintTextInPoint(painter, {}, QString::number(rectCard.left()), rectCard.topLeft(), Qt::white, Qt::black);
+        const QRectF rectCard = [=]{
+            if (_orientation == Qt::Horizontal) {
+                const double height = _rect.height();
+                const double width = _aspectRatio * height;
+                return QRectF((width + _spacing) * i, 0, width, height);
+            } else if (_orientation == Qt::Vertical) {
+                const int x = int(i) % _nLines;
+                const int y = int(i) / _nLines;
+                const double width = (_rect.width() - (_nLines - 1) * _spacing) / double(_nLines);
+                const double height = width / _aspectRatio;
+                return QRectF((width + _spacing) * x, (height + _spacing) * y, width, height);
+            }
+            Q_UNREACHABLE();
+        }();
+        paintCard(painter, _resourceManager, {}, _views[i], _choice, rectCard, false);
     }
 }
 
-int CardsLineView::widthByHeight(const int height) const
+Qt::Orientation CardsLineView::orientation() const
 {
-    const double width = _aspectRatio * height * int(_views.size()) + _spacing * (int(_views.size()) - 1);
-    return int(width);
+    return _orientation;
 }

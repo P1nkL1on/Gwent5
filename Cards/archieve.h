@@ -105,9 +105,9 @@ struct AnCraiteGreatsword : CardCollectible<AnCraiteGreatsword>
 };
 
 
-struct DimunDracar : CardCollectible<DimunDracar>
+struct DimunLightLongship : CardCollectible<DimunLightLongship>
 {
-    DimunDracar();
+    DimunLightLongship();
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 

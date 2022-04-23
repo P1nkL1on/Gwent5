@@ -8,7 +8,108 @@
 std::vector<Card *> allCards(const Patch)
 {
     return {
-        // ...
+        new AddaStriga(),
+        new Dao(),
+        new PoorFingInfantry(),
+        new DeithwenArbalest(),
+        new TemerianDrummer(),
+        new DandelionPoet(),
+        new SileDeTansarville(),
+        new RedanianKnightElect(),
+        new KaedweniKnight(),
+        new AnCraiteMarauder(),
+        new AnCraiteGreatsword(),
+        new DimunLightLongship(),
+        new TuirseachBearmaster(),
+        new TuirseachHunter(),
+        new RedanianElite(),
+        new RedanianKnight(),
+        new KaedweniCavalry(),
+        new AlzursThunder(),
+        new Swallow(),
+        new Thunderbolt(),
+        new ArachasVenom(),
+        new KeiraMetz(),
+        new DolBlathannaArcher(),
+        new HalfElfHunter(),
+        new Ambassador(),
+        new Assassin(),
+        new Emissary(),
+        new CeallachDyffryn(),
+        new TuirseachArcher(),
+        new Infiltrator(),
+        new ImpenetrableFog(),
+        new TorrentialRain(),
+        new BitingFrost(),
+        new GoldenFroth(),
+        new SkelligeStorm(),
+        new ImperialManticore(),
+        new ManticoreVenom(),
+        new GloriousHunt(),
+        new Ves(),
+        new Vaedermakar(),
+        new Frightener(),
+        new Cleaver(),
+        new Scorch(),
+        new Reinforcements(),
+        new JohnNatalis(),
+        new Eleyas(),
+        new ReaverScout(),
+        new HeymaeySpearmaiden(),
+        new VriheddSappers(),
+        new PriestessOfFreya(),
+        new DimunCorsair(),
+        new Sigrdrifa(),
+        new DrummondQueensguard(),
+        new Sage(),
+        new Reconnaissance(),
+        new ElvenMercenary(),
+        new ChampionOfHov(),
+        new Priscilla(),
+        new SeltkirkOfGulet(),
+        new AdrenalineRush(),
+        new Mandrake(),
+        new BoneTalisman(),
+        new Restore(),
+        new Decoy(),
+        new ShupesDayOff(),
+        new FirstLight(),
+        new Epidemic(),
+        new Moonlight(),
+        new CiriNova(),
+        new HaraldTheCripple(),
+        new BranTuirseach(),
+        new DrummondWarmonger(),
+        new DimunPirate(),
+        new AnCraiteRaider(),
+        new MadmanLugos(),
+        new Ermion(),
+        new CerysFearless(),
+        new CerysAnCraite(),
+        new WoodlandSpirit(),
+        new Trollololo(),
+        new PrinceStennis(),
+        new VincentMeis(),
+        new Morkvarg(),
+        new ArtefactCompression(),
+        new HjalmarAnCraite(),
+        new Regis(),
+        new LethoOfGulet(),
+        new AnCraiteLongship(),
+        new GeraltIgni(),
+        new GeraltOfRivia(),
+        new TuirseachVeteran(),
+        new Udalryk(),
+        new BloodcurdlingRoar(),
+        new Gremist(),
+        new ZoriaRunestone(),
+        new Operator(),
+        new Renew(),
+        new EistTuirseach(),
+        new TuirseachAxeman(),
+        new Derran(),
+        new TuirseachSkirmisher(),
+        new Roach(),
     };
 }
 
@@ -308,9 +409,10 @@ void AnCraiteGreatsword::onTurnStart(Field &ally, Field &enemy)
     strengthen(this, 2, ally, enemy);
 }
 
-DimunDracar::DimunDracar()
+DimunLightLongship::DimunLightLongship()
 {
-    name = "Dimun Dracard";
+    name = "Dimun Light Longship";
+    url = "https://gwent.one/img/assets/medium/art/1263.jpg";
     text = "On turn end, damage the unit to the right by 1, then boost self by 2.";
     power = powerBase = 7;
     rarity = Bronze;
@@ -318,7 +420,7 @@ DimunDracar::DimunDracar()
     tags = { ClanDimun, Machine };
 }
 
-void DimunDracar::onTurnEnd(Field &ally, Field &enemy)
+void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
@@ -2451,7 +2553,7 @@ void CerysFearless::onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy)
 
 CerysAnCraite::CerysAnCraite()
 {
-    name = "Cerys: Fearless";
+    name = "Cerys An Craite";
     text = "When 4 units are Resurrected while this unit is in the graveyard, Resurrect it on a random row.";
     url = "https://gwent.one/image/card/low/cid/png/200177.png";
     sounds = {

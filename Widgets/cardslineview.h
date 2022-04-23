@@ -13,7 +13,13 @@ public:
             ResourceManager *resourceManager,
             const std::vector<CardView> &views,
             const ChoiceView &choice,
+            const Qt::Orientation orientation,
+            const int nLines,
             QWidget *parent = nullptr);
+    Qt::Orientation orientation() const;
+    void setCardAndChoiceViews(
+            const std::vector<CardView> &views,
+            const ChoiceView &choice);
 
 signals:
     void hovered(const int id);
@@ -22,11 +28,12 @@ signals:
 private:
     bool eventFilter(QObject*, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
-    int widthByHeight(const int height) const;
 
     ResourceManager *_resourceManager = nullptr;
     std::vector<CardView> _views;
     ChoiceView _choice;
+    Qt::Orientation _orientation = Qt::Horizontal;
+    int _nLines = 1;
     int _spacing = 10;
     int _id = -1;
     double _aspectRatio = 650.0 / 816;

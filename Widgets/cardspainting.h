@@ -11,7 +11,8 @@ struct Layout
     int borderCardPx = 1;
     int borderTextPx = 2;
     int borderNamePx = 5;
-    QFontMetricsF metrics = QFontMetricsF(QFont{});
+    QFont font = QFont("Mono", 12);
+    QFontMetricsF metrics = QFontMetricsF(font);
 };
 
 double paintTextInPoint(
@@ -21,13 +22,14 @@ double paintTextInPoint(
         const QPointF &topLeft,
         const Qt::GlobalColor colorBack = Qt::white,
         const Qt::GlobalColor colorFore = Qt::black,
-        QRectF *rectRes = nullptr);;
+        const int widthMax = -1,
+        QRectF *rectRes = nullptr);
 
 void paintTextInRect(
         QPainter &painter,
         const Layout &layout,
         const QString &text,
-        const QRectF &rect);;
+        const QRectF &rect);
 
 void paintCard(
         QPainter &painter,
@@ -35,7 +37,13 @@ void paintCard(
         const Layout &layout,
         const CardView &cardView,
         const ChoiceView &choiceView,
-        const QRectF &rect
-        );
+        const QRectF &rect,
+        const bool isStatusVisible = true);
+
+void paintCardLarge(
+        QPainter &painter,
+        ResourceManager *resourceManager,
+        const CardView &cardView,
+        const QRectF &rect);
 
 #endif // CARDSPAINTING_H
