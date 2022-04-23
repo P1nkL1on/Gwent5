@@ -33,10 +33,14 @@ FieldView fieldView(const Field &ally, const Field &enemy)
     std::map<const Card *, CardView> cardToView;
 
     int cardViewId = 0;
+    if (ally.leaderStarting != nullptr)
+        cardToView.insert({ally.leaderStarting, cardView(ally.leaderStarting, cardViewId++)});
     for (const Card *card : ally.deckStarting)
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : ally.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+    if (enemy.leaderStarting != nullptr)
+        cardToView.insert({enemy.leaderStarting, cardView(enemy.leaderStarting, cardViewId++)});
     for (const Card *card : enemy.deckStarting)
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : enemy.cardsAdded)
@@ -98,6 +102,8 @@ FieldView fieldView(const Field &ally, const Field &enemy)
         res.enemyDeckIds.push_back(id(card));
     for (const Card *card : enemy.discard)
         res.enemyDiscardIds.push_back(id(card));
+    res.allyLeader = ally.leader ? -1 : id(ally.leader);
+    res.enemyLeader = enemy.leader ? -1 : id(enemy.leader);
     res.allyRowEffectMeele = ally.rowEffectMeele;
     res.allyRowEffectRange = ally.rowEffectRange;
     res.allyRowEffectSeige = ally.rowEffectSeige;

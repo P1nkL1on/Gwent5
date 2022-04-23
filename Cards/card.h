@@ -120,10 +120,13 @@ struct Field
     std::vector<Card *> hand;
     std::vector<Card *> deck;
     std::vector<Card *> discard;
+    Card *leader = nullptr;
+
     RowEffect rowEffectMeele = NoRowEffect;
     RowEffect rowEffectRange = NoRowEffect;
     RowEffect rowEffectSeige = NoRowEffect;
 
+    Card *leaderStarting = nullptr;
     std::vector<Card *> deckStarting;
     std::vector<Card *> cardsAdded;
     std::vector<Choice> cardStack;
@@ -163,7 +166,7 @@ std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &card
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bool *isAlly = nullptr);
 void triggerRowEffects(Field &ally, Field &enemy);
-void initField(const std::vector<Card *> &deckStarting, Field &field);
+void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field);
 void startNextRound(Field &ally, Field &enemy);
 void shuffle(std::vector<Card *> &cards, Rng &rng);
 std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng);
@@ -224,6 +227,7 @@ void startChoiceToSelectEnemyRow(Field &field, Card *self);
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = {}, const bool isOptional = false);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);

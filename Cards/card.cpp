@@ -60,6 +60,18 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
                 return Row(i % 6);
             }
     }
+    if (ally.leader == card) {
+        ally.leader = nullptr;
+        if (isAlly != nullptr)
+            *isAlly = true;
+        return HandLeader;
+    }
+    if (enemy.leader == card) {
+        enemy.leader = nullptr;
+        if (isAlly != nullptr)
+            *isAlly = false;
+        return HandLeader;
+    }
     /// assume, that all cards, that weren't
     /// previously anywhere, were already created
     return AlreadyCreated;
@@ -142,7 +154,7 @@ void triggerRowEffects(Field &ally, Field &enemy)
     applyRowEffect(ally.rowSeige, ally.rowEffectSeige);
 }
 
-void initField(const std::vector<Card *> &deckStarting, Field &field)
+void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field)
 {
     assert(field.rowMeele.size() == 0);
     assert(field.rowRange.size() == 0);
@@ -154,6 +166,7 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
     /// init a deck
     field.deck = field.deckStarting = deckStarting;
+    field.leaderStarting = field.leader = leader;
     field.rowEffectMeele = NoRowEffect;
     field.rowEffectRange = NoRowEffect;
     field.rowEffectSeige = NoRowEffect;
@@ -344,7 +357,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeployFromDiscard(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
                 other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated) {
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             card->onDeploy(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyDeck))
                 other->onOtherAllyPlayedWhileOnDeck(card, ally, enemy);
@@ -359,7 +372,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeployFromDiscard(enemy, ally);
             for (Card *other : cardsFiltered(enemy, ally, {}, AllyDiscard))
                 other->onOtherAllyResurrectededWhileOnDiscard(card, enemy, ally);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader)
             card->onDeploy(enemy, ally);
         else
             assert(false);
@@ -471,17 +484,22 @@ void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, c
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
     const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
-    if (cards.size() == 0)
+    return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
+}
+
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
+{
+    if (options.size() == 0)
         return false;
 
     /// checking if already can be selected
-    if (!isOptional && int(cards.size()) <= nTargets) {
-        for (Card *card : cards)
+    if (!isOptional && int(options.size()) <= nTargets) {
+        for (Card *card : options)
             self->onTargetChoosen(card, ally, enemy);
         return true;
     }
 
-    ally.cardStack.push_back(Choice(Target, self, cards, nTargets, isOptional));
+    ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
     return true;
 }
 
@@ -579,7 +597,11 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
     /// start a game after start swap
     ally.nSwaps = 0;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, true));
+    // TODO: add leader to hand, move to separate function
+    std::vector<Card *> cardsToPlay = ally.hand;
+    if (ally.leader != nullptr)
+        cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
 }
 
 void traceField(Field &field)
@@ -1113,7 +1135,11 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// give a choice to enemy
-    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, enemy.hand, 1, true));
+    // TODO: add leader to hand, move to separate function
+    std::vector<Card *> cardsToPlay = enemy.hand;
+    if (enemy.leader != nullptr)
+        cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
+    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
     return true;
 }
 

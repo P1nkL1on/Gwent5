@@ -110,6 +110,9 @@ std::vector<Card *> allCards(const Patch)
         new Derran(),
         new TuirseachSkirmisher(),
         new Roach(),
+        new JanCalveit(),
+        new CahirDyffryn(),
+        new JanCalveit(),
     };
 }
 
@@ -1401,7 +1404,7 @@ Reconnaissance::Reconnaissance()
 
 void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng), 1, true));
+    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng));
 }
 
 void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1422,7 +1425,7 @@ ElvenMercenary::ElvenMercenary()
 
 void ElvenMercenary::onDeploy(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng), 1, true));
+    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng));
 }
 
 void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2268,7 +2271,7 @@ Emissary::Emissary()
 
 void Emissary::onDeploy(Field &ally, Field &enemy)
 {
-    ally.cardStack.push_back(Choice(Target, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng), 1, true));
+    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng));
 }
 
 void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -2949,7 +2952,7 @@ void Udalryk::onDeploy(Field &ally, Field &enemy)
         return;
 
     timer--;
-    ally.cardStack.push_back(Choice(Target, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng)));
+    startChoiceToTargetCard(ally, enemy, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
 }
 
 void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -3217,4 +3220,58 @@ void Roach::onOtherAllyPlayedWhileOnDeck(Card *other, Field &ally, Field &enemy)
     Pos pos;
     if (randomRowAndPos(ally, row, pos))
         putOnField(this, row, pos, ally, enemy);
+}
+
+JanCalveit::JanCalveit()
+{
+    name = "Jan Calveit";
+    text = "Look at the top 3 cards from your deck, then play 1.";
+    url = "https://gwent.one/image/card/low/cid/png/200164.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.55.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.56.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.57.mp3",
+    };
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Officer, Leader };
+}
+
+void JanCalveit::onDeploy(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> topThreeCards(ally.deck.begin(), ally.deck.begin() + std::min(int(ally.deck.size()), 3));
+    startChoiceToTargetCard(ally, enemy, this, topThreeCards);
+}
+
+void JanCalveit::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
+}
+
+CahirDyffryn::CahirDyffryn()
+{
+    name = "Cahir Dyffryn";
+    text = "Resurrect a Leader.";
+    url = "https://gwent.one/image/card/low/cid/png/162104.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.69.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.70.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.71.mp3",
+    };
+    power = powerBase = 1;
+    isDoomed = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Officer };
+}
+
+void CahirDyffryn::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, AllyDiscard);
+}
+
+void CahirDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
 }

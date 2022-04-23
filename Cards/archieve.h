@@ -899,4 +899,20 @@ struct Roach : CardCollectible<Roach>
 };
 
 
+struct JanCalveit : CardCollectible<JanCalveit>
+{
+    JanCalveit();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct CahirDyffryn : CardCollectible<CahirDyffryn>
+{
+    CahirDyffryn();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

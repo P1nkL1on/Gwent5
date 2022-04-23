@@ -9,6 +9,9 @@ enum Row
     Hand,
     Deck,
     Discard,
+    /// special place, where leaders are played
+    HandLeader,
+    /// cards, spawned by other cards
     AlreadyCreated
 };
 

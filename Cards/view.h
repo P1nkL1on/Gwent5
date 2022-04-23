@@ -74,12 +74,14 @@ struct FieldView
 {
     std::vector<CardView> cards; /// ally + enemy
     std::vector<ChoiceView> choices;
+    int allyLeader = -1;
     std::vector<int> allyRowMeeleIds;
     std::vector<int> allyRowRangeIds;
     std::vector<int> allyRowSeigeIds;
     std::vector<int> allyHandIds;
     std::vector<int> allyDeckIds;
     std::vector<int> allyDiscardIds;
+    int enemyLeader = -1;
     std::vector<int> enemyRowMeeleIds;
     std::vector<int> enemyRowRangeIds;
     std::vector<int> enemyRowSeigeIds;

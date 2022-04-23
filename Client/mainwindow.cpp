@@ -20,10 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     const std::vector<Card *> deckStarting = {
         /// axes
-        new EistTuirseach, new Derran, new Reconnaissance,
+        new Derran, new Reconnaissance,
         new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
         new SkelligeStorm, new Gremist, new Reconnaissance,
-        new GeraltOfRivia, new Roach,
+        new GeraltOfRivia, new Roach, new TuirseachBearmaster,
 
         /// armors
 //        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
@@ -62,25 +62,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     const std::vector<Card *> deckStarting2 = {
         /// dicards
-        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
-        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
-        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
-        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
-        new DimunPirate, new DimunPirate, new DimunPirate,
-        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
-        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
-        new Reconnaissance, new Reconnaissance,
-        new BranTuirseach, new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
+//        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
+//        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
+//        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
+//        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
+//        new DimunPirate, new DimunPirate, new DimunPirate,
+//        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
+//        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
+//        new Reconnaissance, new Reconnaissance,
+//        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
 
         /// other
-//        new ArtefactCompression, new ArtefactCompression, new HjalmarAnCraite, new HjalmarAnCraite,
-//        new AlzursThunder, new AlzursThunder,
-//        new WoodlandSpirit,
-//        new CeallachDyffryn, new CeallachDyffryn,
-//        new Reconnaissance, new Reconnaissance,
-//        new Ambassador, new Ambassador,
-//        new Assassin, new Assassin,
-//        new Emissary, new Emissary,
+        new CahirDyffryn,
+        new Swallow, new Swallow,
+        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
+        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+        new Ambassador, new Ambassador,
+        new Assassin, new Assassin,
+        new Emissary, new Emissary,
+        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
@@ -92,8 +92,8 @@ MainWindow::MainWindow(QWidget *parent)
 //        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
     };
 
-    initField(deckStarting, _ally);
-    initField(deckStarting2, _enemy);
+    initField(deckStarting, new EistTuirseach, _ally);
+    initField(deckStarting2, new JanCalveit, _enemy);
     startNextRound(_ally, _enemy);
 
     // TODO: remove test units

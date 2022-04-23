@@ -35,7 +35,7 @@ bool CardsLineView::eventFilter(QObject *o, QEvent *e)
         return true;
     }
 
-    const bool isPress = e->type() == QEvent::MouseButtonPress;
+    const bool isPress = e->type() == QEvent::MouseButtonRelease;
     const bool isMove = e->type() == QEvent::MouseMove;
     if (!isPress && !isMove)
         return QWidget::eventFilter(o, e);
