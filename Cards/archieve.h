@@ -915,4 +915,10 @@ struct CahirDyffryn : CardCollectible<CahirDyffryn>
 };
 
 
+struct HubertRejk : CardCollectible<HubertRejk>
+{
+    HubertRejk();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
 #endif // CARDS_H
