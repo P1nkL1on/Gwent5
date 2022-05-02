@@ -14,6 +14,7 @@ struct CardView
     int armor = 0;
     int rarity = 0;
     int timer = 0;
+    int count = 1;
 
     int faction = Neutral;
     std::vector<Tag> tags;
@@ -73,12 +74,14 @@ struct FieldView
 {
     std::vector<CardView> cards; /// ally + enemy
     std::vector<ChoiceView> choices;
+    int allyLeader = -1;
     std::vector<int> allyRowMeeleIds;
     std::vector<int> allyRowRangeIds;
     std::vector<int> allyRowSeigeIds;
     std::vector<int> allyHandIds;
     std::vector<int> allyDeckIds;
     std::vector<int> allyDiscardIds;
+    int enemyLeader = -1;
     std::vector<int> enemyRowMeeleIds;
     std::vector<int> enemyRowRangeIds;
     std::vector<int> enemyRowSeigeIds;
@@ -121,5 +124,6 @@ CardView cardView(const Card *card, const int id);
 FieldView fieldView(const Field &ally, const Field &enemy);
 std::string stringRarity(const Rarity rarity);
 std::string stringTag(const Tag tag);
+bool isLeader(const CardView &view);
 
 #endif // VIEW_H

@@ -8,8 +8,12 @@ inline bool isUnit(Card *card) { return !card->isSpecial; }
 inline bool isSpecial(Card *card) { return card->isSpecial; }
 inline bool isBronze(Card *card) { return card->rarity == Bronze; }
 inline bool isSilver(Card *card) { return card->rarity == Silver; }
+inline bool isGold(Card *card) { return card->rarity == Silver; }
+inline bool isLeader(Card *card) { return hasTag(card, Leader); }
+inline bool isNonLeader(Card *card) { return !hasTag(card, Leader); }
 inline bool isBronzeOrSilver(Card *card) { return (card->rarity == Bronze) || (card->rarity == Silver); }
 inline bool hasArmor(Card *card) { return card->armor > 0; }
+inline bool isNothernRealmsFaction(Card *card) { return card->faction == NothernRealms; }
 inline bool isSkelligeFaction(Card *card) { return card->faction == Skellige; }
 inline bool isNonMonsterFaction(Card *card) { return card->faction != Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }

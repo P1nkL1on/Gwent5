@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
-#include <random>
 #include <map>
 
 #include "archieve.h"
@@ -61,6 +60,18 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
                 return Row(i % 6);
             }
     }
+    if (ally.leader == card) {
+        ally.leader = nullptr;
+        if (isAlly != nullptr)
+            *isAlly = true;
+        return HandLeader;
+    }
+    if (enemy.leader == card) {
+        enemy.leader = nullptr;
+        if (isAlly != nullptr)
+            *isAlly = false;
+        return HandLeader;
+    }
     /// assume, that all cards, that weren't
     /// previously anywhere, were already created
     return AlreadyCreated;
@@ -93,21 +104,21 @@ void triggerRowEffects(Field &ally, Field &enemy)
         const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
         switch (effect) {
         case TorrentialRainEffect:
-            for (Card *card : randoms(rowFiltered, 2))
+            for (Card *card : randoms(rowFiltered, 2, ally.rng))
                 damage(card, 1, ally, enemy);
             break;
         case BitingFrostEffect:
         case KorathiHeatwaveEffect:
-            if (Card *target = lowest(rowFiltered))
+            if (Card *target = lowest(rowFiltered, ally.rng))
                 damage(target, 2, ally, enemy);
             break;
         case RaghNarRoogEffect:
         case ImpenetrableFogEffect:
-            if (Card *target = highest(rowFiltered))
+            if (Card *target = highest(rowFiltered, ally.rng))
                 damage(target, 2, ally, enemy);
             break;
         case GoldenFrothEffect:
-            for (Card *target : randoms(rowFiltered, 2))
+            for (Card *target : randoms(rowFiltered, 2, ally.rng))
                 boost(target, 1, ally, enemy);
             break;
         case SkelligeStormEffect: {
@@ -124,7 +135,7 @@ void triggerRowEffects(Field &ally, Field &enemy)
         }
         case FullMoonEffect: {
             const std::vector<Card *> beastOrVampire = _filtered({[](Card *card){ return !card->isAmbush && (hasTag(card, Beast) || hasTag(card, Vampire)); }}, row);
-            if (Card *target = random(beastOrVampire))
+            if (Card *target = random(beastOrVampire, ally.rng))
                 boost(target, 2, ally, enemy);
             break;
         }
@@ -143,7 +154,7 @@ void triggerRowEffects(Field &ally, Field &enemy)
     applyRowEffect(ally.rowSeige, ally.rowEffectSeige);
 }
 
-void initField(const std::vector<Card *> &deckStarting, Field &field)
+void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field)
 {
     assert(field.rowMeele.size() == 0);
     assert(field.rowRange.size() == 0);
@@ -155,13 +166,14 @@ void initField(const std::vector<Card *> &deckStarting, Field &field)
 
     /// init a deck
     field.deck = field.deckStarting = deckStarting;
+    field.leaderStarting = field.leader = leader;
     field.rowEffectMeele = NoRowEffect;
     field.rowEffectRange = NoRowEffect;
     field.rowEffectSeige = NoRowEffect;
     field.nTurns = 0;
 
     /// shuffle a deck
-    shuffle(field.deck);
+    shuffle(field.deck, field.rng);
 }
 
 void startNextRound(Field &ally, Field &enemy)
@@ -255,15 +267,12 @@ void startNextRound(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, ally.nSwaps, true));
 }
 
-std::default_random_engine _rng;
-
-void shuffle(std::vector<Card *> &cards)
+void shuffle(std::vector<Card *> &cards, Rng &rng)
 {
-    // TODO: random must be used
-    std::shuffle(std::begin(cards), std::end(cards), _rng);
+    std::shuffle(std::begin(cards), std::end(cards), rng);
 }
 
-std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms)
+std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng)
 {
     std::vector<Card *> res;
 
@@ -271,7 +280,7 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
     for (int n = 0; n < nRandoms; ++n) {
         if (tmp.size() == 0)
             break;
-        const auto ind = _rng() % tmp.size();
+        const auto ind = rng() % tmp.size();
         res.push_back(tmp[ind]);
         tmp.erase(tmp.begin() + int(ind));
     }
@@ -279,15 +288,15 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
     return res;
 }
 
-Card *random(const std::vector<Card *> &cards)
+Card *random(const std::vector<Card *> &cards, Rng &rng)
 {
-    const std::vector<Card *> _cards = randoms(cards, 1);
+    const std::vector<Card *> _cards = randoms(cards, 1, rng);
     return _cards.size() == 0 ? nullptr : _cards[0];
 }
 
 void playAsSpecial(Card *card, Field &ally, Field &enemy)
 {
-    saveFieldsSnapshot(ally, enemy, randomSound(card));
+    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
 
     card->onPlaySpecial(ally, enemy);
 
@@ -339,18 +348,20 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    saveFieldsSnapshot(ally, enemy, randomSound(card));
+    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
 
     if (card->isLoyal) {
-        if (takenFrom == Deck)
+        if (takenFrom == Deck) {
             card->onDeployFromDeck(ally, enemy);
-        else if (takenFrom == Discard) {
+        } else if (takenFrom == Discard) {
             card->onDeployFromDiscard(ally, enemy);
-            for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
-                other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+                other->onOtherAllyResurrecteded(card, ally, enemy);
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             card->onDeploy(ally, enemy);
-        else
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+                other->onOtherAllyPlayedFromHand(card, ally, enemy);
+        } else
             assert(false);
 
     } else {
@@ -359,9 +370,9 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeployFromDeck(enemy, ally);
         else if (takenFrom == Discard) {
             card->onDeployFromDiscard(enemy, ally);
-            for (Card *other : cardsFiltered(enemy, ally, {}, AllyDiscard))
-                other->onOtherAllyResurrectededWhileOnDiscard(card, enemy, ally);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated)
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+                other->onOtherAllyResurrecteded(card, enemy, ally);
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader)
             card->onDeploy(enemy, ally);
         else
             assert(false);
@@ -372,6 +383,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
 {
+    // FIXME: incorrect doomed behaviour
     if (card->isDoomed || (!card->isSpecial && card->powerBase <= 0)) {
         return banish(card, ally, enemy);
     }
@@ -391,15 +403,15 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
         assert(!card->isSpecial);
         cardAlly->discard.push_back(card);
         card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
-        // TODO: on destroy triggers
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
+            other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
         cardAlly->discard.push_back(card);
         if (!card->isSpecial)
             card->onDiscard(*cardAlly, *cardEnemy);
-        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyBoard))
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
-
     } else {
         assert(takenFrom == AlreadyCreated);
         cardAlly->discard.push_back(card);
@@ -424,7 +436,7 @@ bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow)
+void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
 {
     assert(self != nullptr);
     assert(self->_options.size() == 0);
@@ -441,31 +453,54 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
 
     assert(nWindow > 1);
     std::vector<Card *> optionsShuffled = options;
-    shuffle(optionsShuffled);
+    shuffle(optionsShuffled, ally.rng);
 
     /// remove last nTargets - nWindow
-    for (int i = nWindow; i < nTargets; ++i)
+    for (int i = nWindow; i < nOptions; ++i)
         delete optionsShuffled.at(size_t(i));
     optionsShuffled.resize(size_t(nWindow));
 
     self->_options = optionsShuffled;
-    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, true));
+    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, isOptional));
+}
+
+void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
+{
+    // TODO: empty allCards, so not implemented
+    assert(false);
+    assert(self != nullptr);
+    assert(self->_options.size() == 0);
+
+    std::vector<Card *> options = _filtered(filters, allCards(self->patch));
+    shuffle(options, ally.rng);
+
+    for (size_t i = 3; i < options.size(); ++i)
+        delete options.at(size_t(i));
+    options.resize(3);
+
+    self->_options = options;
+    ally.cardStack.push_back(Choice(Target, self, options, 1, isOptional));
 }
 
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
     const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
-    if (cards.size() == 0)
+    return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
+}
+
+bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
+{
+    if (options.size() == 0)
         return false;
 
     /// checking if already can be selected
-    if (!isOptional && int(cards.size()) <= nTargets) {
-        for (Card *card : cards)
+    if (!isOptional && int(options.size()) <= nTargets) {
+        for (Card *card : options)
             self->onTargetChoosen(card, ally, enemy);
         return true;
     }
 
-    ally.cardStack.push_back(Choice(Target, self, cards, nTargets, isOptional));
+    ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
     return true;
 }
 
@@ -563,7 +598,11 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
     /// start a game after start swap
     ally.nSwaps = 0;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, true));
+    // TODO: add leader to hand, move to separate function
+    std::vector<Card *> cardsToPlay = ally.hand;
+    if (ally.leader != nullptr)
+        cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
 }
 
 void traceField(Field &field)
@@ -646,9 +685,9 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
     return nullptr;
 }
 
-std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const Filters &filters, const ChoiceGroup group)
+std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group)
 {
-    const std::vector<Card *> cards = [ally, enemy, group]{
+    const std::vector<Card *> cards = [&]{
         if (group == AllyBoard)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige});
 
@@ -669,12 +708,18 @@ std::vector<Card *> cardsFiltered(const Field &ally, const Field &enemy, const F
 
         if (group == AllyDeckShuffled) {
             std::vector<Card *> deck = ally.deck;
-            shuffle(deck);
+            shuffle(deck, ally.rng);
             return deck;
         }
 
         if (group == AllyBoardHandDeck)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck});
+
+        if (group == AllyAnywhere)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck, ally.discard});
+
+        if (group == EnemyAnywhere)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -697,14 +742,13 @@ std::vector<Card *> highests(const std::vector<Card *> &row)
     return res;
 }
 
-Card *highest(const std::vector<Card *> &row)
+Card *highest(const std::vector<Card *> &row, Rng &rng)
 {
     std::vector<Card *> res = highests(row);
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[rng() % res.size()];
 }
 
 std::vector<Card *> lowests(const std::vector<Card *> &row)
@@ -721,14 +765,13 @@ std::vector<Card *> lowests(const std::vector<Card *> &row)
     return res;
 }
 
-Card *lowest(const std::vector<Card *> &row)
+Card *lowest(const std::vector<Card *> &row, Rng &rng)
 {
     std::vector<Card *> res = lowests(row);
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[rng() % res.size()];
 }
 
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
@@ -747,8 +790,7 @@ Card *findCopy(const Card *card, const std::vector<Card *> &cards)
     if (res.size() == 0)
         return nullptr;
 
-    // TODO: using random
-    return res[_rng() % res.size()];
+    return res[0];
 }
 
 const Choice &Field::choice() const
@@ -842,8 +884,7 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(from == Hand);
 
     /// move to any place in the deck, but not first
-    // TODO: use random
-    const int ind = 1 + _rng() % ally.deck.size();
+    const int ind = 1 + int(ally.rng() % ally.deck.size());
     ally.deck.insert(ally.deck.begin() + ind, card);
     card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
@@ -894,11 +935,13 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     }
     card->power -= dmgInPower;
 
+    // trigger others on damaged (even if destroyed)
+    for (Card *other : cardsFiltered(ally, enemy, {}, EnemyBoard))
+        other->onOtherEnemyDamaged(card, enemy, ally);
+
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-        saveFieldsSnapshot(ally, enemy);
-//        ally.snapshots.push_back(new Animation("", Animation::DamageText, card));
-        // TODO: trigger other on damaged
+        // saveFieldsSnapshot(ally, enemy);
         return false;
     }
 
@@ -1064,7 +1107,6 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
     return res;
 }
 
-// TODO: is only 1 player
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
     if (ally.cardStack.size() > 0)
@@ -1077,6 +1119,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// finish turn if noone passed
+    // TODO: Ronvid on turn end in discard
     for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
@@ -1100,7 +1143,11 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// give a choice to enemy
-    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, enemy.hand, 1, true));
+    // TODO: add leader to hand, move to separate function
+    std::vector<Card *> cardsToPlay = enemy.hand;
+    if (enemy.leader != nullptr)
+        cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
+    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
     return true;
 }
 
@@ -1196,20 +1243,18 @@ void acceptOptionAndDeleteOthers(Card *card, const Card *option)
     card->_options.clear();
 }
 
-std::string randomSound(const Card *card)
+std::string randomSound(const Card *card, Rng &rng)
 {
     if (card->sounds.size() == 0)
         return std::string();
 
-    // TODO: random
-    const size_t ind = _rng() % card->sounds.size();
+    const size_t ind = rng() % card->sounds.size();
     return card->sounds[ind];
 }
 
-RowEffect randomHazardEffect()
+RowEffect randomHazardEffect(Rng &rng)
 {
-    // TODO: random
-    return RowEffect(_rng() % 9 + 1);
+    return RowEffect(rng() % 9 + 1);
 }
 
 bool hasNoDuplicates(const std::vector<Card *> &cards)
@@ -1278,9 +1323,8 @@ void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound)
     enemy.snapshots.push_back(viewEnemy);
 }
 
-bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
+bool randomRowAndPos(Field &field, Row &row, Pos &pos)
 {
-    // TODO: random
     std::vector<Row> hasFreeSpace;
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         if (isRowFull(field.row(_row)))
@@ -1290,7 +1334,12 @@ bool randomRowAndPos(const Field &field, Row &row, Pos &pos)
     if (hasFreeSpace.size() == 0)
         return false;
 
-    row = hasFreeSpace[_rng() % hasFreeSpace.size()];
+    row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
     pos = Pos(field.row(row).size());
     return true;
+}
+
+bool isOnBoard(const Card *card, const Field &field)
+{
+    return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }

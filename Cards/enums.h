@@ -9,6 +9,9 @@ enum Row
     Hand,
     Deck,
     Discard,
+    /// special place, where leaders are played
+    HandLeader,
+    /// cards, spawned by other cards
     AlreadyCreated
 };
 
@@ -40,6 +43,7 @@ enum Tag
     ClanAnCraite,
     ClanBrokvar,
     ClanHeymaey,
+    // TODO: add ClanTordarroch
     ClanDimun,
     ClanTuirseach,
     ClanDrummond,
@@ -117,7 +121,8 @@ enum ChoiceGroup
     AllyDeck,
     AllyDeckStarting,
     AllyBoardHandDeck,
-    AnyCard,
+    AllyAnywhere,
+    EnemyAnywhere,
 };
 
 
@@ -125,6 +130,12 @@ enum Lang
 {
     En,
     Ru,
+};
+
+
+enum Patch
+{
+    PublicBeta_0_9_24_3_432,
 };
 
 #endif // ENUMS_H
