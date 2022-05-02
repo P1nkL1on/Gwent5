@@ -120,7 +120,8 @@ enum ChoiceGroup
     AllyDeck,
     AllyDeckStarting,
     AllyBoardHandDeck,
-    AnyCard,
+    AllyAnywhere,
+    EnemyAnywhere,
 };
 
 

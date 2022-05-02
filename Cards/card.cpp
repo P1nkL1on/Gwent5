@@ -355,12 +355,12 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeployFromDeck(ally, enemy);
         } else if (takenFrom == Discard) {
             card->onDeployFromDiscard(ally, enemy);
-            for (Card *other : cardsFiltered(ally, enemy, {}, AllyDiscard))
-                other->onOtherAllyResurrectededWhileOnDiscard(card, ally, enemy);
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+                other->onOtherAllyResurrecteded(card, ally, enemy);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             card->onDeploy(ally, enemy);
-            for (Card *other : cardsFiltered(ally, enemy, {}, AllyDeck))
-                other->onOtherAllyPlayedWhileOnDeck(card, ally, enemy);
+            for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+                other->onOtherAllyPlayedFromHand(card, ally, enemy);
         } else
             assert(false);
 
@@ -370,8 +370,8 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeployFromDeck(enemy, ally);
         else if (takenFrom == Discard) {
             card->onDeployFromDiscard(enemy, ally);
-            for (Card *other : cardsFiltered(enemy, ally, {}, AllyDiscard))
-                other->onOtherAllyResurrectededWhileOnDiscard(card, enemy, ally);
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+                other->onOtherAllyResurrecteded(card, enemy, ally);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader)
             card->onDeploy(enemy, ally);
         else
@@ -383,6 +383,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
 {
+    // FIXME: incorrect doomed behaviour
     if (card->isDoomed || (!card->isSpecial && card->powerBase <= 0)) {
         return banish(card, ally, enemy);
     }
@@ -402,15 +403,15 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
         assert(!card->isSpecial);
         cardAlly->discard.push_back(card);
         card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
-        // TODO: on destroy triggers
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
+            other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
         cardAlly->discard.push_back(card);
         if (!card->isSpecial)
             card->onDiscard(*cardAlly, *cardEnemy);
-        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyBoard))
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
-
     } else {
         assert(takenFrom == AlreadyCreated);
         cardAlly->discard.push_back(card);
@@ -713,6 +714,12 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
         if (group == AllyBoardHandDeck)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck});
+
+        if (group == AllyAnywhere)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck, ally.discard});
+
+        if (group == EnemyAnywhere)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -1112,6 +1119,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// finish turn if noone passed
+    // TODO: Ronvid on turn end in discard
     for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
@@ -1329,4 +1337,9 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos)
     row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
     pos = Pos(field.row(row).size());
     return true;
+}
+
+bool isOnBoard(const Card *card, const Field &field)
+{
+    return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }

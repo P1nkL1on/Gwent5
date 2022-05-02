@@ -32,6 +32,7 @@ struct Card
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
+    bool isCrew = false;
 
     std::string name;
     std::string text;
@@ -66,10 +67,12 @@ struct Card
 //    inline virtual void onOtherAllyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
 //    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
+    /// check whether self on board, in hand/deck/discard
     inline virtual void onOtherEnemyDamaged(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherEnemyDestroyed(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyResurrectededWhileOnDiscard(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyPlayedWhileOnDeck(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherAllyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherAllyResurrecteded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual Card *defaultCopy() { return new Card; }
 };
 
@@ -153,6 +156,7 @@ int powerField(const Field &field);
 int powerRow(const std::vector<Card *> &vector);
 std::string stringChoices(const std::vector<Choice> &cardStack);
 bool isIn(const Card *card, const std::vector<Card *> &vector);
+bool isOnBoard(const Card *card, const Field &field);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);

@@ -709,7 +709,7 @@ struct CerysAnCraite : CardCollectible<CerysAnCraite>
     CerysAnCraite();
     void onDiscard(Field &ally, Field &enemy) override;
     void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
-    void onOtherAllyResurrectededWhileOnDiscard(Card *other, Field &ally, Field &enemy) override;
+    void onOtherAllyResurrecteded(Card *other, Field &ally, Field &enemy) override;
 };
 
 
@@ -895,7 +895,7 @@ struct TuirseachSkirmisher : CardCollectible<TuirseachSkirmisher>
 struct Roach : CardCollectible<Roach>
 {
     Roach();
-    void onOtherAllyPlayedWhileOnDeck(Card *other, Field &ally, Field &enemy) override;
+    void onOtherAllyPlayedFromHand(Card *other, Field &ally, Field &enemy) override;
 };
 
 
@@ -914,5 +914,47 @@ struct CahirDyffryn : CardCollectible<CahirDyffryn>
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
+
+struct LethoKingslayer : CardCollectible<LethoKingslayer>
+{
+    LethoKingslayer();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct Destroy : CardCollectible<Destroy> {};
+    struct Play : CardCollectible<Play> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct KingHenselt : CardCollectible<KingHenselt>
+{
+    KingHenselt();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct BloodyBaron : CardCollectible<BloodyBaron>
+{
+    BloodyBaron();
+    void onOtherEnemyDestroyed(Card *, Field &ally, Field &enemy) override;
+};
+
+
+struct Dethmold : CardCollectible<Dethmold>
+{
+    Dethmold();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct RonvidTheIncessant : CardCollectible<Dethmold>
+{
+    RonvidTheIncessant();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTurnEnd(Field &ally, Field &enemy) override;
+};
 
 #endif // CARDS_H

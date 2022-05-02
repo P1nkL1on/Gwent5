@@ -112,7 +112,9 @@ std::vector<Card *> allCards(const Patch)
         new Roach(),
         new JanCalveit(),
         new CahirDyffryn(),
-        new JanCalveit(),
+        new LethoKingslayer(),
+        new KingHenselt(),
+        new BloodyBaron(),
     };
 }
 
@@ -2550,6 +2552,9 @@ void CerysFearless::onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy)
     if (timer == 0 || other->isSpecial)
         return;
 
+    if (!isOnBoard(this, ally))
+        return;
+
     timer--;
     playCard(other, ally, enemy);
 }
@@ -2581,8 +2586,11 @@ void CerysAnCraite::onDestroy(Field &, Field &, const Row, const Pos)
     timer = 4;
 }
 
-void CerysAnCraite::onOtherAllyResurrectededWhileOnDiscard(Card *, Field &ally, Field &enemy)
+void CerysAnCraite::onOtherAllyResurrecteded(Card *, Field &ally, Field &enemy)
 {
+    if (!isIn(this, ally.discard))
+        return;
+
     if (timer > 0)
         timer--;
 
@@ -2775,6 +2783,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 
 void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
 {
+    // FIXME: not working, because its doomed
     for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
         boost(card, 10, ally, enemy);
 }
@@ -2882,7 +2891,8 @@ void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
 
 void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
 {
-    AnCraiteLongship::onDeploy(ally, enemy);
+    if (isOnBoard(this, ally))
+        AnCraiteLongship::onDeploy(ally, enemy);
 }
 
 TuirseachVeteran::TuirseachVeteran()
@@ -3146,16 +3156,12 @@ void TuirseachAxeman::onDeploy(Field &ally, Field &enemy)
 
 void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy)
 {
-    Row rowSelf;
     Pos _;
-    if (!rowAndPos(this, ally, rowSelf, _))
+    Row row;
+    if (!rowAndPos(other, enemy, row, _))
         return;
-    Row rowCard;
-    if (!rowAndPos(other, enemy, rowCard, _))
-        return;
-    if (rowSelf != rowCard)
-        return;
-    boost(this, 1, ally, enemy);
+    if (isIn(this, ally.row(row)))
+        boost(this, 1, ally, enemy);
 }
 
 TuirseachSkirmisher::TuirseachSkirmisher()
@@ -3197,7 +3203,8 @@ Derran::Derran()
 
 void Derran::onOtherEnemyDamaged(Card *, Field &ally, Field &enemy)
 {
-    boost(this, 1, ally, enemy);
+    if (isOnBoard(this, ally))
+        boost(this, 1, ally, enemy);
 }
 
 Roach::Roach()
@@ -3211,9 +3218,12 @@ Roach::Roach()
     tags = { Beast };
 }
 
-void Roach::onOtherAllyPlayedWhileOnDeck(Card *other, Field &ally, Field &enemy)
+void Roach::onOtherAllyPlayedFromHand(Card *other, Field &ally, Field &enemy)
 {
     if (other->rarity != Gold)
+        return;
+
+    if (!isIn(this, ally.deck))
         return;
 
     Row row;
@@ -3234,7 +3244,7 @@ JanCalveit::JanCalveit()
     };
     power = powerBase = 5;
     rarity = Gold;
-    faction = Neutral;
+    faction = Nilfgaard;
     tags = { Officer, Leader };
 }
 
@@ -3262,7 +3272,7 @@ CahirDyffryn::CahirDyffryn()
     power = powerBase = 1;
     isDoomed = true;
     rarity = Gold;
-    faction = Neutral;
+    faction = Nilfgaard;
     tags = { Officer };
 }
 
@@ -3274,4 +3284,178 @@ void CahirDyffryn::onDeploy(Field &ally, Field &enemy)
 void CahirDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     playCard(target, ally, enemy);
+}
+
+LethoKingslayer::LethoKingslayer()
+{
+    name = "Letho: Kingslayer";
+    text = "Choose One: Destroy an enemy Leader, then boost self by 5; or Play a Bronze or Silver Tactic from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/201603.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
+        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00593857.mp3",
+    };
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Witcher };
+}
+
+void LethoKingslayer::onDeploy(Field &ally, Field &)
+{
+    auto *option1 = new LethoKingslayer::Destroy;
+    copyCardText(this, option1);
+    option1->text = "Destroy an enemy Leader, then boost self by 5.";
+
+    auto *option2 = new LethoKingslayer::Play;
+    copyCardText(this, option2);
+    option2->text = "Play a Bronze or Silver Tactic from your deck.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
+            return;
+        }
+
+        if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeck);
+            return;
+        }
+
+        assert(false);
+    }
+
+    if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
+        putOnDiscard(target, ally, enemy);
+        boost(this, 5, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
+        playCard(target, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+
+    assert(false);
+}
+
+KingHenselt::KingHenselt()
+{
+    name = "King Henselt";
+    text = "Choose a Bronze Machine or Kaedweni ally and play all copies of it from your deck. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/200170.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0265.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_HSLT_200497_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0254.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Gold;
+    faction = NothernRealms;
+    tags = { Kaedwen, Leader };
+}
+
+void KingHenselt::onDeploy(Field &ally, Field &enemy)
+{
+    isCrew = true;
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
+}
+
+void KingHenselt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    for (Card *copy : findCopies(target, ally.deck))
+        playCard(copy, ally, enemy);
+}
+
+BloodyBaron::BloodyBaron()
+{
+    name = "Bloody Baron";
+    text = "If in hand, deck, or on board, boost self by 1 whenever an enemy is destroyed.";
+    url = "https://gwent.one/image/card/low/cid/png/122101.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BARN_Q103_00473473.mp3",
+        "https://gwent.one/audio/card/ob/en/BARN_Q107_00515406.mp3",
+        "https://gwent.one/audio/card/ob/en/BARN_BARON_00402523.mp3",
+        "https://gwent.one/audio/card/ob/en/BARN_Q102_00408798.mp3",
+        "https://gwent.one/audio/card/ob/en/BARN_Q103_00487067.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = NothernRealms;
+    tags = { Temeria, Officer };
+}
+
+void BloodyBaron::onOtherEnemyDestroyed(Card *, Field &ally, Field &enemy)
+{
+    if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
+        boost(this, 1, ally, enemy);
+}
+
+Dethmold::Dethmold()
+{
+    name = "Dethmold";
+    text = "Spawn Torrential Rain, Clear Skies or Alzur's Thunder.";
+    url = "https://gwent.one/image/card/low/cid/png/122207.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_DETM_200219_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_DETM_200182_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_DETM_200338_0412.mp3",
+    };
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Kaedwen, Mage };
+}
+
+void Dethmold::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
+}
+
+void Dethmold::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
+}
+
+RonvidTheIncessant::RonvidTheIncessant()
+{
+    name = "Ronvid the Incessant";
+    text = "Resurrect on a random row with 1 power on turn end. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/200529.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.401.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.402.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.403.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+}
+
+void RonvidTheIncessant::onDeploy(Field &, Field &)
+{
+    isCrew = true;
+}
+
+void RonvidTheIncessant::onTurnEnd(Field &ally, Field &enemy)
+{
+
 }

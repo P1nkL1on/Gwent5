@@ -18,12 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
-    const std::vector<Card *> deckStarting = {
-        /// axes
-        new Derran, new Reconnaissance,
-        new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
-        new SkelligeStorm, new Gremist, new Reconnaissance,
-        new GeraltOfRivia, new Roach, new TuirseachBearmaster,
+//    const std::vector<Card *> deckStarting = {
+//        /// axes
+//        new Derran, new Reconnaissance,
+//        new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
+//        new SkelligeStorm, new Gremist, new Reconnaissance,
+//        new GeraltOfRivia, new Roach, new TuirseachBearmaster,
 
         /// armors
 //        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
@@ -36,13 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
 //        new Reconnaissance, new Thunderbolt, new Thunderbolt,
 
         /// veterans
-//        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
-//        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
-//        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
-//        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
-//        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-//        new PriestessOfFreya, new PriestessOfFreya,
-//        new Reconnaissance, new Reconnaissance,
 
         /// other
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
@@ -58,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
 //        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
 //        new TuirseachBearmaster, new TuirseachBearmaster,
 //        new DimunDracar, new DimunDracar,
-    };
+//    };
 
-    const std::vector<Card *> deckStarting2 = {
+//    const std::vector<Card *> deckStarting2 = {
         /// dicards
 //        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
 //        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
@@ -73,14 +66,14 @@ MainWindow::MainWindow(QWidget *parent)
 //        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
 
         /// other
-        new CahirDyffryn,
-        new Swallow, new Swallow,
-        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
-        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-        new Ambassador, new Ambassador,
-        new Assassin, new Assassin,
-        new Emissary, new Emissary,
-        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
+//        new CahirDyffryn, new LethoKingslayer,
+//        new Swallow, new Swallow,
+//        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
+//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
+//        new Ambassador, new Ambassador,
+//        new Assassin, new Assassin,
+//        new Emissary, new Emissary,
+//        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
 //        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
 //        new ReaverScout, new ReaverScout, new ReaverScout,
 //        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
@@ -90,31 +83,52 @@ MainWindow::MainWindow(QWidget *parent)
 //        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
 //        new Reconnaissance, new Reconnaissance, new Reconnaissance,
 //        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-    };
+//    };
 
-    initField(deckStarting, new EistTuirseach, _ally);
-    initField(deckStarting2, new JanCalveit, _enemy);
+//    initField(deckStarting, new EistTuirseach, _ally);
+//    initField(deckStarting2, new JanCalveit, _enemy);
+
+
+    /// ally
+    const std::vector<Card *> deck1 {
+        new JohnNatalis, new GeraltIgni, new SeltkirkOfGulet, new BloodyBaron,
+        new Dethmold, new RonvidTheIncessant,
+    };
+    initField(deck1, new KingHenselt, _ally);
+
+    /// veterans
+    const std::vector<Card *> deck2 {
+        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
+        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
+        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
+        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+        new PriestessOfFreya, new PriestessOfFreya,
+        new Reconnaissance, new Reconnaissance,
+    };
+    initField(deck2, new EistTuirseach, _enemy);
+
     startNextRound(_ally, _enemy);
 
     // TODO: remove test units
-    for (int i = 1; i <= 7; ++i) {
-        auto *c = new Card;
-        c->name = "Dummy";
-        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-        c->isDoomed = true;
-        c->power = c->powerBase = i;
-        _ally.rowMeele.push_back(c);
-        _ally.cardsAdded.push_back(c);
-    }
-    for (int i = 1; i <= 5; ++i) {
-        auto *c = new Card;
-        c->name = "Egg";
-        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
-        c->isDoomed = true;
-        c->power = c->powerBase = i;
-        _enemy.rowMeele.push_back(c);
-        _enemy.cardsAdded.push_back(c);
-    }
+//    for (int i = 1; i <= 7; ++i) {
+//        auto *c = new Card;
+//        c->name = "Dummy";
+//        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
+//        c->isDoomed = true;
+//        c->power = c->powerBase = i;
+//        _ally.rowMeele.push_back(c);
+//        _ally.cardsAdded.push_back(c);
+//    }
+//    for (int i = 1; i <= 5; ++i) {
+//        auto *c = new Card;
+//        c->name = "Egg";
+//        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
+//        c->isDoomed = true;
+//        c->power = c->powerBase = i;
+//        _enemy.rowMeele.push_back(c);
+//        _enemy.cardsAdded.push_back(c);
+//    }
 
     resize(1300, 1000);
     setMouseTracking(true);
