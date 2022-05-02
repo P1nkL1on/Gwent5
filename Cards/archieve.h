@@ -983,12 +983,6 @@ struct Coral : CardCollectible<Coral>
 };
 
 
-struct Hemdall : CardCollectible<Hemdall>
-{
-    Hemdall();
-};
-
-
 struct Vabjorn : CardCollectible<Vabjorn>
 {
     Vabjorn();
@@ -997,6 +991,10 @@ struct Vabjorn : CardCollectible<Vabjorn>
 
 struct BlueboyLugos : CardCollectible<BlueboyLugos>
 {
+    struct SpectralWhale : CardCollectible<SpectralWhale>
+    {
+        SpectralWhale();
+    };
     BlueboyLugos();
 };
 
@@ -1145,6 +1143,10 @@ struct Hym : CardCollectible<Hym>
 
 struct Kambi : CardCollectible<Kambi>
 {
+    struct Hemdall : CardCollectible<Hemdall>
+    {
+        Hemdall();
+    };
     Kambi();
 };
 
@@ -1176,12 +1178,6 @@ struct GiantBoar : CardCollectible<GiantBoar>
 struct OrnamentalSword : CardCollectible<OrnamentalSword>
 {
     OrnamentalSword();
-};
-
-
-struct SpectralWhale : CardCollectible<SpectralWhale>
-{
-    SpectralWhale();
 };
 
 

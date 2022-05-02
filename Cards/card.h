@@ -34,7 +34,7 @@ struct Card
     bool isDoomed = false;
     bool isCrew = false;
 
-    int id = -1;
+    std::string id;
     std::string name;
     std::string text;
     std::string url;

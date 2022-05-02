@@ -121,7 +121,6 @@ std::vector<Card *> allCards(const Patch)
                 new CrachAnCraite(),
                 new BirnaBran(),
                 new Coral(),
-                new Hemdall(),
                 new Vabjorn(),
                 new BlueboyLugos(),
                 new DjengeFrett(),
@@ -153,16 +152,16 @@ std::vector<Card *> allCards(const Patch)
                 new WildBoarOfTheSea(),
                 new GiantBoar(),
                 new OrnamentalSword(),
-                new SpectralWhale(),
                 new DimunWarship(),
     };
 }
 
 AddaStriga::AddaStriga()
 {
+    id = "200073";
     name = "Adda: Striga";
     text = "Deal 8 damage to a non-Monster faction unit.";
-    url = "https://gwent.one/image/card/low/cid/png/200073.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 6;
     rarity = Silver;
     faction = Monster;
@@ -181,9 +180,10 @@ void AddaStriga::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 
 Dao::Dao()
 {
+    id = "132213";
     name = "D'ao";
     text = "Deathwish: Spawn 2 Lesser D'ao on this row.";
-    url = "https://gwent.one/image/card/low/cid/png/132213.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 6;
     rarity = Bronze;
     faction = Monster;
@@ -198,8 +198,9 @@ void Dao::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
 
 Dao::DaoLesser::DaoLesser()
 {
+    id = "132405";
     name = "D'ao Lesser";
-    url = "https://gwent.one/image/card/low/cid/png/132405.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 4;
     rarity = Bronze;
     faction = Monster;
@@ -209,8 +210,9 @@ Dao::DaoLesser::DaoLesser()
 
 PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
 {
+    id = "200302";
     name = "Left Flank Infantry";
-    url = "https://gwent.one/image/card/low/cid/png/200302.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 2;
     rarity = Bronze;
     faction = NothernRealms;
@@ -220,8 +222,9 @@ PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
 
 PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
 {
+    id = "200303";
     name = "Right Flank Infantry";
-    url = "https://gwent.one/image/card/low/cid/png/200303.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 2;
     rarity = Bronze;
     faction = NothernRealms;
@@ -231,9 +234,10 @@ PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
 
 PoorFingInfantry::PoorFingInfantry()
 {
+    id = "200234";
     name = "Poor F'ing Infantry";
     text = "Spawn Left Flank Infantry and Right Flank Infantry to the left and right of this unit, respectively.";
-    url = "https://gwent.one/image/card/low/cid/png/200234.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3",
         "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00519831.mp3",
@@ -257,9 +261,10 @@ void PoorFingInfantry::onDeploy(Field &ally, Field &enemy)
 
 DeithwenArbalest::DeithwenArbalest()
 {
+    id = "162305";
     name = "Deithwen Arbalest";
     text = "Deal 3 damage to an enemy. If it's Spying, deal 6 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/162305.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514109.mp3",
         "https://gwent.one/audio/card/ob/en/NILF3_SQ102_00591494.mp3",
@@ -284,9 +289,10 @@ void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 TemerianDrummer::TemerianDrummer()
 {
+    id = "200299";
     name = "Temerian Drummer";
     text = "Boost an ally by 6.";
-    url = "https://gwent.one/image/card/low/cid/png/200299.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.407.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.408.mp3",
@@ -310,9 +316,10 @@ void TemerianDrummer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DandelionPoet::DandelionPoet()
 {
+    id = "201776";
     name = "Dandelion: Poet";
     text = "Draw a card, then play a card.";
-    url = "https://gwent.one/image/card/low/cid/png/201776.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
         "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
@@ -341,9 +348,10 @@ void DandelionPoet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 SileDeTansarville::SileDeTansarville()
 {
+    id = "122205";
     name = "S'ile de Tansarville";
     text = "Play a Bronze or Silver special card, then draw a card.";
-    url = "https://gwent.one/image/card/low/cid/png/122205.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.29.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.30.mp3",
@@ -368,9 +376,10 @@ void SileDeTansarville::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 RedanianKnightElect::RedanianKnightElect()
 {
+    id = "123301";
     name = "Redanian Knight Elect";
     text = "If this unit has Armor on turn end, boost adjacent units by 1. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/123301.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.320.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.321.mp3",
@@ -405,9 +414,10 @@ void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
 
 AnCraiteMarauder::AnCraiteMarauder()
 {
+    id = "201578";
     name = "An Craite Marauder";
     text = "Deal 4 damage. If Resurrected, deal 6 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/201578.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.395.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.396.mp3",
@@ -421,9 +431,10 @@ AnCraiteMarauder::AnCraiteMarauder()
 
 AnCraiteGreatsword::AnCraiteGreatsword()
 {
+    id = "200040";
     name = "An Craite Greatsword";
     text = "Every 2 turns, if damaged, Heal self and Strengthen by 2 on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/200040.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.314.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.315.mp3",
@@ -480,8 +491,9 @@ void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
 
 Bear::Bear()
 {
+    id = "152406";
     name = "Bear";
-    url = "https://gwent.one/image/card/low/cid/png/152406.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 11;
     rarity = Bronze;
     faction = Neutral;
@@ -490,8 +502,9 @@ Bear::Bear()
 
 Wolf::Wolf()
 {
+    id = "132403";
     name = "Wolf";
-    url = "https://gwent.one/image/card/low/cid/png/132403.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     isDoomed = true;
     rarity = Bronze;
@@ -501,9 +514,10 @@ Wolf::Wolf()
 
 TuirseachBearmaster::TuirseachBearmaster()
 {
+    id = "200144";
     name = "Tuirseach Bearmaster";
     text = "Spawn a Bear.";
-    url = "https://gwent.one/image/card/low/cid/png/200144.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.26.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.27.mp3",
@@ -524,9 +538,10 @@ void TuirseachBearmaster::onDeploy(Field &ally, Field &enemy)
 
 RedanianElite::RedanianElite()
 {
+    id = "122317";
     name = "Redanian Elite";
     text = "Whenever this unit's Armor reaches 0, boost self by 5. 4 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/122317.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516089.mp3",
         "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516091.mp3",
@@ -550,9 +565,10 @@ void RedanianElite::onArmorLost(Field &ally, Field &enemy)
 
 RedanianKnight::RedanianKnight()
 {
+    id = "122308";
     name = "Redanian Knight";
     text = "If this unit has no Armor, boost it by 2 and give it 2 Armor on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/122308.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/RES1_VSET_00508445.mp3",
         "https://gwent.one/audio/card/ob/en/RES1_VSET_00508451.mp3",
@@ -574,9 +590,10 @@ void RedanianKnight::onTurnEnd(Field &ally, Field &enemy)
 
 KaedweniCavalry::KaedweniCavalry()
 {
+    id = "122314";
     name = "Kaedweni Cavalry";
     text = "Destroy a unit's Armor, then boost self by the amount destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/122314.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0003.mp3",
         "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0004.mp3",
@@ -602,9 +619,10 @@ void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 AlzursThunder::AlzursThunder()
 {
+    id = "113301";
     name = "Alzur's Thunder";
     text = "Deal 9 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/113301.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     rarity = Bronze;
     faction = Neutral;
     tags = { Spell };
@@ -624,9 +642,10 @@ void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Swallow::Swallow()
 {
+    id = "113310";
     name = "Swallow";
     text = "Boost a unit by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/113310.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     rarity = Bronze;
     faction = Neutral;
     tags = { Alchemy, Item };
@@ -645,9 +664,10 @@ void Swallow::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Thunderbolt::Thunderbolt()
 {
+    id = "113311";
     name = "Thunderbolt";
     text = "Boost 3 adjacent units by 3 and give them 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/113311.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     rarity = Bronze;
     faction = Neutral;
     tags = { Alchemy, Item };
@@ -679,9 +699,10 @@ void Thunderbolt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ArachasVenom::ArachasVenom()
 {
+    id = "200023";
     name = "Arachas Venom";
     text = "Deal 4 damage to 3 adjacent units.";
-    url = "https://gwent.one/image/card/low/cid/png/200023.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     rarity = Bronze ;
     faction = Neutral;
     tags = { Organic };
@@ -712,9 +733,10 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 KeiraMetz::KeiraMetz()
 {
+    id = "122108";
     name = "Keira Metz";
     text = "Spawn Alzur's Thunder, Thunderbolt or Arachas Venom.";
-    url = "https://gwent.one/image/card/low/cid/png/122108.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_01040781.mp3",
         "https://gwent.one/audio/card/ob/en/KEIR_SQ101_00565661.mp3",
@@ -739,9 +761,10 @@ void KeiraMetz::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DolBlathannaArcher::DolBlathannaArcher()
 {
+    id = "142310";
     name = "Dol Blathanna Archer";
     text = "Deal 3 damage, then deal 1 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/142310.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 7;
     rarity = Bronze;
     faction = Scoiatael;
@@ -763,9 +786,10 @@ void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy
 
 HalfElfHunter::HalfElfHunter()
 {
+    id = "201636";
     name = "Half-Elf Hunter";
     text = "Spawn a Doomed default copy of this unit to the right of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/201636.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 6;
     rarity = Bronze;
     faction = Scoiatael;
@@ -791,9 +815,10 @@ void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
 
 Ambassador::Ambassador()
 {
+    id = "162315";
     name = "Ambassador";
     text = "Spying. Boost an ally by 12.";
-    url = "https://gwent.one/image/card/low/cid/png/162315.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 2;
     isLoyal = false;
     rarity = Bronze;
@@ -813,9 +838,10 @@ void Ambassador::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Assassin::Assassin()
 {
+    id = "200115";
     name = "Assassin";
     text = "Spying. Deal 10 damage to the unit to the left.";
-    url = "https://gwent.one/image/card/low/cid/png/200115.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     isLoyal = false;
     rarity = Bronze;
@@ -833,9 +859,10 @@ void Assassin::onDeploy(Field &ally, Field &enemy)
 
 TuirseachArcher::TuirseachArcher()
 {
+    id = "152315";
     name = "Tuirseach Archer";
     text = "Deal 1 damage to 3 units.";
-    url = "https://gwent.one/image/card/low/cid/png/152315.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 8;
     rarity = Bronze;
     faction = Skellige;
@@ -855,9 +882,10 @@ void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Infiltrator::Infiltrator()
 {
+    id = "200118";
     name = "Infiltrator";
     text = "Toggle a unit's Spying status.";
-    url = "https://gwent.one/image/card/low/cid/png/200118.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 10;
     rarity = Bronze;
     faction = Nilfgaard;
@@ -876,9 +904,10 @@ void Infiltrator::onTargetChoosen(Card *target, Field &, Field &)
 
 ImpenetrableFog::ImpenetrableFog()
 {
+    id = "113305";
     name = "Impenetrable Fog";
     text = "Apply a Hazard to an enemy row that deals 2 damage to the Highest unit on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/113305.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -897,9 +926,10 @@ void ImpenetrableFog::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const R
 
 TorrentialRain::TorrentialRain()
 {
+    id = "113312";
     name = "Torrential Rain";
     text = "Apply a Hazard to an enemy row that deals 1 damage to 2 random units on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/113312.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -918,9 +948,10 @@ void TorrentialRain::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Ro
 
 BitingFrost::BitingFrost()
 {
+    id = "113302";
     name = "Biting Frost";
     text = "Apply a Hazard to an enemy row that deals 2 damage to the Lowest unit on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/113302.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -939,9 +970,10 @@ void BitingFrost::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row r
 
 GoldenFroth::GoldenFroth()
 {
+    id = "201749";
     name = "Golden Froth";
     text = "Apply a Boon to an allied row that boosts 2 random units by 1 on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/201749.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -960,9 +992,10 @@ void GoldenFroth::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row ro
 
 SkelligeStorm::SkelligeStorm()
 {
+    id = "113203";
     name = "Skellige Storm";
     text = "Apply a Hazard to an enemy row that deals 2, 1 and 1 damage to the leftmost units on the row on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/113203.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -981,8 +1014,9 @@ void SkelligeStorm::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row
 
 ImperialManticore::ImperialManticore()
 {
+    id = "132209";
     name = "Imperial Manticore";
-    url = "https://gwent.one/image/card/low/cid/png/132209.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 13;
     rarity = Silver;
     faction = Monster;
@@ -991,9 +1025,10 @@ ImperialManticore::ImperialManticore()
 
 ManticoreVenom::ManticoreVenom()
 {
+    id = "113306";
     name = "Manticore Venom";
     text = "Deal 13 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/113306.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -1013,9 +1048,10 @@ void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 GloriousHunt::GloriousHunt()
 {
+    id = "201635";
     name = "Glorious Hunt";
     text = "If losing, Spawn an Imperial Manticore, otherwise Spawn Manticore Venom.";
-    url = "https://gwent.one/image/card/low/cid/png/201635.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -1032,9 +1068,10 @@ void GloriousHunt::onPlaySpecial(Field &ally, Field &enemy)
 
 Ves::Ves()
 {
+    id = "122204";
     name = "Ves";
     text = "Swap up to 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/122204.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VESS_Q403_00546798.mp3",
         "https://gwent.one/audio/card/ob/en/VESS_VES_01070698.mp3",
@@ -1059,9 +1096,10 @@ void Ves::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Vaedermakar::Vaedermakar()
 {
+    id = "113208";
     name = "Vaedermakar";
     text = "Spawn Biting Frost, Impenetrable Fog or Alzur's Thunder.";
-    url = "https://gwent.one/image/card/low/cid/png/113208.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 4;
     rarity = Silver;
     faction = Neutral;
@@ -1081,9 +1119,10 @@ void Vaedermakar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Frightener::Frightener()
 {
+    id = "132204";
     name = "Frightener";
     text = "Spying. Single-Use: Move an enemy to this row and draw a card.";
-    url = "https://gwent.one/image/card/low/cid/png/132204.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 13;
     isLoyal = false;
     timer = 1;
@@ -1116,9 +1155,10 @@ void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Cleaver::Cleaver()
 {
+    id = "122216";
     name = "Cleaver";
     text = "Deal 1 damage for each card in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/122216.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 7;
     rarity = Silver;
     faction = Scoiatael;
@@ -1139,9 +1179,10 @@ void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Scorch::Scorch()
 {
+    id = "113309";
     name = "Scorch";
     text = "Destroy all the Highest units.";
-    url = "https://gwent.one/image/card/low/cid/png/113309.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -1156,9 +1197,10 @@ void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 
 Reinforcements::Reinforcements()
 {
+    id = "123201";
     name = "Reinforcements";
     text = "Play a Bronze or Silver Soldier, Machine, Officer or Support unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/123201.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = NothernRealms;
@@ -1177,9 +1219,10 @@ void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 JohnNatalis::JohnNatalis()
 {
+    id = "122103";
     name = "John Natalis";
     text = "Play a Bronze or Silver Tactic from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/122103.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_JANT_900381_0141.mp3",
         "https://gwent.one/audio/card/ob/en/VO_JANT_300862_0253.mp3",
@@ -1202,9 +1245,10 @@ void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Eleyas::Eleyas()
 {
+    id = "142214";
     name = "Ele'yas";
     text = "Whenever you draw this unit or return it to your deck, boost self by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/142214.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 10;
     rarity = Silver;
     faction = Scoiatael;
@@ -1223,9 +1267,10 @@ void Eleyas::onSwap(Field &ally, Field &enemy)
 
 ReaverScout::ReaverScout()
 {
+    id = "122307";
     name = "Reaver Scout";
     text = "Choose a different Bronze ally and play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/122307.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
         "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0060.mp3",
@@ -1250,9 +1295,10 @@ void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 HeymaeySpearmaiden::HeymaeySpearmaiden()
 {
+    id = "200528";
     name = "Heymaey Spearmaiden";
     text = "Deal 1 damage to a Bronze Machine or Soldier ally, then play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200528.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3",
@@ -1279,9 +1325,10 @@ void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy
 
 KaedweniKnight::KaedweniKnight()
 {
+    id = "201622";
     name = "Kaedweni Knight";
     text = "Boost self by 5 if played from the deck. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/201622.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.10.mp3",
@@ -1306,9 +1353,10 @@ void KaedweniKnight::onDeployFromDeck(Field &ally, Field &enemy)
 
 VriheddSappers::VriheddSappers()
 {
+    id = "142307";
     name = "Vrihedd Sappers";
     text = "Ambush: After 2 turns, flip over on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/142307.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 11;
     rarity = Bronze;
     faction = Scoiatael;
@@ -1332,9 +1380,10 @@ void VriheddSappers::onTurnStart(Field &, Field &)
 
 PriestessOfFreya::PriestessOfFreya()
 {
+    id = "152310";
     name = "Priestess of Freya";
     text = "Resurrect a Bronze Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/152310.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553534.mp3",
         "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553573.mp3",
@@ -1359,9 +1408,10 @@ void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DimunCorsair::DimunCorsair()
 {
+    id = "200145";
     name = "Dimun Corsair";
     text = "Resurrect a Bronze Machine.";
-    url = "https://gwent.one/image/card/low/cid/png/200145.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.71.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.72.mp3",
@@ -1386,9 +1436,10 @@ void DimunCorsair::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Sigrdrifa::Sigrdrifa()
 {
+    id = "152211";
     name = "Sigrdrifa";
     text = "Resurrect a Bronze or Silver Clan unit.";
-    url = "https://gwent.one/image/card/low/cid/png/152211.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SPR1_VSET_00553157.mp3",
         "https://gwent.one/audio/card/ob/en/SPR1_SQ201_00499249.mp3",
@@ -1403,7 +1454,7 @@ Sigrdrifa::Sigrdrifa()
 
 void Sigrdrifa::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar})}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyDiscard);
 }
 
 void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1413,9 +1464,10 @@ void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Sage::Sage()
 {
+    id = "200138";
     name = "Sage";
     text = "Resurrect a Bronze Alchemy or Spell card, then Banish it.";
-    url = "https://gwent.one/image/card/low/cid/png/200138.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 2;
     rarity = Bronze;
     faction = Scoiatael;
@@ -1435,9 +1487,10 @@ void Sage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Reconnaissance::Reconnaissance()
 {
+    id = "201704";
     name = "Reconnaissance";
     text = "Look at 2 random Bronze units in your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/201704.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -1456,9 +1509,10 @@ void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ElvenMercenary::ElvenMercenary()
 {
+    id = "142308";
     name = "Elven Mercenary";
     text = "Look at 2 random Bronze special cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/142308.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     rarity = Bronze;
     faction = Scoiatael;
@@ -1477,9 +1531,10 @@ void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ChampionOfHov::ChampionOfHov()
 {
+    id = "152202";
     name = "Champion of Hov";
     text = "Duel an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/152202.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053125.mp3",
         "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053127.mp3",
@@ -1502,9 +1557,10 @@ void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 GeraltIgni::GeraltIgni(const Lang lang)
 {
+    id = "112102";
     name = "Geralt: Igni";
     text = "Destroy the Highest units on an enemy row if that row has a total of 25 or more.";
-    url = "https://gwent.one/image/card/low/cid/png/112102.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
@@ -1520,8 +1576,9 @@ GeraltIgni::GeraltIgni(const Lang lang)
 
 GeraltOfRivia::GeraltOfRivia()
 {
+    id = "112103";
     name = "Geralt of Rivia";
-    url = "https://gwent.one/image/card/low/cid/png/112103.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
@@ -1552,9 +1609,10 @@ void GeraltIgni::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row ro
 
 Priscilla::Priscilla()
 {
+    id = "122202";
     name = "Priscilla";
     text = "Boost 5 random allies by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/122202.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/PRIS_Q305_00489643.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.9.mp3",
@@ -1575,9 +1633,10 @@ void Priscilla::onDeploy(Field &ally, Field &enemy)
 
 SeltkirkOfGulet::SeltkirkOfGulet()
 {
+    id = "201618";
     name = "Seltkirk of Gulet";
     text = "Duel an enemy. 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/201618.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.117.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.118.mp3",
@@ -1602,9 +1661,10 @@ void SeltkirkOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 AdrenalineRush::AdrenalineRush()
 {
+    id = "113307";
     name = "Adrenaline Rush";
     text = "Toggle a unit's Resilience status.";
-    url = "https://gwent.one/image/card/low/cid/png/113307.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -1623,9 +1683,10 @@ void AdrenalineRush::onTargetChoosen(Card *target, Field &, Field &)
 
 ShupesDayOff::ShupesDayOff()
 {
+    id = "201627";
     name = "Shupe's Day Off";
     text = "If your starting deck has no duplicates, Spawn a Shupe: Knight, Shupe: Hunter or Supe: Mage";
-    url = "https://gwent.one/image/card/low/cid/png/201627.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.168.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.169.mp3",
@@ -1655,8 +1716,9 @@ void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ShupeHunter::ShupeHunter()
 {
+    id = "201731";
     name = "Shupe: Hunter";
-    url = "https://gwent.one/image/card/low/cid/png/201731.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 8;
     isDoomed = true;
     rarity = Gold;
@@ -1762,8 +1824,9 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ShupeMage::ShupeMage()
 {
+    id = "201725";
     name = "Shupe: Mage";
-    url = "https://gwent.one/image/card/low/cid/png/201725.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 4;
     isDoomed = true;
     rarity = Gold;
@@ -1872,9 +1935,10 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Mandrake::Mandrake()
 {
+    id = "200223";
     name = "Mandrake";
     text = "Choose One: Heal a unit and Strengthen it by 6; or Reset a unit and Weaken it by 6.";
-    url = "https://gwent.one/image/card/low/cid/png/200223.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -1926,9 +1990,10 @@ void Mandrake::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 BoneTalisman::BoneTalisman()
 {
+    id = "201598";
     name = "Bone Talisman";
     text = "Choose One: Resurrect a Bronze Beast or Cultist; or Heal an ally and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/201598.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Skellige;
@@ -1985,8 +2050,9 @@ void BoneTalisman::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ShupeKnight::ShupeKnight()
 {
+    id = "201737";
     name = "Shupe: Knight";
-    url = "https://gwent.one/image/card/low/cid/png/201737.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 12;
     isDoomed = true;
     rarity = Gold;
@@ -2084,9 +2150,10 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Decoy::Decoy()
 {
+    id = "113201";
     name = "Decoy";
     text = "Replay a Bronze or Silver ally and boost it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/113201.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -2107,9 +2174,10 @@ void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 FirstLight::FirstLight()
 {
+    id = "113303";
     name = "First Light";
     text = "Choose One: Boost all damaged allies under Hazards by 2 and clear all Hazards from your side; or Play a random Bronze unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/113303.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -2154,9 +2222,10 @@ void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ClearSkies::ClearSkies()
 {
+    id = "113303";
     name = "Clear Skies";
     text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
-    url = "https://gwent.one/image/card/low/cid/png/113303.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -2173,9 +2242,10 @@ void ClearSkies::onPlaySpecial(Field &ally, Field &enemy)
 
 Epidemic::Epidemic()
 {
+    id = "113308";
     name = "Epidemic";
     text = "Destroy all the Lowest units.";
-    url = "https://gwent.one/image/card/low/cid/png/113308.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -2190,9 +2260,10 @@ void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 
 Moonlight::Moonlight()
 {
+    id = "200067";
     name = "Moonlight";
     text = "Choose One: Apply a Full Moon Boon; or Apply a Blood Moon Hazard.";
-    url = "https://gwent.one/image/card/low/cid/png/200067.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Monster;
@@ -2241,9 +2312,10 @@ void Moonlight::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row
 
 CiriNova::CiriNova()
 {
+    id = "201626";
     name = "Ciri: Nova";
     text = "If you have exactly 2 copies of each Bronze card in your starting deck, set base power to 22.";
-    url = "https://gwent.one/image/card/low/cid/png/201626.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
         "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
@@ -2267,9 +2339,10 @@ void CiriNova::onDeploy(Field &ally, Field &enemy)
 
 HaraldTheCripple::HaraldTheCripple()
 {
+    id = "200161";
     name = "Harald the Cripple";
     text = "Deal 1 damage to a random enemy on the opposite row. Repeat 9 times.";
-    url = "https://gwent.one/image/card/low/cid/png/200161.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.196.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.197.mp3",
@@ -2296,9 +2369,10 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
 
 Emissary::Emissary()
 {
+    id = "162314";
     name = "Emissary";
     text = "Look at 2 random Bronze units from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/162314.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526372.mp3",
         "https://gwent.one/audio/card/ob/en/NIS1_Q002_01048548.mp3",
@@ -2323,9 +2397,10 @@ void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 CeallachDyffryn::CeallachDyffryn()
 {
+    id = "162213";
     name = "Ceallach Dyffryn";
     text = "Spawn an Ambassador, Assassin or Emissary.";
-    url = "https://gwent.one/image/card/low/cid/png/162213.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.109.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.110.mp3",
@@ -2350,9 +2425,10 @@ void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Restore::Restore()
 {
+    id = "153201";
     name = "Restore";
     text = "Return a Bronze or Silver Skellige unit from your graveyard to your hand, add the Doomed category to it, and set its base power to 8. Then play a card.";
-    url = "https://gwent.one/image/card/low/cid/png/153201.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Skellige;
@@ -2374,9 +2450,10 @@ void Restore::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DrummondQueensguard::DrummondQueensguard()
 {
+    id = "152307";
     name = "Drummond Queensguard";
     text = "Resurrect all copies of this unit on this row.";
-    url = "https://gwent.one/image/card/low/cid/png/152307.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SWO5_Q205_00482375.mp3",
         "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521383.mp3",
@@ -2403,9 +2480,10 @@ void DrummondQueensguard::onDeploy(Field &ally, Field &enemy)
 
 BranTuirseach::BranTuirseach()
 {
+    id = "200159";
     name = "Bran Tuirseach";
     text = "Discard up to 3 cards from your deck and Strengthen them by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/200159.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.193.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.194.mp3",
@@ -2431,9 +2509,10 @@ void BranTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DrummondWarmonger::DrummondWarmonger()
 {
+    id = "200036";
     name = "Drummond Warmonger";
     text = "Discard a Bronze card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200036.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.5.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.6.mp3",
@@ -2457,9 +2536,10 @@ void DrummondWarmonger::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 DimunPirate::DimunPirate()
 {
+    id = "152305";
     name = "Dimun Pirate";
     text = "Discard all copies of this unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/152305.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SBD3_VSET_00526925.mp3",
         "https://gwent.one/audio/card/ob/en/SBD3_VSET_00527400.mp3",
@@ -2479,9 +2559,10 @@ void DimunPirate::onDeploy(Field &ally, Field &enemy)
 
 AnCraiteRaider::AnCraiteRaider()
 {
+    id = "152316";
     name = "An Craite Raider";
     text = "Whenever you Discard this unit, Resurrect it on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/152316.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SGD1_CHAT_01024106.mp3",
         "https://gwent.one/audio/card/ob/en/SGD1_VSET_00541470.mp3",
@@ -2503,9 +2584,10 @@ void AnCraiteRaider::onDiscard(Field &ally, Field &enemy)
 
 MadmanLugos::MadmanLugos()
 {
+    id = "152106";
     name = "Madman Lugos";
     text = "Discard a Bronze unit from your deck, then deal damage equal to its base power to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/152106.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/LUTM_Q210_00561116.mp3",
         "https://gwent.one/audio/card/ob/en/LUTM_SQ209_00593785.mp3",
@@ -2538,9 +2620,10 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Ermion::Ermion()
 {
+    id = "152103";
     name = "Ermion";
     text = "Draw 2 cards, then Discard 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/152103.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/MOUS_Q203_01040282.mp3",
         "https://gwent.one/audio/card/ob/en/MOUS_Q403_00566059.mp3",
@@ -2567,9 +2650,10 @@ void Ermion::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 CerysFearless::CerysFearless()
 {
+    id = "201778";
     name = "Cerys: Fearless";
     text = "Resurrect the next unit you Discard.";
-    url = "https://gwent.one/image/card/low/cid/png/201778.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
         "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
@@ -2601,9 +2685,10 @@ void CerysFearless::onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy)
 
 CerysAnCraite::CerysAnCraite()
 {
+    id = "200177";
     name = "Cerys An Craite";
     text = "When 4 units are Resurrected while this unit is in the graveyard, Resurrect it on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/200177.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
         "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
@@ -2642,9 +2727,10 @@ void CerysAnCraite::onOtherAllyResurrecteded(Card *, Field &ally, Field &enemy)
 
 WoodlandSpirit::WoodlandSpirit()
 {
+    id = "132103";
     name = "Woodland Spirit";
     text = "Spawn 3 Wolves on the melee row and apply Impenetrable Fog to the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/132103.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 5;
     rarity = Gold;
     faction = Monster;
@@ -2665,9 +2751,10 @@ void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
 
 Trollololo::Trollololo()
 {
+    id = "122209";
     name = "Trollololo";
     text = "9 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/122209.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00411733.mp3",
         "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468246.mp3",
@@ -2688,9 +2775,10 @@ void Trollololo::onDeploy(Field &ally, Field &enemy)
 
 PrinceStennis::PrinceStennis()
 {
+    id = "122208";
     name = "Prince Stennis";
     text = "Play the top non-Spying Bronze or Silver unit from your deck and give it 5 Armor. 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/122208.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0302.mp3",
         "https://gwent.one/audio/card/ob/en/VO_STEN_200098_0258.mp3",
@@ -2716,9 +2804,10 @@ void PrinceStennis::onDeploy(Field &ally, Field &enemy)
 
 VincentMeis::VincentMeis()
 {
+    id = "200098";
     name = "Vincent Meis";
     text = "Destroy the Armor of all units, then boost self by half the value destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/200098.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.203.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.202.mp3",
@@ -2743,9 +2832,10 @@ void VincentMeis::onDeploy(Field &ally, Field &enemy)
 
 Morkvarg::Morkvarg()
 {
+    id = "152209";
     name = "Morkvarg";
     text = "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.";
-    url = "https://gwent.one/image/card/low/cid/png/152209.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00499647.mp3",
         "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00501979.mp3",
@@ -2778,9 +2868,10 @@ void Morkvarg::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos
 
 ArtefactCompression::ArtefactCompression()
 {
+    id = "200053";
     name = "Artefact Compression";
     text = "Transform a Bronze or Silver unit into a Jade Figurine.";
-    url = "https://gwent.one/image/card/low/cid/png/200053.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = Neutral;
@@ -2830,9 +2921,10 @@ void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const R
 
 HjalmarAnCraite::HjalmarAnCraite()
 {
+    id = "152101";
     name = "Hjalmar an Craite";
     text = "Spawn the Lord of Undvik on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/152101.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037900.mp3",
         "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037904.mp3",
@@ -2858,9 +2950,10 @@ void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
 
 Regis::Regis()
 {
+    id = "112104";
     name = "Regis";
     text = "Drain all boosts from a unit.";
-    url = "https://gwent.one/image/card/low/cid/png/112104.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/REGI_Q702_01155490.mp3",
         "https://gwent.one/audio/card/ob/en/REGI_Q702_01155230.mp3",
@@ -2885,9 +2978,10 @@ void Regis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 LethoOfGulet::LethoOfGulet()
 {
+    id = "162101";
     name = "Letho of Gulet";
     text = "Spying. Apply Lock status to 2 units on this row, then Drain all their power.";
-    url = "https://gwent.one/image/card/low/cid/png/162101.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
         "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
@@ -2914,9 +3008,10 @@ void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 AnCraiteLongship::AnCraiteLongship()
 {
+    id = "152314";
     name = "An Craite Longship";
     text = "Deal 2 damage to a random enemy. Repeat this ability whenever you Discard a card.";
-    url = "https://gwent.one/image/card/low/cid/png/152314.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 7;
     rarity = Bronze;
     faction = Skellige;
@@ -2937,9 +3032,10 @@ void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
 
 TuirseachVeteran::TuirseachVeteran()
 {
+    id = "200046";
     name = "Tuirseach Veteran";
     text = "Strengthen all your other Clan Tuirseach units in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/200046.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.410.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.411.mp3",
@@ -2959,9 +3055,10 @@ void TuirseachVeteran::onDeploy(Field &ally, Field &enemy)
 
 TuirseachHunter::TuirseachHunter()
 {
+    id = "152304";
     name = "Tuirseach Hunter";
     text = "Deal 5 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/152304.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544501.mp3",
         "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544569.mp3",
@@ -2985,9 +3082,10 @@ void TuirseachHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Udalryk::Udalryk()
 {
+    id = "152214";
     name = "Udalryk";
     text = "Spying. Single-Use: Look at 2 cards from your deck. Draw one and Discard the other.";
-    url = "https://gwent.one/image/card/low/cid/png/152214.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 13;
     isLoyal = false;
     timer = 1;
@@ -3017,9 +3115,10 @@ void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 BloodcurdlingRoar::BloodcurdlingRoar()
 {
+    id = "152406";
     name = "Bloodcurdling Roar";
     text = "Destroy an ally. Spawn a bear.";
-    url = "https://gwent.one/image/card/low/cid/png/152406.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
@@ -3039,9 +3138,10 @@ void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Gremist::Gremist()
 {
+    id = "152206";
     name = "Gremist";
     text = "Spawn Torrential Rain, Clear Skies or Bloodcurdling Roar.";
-    url = "https://gwent.one/image/card/low/cid/png/152206.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.828.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.829.mp3",
@@ -3067,9 +3167,10 @@ void Gremist::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Operator::Operator()
 {
+    id = "112208";
     name = "Operator";
     text = "Single-Use, Truce: Make a default copy of a Bronze unit in your hand for both players.";
-    url = "https://gwent.one/image/card/low/cid/png/112208.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0001.mp3",
         "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0012.mp3",
@@ -3105,9 +3206,10 @@ void Operator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 ZoriaRunestone::ZoriaRunestone()
 {
+    id = "201582";
     name = "Zoria Runestone";
     text = "Create a Bronze or Silver Northern Realms card.";
-    url = "https://gwent.one/image/card/low/cid/png/201582.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Silver;
     faction = NothernRealms;
@@ -3127,9 +3229,10 @@ void ZoriaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 Renew::Renew()
 {
+    id = "113316";
     name = "Renew";
     text = "Resurrect a non-Leader Gold unit.";
-    url = "https://gwent.one/image/card/low/cid/png/113316.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     rarity = Gold;
     faction = Neutral;
@@ -3148,9 +3251,10 @@ void Renew::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 EistTuirseach::EistTuirseach()
 {
+    id = "201597";
     name = "Eist Tuirseach";
     text = "Spawn a Bronze Clan Tuirseach Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/201597.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.47.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.48.mp3",
@@ -3175,9 +3279,10 @@ void EistTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 TuirseachAxeman::TuirseachAxeman()
 {
+    id = "152312";
     name = "Tuirseach Axeman";
     text = "Whenever an enemy on the opposite row is damaged, boost self by 1. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/152312.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.807.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.808.mp3",
@@ -3206,9 +3311,10 @@ void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy
 
 TuirseachSkirmisher::TuirseachSkirmisher()
 {
+    id = "152313";
     name = "Tuirseach Skirmisher";
     text = "Whenever this unit is Resurrected, Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/152313.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SGD2_VSET_00165758.mp3",
         "https://gwent.one/audio/card/ob/en/SGD2_VSET_00526547.mp3",
@@ -3227,9 +3333,10 @@ void TuirseachSkirmisher::onDeployFromDiscard(Field &ally, Field &enemy)
 
 Derran::Derran()
 {
+    id = "201646";
     name = "Derran";
     text = "Whenever an enemy is damaged, boost self by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/201646.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.232.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.233.mp3",
@@ -3249,9 +3356,10 @@ void Derran::onOtherEnemyDamaged(Card *, Field &ally, Field &enemy)
 
 Roach::Roach()
 {
+    id = "112210";
     name = "Roach";
     text = "Whenever you play a Gold unit from your hand, Summon this unit to a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/112210.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 4;
     rarity = Silver;
     faction = Neutral;
@@ -3274,9 +3382,10 @@ void Roach::onOtherAllyPlayedFromHand(Card *other, Field &ally, Field &enemy)
 
 JanCalveit::JanCalveit()
 {
+    id = "200164";
     name = "Jan Calveit";
     text = "Look at the top 3 cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/200164.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.55.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.56.mp3",
@@ -3301,9 +3410,10 @@ void JanCalveit::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 CahirDyffryn::CahirDyffryn()
 {
+    id = "162104";
     name = "Cahir Dyffryn";
     text = "Resurrect a Leader.";
-    url = "https://gwent.one/image/card/low/cid/png/162104.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.69.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.70.mp3",
@@ -3328,9 +3438,10 @@ void CahirDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 LethoKingslayer::LethoKingslayer()
 {
+    id = "201603";
     name = "Letho: Kingslayer";
     text = "Choose One: Destroy an enemy Leader, then boost self by 5; or Play a Bronze or Silver Tactic from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/201603.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
         "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
@@ -3397,9 +3508,10 @@ void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 KingHenselt::KingHenselt()
 {
+    id = "200170";
     name = "King Henselt";
     text = "Choose a Bronze Machine or Kaedweni ally and play all copies of it from your deck. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/200170.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0265.mp3",
         "https://gwent.one/audio/card/ob/en/VO_HSLT_200497_0001.mp3",
@@ -3425,9 +3537,10 @@ void KingHenselt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 BloodyBaron::BloodyBaron()
 {
+    id = "122101";
     name = "Bloody Baron";
     text = "If in hand, deck, or on board, boost self by 1 whenever an enemy is destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/122101.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/BARN_Q103_00473473.mp3",
         "https://gwent.one/audio/card/ob/en/BARN_Q107_00515406.mp3",
@@ -3449,9 +3562,10 @@ void BloodyBaron::onOtherEnemyDestroyed(Card *, Field &ally, Field &enemy)
 
 Dethmold::Dethmold()
 {
+    id = "122207";
     name = "Dethmold";
     text = "Spawn Torrential Rain, Clear Skies or Alzur's Thunder.";
-    url = "https://gwent.one/image/card/low/cid/png/122207.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_DETM_200219_0001.mp3",
         "https://gwent.one/audio/card/ob/en/VO_DETM_200182_0001.mp3",
@@ -3476,9 +3590,10 @@ void Dethmold::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
 RonvidTheIncessant::RonvidTheIncessant()
 {
+    id = "200529";
     name = "Ronvid the Incessant";
     text = "Resurrect on a random row with 1 power on turn end. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/200529.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.401.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.402.mp3",
@@ -3502,9 +3617,10 @@ void RonvidTheIncessant::onTurnEnd(Field &ally, Field &enemy)
 
 HubertRejk::HubertRejk()
 {
+    id = "200088";
     name = "Hubert Rejk";
     text = "Drain all boosts from units in your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200088.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.177.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.175.mp3",
@@ -3524,10 +3640,10 @@ void HubertRejk::onDeploy(Field &ally, Field &enemy)
 
 CrachAnCraite::CrachAnCraite()
 {
-    id = 200160;
+    id = "200160";
     name = "Crach an Craite";
     text = "Strengthen the Highest non-Spying Bronze or Silver unit in your deck by 2 and play it.";
-    url = "https://gwent.one/image/card/low/cid/png/200160.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040579.mp3",
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040589.mp3",
@@ -3542,10 +3658,10 @@ CrachAnCraite::CrachAnCraite()
 
 BirnaBran::BirnaBran()
 {
-    id = 152105;
+    id = "152105";
     name = "Birna Bran";
     text = "Apply Skellige Storm to an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/152105.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.206.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.207.mp3",
@@ -3559,10 +3675,10 @@ BirnaBran::BirnaBran()
 
 Coral::Coral()
 {
-    id = 152107;
+    id = "152107";
     name = "Coral";
     text = "Transform a Bronze or Silver unit into a Jade Figurine.";
-    url = "https://gwent.one/image/card/low/cid/png/152107.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.202.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.204.mp3",
@@ -3574,12 +3690,12 @@ Coral::Coral()
     tags = { Mage };
 }
 
-Hemdall::Hemdall()
+Kambi::Hemdall::Hemdall()
 {
-    id = 152402;
+    id = "152402";
     name = "Hemdall";
     text = "Destroy all other units and clear all Boons and Hazards.";
-    url = "https://gwent.one/image/card/low/cid/png/152402.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.199.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.201.mp3",
@@ -3594,10 +3710,10 @@ Hemdall::Hemdall()
 
 Vabjorn::Vabjorn()
 {
-    id = 200028;
+    id = "200028";
     name = "Vabjorn";
     text = "Deal 2 damage to an enemy. If it was already damaged, destroy it instead.";
-    url = "https://gwent.one/image/card/low/cid/png/200028.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.211.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.213.mp3",
@@ -3611,10 +3727,10 @@ Vabjorn::Vabjorn()
 
 BlueboyLugos::BlueboyLugos()
 {
-    id = 152201;
+    id = "152201";
     name = "Blueboy Lugos";
     text = "Spawn a Spectral Whale on an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/152201.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/LUTG_SQ209_00594723.mp3",
         "https://gwent.one/audio/card/ob/en/LUTG_LUGOS_01038779.mp3",
@@ -3628,10 +3744,10 @@ BlueboyLugos::BlueboyLugos()
 
 DjengeFrett::DjengeFrett()
 {
-    id = 152203;
+    id = "152203";
     name = "Djenge Frett";
     text = "Deal 1 damage to 2 allies and Strengthen self by 2 for each.";
-    url = "https://gwent.one/image/card/low/cid/png/152203.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.806.mp3",
         "https://gwent.one/audio/card/ob/en/SWR3_MQ2013_00349800.mp3",
@@ -3647,10 +3763,10 @@ DjengeFrett::DjengeFrett()
 
 DonarAnHindar::DonarAnHindar()
 {
-    id = 152204;
+    id = "152204";
     name = "Donar an Hindar";
     text = "Toggle a unit's Lock status, then move a Bronze unit from your opponent's graveyard to yours.";
-    url = "https://gwent.one/image/card/low/cid/png/152204.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/DONR_Q206_00587479.mp3",
         "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037057.mp3",
@@ -3664,10 +3780,10 @@ DonarAnHindar::DonarAnHindar()
 
 DraigBonDhu::DraigBonDhu()
 {
-    id = 152205;
+    id = "152205";
     name = "Draig Bon-Dhu";
     text = "Strengthen 2 non-Leader units in your graveyard by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/152205.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SBR1_VSET_00527986.mp3",
         "https://gwent.one/audio/card/ob/en/SBR1_VSET_00528002.mp3",
@@ -3681,10 +3797,10 @@ DraigBonDhu::DraigBonDhu()
 
 HolgerBlackhand::HolgerBlackhand()
 {
-    id = 152207;
+    id = "152207";
     name = "Holger Blackhand";
     text = "Deal 6 damage. If the unit was destroyed, Strengthen the Highest unit in your graveyard by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/152207.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/HOLG_Q201_00387298.mp3",
         "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038014.mp3",
@@ -3698,10 +3814,10 @@ HolgerBlackhand::HolgerBlackhand()
 
 JuttaAnDimun::JuttaAnDimun()
 {
-    id = 152208;
+    id = "152208";
     name = "Jutta an Dimun";
     text = "Deal 1 damage to self.";
-    url = "https://gwent.one/image/card/low/cid/png/152208.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509731.mp3",
         "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00507987.mp3",
@@ -3710,15 +3826,15 @@ JuttaAnDimun::JuttaAnDimun()
     power = powerBase = 13;
     faction = Skellige;
     rarity = Silver;
-    tags = { Soldier, ClanDimun };
+    tags = { ClanDimun, Soldier };
 }
 
 SavageBear::SavageBear()
 {
-    id = 152210;
+    id = "152210";
     name = "Savage Bear";
     text = "Whenever a unit is played from either hand on your opponent's side, deal 1 damage to it.";
-    url = "https://gwent.one/image/card/low/cid/png/152210.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 9;
     faction = Skellige;
     rarity = Bronze;
@@ -3727,10 +3843,10 @@ SavageBear::SavageBear()
 
 SvanrigeTuirseach::SvanrigeTuirseach()
 {
-    id = 152213;
+    id = "152213";
     name = "Svanrige Tuirseach";
     text = "Draw a card, then Discard a card.";
-    url = "https://gwent.one/image/card/low/cid/png/152213.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.209.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.210.mp3",
@@ -3746,10 +3862,10 @@ SvanrigeTuirseach::SvanrigeTuirseach()
 
 Skjall::Skjall()
 {
-    id = 200212;
+    id = "200212";
     name = "Skjall";
     text = "Play a random Bronze or Silver Cursed unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200212.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.822.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.823.mp3",
@@ -3761,15 +3877,15 @@ Skjall::Skjall()
     power = powerBase = 5;
     faction = Skellige;
     rarity = Silver;
-    tags = { Cursed, ClanHeymaey };
+    tags = { ClanHeymaey, Cursed };
 }
 
 HaraldHoundsnout::HaraldHoundsnout()
 {
-    id = 200043;
+    id = "200043";
     name = "Harald Houndsnout";
     text = "Spawn Wilfred to the left of this unit, Wilhelm to the right, and Wilmar on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/200043.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.130.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.131.mp3",
@@ -3778,16 +3894,15 @@ HaraldHoundsnout::HaraldHoundsnout()
     power = powerBase = 6;
     faction = Skellige;
     rarity = Silver;
-    // TODO: add ClanTordarroch
-    tags = { Cursed, /*ClanTordarroch*/ };
+    tags = { ClanTordarroch, Cursed };
 }
 
 Yoana::Yoana()
 {
-    id = 201644;
+    id = "201644";
     name = "Yoana";
     text = "Heal an ally, then boost it by the amount Healed.";
-    url = "https://gwent.one/image/card/low/cid/png/201644.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.20.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.24.mp3",
@@ -3798,16 +3913,15 @@ Yoana::Yoana()
     power = powerBase = 6;
     faction = Skellige;
     rarity = Silver;
-    // TODO: add ClanTordarroch
-    tags = { /*ClanTordarroch*/ Support };
+    tags = { ClanTordarroch, Support };
 }
 
 AnCraiteBlacksmith::AnCraiteBlacksmith()
 {
-    id = 152311;
+    id = "152311";
     name = "An Craite Blacksmith";
     text = "Strengthen an ally by 2 and give it 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/152311.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550878.mp3",
         "https://gwent.one/audio/card/ob/en/SAR3_CHAT_01050115.mp3",
@@ -3816,15 +3930,15 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     power = powerBase = 9;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Support, ClanAnCraite };
+    tags = { ClanAnCraite, Support };
 }
 
 AnCraiteWarcrier::AnCraiteWarcrier()
 {
-    id = 113313;
+    id = "113313";
     name = "An Craite Warcrier";
     text = "Boost an ally by half its power.";
-    url = "https://gwent.one/image/card/low/cid/png/113313.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.327.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.330.mp3",
@@ -3835,16 +3949,16 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     power = powerBase = 5;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Support, ClanAnCraite};
+    tags = { ClanAnCraite, Support};
 }
 
 
 AnCraiteWarrior::AnCraiteWarrior()
 {
-    id = 152303;
+    id = "152303";
     name = "An Craite Warrior";
     text = "Deal 1 damage to self.";
-    url = "https://gwent.one/image/card/low/cid/png/152303.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165312.mp3",
         "https://gwent.one/audio/card/ob/en/SGD2_VSET_00541769.mp3",
@@ -3853,15 +3967,15 @@ AnCraiteWarrior::AnCraiteWarrior()
     power = powerBase = 12;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Soldier, ClanAnCraite };
+    tags = { ClanAnCraite, Soldier };
 }
 
 BerserkerMarauder::BerserkerMarauder()
 {
-    id = 152302;
+    id = "152302";
     name = "Berserker Marauder";
     text = "Boost self by 1 for each damaged or Cursed ally.";
-    url = "https://gwent.one/image/card/low/cid/png/152302.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536097.mp3",
         "https://gwent.one/audio/card/ob/en/SBE1_Q206_00413021.mp3",
@@ -3875,10 +3989,10 @@ BerserkerMarauder::BerserkerMarauder()
 
 DimunPirateCaptain::DimunPirateCaptain()
 {
-    id = 152306;
+    id = "152306";
     name = "Dimun Pirate Captain";
     text = "Play a different Bronze Dimun unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/152306.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SBD1_MQ2003_01054136.mp3",
         "https://gwent.one/audio/card/ob/en/SBD1_Q202_00307483.mp3",
@@ -3893,10 +4007,10 @@ DimunPirateCaptain::DimunPirateCaptain()
 
 DimunSmuggler::DimunSmuggler()
 {
-    id = 200146;
+    id = "200146";
     name = "Dimun Smuggler";
     text = "Return a Bronze unit from your graveyard to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200146.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.76.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.75.mp3",
@@ -3905,15 +4019,15 @@ DimunSmuggler::DimunSmuggler()
     power = powerBase = 10;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Soldier, ClanDimun };
+    tags = { ClanDimun, Soldier };
 }
 
 DrummondShieldmaid::DrummondShieldmaid()
 {
-    id = 152318;
+    id = "152318";
     name = "Drummond Shieldmaid";
     text = "Summon all copies of this unit to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/152318.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.2.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.1.mp3",
@@ -3927,10 +4041,10 @@ DrummondShieldmaid::DrummondShieldmaid()
 
 HeymaeyFlaminica::HeymaeyFlaminica()
 {
-    id = 200147;
+    id = "200147";
     name = "Heymaey Flaminica";
     text = "Clear Hazards from the row and move 2 allies to it.";
-    url = "https://gwent.one/image/card/low/cid/png/200147.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.89.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.88.mp3",
@@ -3945,10 +4059,10 @@ HeymaeyFlaminica::HeymaeyFlaminica()
 
 HeymaeyHerbalist::HeymaeyHerbalist()
 {
-    id = 200081;
+    id = "200081";
     name = "Heymaey Herbalist";
     text = "Play a random Bronze Organic or Hazard card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200081.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.121.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.123.mp3",
@@ -3962,10 +4076,10 @@ HeymaeyHerbalist::HeymaeyHerbalist()
 
 HeymaeyProtector::HeymaeyProtector()
 {
-    id = 200149;
+    id = "200149";
     name = "Heymaey Protector";
     text = "Play a Bronze Item from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200149.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.80.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.81.mp3",
@@ -3974,15 +4088,15 @@ HeymaeyProtector::HeymaeyProtector()
     power = powerBase = 2;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Soldier, ClanHeymaey };
+    tags = { ClanHeymaey, Soldier };
 }
 
 HeymaeySkald::HeymaeySkald()
 {
-    id = 152308;
+    id = "152308";
     name = "Heymaey Skald";
     text = "Boost all allies from a Clan of your choice by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/152308.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/DROG_Q206_01072830.mp3",
         "https://gwent.one/audio/card/ob/en/DROG_BARD_01036857.mp3",
@@ -3996,10 +4110,10 @@ HeymaeySkald::HeymaeySkald()
 
 RagingBerserker::RagingBerserker()
 {
-    id = 152301;
+    id = "152301";
     name = "Raging Berserker";
     text = "When this unit is damaged or Weakened, transform into a Raging Bear.";
-    url = "https://gwent.one/image/card/low/cid/png/152301.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
         "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536507.mp3",
         "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536513.mp3",
@@ -4013,10 +4127,10 @@ RagingBerserker::RagingBerserker()
 
 RagingBerserker::RagingBear::RagingBear()
 {
-    id = 152405;
+    id = "152405";
     name = "Raging Bear";
     text = "No ability.";
-    url = "https://gwent.one/image/card/low/cid/png/152405.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 12;
     faction = Skellige;
     rarity = Bronze;
@@ -4025,10 +4139,10 @@ RagingBerserker::RagingBear::RagingBear()
 
 Hym::Hym()
 {
-    id = 200102;
+    id = "200102";
     name = "Hym";
     text = "Choose One: Play a Bronze or Silver Cursed unit from your deck; or Create a Silver unit from your opponent's starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200102.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 3;
     faction = Skellige;
     rarity = Gold;
@@ -4037,10 +4151,10 @@ Hym::Hym()
 
 Kambi::Kambi()
 {
-    id = 152104;
+    id = "152104";
     name = "Kambi";
-    text = "Spying.";
-    url = "https://gwent.one/image/card/low/cid/png/152104.png";
+    text = "Spying. Deathwish: Spawn Hemdall on a random row on this unit's side.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     faction = Skellige;
     rarity = Gold;
@@ -4049,10 +4163,10 @@ Kambi::Kambi()
 
 Olaf::Olaf()
 {
-    id = 200103;
+    id = "200103";
     name = "Olaf";
     text = "Deal 10 damage to self. Reduce the damage inflicted by 2 for each Beast you played this match.";
-    url = "https://gwent.one/image/card/low/cid/png/200103.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 20;
     faction = Skellige;
     rarity = Gold;
@@ -4061,10 +4175,10 @@ Olaf::Olaf()
 
 Ulfhedinn::Ulfhedinn()
 {
-    id = 200104;
+    id = "200104";
     name = "Ulfhedinn";
     text = "Deal 1 damage to all enemies. If they were already damaged, deal 2 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/200104.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 6;
     faction = Skellige;
     rarity = Gold;
@@ -4073,22 +4187,22 @@ Ulfhedinn::Ulfhedinn()
 
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
-    id = 152109;
+    id = "152109";
     name = "Wild Boar of the Sea";
-    text = "On turn end, Strengthen the unit to the left by 1, then deal 1 damage to the unit to the right.";
-    url = "https://gwent.one/image/card/low/cid/png/152109.png";
+    text = "On turn end, Strengthen the unit to the left by 1, then deal 1 damage to the unit to the right. 5 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 8;
     faction = Skellige;
     rarity = Gold;
-    tags = { Machine, ClanAnCraite };
+    tags = { ClanAnCraite, Machine };
 }
 
 GiantBoar::GiantBoar()
 {
-    id = 201623;
+    id = "201623";
     name = "Giant Boar";
     text = "Destroy a random ally, excluding this unit, then boost self by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/201623.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 8;
     faction = Skellige;
     rarity = Silver;
@@ -4098,10 +4212,10 @@ GiantBoar::GiantBoar()
 
 OrnamentalSword::OrnamentalSword()
 {
-    id = 201642;
+    id = "201642";
     name = "Ornamental Sword";
     text = "Create a Bronze or Silver Skellige Soldier and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/201642.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isSpecial = true;
     faction = Skellige;
     rarity = Silver;
@@ -4109,12 +4223,12 @@ OrnamentalSword::OrnamentalSword()
 }
 
 
-SpectralWhale::SpectralWhale()
+BlueboyLugos::SpectralWhale::SpectralWhale()
 {
-    id = 152403;
+    id = "152403";
     name = "Spectral Whale";
     text = "Spying.";
-    url = "https://gwent.one/image/card/low/cid/png/152403.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isDoomed = true;
     power = powerBase = 3;
     faction = Skellige;
@@ -4124,10 +4238,10 @@ SpectralWhale::SpectralWhale()
 
 DimunWarship::DimunWarship()
 {
-    id = 200105;
+    id = "200105";
     name = "Dimun Warship";
     text = "Deal 1 damage to the same unit 4 times.";
-    url = "https://gwent.one/image/card/low/cid/png/200105.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 7;
     faction = Skellige;
     rarity = Bronze;
