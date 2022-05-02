@@ -115,8 +115,46 @@ std::vector<Card *> allCards(const Patch)
         new LethoKingslayer(),
         new KingHenselt(),
         new BloodyBaron(),
-        new JanCalveit(),
         new HubertRejk(),
+                new Dethmold(),
+                new RonvidTheIncessant(),
+                new CrachAnCraite(),
+                new BirnaBran(),
+                new Coral(),
+                new Hemdall(),
+                new Vabjorn(),
+                new BlueboyLugos(),
+                new DjengeFrett(),
+                new DonarAnHindar(),
+                new DraigBonDhu(),
+                new HolgerBlackhand(),
+                new JuttaAnDimun(),
+                new SavageBear(),
+                new SvanrigeTuirseach(),
+                new Skjall(),
+                new HaraldHoundsnout(),
+                new Yoana(),
+                new AnCraiteBlacksmith(),
+                new AnCraiteWarcrier(),
+                new AnCraiteWarrior(),
+                new BerserkerMarauder(),
+                new DimunPirateCaptain(),
+                new DimunSmuggler(),
+                new DrummondShieldmaid(),
+                new HeymaeyFlaminica(),
+                new HeymaeyHerbalist(),
+                new HeymaeyProtector(),
+                new HeymaeySkald(),
+                new RagingBerserker(),
+                new Hym(),
+                new Kambi(),
+                new Olaf(),
+                new Ulfhedinn(),
+                new WildBoarOfTheSea(),
+                new GiantBoar(),
+                new OrnamentalSword(),
+                new SpectralWhale(),
+                new DimunWarship(),
     };
 }
 
@@ -3484,500 +3522,614 @@ void HubertRejk::onDeploy(Field &ally, Field &enemy)
         drain(card, card->power - card->powerBase, ally, enemy, this);
 }
 
+CrachAnCraite::CrachAnCraite()
 {
     id = 200160;
     name = "Crach an Craite";
     text = "Strengthen the Highest non-Spying Bronze or Silver unit in your deck by 2 and play it.";
     url = "https://gwent.one/image/card/low/cid/png/200160.png";
-    tags = { ClanAnCraite, Leader };
-    power = powerBase = 5;
-    faction = Skellige;
-    rarity = Leader;
     sounds = {
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040579.mp3",
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040589.mp3",
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040591.mp3",
         "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01001923.mp3",
     };
+    power = powerBase = 5;
+    faction = Skellige;
+    rarity = Leader;
+    tags = { ClanAnCraite, Leader };
 }
 
+BirnaBran::BirnaBran()
 {
     id = 152105;
     name = "Birna Bran";
     text = "Apply Skellige Storm to an enemy row.";
     url = "https://gwent.one/image/card/low/cid/png/152105.png";
-    tags = { ClanTuirseach, Officer };
-    power = powerBase = 6;
-    faction = Skellige; 
-    rarity = Gold;
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.206.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.207.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.205.mp3",
     };
+    power = powerBase = 6;
+    faction = Skellige; 
+    rarity = Gold;
+    tags = { ClanTuirseach, Officer };
 }
 
+Coral::Coral()
 {
     id = 152107;
     name = "Coral";
     text = "Transform a Bronze or Silver unit into a Jade Figurine.";
     url = "https://gwent.one/image/card/low/cid/png/152107.png";
-    tags = { Mage };
-    power = powerBase = 5;
-    faction = Skellige; 
-    rarity = Gold;
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.202.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.204.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.203.mp3",
     };
+    power = powerBase = 5;
+    faction = Skellige; 
+    rarity = Gold;
+    tags = { Mage };
 }
 
+Hemdall::Hemdall()
 {
     id = 152402;
     name = "Hemdall";
     text = "Destroy all other units and clear all Boons and Hazards.";
     url = "https://gwent.one/image/card/low/cid/png/152402.png";
-    isDoomed = true;
-    power = powerBase = 20;
-    faction = Skellige;
-    rarity = Gold;
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.199.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.201.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.200.mp3"
     };
+    isDoomed = true;
+    power = powerBase = 20;
+    faction = Skellige;
+    rarity = Gold;
+    tags = {};
 }
 
+Vabjorn::Vabjorn()
 {
     id = 200028;
     name = "Vabjorn";
     text = "Deal 2 damage to an enemy. If it was already damaged, destroy it instead.";
     url = "https://gwent.one/image/card/low/cid/png/200028.png";
-    tags = { Cursed, Cultist };
-    power = powerBase = 11;
-    faction = Skellige;
-    rarity = Gold;
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.211.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.213.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.214.mp3",
     };
+    power = powerBase = 11;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { Cursed, Cultist };
 }
 
+BlueboyLugos::BlueboyLugos()
 {
     id = 152201;
     name = "Blueboy Lugos";
     text = "Spawn a Spectral Whale on an enemy row.";
     url = "https://gwent.one/image/card/low/cid/png/152201.png";
-    tags = { ClanDrummond, Soldier };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Silver;
     sounds = {
         "https://gwent.one/audio/card/ob/en/LUTG_SQ209_00594723.mp3",
         "https://gwent.one/audio/card/ob/en/LUTG_LUGOS_01038779.mp3",
     };
+    power = powerBase = 9;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { ClanDrummond, Soldier };
 }
 
+
+DjengeFrett::DjengeFrett()
 {
     id = 152203;
     name = "Djenge Frett";
     text = "Deal 1 damage to 2 allies and Strengthen self by 2 for each.";
     url = "https://gwent.one/image/card/low/cid/png/152203.png";
-    tags = { Soldier, ClanDimun };
-    power = powerBase = 10;
-    faction = Skellige;
-    rarity = Silver;
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.806.mp3",
         "https://gwent.one/audio/card/ob/en/SWR3_MQ2013_00349800.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.804.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.805.mp3",
     };
+    power = powerBase = 10;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Soldier, ClanDimun };
 }
 
+
+DonarAnHindar::DonarAnHindar()
 {
     id = 152204;
     name = "Donar an Hindar";
     text = "Toggle a unit's Lock status, then move a Bronze unit from your opponent's graveyard to yours.";
     url = "https://gwent.one/image/card/low/cid/png/152204.png";
-    tags = { Clan Heymaey Officer };
-    power = powerBase = 8;
-    faction = rarity = Skellige Silver;
     sounds = {
         "https://gwent.one/audio/card/ob/en/DONR_Q206_00587479.mp3",
         "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037057.mp3",
         "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037055.mp3",
     };
+    power = powerBase = 8;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { ClanHeymaey, Officer };
 }
 
+DraigBonDhu::DraigBonDhu()
 {
     id = 152205;
     name = "Draig Bon-Dhu";
     text = "Strengthen 2 non-Leader units in your graveyard by 3.";
     url = "https://gwent.one/image/card/low/cid/png/152205.png";
-    tags = { Support };
-    power = powerBase = 6;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SBR1_VSET_00527986.mp3","https://gwent.one/audio/card/ob/en/SBR1_VSET_00528002.mp3",
+        "https://gwent.one/audio/card/ob/en/SBR1_VSET_00527986.mp3",
+        "https://gwent.one/audio/card/ob/en/SBR1_VSET_00528002.mp3",
     };
-}
-
-{
-    id = 152206;
-    name = "Gremist";
-    text = "Spawn Torrential Rain, Clear Skies or Bloodcurdling Roar.";
-    url = "https://gwent.one/image/card/low/cid/png/152206.png";
+    power = powerBase = 6;
+    faction = Skellige;
+    rarity = Silver;
     tags = { Support };
-    power = powerBase = 4;
-    faction = rarity = Skellige Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.834.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.829.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.828.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.830.mp3",
-    };   
 }
 
+
+HolgerBlackhand::HolgerBlackhand()
 {
     id = 152207;
     name = "Holger Blackhand";
     text = "Deal 6 damage. If the unit was destroyed, Strengthen the Highest unit in your graveyard by 3.";
     url = "https://gwent.one/image/card/low/cid/png/152207.png";
-    tags = { Clan Dimun Officer };
-    power = powerBase = 6;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/HOLG_Q201_00387298.mp3","https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038014.mp3","https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038016.mp3",
-    };   
+        "https://gwent.one/audio/card/ob/en/HOLG_Q201_00387298.mp3",
+        "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038014.mp3",
+        "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038016.mp3",
+    };
+    power = powerBase = 6;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { ClanDimun, Officer };
 }
 
+JuttaAnDimun::JuttaAnDimun()
 {
     id = 152208;
     name = "Jutta an Dimun";
     text = "Deal 1 damage to self.";
     url = "https://gwent.one/image/card/low/cid/png/152208.png";
-    tags = { Soldier Clan Dimun };
-    power = powerBase = 13;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509731.mp3","https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00507987.mp3","https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509565.mp3",
-    };   
+        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509731.mp3",
+        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00507987.mp3",
+        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509565.mp3",
+    };
+    power = powerBase = 13;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Soldier, ClanDimun };
 }
 
+SavageBear::SavageBear()
 {
     id = 152210;
     name = "Savage Bear";
     text = "Whenever a unit is played from either hand on your opponent's side, deal 1 damage to it.";
     url = "https://gwent.one/image/card/low/cid/png/152210.png";
-    tags = { Beast Cursed };
     power = powerBase = 9;
-    faction = rarity = Skellige Bronze;   
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Beast, Cursed };
 }
 
+SvanrigeTuirseach::SvanrigeTuirseach()
 {
     id = 152213;
     name = "Svanrige Tuirseach";
     text = "Draw a card, then Discard a card.";
     url = "https://gwent.one/image/card/low/cid/png/152213.png";
-    tags = { Clan Tuirseach Officer };
-    power = powerBase = 9;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.209.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.210.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.208.mp3","https://gwent.one/audio/card/ob/en/SVAN_Q210_00558425.mp3","https://gwent.one/audio/card/ob/en/SVAN_Q210_01069128.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.209.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.210.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.208.mp3",
+        "https://gwent.one/audio/card/ob/en/SVAN_Q210_00558425.mp3",
+        "https://gwent.one/audio/card/ob/en/SVAN_Q210_01069128.mp3",
     };
+    power = powerBase = 9;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { ClanTuirseach, Officer };
 }
 
+Skjall::Skjall()
 {
     id = 200212;
     name = "Skjall";
     text = "Play a random Bronze or Silver Cursed unit from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/200212.png";
-    tags = { Cursed Clan Heymaey };
-    power = powerBase = 5;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.822.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.823.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.825.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.827.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.824.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries.826.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.822.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.823.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.825.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.827.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.824.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.826.mp3",
     };
+    power = powerBase = 5;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Cursed, ClanHeymaey };
 }
 
+HaraldHoundsnout::HaraldHoundsnout()
 {
     id = 200043;
     name = "Harald Houndsnout";
     text = "Spawn Wilfred to the left of this unit, Wilhelm to the right, and Wilmar on the opposite row.";
     url = "https://gwent.one/image/card/low/cid/png/200043.png";
-    tags = { Cursed Clan Tordarroch };
-    power = powerBase = 6;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.130.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.131.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.129.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.130.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.131.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.129.mp3",
     };
+    power = powerBase = 6;
+    faction = Skellige;
+    rarity = Silver;
+    // TODO: add ClanTordarroch
+    tags = { Cursed, /*ClanTordarroch*/ };
 }
 
+Yoana::Yoana()
 {
     id = 201644;
     name = "Yoana";
     text = "Heal an ally, then boost it by the amount Healed.";
     url = "https://gwent.one/image/card/low/cid/png/201644.png";
-    tags = { Clan Tordarroch Support };
-    power = powerBase = 6;
-    faction = rarity = Skellige Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.20.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.24.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.22.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.21.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.23.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.20.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.24.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.22.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.21.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.23.mp3",
     };
+    power = powerBase = 6;
+    faction = Skellige;
+    rarity = Silver;
+    // TODO: add ClanTordarroch
+    tags = { /*ClanTordarroch*/ Support };
 }
 
+AnCraiteBlacksmith::AnCraiteBlacksmith()
 {
     id = 152311;
     name = "An Craite Blacksmith";
     text = "Strengthen an ally by 2 and give it 2 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/152311.png";
-    tags = { Support Clan an Craite };
-    power = powerBase = 9;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550878.mp3","https://gwent.one/audio/card/ob/en/SAR3_CHAT_01050115.mp3","https://gwent.one/audio/card/ob/en/SAR3_VSET_00550859.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550878.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR3_CHAT_01050115.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550859.mp3",
     };
+    power = powerBase = 9;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Support, ClanAnCraite };
 }
 
+AnCraiteWarcrier::AnCraiteWarcrier()
 {
     id = 113313;
     name = "An Craite Warcrier";
     text = "Boost an ally by half its power.";
     url = "https://gwent.one/image/card/low/cid/png/113313.png";
-    tags = { Support Clan an Craite };
-    power = powerBase = 5;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.327.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.330.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.329.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.326.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.328.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.327.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.330.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.329.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.326.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.328.mp3",
     };
+    power = powerBase = 5;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Support, ClanAnCraite};
 }
 
+
+AnCraiteWarrior::AnCraiteWarrior()
 {
     id = 152303;
     name = "An Craite Warrior";
     text = "Deal 1 damage to self.";
     url = "https://gwent.one/image/card/low/cid/png/152303.png";
-    tags = { Soldier Clan an Craite };
-    power = powerBase = 12;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165312.mp3","https://gwent.one/audio/card/ob/en/SGD2_VSET_00541769.mp3","https://gwent.one/audio/card/ob/en/SGD2_Q208_01071227.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165312.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00541769.mp3",
+        "https://gwent.one/audio/card/ob/en/SGD2_Q208_01071227.mp3",
     };
+    power = powerBase = 12;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Soldier, ClanAnCraite };
 }
 
+BerserkerMarauder::BerserkerMarauder()
 {
     id = 152302;
     name = "Berserker Marauder";
     text = "Boost self by 1 for each damaged or Cursed ally.";
     url = "https://gwent.one/image/card/low/cid/png/152302.png";
-    tags = { Cursed Soldier Cultist };
-    power = powerBase = 9;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536097.mp3","https://gwent.one/audio/card/ob/en/SBE1_Q206_00413021.mp3","https://gwent.one/audio/card/ob/en/SBE1_VSET_00536089.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536097.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE1_Q206_00413021.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536089.mp3",
     };
+    power = powerBase = 9;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Cursed, Soldier, Cultist };
 }
 
+DimunPirateCaptain::DimunPirateCaptain()
 {
     id = 152306;
     name = "Dimun Pirate Captain";
     text = "Play a different Bronze Dimun unit from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/152306.png";
-    tags = { Clan Dimun Officer };
-    power = powerBase = 1;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SBD1_MQ2003_01054136.mp3","https://gwent.one/audio/card/ob/en/SBD1_Q202_00307483.mp3","https://gwent.one/audio/card/ob/en/SBD1_MQ2002_00442097.mp3","https://gwent.one/audio/card/ob/en/SBD1_MQ2034_01028167.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD1_MQ2003_01054136.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD1_Q202_00307483.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD1_MQ2002_00442097.mp3",
+        "https://gwent.one/audio/card/ob/en/SBD1_MQ2034_01028167.mp3",
     };
+    power = powerBase = 1;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanDimun, Officer };
 }
 
+DimunSmuggler::DimunSmuggler()
 {
     id = 200146;
     name = "Dimun Smuggler";
     text = "Return a Bronze unit from your graveyard to your deck.";
     url = "https://gwent.one/image/card/low/cid/png/200146.png";
-    tags = { Soldier Clan Dimun };
-    power = powerBase = 10;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.76.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.75.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.77.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.76.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.75.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.77.mp3",
     };
+    power = powerBase = 10;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Soldier, ClanDimun };
 }
 
+DrummondShieldmaid::DrummondShieldmaid()
 {
     id = 152318;
     name = "Drummond Shieldmaid";
     text = "Summon all copies of this unit to this row.";
     url = "https://gwent.one/image/card/low/cid/png/152318.png";
-    tags = { Clan Drummond Soldier };
-    power = powerBase = 3;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.2.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.1.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.3.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.3.mp3",
     };
+    power = powerBase = 3;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanDrummond, Soldier };
 }
 
+HeymaeyFlaminica::HeymaeyFlaminica()
 {
     id = 200147;
     name = "Heymaey Flaminica";
     text = "Clear Hazards from the row and move 2 allies to it.";
     url = "https://gwent.one/image/card/low/cid/png/200147.png";
-    tags = { Clan Heymaey Support };
-    power = powerBase = 10;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.89.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.88.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.87.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.89.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.88.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.87.mp3",
     };
+    power = powerBase = 10;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanHeymaey, Support };
 }
 
+
+HeymaeyHerbalist::HeymaeyHerbalist()
 {
     id = 200081;
     name = "Heymaey Herbalist";
     text = "Play a random Bronze Organic or Hazard card from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/200081.png";
-    tags = { Clan Heymaey Support };
-    power = powerBase = 3;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.121.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.123.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.122.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.121.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.123.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.122.mp3",
     };
+    power = powerBase = 3;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanHeymaey, Support };
 }
 
+HeymaeyProtector::HeymaeyProtector()
 {
     id = 200149;
     name = "Heymaey Protector";
     text = "Play a Bronze Item from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/200149.png";
-    tags = { Soldier Clan Heymaey };
-    power = powerBase = 2;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.80.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.81.mp3","https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.79.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.80.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.81.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.79.mp3",
     };
+    power = powerBase = 2;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Soldier, ClanHeymaey };
 }
 
+HeymaeySkald::HeymaeySkald()
 {
     id = 152308;
     name = "Heymaey Skald";
     text = "Boost all allies from a Clan of your choice by 1.";
     url = "https://gwent.one/image/card/low/cid/png/152308.png";
-    tags = { Clan Heymaey Support };
-    power = powerBase = 9;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/DROG_Q206_01072830.mp3","https://gwent.one/audio/card/ob/en/DROG_BARD_01036857.mp3","https://gwent.one/audio/card/ob/en/DROG_Q206_00329460.mp3",
+        "https://gwent.one/audio/card/ob/en/DROG_Q206_01072830.mp3",
+        "https://gwent.one/audio/card/ob/en/DROG_BARD_01036857.mp3",
+        "https://gwent.one/audio/card/ob/en/DROG_Q206_00329460.mp3",
     };
+    power = powerBase = 9;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanHeymaey, Support };
 }
 
+RagingBerserker::RagingBerserker()
 {
     id = 152301;
     name = "Raging Berserker";
     text = "When this unit is damaged or Weakened, transform into a Raging Bear.";
     url = "https://gwent.one/image/card/low/cid/png/152301.png";
-    tags = { Cursed Soldier Cultist };
-    power = powerBase = 8;
-    faction = rarity = Skellige Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536507.mp3","https://gwent.one/audio/card/ob/en/SBE2_VSET_00536513.mp3","https://gwent.one/audio/card/ob/en/SBE2_VSET_00536587.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536507.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536513.mp3",
+        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536587.mp3",
     };
-}
-
-{
-    id = 200102;
-    name = "Hym";
-    text = "Choose One: Play a Bronze or Silver Cursed unit from your deck; or Create a Silver unit from your opponent's starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/200102.png";
-    tags = { Cursed };
-    power = powerBase = 3;
-    faction = rarity = Skellige Gold;
-}
-
-{
-    id = 152104;
-    name = "Kambi";
-    text = "Spying.";
-    url = "https://gwent.one/image/card/low/cid/png/152104.png";
-    tags = { };
-    power = powerBase = 1;
-    faction = rarity = Skellige Gold;
-}
-
-{
-    id = 200103;
-    name = "Olaf";
-    text = "Deal 10 damage to self. Reduce the damage inflicted by 2 for each Beast you played this match.";
-    url = "https://gwent.one/image/card/low/cid/png/200103.png";
-    tags = { Beast, Cursed };
-    power = powerBase = 20;
-    faction = rarity = Skellige Gold;
-}
-
-{
-    id = 200104;
-    name = "Ulfhedinn";
-    text = "Deal 1 damage to all enemies. If they were already damaged, deal 2 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/200104.png";
-    tags = { Beast, Cursed };
-    power = powerBase = 6;
-    faction = rarity = Skellige Gold;
-}
-
-{
-    id = 152109;
-    name = "Wild Boar of the Sea";
-    text = "On turn end, Strengthen the unit to the left by 1, then deal 1 damage to the unit to the right.";
-    url = "https://gwent.one/image/card/low/cid/png/152109.png";
-    tags = { Machine, ClanAnCraite };
     power = powerBase = 8;
-    faction = rarity = Skellige Gold;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Cursed, Soldier, Cultist };
 }
 
-{
-    id = 201623;
-    name = "Giant Boar";
-    text = "Destroy a random ally, excluding this unit, then boost self by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/201623.png";
-    tags = { Beast };
-    power = powerBase = 8;
-    faction = rarity = Skellige Silver;
-}
-
-{
-    id = 201642;
-    name = "Ornamental Sword";
-    text = "Create a Bronze or Silver Skellige Soldier and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/201642.png";
-    tags = { Special, Item };
-    power = powerBase = ;
-    faction = rarity = Skellige Silver;
-}
-
-{
-    id = 152403;
-    name = "Spectral Whale";
-    text = "Spying.";
-    url = "https://gwent.one/image/card/low/cid/png/152403.png";
-    tags = { Cursed, Doomed };
-    power = powerBase = 3;
-    faction = rarity = Skellige Silver;
-}
-
-{
-    id = 200105;
-    name = "Dimun Warship";
-    text = "Deal 1 damage to the same unit 4 times.";
-    url = "https://gwent.one/image/card/low/cid/png/200105.png";
-    tags = { ClanDimun, Machine };
-    power = powerBase = 7;
-    faction = rarity = Skellige Bronze;
-}
-
+RagingBerserker::RagingBear::RagingBear()
 {
     id = 152405;
     name = "Raging Bear";
     text = "No ability.";
     url = "https://gwent.one/image/card/low/cid/png/152405.png";
-    tags = { Beast, Cursed, Cultist };
     power = powerBase = 12;
-    faction = rarity = Skellige Bronze;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { Beast, Cursed, Cultist };
+}
+
+Hym::Hym()
+{
+    id = 200102;
+    name = "Hym";
+    text = "Choose One: Play a Bronze or Silver Cursed unit from your deck; or Create a Silver unit from your opponent's starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/200102.png";
+    power = powerBase = 3;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { Cursed };
+}
+
+Kambi::Kambi()
+{
+    id = 152104;
+    name = "Kambi";
+    text = "Spying.";
+    url = "https://gwent.one/image/card/low/cid/png/152104.png";
+    power = powerBase = 1;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { };
+}
+
+Olaf::Olaf()
+{
+    id = 200103;
+    name = "Olaf";
+    text = "Deal 10 damage to self. Reduce the damage inflicted by 2 for each Beast you played this match.";
+    url = "https://gwent.one/image/card/low/cid/png/200103.png";
+    power = powerBase = 20;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { Beast, Cursed };
+}
+
+Ulfhedinn::Ulfhedinn()
+{
+    id = 200104;
+    name = "Ulfhedinn";
+    text = "Deal 1 damage to all enemies. If they were already damaged, deal 2 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/200104.png";
+    power = powerBase = 6;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { Beast, Cursed };
+}
+
+WildBoarOfTheSea::WildBoarOfTheSea()
+{
+    id = 152109;
+    name = "Wild Boar of the Sea";
+    text = "On turn end, Strengthen the unit to the left by 1, then deal 1 damage to the unit to the right.";
+    url = "https://gwent.one/image/card/low/cid/png/152109.png";
+    power = powerBase = 8;
+    faction = Skellige;
+    rarity = Gold;
+    tags = { Machine, ClanAnCraite };
+}
+
+GiantBoar::GiantBoar()
+{
+    id = 201623;
+    name = "Giant Boar";
+    text = "Destroy a random ally, excluding this unit, then boost self by 10.";
+    url = "https://gwent.one/image/card/low/cid/png/201623.png";
+    power = powerBase = 8;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Beast };
+}
+
+
+OrnamentalSword::OrnamentalSword()
+{
+    id = 201642;
+    name = "Ornamental Sword";
+    text = "Create a Bronze or Silver Skellige Soldier and Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/201642.png";
+    isSpecial = true;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Item };
+}
+
+
+SpectralWhale::SpectralWhale()
+{
+    id = 152403;
+    name = "Spectral Whale";
+    text = "Spying.";
+    url = "https://gwent.one/image/card/low/cid/png/152403.png";
+    isDoomed = true;
+    power = powerBase = 3;
+    faction = Skellige;
+    rarity = Silver;
+    tags = { Cursed };
+}
+
+DimunWarship::DimunWarship()
+{
+    id = 200105;
+    name = "Dimun Warship";
+    text = "Deal 1 damage to the same unit 4 times.";
+    url = "https://gwent.one/image/card/low/cid/png/200105.png";
+    power = powerBase = 7;
+    faction = Skellige;
+    rarity = Bronze;
+    tags = { ClanDimun, Machine };
 }

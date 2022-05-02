@@ -965,4 +965,228 @@ struct HubertRejk : CardCollectible<HubertRejk>
 };
 
 
+struct CrachAnCraite : CardCollectible<CrachAnCraite>
+{
+    CrachAnCraite();
+};
+
+
+struct BirnaBran : CardCollectible<BirnaBran>
+{
+    BirnaBran();
+};
+
+
+struct Coral : CardCollectible<Coral>
+{
+    Coral();
+};
+
+
+struct Hemdall : CardCollectible<Hemdall>
+{
+    Hemdall();
+};
+
+
+struct Vabjorn : CardCollectible<Vabjorn>
+{
+    Vabjorn();
+};
+
+
+struct BlueboyLugos : CardCollectible<BlueboyLugos>
+{
+    BlueboyLugos();
+};
+
+
+struct DjengeFrett : CardCollectible<DjengeFrett>
+{
+    DjengeFrett();
+};
+
+
+struct DonarAnHindar : CardCollectible<DonarAnHindar>
+{
+    DonarAnHindar();
+};
+
+
+struct DraigBonDhu : CardCollectible<DraigBonDhu>
+{
+    DraigBonDhu();
+};
+
+
+struct HolgerBlackhand : CardCollectible<HolgerBlackhand>
+{
+    HolgerBlackhand();
+};
+
+
+struct JuttaAnDimun : CardCollectible<JuttaAnDimun>
+{
+    JuttaAnDimun();
+};
+
+
+struct SavageBear : CardCollectible<SavageBear>
+{
+    SavageBear();
+};
+
+
+struct SvanrigeTuirseach : CardCollectible<SvanrigeTuirseach>
+{
+    SvanrigeTuirseach();
+};
+
+
+struct Skjall : CardCollectible<Skjall>
+{
+    Skjall();
+};
+
+
+struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
+{
+    HaraldHoundsnout();
+};
+
+
+struct Yoana : CardCollectible<Yoana>
+{
+    Yoana();
+};
+
+
+struct AnCraiteBlacksmith : CardCollectible<AnCraiteBlacksmith>
+{
+    AnCraiteBlacksmith();
+};
+
+
+struct AnCraiteWarcrier : CardCollectible<AnCraiteWarcrier>
+{
+    AnCraiteWarcrier();
+};
+
+
+struct AnCraiteWarrior : CardCollectible<AnCraiteWarrior>
+{
+    AnCraiteWarrior();
+};
+
+
+struct BerserkerMarauder : CardCollectible<BerserkerMarauder>
+{
+    BerserkerMarauder();
+};
+
+
+struct DimunPirateCaptain : CardCollectible<DimunPirateCaptain>
+{
+    DimunPirateCaptain();
+};
+
+
+struct DimunSmuggler : CardCollectible<DimunSmuggler>
+{
+    DimunSmuggler();
+};
+
+
+struct DrummondShieldmaid : CardCollectible<DrummondShieldmaid>
+{
+    DrummondShieldmaid();
+};
+
+
+struct HeymaeyFlaminica : CardCollectible<HeymaeyFlaminica>
+{
+    HeymaeyFlaminica();
+};
+
+
+struct HeymaeyHerbalist : CardCollectible<HeymaeyHerbalist>
+{
+    HeymaeyHerbalist();
+};
+
+
+struct HeymaeyProtector : CardCollectible<HeymaeyProtector>
+{
+    HeymaeyProtector();
+};
+
+
+struct HeymaeySkald : CardCollectible<HeymaeySkald>
+{
+    HeymaeySkald();
+};
+
+
+struct RagingBerserker : CardCollectible<RagingBerserker>
+{
+    struct RagingBear : CardCollectible<RagingBear>
+    {
+        RagingBear();
+    };
+    RagingBerserker();
+};
+
+
+struct Hym : CardCollectible<Hym>
+{
+    Hym();
+};
+
+
+struct Kambi : CardCollectible<Kambi>
+{
+    Kambi();
+};
+
+
+struct Olaf : CardCollectible<Olaf>
+{
+    Olaf();
+};
+
+
+struct Ulfhedinn : CardCollectible<Ulfhedinn>
+{
+    Ulfhedinn();
+};
+
+
+struct WildBoarOfTheSea : CardCollectible<WildBoarOfTheSea>
+{
+    WildBoarOfTheSea();
+};
+
+
+struct GiantBoar : CardCollectible<GiantBoar>
+{
+    GiantBoar();
+};
+
+
+struct OrnamentalSword : CardCollectible<OrnamentalSword>
+{
+    OrnamentalSword();
+};
+
+
+struct SpectralWhale : CardCollectible<SpectralWhale>
+{
+    SpectralWhale();
+};
+
+
+struct DimunWarship : CardCollectible<DimunWarship>
+{
+    DimunWarship();
+};
 #endif // CARDS_H
