@@ -115,6 +115,8 @@ std::vector<Card *> allCards(const Patch)
         new LethoKingslayer(),
         new KingHenselt(),
         new BloodyBaron(),
+        new JanCalveit(),
+        new HubertRejk(),
     };
 }
 
@@ -3458,4 +3460,26 @@ void RonvidTheIncessant::onDeploy(Field &, Field &)
 void RonvidTheIncessant::onTurnEnd(Field &ally, Field &enemy)
 {
 
+}
+
+HubertRejk::HubertRejk()
+{
+    name = "Hubert Rejk";
+    text = "Drain all boosts from units in your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/200088.png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.177.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.175.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.176.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Vampire };
+}
+
+void HubertRejk::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
+        drain(card, card->power - card->powerBase, ally, enemy, this);
 }

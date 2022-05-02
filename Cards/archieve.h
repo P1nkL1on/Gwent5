@@ -957,4 +957,12 @@ struct RonvidTheIncessant : CardCollectible<Dethmold>
     void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
+
+struct HubertRejk : CardCollectible<HubertRejk>
+{
+    HubertRejk();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H
