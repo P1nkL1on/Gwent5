@@ -43,8 +43,8 @@ enum Tag
     ClanAnCraite,
     ClanBrokvar,
     ClanHeymaey,
-    // TODO: add ClanTordarroch
     ClanDimun,
+    ClanTordarroch,
     ClanTuirseach,
     ClanDrummond,
     Ogroid,

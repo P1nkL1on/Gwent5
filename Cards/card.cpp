@@ -361,6 +361,8 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
             card->onDeploy(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
                 other->onOtherAllyPlayedFromHand(card, ally, enemy);
+            for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
+                other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
 
@@ -1212,7 +1214,7 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 
 void charm(Card *card, Field &ally, Field &enemy)
 {
-
+    // FIXME: charm isn't working at all
 }
 
 void copyCardText(const Card *card, Card *dst)
@@ -1342,4 +1344,32 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos)
 bool isOnBoard(const Card *card, const Field &field)
 {
     return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
+}
+
+void transform(
+        Card *card,
+        const std::string &id,
+        const std::string &name,
+        const std::string &text,
+        const std::string &url,
+        const int power,
+        const Rarity rarity,
+        const Tag faction,
+        const std::vector<Tag> &tags)
+{
+    card->id = id;
+    card->name = name;
+    card->text = text;
+    card->url = url;
+    card->power = card->powerBase = power;
+    card->rarity = rarity;
+    card->faction = faction;
+    card->tags = tags;
+
+    card->timer = 0;
+    card->armor = 0;
+    card->isDoomed = true;
+    card->isLocked = true;
+    card->isSpy = false;
+    card->isResilient = false;
 }

@@ -73,6 +73,7 @@ struct Card
     inline virtual void onOtherEnemyDestroyed(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    inline virtual void onOtherEnemyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrecteded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual Card *defaultCopy() { return new Card; }
 };
@@ -205,6 +206,8 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
+
+void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
 
 void spawn(Card *card, Field &ally, Field &enemy);
 void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);

@@ -968,24 +968,31 @@ struct HubertRejk : CardCollectible<HubertRejk>
 struct CrachAnCraite : CardCollectible<CrachAnCraite>
 {
     CrachAnCraite();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct BirnaBran : CardCollectible<BirnaBran>
 {
     BirnaBran();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row) override;
 };
 
 
 struct Coral : CardCollectible<Coral>
 {
     Coral();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct Vabjorn : CardCollectible<Vabjorn>
 {
     Vabjorn();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
@@ -994,61 +1001,90 @@ struct BlueboyLugos : CardCollectible<BlueboyLugos>
     struct SpectralWhale : CardCollectible<SpectralWhale>
     {
         SpectralWhale();
+        void onTurnEnd(Field &ally, Field &enemy) override;
     };
     BlueboyLugos();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct DjengeFrett : CardCollectible<DjengeFrett>
 {
     DjengeFrett();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct DonarAnHindar : CardCollectible<DonarAnHindar>
 {
     DonarAnHindar();
+    // FIXME: no ability
 };
 
 
 struct DraigBonDhu : CardCollectible<DraigBonDhu>
 {
     DraigBonDhu();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct HolgerBlackhand : CardCollectible<HolgerBlackhand>
 {
     HolgerBlackhand();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct JuttaAnDimun : CardCollectible<JuttaAnDimun>
 {
     JuttaAnDimun();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct SavageBear : CardCollectible<SavageBear>
 {
     SavageBear();
+    void onOtherEnemyPlayedFromHand(Card *other, Field &ally, Field &enemy) override;
 };
 
 
 struct SvanrigeTuirseach : CardCollectible<SvanrigeTuirseach>
 {
     SvanrigeTuirseach();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct Skjall : CardCollectible<Skjall>
 {
     Skjall();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
 {
+    struct Wilfred : CardCollectible<Wilfred>
+    {
+        Wilfred();
+        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    };
+    struct Wilhelm : CardCollectible<Wilhelm>
+    {
+        Wilhelm();
+        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    };
+    struct Wilmar : CardCollectible<Wilmar>
+    {
+        Wilmar();
+        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    };
     HaraldHoundsnout();
 };
 
@@ -1056,66 +1092,82 @@ struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
 struct Yoana : CardCollectible<Yoana>
 {
     Yoana();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct AnCraiteBlacksmith : CardCollectible<AnCraiteBlacksmith>
 {
     AnCraiteBlacksmith();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct AnCraiteWarcrier : CardCollectible<AnCraiteWarcrier>
 {
     AnCraiteWarcrier();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct AnCraiteWarrior : CardCollectible<AnCraiteWarrior>
 {
     AnCraiteWarrior();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct BerserkerMarauder : CardCollectible<BerserkerMarauder>
 {
     BerserkerMarauder();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct DimunPirateCaptain : CardCollectible<DimunPirateCaptain>
 {
     DimunPirateCaptain();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
 struct DimunSmuggler : CardCollectible<DimunSmuggler>
 {
     DimunSmuggler();
+    // FIXME: ability isn't implemented
 };
 
 
 struct DrummondShieldmaid : CardCollectible<DrummondShieldmaid>
 {
     DrummondShieldmaid();
+    // FIXME: ability isn't implemented
 };
 
 
 struct HeymaeyFlaminica : CardCollectible<HeymaeyFlaminica>
 {
     HeymaeyFlaminica();
+    // FIXME: ability isn't implemented
 };
 
 
 struct HeymaeyHerbalist : CardCollectible<HeymaeyHerbalist>
 {
     HeymaeyHerbalist();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct HeymaeyProtector : CardCollectible<HeymaeyProtector>
 {
     HeymaeyProtector();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
@@ -1146,8 +1198,10 @@ struct Kambi : CardCollectible<Kambi>
     struct Hemdall : CardCollectible<Hemdall>
     {
         Hemdall();
+        void onDeploy(Field &ally, Field &enemy) override;
     };
     Kambi();
+    void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
 };
 
 
@@ -1185,4 +1239,6 @@ struct DimunWarship : CardCollectible<DimunWarship>
 {
     DimunWarship();
 };
+
+
 #endif // CARDS_H

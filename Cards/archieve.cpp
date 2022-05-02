@@ -116,33 +116,33 @@ std::vector<Card *> allCards(const Patch)
         new KingHenselt(),
         new BloodyBaron(),
         new HubertRejk(),
-                new Dethmold(),
+        new Dethmold(),
                 new RonvidTheIncessant(),
-                new CrachAnCraite(),
-                new BirnaBran(),
-                new Coral(),
-                new Vabjorn(),
+        new CrachAnCraite(),
+        new BirnaBran(),
+        new Coral(),
+        new Vabjorn(),
                 new BlueboyLugos(),
-                new DjengeFrett(),
+        new DjengeFrett(),
                 new DonarAnHindar(),
-                new DraigBonDhu(),
-                new HolgerBlackhand(),
-                new JuttaAnDimun(),
-                new SavageBear(),
-                new SvanrigeTuirseach(),
-                new Skjall(),
-                new HaraldHoundsnout(),
-                new Yoana(),
-                new AnCraiteBlacksmith(),
-                new AnCraiteWarcrier(),
-                new AnCraiteWarrior(),
-                new BerserkerMarauder(),
-                new DimunPirateCaptain(),
+        new DraigBonDhu(),
+        new HolgerBlackhand(),
+        new JuttaAnDimun(),
+        new SavageBear(),
+        new SvanrigeTuirseach(),
+        new Skjall(),
+        new HaraldHoundsnout(),
+        new Yoana(),
+        new AnCraiteBlacksmith(),
+        new AnCraiteWarcrier(),
+        new AnCraiteWarrior(),
+        new BerserkerMarauder(),
+        new DimunPirateCaptain(),
                 new DimunSmuggler(),
                 new DrummondShieldmaid(),
                 new HeymaeyFlaminica(),
-                new HeymaeyHerbalist(),
-                new HeymaeyProtector(),
+        new HeymaeyHerbalist(),
+        new HeymaeyProtector(),
                 new HeymaeySkald(),
                 new RagingBerserker(),
                 new Hym(),
@@ -2885,19 +2885,7 @@ void ArtefactCompression::onPlaySpecial(Field &ally, Field &enemy)
 
 void ArtefactCompression::onTargetChoosen(Card *target, Field &, Field &)
 {
-    target->name = "Jade Figurine";
-    target->text = "";
-    target->url = url;
-    target->timer = 0;
-    target->armor = 0;
-    target->isDoomed = true;
-    target->isLocked = true;
-    target->isSpy = false;
-    target->isResilient = false;
-    target->power = target->powerBase = 2;
-    target->rarity = Bronze;
-    target->faction = Neutral;
-    target->tags = {};
+    transform(target, id, "Jade Figurine", "", url, 2, Bronze, Neutral);
 }
 
 HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
@@ -3656,6 +3644,14 @@ CrachAnCraite::CrachAnCraite()
     tags = { ClanAnCraite, Leader };
 }
 
+void CrachAnCraite::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
+        strengthen(card, 2, ally, enemy);
+        playCard(card, ally, enemy);
+    }
+}
+
 BirnaBran::BirnaBran()
 {
     id = "152105";
@@ -3673,6 +3669,16 @@ BirnaBran::BirnaBran()
     tags = { ClanTuirseach, Officer };
 }
 
+void BirnaBran::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectEnemyRow(ally, this);
+}
+
+void BirnaBran::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
+{
+    applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+}
+
 Coral::Coral()
 {
     id = "152107";
@@ -3688,6 +3694,16 @@ Coral::Coral()
     faction = Skellige; 
     rarity = Gold;
     tags = { Mage };
+}
+
+void Coral::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AnyBoard);
+}
+
+void Coral::onTargetChoosen(Card *target, Field &, Field &)
+{
+    transform(target, id, "Jade Figurine", "", "https://gwent.one/image/card/low/cid/png/200053.png", 2, Bronze, Neutral);
 }
 
 Kambi::Hemdall::Hemdall()
@@ -3708,6 +3724,16 @@ Kambi::Hemdall::Hemdall()
     tags = {};
 }
 
+void Kambi::Hemdall::onDeploy(Field &ally, Field &enemy)
+{
+    for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
+        ally.rowEffect(row) = NoRowEffect;
+        enemy.rowEffect(row) = NoRowEffect;
+    }
+    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+        putOnDiscard(card, ally, enemy);
+}
+
 Vabjorn::Vabjorn()
 {
     id = "200028";
@@ -3725,6 +3751,19 @@ Vabjorn::Vabjorn()
     tags = { Cursed, Cultist };
 }
 
+void Vabjorn::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+}
+
+void Vabjorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (isDamaged(target))
+        putOnDiscard(target, ally, enemy);
+    else
+        damage(target, 2, ally, enemy);
+}
+
 BlueboyLugos::BlueboyLugos()
 {
     id = "152201";
@@ -3739,6 +3778,11 @@ BlueboyLugos::BlueboyLugos()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanDrummond, Soldier };
+}
+
+void BlueboyLugos::onDeploy(Field &ally, Field &enemy)
+{
+    spawn(new SpectralWhale(), ally, enemy);
 }
 
 
@@ -3758,6 +3802,17 @@ DjengeFrett::DjengeFrett()
     faction = Skellige;
     rarity = Silver;
     tags = { Soldier, ClanDimun };
+}
+
+void DjengeFrett::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+}
+
+void DjengeFrett::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    damage(target, 1, ally, enemy);
+    strengthen(this, 2, ally, enemy);
 }
 
 
@@ -3794,6 +3849,15 @@ DraigBonDhu::DraigBonDhu()
     tags = { Support };
 }
 
+void DraigBonDhu::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isNonLeader, isUnit}, AllyDiscard, 2);
+}
+
+void DraigBonDhu::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    strengthen(target, 3, ally, enemy);
+}
 
 HolgerBlackhand::HolgerBlackhand()
 {
@@ -3810,6 +3874,18 @@ HolgerBlackhand::HolgerBlackhand()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanDimun, Officer };
+}
+
+void HolgerBlackhand::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+}
+
+void HolgerBlackhand::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (damage(target, 6, ally, enemy))
+        if (Card *card = highest(ally.discard, ally.rng))
+            strengthen(card, 3, ally, enemy);
 }
 
 JuttaAnDimun::JuttaAnDimun()
@@ -3829,6 +3905,11 @@ JuttaAnDimun::JuttaAnDimun()
     tags = { ClanDimun, Soldier };
 }
 
+void JuttaAnDimun::onDeploy(Field &ally, Field &enemy)
+{
+    damage(this, 1, ally, enemy);
+}
+
 SavageBear::SavageBear()
 {
     id = "152210";
@@ -3839,6 +3920,12 @@ SavageBear::SavageBear()
     faction = Skellige;
     rarity = Bronze;
     tags = { Beast, Cursed };
+}
+
+void SavageBear::onOtherEnemyPlayedFromHand(Card *other, Field &ally, Field &enemy)
+{
+    if (isOnBoard(this, ally))
+        damage(other, 1, ally, enemy);
 }
 
 SvanrigeTuirseach::SvanrigeTuirseach()
@@ -3858,6 +3945,17 @@ SvanrigeTuirseach::SvanrigeTuirseach()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTuirseach, Officer };
+}
+
+void SvanrigeTuirseach::onDeploy(Field &ally, Field &enemy)
+{
+    drawACard(ally, enemy);
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+}
+
+void SvanrigeTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    putOnDiscard(target, ally, enemy);
 }
 
 Skjall::Skjall()
@@ -3880,6 +3978,12 @@ Skjall::Skjall()
     tags = { ClanHeymaey, Cursed };
 }
 
+void Skjall::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, hasTag(Cursed)}, AllyDeck), ally.rng))
+        playCard(card, ally, enemy);
+}
+
 HaraldHoundsnout::HaraldHoundsnout()
 {
     id = "200043";
@@ -3895,6 +3999,56 @@ HaraldHoundsnout::HaraldHoundsnout()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTordarroch, Cursed };
+}
+
+HaraldHoundsnout::Wilfred::Wilfred()
+{
+    name = "Wilfred";
+    text = "Deathwish: damage all unit on the opposite row by 1.";
+    power = powerBase = 1;
+    faction = Skellige;
+    rarity = Bronze;
+    isDoomed = true;
+}
+
+void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const Row row, const Pos)
+{
+    for (Card *card : enemy.row(row))
+        damage(card, 1, ally, enemy);
+}
+
+HaraldHoundsnout::Wilhelm::Wilhelm()
+{
+    name = "Wilhelm";
+    text = "Deathwish: strengthen a random ally by 3.";
+    power = powerBase = 1;
+    faction = Skellige;
+    rarity = Bronze;
+    isDoomed = true;
+}
+
+void HaraldHoundsnout::Wilhelm::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+        strengthen(card, 3, ally, enemy);
+}
+
+HaraldHoundsnout::Wilmar::Wilmar()
+{
+    name = "Wilmar";
+    text = "Deathwish: spawn a Bear on a random opponent row.";
+    power = powerBase = 1;
+    faction = Skellige;
+    rarity = Bronze;
+    isDoomed = true;
+}
+
+void HaraldHoundsnout::Wilmar::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+{
+    Row row;
+    Pos pos;
+    if (randomRowAndPos(enemy, row, pos))
+        spawn(new Bear(), row, pos, ally, enemy);
 }
 
 Yoana::Yoana()
@@ -3916,6 +4070,18 @@ Yoana::Yoana()
     tags = { ClanTordarroch, Support };
 }
 
+void Yoana::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isUnit, isDamaged}, AllyBoard);
+}
+
+void Yoana::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    const int x = target->powerBase - target->power;
+    heal(target, ally, enemy);
+    boost(target, x, ally, enemy);
+}
+
 AnCraiteBlacksmith::AnCraiteBlacksmith()
 {
     id = "152311";
@@ -3931,6 +4097,17 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanAnCraite, Support };
+}
+
+void AnCraiteBlacksmith::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+}
+
+void AnCraiteBlacksmith::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    strengthen(target, 2, ally, enemy);
+    gainArmor(target, 2, ally, enemy);
 }
 
 AnCraiteWarcrier::AnCraiteWarcrier()
@@ -3952,6 +4129,16 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     tags = { ClanAnCraite, Support};
 }
 
+void AnCraiteWarcrier::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+}
+
+void AnCraiteWarcrier::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    boost(target, int(std::floor(target->power / 2.0)), ally, enemy);
+}
+
 
 AnCraiteWarrior::AnCraiteWarrior()
 {
@@ -3968,6 +4155,11 @@ AnCraiteWarrior::AnCraiteWarrior()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanAnCraite, Soldier };
+}
+
+void AnCraiteWarrior::onDeploy(Field &ally, Field &enemy)
+{
+    damage(this, 1, ally, enemy);
 }
 
 BerserkerMarauder::BerserkerMarauder()
@@ -3987,6 +4179,15 @@ BerserkerMarauder::BerserkerMarauder()
     tags = { Cursed, Soldier, Cultist };
 }
 
+void BerserkerMarauder::onDeploy(Field &ally, Field &enemy)
+{
+    const auto isDamagedOrCursed = [=](Card *card) {
+        return (card != this) && (isDamaged(card) || hasTag(card, Cursed));
+    };
+    const int nUnits = int(cardsFiltered(ally, enemy, {isDamagedOrCursed}, AllyBoard).size());
+    boost(this, nUnits, ally, enemy);
+}
+
 DimunPirateCaptain::DimunPirateCaptain()
 {
     id = "152306";
@@ -4003,6 +4204,16 @@ DimunPirateCaptain::DimunPirateCaptain()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Officer };
+}
+
+void DimunPirateCaptain::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasTag(ClanDimun)}, AllyDeckShuffled);
+}
+
+void DimunPirateCaptain::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
 }
 
 DimunSmuggler::DimunSmuggler()
@@ -4074,6 +4285,12 @@ HeymaeyHerbalist::HeymaeyHerbalist()
     tags = { ClanHeymaey, Support };
 }
 
+void HeymaeyHerbalist::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *target = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
+        playCard(target, ally, enemy);
+}
+
 HeymaeyProtector::HeymaeyProtector()
 {
     id = "200149";
@@ -4089,6 +4306,16 @@ HeymaeyProtector::HeymaeyProtector()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Soldier };
+}
+
+void HeymaeyProtector::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Item)}, AllyDeck);
+}
+
+void HeymaeyProtector::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
 }
 
 HeymaeySkald::HeymaeySkald()
@@ -4134,7 +4361,7 @@ RagingBerserker::RagingBear::RagingBear()
     power = powerBase = 12;
     faction = Skellige;
     rarity = Bronze;
-    tags = { Beast, Cursed, Cultist };
+    tags = { Cursed, Beast, Cultist };
 }
 
 Hym::Hym()
@@ -4155,10 +4382,20 @@ Kambi::Kambi()
     name = "Kambi";
     text = "Spying. Deathwish: Spawn Hemdall on a random row on this unit's side.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isLoyal = false;
     power = powerBase = 1;
     faction = Skellige;
     rarity = Gold;
     tags = { };
+}
+
+void Kambi::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+{
+    Row row;
+    Pos pos;
+    if (!randomRowAndPos(ally, row, pos))
+        return;
+    spawn(new Hemdall(), row, pos, ally, enemy);
 }
 
 Olaf::Olaf()
@@ -4227,13 +4464,18 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
 {
     id = "152403";
     name = "Spectral Whale";
-    text = "Spying.";
+    text = "Spying. Move to a random row and deal 1 damage to all other units on it on turn end.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isDoomed = true;
     power = powerBase = 3;
     faction = Skellige;
     rarity = Silver;
     tags = { Cursed };
+}
+
+void BlueboyLugos::SpectralWhale::onTurnEnd(Field &ally, Field &enemy)
+{
+    // FIXME: ability missing
 }
 
 DimunWarship::DimunWarship()

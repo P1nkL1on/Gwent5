@@ -339,6 +339,7 @@ std::string stringTag(const Tag tag)
     case ClanBrokvar: return "Clan Brokvar";
     case ClanHeymaey: return "Clan Heymaey";
     case ClanDimun: return "Clan Dimun";
+    case ClanTordarroch: return "Clan Tordarroch";
     case ClanTuirseach: return "Clan Tuirseach";
     case ClanDrummond: return "Clan Drummond";
     case Ogroid: return "Ogroid";
