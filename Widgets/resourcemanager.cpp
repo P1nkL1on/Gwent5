@@ -26,6 +26,11 @@ void ResourceManager::requestImageByUrl(const QString &url)
     _networkAccessManager->get(request);
 }
 
+bool ResourceManager::hasUrl(const QString &url)
+{
+    return _pixMapsLoaded.contains(url);
+}
+
 QImage ResourceManager::imageByUrl(const QString &url)
 {
     return _pixMapsLoaded.value(url, QImage());

@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_cardsLineView2, &CardsLineView::hovered, this, hoverId);
     connect(_cardsLineView, &CardsLineView::clicked, this, &MainWindow::putCardToDeck);
     connect(_cardsLineView2, &CardsLineView::clicked, this, &MainWindow::putCardBack);
+    connect(_resourceManager, &ResourceManager::imageRequestSucceed, this, static_cast<void(QWidget::*)()>(&QWidget::repaint));
 
     updateCardsList();
 }

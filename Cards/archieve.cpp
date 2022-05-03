@@ -467,8 +467,9 @@ void AnCraiteGreatsword::onTurnStart(Field &ally, Field &enemy)
 
 DimunLightLongship::DimunLightLongship()
 {
+    id = "152309";
     name = "Dimun Light Longship";
-    url = "https://gwent.one/img/assets/medium/art/1263.jpg";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     text = "On turn end, damage the unit to the right by 1, then boost self by 2.";
     power = powerBase = 7;
     rarity = Bronze;
@@ -483,7 +484,6 @@ void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
     if (!rowAndPos(this, ally, row, pos))
         return;
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
         damage(right, 1, ally, enemy);
         boost(this, 2, ally, enemy);
     }
@@ -773,6 +773,8 @@ DolBlathannaArcher::DolBlathannaArcher()
 
 void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
 {
+    // FIXME: move choice clearifying into resolving step,
+    // from a creating step
     _nShots = 0;
     startChoiceToTargetCard(ally, enemy, this);
     startChoiceToTargetCard(ally, enemy, this);
@@ -3640,7 +3642,7 @@ CrachAnCraite::CrachAnCraite()
     };
     power = powerBase = 5;
     faction = Skellige;
-    rarity = Leader;
+    rarity = Gold;
     tags = { ClanAnCraite, Leader };
 }
 
@@ -3999,6 +4001,17 @@ HaraldHoundsnout::HaraldHoundsnout()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTordarroch, Cursed };
+}
+
+void HaraldHoundsnout::onDeploy(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    spawn(new Wilfred(), row, pos, ally, enemy);
+    spawn(new Wilhelm(), row, pos + 2, ally, enemy);
+    spawn(new Wilmar(), row, Pos(enemy.row(row).size()), enemy, ally);
 }
 
 HaraldHoundsnout::Wilfred::Wilfred()

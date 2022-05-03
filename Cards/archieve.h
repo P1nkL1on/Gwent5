@@ -1086,6 +1086,7 @@ struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
         void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
     };
     HaraldHoundsnout();
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 

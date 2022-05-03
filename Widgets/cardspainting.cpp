@@ -168,9 +168,19 @@ void paintCardLarge(QPainter &painter, ResourceManager *resourceManager, const C
 
     if (cardView.url.size() > 0) {
         const QString url = QString::fromStdString(cardView.url);
+        const QString url2 = QString::fromStdString(cardView.urlLarge);
+        const bool needLarge = rect.width() > 150 || rect.height() > 215;
         resourceManager->requestImageByUrl(url);
-        const QImage image = resourceManager->imageByUrl(url);
-        painter.drawImage(rectImage, image);
+        if (resourceManager->hasUrl(url)) {
+            const QImage image = resourceManager->imageByUrl(url);
+            painter.drawImage(rectImage, image);
+        }
+        if (needLarge)
+            resourceManager->requestImageByUrl(url2);
+        if (needLarge && resourceManager->hasUrl(url2)) {
+            const QImage image = resourceManager->imageByUrl(url2);
+            painter.drawImage(rectImage, image);
+        }
     }
     {
         const QString borderUrl = rarityToBorderUrl.value(cardView.rarity);

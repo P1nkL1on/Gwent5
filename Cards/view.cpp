@@ -24,7 +24,8 @@ CardView cardView(const Card *card, const int id)
     view.isDoomed = card->isDoomed;
     view.name = card->name;
     view.text = card->text;
-    view.url = card->url;
+    view.url = "https://gwent.one/image/card/low/cid/png/" + card->id + ".png";
+    view.urlLarge = "https://gwent.one/image/card/medium/cid/png/" + card->id + ".png";
     return view;
 }
 

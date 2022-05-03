@@ -29,6 +29,7 @@ struct CardView
     std::string name;
     std::string text;
     std::string url;
+    std::string urlLarge;
 };
 
 

@@ -12,6 +12,8 @@
 #include <QTimer>
 #include <QApplication>
 
+#include "Cards/demos.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -90,80 +92,62 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     /// ally
-    const std::vector<Card *> deck1 {
-        new Dethmold(),
-        new RonvidTheIncessant(),
-        new CrachAnCraite(),
-        new BirnaBran(),
-        new Coral(),
-        new Vabjorn(),
-        new BlueboyLugos(),
-        new DjengeFrett(),
-        new DonarAnHindar(),
-        new DraigBonDhu(),
-        new HolgerBlackhand(),
-        new JuttaAnDimun(),
-        new SavageBear(),
-        new SvanrigeTuirseach(),
-        new Skjall(),
-        new HaraldHoundsnout(),
-        new Yoana(),
-        new AnCraiteBlacksmith(),
-        new AnCraiteWarcrier(),
-        new AnCraiteWarrior(),
-        new BerserkerMarauder(),
-        new DimunPirateCaptain(),
-        new DimunSmuggler(),
-        new DrummondShieldmaid(),
-        new HeymaeyFlaminica(),
-        new HeymaeyHerbalist(),
-        new HeymaeyProtector(),
-        new HeymaeySkald(),
-        new RagingBerserker(),
-        new Hym(),
-        new Kambi(),
-        new Olaf(),
-        new Ulfhedinn(),
-        new WildBoarOfTheSea(),
-        new GiantBoar(),
-        new OrnamentalSword(),
-        new DimunWarship(),
-    };
-    initField(deck1, new KingHenselt, _ally);
+//    const std::vector<Card *> deck1 {
+//        new Dethmold(),
+//        new RonvidTheIncessant(),
+//        new CrachAnCraite(),
+//        new BirnaBran(),
+//        new Coral(),
+//        new Vabjorn(),
+//        new BlueboyLugos(),
+//        new DjengeFrett(),
+//        new DonarAnHindar(),
+//        new DraigBonDhu(),
+//        new HolgerBlackhand(),
+//        new JuttaAnDimun(),
+//        new SavageBear(),
+//        new SvanrigeTuirseach(),
+//        new Skjall(),
+//        new HaraldHoundsnout(),
+//        new Yoana(),
+//        new AnCraiteBlacksmith(),
+//        new AnCraiteWarcrier(),
+//        new AnCraiteWarrior(),
+//        new BerserkerMarauder(),
+//        new DimunPirateCaptain(),
+//        new DimunSmuggler(),
+//        new DrummondShieldmaid(),
+//        new HeymaeyFlaminica(),
+//        new HeymaeyHerbalist(),
+//        new HeymaeyProtector(),
+//        new HeymaeySkald(),
+//        new RagingBerserker(),
+//        new Hym(),
+//        new Kambi(),
+//        new Olaf(),
+//        new Ulfhedinn(),
+//        new WildBoarOfTheSea(),
+//        new GiantBoar(),
+//        new OrnamentalSword(),
+//        new DimunWarship(),
+//    };
+//    initField(deck1, new KingHenselt, _ally);
 
-    /// veterans
-    const std::vector<Card *> deck2 {
-        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
-        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
-        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
-        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-        new PriestessOfFreya, new PriestessOfFreya,
-        new Reconnaissance, new Reconnaissance,
-    };
-    initField(deck2, new EistTuirseach, _enemy);
+//    /// veterans
+//    const std::vector<Card *> deck2 {
+//        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
+//        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
+//        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+//        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
+//        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+//        new PriestessOfFreya, new PriestessOfFreya,
+//        new Reconnaissance, new Reconnaissance,
+//    };
+//    initField(deck2, new EistTuirseach, _enemy);
 
-    startNextRound(_ally, _enemy);
+//    startNextRound(_ally, _enemy);
 
-    // TODO: remove test units
-//    for (int i = 1; i <= 7; ++i) {
-//        auto *c = new Card;
-//        c->name = "Dummy";
-//        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _ally.rowMeele.push_back(c);
-//        _ally.cardsAdded.push_back(c);
-//    }
-//    for (int i = 1; i <= 5; ++i) {
-//        auto *c = new Card;
-//        c->name = "Egg";
-//        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _enemy.rowMeele.push_back(c);
-//        _enemy.cardsAdded.push_back(c);
-//    }
+    demoHjalmarAnCraite(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);

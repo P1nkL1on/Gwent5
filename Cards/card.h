@@ -140,6 +140,7 @@ struct Field
     int nWins = 0;
     int nSwaps = 0;
     bool passed = false;
+    bool canPass = true;
 
     Rng rng;
 

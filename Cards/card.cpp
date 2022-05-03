@@ -385,14 +385,11 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy)
 {
-    // FIXME: incorrect doomed behaviour
-    if (card->isDoomed || (!card->isSpecial && card->powerBase <= 0)) {
-        return banish(card, ally, enemy);
-    }
-
     Pos pos;
     bool isAlly;
     const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
+    const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
+    const bool mayTriggerDeathwish = card->powerBase > 0;
 
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
@@ -403,20 +400,24 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
-        cardAlly->discard.push_back(card);
-        card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
+        if (mayPutOnDiscard)
+            cardAlly->discard.push_back(card);
+        if (mayTriggerDeathwish)
+            card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
             other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
-        cardAlly->discard.push_back(card);
+        if (mayPutOnDiscard)
+            cardAlly->discard.push_back(card);
         if (!card->isSpecial)
             card->onDiscard(*cardAlly, *cardEnemy);
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
         assert(takenFrom == AlreadyCreated);
-        cardAlly->discard.push_back(card);
+        if (mayPutOnDiscard)
+            cardAlly->discard.push_back(card);
     }
 
 }
@@ -604,7 +605,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     std::vector<Card *> cardsToPlay = ally.hand;
     if (ally.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, ally.canPass));
 }
 
 void traceField(Field &field)
@@ -1149,7 +1150,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     std::vector<Card *> cardsToPlay = enemy.hand;
     if (enemy.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
-    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, true));
+    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, enemy.canPass));
     return true;
 }
 

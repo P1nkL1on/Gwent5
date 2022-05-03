@@ -11,6 +11,7 @@ class ResourceManager : public QObject
 public:
     ResourceManager(QObject *parent = nullptr);
     void requestImageByUrl(const QString &url);
+    bool hasUrl(const QString &url);
     QImage imageByUrl(const QString &url);
 
 signals:
