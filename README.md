@@ -1,5 +1,12 @@
 # Gwent5
-C++ procedural Gwent OBT card game with Qt forms
+
+C++ procedural Fan Gwent OBT (based on patch PublicBeta_0.9.24.3.432) card game with Qt forms.
+
+# Fan Content
+Please note that this project is in no way associated or affiliated with CD PROJEKT RED.
+All art and audio is property of their respective artists and/or CD PROJEKT RED.
+
+[Fan Content Guidelines](https://cdprojektred.com/en/fan-content)
 
 ## Client
 
