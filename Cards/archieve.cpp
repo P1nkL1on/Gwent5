@@ -4503,190 +4503,189 @@ DimunWarship::DimunWarship()
     tags = { ClanDimun, Machine };
 }
 
-
-Unit::Unit()
+TrissButterflies::TrissButterflies()
 {
-id = 122107;
-name = "Triss: Butterflies";
-text = "Boost the Lowest allies by 1 on turn end.";
-url = "https://gwent.one/image/card/low/cid/png/122107.png";
-tags = { Mage, Temeria };
-power = powerBase = 8;
-faction = Neutral; 
-rarity = Gold;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
-"https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
-"https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
-};
+    id = "122107";
+    name = "Triss: Butterflies";
+    text = "Boost the Lowest allies by 1 on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/122107.png";
+    tags = { Mage, Temeria };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
 }
 
-Unit::Unit()
+Yennefer::Yennefer()
 {
-id = 112108;
-name = "Yennefer";
-text = "Choose One: Spawn a Unicorn that boosts all other units by 2; or Spawn a Chironex that deals 2 damage to all other units.";
-url = "https://gwent.one/image/card/low/cid/png/112108.png";
-tags = { Mage, Aedirn };
-power = powerBase = 6;
-faction = Neutral; 
-rarity = Gold;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
-"https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
-"https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
-};
+    id = "112108";
+    name = "Yennefer";
+    text = "Choose One: Spawn a Unicorn that boosts all other units by 2; or Spawn a Chironex that deals 2 damage to all other units.";
+    url = "https://gwent.one/image/card/low/cid/png/112108.png";
+    tags = { Mage, Aedirn };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    };
 }
 
-Unit::Unit()
+GermainPiquant::GermainPiquant()
 {
-id = 200523;
-name = "Germain Piquant";
-text = "Spawn 2 Cows on each side of this unit.";
-url = "https://gwent.one/image/card/low/cid/png/200523.png";
-tags = { Officer };
-power = powerBase = 10;
-faction = Neutral; 
-rarity = Silver;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.261.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.260.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.244.mp3",
-};
+    id = "200523";
+    name = "Germain Piquant";
+    text = "Spawn 2 Cows on each side of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/200523.png";
+    tags = { Officer };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.261.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.260.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.244.mp3",
+    };
 }
 
-Unit::Unit()
+CommandersHorn::CommandersHorn()
 {
-id = 113207;
-name = "Commander's Horn";
-text = "Boost 5 adjacent units by 3.";
-url = "https://gwent.one/image/card/low/cid/png/113207.png";
-tags = { Tactic };
-isSpecial = true;
-faction = Neutral; 
-rarity = Silver;
+    id = "113207";
+    name = "Commander's Horn";
+    text = "Boost 5 adjacent units by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Tactics };
+    isSpecial = true;
+    faction = Neutral;
+    rarity = Silver;
 }
 
-Unit::Unit()
+MarchingOrders::MarchingOrders()
 {
-id = 200019;
-name = "Marching Orders";
-text = "Boost the Lowest Bronze or Silver unit in your deck by 2, then play it.";
-url = "https://gwent.one/image/card/low/cid/png/200019.png";
-tags = { Tactic };
-isSpecial = true;
-faction = Neutral; 
-rarity = Silver;
+    id = "200019";
+    name = "Marching Orders";
+    text = "Boost the Lowest Bronze or Silver unit in your deck by 2, then play it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Tactics };
+    isSpecial = true;
+    faction = Neutral;
+    rarity = Silver;
 }
 
-Unit::Unit()
+AlzursDoubleCross::AlzursDoubleCross()
 {
-id = 113209;
-name = "Alzur's Double–Cross";
-text = "Boost the Highest Bronze or Silver unit in your deck by 2, then play it.";
-url = "https://gwent.one/image/card/low/cid/png/113209.png";
-tags = { Spell };
-isSpecial = true;
-faction = Neutral; 
-rarity = Silver;
+    id = "113209";
+    name = "Alzur's Double–Cross";
+    text = "Boost the Highest Bronze or Silver unit in your deck by 2, then play it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Spell };
+    isSpecial = true;
+    faction = Neutral;
+    rarity = Silver;
 }
 
-Unit::Unit()
+AlbaArmoredCavalry::AlbaArmoredCavalry()
 {
-id = 200296;
-name = "Alba Armored Cavalry";
-text = "Whenever an ally appears, boost self by 1.";
-url = "https://gwent.one/image/card/low/cid/png/200296.png";
-tags = { Soldier };
-power = powerBase = 7;
-faction = Nilfgaard; 
-rarity = Bronze;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.379.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
-};
+    id = "200296";
+    name = "Alba Armored Cavalry";
+    text = "Whenever an ally appears, boost self by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 7;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.379.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
+    };
 }
 
-Unit::Unit()
+Sentry::Sentry()
 {
-id = 201661;
-name = "Sentry";
-text = "Boost all allied copies of a Soldier by 2.";
-url = "https://gwent.one/image/card/low/cid/png/201661.png";
-tags = { Soldier };
-power = powerBase = 8;
-faction = Nilfgaard; 
-rarity = Bronze;
+    id = "201661";
+    name = "Sentry";
+    text = "Boost all allied copies of a Soldier by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
 }
 
-Unit::Unit()
+NauzicaaSergeant::NauzicaaSergeant()
 {
-id = 162309;
-name = "Nauzicaa Sergeant";
-text = "Clear Hazards from its row and boost an ally or a Revealed unit in your hand by 3.";
-url = "https://gwent.one/image/card/low/cid/png/162309.png";
-tags = { Officer };
-power = powerBase = 7;
-faction = Nilfgaard; 
-rarity = Bronze;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.439.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
-};
+    id = "162309";
+    name = "Nauzicaa Sergeant";
+    text = "Clear Hazards from its row and boost an ally or a Revealed unit in your hand by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 7;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.439.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
+    };
 }
 
-Unit::Unit()
+SlaveInfantry::SlaveInfantry()
 {
-id = 201610;
-name = "Slave Infantry";
-text = "Spawn a Doomed default copy of this unit on your other rows.";
-url = "https://gwent.one/image/card/low/cid/png/201610.png";
-tags = { Soldier };
-power = powerBase = 3;
-faction = Nilfgaard; 
-rarity = Bronze;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.108.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.110.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.112.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.109.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.111.mp3",
-};
+    id = "201610";
+    name = "Slave Infantry";
+    text = "Spawn a Doomed default copy of this unit on your other rows.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 3;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.108.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.110.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.112.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.109.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.111.mp3",
+    };
 }
 
-Unit::Unit()
+Recruit::Recruit()
 {
-id = 201617;
-name = "Recruit";
-text = "Play a random different Bronze Soldier from your deck.";
-url = "https://gwent.one/image/card/low/cid/png/201617.png";
-tags = { Soldier };
-power = powerBase = 1;
-faction = Nilfgaard; 
-rarity = Bronze;
-sounds = {
-    "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.36.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.35.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.34.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.33.mp3",
-"https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.32.mp3",
-};
+    id = "201617";
+    name = "Recruit";
+    text = "Play a random different Bronze Soldier from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 1;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.36.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.35.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.34.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.33.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.32.mp3",
+    };
 }
 
-Unit::Unit()
+Ointment::Ointment()
 {
-id = 201619;
-name = "Ointment";
-text = "Resurrect a Bronze unit with 5 power or less.";
-url = "https://gwent.one/image/card/low/cid/png/201619.png";
-tags = { Alchemy, Item };
-isSpecial = true;
-faction = Nilfgaard; 
-rarity = Bronze;
+    id = "201619";
+    name = "Ointment";
+    text = "Resurrect a Bronze unit with 5 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Alchemy, Item };
+    isSpecial = true;
+    faction = Nilfgaard;
+    rarity = Bronze;
 }

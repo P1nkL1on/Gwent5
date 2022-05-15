@@ -1242,4 +1242,76 @@ struct DimunWarship : CardCollectible<DimunWarship>
 };
 
 
+struct TrissButterflies : CardCollectible<TrissButterflies>
+{
+    TrissButterflies();
+};
+
+
+struct Yennefer : CardCollectible<Yennefer>
+{
+    Yennefer();
+};
+
+
+struct GermainPiquant : CardCollectible<GermainPiquant>
+{
+    GermainPiquant();
+};
+
+
+struct CommandersHorn : CardCollectible<CommandersHorn>
+{
+    CommandersHorn();
+};
+
+
+struct MarchingOrders : CardCollectible<MarchingOrders>
+{
+    MarchingOrders();
+};
+
+
+struct AlzursDoubleCross : CardCollectible<AlzursDoubleCross>
+{
+    AlzursDoubleCross();
+};
+
+
+struct AlbaArmoredCavalry : CardCollectible<AlbaArmoredCavalry>
+{
+    AlbaArmoredCavalry();
+};
+
+
+struct Sentry : CardCollectible<Sentry>
+{
+    Sentry();
+};
+
+
+struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
+{
+    NauzicaaSergeant();
+};
+
+
+struct SlaveInfantry : CardCollectible<SlaveInfantry>
+{
+    SlaveInfantry();
+};
+
+
+struct Recruit : CardCollectible<Recruit>
+{
+    Recruit();
+};
+
+
+struct Ointment : CardCollectible<Ointment>
+{
+    Ointment();
+};
+
+
 #endif // CARDS_H
