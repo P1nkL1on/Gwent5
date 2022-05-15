@@ -2979,7 +2979,7 @@ void LethoOfGulet::onDeploy(Field &ally, Field &enemy)
 
 void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    target->isLocked = true;
+    lock(target, ally, enemy);
     drain(target, target->power, ally, enemy, this);
 }
 
@@ -4422,6 +4422,16 @@ Ulfhedinn::Ulfhedinn()
     tags = { Beast, Cursed };
 }
 
+void Ulfhedinn::onDeploy(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> damaged = cardsFiltered(ally, enemy, {isDamaged}, EnemyBoard);
+    const std::vector<Card *> other   = cardsFiltered(ally, enemy, {isUndamaged}, EnemyBoard);
+    for (Card *card : other)
+        damage(card, 1, ally, enemy);
+    for (Card *card : damaged)
+        damage(card, 2, ally, enemy);
+}
+
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
     id = "152109";
@@ -4432,6 +4442,23 @@ WildBoarOfTheSea::WildBoarOfTheSea()
     faction = Skellige;
     rarity = Gold;
     tags = { ClanAnCraite, Machine };
+}
+
+void WildBoarOfTheSea::onDeploy(Field &ally, Field &enemy)
+{
+    gainArmor(this, 5, ally, enemy);
+}
+
+void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
+        strengthen(left, 1, ally, enemy);
+    if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+        damage(right, 1, ally, enemy);
 }
 
 GiantBoar::GiantBoar()
@@ -4446,6 +4473,13 @@ GiantBoar::GiantBoar()
     tags = { Beast };
 }
 
+void GiantBoar::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
+        putOnDiscard(card, ally, enemy);
+        boost(this, 10, ally, enemy);
+    }
+}
 
 OrnamentalSword::OrnamentalSword()
 {
@@ -4458,7 +4492,6 @@ OrnamentalSword::OrnamentalSword()
     rarity = Silver;
     tags = { Item };
 }
-
 
 BlueboyLugos::SpectralWhale::SpectralWhale()
 {
@@ -4488,6 +4521,19 @@ DimunWarship::DimunWarship()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Machine };
+}
+
+void DimunWarship::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+}
+
+void DimunWarship::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    /// break if killed already
+    for (int n = 0; n < 4; ++n)
+        if (damage(target, 1, ally, enemy))
+            break;
 }
 
 TrissButterflies::TrissButterflies()
@@ -4560,6 +4606,18 @@ GermainPiquant::GermainPiquant()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.244.mp3",
     };
+}
+
+void GermainPiquant::onDeploy(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    spawn(new Cow(), row, pos, ally, enemy);
+    spawn(new Cow(), row, pos, ally, enemy);
+    spawn(new Cow(), row, pos + 3, ally, enemy);
+    spawn(new Cow(), row, pos + 4, ally, enemy);
 }
 
 CommandersHorn::CommandersHorn()
@@ -4744,6 +4802,12 @@ Recruit::Recruit()
     };
 }
 
+void Recruit::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(this->name)}, AllyDeckShuffled), ally.rng))
+        playCard(card, ally, enemy);
+}
+
 Ointment::Ointment()
 {
     id = "201619";
@@ -4754,6 +4818,21 @@ Ointment::Ointment()
     isSpecial = true;
     faction = Nilfgaard;
     rarity = Bronze;
+}
+
+bool Ointment::isFiveOrLessPower(Card *card)
+{
+    return card->power <= 5;
+}
+
+void Ointment::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, isFiveOrLessPower}, AllyDiscard);
+}
+
+void Ointment::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    playCard(target, ally, enemy);
 }
 
 Vilgefortz::Vilgefortz()
@@ -4826,4 +4905,41 @@ void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
         boost(card, 1, ally, enemy);
+}
+
+GermainPiquant::Cow::Cow()
+{
+    name = "Cow";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Bronze;
+}
+
+Auckes::Auckes()
+{
+    id = "162208";
+    name = "Auckes";
+    text = "Toggle 2 units' Lock statuses.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 7;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.112.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.113.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.114.mp3",
+    };
+}
+
+void Auckes::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
+}
+
+void Auckes::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    toggleLockStatus(target, ally, enemy);
 }

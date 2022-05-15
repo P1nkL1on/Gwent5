@@ -1382,3 +1382,14 @@ void transform(
     card->isSpy = false;
     card->isResilient = false;
 }
+
+void toggleLock(Card *card, Field &, Field &)
+{
+    card->isLocked = !card->isLocked;
+}
+
+void lock(Card *card, Field &ally, Field &enemy)
+{
+    if (!card->isLocked)
+        toggleLock(card, ally, enemy);
+}

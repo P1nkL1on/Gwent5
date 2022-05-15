@@ -226,6 +226,8 @@ void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
 void duel(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy);
+void toggleLock(Card *card, Field &ally, Field &enemy);
+void lock(Card *card, Field &ally, Field &enemy);
 
 void traceField(Field &field);
 

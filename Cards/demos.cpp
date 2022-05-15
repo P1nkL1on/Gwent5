@@ -80,3 +80,30 @@ void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy)
     initField(deck, new JanCalveit, ally);
     startNextRound(ally, enemy);
 }
+
+void demoGiantBoar(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new GiantBoar(),
+        new DimunPirateCaptain(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoTransforms(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {new ArtefactCompression(), new Coral()};
+
+    auto *d = new DjengeFrett();
+    auto *s = new DimunLightLongship();
+    enemy.cardsAdded = {s, d};
+
+    ally.hand = ally.cardsAdded;
+    enemy.rowRange = {s, d};
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

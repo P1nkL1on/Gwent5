@@ -781,6 +781,12 @@ struct LethoOfGulet : CardCollectible<LethoOfGulet>
 };
 
 
+struct Auckes : CardCollectible<Auckes>
+{
+    Auckes();
+};
+
+
 struct AnCraiteLongship : CardCollectible<AnCraiteLongship>
 {
     AnCraiteLongship();
@@ -1217,21 +1223,22 @@ struct Olaf : CardCollectible<Olaf>
 struct Ulfhedinn : CardCollectible<Ulfhedinn>
 {
     Ulfhedinn();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct WildBoarOfTheSea : CardCollectible<WildBoarOfTheSea>
 {
     WildBoarOfTheSea();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTurnEnd(Field &ally, Field &enemy) override;
 };
 
 
 struct GiantBoar : CardCollectible<GiantBoar>
 {
     GiantBoar();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
@@ -1245,7 +1252,8 @@ struct OrnamentalSword : CardCollectible<OrnamentalSword>
 struct DimunWarship : CardCollectible<DimunWarship>
 {
     DimunWarship();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
@@ -1283,8 +1291,12 @@ struct Yennefer : CardCollectible<Yennefer>
 
 struct GermainPiquant : CardCollectible<GermainPiquant>
 {
+    struct Cow : CardCollectible<Cow>
+    {
+        Cow();
+    };
     GermainPiquant();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
@@ -1342,14 +1354,16 @@ struct SlaveInfantry : CardCollectible<SlaveInfantry>
 struct Recruit : CardCollectible<Recruit>
 {
     Recruit();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 
 struct Ointment : CardCollectible<Ointment>
 {
     Ointment();
-    // FIXME: ability isn't implemented
+    static bool isFiveOrLessPower(Card *card);
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
