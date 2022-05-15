@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <qtimer.h>
+#include <QSplitter>
 
 #include "../Cards/archieve.h"
 #include "cardsingleview.h"
@@ -52,11 +53,13 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(_lineEditSearch = new QLineEdit());
 
 
-    auto *layoutH2 = new QHBoxLayout;
-    layoutH2->addWidget(createScrollArea(_cardsLineView = new CardsLineView(_resourceManager, {}, {}, Qt::Vertical, 6)), 2);
-    layoutH2->addWidget(_cardSingleView = new CardSingleView(_resourceManager, {}, nullptr), 1);
-    layout->addLayout(layoutH2, 5);
-    layout->addWidget(createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)), 1);
+    auto *splitterH2 = new QSplitter(Qt::Horizontal);
+    splitterH2->insertWidget(0, (createScrollArea(_cardsLineView = new CardsLineView(_resourceManager, {}, {}, Qt::Vertical, 6))));
+    splitterH2->insertWidget(1, createScrollArea(_cardSingleView = new CardSingleView(_resourceManager, {}, nullptr)));
+    auto *splitterV = new QSplitter(Qt::Vertical);
+    splitterV->insertWidget(0, splitterH2);
+    splitterV->insertWidget(1, createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
+    layout->addWidget(splitterV, 5);
     setCentralWidget(widget);
 
     connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);

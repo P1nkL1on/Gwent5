@@ -16,6 +16,15 @@ void CardSingleView::setCardView(const CardView &view)
     update();
 }
 
+bool CardSingleView::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Resize) {
+        auto *er = static_cast<QResizeEvent *>(e);
+        updateSize(er->size());
+    }
+    return QWidget::eventFilter(o, e);
+}
+
 void CardSingleView::paintEvent(QPaintEvent *e)
 {
     const QRect _rect = e->rect();
@@ -47,4 +56,11 @@ void CardSingleView::paintEvent(QPaintEvent *e)
         paintTextInPoint(painter, {}, info, rectCard.bottomLeft() + QPointF(0, offsetVertical), Qt::white, Qt::black, _rect.width(), &rectRes);
         offsetVertical += rectRes.height();
     }
+}
+
+void CardSingleView::updateSize(const QSize &size)
+{
+    const double width = size.width();
+    const double height = width / _aspectRatio;
+    setFixedHeight(int(height));
 }
