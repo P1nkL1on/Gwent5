@@ -72,6 +72,14 @@ inline Filter hasCopyInADeck(const Field *field)
         return findCopy(card, field->deck) != nullptr;
     };
 }
+inline Filter hasCopyOnABoard(const Field *field)
+{
+    return [field](Card *card) {
+        return findCopy(card, field->rowMeele) != nullptr
+                || findCopy(card, field->rowRange) != nullptr
+                || findCopy(card, field->rowSeige) != nullptr;
+    };
+}
 inline Filter isOnSameRow(const Field *field, const Card *self)
 {
     return [field, self](Card *card) {

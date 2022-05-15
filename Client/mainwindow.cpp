@@ -147,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    startNextRound(_ally, _enemy);
 
-    demoHjalmarAnCraite(_ally, _enemy);
+    demoNilfgaardSoldiersDeck(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);

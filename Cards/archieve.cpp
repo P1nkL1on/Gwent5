@@ -718,17 +718,9 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     Card *left = cardNextTo(target, ally, enemy, -1);
     Card *right = cardNextTo(target, ally, enemy, 1);
-
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, 4, ally, enemy);
-    if (left != nullptr) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
-        damage(left, 4, ally, enemy);
-    }
-    if (right != nullptr) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
-        damage(right, 4, ally, enemy);
-    }
+    for (Card *card : std::vector<Card *>{left, target, right})
+        if (card != nullptr)
+            damage(card, 4, ally, enemy);
 }
 
 KeiraMetz::KeiraMetz()
@@ -4523,12 +4515,18 @@ TrissButterflies::TrissButterflies()
     };
 }
 
+void TrissButterflies::onTurnEnd(Field &ally, Field &enemy)
+{
+    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
+        boost(card, 1, ally, enemy);
+}
+
 Yennefer::Yennefer()
 {
     id = "112108";
     name = "Yennefer";
     text = "Choose One: Spawn a Unicorn that boosts all other units by 2; or Spawn a Chironex that deals 2 damage to all other units.";
-    url = "https://gwent.one/image/card/low/cid/png/112108.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Mage, Aedirn };
     power = powerBase = 6;
     faction = Neutral;
@@ -4540,12 +4538,23 @@ Yennefer::Yennefer()
     };
 }
 
+void Yennefer::onDeploy(Field &ally, Field &)
+{
+    startChoiceToSelectOption(ally, this, {new Unicorn(), new Chironex()});
+}
+
+void Yennefer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawn(target, ally, enemy);
+}
+
 GermainPiquant::GermainPiquant()
 {
     id = "200523";
     name = "Germain Piquant";
     text = "Spawn 2 Cows on each side of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/200523.png";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Officer };
     power = powerBase = 10;
     faction = Neutral;
@@ -4570,6 +4579,22 @@ CommandersHorn::CommandersHorn()
     rarity = Silver;
 }
 
+void CommandersHorn::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this);
+}
+
+void CommandersHorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    Card *target1 = cardNextTo(target, ally, enemy, -2);
+    Card *target2 = cardNextTo(target, ally, enemy, -1);
+    Card *target3 = cardNextTo(target, ally, enemy, 1);
+    Card *target4 = cardNextTo(target, ally, enemy, 2);
+    for (Card *card : std::vector<Card *>{target1, target2, target, target3, target4})
+        if (card != nullptr)
+            boost(card, 3, ally, enemy);
+}
+
 MarchingOrders::MarchingOrders()
 {
     id = "200019";
@@ -4582,6 +4607,15 @@ MarchingOrders::MarchingOrders()
     rarity = Silver;
 }
 
+void MarchingOrders::onPlaySpecial(Field &ally, Field &enemy)
+{
+    Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
+    if (card != nullptr) {
+        boost(card, 2, ally, enemy);
+        playCard(card, ally, enemy);
+    }
+}
+
 AlzursDoubleCross::AlzursDoubleCross()
 {
     id = "113209";
@@ -4592,6 +4626,15 @@ AlzursDoubleCross::AlzursDoubleCross()
     isSpecial = true;
     faction = Neutral;
     rarity = Silver;
+}
+
+void AlzursDoubleCross::onPlaySpecial(Field &ally, Field &enemy)
+{
+    Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
+    if (card != nullptr) {
+        boost(card, 2, ally, enemy);
+        playCard(card, ally, enemy);
+    }
 }
 
 AlbaArmoredCavalry::AlbaArmoredCavalry()
@@ -4621,6 +4664,17 @@ Sentry::Sentry()
     power = powerBase = 8;
     faction = Nilfgaard;
     rarity = Bronze;
+}
+
+void Sentry::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {hasTag(Soldier), hasCopyOnABoard(&ally)}, AllyBoard);
+}
+
+void Sentry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
+        boost(card, 2, ally, enemy);
 }
 
 NauzicaaSergeant::NauzicaaSergeant()
@@ -4688,4 +4742,76 @@ Ointment::Ointment()
     isSpecial = true;
     faction = Nilfgaard;
     rarity = Bronze;
+}
+
+Vilgefortz::Vilgefortz()
+{
+    id = "162105";
+    name = "Vilgefortz";
+    text = "Destroy an ally, then play the top card of your deck; or Truce: Destroy an enemy, then your opponent draws and Reveals a Bronze card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage };
+    power = powerBase = 9;
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.72.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
+    };
+}
+
+Vreemde::Vreemde()
+{
+    id = "200050";
+    name = "Vreemde";
+    text = "Create a Bronze Nilfgaardian Soldier.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 4;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.109.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
+    };
+}
+
+Yennefer::Chironex::Chironex()
+{
+    id = "112402";
+    name = "Chironex";
+    text = "Deal 2 damage to all other units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    isDoomed = true;
+    power = powerBase = 4;
+    faction = Neutral;
+    rarity = Silver;
+}
+
+void Yennefer::Chironex::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+        damage(card, 2, ally, enemy);
+}
+
+Yennefer::Unicorn::Unicorn()
+{
+    id = "112401";
+    name = "Unicorn";
+    text = "Boost all other units by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+}
+
+void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+        boost(card, 1, ally, enemy);
 }
