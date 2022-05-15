@@ -2,10 +2,10 @@
 
 void demoHjalmarAnCraite(Field &ally, Field &enemy)
 {
-    auto *a = new HjalmarAnCraite();
-    auto *h = new TuirseachHunter();
-    ally.cardsAdded = {a, h};
-
+    ally.cardsAdded = {
+        new HjalmarAnCraite(),
+        new TuirseachHunter(),
+    };
     ally.hand = ally.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
@@ -14,15 +14,30 @@ void demoHjalmarAnCraite(Field &ally, Field &enemy)
 
 void demoHalfElfHunter(Field &ally, Field &enemy)
 {
-    auto *h = new HalfElfHunter();
-    auto *d = new Decoy();
-    ally.cardsAdded = {h, d};
-
+    ally.cardsAdded = {
+        new HalfElfHunter(),
+        new Decoy(),
+    };
     ally.hand = ally.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoSlaveInfantry(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new SlaveInfantry(),
+        new SlaveInfantry(),
+        new Sentry(),
+        new Decoy(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
 
 void demoHaraldHoundsnout(Field &ally, Field &enemy)
 {

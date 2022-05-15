@@ -4710,7 +4710,19 @@ SlaveInfantry::SlaveInfantry()
 
 void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
 {
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
 
+    for (int __row = Meele; __row <= Seige; ++__row)
+        if (__row != row) {
+            Card *copy = defaultCopy();
+            copy->isDoomed = true;
+            const Row _row = Row(__row);
+            const Pos _pos = Pos(ally.row(Row(_row)).size());
+            spawn(copy, _row, _pos, ally, enemy, true, false);
+        }
 }
 
 Recruit::Recruit()
