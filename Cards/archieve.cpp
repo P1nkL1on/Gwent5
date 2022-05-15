@@ -792,19 +792,14 @@ HalfElfHunter::HalfElfHunter()
 
 void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
 {
-    if (!_maySpawnCopy)
-        return;
-
     Row row;
     Pos pos;
     if (!rowAndPos(this, ally, row, pos))
         return;
 
-    HalfElfHunter *copy = static_cast<HalfElfHunter *>(defaultCopy());
+    Card *copy = defaultCopy();
     copy->isDoomed = true;
-    copy->_maySpawnCopy = false;
-
-    spawn(copy, row, pos + 1, ally, enemy);
+    spawn(copy, row, pos + 1, ally, enemy, true, false);
 }
 
 Ambassador::Ambassador()
@@ -4711,6 +4706,11 @@ SlaveInfantry::SlaveInfantry()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.109.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.111.mp3",
     };
+}
+
+void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
+{
+
 }
 
 Recruit::Recruit()

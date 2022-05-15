@@ -216,8 +216,6 @@ struct HalfElfHunter : CardCollectible<HalfElfHunter>
 {
     HalfElfHunter();
     void onDeploy(Field &ally, Field &enemy) override;
-private:
-    bool _maySpawnCopy = true;
 };
 
 
@@ -1337,7 +1335,7 @@ struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
 struct SlaveInfantry : CardCollectible<SlaveInfantry>
 {
     SlaveInfantry();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
 };
 
 

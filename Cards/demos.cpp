@@ -6,7 +6,19 @@ void demoHjalmarAnCraite(Field &ally, Field &enemy)
     auto *h = new TuirseachHunter();
     ally.cardsAdded = {a, h};
 
-    ally.hand = {a, h};
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoHalfElfHunter(Field &ally, Field &enemy)
+{
+    auto *h = new HalfElfHunter();
+    auto *d = new Decoy();
+    ally.cardsAdded = {h, d};
+
+    ally.hand = ally.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

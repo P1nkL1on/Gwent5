@@ -191,7 +191,7 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
+void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy = true);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy);
@@ -210,8 +210,10 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 
 void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
 
+/// create new card and play it (add it to the `addedCards`)
 void spawn(Card *card, Field &ally, Field &enemy);
-void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy);
+/// may work as summon (no deploy)
+void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool addAsNew = true, const bool triggerDeploy = true);
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);

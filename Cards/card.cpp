@@ -314,7 +314,7 @@ void playCard(Card *card, Field &ally, Field &enemy)
     return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
+void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy)
 {
     assert(isOkRowAndPos(row, pos, ally));
 
@@ -352,13 +352,16 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
     if (card->isLoyal) {
         if (takenFrom == Deck) {
-            card->onDeployFromDeck(ally, enemy);
+            if (triggerDeploy)
+                card->onDeployFromDeck(ally, enemy);
         } else if (takenFrom == Discard) {
-            card->onDeployFromDiscard(ally, enemy);
+            if (triggerDeploy)
+                card->onDeployFromDiscard(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
                 other->onOtherAllyResurrecteded(card, ally, enemy);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
-            card->onDeploy(ally, enemy);
+            if (triggerDeploy)
+                card->onDeploy(ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
                 other->onOtherAllyPlayedFromHand(card, ally, enemy);
             for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
@@ -368,15 +371,18 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
 
     } else {
         card->isSpy = true;
-        if (takenFrom == Deck)
-            card->onDeployFromDeck(enemy, ally);
-        else if (takenFrom == Discard) {
-            card->onDeployFromDiscard(enemy, ally);
+        if (takenFrom == Deck) {
+            if (triggerDeploy)
+                card->onDeployFromDeck(enemy, ally);
+        } else if (takenFrom == Discard) {
+            if (triggerDeploy)
+                card->onDeployFromDiscard(enemy, ally);
             for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
                 other->onOtherAllyResurrecteded(card, enemy, ally);
-        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader)
-            card->onDeploy(enemy, ally);
-        else
+        } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
+            if (triggerDeploy)
+                card->onDeploy(enemy, ally);
+        } else
             assert(false);
     }
 
@@ -1171,18 +1177,21 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy)
+void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy)
 {
     assert(card != nullptr);
     assert(!card->isSpecial);
 
+    /// delete card if position is bad
     if (!isOkRowAndPos(row, pos, ally)) {
         delete card;
         return;
     }
 
-    ally.cardsAdded.push_back(card);
-    putOnField(card, row, pos, ally, enemy);
+    if (addAsNew)
+        ally.cardsAdded.push_back(card);
+
+    putOnField(card, row, pos, ally, enemy, triggerDeploy);
 }
 
 void spawn(Card *card, Field &ally, Field &enemy)
@@ -1190,7 +1199,6 @@ void spawn(Card *card, Field &ally, Field &enemy)
     assert(card != nullptr);
 
     ally.cardsAdded.push_back(card);
-//    ally.snapshots.push_back(new Animation("", Animation::Spawn, card));
 
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy);
