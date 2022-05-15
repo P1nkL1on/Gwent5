@@ -784,6 +784,8 @@ struct LethoOfGulet : CardCollectible<LethoOfGulet>
 struct Auckes : CardCollectible<Auckes>
 {
     Auckes();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 

@@ -4941,5 +4941,5 @@ void Auckes::onDeploy(Field &ally, Field &enemy)
 
 void Auckes::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    toggleLockStatus(target, ally, enemy);
+    toggleLock(target, ally, enemy);
 }
