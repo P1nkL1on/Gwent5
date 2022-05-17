@@ -314,7 +314,7 @@ void playCard(Card *card, Field &ally, Field &enemy, const Card *src)
     return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy)
+void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
 {
     assert(isOkRowAndPos(row, pos, ally));
 
@@ -348,7 +348,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    saveFieldsSnapshot(ally, enemy, PutOnField, nullptr, {card}, randomSound(card, ally.rng));
+    saveFieldsSnapshot(ally, enemy, PutOnField, src, {card}, randomSound(card, ally.rng));
 
     if (card->isLoyal) {
         if (takenFrom == Deck) {

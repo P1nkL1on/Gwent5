@@ -191,7 +191,7 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy);
+void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src = nullptr);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy);

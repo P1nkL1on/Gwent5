@@ -1376,4 +1376,25 @@ struct Vreemde : CardCollectible<Vreemde>
 };
 
 
+struct Eskel : CardCollectible<Eskel>
+{
+    Eskel();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
+struct Lambert : CardCollectible<Lambert>
+{
+    Lambert();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
+struct Vesemir : CardCollectible<Vesemir>
+{
+    Vesemir();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

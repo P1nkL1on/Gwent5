@@ -167,6 +167,9 @@ std::vector<Card *> allCards(const Patch)
         new Recruit(),
         new Ointment(),
         new Vreemde(),
+        new Lambert(),
+        new Eskel(),
+        new Vesemir(),
     };
 }
 
@@ -4958,4 +4961,82 @@ void Auckes::onDeploy(Field &ally, Field &enemy)
 void Auckes::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     toggleLock(target, ally, enemy);
+}
+
+Eskel::Eskel()
+{
+    id = "112202";
+    name = "Eskel";
+    text = "Summon Vesemir and Lambert to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
+        "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3",
+    };
+}
+
+void Eskel::onDeploy(Field &ally, Field &enemy)
+{
+    Row row;
+    Pos pos;
+    if (!rowAndPos(this, ally, row, pos))
+        return;
+    // FIXME: no checking if field ends
+    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+        putOnField(lambert, row, pos, ally, enemy, false, this);
+    for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+        putOnField(vesemir, row, pos, ally, enemy, false, this);
+}
+
+Lambert::Lambert()
+{
+    id = "112204";
+    name = "Lambert";
+    text = "Summon Eskel and Vesemir to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00572964.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
+    };
+}
+
+void Lambert::onDeploy(Field &ally, Field &enemy)
+{
+
+}
+
+Vesemir::Vesemir()
+{
+    id = "112203";
+    name = "Vesemir";
+    text = "Summon Eskel and Lambert to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 7;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
+    };
+}
+
+void Vesemir::onDeploy(Field &ally, Field &enemy)
+{
+
 }

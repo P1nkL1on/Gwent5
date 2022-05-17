@@ -117,11 +117,12 @@ void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy)
         new Ermion(),
         // new Muzzle(),
 
-        new Gremist,
-        new Operator,
-        new Sigrdrifa(),
+//        new Gremist,
+//        new Operator,
+//        new Sigrdrifa(),
         new Udalryk(),
-        new Restore(),
+//        new Restore(),
+        new Lambert(), new Eskel(), new Vesemir(),
         // new StribogRunestone(),
 
         new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
