@@ -207,10 +207,10 @@ Dao::Dao()
     tags = { Construct };
 }
 
-void Dao::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
+void Dao::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
-    spawn(new DaoLesser(), row, pos, ally, enemy);
-    spawn(new DaoLesser(), row, pos, ally, enemy);
+    spawn(new DaoLesser(), rowAndPos.row, rowAndPos.pos, ally, enemy);
+    spawn(new DaoLesser(), rowAndPos.row, rowAndPos.pos, ally, enemy);
 }
 
 Dao::DaoLesser::DaoLesser()
@@ -2712,7 +2712,7 @@ void CerysAnCraite::onDiscard(Field &, Field &)
     timer = 4;
 }
 
-void CerysAnCraite::onDestroy(Field &, Field &, const Row, const Pos)
+void CerysAnCraite::onDestroy(Field &, Field &, const RowAndPos &)
 {
     timer = 4;
 }
@@ -2865,12 +2865,12 @@ void Morkvarg::onDiscard(Field &ally, Field &enemy)
         putOnField(this, row, pos, ally, enemy, true);
 }
 
-void Morkvarg::onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos)
+void Morkvarg::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
         return;
 
-    putOnField(this, row, pos, ally, enemy, true);
+    putOnField(this, rowAndPos.row, rowAndPos.pos, ally, enemy, true);
 }
 
 ArtefactCompression::ArtefactCompression()
@@ -2907,7 +2907,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
     tags = { Ogroid };
 }
 
-void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
     // FIXME: not working, because its doomed
     for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
@@ -4029,9 +4029,9 @@ HaraldHoundsnout::Wilfred::Wilfred()
     isDoomed = true;
 }
 
-void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const Row row, const Pos)
+void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
-    for (Card *card : enemy.row(row))
+    for (Card *card : enemy.row(rowAndPos.row))
         damage(card, 1, ally, enemy);
 }
 
@@ -4045,7 +4045,7 @@ HaraldHoundsnout::Wilhelm::Wilhelm()
     isDoomed = true;
 }
 
-void HaraldHoundsnout::Wilhelm::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+void HaraldHoundsnout::Wilhelm::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
         strengthen(card, 3, ally, enemy);
@@ -4061,7 +4061,7 @@ HaraldHoundsnout::Wilmar::Wilmar()
     isDoomed = true;
 }
 
-void HaraldHoundsnout::Wilmar::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+void HaraldHoundsnout::Wilmar::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
     Row row;
     Pos pos;
@@ -4408,7 +4408,7 @@ Kambi::Kambi()
     tags = { };
 }
 
-void Kambi::onDestroy(Field &ally, Field &enemy, const Row, const Pos)
+void Kambi::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
     Row row;
     Pos pos;

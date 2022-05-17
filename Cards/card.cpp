@@ -409,7 +409,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
         if (mayPutOnDiscard)
             cardAlly->discard.push_back(card);
         if (mayTriggerDeathwish)
-            card->onDestroy(*cardAlly, *cardEnemy, takenFrom, pos);
+            card->onDestroy(*cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
             other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
 

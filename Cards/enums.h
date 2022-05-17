@@ -19,6 +19,14 @@ enum Row
 using Pos = int;
 
 
+struct RowAndPos
+{
+    inline RowAndPos(const Row row, const Pos pos) : row(row), pos(pos) {}
+    Row row;
+    Pos pos;
+};
+
+
 enum Rarity
 {
     Bronze,

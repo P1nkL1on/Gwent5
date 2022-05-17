@@ -23,7 +23,7 @@ struct Dao : CardCollectible<Dao>
         DaoLesser();
     };
     Dao();
-    void onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos) override;
 };
 
 
@@ -706,7 +706,7 @@ struct CerysAnCraite : CardCollectible<CerysAnCraite>
 {
     CerysAnCraite();
     void onDiscard(Field &ally, Field &enemy) override;
-    void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
     void onOtherAllyResurrecteded(Card *other, Field &ally, Field &enemy) override;
 };
 
@@ -742,7 +742,7 @@ struct Morkvarg : CardCollectible<Morkvarg>
 {
     Morkvarg();
     void onDiscard(Field &ally, Field &enemy) override;
-    void onDestroy(Field &ally, Field &enemy, const Row row, const Pos pos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos & rowAndPos) override;
 };
 
 
@@ -759,7 +759,7 @@ struct HjalmarAnCraite : CardCollectible<HjalmarAnCraite>
     struct LordOfUndvik : CardCollectible<LordOfUndvik>
     {
         LordOfUndvik();
-        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+        void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
     };
     HjalmarAnCraite();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -1079,17 +1079,17 @@ struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
     struct Wilfred : CardCollectible<Wilfred>
     {
         Wilfred();
-        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+        void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
     };
     struct Wilhelm : CardCollectible<Wilhelm>
     {
         Wilhelm();
-        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+        void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
     };
     struct Wilmar : CardCollectible<Wilmar>
     {
         Wilmar();
-        void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+        void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
     };
     HaraldHoundsnout();
     void onDeploy(Field &ally, Field &enemy) override;
@@ -1211,7 +1211,7 @@ struct Kambi : CardCollectible<Kambi>
         void onDeploy(Field &ally, Field &enemy) override;
     };
     Kambi();
-    void onDestroy(Field &ally, Field &enemy, const Row, const Pos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &) override;
 };
 
 

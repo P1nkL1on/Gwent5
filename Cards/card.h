@@ -56,7 +56,7 @@ struct Card
     inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/, const Row, const Pos) {}
+    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/, const RowAndPos &) {}
     inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
