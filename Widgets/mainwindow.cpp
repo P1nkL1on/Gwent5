@@ -23,10 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     int id = 0;
+    std::map<int, std::vector<CardView>> views;
     for (const Card *card : allCards(PublicBeta_0_9_24_3_432)) {
         CardView view = cardView(card, id++);
         view.count = card->rarity == Bronze ? 3 : 1;
         _allCardViews.push_back(view);
+
+        const std::vector<CardView> options = cardOptionViews(card);
+        if (options.size())
+            views.insert({id - 1, cardOptionViews(card)});
     }
 
     auto *_resourceManager = new ResourceManager();
@@ -60,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     splitterV->insertWidget(0, splitterH2);
     splitterV->insertWidget(1, createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     layout->addWidget(splitterV, 5);
+    layout->addWidget(createScrollArea(_cardsLineViewOptions = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     setCentralWidget(widget);
 
     connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
@@ -75,8 +81,15 @@ MainWindow::MainWindow(QWidget *parent)
     const auto hoverId = [=](const int id) {
         if (id >= 0)
             for (const CardView &view : _allCardViews)
-                if (view.id == id)
+                if (view.id == id) {
+                    auto it = views.find(id);
+                    if (it == views.end())
+                        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
+                    else
+                        _cardsLineViewOptions->setCardAndChoiceViews(it->second, {});
                     return _cardSingleView->setCardView(view);
+                }
+        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
         _cardSingleView->setCardView({});
     };
     connect(_cardsLineView, &CardsLineView::hovered, this, hoverId);

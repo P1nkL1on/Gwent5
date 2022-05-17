@@ -64,12 +64,14 @@ void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy)
         new TrissButterflies(),
         new Yennefer(),
         new LethoKingslayer(),
+
         new GermainPiquant(),
         new Operator(),
         new Vreemde(),
         new Decoy(),
         new CommandersHorn(),
         new MarchingOrders(),
+
         new Sentry(), new Sentry(), new Sentry(),
         new NauzicaaSergeant(),
         new AlbaArmoredCavalry(), new AlbaArmoredCavalry(), new AlbaArmoredCavalry(),
@@ -77,7 +79,7 @@ void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy)
         new Recruit(), new Recruit(), new Recruit(),
         new Ointment(), new Ointment(),
     };
-    initField(deck, new JanCalveit, ally);
+    initField(deck, new JanCalveit(), ally);
     startNextRound(ally, enemy);
 }
 
@@ -106,4 +108,29 @@ void demoTransforms(Field &ally, Field &enemy)
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deck {
+        new Coral(),
+        new Ermion(),
+        // new Muzzle(),
+
+        new Gremist,
+        new Operator,
+        new Sigrdrifa(),
+        new Udalryk(),
+        new Restore(),
+        // new StribogRunestone(),
+
+        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
+        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
+        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
+        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
+        new PriestessOfFreya, new PriestessOfFreya,
+        new Reconnaissance, new Reconnaissance,
+    };
+    initField(deck, new CrachAnCraite(), ally);
+    startNextRound(ally, enemy);
 }

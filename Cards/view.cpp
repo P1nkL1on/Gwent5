@@ -1,6 +1,5 @@
 #include "view.h"
 
-#include <map>
 #include <cassert>
 
 #include "card.h"
@@ -29,7 +28,9 @@ CardView cardView(const Card *card, const int id)
     return view;
 }
 
-FieldView fieldView(const Field &ally, const Field &enemy)
+FieldView fieldView(
+        const Field &ally, const Field &enemy, const ActionType actionType,
+        const Card *src, const std::vector<Card *> &dst, const std::string &sound)
 {
     std::map<const Card *, CardView> cardToView;
 
@@ -129,6 +130,14 @@ FieldView fieldView(const Field &ally, const Field &enemy)
         res.cards.push_back(std::move(cardAndViewPair.second));
     /// move all choices
     res.choices = std::move(choiceViews);
+
+    /// animation data of current action
+    res.actionType = actionType;
+    res.actionIdSrc = id(src);
+    res.actionIdsDst = {};
+    for (const Card *card : dst)
+        res.actionIdsDst.push_back(id(card));
+    res.actionSound = sound;
 
     return res;
 }
@@ -379,4 +388,30 @@ bool isLeader(const CardView &view)
         if (tag == Leader)
             return true;
     return false;
+}
+
+std::vector<CardView> cardOptionViews(const Card *card)
+{
+    std::vector<CardView> res;
+    /// add any usable previews
+    Card *copy = card->defaultCopy();
+    Field a, e;
+    if (!card->isSpecial)
+        copy->onDeploy(a, e);
+    else
+        copy->onPlaySpecial(a, e);
+
+    int previewId = 0;
+    for (const Choice &choice : a.cardStack){
+        if (choice.cardSource != copy && choice.cardSource != nullptr) {
+            res.push_back(cardView(choice.cardSource, previewId));
+            ++previewId;
+        }
+        for (const Card *card : choice.cardOptions) {
+            res.push_back(cardView(card, previewId));
+            ++previewId;
+        }
+    }
+
+    return res;
 }

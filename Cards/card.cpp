@@ -294,20 +294,20 @@ Card *random(const std::vector<Card *> &cards, Rng &rng)
     return _cards.size() == 0 ? nullptr : _cards[0];
 }
 
-void playAsSpecial(Card *card, Field &ally, Field &enemy)
+void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
 {
-    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
+    saveFieldsSnapshot(ally, enemy, PlaySpecial, src, {card}, randomSound(card, ally.rng));
 
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
 }
 
-void playCard(Card *card, Field &ally, Field &enemy)
+void playCard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(card != nullptr);
     if (card->isSpecial) {
-        playAsSpecial(card, ally, enemy);
+        playAsSpecial(card, ally, enemy, src);
         putOnDiscard(card, ally, enemy);
         return;
     }
@@ -348,7 +348,7 @@ void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &en
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
 
-    saveFieldsSnapshot(ally, enemy, randomSound(card, ally.rng));
+    saveFieldsSnapshot(ally, enemy, PutOnField, nullptr, {card}, randomSound(card, ally.rng));
 
     if (card->isLoyal) {
         if (takenFrom == Deck) {
@@ -476,7 +476,7 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
 void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
 {
     // TODO: empty allCards, so not implemented
-    assert(false);
+//    assert(false);
     assert(self != nullptr);
     assert(self->_options.size() == 0);
 
@@ -534,7 +534,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
         assert(choice.nTargets == 1);
-        return playCard(card, ally, enemy);
+        return playCard(card, ally, enemy, nullptr);
     }
     if (choice.choiceType == Target) {
         Choice choiceNext = choice;
@@ -567,12 +567,12 @@ void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &e
 {
     const Choice Choice = ally.takeChoice();
     if (Choice.choiceType == SelectAllyRowAndPos) {
-        putOnField(Choice.cardSource, row, pos, ally, enemy);
+        putOnField(Choice.cardSource, row, pos, ally, enemy, true);
         return;
     }
 
     if (Choice.choiceType == SelectEnemyRowAndPos) {
-        putOnField(Choice.cardSource, row, pos, enemy, ally);
+        putOnField(Choice.cardSource, row, pos, enemy, ally, true);
         return;
     }
 
@@ -948,9 +948,10 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     for (Card *other : cardsFiltered(ally, enemy, {}, EnemyBoard))
         other->onOtherEnemyDamaged(card, enemy, ally);
 
+    saveFieldsSnapshot(ally, enemy, Damaged, card);
+
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
-        // saveFieldsSnapshot(ally, enemy);
         return false;
     }
 
@@ -970,7 +971,6 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     // TODO: trigger other on boosted
     if (target->power > 0) {
         target->onDamaged(powerDrained, ally, enemy);
-        saveFieldsSnapshot(ally, enemy);
         // TODO: trigger other on damaged
         return;
     }
@@ -1322,15 +1322,17 @@ void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards
     }
 }
 
-void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound)
+void saveFieldsSnapshot(
+        Field &ally, Field &enemy,
+        const ActionType actionType,
+        const Card *src,
+        const std::vector<Card *> &dst,
+        const std::string &sound)
 {
-    FieldView viewAlly = fieldView(ally, enemy);
-    viewAlly.sound = sound;
+    FieldView viewAlly = fieldView(ally, enemy, actionType, src, dst, sound);
     ally.snapshots.push_back(viewAlly);
 
-
-    FieldView viewEnemy = fieldView(enemy, ally);
-    viewAlly.sound = sound;
+    FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound);
     enemy.snapshots.push_back(viewEnemy);
 }
 

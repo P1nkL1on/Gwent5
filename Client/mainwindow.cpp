@@ -147,7 +147,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    startNextRound(_ally, _enemy);
 
-    demoTransforms(_ally, _enemy);
+//    demoTransforms(_ally, _enemy);
+//    demoNilfgaardSoldiersDeck(_ally, _enemy);
+    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -854,13 +856,43 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::repaintCustom()
 {
+    const auto processAction = [=](const FieldView &snapshot)
+    {
+        const auto idToName = [=](const int id) -> QString
+        {
+            if (id < 0)
+                return "NONE (-1)";
+            return QString("%1 (%2)").arg(QString::fromStdString(snapshot.cardView(id).name), QString::number(id));
+        };
+        const QString src = idToName(snapshot.actionIdSrc);
+        const QStringList dst = [=]{
+            QStringList res;
+            for (const int id : snapshot.actionIdsDst)
+                res.push_back(idToName(id));
+            return res;
+        }();
+        switch (snapshot.actionType) {
+        case Invalid:
+            qDebug().noquote().nospace() << "Invalid Src = " << src << ", Dst = " << dst;
+            break;
+        case PlaySpecial:
+            qDebug().noquote().nospace() << "Played " << dst << " by " << src;
+            break;
+        case PutOnField:
+            qDebug().noquote().nospace() << "Put on field " << dst << " by " << src;
+            break;
+        case DealDamage:
+            qDebug().noquote().nospace() << src << "deals damage to " << dst;
+            break;
+        case Damaged:
+            qDebug().noquote().nospace() << dst << "is damaged by " << src;
+            break;
+        }
+        requestSoundByUrl(snapshot.actionSound);
+    };
     for (const FieldView &snapshot : _ally.snapshots)
-       requestSoundByUrl(snapshot.sound);
-    for (const FieldView &snapshot : _enemy.snapshots)
-       requestSoundByUrl(snapshot.sound);
+        processAction(snapshot);
     _ally.snapshots.clear();
-    _enemy.snapshots.clear();
-
 
     // fast version
     if (_ally.cardStack.size()) {

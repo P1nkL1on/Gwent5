@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include <string>
+#include <map>
 #include <vector>
 
 #include "enums.h"
@@ -46,30 +47,13 @@ struct ChoiceView
     std::string toString() const;
 };
 
-
-struct Animation
-{
-    enum Type {
-        Draw,
-        PutOnField,
-        Spawn,
-        PlaySpecial,
-        ArmorAllLost,
-        /// Line
-        LineDamage,
-        /// Texts
-        ArmorGainText,
-        DamageText,
-        BoostText,
-        StrengthenText,
-        WeakenText
-    };
-    std::string sound;
-    Type type;
-    int srcId = -1;
-    int dstId = -1;
+enum ActionType {
+    Invalid,
+    PlaySpecial,
+    PutOnField,
+    DealDamage,
+    Damaged
 };
-
 
 struct FieldView
 {
@@ -107,7 +91,11 @@ struct FieldView
     int nEnemyWins = 0;
     bool allyPassed = false;
     bool enemyPassed = false;
-    std::string sound;
+
+    std::string actionSound;
+    ActionType actionType;
+    int actionIdSrc = -1;
+    std::vector<int> actionIdsDst;
 
     CardView &cardView(const int id);
     const CardView &cardView(const int id) const;
@@ -122,7 +110,9 @@ struct Field;
 
 bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);
-FieldView fieldView(const Field &ally, const Field &enemy);
+std::vector<CardView> cardOptionViews(const Card *card);
+/// returns a field view and a cardToCardViewMap if any pointer given
+FieldView fieldView(const Field &ally, const Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "");
 std::string stringRarity(const Rarity rarity);
 std::string stringTag(const Tag tag);
 bool isLeader(const CardView &view);

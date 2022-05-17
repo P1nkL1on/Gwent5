@@ -75,7 +75,7 @@ struct Card
     inline virtual void onOtherAllyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherEnemyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrecteded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual Card *defaultCopy() { return new Card; }
+    inline virtual Card *defaultCopy() const { return new Card; }
 };
 
 
@@ -89,7 +89,7 @@ struct CardCollectible : Card
         T *res = new(base) T();
         return res;
     }
-    Card *defaultCopy() override
+    Card *defaultCopy() const override
     {
         return CardCollectible<T>::create(patch);
     }
@@ -191,16 +191,16 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy = true);
+void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
-void playAsSpecial(Card *card, Field &ally, Field &enemy);
+void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src = nullptr);
 
 /// call play as special or start choosing a row and pos to play a unit
-void playCard(Card *card, Field &ally, Field &enemy);
+void playCard(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy);
@@ -245,7 +245,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
-void saveFieldsSnapshot(Field &ally, Field &enemy, const std::string &sound = "");
+void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "");
 /// returns false when no choice left (game end)
 bool tryFinishTurn(Field &ally, Field &enemy);
 
