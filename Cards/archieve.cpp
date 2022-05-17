@@ -4957,7 +4957,10 @@ Lambert::Lambert()
 
 void Lambert::onDeploy(Field &ally, Field &enemy)
 {
-
+    for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+        putOnField(eskel, rowAndPosNextTo(this, ally, 1), ally, enemy, false, this);
+    for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+        putOnField(vesemir, rowAndPosNextTo(this, ally, 1), ally, enemy, false, this);
 }
 
 Vesemir::Vesemir()
@@ -4979,5 +4982,8 @@ Vesemir::Vesemir()
 
 void Vesemir::onDeploy(Field &ally, Field &enemy)
 {
-
+    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+        putOnField(lambert, rowAndPosNextTo(this, ally, 0), ally, enemy, false, this);
+    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+        putOnField(lambert, rowAndPosNextTo(this, ally, 1), ally, enemy, false, this);
 }
