@@ -406,7 +406,8 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
     if (!isAlly)
         std::swap(cardAlly, cardEnemy);
 
-    // TODO: reset on putting to discard
+    if (!card->isSpecial)
+        reset(card, ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -593,14 +594,17 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 
 void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &enemy)
 {
+    // TODO: moved a card to be placed to the options instead of
+    // src. and move src to player/
+
     const Choice Choice = ally.takeChoice();
     if (Choice.choiceType == SelectAllyRowAndPos) {
-        putOnField(Choice.cardSource, rowAndPos, ally, enemy, true);
+        putOnField(Choice.cardSource, rowAndPos, ally, enemy, true, nullptr);
         return;
     }
 
     if (Choice.choiceType == SelectEnemyRowAndPos) {
-        putOnField(Choice.cardSource, rowAndPos, enemy, ally, true);
+        putOnField(Choice.cardSource, rowAndPos, enemy, ally, true, nullptr);
         return;
     }
 
@@ -976,7 +980,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     for (Card *other : cardsFiltered(ally, enemy, {}, EnemyBoard))
         other->onOtherEnemyDamaged(card, enemy, ally);
 
-    saveFieldsSnapshot(ally, enemy, Damaged, card);
+    saveFieldsSnapshot(ally, enemy, Damaged, nullptr, {card}, "", dmgInPower);
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
@@ -1092,7 +1096,7 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
 
     card->armor += x;
 
-//    ally.snapshots.push_back(new Animation("", Animation::ArmorGainText, card));
+    saveFieldsSnapshot(ally, enemy, GainArmor, nullptr, {card}, "", x);
 }
 
 std::string stringChoices(const std::vector<Choice> &cardStack)
@@ -1205,7 +1209,7 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void spawn(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy)
+void spawn(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy, const Card *src)
 {
     assert(card != nullptr);
     assert(!card->isSpecial);
@@ -1219,17 +1223,17 @@ void spawn(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, co
     if (addAsNew)
         ally.cardsAdded.push_back(card);
 
-    putOnField(card, rowAndPos, ally, enemy, triggerDeploy);
+    putOnField(card, rowAndPos, ally, enemy, triggerDeploy, src);
 }
 
-void spawn(Card *card, Field &ally, Field &enemy)
+void spawn(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(card != nullptr);
 
     ally.cardsAdded.push_back(card);
 
     if (card->isSpecial) {
-        playAsSpecial(card, ally, enemy);
+        playAsSpecial(card, ally, enemy, src);
         putOnDiscard(card, ally, enemy);
         return;
     }
@@ -1355,12 +1359,13 @@ void saveFieldsSnapshot(
         const ActionType actionType,
         const Card *src,
         const std::vector<Card *> &dst,
-        const std::string &sound)
+        const std::string &sound,
+        const int value)
 {
-    FieldView viewAlly = fieldView(ally, enemy, actionType, src, dst, sound);
+    FieldView viewAlly = fieldView(ally, enemy, actionType, src, dst, sound, value);
     ally.snapshots.push_back(viewAlly);
 
-    FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound);
+    FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound, value);
     enemy.snapshots.push_back(viewEnemy);
 }
 

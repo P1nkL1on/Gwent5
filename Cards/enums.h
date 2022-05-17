@@ -136,6 +136,16 @@ enum ChoiceGroup
 };
 
 
+enum ActionType {
+    Invalid,
+    PlaySpecial,
+    PutOnField,
+    DealDamage,
+    Damaged,
+    GainArmor,
+};
+
+
 enum Lang
 {
     En,

@@ -30,7 +30,8 @@ CardView cardView(const Card *card, const int id)
 
 FieldView fieldView(
         const Field &ally, const Field &enemy, const ActionType actionType,
-        const Card *src, const std::vector<Card *> &dst, const std::string &sound)
+        const Card *src, const std::vector<Card *> &dst, const std::string &sound,
+        const int actionValue)
 {
     std::map<const Card *, CardView> cardToView;
 
@@ -135,6 +136,7 @@ FieldView fieldView(
     res.actionType = actionType;
     res.actionIdSrc = id(src);
     res.actionIdsDst = {};
+    res.actionValue = actionValue;
     for (const Card *card : dst)
         res.actionIdsDst.push_back(id(card));
     res.actionSound = sound;

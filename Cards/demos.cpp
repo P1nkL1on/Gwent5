@@ -117,13 +117,12 @@ void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy)
         new Ermion(),
         // new Muzzle(),
 
-//        new Gremist,
-//        new Operator,
-//        new Sigrdrifa(),
+        new Gremist,
+        new Operator,
+        new Sigrdrifa(),
         new Udalryk(),
-//        new Restore(),
-        new Lambert(), new Eskel(), new Vesemir(),
-        // new StribogRunestone(),
+        new Restore(),
+        new Decoy(),
 
         new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
         new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
@@ -134,4 +133,19 @@ void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy)
     };
     initField(deck, new CrachAnCraite(), ally);
     startNextRound(ally, enemy);
+}
+
+void demoMorkvarg(Field &ally, Field &enemy)
+{
+    auto *m = new Morkvarg();
+    auto *a1 = new AlzursThunder();
+    auto *a2 = new AlzursThunder();
+    auto *a3 = new AlzursThunder();
+    auto *s = new SvanrigeTuirseach();
+    ally.cardsAdded = { m, a1, a2, a3, s };
+    ally.deck = { a1 };
+    ally.hand = { m, a2, a3, s };
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

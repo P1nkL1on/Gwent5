@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
-//    const std::vector<Card *> deckStarting = {
+    const std::vector<Card *> deckStarting = {
 //        /// axes
 //        new Derran, new Reconnaissance,
 //        new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
@@ -28,18 +28,18 @@ MainWindow::MainWindow(QWidget *parent)
 //        new GeraltOfRivia, new Roach, new TuirseachBearmaster,
 
         /// armors
-//        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
-//        new Reinforcements, new Ves, new SileDeTansarville,
-//        new Trollololo, new PrinceStennis, new VincentMeis,
-//        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
-//        new RedanianElite, new RedanianElite, new RedanianElite,
-//        new ReaverScout, new ReaverScout, new ReaverScout,
-//        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
-//        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+        new Reinforcements, new Ves, new SileDeTansarville,
+        new Trollololo, new PrinceStennis, new VincentMeis,
+        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+        new RedanianElite, new RedanianElite, new RedanianElite,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+        new Reconnaissance, new Thunderbolt, new Thunderbolt,
 
-        /// veterans
+//        / veterans
 
-        /// other
+//        / other
 //        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
 //        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
 //        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
@@ -53,21 +53,21 @@ MainWindow::MainWindow(QWidget *parent)
 //        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
 //        new TuirseachBearmaster, new TuirseachBearmaster,
 //        new DimunDracar, new DimunDracar,
-//    };
+    };
 
-//    const std::vector<Card *> deckStarting2 = {
-        /// dicards
-//        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
-//        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
-//        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
-//        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
-//        new DimunPirate, new DimunPirate, new DimunPirate,
-//        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
-//        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
-//        new Reconnaissance, new Reconnaissance,
-//        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
+    const std::vector<Card *> deckStarting2 = {
+//        / dicards
+        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
+        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
+        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
+        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
+        new DimunPirate, new DimunPirate, new DimunPirate,
+        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
+        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
+        new Reconnaissance, new Reconnaissance,
+        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
 
-        /// other
+//        / other
 //        new CahirDyffryn, new LethoKingslayer,
 //        new Swallow, new Swallow,
 //        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
@@ -85,10 +85,11 @@ MainWindow::MainWindow(QWidget *parent)
 //        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
 //        new Reconnaissance, new Reconnaissance, new Reconnaissance,
 //        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-//    };
+    };
 
-//    initField(deckStarting, new EistTuirseach, _ally);
-//    initField(deckStarting2, new JanCalveit, _enemy);
+    initField(deckStarting, new JanCalveit, _ally);
+    initField(deckStarting2, new BranTuirseach, _enemy);
+    startNextRound(_ally, _enemy);
 
 
     /// ally
@@ -145,11 +146,11 @@ MainWindow::MainWindow(QWidget *parent)
 //    };
 //    initField(deck2, new EistTuirseach, _enemy);
 
-//    startNextRound(_ally, _enemy);
+
 
 //    demoTransforms(_ally, _enemy);
 //    demoNilfgaardSoldiersDeck(_ally, _enemy);
-    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
+//    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -844,7 +845,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
     paintInRect(rect, _snapshot);
 }
 
-
 void MainWindow::repaintCustom()
 {
     const auto processAction = [=](const FieldView &snapshot)
@@ -852,16 +852,20 @@ void MainWindow::repaintCustom()
         const auto idToName = [=](const int id) -> QString
         {
             if (id < 0)
-                return "NONE (-1)";
-            return QString("%1 (%2)").arg(QString::fromStdString(snapshot.cardView(id).name), QString::number(id));
+                return "NONE";
+            return QString("%1").arg(QString::fromStdString(snapshot.cardView(id).name));
         };
         const QString src = idToName(snapshot.actionIdSrc);
-        const QStringList dst = [=]{
+        const QString dst = [=]() -> QString {
             QStringList res;
             for (const int id : snapshot.actionIdsDst)
                 res.push_back(idToName(id));
-            return res;
+            QString str = res.isEmpty() ? "NONE" : res.join(", ");
+            if (str == "(" + src + ")")
+                return "ITSELF";
+            return str;
         }();
+        const int x = snapshot.actionValue;
         switch (snapshot.actionType) {
         case Invalid:
             qDebug().noquote().nospace() << "Invalid Src = " << src << ", Dst = " << dst;
@@ -873,10 +877,13 @@ void MainWindow::repaintCustom()
             qDebug().noquote().nospace() << "Put on field " << dst << " by " << src;
             break;
         case DealDamage:
-            qDebug().noquote().nospace() << src << "deals damage to " << dst;
+            qDebug().noquote().nospace() << src << " deals " << x << " damage to " << dst;
             break;
         case Damaged:
-            qDebug().noquote().nospace() << dst << "is damaged by " << src;
+            qDebug().noquote().nospace() << dst << " takes " << x << " damage by " << src;
+            break;
+        case GainArmor:
+            qDebug().noquote().nospace() << dst << " gains " << x << " armor by " << src;
             break;
         }
         requestSoundByUrl(snapshot.actionSound);
@@ -892,8 +899,6 @@ void MainWindow::repaintCustom()
         _snapshot = fieldView(_enemy, _ally);
     }
     repaint();
-//    return;
-
 //    if (_ally.cardStack.size()) {
 //        for (const FieldView &snapshot : _ally.snapshots) {
 //            requestSoundByUrl(snapshot.sound);

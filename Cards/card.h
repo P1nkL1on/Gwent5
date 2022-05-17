@@ -196,13 +196,13 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src = nullptr);
+void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
-void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src = nullptr);
+void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// call play as special or start choosing a row and pos to play a unit
 void playCard(Card *card, Field &ally, Field &enemy, const Card *src);
@@ -216,9 +216,12 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
 
 /// create new card and play it (add it to the `addedCards`)
-void spawn(Card *card, Field &ally, Field &enemy);
-/// may work as summon (no deploy)
-void spawn(Card *card, const RowAndPos &findRowAndPos, Field &ally, Field &enemy, const bool addAsNew = true, const bool triggerDeploy = true);
+void spawn(Card *card, Field &ally, Field &enemy, const Card *src);
+/// if `addAsNew` - add to new cards in game (recommended)
+/// if not `triggerDeploy` - then card will be just `summoned` with no deploy effect
+/// TODO: check maybe always addAsNew will be choosen
+void spawn(Card *card, const RowAndPos &findRowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy, const Card *src);
+
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
@@ -250,7 +253,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
-void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "");
+void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1);
 /// returns false when no choice left (game end)
 bool tryFinishTurn(Field &ally, Field &enemy);
 
