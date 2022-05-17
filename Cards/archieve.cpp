@@ -209,8 +209,8 @@ Dao::Dao()
 
 void Dao::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
-    spawn(new DaoLesser(), rowAndPos.row, rowAndPos.pos, ally, enemy);
-    spawn(new DaoLesser(), rowAndPos.row, rowAndPos.pos, ally, enemy);
+    spawn(new DaoLesser(), rowAndPos, ally, enemy);
+    spawn(new DaoLesser(), rowAndPos, ally, enemy);
 }
 
 Dao::DaoLesser::DaoLesser()
@@ -268,12 +268,8 @@ PoorFingInfantry::PoorFingInfantry()
 
 void PoorFingInfantry::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    spawn(new LeftFlankInfantry(), row, pos, ally, enemy);
-    spawn(new RightFlankInfantry(), row, pos + 2, ally, enemy);
+    spawn(new LeftFlankInfantry(), rowAndPosNextTo(this, ally, 0), ally, enemy);
+    spawn(new RightFlankInfantry(), rowAndPosNextTo(this, ally, 1), ally, enemy);
 }
 
 DeithwenArbalest::DeithwenArbalest()
@@ -498,7 +494,7 @@ void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
+    if (!findRowAndPos(this, ally, row, pos))
         return;
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
         damage(right, 1, ally, enemy);
@@ -809,14 +805,9 @@ HalfElfHunter::HalfElfHunter()
 
 void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-
     Card *copy = defaultCopy();
     copy->isDoomed = true;
-    spawn(copy, row, pos + 1, ally, enemy, true, false);
+    spawn(copy, rowAndPosNextTo(this, ally, 1), ally, enemy, true, false);
 }
 
 Ambassador::Ambassador()
@@ -1150,13 +1141,8 @@ void Frightener::onDeploy(Field &ally, Field &enemy)
 
 void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, enemy, row, pos))
-        return;
-    if (isRowFull(enemy.row(row)))
-        return;
-    putOnField(target, row, Pos(enemy.row(row).size()), enemy, ally, true);
+    // FIXME: Not Meele, but its same
+    putOnField(target, rowAndPosLastInRow(enemy, Meele), enemy, ally, true, this);
 }
 
 Cleaver::Cleaver()
@@ -2364,7 +2350,7 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
+    if (!findRowAndPos(this, ally, row, pos))
         return;
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row), ally.rng)) {
@@ -2473,15 +2459,8 @@ DrummondQueensguard::DrummondQueensguard()
 
 void DrummondQueensguard::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard)) {
-        if (isRowFull(ally.row(row)))
-            break;
-        putOnField(card, row, ++pos, ally, enemy, true);
-    }
+    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
+        putOnField(card, rowAndPosNextTo(this, ally, 1), ally, enemy, true, this);
 }
 
 BranTuirseach::BranTuirseach()
@@ -2582,10 +2561,7 @@ AnCraiteRaider::AnCraiteRaider()
 
 void AnCraiteRaider::onDiscard(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (randomRowAndPos(ally, row, pos))
-        putOnField(this, row, pos, ally, enemy, true);
+    putOnField(this, rowAndPosRandom(ally), ally, enemy, true, this);
 }
 
 MadmanLugos::MadmanLugos()
@@ -2725,10 +2701,8 @@ void CerysAnCraite::onOtherAllyResurrecteded(Card *, Field &ally, Field &enemy)
     if (timer > 0)
         timer--;
 
-    Row row;
-    Pos pos;
-    if (timer == 0 && randomRowAndPos(ally, row, pos))
-        putOnField(this, row, pos, ally, enemy, true);
+    if (timer == 0)
+        putOnField(this, rowAndPosRandom(ally), ally, enemy, true, this);
 }
 
 WoodlandSpirit::WoodlandSpirit()
@@ -2747,12 +2721,11 @@ void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
+    if (!findRowAndPos(this, ally, row, pos))
         return;
     applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
     for (int n = 0; n < 3; ++n)
-        if (!isRowFull(ally.rowMeele))
-            spawn(new Wolf(), Meele, Pos(ally.rowMeele.size()), ally, enemy);
+        spawn(new Wolf(), rowAndPosLastInRow(ally, Meele), ally, enemy);
 }
 
 Trollololo::Trollololo()
@@ -2859,10 +2832,7 @@ void Morkvarg::onDiscard(Field &ally, Field &enemy)
     if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
         return;
 
-    Row row;
-    Pos pos;
-    if (randomRowAndPos(ally, row, pos))
-        putOnField(this, row, pos, ally, enemy, true);
+    putOnField(this, rowAndPosRandom(ally), ally, enemy, true);
 }
 
 void Morkvarg::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
@@ -2870,7 +2840,7 @@ void Morkvarg::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
     if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
         return;
 
-    putOnField(this, rowAndPos.row, rowAndPos.pos, ally, enemy, true);
+    putOnField(this, rowAndPos, ally, enemy, true);
 }
 
 ArtefactCompression::ArtefactCompression()
@@ -2934,13 +2904,8 @@ HjalmarAnCraite::HjalmarAnCraite()
 
 void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    if (isRowFull(enemy.row(row)))
-        return;
-    spawn(new LordOfUndvik(), row, Pos(enemy.row(row).size()), enemy, ally);
+    // FIXME: Not Meele but the opposite row
+    spawn(new LordOfUndvik(), rowAndPosLastInRow(enemy, Meele), enemy, ally);
 }
 
 Regis::Regis()
@@ -3298,7 +3263,7 @@ void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy
 {
     Pos _;
     Row row;
-    if (!rowAndPos(other, enemy, row, _))
+    if (!findRowAndPos(other, enemy, row, _))
         return;
     if (isIn(this, ally.row(row)))
         boost(this, 1, ally, enemy);
@@ -3369,10 +3334,7 @@ void Roach::onOtherAllyPlayedFromHand(Card *other, Field &ally, Field &enemy)
     if (!isIn(this, ally.deck))
         return;
 
-    Row row;
-    Pos pos;
-    if (randomRowAndPos(ally, row, pos))
-        putOnField(this, row, pos, ally, enemy, false);
+    putOnField(this, rowAndPosRandom(ally), ally, enemy, false);
 }
 
 JanCalveit::JanCalveit()
@@ -4010,13 +3972,10 @@ HaraldHoundsnout::HaraldHoundsnout()
 
 void HaraldHoundsnout::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    spawn(new Wilfred(), row, pos, ally, enemy);
-    spawn(new Wilhelm(), row, pos + 2, ally, enemy);
-    spawn(new Wilmar(), row, Pos(enemy.row(row).size()), enemy, ally);
+    spawn(new Wilfred(), rowAndPosNextTo(this, ally, 0), ally, enemy);
+    spawn(new Wilhelm(), rowAndPosNextTo(this, ally, 1), ally, enemy);
+    // FIXME: Opposite row instead of Meele
+    spawn(new Wilmar(), rowAndPosLastInRow(enemy, Meele), enemy, ally);
 }
 
 HaraldHoundsnout::Wilfred::Wilfred()
@@ -4063,10 +4022,7 @@ HaraldHoundsnout::Wilmar::Wilmar()
 
 void HaraldHoundsnout::Wilmar::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
-    Row row;
-    Pos pos;
-    if (randomRowAndPos(enemy, row, pos))
-        spawn(new Bear(), row, pos, ally, enemy);
+    spawn(new Bear(), rowAndPosRandom(enemy), ally, enemy);
 }
 
 Yoana::Yoana()
@@ -4410,11 +4366,7 @@ Kambi::Kambi()
 
 void Kambi::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
-    Row row;
-    Pos pos;
-    if (!randomRowAndPos(ally, row, pos))
-        return;
-    spawn(new Hemdall(), row, pos, ally, enemy);
+    spawn(new Hemdall(), rowAndPosRandom(ally), ally, enemy);
 }
 
 Olaf::Olaf()
@@ -4472,7 +4424,7 @@ void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
+    if (!findRowAndPos(this, ally, row, pos))
         return;
     if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
         strengthen(left, 1, ally, enemy);
@@ -4629,14 +4581,10 @@ GermainPiquant::GermainPiquant()
 
 void GermainPiquant::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    spawn(new Cow(), row, pos, ally, enemy);
-    spawn(new Cow(), row, pos, ally, enemy);
-    spawn(new Cow(), row, pos + 3, ally, enemy);
-    spawn(new Cow(), row, pos + 4, ally, enemy);
+    spawn(new Cow(), rowAndPosNextTo(this, ally, 0), ally, enemy);
+    spawn(new Cow(), rowAndPosNextTo(this, ally, 0), ally, enemy);
+    spawn(new Cow(), rowAndPosNextTo(this, ally, 1), ally, enemy);
+    spawn(new Cow(), rowAndPosNextTo(this, ally, 1), ally, enemy);
 }
 
 CommandersHorn::CommandersHorn()
@@ -4789,16 +4737,14 @@ void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
+    if (!findRowAndPos(this, ally, row, pos))
         return;
 
-    for (int __row = Meele; __row <= Seige; ++__row)
-        if (__row != row) {
+    for (int _row = Meele; _row <= Seige; ++_row)
+        if (_row != row) {
             Card *copy = defaultCopy();
             copy->isDoomed = true;
-            const Row _row = Row(__row);
-            const Pos _pos = Pos(ally.row(Row(_row)).size());
-            spawn(copy, _row, _pos, ally, enemy, true, false);
+            spawn(copy, rowAndPosLastInRow(ally, Row(_row)), ally, enemy, true, false);
         }
 }
 
@@ -4983,15 +4929,10 @@ Eskel::Eskel()
 
 void Eskel::onDeploy(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!rowAndPos(this, ally, row, pos))
-        return;
-    // FIXME: no checking if field ends
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
-        putOnField(lambert, row, pos, ally, enemy, false, this);
+        putOnField(lambert, rowAndPosNextTo(this, ally, 0), ally, enemy, false, this);
     for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        putOnField(vesemir, row, pos, ally, enemy, false, this);
+        putOnField(vesemir, rowAndPosNextTo(this, ally, 0), ally, enemy, false, this);
 }
 
 Lambert::Lambert()

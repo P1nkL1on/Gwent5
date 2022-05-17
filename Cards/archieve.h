@@ -23,7 +23,7 @@ struct Dao : CardCollectible<Dao>
         DaoLesser();
     };
     Dao();
-    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &findRowAndPos) override;
 };
 
 
@@ -742,7 +742,7 @@ struct Morkvarg : CardCollectible<Morkvarg>
 {
     Morkvarg();
     void onDiscard(Field &ally, Field &enemy) override;
-    void onDestroy(Field &ally, Field &enemy, const RowAndPos & rowAndPos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos & findRowAndPos) override;
 };
 
 

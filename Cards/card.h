@@ -162,9 +162,13 @@ bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool isOnBoard(const Card *card, const Field &field);
 bool hasTag(const Card *card, const Tag tag);
 bool isRowFull(const std::vector<Card *> &row);
-bool isOkRowAndPos(const Row row, const Pos pos, const Field &field);
+bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
+RowAndPos findRowAndPos(const Card *card, const Field &field);
+RowAndPos rowAndPosLastInRow(const Field &field, const Row row);
+RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset);
+RowAndPos rowAndPosRandom(Field &field);
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
@@ -185,13 +189,14 @@ std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
+// TODO: remove old function
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
 /// find a place of a card in the field. returns false if non found
-bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
+bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src = nullptr);
+void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src = nullptr);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy);
@@ -213,7 +218,7 @@ void transform(Card *card, const std::string &id, const std::string &name, const
 /// create new card and play it (add it to the `addedCards`)
 void spawn(Card *card, Field &ally, Field &enemy);
 /// may work as summon (no deploy)
-void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool addAsNew = true, const bool triggerDeploy = true);
+void spawn(Card *card, const RowAndPos &findRowAndPos, Field &ally, Field &enemy, const bool addAsNew = true, const bool triggerDeploy = true);
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
@@ -242,7 +247,7 @@ void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = 
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
-void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy);
+void onChoiceDoneRowAndPlace(const RowAndPos &findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "");

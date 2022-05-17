@@ -314,13 +314,17 @@ void playCard(Card *card, Field &ally, Field &enemy, const Card *src)
     return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
-void putOnField(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
+void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
 {
-    assert(isOkRowAndPos(row, pos, ally));
+    if (!isOkRowAndPos(rowAndPos, ally))
+        return;
+
+    const Row row = rowAndPos.row;
+    const Pos pos = rowAndPos.pos;
 
     const Row takenFrom = takeCard(card, ally, enemy);
 
-    switch (row) {
+    switch (rowAndPos.row) {
     case Meele:
         assert(!isIn(card, ally.rowMeele));
         ally.rowMeele.insert(ally.rowMeele.begin() + pos, card);
@@ -428,7 +432,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
 
 }
 
-bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
+bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
 {
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         const std::vector<Card *> &__row = field.row(_row);
@@ -443,6 +447,30 @@ bool rowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     row = Row(-1);
     pos = -1;
     return false;
+}
+
+RowAndPos findRowAndPos(const Card *card, const Field &field)
+{
+    for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
+        const std::vector<Card *> &__row = field.row(_row);
+        for (size_t index = 0; index < __row.size(); ++index)
+            if (__row[index] == card)
+                return RowAndPos(_row, Pos(index));
+    }
+    return RowAndPos();
+}
+
+RowAndPos rowAndPosLastInRow(const Field &field, const Row row)
+{
+    assert(row == Meele || row == Range || row == Seige);
+    const Pos size = Pos(field.row(row).size());
+    return size == 9 ? RowAndPos(row, size) : RowAndPos();
+}
+
+RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset)
+{
+    const RowAndPos rowAndPos = findRowAndPos(card, field);
+    return isOkRowAndPos(rowAndPos, field) ? RowAndPos(rowAndPos.row, rowAndPos.pos + offset) : RowAndPos();
 }
 
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
@@ -563,16 +591,16 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
     assert(false);
 }
 
-void onChoiceDoneRowAndPlace(const Row row, const Pos pos, Field &ally, Field &enemy)
+void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &enemy)
 {
     const Choice Choice = ally.takeChoice();
     if (Choice.choiceType == SelectAllyRowAndPos) {
-        putOnField(Choice.cardSource, row, pos, ally, enemy, true);
+        putOnField(Choice.cardSource, rowAndPos, ally, enemy, true);
         return;
     }
 
     if (Choice.choiceType == SelectEnemyRowAndPos) {
-        putOnField(Choice.cardSource, row, pos, enemy, ally, true);
+        putOnField(Choice.cardSource, rowAndPos, enemy, ally, true);
         return;
     }
 
@@ -657,16 +685,16 @@ void traceField(Field &field)
         std::cout << card->power << "\n";
 }
 
-bool isOkRowAndPos(const Row row, const Pos pos, const Field &field)
+bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field)
 {
-    if (pos < 0)
+    if (rowAndPos.pos < 0)
         return false;
 
-    if (pos >= 9)
+    if (rowAndPos.pos >= 9)
         return false;
 
-    const std::vector<Card *> &_row = field.row(row);
-    return !isRowFull(_row) && (pos <= int(_row.size()));
+    const std::vector<Card *> &_row = field.row(rowAndPos.row);
+    return !isRowFull(_row) && (rowAndPos.pos <= int(_row.size()));
 }
 
 
@@ -687,9 +715,9 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
 {
     Row row;
     Pos pos;
-    if (rowAndPos(card, ally, row, pos))
+    if (findRowAndPos(card, ally, row, pos))
         return cardAtRowAndPos(row, pos + offset, ally);
-    if (rowAndPos(card, enemy, row, pos))
+    if (findRowAndPos(card, enemy, row, pos))
         return cardAtRowAndPos(row, pos + offset, enemy);
     return nullptr;
 }
@@ -1177,13 +1205,13 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy)
+void spawn(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy)
 {
     assert(card != nullptr);
     assert(!card->isSpecial);
 
     /// delete card if position is bad
-    if (!isOkRowAndPos(row, pos, ally)) {
+    if (!isOkRowAndPos(rowAndPos, ally)) {
         delete card;
         return;
     }
@@ -1191,7 +1219,7 @@ void spawn(Card *card, const Row row, const Pos pos, Field &ally, Field &enemy, 
     if (addAsNew)
         ally.cardsAdded.push_back(card);
 
-    putOnField(card, row, pos, ally, enemy, triggerDeploy);
+    putOnField(card, rowAndPos, ally, enemy, triggerDeploy);
 }
 
 void spawn(Card *card, Field &ally, Field &enemy)
@@ -1394,4 +1422,20 @@ void lock(Card *card, Field &ally, Field &enemy)
 {
     if (!card->isLocked)
         toggleLock(card, ally, enemy);
+}
+
+RowAndPos rowAndPosRandom(Field &field)
+{
+    std::vector<Row> hasFreeSpace;
+    for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
+        if (isRowFull(field.row(_row)))
+            continue;
+        hasFreeSpace.push_back(_row);
+    }
+    if (hasFreeSpace.size() == 0)
+        return RowAndPos();
+
+    const Row row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
+    const Pos pos = Pos(field.row(row).size());
+    return RowAndPos(row, pos);
 }

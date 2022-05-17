@@ -21,9 +21,11 @@ using Pos = int;
 
 struct RowAndPos
 {
-    inline RowAndPos(const Row row, const Pos pos) : row(row), pos(pos) {}
-    Row row;
-    Pos pos;
+    RowAndPos() = default;
+    RowAndPos(const Row row, const Pos pos) : row(row), pos(pos) {}
+
+    Row row = Row(-1);
+    Pos pos = Pos(-1);
 };
 
 

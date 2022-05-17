@@ -228,21 +228,18 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return nullptr;
     };
 
-    const auto rowAndPostAt = [=](const bool ally, const QPoint &point, Row &row, Pos &pos) -> bool {
+    const auto rowAndPostAt = [=](const bool ally, const QPoint &point) -> RowAndPos {
         const int jFrom = ally ? 3 : 0;
         const int jTo = ally ? 6 : 3;
         for (int j = jFrom; j < jTo; ++j) {
             const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
             for (size_t i = 0; i < 9; ++i) {
                 const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
-                if (cardRect.contains(point)) {
-                    row = _row;
-                    pos = Pos(i);
-                    return true;
-                }
+                if (cardRect.contains(point))
+                    return RowAndPos(_row, Pos(i));
             }
         }
-        return false;
+        return RowAndPos();
     };
 
     const auto rowAt = [=](const bool ally, const QPoint &point, Row &row) -> bool {
@@ -270,9 +267,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     const auto topLeftOf = [=](const Card *card) -> QPointF {
         Row row;
         Pos pos;
-        if (rowAndPos(card, ally, row, pos))
+        if (findRowAndPos(card, ally, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
-        if (rowAndPos(card, enemy, row, pos))
+        if (findRowAndPos(card, enemy, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
@@ -305,24 +302,18 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     }
 
     if (ally.choice().choiceType == SelectAllyRowAndPos) {
-        Row row;
-        Pos pos;
-        if (!rowAndPostAt(true, point, row, pos))
+        const RowAndPos rowAndPos = rowAndPostAt(true, point);
+        if (!isOkRowAndPos(rowAndPos, ally))
             return;
-        if (!isOkRowAndPos(row, pos, ally))
-            return;
-        onChoiceDoneRowAndPlace(row, pos, ally, enemy);
+        onChoiceDoneRowAndPlace(rowAndPos, ally, enemy);
         goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectEnemyRowAndPos) {
-        Row row;
-        Pos pos;
-        if (!rowAndPostAt(false, point, row, pos))
+        const RowAndPos rowAndPos = rowAndPostAt(false, point);
+        if (!isOkRowAndPos(rowAndPos, ally))
             return;
-        if (!isOkRowAndPos(row, pos, enemy))
-            return;
-        onChoiceDoneRowAndPlace(row, pos, ally, enemy);
+        onChoiceDoneRowAndPlace(rowAndPos, ally, enemy);
         goto finish_turn;
     }
 
