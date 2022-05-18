@@ -11,6 +11,8 @@
 #include <QThread>
 #include <QTimer>
 #include <QApplication>
+#include <QHBoxLayout>
+#include <QPointer>
 
 #include "Cards/demos.h"
 
@@ -20,18 +22,35 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
+    auto *w = new QWidget;
+    auto *l = new QHBoxLayout;
+    w->setLayout(l);
+    l->addStretch(3);
+    l->addWidget(_textAlly = new QTextEdit, 1);
+    l->addWidget(_textEnemy = new QTextEdit, 1);
+    _textAlly->setReadOnly(true);
+    _textEnemy->setReadOnly(true);
+    w->setAttribute(Qt::WA_TransparentForMouseEvents);
+    setCentralWidget(w);
+
 //    demoTransforms(_ally, _enemy);
 //    demoNilfgaardSoldiersDeck(_ally, _enemy);
 //    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
 //    demoInstantEffects(_ally, _enemy);
 //    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
 //    demoSpawnAndSummon(_ally, _enemy);
-    demoSingleUseFrightener(_ally, _enemy);
+//    demoSingleUseFrightener(_ally, _enemy);
+    demoAmbushes(_ally, _enemy);
 
-    resize(1300, 1000);
+    resize(1400, 800);
     setMouseTracking(true);
     installEventFilter(this);
-    _snapshot = fieldView(_ally, _enemy);
+    repaintCustom();
+}
+
+QMargins MainWindow::margins() const
+{
+    return QMargins(10, 10, int(width() * 0.4) + 20, 10);
 }
 
 void MainWindow::requestImageByUrl(const std::string &url)
@@ -227,6 +246,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 
 finish_turn:
+    repaintCustom();
     tryFinishTurn(ally, enemy);
     repaintCustom();
 }
@@ -278,14 +298,6 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
 
         const QString textElided = metrics.elidedText(text, Qt::ElideRight, rect.width() - 2 * _layout.borderNamePx);
         painter.drawText(rect.marginsRemoved(QMarginsF(_layout.borderNamePx, 0, _layout.borderNamePx, 0)), textElided);
-    };
-
-    const auto paintCardHidden = [=, &painter](const QPointF &topLeft)
-    {
-        const QSizeF size(posWidth, posHeight);
-        const QRectF rect(topLeft, size);
-        painter.setPen(Qt::black);
-        painter.drawRect(rect);
     };
 
     const QMap<int, QString> rarityToBorderUrl {
@@ -402,7 +414,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             width += _layout.borderTextPx;
         }
 
-        if (cardView.timer) {
+        if (cardView.timer > 0) {
             width += paintTextInPoint("TIMER " + QString::number(cardView.timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
             width += _layout.borderTextPx;
         }
@@ -668,7 +680,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 200, 20));
+    const QRect rect = this->rect().marginsRemoved(margins());
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
@@ -715,13 +727,13 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 20));
+    const QRect rect = e->rect().marginsRemoved(margins());
     paintInRect(rect, _snapshot);
 }
 
 void MainWindow::repaintCustom()
 {
-    const auto processAction = [=](const FieldView &snapshot)
+    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "")
     {
         const auto idToName = [=](const int id) -> QString
         {
@@ -742,61 +754,95 @@ void MainWindow::repaintCustom()
         const int x = snapshot.actionValue;
         switch (snapshot.actionType) {
         case Invalid:
-            qDebug().noquote().nospace() << "Invalid Src = " << src << ", Dst = " << dst;
+            stream << prefix << "Invalid Src = " << src << ", Dst = " << dst;
             break;
         case TurnStart:
-            qDebug().noquote().nospace() << "\n#" << x << " turn started";
+            stream << prefix << "#" << x << " turn started";
             break;
         case PlaySpecial:
-            qDebug().noquote().nospace() << "Played " << dst << " by " << src;
+            stream << prefix << dst << " special plays by " << src;
             break;
         case PutOnField:
-            qDebug().noquote().nospace() << dst << " enters the board by " << src;
+            stream << prefix << dst << " enters the board by " << src;
             break;
         case MoveFromRowToRow:
-            qDebug().noquote().nospace() << dst << " moves from row to row by " << src;
+            stream << prefix << dst << " moves from row to row by " << src;
             break;
         case TimerSet:
-            qDebug().noquote().nospace() << src << " timer is set to " << x;
+            stream << prefix << src << " timer is set to " << x;
+            break;
+        case FlipOver:
+            stream << prefix << src << " flips over";
             break;
         case PutToHand:
-            qDebug().noquote().nospace() << dst << " moves to hand by " << src;
+            stream << prefix << dst << " moves to hand by " << src;
             break;
         case PutToDiscard:
-            qDebug().noquote().nospace() << dst << " moves to discard by " << src;
+            stream << prefix << dst << " moves to discard by " << src;
             break;
         case Destroyed:
-            qDebug().noquote().nospace() << dst << " destroyed by " << src;
+            stream << prefix << dst << " destroyed by " << src;
             break;
         case DealDamage:
-            qDebug().noquote().nospace() << src << " deals " << x << " damage to " << dst;
+            stream << prefix << src << " deals " << x << " damage to " << dst;
             break;
         case Boosted:
-            qDebug().noquote().nospace() << dst << " gain " << x << " power by " << src;
+            stream << prefix << dst << " gain " << x << " power by " << src;
             break;
         case Damaged:
-            qDebug().noquote().nospace() << dst << " takes " << x << " damage by " << src;
+            stream << prefix << dst << " takes " << x << " damage by " << src;
             break;
         case DamagedInArmor:
-            qDebug().noquote().nospace() << dst << " absorbs " << x << " damage by " << src;
+            stream << prefix << dst << " absorbs " << x << " damage by " << src;
             break;
         case GainArmor:
-            qDebug().noquote().nospace() << dst << " gains " << x << " armor by " << src;
+            stream << prefix << dst << " gains " << x << " armor by " << src;
             break;
         }
+        stream << "\n";
         requestSoundByUrl(snapshot.actionSound);
     };
-    for (const FieldView &snapshot : _ally.snapshots)
-        processAction(snapshot);
-    _ally.snapshots.clear();
+    class TextEditIoDevice : public QIODevice
+    {
+    public:
+        TextEditIoDevice(QTextEdit *const textEdit, QObject *const parent)
+            : QIODevice(parent), textEdit(textEdit)
+        {
+            open(QIODevice::WriteOnly | QIODevice::Text);
+        }
+    protected:
+        qint64 readData(char *, qint64 ) override { return 0; }
+        qint64 writeData(const char *data, qint64 maxSize) override
+        {
+            if(textEdit)
+            {
+                textEdit->append(data);
+            }
+            return maxSize;
+        }
 
-    // fast version
+    private:
+        QPointer<QTextEdit> textEdit;
+    };
+    {
+        QTextStream ss(new TextEditIoDevice(_textAlly, this));
+        for (const FieldView &snapshot : _ally.snapshots)
+            processAction(snapshot, ss);
+        _ally.snapshots.clear();
+    }
+    {
+        QTextStream ss(new TextEditIoDevice(_textEnemy, this));
+        for (const FieldView &snapshot : _enemy.snapshots)
+            processAction(snapshot, ss);
+        _enemy.snapshots.clear();
+    }
     if (_ally.cardStack.size()) {
         _snapshot = fieldView(_ally, _enemy);
     } else if (_enemy.cardStack.size()) {
         _snapshot = fieldView(_enemy, _ally);
     }
     repaint();
+
 //    if (_ally.cardStack.size()) {
 //        for (const FieldView &snapshot : _ally.snapshots) {
 //            requestSoundByUrl(snapshot.sound);
@@ -821,5 +867,5 @@ void MainWindow::repaintCustom()
 //        _enemy.snapshots.clear();
 //        _snapshot = fieldView(_enemy, _ally);
 //        repaint();
-//    }
+    //    }
 }

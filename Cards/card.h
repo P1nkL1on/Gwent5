@@ -230,6 +230,7 @@ void toggleLock(Card *card, Field &ally, Field &enemy);
 void lock(Card *card, Field &ally, Field &enemy);
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
+void flipOver(Card *card, Field &ally, Field &enemy);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 

@@ -151,6 +151,7 @@ enum ActionType {
     GainArmor,
     MoveFromRowToRow,
     TimerSet,
+    FlipOver,
 };
 
 

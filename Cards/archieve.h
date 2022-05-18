@@ -1404,4 +1404,11 @@ struct Vesemir : CardCollectible<Vesemir>
 };
 
 
+struct VriheddDragoon : CardCollectible<VriheddDragoon>
+{
+    VriheddDragoon();
+    void onTurnEnd(Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

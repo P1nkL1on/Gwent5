@@ -227,5 +227,38 @@ void demoSingleUseFrightener(Field &ally, Field &enemy)
     ally.deck = { d1, d2 };
     enemy.cardsAdded = { d3, d4, s };
     enemy.hand = { s, d3, d4 };
+    ally.canPass = false;
+    enemy.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoAmbushes(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new VriheddSappers(),
+        new VriheddSappers(),
+        new DolBlathannaArcher(),
+        new DolBlathannaArcher(),
+        new Swallow(),
+        new Swallow(),
+        new VriheddDragoon(),
+        new VriheddDragoon(),
+        new VriheddDragoon(),
+        new VriheddDragoon(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new VriheddSappers(),
+        new VriheddSappers(),
+        new DolBlathannaArcher(),
+        new DolBlathannaArcher(),
+        new Swallow(),
+        new Swallow(),
+        new AnCraiteGreatsword(),
+        new AnCraiteGreatsword(),
+    };
+    enemy.hand = enemy.cardsAdded;
+    ally.canPass = false;
+    enemy.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

@@ -1301,6 +1301,7 @@ void saveFieldsSnapshot(
         const int value)
 {
     const auto pushSnapshot = [=](Field &field, const FieldView &snapshot) {
+
         for (size_t i = 0; i < field.snapshots.size(); ++i) {
             const size_t j = field.snapshots.size() - 1 - i;
 
@@ -1339,8 +1340,23 @@ void saveFieldsSnapshot(
     FieldView viewAlly = fieldView(ally, enemy, actionType, src, dst, sound, value);
     pushSnapshot(ally, viewAlly);
 
+
     FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound, value);
-    pushSnapshot(enemy, viewEnemy);
+
+    /// don't show actions of hidden cards to enemy
+    bool canShowActionToEnemy = true;
+    if (viewEnemy.actionIdSrc >= 0 && !viewEnemy.cardView(viewEnemy.actionIdSrc).isVisible)
+        canShowActionToEnemy = false;
+    for (const int id : viewEnemy.actionIdsDst)
+        if (id >= 0 && !viewEnemy.cardView(id).isVisible)
+            canShowActionToEnemy = false;
+    const bool showEvenHidden =
+            viewEnemy.actionType == PutOnField
+            || viewEnemy.actionType == PlaySpecial
+            || viewEnemy.actionType == PutToHand
+            || viewEnemy.actionType == PutToDiscard;
+    if (canShowActionToEnemy || showEvenHidden)
+        pushSnapshot(enemy, viewEnemy);
 }
 
 bool randomRowAndPos(Field &field, Row &row, Pos &pos)
@@ -1426,6 +1442,13 @@ void setTimer(Card *card, Field &ally, Field &enemy, const int x)
 {
     card->timer = x;
     saveFieldsSnapshot(ally, enemy, TimerSet, card, {}, "", x);
+}
+
+void flipOver(Card *card, Field &ally, Field &enemy)
+{
+    assert(card->isAmbush);
+    card->isAmbush = false;
+    saveFieldsSnapshot(ally, enemy, FlipOver, card);
 }
 
 RowAndPos rowAndPosRandom(Field &field)

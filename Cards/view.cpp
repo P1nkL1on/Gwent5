@@ -109,22 +109,29 @@ FieldView fieldView(
         cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
 
     /// in a field -> check if ambush
-    for (auto it = cardToView.begin(); it != cardToView.end(); ++it)
-        if (it->first->isAmbush)
+    for (auto it = cardToView.begin(); it != cardToView.end(); ++it){
+        bool isOnBoard = false;
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (isIn(it->first, ally.row(row)) || isIn(it->first, enemy.row(row))) {
+                isOnBoard = true;
+                break;
+            }
+        if (isOnBoard && it->first->isAmbush)
             it->second.isVisible = false;
+    }
 
     /// obfuscate invisible cards
-//    for (auto it = cardToView.begin(); it != cardToView.end(); ++it) {
-//        CardView &view = it->second;
-//        if (view.isVisible)
-//            continue;
+    for (auto it = cardToView.begin(); it != cardToView.end(); ++it) {
+        CardView &view = it->second;
+        if (view.isVisible)
+            continue;
 
-//        const int id = view.id;
-//        view = CardView();
-//        view.id = id;
-//        view.name = "???";
-//        view.isVisible = false;
-//    }
+        const int id = view.id;
+        view = CardView();
+        view.id = id;
+        view.name = "???";
+        view.isVisible = false;
+    }
 
     FieldView res;
 

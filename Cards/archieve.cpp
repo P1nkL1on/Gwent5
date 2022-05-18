@@ -170,7 +170,7 @@ std::vector<Card *> allCards(const Patch)
         new Lambert(),
         new Eskel(),
         new Vesemir(),
-        new TridamInfantry(),
+        new TridamInfantry(), new VriheddDragoon(),
     };
 }
 
@@ -1347,6 +1347,7 @@ VriheddSappers::VriheddSappers()
     text = "Ambush: After 2 turns, flip over on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 11;
+    isAmbush = true;
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Soldier };
@@ -1354,14 +1355,13 @@ VriheddSappers::VriheddSappers()
 
 void VriheddSappers::onDeploy(Field &ally, Field &enemy)
 {
-    isAmbush = true;
     setTimer(this, ally, enemy, 2);
 }
 
 void VriheddSappers::onTurnStart(Field &ally, Field &enemy)
 {
     if (tick(this, ally, enemy))
-        isAmbush = false;
+        flipOver(this, ally, enemy);
 }
 
 PriestessOfFreya::PriestessOfFreya()
@@ -4989,4 +4989,27 @@ TridamInfantry::TridamInfantry()
 void TridamInfantry::onDeploy(Field &ally, Field &enemy)
 {
     gainArmor(this, 4, ally, enemy, this);
+}
+
+VriheddDragoon::VriheddDragoon()
+{
+    id = "142205";
+    name = "Vrihedd Dragoon";
+    text = "Boost a random non-Spying unit in your hand by 1 on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Elf, Soldier };
+    power = powerBase = 8;
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.779.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.781.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.780.mp3",
+    };
+}
+
+void VriheddDragoon::onTurnEnd(Field &ally, Field &enemy)
+{
+    if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
+        boost(card, 1, ally, enemy, this);
 }
