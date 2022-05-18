@@ -149,3 +149,31 @@ void demoMorkvarg(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deckStartingAlly = {
+        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
+        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
+        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
+        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
+        new DimunPirate, new DimunPirate, new DimunPirate,
+        new DimunCorsair, new DimunCorsair, new DimunCorsair,
+        new DimunPirateCaptain, new DimunPirateCaptain,
+        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
+        new Reconnaissance, new PriestessOfFreya, new PriestessOfFreya
+    };
+    const std::vector<Card *> deckStartingEnemy = {
+        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+        new Reinforcements, new Ves, new SileDeTansarville,
+        new Trollololo, new PrinceStennis, new VincentMeis,
+        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+        new RedanianElite, new RedanianElite, new RedanianElite,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+    };
+    initField(deckStartingAlly, new BranTuirseach, ally);
+    initField(deckStartingEnemy, new JanCalveit, enemy);
+    startNextRound(ally, enemy);
+}

@@ -142,6 +142,8 @@ enum ActionType {
     PutOnField,
     DealDamage,
     Damaged,
+    DamagedInArmor,
+    Boosted,
     GainArmor,
 };
 

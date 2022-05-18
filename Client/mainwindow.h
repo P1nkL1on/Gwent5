@@ -44,7 +44,17 @@ private:
     Layout _layout;
     int _sound = 20;
 
-    enum View { ViewStack, ViewHand, ViewDiscard, ViewDeck, View_count };
+    enum View
+    {
+        ViewStack,
+        ViewHand,
+        ViewDiscard,
+        ViewDeck,
+        ViewHandOpponent,
+        ViewDeckOpponent,
+        ViewDiscardOpponent,
+        View_count
+    };
     View _view = ViewStack;
     QPoint _pos;
     Field _ally;

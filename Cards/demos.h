@@ -12,5 +12,6 @@ void demoHjalmarAnCraite(Field &ally, Field &enemy);
 void demoHaraldHoundsnout(Field &ally, Field &enemy);
 void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy);
 void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy);
+void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

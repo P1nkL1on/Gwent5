@@ -105,38 +105,38 @@ void triggerRowEffects(Field &ally, Field &enemy)
         switch (effect) {
         case TorrentialRainEffect:
             for (Card *card : randoms(rowFiltered, 2, ally.rng))
-                damage(card, 1, ally, enemy);
+                damage(card, 1, ally, enemy, nullptr);
             break;
         case BitingFrostEffect:
         case KorathiHeatwaveEffect:
             if (Card *target = lowest(rowFiltered, ally.rng))
-                damage(target, 2, ally, enemy);
+                damage(target, 2, ally, enemy, nullptr);
             break;
         case RaghNarRoogEffect:
         case ImpenetrableFogEffect:
             if (Card *target = highest(rowFiltered, ally.rng))
-                damage(target, 2, ally, enemy);
+                damage(target, 2, ally, enemy, nullptr);
             break;
         case GoldenFrothEffect:
             for (Card *target : randoms(rowFiltered, 2, ally.rng))
-                boost(target, 1, ally, enemy);
+                boost(target, 1, ally, enemy, nullptr);
             break;
         case SkelligeStormEffect: {
             Card *targetFirst=   (row.size() >= 1) && (!row[0]->isAmbush) ? row[0] : nullptr;
             Card *targetSecond = (row.size() >= 2) && (!row[1]->isAmbush) ? row[1] : nullptr;
             Card *targetThird =  (row.size() >= 3) && (!row[2]->isAmbush) ? row[2] : nullptr;
             if (targetFirst != nullptr)
-                damage(targetFirst, 2, ally, enemy);
+                damage(targetFirst, 2, ally, enemy, nullptr);
             if (targetSecond != nullptr)
-                damage(targetSecond, 1, ally, enemy);
+                damage(targetSecond, 1, ally, enemy, nullptr);
             if (targetThird != nullptr)
-                damage(targetThird, 1, ally, enemy);
+                damage(targetThird, 1, ally, enemy, nullptr);
             break;
         }
         case FullMoonEffect: {
             const std::vector<Card *> beastOrVampire = _filtered({[](Card *card){ return !card->isAmbush && (hasTag(card, Beast) || hasTag(card, Vampire)); }}, row);
             if (Card *target = random(beastOrVampire, ally.rng))
-                boost(target, 2, ally, enemy);
+                boost(target, 2, ally, enemy, nullptr);
             break;
         }
         case BloodMoonEffect:
@@ -345,9 +345,9 @@ void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enem
     }
 
     if (ally.rowEffect(row) == BloodMoonEffect)
-        damage(card, 2, ally, enemy);
+        damage(card, 2, ally, enemy, nullptr);
     else if (ally.rowEffect(row) == PitTrapEffect)
-        damage(card, 3, ally, enemy);
+        damage(card, 3, ally, enemy, nullptr);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
         return card->onMoveFromRowToRow(ally, enemy);
@@ -947,13 +947,13 @@ void duel(Card *first, Card *second, Field &ally, Field &enemy)
 
     while (true) {
 //        ally.snapshots.push_back(new Animation("", Animation::LineDamage, first, second));
-        if (damage(second, first->power, ally, enemy))
+        if (damage(second, first->power, ally, enemy, first))
             break;
         std::swap(first, second);
     }
 }
 
-bool damage(Card *card, const int x, Field &ally, Field &enemy)
+bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
@@ -963,24 +963,24 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy)
     if (card->armor > 0) {
         const int dmgInArmor = std::min(card->armor, x);
         dmgInPower = std::max(0, x - card->armor);
+
         card->armor -= dmgInArmor;
+        saveFieldsSnapshot(ally, enemy, DamagedInArmor, src, {card}, "", dmgInArmor);
 
         /// if armor broken, but will survive
         if ((card->armor == 0) && (card->power > dmgInPower)){
             card->onArmorLost(ally, enemy);
-//            ally.snapshots.push_back(new Animation("", Animation::ArmorAllLost, card));
         }
 
         if (dmgInPower == 0)
             return false;
     }
     card->power -= dmgInPower;
+    saveFieldsSnapshot(ally, enemy, Damaged, src, {card}, "", dmgInPower);
 
     // trigger others on damaged (even if destroyed)
     for (Card *other : cardsFiltered(ally, enemy, {}, EnemyBoard))
         other->onOtherEnemyDamaged(card, enemy, ally);
-
-    saveFieldsSnapshot(ally, enemy, Damaged, nullptr, {card}, "", dmgInPower);
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy);
@@ -1045,14 +1045,13 @@ void putToHand(Card *card, Field &ally, Field &enemy)
     }
 }
 
-void boost(Card *card, const int x, Field &ally, Field &enemy)
+void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
 
     card->power += x;
-
-//    ally.snapshots.push_back(new Animation("", Animation::BoostText, card));
+    saveFieldsSnapshot(ally, enemy, Boosted, src, {card}, "", x);
 
     // TODO: others trigger on boosted
 }
@@ -1089,14 +1088,14 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy)
     return false;
 }
 
-void gainArmor(Card *card, const int x, Field &ally, Field &enemy)
+void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
 
     card->armor += x;
 
-    saveFieldsSnapshot(ally, enemy, GainArmor, nullptr, {card}, "", x);
+    saveFieldsSnapshot(ally, enemy, GainArmor, src, {card}, "", x);
 }
 
 std::string stringChoices(const std::vector<Choice> &cardStack)
@@ -1248,9 +1247,9 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 
     for (Card *card : ally.row(row))
         if (rowEffect == BloodMoonEffect)
-            damage(card, 2, ally, enemy);
+            damage(card, 2, ally, enemy, nullptr);
         else if (ally.rowEffect(row) == PitTrapEffect)
-            damage(card, 3, ally, enemy);
+            damage(card, 3, ally, enemy, nullptr);
 }
 
 void charm(Card *card, Field &ally, Field &enemy)

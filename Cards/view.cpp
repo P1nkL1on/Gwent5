@@ -1,6 +1,7 @@
 #include "view.h"
 
 #include <cassert>
+#include <algorithm>
 
 #include "card.h"
 
@@ -21,6 +22,7 @@ CardView cardView(const Card *card, const int id)
     view.isAmbush = card->isAmbush;
     view.isImmune = card->isImmune;
     view.isDoomed = card->isDoomed;
+    view.isRevealed = card->isRevealed;
     view.name = card->name;
     view.text = card->text;
     view.url = "https://gwent.one/image/card/low/cid/png/" + card->id + ".png";
@@ -29,8 +31,12 @@ CardView cardView(const Card *card, const int id)
 }
 
 FieldView fieldView(
-        const Field &ally, const Field &enemy, const ActionType actionType,
-        const Card *src, const std::vector<Card *> &dst, const std::string &sound,
+        const Field &ally,
+        const Field &enemy,
+        const ActionType actionType,
+        const Card *src,
+        const std::vector<Card *> &dst,
+        const std::string &sound,
         const int actionValue)
 {
     std::map<const Card *, CardView> cardToView;
@@ -42,12 +48,14 @@ FieldView fieldView(
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : ally.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+
     if (enemy.leaderStarting != nullptr)
         cardToView.insert({enemy.leaderStarting, cardView(enemy.leaderStarting, cardViewId++)});
     for (const Card *card : enemy.deckStarting)
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : enemy.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+
     /// add extra crads that are just options)
     for (const Choice &choice : ally.cardStack)
         for (const Card *card : choice.cardOptions)
@@ -78,9 +86,35 @@ FieldView fieldView(
         choiceViews.push_back(view);
     }
 
+    // checking hidden cards
+    std::vector<int> choiceCardIds;
+    for (const ChoiceView &choiceView : choiceViews) {
+        for (const int id : choiceView.cardOptionIds)
+            choiceCardIds.push_back(id);
+        // not bad if duplicates. if id isn't given, skip
+        if (choiceView.cardSourceId >= 0)
+            choiceCardIds.push_back(choiceView.cardSourceId);
+    }
+    const auto isInChoice = [=](const int id) {
+        return std::find(choiceCardIds.begin(), choiceCardIds.end(), id) != choiceCardIds.end();
+    };
+    // in a deck -> check if an ally option choice
+    for (const Card *card : ally.deck)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id);
+    for (const Card *card : enemy.deck)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id);
+
+    // in a hand -> check if revealed and is ally option choice
+    for (const Card *card : enemy.hand)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
+
+    // in a field -> check if ambush
+    for (auto it = cardToView.begin(); it != cardToView.end(); ++it)
+        if (it->first->isAmbush)
+            it->second.isVisible = false;
+
     FieldView res;
 
-    // TODO: check hidden cards
     for (const Card *card : ally.rowMeele)
         res.allyRowMeeleIds.push_back(id(card));
     for (const Card *card : ally.rowRange)

@@ -192,7 +192,7 @@ void AddaStriga::onDeploy(Field &ally, Field &enemy)
 
 void AddaStriga::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 {
-    damage(card, 8, ally, enemy);
+    damage(card, 8, ally, enemy, this);
 }
 
 Dao::Dao()
@@ -297,7 +297,7 @@ void DeithwenArbalest::onDeploy(Field &ally, Field &enemy)
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
 //    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, target->isSpy ? 6 : 3, ally, enemy);
+    damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
 }
 
 TemerianDrummer::TemerianDrummer()
@@ -324,7 +324,7 @@ void TemerianDrummer::onDeploy(Field &ally, Field &enemy)
 
 void TemerianDrummer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    boost(target, 6, ally, enemy);
+    boost(target, 6, ally, enemy, this);
 }
 
 DandelionPoet::DandelionPoet()
@@ -408,7 +408,7 @@ RedanianKnightElect::RedanianKnightElect()
 
 void RedanianKnightElect::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 2, ally, enemy);
+    gainArmor(this, 2, ally, enemy, this);
 }
 
 void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
@@ -420,9 +420,9 @@ void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
     Card *right = cardNextTo(this, ally, enemy, 1);
 
     if (left != nullptr)
-        boost(left, 1, ally, enemy);
+        boost(left, 1, ally, enemy, this);
     if (right != nullptr)
-        boost(right, 1, ally, enemy);
+        boost(right, 1, ally, enemy, this);
 }
 
 AnCraiteMarauder::AnCraiteMarauder()
@@ -497,8 +497,8 @@ void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
     if (!findRowAndPos(this, ally, row, pos))
         return;
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
-        damage(right, 1, ally, enemy);
-        boost(this, 2, ally, enemy);
+        damage(right, 1, ally, enemy, this);
+        boost(this, 2, ally, enemy, this);
     }
 }
 
@@ -568,12 +568,12 @@ RedanianElite::RedanianElite()
 
 void RedanianElite::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 4, ally, enemy);
+    gainArmor(this, 4, ally, enemy, this);
 }
 
 void RedanianElite::onArmorLost(Field &ally, Field &enemy)
 {
-    boost(this, 5, ally, enemy);
+    boost(this, 5, ally, enemy, this);
 }
 
 RedanianKnight::RedanianKnight()
@@ -597,8 +597,8 @@ void RedanianKnight::onTurnEnd(Field &ally, Field &enemy)
 {
     if (armor != 0)
         return;
-    boost(this, 2, ally, enemy);
-    gainArmor(this, 2, ally, enemy);
+    boost(this, 2, ally, enemy, this);
+    gainArmor(this, 2, ally, enemy, this);
 }
 
 KaedweniCavalry::KaedweniCavalry()
@@ -626,8 +626,8 @@ void KaedweniCavalry::onDeploy(Field &ally, Field &enemy)
 void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int armorTarget = target->armor;
-    damage(target, armorTarget, ally, enemy);
-    boost(this, armorTarget, ally, enemy);
+    damage(target, armorTarget, ally, enemy, this);
+    boost(this, armorTarget, ally, enemy, this);
 }
 
 AlzursThunder::AlzursThunder()
@@ -650,7 +650,7 @@ void AlzursThunder::onPlaySpecial(Field &ally, Field &enemy)
 void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 9);
-    damage(target, 9, ally, enemy);
+    damage(target, 9, ally, enemy, this);
 }
 
 Swallow::Swallow()
@@ -672,7 +672,7 @@ void Swallow::onPlaySpecial(Field &ally, Field &enemy)
 
 void Swallow::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    boost(target, 10, ally, enemy);
+    boost(target, 10, ally, enemy, this);
 }
 
 Thunderbolt::Thunderbolt()
@@ -694,19 +694,19 @@ void Thunderbolt::onPlaySpecial(Field &ally, Field &enemy)
 
 void Thunderbolt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    boost(target, 3, ally, enemy);
-    gainArmor(target, 2, ally, enemy);
+    boost(target, 3, ally, enemy, this);
+    gainArmor(target, 2, ally, enemy, this);
 
     Card *left = cardNextTo(target, ally, enemy, -1);
     Card *right = cardNextTo(target, ally, enemy, 1);
 
     if (left != nullptr) {
-        boost(left, 3, ally, enemy);
-        gainArmor(left, 2, ally, enemy);
+        boost(left, 3, ally, enemy, this);
+        gainArmor(left, 2, ally, enemy, this);
     }
     if (right != nullptr) {
-        boost(right, 3, ally, enemy);
-        gainArmor(right, 2, ally, enemy);
+        boost(right, 3, ally, enemy, this);
+        gainArmor(right, 2, ally, enemy, this);
     }
 }
 
@@ -733,7 +733,7 @@ void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     Card *right = cardNextTo(target, ally, enemy, 1);
     for (Card *card : std::vector<Card *>{left, target, right})
         if (card != nullptr)
-            damage(card, 4, ally, enemy);
+            damage(card, 4, ally, enemy, this);
 }
 
 KeiraMetz::KeiraMetz()
@@ -788,7 +788,7 @@ void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
 void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
 //    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy);
+    damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
 }
 
 HalfElfHunter::HalfElfHunter()
@@ -830,7 +830,7 @@ void Ambassador::onDeploy(Field &ally, Field &enemy)
 
 void Ambassador::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    boost(target, 12, ally, enemy);
+    boost(target, 12, ally, enemy, this);
 }
 
 Assassin::Assassin()
@@ -850,7 +850,7 @@ void Assassin::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *left = cardNextTo(this, ally, enemy, -1)) {
 //        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
-        damage(left, 10, ally, enemy);
+        damage(left, 10, ally, enemy, this);
     }
 }
 
@@ -873,8 +873,7 @@ void TuirseachArcher::onDeploy(Field &ally, Field &enemy)
 
 void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, 1, ally, enemy);
+    damage(target, 1, ally, enemy, this);
 }
 
 Infiltrator::Infiltrator()
@@ -1040,7 +1039,7 @@ void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
 void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
 //    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, 13, ally, enemy);
+    damage(target, 13, ally, enemy, this);
 }
 
 GloriousHunt::GloriousHunt()
@@ -1166,7 +1165,7 @@ void Cleaver::onDeploy(Field &ally, Field &enemy)
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
 //    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, int(ally.hand.size()), ally, enemy);
+    damage(target, int(ally.hand.size()), ally, enemy, this);
 }
 
 Scorch::Scorch()
@@ -1249,12 +1248,12 @@ Eleyas::Eleyas()
 
 void Eleyas::onDraw(Field &ally, Field &enemy)
 {
-    boost(this, 2, ally, enemy);
+    boost(this, 2, ally, enemy, this);
 }
 
 void Eleyas::onSwap(Field &ally, Field &enemy)
 {
-    boost(this, 2, ally, enemy);
+    boost(this, 2, ally, enemy, this);
 }
 
 ReaverScout::ReaverScout()
@@ -1310,7 +1309,7 @@ void HeymaeySpearmaiden::onDeploy(Field &ally, Field &enemy)
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
 //    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-    damage(target, 1, ally, enemy);
+    damage(target, 1, ally, enemy, this);
     if (Card *copy = findCopy(target, ally.deck))
         playCard(copy, ally, enemy, this);
 }
@@ -1334,13 +1333,13 @@ KaedweniKnight::KaedweniKnight()
 
 void KaedweniKnight::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 2, ally, enemy);
+    gainArmor(this, 2, ally, enemy, this);
 }
 
 void KaedweniKnight::onDeployFromDeck(Field &ally, Field &enemy)
 {
-    gainArmor(this, 2, ally, enemy);
-    boost(this, 5, ally, enemy);
+    gainArmor(this, 2, ally, enemy, this);
+    boost(this, 5, ally, enemy, this);
 }
 
 VriheddSappers::VriheddSappers()
@@ -1620,7 +1619,7 @@ Priscilla::Priscilla()
 void Priscilla::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
-        boost(card, 3, ally, enemy);
+        boost(card, 3, ally, enemy, this);
 }
 
 SeltkirkOfGulet::SeltkirkOfGulet()
@@ -1642,7 +1641,7 @@ SeltkirkOfGulet::SeltkirkOfGulet()
 
 void SeltkirkOfGulet::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 3, ally, enemy);
+    gainArmor(this, 3, ally, enemy, this);
     startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
 }
 
@@ -1766,7 +1765,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
             for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
-                boost(card, 1, ally, enemy);
+                boost(card, 1, ally, enemy, this);
             clearAllHazards(ally);
             delete _choosen;
             _choosen = nullptr;
@@ -1777,7 +1776,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
             for (int n = 0; n < 8; ++n)
                 if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
 //                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
-                    damage(card, 2, ally, enemy);
+                    damage(card, 2, ally, enemy, this);
                 }
             delete _choosen;
             _choosen = nullptr;
@@ -1796,7 +1795,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
     if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
 //        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-        damage(target, 15, ally, enemy);
+        damage(target, 15, ally, enemy, this);
         delete _choosen;
         _choosen = nullptr;
         return;
@@ -1804,7 +1803,7 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
     if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
         putToHand(target, ally, enemy);
-        boost(target, 5, ally, enemy);
+        boost(target, 5, ally, enemy, this);
         playCard(target, ally, enemy, this);
         delete _choosen;
         _choosen = nullptr;
@@ -1899,14 +1898,14 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         Card *right = cardNextTo(target, ally, enemy, 1);
 
 //        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
-        damage(target, 10, ally, enemy);
+        damage(target, 10, ally, enemy, this);
         if (left != nullptr) {
 //            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
-            damage(left, 5, ally, enemy);
+            damage(left, 5, ally, enemy, this);
         }
         if (right != nullptr) {
 //            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
-            damage(right, 5, ally, enemy);
+            damage(right, 5, ally, enemy, this);
         }
 
         delete _choosen;
@@ -2160,7 +2159,7 @@ void Decoy::onPlaySpecial(Field &ally, Field &enemy)
 void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     putToHand(target, ally, enemy);
-    boost(target, 3, ally, enemy);
+    boost(target, 3, ally, enemy, this);
     playCard(target, ally, enemy, this);
 }
 
@@ -2197,7 +2196,7 @@ void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
          std::vector<Card *> damagedUnitsUnderHazards;
          clearAllHazards(ally, &damagedUnitsUnderHazards);
          for (Card *card : damagedUnitsUnderHazards)
-             boost(card, 2, ally, enemy);
+             boost(card, 2, ally, enemy, this);
          delete target;
          return;
      }
@@ -2229,7 +2228,7 @@ void ClearSkies::onPlaySpecial(Field &ally, Field &enemy)
     std::vector<Card *> damagedUnitsUnderHazards;
     clearAllHazards(ally, &damagedUnitsUnderHazards);
     for (Card *card : damagedUnitsUnderHazards)
-        boost(card, 2, ally, enemy);
+        boost(card, 2, ally, enemy, this);
 }
 
 Epidemic::Epidemic()
@@ -2355,7 +2354,7 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row), ally.rng)) {
 //            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
-            damage(card, 1, ally, enemy);
+            damage(card, 1, ally, enemy, this);
         }
 }
 
@@ -2597,7 +2596,7 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         return;
     }
 
-    damage(target, _discarded->powerBase, ally, enemy);
+    damage(target, _discarded->powerBase, ally, enemy, this);
 }
 
 Ermion::Ermion()
@@ -2749,7 +2748,7 @@ Trollololo::Trollololo()
 
 void Trollololo::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 9, ally, enemy);
+    gainArmor(this, 9, ally, enemy, this);
 }
 
 PrinceStennis::PrinceStennis()
@@ -2771,14 +2770,14 @@ PrinceStennis::PrinceStennis()
 
 void PrinceStennis::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 3, ally, enemy);
+    gainArmor(this, 3, ally, enemy, this);
     const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isNonSpying, isBronzeOrSilver, isUnit}, AllyDeck);
     if (cards.size() == 0)
         return;
 
     Card *target = cards.front();
     playCard(target, ally, enemy, this);
-    gainArmor(target, 5, ally, enemy);
+    gainArmor(target, 5, ally, enemy, this);
 }
 
 VincentMeis::VincentMeis()
@@ -2803,11 +2802,11 @@ void VincentMeis::onDeploy(Field &ally, Field &enemy)
     int _armor = 0;
     for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, AnyBoard)) {
         const int armorTarget = target->armor;
-        damage(target, armorTarget, ally, enemy);
+        damage(target, armorTarget, ally, enemy, this);
         _armor += armorTarget;
     }
     if (_armor)
-        boost(this, _armor / 2, ally, enemy);
+        boost(this, _armor / 2, ally, enemy, this);
 }
 
 Morkvarg::Morkvarg()
@@ -2880,7 +2879,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
 {
     for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
-        boost(card, 10, ally, enemy);
+        boost(card, 10, ally, enemy, this);
 }
 
 HjalmarAnCraite::HjalmarAnCraite()
@@ -2980,7 +2979,7 @@ AnCraiteLongship::AnCraiteLongship()
 void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-        damage(card, 2, ally, enemy);
+        damage(card, 2, ally, enemy, this);
 }
 
 void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
@@ -3036,7 +3035,7 @@ void TuirseachHunter::onDeploy(Field &ally, Field &enemy)
 
 void TuirseachHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    damage(target, 5, ally, enemy);
+    damage(target, 5, ally, enemy, this);
 }
 
 Udalryk::Udalryk()
@@ -3255,7 +3254,7 @@ TuirseachAxeman::TuirseachAxeman()
 
 void TuirseachAxeman::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 2, ally, enemy);
+    gainArmor(this, 2, ally, enemy, this);
 }
 
 void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy)
@@ -3265,7 +3264,7 @@ void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy
     if (!findRowAndPos(other, enemy, row, _))
         return;
     if (isIn(this, ally.row(row)))
-        boost(this, 1, ally, enemy);
+        boost(this, 1, ally, enemy, this);
 }
 
 TuirseachSkirmisher::TuirseachSkirmisher()
@@ -3310,7 +3309,7 @@ Derran::Derran()
 void Derran::onOtherEnemyDamaged(Card *, Field &ally, Field &enemy)
 {
     if (isOnBoard(this, ally))
-        boost(this, 1, ally, enemy);
+        boost(this, 1, ally, enemy, this);
 }
 
 Roach::Roach()
@@ -3444,7 +3443,7 @@ void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
     if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
         putOnDiscard(target, ally, enemy);
-        boost(this, 5, ally, enemy);
+        boost(this, 5, ally, enemy, this);
 
         delete _choosen;
         _choosen = nullptr;
@@ -3513,7 +3512,7 @@ BloodyBaron::BloodyBaron()
 void BloodyBaron::onOtherEnemyDestroyed(Card *, Field &ally, Field &enemy)
 {
     if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
-        boost(this, 1, ally, enemy);
+        boost(this, 1, ally, enemy, this);
 }
 
 Dethmold::Dethmold()
@@ -3729,7 +3728,7 @@ void Vabjorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     if (isDamaged(target))
         putOnDiscard(target, ally, enemy);
     else
-        damage(target, 2, ally, enemy);
+        damage(target, 2, ally, enemy, this);
 }
 
 BlueboyLugos::BlueboyLugos()
@@ -3779,7 +3778,7 @@ void DjengeFrett::onDeploy(Field &ally, Field &enemy)
 
 void DjengeFrett::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    damage(target, 1, ally, enemy);
+    damage(target, 1, ally, enemy, this);
     strengthen(this, 2, ally, enemy);
 }
 
@@ -3851,7 +3850,7 @@ void HolgerBlackhand::onDeploy(Field &ally, Field &enemy)
 
 void HolgerBlackhand::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    if (damage(target, 6, ally, enemy))
+    if (damage(target, 6, ally, enemy, this))
         if (Card *card = highest(ally.discard, ally.rng))
             strengthen(card, 3, ally, enemy);
 }
@@ -3875,7 +3874,7 @@ JuttaAnDimun::JuttaAnDimun()
 
 void JuttaAnDimun::onDeploy(Field &ally, Field &enemy)
 {
-    damage(this, 1, ally, enemy);
+    damage(this, 1, ally, enemy, this);
 }
 
 SavageBear::SavageBear()
@@ -3893,7 +3892,7 @@ SavageBear::SavageBear()
 void SavageBear::onOtherEnemyPlayedFromHand(Card *other, Field &ally, Field &enemy)
 {
     if (isOnBoard(this, ally))
-        damage(other, 1, ally, enemy);
+        damage(other, 1, ally, enemy, this);
 }
 
 SvanrigeTuirseach::SvanrigeTuirseach()
@@ -3990,7 +3989,7 @@ HaraldHoundsnout::Wilfred::Wilfred()
 void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     for (Card *card : enemy.row(rowAndPos.row))
-        damage(card, 1, ally, enemy);
+        damage(card, 1, ally, enemy, this);
 }
 
 HaraldHoundsnout::Wilhelm::Wilhelm()
@@ -4052,7 +4051,7 @@ void Yoana::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     const int x = target->powerBase - target->power;
     heal(target, ally, enemy);
-    boost(target, x, ally, enemy);
+    boost(target, x, ally, enemy, this);
 }
 
 AnCraiteBlacksmith::AnCraiteBlacksmith()
@@ -4080,7 +4079,7 @@ void AnCraiteBlacksmith::onDeploy(Field &ally, Field &enemy)
 void AnCraiteBlacksmith::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     strengthen(target, 2, ally, enemy);
-    gainArmor(target, 2, ally, enemy);
+    gainArmor(target, 2, ally, enemy, this);
 }
 
 AnCraiteWarcrier::AnCraiteWarcrier()
@@ -4109,7 +4108,7 @@ void AnCraiteWarcrier::onDeploy(Field &ally, Field &enemy)
 
 void AnCraiteWarcrier::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    boost(target, int(std::floor(target->power / 2.0)), ally, enemy);
+    boost(target, int(std::floor(target->power / 2.0)), ally, enemy, this);
 }
 
 
@@ -4132,7 +4131,7 @@ AnCraiteWarrior::AnCraiteWarrior()
 
 void AnCraiteWarrior::onDeploy(Field &ally, Field &enemy)
 {
-    damage(this, 1, ally, enemy);
+    damage(this, 1, ally, enemy, this);
 }
 
 BerserkerMarauder::BerserkerMarauder()
@@ -4159,7 +4158,7 @@ void BerserkerMarauder::onDeploy(Field &ally, Field &enemy)
     };
     const int nUnits = int(cardsFiltered(ally, enemy, {isDamagedOrCursed}, AllyBoard).size());
     if (nUnits)
-        boost(this, nUnits, ally, enemy);
+        boost(this, nUnits, ally, enemy, this);
 }
 
 DimunPirateCaptain::DimunPirateCaptain()
@@ -4397,9 +4396,9 @@ void Ulfhedinn::onDeploy(Field &ally, Field &enemy)
     const std::vector<Card *> damaged = cardsFiltered(ally, enemy, {isDamaged}, EnemyBoard);
     const std::vector<Card *> other   = cardsFiltered(ally, enemy, {isUndamaged}, EnemyBoard);
     for (Card *card : other)
-        damage(card, 1, ally, enemy);
+        damage(card, 1, ally, enemy, this);
     for (Card *card : damaged)
-        damage(card, 2, ally, enemy);
+        damage(card, 2, ally, enemy, this);
 }
 
 WildBoarOfTheSea::WildBoarOfTheSea()
@@ -4416,7 +4415,7 @@ WildBoarOfTheSea::WildBoarOfTheSea()
 
 void WildBoarOfTheSea::onDeploy(Field &ally, Field &enemy)
 {
-    gainArmor(this, 5, ally, enemy);
+    gainArmor(this, 5, ally, enemy, this);
 }
 
 void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
@@ -4428,7 +4427,7 @@ void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
     if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
         strengthen(left, 1, ally, enemy);
     if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
-        damage(right, 1, ally, enemy);
+        damage(right, 1, ally, enemy, this);
 }
 
 GiantBoar::GiantBoar()
@@ -4447,7 +4446,7 @@ void GiantBoar::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
         putOnDiscard(card, ally, enemy);
-        boost(this, 10, ally, enemy);
+        boost(this, 10, ally, enemy, this);
     }
 }
 
@@ -4502,7 +4501,7 @@ void DimunWarship::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     /// break if killed already
     for (int n = 0; n < 4; ++n)
-        if (damage(target, 1, ally, enemy))
+        if (damage(target, 1, ally, enemy, this))
             break;
 }
 
@@ -4529,7 +4528,7 @@ TrissButterflies::TrissButterflies()
 void TrissButterflies::onTurnEnd(Field &ally, Field &enemy)
 {
     for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
-        boost(card, 1, ally, enemy);
+        boost(card, 1, ally, enemy, this);
 }
 
 Yennefer::Yennefer()
@@ -4611,7 +4610,7 @@ void CommandersHorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     Card *target4 = cardNextTo(target, ally, enemy, 2);
     for (Card *card : std::vector<Card *>{target1, target2, target, target3, target4})
         if (card != nullptr)
-            boost(card, 3, ally, enemy);
+            boost(card, 3, ally, enemy, this);
 }
 
 MarchingOrders::MarchingOrders()
@@ -4630,7 +4629,7 @@ void MarchingOrders::onPlaySpecial(Field &ally, Field &enemy)
 {
     Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
     if (card != nullptr) {
-        boost(card, 2, ally, enemy);
+        boost(card, 2, ally, enemy, this);
         playCard(card, ally, enemy, this);
     }
 }
@@ -4651,7 +4650,7 @@ void AlzursDoubleCross::onPlaySpecial(Field &ally, Field &enemy)
 {
     Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
     if (card != nullptr) {
-        boost(card, 2, ally, enemy);
+        boost(card, 2, ally, enemy, this);
         playCard(card, ally, enemy, this);
     }
 }
@@ -4693,7 +4692,7 @@ void Sentry::onDeploy(Field &ally, Field &enemy)
 void Sentry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
-        boost(card, 2, ally, enemy);
+        boost(card, 2, ally, enemy, this);
 }
 
 NauzicaaSergeant::NauzicaaSergeant()
@@ -4849,7 +4848,7 @@ Yennefer::Chironex::Chironex()
 void Yennefer::Chironex::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        damage(card, 2, ally, enemy);
+        damage(card, 2, ally, enemy, this);
 }
 
 Yennefer::Unicorn::Unicorn()
@@ -4868,7 +4867,7 @@ Yennefer::Unicorn::Unicorn()
 void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        boost(card, 1, ally, enemy);
+        boost(card, 1, ally, enemy, this);
 }
 
 GermainPiquant::Cow::Cow()

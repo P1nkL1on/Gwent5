@@ -26,11 +26,13 @@ struct CardView
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
+    bool isRevealed = false;
 
     std::string name;
     std::string text;
     std::string url;
     std::string urlLarge;
+    bool isVisible = true;
 };
 
 

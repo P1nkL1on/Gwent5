@@ -33,6 +33,7 @@ struct Card
     bool isImmune = false;
     bool isDoomed = false;
     bool isCrew = false;
+    bool isRevealed = false;
 
     std::string id;
     std::string name;
@@ -208,7 +209,7 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 void playCard(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// returns true if destroyed a unit
-bool damage(Card *card, const int x, Field &ally, Field &enemy);
+bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
@@ -225,10 +226,10 @@ void spawn(Card *card, const RowAndPos &findRowAndPos, Field &ally, Field &enemy
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
-void boost(Card *card, const int x, Field &ally, Field &enemy);
+void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy);
-void gainArmor(Card *card, const int x, Field &ally, Field &enemy);
+void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
