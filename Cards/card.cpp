@@ -1137,7 +1137,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     triggerRowEffects(enemy, ally);
 
     for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
-        _card->onTurnStart(ally, enemy);
+        _card->onTurnStart(enemy, ally);
 
     /// finish turn if only enemy passed
     if (enemy.passed)
@@ -1189,9 +1189,24 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
             damage(card, 3, ally, enemy, nullptr);
 }
 
-void charm(Card *card, Field &ally, Field &enemy)
+void charm(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     // FIXME: charm isn't working at all
+    Field *allyPtr = &ally;
+    Field *enemyPtr = &enemy;
+
+    if (isOnBoard(card, ally))
+        std::swap(allyPtr, enemyPtr);
+
+    /// target card is alway on enemyPtr
+
+    const Row row = findRowAndPos(card, *enemyPtr).row;
+    assert(row >= 0);
+
+    if (isRowFull(allyPtr->row(row)))
+        return;
+
+    moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, row), *allyPtr, *enemyPtr, src);
 }
 
 void copyCardText(const Card *card, Card *dst)

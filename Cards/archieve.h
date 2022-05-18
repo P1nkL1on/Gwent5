@@ -1411,4 +1411,13 @@ struct VriheddDragoon : CardCollectible<VriheddDragoon>
 };
 
 
+struct Malena : CardCollectible<Malena>
+{
+    Malena();
+    static bool isFiveOrLessPower(Card *card);
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTurnStart(Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

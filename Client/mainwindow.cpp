@@ -40,7 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
 //    demoSpawnAndSummon(_ally, _enemy);
 //    demoSingleUseFrightener(_ally, _enemy);
-    demoAmbushes(_ally, _enemy);
+//    demoAmbushes(_ally, _enemy);
+    demoMalena(_ally, _enemy);
 
     resize(1400, 800);
     setMouseTracking(true);

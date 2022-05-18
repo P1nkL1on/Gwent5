@@ -259,3 +259,27 @@ void demoAmbushes(Field &ally, Field &enemy)
     enemy.hand = enemy.cardsAdded;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoMalena(Field &ally, Field &enemy)
+{
+    auto *m = new Malena();
+    auto *d = new DolBlathannaArcher();
+    auto *t3 = new TemerianDrummer();
+    ally.cardsAdded = {m, d, t3};
+
+    auto *t1 = new TemerianDrummer();
+    auto *t2 = new TemerianDrummer();
+    auto *t4 = new TemerianDrummer();
+    auto *t5 = new TemerianDrummer();
+    auto *mo = new Morkvarg();
+    auto *v = new Vreemde();
+    enemy.cardsAdded = {t1, t2, t4, t5, mo, v};
+
+    ally.hand = {m, d, t3};
+    enemy.rowRange = {t1, t2, mo, v};
+    enemy.hand = {t4, t5};
+    enemy.passed = false;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}

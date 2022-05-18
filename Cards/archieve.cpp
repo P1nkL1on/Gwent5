@@ -170,7 +170,9 @@ std::vector<Card *> allCards(const Patch)
         new Lambert(),
         new Eskel(),
         new Vesemir(),
-        new TridamInfantry(), new VriheddDragoon(),
+        new TridamInfantry(),
+        new VriheddDragoon(),
+        new Malena(),
     };
 }
 
@@ -1870,7 +1872,7 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
             if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-                charm(card, ally, enemy);
+                charm(card, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -5020,4 +5022,42 @@ void VriheddDragoon::onTurnEnd(Field &ally, Field &enemy)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
         boost(card, 1, ally, enemy, this);
+}
+
+Malena::Malena()
+{
+    id = "142210";
+    name = "Malena";
+    text = "Ambush: After 2 turns, flip over and Charm the Highest Bronze or Silver enemy with 5 power or less on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    isAmbush = true;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Elf };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_MALN_106817_0005.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_MALN_106745_0017.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_MALN_106657_0009.mp3",
+    };
+}
+
+bool Malena::isFiveOrLessPower(Card *card)
+{
+    return card->power <= 5;
+}
+
+void Malena::onDeploy(Field &ally, Field &enemy)
+{
+    setTimer(this, ally, enemy, 2);
+}
+
+void Malena::onTurnStart(Field &ally, Field &enemy)
+{
+    if (tick(this, ally, enemy)) {
+        flipOver(this, ally, enemy);
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isFiveOrLessPower}, EnemyBoard), ally.rng)) {
+            charm(card, ally, enemy, this);
+        }
+    }
 }

@@ -220,7 +220,7 @@ bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
 void duel(Card *first, Card *second, Field &ally, Field &enemy);
-void charm(Card *card, Field &ally, Field &enemy);
+void charm(Card *card, Field &ally, Field &enemy, const Card *src);
 void toggleLock(Card *card, Field &ally, Field &enemy);
 void lock(Card *card, Field &ally, Field &enemy);
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
