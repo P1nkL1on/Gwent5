@@ -14,5 +14,7 @@ void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy);
 void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy);
 void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy);
 void demoInstantEffects(Field &ally, Field &enemy);
+void demoSpawnAndSummon(Field &ally, Field &enemy);
+void demoSingleUseFrightener(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

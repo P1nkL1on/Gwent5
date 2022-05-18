@@ -149,6 +149,8 @@ enum ActionType {
     DamagedInArmor,
     Boosted,
     GainArmor,
+    MoveFromRowToRow,
+    TimerSet,
 };
 
 

@@ -113,7 +113,7 @@ FieldView fieldView(
         if (it->first->isAmbush)
             it->second.isVisible = false;
 
-//    /// obfuscate invisible cards
+    /// obfuscate invisible cards
 //    for (auto it = cardToView.begin(); it != cardToView.end(); ++it) {
 //        CardView &view = it->second;
 //        if (view.isVisible)

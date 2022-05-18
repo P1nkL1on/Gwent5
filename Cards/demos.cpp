@@ -197,3 +197,35 @@ void demoInstantEffects(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoSpawnAndSummon(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new Dao(),
+        new AlzursThunder(),
+        new PoorFingInfantry(),
+        new HalfElfHunter(),
+        new VriheddSappers(),
+        new VriheddSappers(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoSingleUseFrightener(Field &ally, Field &enemy)
+{
+    auto *d1 = new Decoy();
+    auto *d2 = new Decoy();
+    auto *d3 = new Decoy();
+    auto *d4 = new Decoy();
+    auto *s = new AnCraiteGreatsword();
+    auto *f = new Frightener();
+    ally.cardsAdded = { d1, d2, f };
+    ally.hand = { f };
+    ally.deck = { d1, d2 };
+    enemy.cardsAdded = { d3, d4, s };
+    enemy.hand = { s, d3, d4 };
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

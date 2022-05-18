@@ -62,13 +62,6 @@ struct Card
     inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
-//    inline virtual void onOtherAllyEntered(Card *) {}
-//    inline virtual void onOtherEnemyEntered(Card *) {}
-//    inline virtual void onOtherAllySpecialPlayed(Card *) {}
-//    inline virtual void onOtherEnemySpecialPlayed(Card *) {}
-//    inline virtual void onOtherAllyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
-//    inline virtual void onOtherEnemyBoosted(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
-//    inline virtual void onOtherAllyDamaged(Card *, const int, Field &/*ally*/, Field &/*enemy*/) {}
     /// check whether self on board, in hand/deck/discard
     inline virtual void onOtherEnemyDamaged(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherEnemyDestroyed(Card *, Field &/*ally*/, Field &/*enemy*/) {}
@@ -185,7 +178,6 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
 Card *random(const std::vector<Card *> &cards, Rng &rng);
 void copyCardText(const Card *card, Card *dst);
 void acceptOptionAndDeleteOthers(Card *card, const Card *option);
-void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
@@ -197,32 +189,31 @@ bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
-void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
+bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
 
 /// put any card to discard
 void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
-void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
+void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// call play as special or start choosing a row and pos to play a unit
-void playCard(Card *card, Field &ally, Field &enemy, const Card *src);
+/// TODO: check what is it
+void _playCard(Card *card, Field &ally, Field &enemy, const Card *src);
+
+
+void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
+/// spawn in a place or move from row to row
+void moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
+void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
-
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
-
+void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
-
-/// create new card and play it (add it to the `addedCards`)
-void spawn(Card *card, Field &ally, Field &enemy, const Card *src);
-/// if `addAsNew` - add to new cards in game (recommended)
-/// if not `triggerDeploy` - then card will be just `summoned` with no deploy effect
-/// TODO: check maybe always addAsNew will be choosen
-void spawn(Card *card, const RowAndPos &findRowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy, const Card *src);
-
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
@@ -237,8 +228,8 @@ void duel(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy);
 void toggleLock(Card *card, Field &ally, Field &enemy);
 void lock(Card *card, Field &ally, Field &enemy);
-
-void traceField(Field &field);
+bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
+void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 

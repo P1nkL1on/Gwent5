@@ -24,7 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoNilfgaardSoldiersDeck(_ally, _enemy);
 //    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
 //    demoInstantEffects(_ally, _enemy);
-    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
+//    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
+//    demoSpawnAndSummon(_ally, _enemy);
+    demoSingleUseFrightener(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -337,7 +339,6 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     };
     const auto paintCard = [=, &painter](const CardView &cardView, const QPointF &topLeft)
     {
-        Q_ASSERT(!cardView.isAmbush);
         const QSizeF size(posWidth, posHeight);
         const QRectF rect(topLeft, size);
         painter.setPen(Qt::black);
@@ -751,6 +752,12 @@ void MainWindow::repaintCustom()
             break;
         case PutOnField:
             qDebug().noquote().nospace() << dst << " enters the board by " << src;
+            break;
+        case MoveFromRowToRow:
+            qDebug().noquote().nospace() << dst << " moves from row to row by " << src;
+            break;
+        case TimerSet:
+            qDebug().noquote().nospace() << src << " timer is set to " << x;
             break;
         case PutToHand:
             qDebug().noquote().nospace() << dst << " moves to hand by " << src;

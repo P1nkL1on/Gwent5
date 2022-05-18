@@ -294,7 +294,7 @@ Card *random(const std::vector<Card *> &cards, Rng &rng)
     return _cards.size() == 0 ? nullptr : _cards[0];
 }
 
-void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
+void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     saveFieldsSnapshot(ally, enemy, PlaySpecial, src, {card}, randomSound(card, ally.rng));
 
@@ -303,21 +303,22 @@ void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     // TODO: others trigger special
 }
 
-void playCard(Card *card, Field &ally, Field &enemy, const Card *src)
+void _playCard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(card != nullptr);
     if (card->isSpecial) {
-        playAsSpecial(card, ally, enemy, src);
+        _activateSpecial(card, ally, enemy, src);
         putOnDiscard(card, ally, enemy, src);
         return;
     }
     return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
-void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
+bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
 {
+    assert(!card->isSpecial);
     if (!isOkRowAndPos(rowAndPos, ally))
-        return;
+        return false;
 
     const Row row = rowAndPos.row;
     const Pos pos = rowAndPos.pos;
@@ -349,8 +350,11 @@ void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enem
     else if (ally.rowEffect(row) == PitTrapEffect)
         damage(card, 3, ally, enemy, nullptr);
 
-    if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige)
-        return card->onMoveFromRowToRow(ally, enemy);
+    if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
+        saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
+        card->onMoveFromRowToRow(ally, enemy);
+        return true;
+    }
 
     saveFieldsSnapshot(ally, enemy, PutOnField, src, {card}, randomSound(card, ally.rng));
 
@@ -391,6 +395,7 @@ void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enem
     }
 
     // TODO: others trigger enter
+    return true;
 }
 
 void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -568,7 +573,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
         assert(choice.nTargets == 1);
-        return playCard(card, ally, enemy, nullptr);
+        return _playCard(card, ally, enemy, nullptr);
     }
     if (choice.choiceType == Target) {
         Choice choiceNext = choice;
@@ -604,12 +609,12 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     const Choice Choice = ally.takeChoice();
     if (Choice.choiceType == SelectAllyRowAndPos) {
-        putOnField(Choice.cardSource, rowAndPos, ally, enemy, true, nullptr);
+        _putOnField(Choice.cardSource, rowAndPos, ally, enemy, true, nullptr);
         return;
     }
 
     if (Choice.choiceType == SelectEnemyRowAndPos) {
-        putOnField(Choice.cardSource, rowAndPos, enemy, ally, true, nullptr);
+        _putOnField(Choice.cardSource, rowAndPos, enemy, ally, true, nullptr);
         return;
     }
 
@@ -650,49 +655,6 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
         cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, ally.canPass));
     saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
-}
-
-void traceField(Field &field)
-{
-    std::cout << "meele: ";
-    for (Card *_card : field.rowMeele)
-        std::cout << _card->power << " ";
-    std::cout << "\nrange: ";
-    for (Card *_card : field.rowRange)
-        std::cout << _card->power << " ";
-    std::cout << "\nseige: ";
-    for (Card *_card : field.rowSeige)
-        std::cout << _card->power << " ";
-
-    if (field.cardStack.size() == 0)
-        return;
-
-    switch (field.choice().choiceType) {
-    case RoundStartPlay:
-        std::cout << "\n\nSelect a card to play:\n";
-        break;
-    case SelectAllyRowAndPos:
-        std::cout << "\n\nSelect a row and a pos to play a card:\n";
-        break;
-    case SelectEnemyRowAndPos:
-        std::cout << "\n\nSelect an opponent row and pos to play a card:\n";
-        break;
-    case SelectAllyRow:
-        std::cout << "\n\nSelect a row:\n";
-        break;
-    case SelectEnemyRow:
-        std::cout << "\n\nSelect an opponent row:\n";
-        break;
-    case Target:
-        std::cout << "\n\nChoose target:\n";
-        break;
-    case RoundStartSwap:
-        std::cout << "\n\nChoose a card to swap:\n";
-        break;
-    }
-
-    for (Card *card : field.choice().cardOptions)
-        std::cout << card->power << "\n";
 }
 
 bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field)
@@ -1216,37 +1178,6 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void spawn(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool addAsNew, const bool triggerDeploy, const Card *src)
-{
-    assert(card != nullptr);
-    assert(!card->isSpecial);
-
-    /// delete card if position is bad
-    if (!isOkRowAndPos(rowAndPos, ally)) {
-        delete card;
-        return;
-    }
-
-    if (addAsNew)
-        ally.cardsAdded.push_back(card);
-
-    putOnField(card, rowAndPos, ally, enemy, triggerDeploy, src);
-}
-
-void spawn(Card *card, Field &ally, Field &enemy, const Card *src)
-{
-    assert(card != nullptr);
-
-    ally.cardsAdded.push_back(card);
-
-    if (card->isSpecial) {
-        playAsSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy, src);
-        return;
-    }
-    return ally.cardStack.push_back(Choice(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
-}
-
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect)
 {
     assert(row == Meele || row == Range || row == Seige);
@@ -1472,6 +1403,31 @@ void lock(Card *card, Field &ally, Field &enemy)
         toggleLock(card, ally, enemy);
 }
 
+bool tick(Card *card, Field &ally, Field &enemy, const int resetTo)
+{
+    if (card->timer != 0 && card->timer >= 0) {
+        card->timer--;
+    }
+
+    if (card->timer == -1)
+        return false;
+
+    if (card->timer > 0) {
+        saveFieldsSnapshot(ally, enemy, TimerSet, card, {}, "", card->timer);
+        return false;
+    }
+
+    card->timer = resetTo;
+    saveFieldsSnapshot(ally, enemy, TimerSet, card, {}, "", card->timer);
+    return true;
+}
+
+void setTimer(Card *card, Field &ally, Field &enemy, const int x)
+{
+    card->timer = x;
+    saveFieldsSnapshot(ally, enemy, TimerSet, card, {}, "", x);
+}
+
 RowAndPos rowAndPosRandom(Field &field)
 {
     std::vector<Row> hasFreeSpace;
@@ -1486,4 +1442,77 @@ RowAndPos rowAndPosRandom(Field &field)
     const Row row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
     const Pos pos = Pos(field.row(row).size());
     return RowAndPos(row, pos);
+}
+
+/// cases:
+///     play existed unit -> choose a place | discard (if no place)
+///     play existed special -> straight run, then discard
+///     summon existed unit -> exact position | do nothing if no place
+///
+///     play new unit -> add to game and choose a place | delete (if no place)
+///     summon new unit -> add to game at exact position | do nothing if no place
+///     play new special -> add to game and straight run, then discard
+
+void addAsNew(Field &field, Card *card)
+{
+    assert(std::find(field.cardsAdded.begin(), field.cardsAdded.end(), card) == field.cardsAdded.end());
+    assert(std::find(field.deckStarting.begin(), field.deckStarting.end(), card) == field.deckStarting.end());
+    assert(card != field.leaderStarting);
+    field.cardsAdded.push_back(card);
+}
+
+bool canPlay(Card *card, const Field &field)
+{
+    return card->isSpecial || (!isRowFull(field.rowMeele) || !isRowFull(field.rowRange) || !isRowFull(field.rowSeige));
+}
+
+bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const bool isNew, const RowAndPos &rowAndPos, const bool triggerDeploy)
+{
+    const bool play = canPlay(card, card->isLoyal ? ally : enemy);
+    if (!play) {
+        if (isNew) {
+            delete card;
+        } else {
+            putOnDiscard(card, ally, enemy, src);
+        }
+        return false;
+    }
+
+    if (isNew)
+        addAsNew(ally, card);
+
+    if (card->isSpecial) {
+        _activateSpecial(card, ally, enemy, src);
+        putOnDiscard(card, ally, enemy, src);
+        return true;
+    }
+
+    if (rowAndPos.row < 0 && rowAndPos.pos < 0){
+        /// if no row and pos given, then start rowAndPos selection
+        ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
+        return true;
+    }
+
+    /// if given pos then try set it there
+    return _putOnField(card, rowAndPos, ally, enemy, triggerDeploy, src);
+}
+
+void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    playCard2(card, ally, enemy, src, false, RowAndPos(), true);
+}
+
+void moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
+{
+    playCard2(card, ally, enemy, src, false, rowAndPos, false);
+}
+
+void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    playCard2(card, ally, enemy, src, true, RowAndPos(), true);
+}
+
+void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
+{
+    playCard2(card, ally, enemy, src, true, rowAndPos, false);
 }
