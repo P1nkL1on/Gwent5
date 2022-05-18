@@ -197,11 +197,6 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
-/// call play as special or start choosing a row and pos to play a unit
-/// TODO: check what is it
-void _playCard(Card *card, Field &ally, Field &enemy, const Card *src);
-
-
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
 void moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
@@ -240,8 +235,8 @@ void startChoiceToSelectEnemyRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = {}, const bool isOptional = false);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);

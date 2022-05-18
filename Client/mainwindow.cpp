@@ -752,12 +752,13 @@ void MainWindow::repaintCustom()
             return res == dst ? "ITSELF" : res;
         }();
         const int x = snapshot.actionValue;
+        stream << "\n";
         switch (snapshot.actionType) {
         case Invalid:
             stream << prefix << "Invalid Src = " << src << ", Dst = " << dst;
             break;
         case TurnStart:
-            stream << prefix << "#" << x << " turn started";
+            stream << prefix << "\n#" << x << " turn started";
             break;
         case PlaySpecial:
             stream << prefix << dst << " special plays by " << src;
@@ -799,7 +800,6 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " gains " << x << " armor by " << src;
             break;
         }
-        stream << "\n";
         requestSoundByUrl(snapshot.actionSound);
     };
     class TextEditIoDevice : public QIODevice
@@ -816,7 +816,7 @@ void MainWindow::repaintCustom()
         {
             if(textEdit)
             {
-                textEdit->append(data);
+                textEdit->setPlainText(textEdit->toPlainText() + data);
             }
             return maxSize;
         }

@@ -296,22 +296,16 @@ Card *random(const std::vector<Card *> &cards, Rng &rng)
 
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
 {
+    /// reveal the spell at the moment of playing
+    /// but not with reveal function to not prok
+    /// self and other onReveals
+    card->isRevealed = true;
+
     saveFieldsSnapshot(ally, enemy, PlaySpecial, src, {card}, randomSound(card, ally.rng));
 
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
-}
-
-void _playCard(Card *card, Field &ally, Field &enemy, const Card *src)
-{
-    assert(card != nullptr);
-    if (card->isSpecial) {
-        _activateSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy, src);
-        return;
-    }
-    return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
 }
 
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
@@ -488,6 +482,7 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
 {
     assert(self != nullptr);
     assert(self->_options.size() == 0);
+    assert(options.size() != 0);
 
     const int nOptions = int(options.size());
 
@@ -515,7 +510,6 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
 void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
 {
     // TODO: empty allCards, so not implemented
-//    assert(false);
     assert(self != nullptr);
     assert(self->_options.size() == 0);
 
@@ -530,26 +524,30 @@ void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, c
     ally.cardStack.push_back(Choice(Target, self, options, 1, isOptional));
 }
 
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
     const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
     return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
 }
 
-bool startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
 {
-    if (options.size() == 0)
-        return false;
-
-    /// checking if already can be selected
-    if (!isOptional && int(options.size()) <= nTargets) {
-        for (Card *card : options)
-            self->onTargetChoosen(card, ally, enemy);
-        return true;
-    }
-
     ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
-    return true;
+
+    /// clean excess automatic choices
+    for (;;) {
+        const Choice choice = ally.cardStack.back();
+        if (choice.isOptional && choice.cardOptions.size() > 0)
+            break;
+        if (int(choice.cardOptions.size()) > choice.nTargets)
+            break;
+
+        ally.cardStack.pop_back();
+        for (Card *card : choice.cardOptions)
+            self->onTargetChoosen(card, ally, enemy);
+        if (ally.cardStack.size() == 0)
+            break;
+    }
 }
 
 void startChoiceToSelectAllyRow(Field &field, Card *self)
@@ -573,7 +571,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
         assert(choice.nTargets == 1);
-        return _playCard(card, ally, enemy, nullptr);
+        return playExistedCard(card, ally, enemy, nullptr);
     }
     if (choice.choiceType == Target) {
         Choice choiceNext = choice;
@@ -1226,7 +1224,8 @@ void acceptOptionAndDeleteOthers(Card *card, const Card *option)
 
 std::string randomSound(const Card *card, Rng &rng)
 {
-    if (card->sounds.size() == 0)
+    /// don't talk, when ambushed
+    if (card->sounds.size() == 0 || card->isAmbush)
         return std::string();
 
     const size_t ind = rng() % card->sounds.size();
@@ -1342,7 +1341,6 @@ void saveFieldsSnapshot(
 
 
     FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound, value);
-
     /// don't show actions of hidden cards to enemy
     bool canShowActionToEnemy = true;
     if (viewEnemy.actionIdSrc >= 0 && !viewEnemy.cardView(viewEnemy.actionIdSrc).isVisible)
@@ -1448,7 +1446,7 @@ void flipOver(Card *card, Field &ally, Field &enemy)
 {
     assert(card->isAmbush);
     card->isAmbush = false;
-    saveFieldsSnapshot(ally, enemy, FlipOver, card);
+    saveFieldsSnapshot(ally, enemy, FlipOver, card, {}, randomSound(card, ally.rng));
 }
 
 RowAndPos rowAndPosRandom(Field &field)

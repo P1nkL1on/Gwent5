@@ -773,12 +773,18 @@ DolBlathannaArcher::DolBlathannaArcher()
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0011.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.801.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF07_108969_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.802.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.803.mp3",
+    };
 }
 
 void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
 {
-    // FIXME: move choice clearifying into resolving step,
-    // from a creating step
     _nShots = 0;
     startChoiceToTargetCard(ally, enemy, this);
     startChoiceToTargetCard(ally, enemy, this);
@@ -1350,6 +1356,11 @@ VriheddSappers::VriheddSappers()
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0006.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0007.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SMV2_202544_0022.mp3",
+    };
 }
 
 void VriheddSappers::onDeploy(Field &ally, Field &enemy)

@@ -244,10 +244,6 @@ void demoAmbushes(Field &ally, Field &enemy)
         new VriheddDragoon(),
         new VriheddDragoon(),
         new VriheddDragoon(),
-        new HaraldHoundsnout(),
-        new Frightener(),
-        new HaraldHoundsnout(),
-        new Frightener(),
     };
     ally.hand = ally.cardsAdded;
     enemy.cardsAdded = {
