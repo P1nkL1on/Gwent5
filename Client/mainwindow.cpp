@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoTransforms(_ally, _enemy);
 //    demoNilfgaardSoldiersDeck(_ally, _enemy);
 //    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
-    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
+    demoInstantEffects(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -624,9 +624,12 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
         const QString stringStatus = QString("%1 (%2):").arg(title).arg(ids->size());
         paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < ids->size(); ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCard(view.cardView(ids->at(i)), topLeft);
+        for (size_t i = 0, pos = 0; i < ids->size(); ++i, ++pos) {
+            const QPointF topLeft = rect.topLeft() + QPointF(pos * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+            const CardView &cardView = view.cardView(ids->at(i));
+            paintCard(cardView, topLeft);
+            // if (!cardView.isVisible)
+            //     --pos;
         }
     }
     const QString stringStatusAlly = QString("ALLY: Power = %1, Pass = %2, Wins = %3")

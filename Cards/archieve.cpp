@@ -170,6 +170,7 @@ std::vector<Card *> allCards(const Patch)
         new Lambert(),
         new Eskel(),
         new Vesemir(),
+        new TridamInfantry(),
     };
 }
 
@@ -873,6 +874,7 @@ void TuirseachArcher::onDeploy(Field &ally, Field &enemy)
 
 void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
+    saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 1);
     damage(target, 1, ally, enemy, this);
 }
 
@@ -4984,4 +4986,26 @@ void Vesemir::onDeploy(Field &ally, Field &enemy)
         putOnField(lambert, rowAndPosNextTo(this, ally, 0), ally, enemy, false, this);
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
         putOnField(lambert, rowAndPosNextTo(this, ally, 1), ally, enemy, false, this);
+}
+
+TridamInfantry::TridamInfantry()
+{
+    id = "200171";
+    name = "Tridam Infantry";
+    text = "4 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 10;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.230.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.231.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.226.mp3",
+    };
+}
+
+void TridamInfantry::onDeploy(Field &ally, Field &enemy)
+{
+    gainArmor(this, 4, ally, enemy, this);
 }

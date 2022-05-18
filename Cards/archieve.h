@@ -59,6 +59,13 @@ struct TemerianDrummer : CardCollectible<TemerianDrummer>
 };
 
 
+struct TridamInfantry : CardCollectible<TridamInfantry>
+{
+    TridamInfantry();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
 struct DandelionPoet : CardCollectible<DandelionPoet>
 {
     DandelionPoet();

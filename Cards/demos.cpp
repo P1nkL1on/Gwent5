@@ -177,3 +177,23 @@ void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy)
     initField(deckStartingEnemy, new JanCalveit, enemy);
     startNextRound(ally, enemy);
 }
+
+void demoInstantEffects(Field &ally, Field &enemy)
+{
+    auto *d1 = new TemerianDrummer();
+    auto *d2 = new TemerianDrummer();
+    auto *d3 = new TemerianDrummer();
+    auto *d4 = new TridamInfantry();
+    auto *a = new TuirseachArcher();
+    ally.cardsAdded = { a };
+    ally.hand = { a };
+    enemy.cardsAdded = { d1, d2, d3, d4 };
+    enemy.rowSeige = { d1 };
+    enemy.rowRange = { d2 };
+    enemy.rowMeele = { d3, d4 };
+    d4->onDeploy(enemy, ally);
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
