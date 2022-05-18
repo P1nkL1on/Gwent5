@@ -308,7 +308,7 @@ void playCard(Card *card, Field &ally, Field &enemy, const Card *src)
     assert(card != nullptr);
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, src);
         return;
     }
     return ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
@@ -393,7 +393,7 @@ void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enem
     // TODO: others trigger enter
 }
 
-void putOnDiscard(Card *card, Field &ally, Field &enemy)
+void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     Pos pos;
     bool isAlly;
@@ -411,26 +411,31 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy)
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
-        if (mayPutOnDiscard)
+        if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
+            saveFieldsSnapshot(ally, enemy, Destroyed, src, {card});
+        }
         if (mayTriggerDeathwish)
             card->onDestroy(*cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
             other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
-        if (mayPutOnDiscard)
+        if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
+            saveFieldsSnapshot(ally, enemy, PutToDiscard, src, {card});
+        }
         if (!card->isSpecial)
             card->onDiscard(*cardAlly, *cardEnemy);
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
+        // TODO: check if its even a case
         assert(takenFrom == AlreadyCreated);
-        if (mayPutOnDiscard)
+        if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
+        }
     }
-
 }
 
 bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
@@ -644,6 +649,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     if (ally.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, ally.canPass));
+    saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
 }
 
 void traceField(Field &field)
@@ -987,7 +993,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         return false;
     }
 
-    putOnDiscard(card, ally, enemy);
+    putOnDiscard(card, ally, enemy, src);
     return true;
 }
 
@@ -1007,7 +1013,7 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
         return;
     }
 
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, self);
 }
 
 void heal(Card *card, Field &, Field &)
@@ -1037,6 +1043,7 @@ void putToHand(Card *card, Field &ally, Field &enemy)
     card->isLocked = false;
 
     ally.hand.push_back(card);
+    saveFieldsSnapshot(ally, enemy, PutToHand, nullptr, {card});
 
     if (row == Deck) {
         card->onDraw(ally, enemy);
@@ -1188,6 +1195,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     if (enemy.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
     enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, enemy.canPass));
+    saveFieldsSnapshot(enemy, ally, TurnStart, nullptr, {}, "", enemy.nTurns + 1);
     return true;
 }
 
@@ -1233,7 +1241,7 @@ void spawn(Card *card, Field &ally, Field &enemy, const Card *src)
 
     if (card->isSpecial) {
         playAsSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, src);
         return;
     }
     return ally.cardStack.push_back(Choice(card->isLoyal? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
@@ -1361,11 +1369,47 @@ void saveFieldsSnapshot(
         const std::string &sound,
         const int value)
 {
+    const auto pushSnapshot = [=](Field &field, const FieldView &snapshot) {
+        for (size_t i = 0; i < field.snapshots.size(); ++i) {
+            const size_t j = field.snapshots.size() - 1 - i;
+
+            // if uncollapsable type, then stop it
+            const ActionType type = field.snapshots[j].actionType;
+            // if (type == PlaySpecial || type == PutOnField)
+            //    break;
+
+            // find previous snapshot with same animation type and src
+            if (field.snapshots[j].actionIdSrc != snapshot.actionIdSrc)
+                continue;
+            if (field.snapshots[j].actionType != snapshot.actionType)
+                continue;
+            if (field.snapshots[j].actionValue != snapshot.actionValue)
+                continue;
+
+            // try merge
+            const std::vector<int> idsPrev = field.snapshots[j].actionIdsDst;
+            bool partlySameIdsInPrevAndCurrentSnapshot = false;
+            for (const int id : snapshot.actionIdsDst)
+                if (std::find(idsPrev.begin(), idsPrev.end(), id) != idsPrev.end()) {
+                    partlySameIdsInPrevAndCurrentSnapshot = true;
+                    break;
+                }
+            if (partlySameIdsInPrevAndCurrentSnapshot)
+                break;
+
+            field.snapshots[j] = snapshot;
+            for (const int id : idsPrev)
+                field.snapshots[j].actionIdsDst.push_back(id);
+
+            return;
+        }
+        field.snapshots.push_back(snapshot);
+    };
     FieldView viewAlly = fieldView(ally, enemy, actionType, src, dst, sound, value);
-    ally.snapshots.push_back(viewAlly);
+    pushSnapshot(ally, viewAlly);
 
     FieldView viewEnemy = fieldView(enemy, ally, actionType, src, dst, sound, value);
-    enemy.snapshots.push_back(viewEnemy);
+    pushSnapshot(enemy, viewEnemy);
 }
 
 bool randomRowAndPos(Field &field, Row &row, Pos &pos)

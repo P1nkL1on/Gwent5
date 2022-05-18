@@ -86,32 +86,45 @@ FieldView fieldView(
         choiceViews.push_back(view);
     }
 
-    // checking hidden cards
+    /// checking hidden cards
     std::vector<int> choiceCardIds;
     for (const ChoiceView &choiceView : choiceViews) {
         for (const int id : choiceView.cardOptionIds)
             choiceCardIds.push_back(id);
-        // not bad if duplicates. if id isn't given, skip
+        /// not bad if duplicates. if id isn't given, skip
         if (choiceView.cardSourceId >= 0)
             choiceCardIds.push_back(choiceView.cardSourceId);
     }
     const auto isInChoice = [=](const int id) {
         return std::find(choiceCardIds.begin(), choiceCardIds.end(), id) != choiceCardIds.end();
     };
-    // in a deck -> check if an ally option choice
+    /// in a deck -> check if an ally option choice
     for (const Card *card : ally.deck)
         cardToView[card].isVisible = isInChoice(cardToView[card].id);
     for (const Card *card : enemy.deck)
         cardToView[card].isVisible = isInChoice(cardToView[card].id);
 
-    // in a hand -> check if revealed and is ally option choice
+    /// in a hand -> check if revealed and is ally option choice
     for (const Card *card : enemy.hand)
         cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
 
-    // in a field -> check if ambush
+    /// in a field -> check if ambush
     for (auto it = cardToView.begin(); it != cardToView.end(); ++it)
         if (it->first->isAmbush)
             it->second.isVisible = false;
+
+//    /// obfuscate invisible cards
+//    for (auto it = cardToView.begin(); it != cardToView.end(); ++it) {
+//        CardView &view = it->second;
+//        if (view.isVisible)
+//            continue;
+
+//        const int id = view.id;
+//        view = CardView();
+//        view.id = id;
+//        view.name = "???";
+//        view.isVisible = false;
+//    }
 
     FieldView res;
 

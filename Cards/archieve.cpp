@@ -351,8 +351,8 @@ DandelionPoet::DandelionPoet()
 
 void DandelionPoet::onDeploy(Field &ally, Field &enemy)
 {
-    drawACard(ally, enemy);
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    if (drawACard(ally, enemy))
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
 }
 
 void DandelionPoet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -1185,7 +1185,7 @@ Scorch::Scorch()
 void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
 }
 
 Reinforcements::Reinforcements()
@@ -1597,7 +1597,7 @@ void GeraltIgni::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row ro
         return;
 
     for (Card *card : highests(enemy.row(row)))
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
 }
 
 Priscilla::Priscilla()
@@ -2091,7 +2091,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
             for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, EnemyBoard))
-                putOnDiscard(card, ally, enemy);
+                putOnDiscard(card, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -2248,7 +2248,7 @@ Epidemic::Epidemic()
 void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
 }
 
 Moonlight::Moonlight()
@@ -2488,7 +2488,7 @@ void BranTuirseach::onDeploy(Field &ally, Field &enemy)
 
 void BranTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, this);
     if (!target->isSpecial)
         strengthen(target, 1, ally, enemy);
 }
@@ -2517,7 +2517,7 @@ void DrummondWarmonger::onDeploy(Field &ally, Field &enemy)
 
 void DrummondWarmonger::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, this);
 }
 
 DimunPirate::DimunPirate()
@@ -2540,7 +2540,7 @@ DimunPirate::DimunPirate()
 void DimunPirate::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
 }
 
 AnCraiteRaider::AnCraiteRaider()
@@ -2593,7 +2593,7 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     if (_discarded == nullptr) {
         _discarded = target;
 
-        putOnDiscard(target, ally, enemy);
+        putOnDiscard(target, ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
         return;
     }
@@ -2628,7 +2628,7 @@ void Ermion::onDeploy(Field &ally, Field &enemy)
 
 void Ermion::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, this);
 }
 
 CerysFearless::CerysFearless()
@@ -3068,7 +3068,7 @@ void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     putToHand(target, ally, enemy);
     for (Card *card : _drawn)
         if (card != target)
-            putOnDiscard(card, ally, enemy);
+            putOnDiscard(card, ally, enemy, this);
 
     _drawn.clear();
 }
@@ -3092,7 +3092,7 @@ void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
 
 void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, this);
     spawn(new Bear(), ally, enemy, this);
 }
 
@@ -3444,7 +3444,7 @@ void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-        putOnDiscard(target, ally, enemy);
+        putOnDiscard(target, ally, enemy, this);
         boost(this, 5, ally, enemy, this);
 
         delete _choosen;
@@ -3700,7 +3700,7 @@ void Kambi::Hemdall::onDeploy(Field &ally, Field &enemy)
         enemy.rowEffect(row) = NoRowEffect;
     }
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
 }
 
 Vabjorn::Vabjorn()
@@ -3728,7 +3728,7 @@ void Vabjorn::onDeploy(Field &ally, Field &enemy)
 void Vabjorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (isDamaged(target))
-        putOnDiscard(target, ally, enemy);
+        putOnDiscard(target, ally, enemy, this);
     else
         damage(target, 2, ally, enemy, this);
 }
@@ -3924,7 +3924,7 @@ void SvanrigeTuirseach::onDeploy(Field &ally, Field &enemy)
 
 void SvanrigeTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy);
+    putOnDiscard(target, ally, enemy, this);
 }
 
 Skjall::Skjall()
@@ -4447,7 +4447,7 @@ GiantBoar::GiantBoar()
 void GiantBoar::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
-        putOnDiscard(card, ally, enemy);
+        putOnDiscard(card, ally, enemy, this);
         boost(this, 10, ally, enemy, this);
     }
 }

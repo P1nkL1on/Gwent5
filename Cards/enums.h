@@ -138,8 +138,12 @@ enum ChoiceGroup
 
 enum ActionType {
     Invalid,
+    TurnStart,
     PlaySpecial,
     PutOnField,
+    PutToHand,
+    PutToDiscard,
+    Destroyed,
     DealDamage,
     Damaged,
     DamagedInArmor,

@@ -200,7 +200,7 @@ bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 void putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
 
 /// put any card to discard
-void putOnDiscard(Card *card, Field &ally, Field &enemy);
+void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void playAsSpecial(Card *card, Field &ally, Field &enemy, const Card *src);

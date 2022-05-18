@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoTransforms(_ally, _enemy);
 //    demoNilfgaardSoldiersDeck(_ally, _enemy);
 //    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
-    demoInstantEffects(_ally, _enemy);
+//    demoInstantEffects(_ally, _enemy);
+    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
 
     resize(1300, 1000);
     setMouseTracking(true);
@@ -725,7 +726,7 @@ void MainWindow::repaintCustom()
         {
             if (id < 0)
                 return "NONE";
-            return QString("%1").arg(QString::fromStdString(snapshot.cardView(id).name));
+            return QString("%1 {%2}").arg(QString::fromStdString(snapshot.cardView(id).name), QString::number(id));
         };
         const QString dst = [=]() -> QString {
             QStringList res;
@@ -742,11 +743,23 @@ void MainWindow::repaintCustom()
         case Invalid:
             qDebug().noquote().nospace() << "Invalid Src = " << src << ", Dst = " << dst;
             break;
+        case TurnStart:
+            qDebug().noquote().nospace() << "\n#" << x << " turn started";
+            break;
         case PlaySpecial:
             qDebug().noquote().nospace() << "Played " << dst << " by " << src;
             break;
         case PutOnField:
             qDebug().noquote().nospace() << dst << " enters the board by " << src;
+            break;
+        case PutToHand:
+            qDebug().noquote().nospace() << dst << " moves to hand by " << src;
+            break;
+        case PutToDiscard:
+            qDebug().noquote().nospace() << dst << " moves to discard by " << src;
+            break;
+        case Destroyed:
+            qDebug().noquote().nospace() << dst << " destroyed by " << src;
             break;
         case DealDamage:
             qDebug().noquote().nospace() << src << " deals " << x << " damage to " << dst;
