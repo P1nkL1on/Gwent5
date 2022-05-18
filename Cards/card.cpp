@@ -475,7 +475,7 @@ RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
 {
     assert(row == Meele || row == Range || row == Seige);
     const Pos size = Pos(field.row(row).size());
-    return size == 9 ? RowAndPos(row, size) : RowAndPos();
+    return size < 9 ? RowAndPos(row, size) : RowAndPos();
 }
 
 RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset)

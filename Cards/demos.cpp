@@ -244,7 +244,10 @@ void demoAmbushes(Field &ally, Field &enemy)
         new VriheddDragoon(),
         new VriheddDragoon(),
         new VriheddDragoon(),
-        new VriheddDragoon(),
+        new HaraldHoundsnout(),
+        new Frightener(),
+        new HaraldHoundsnout(),
+        new Frightener(),
     };
     ally.hand = ally.cardsAdded;
     enemy.cardsAdded = {
@@ -258,7 +261,5 @@ void demoAmbushes(Field &ally, Field &enemy)
         new AnCraiteGreatsword(),
     };
     enemy.hand = enemy.cardsAdded;
-    ally.canPass = false;
-    enemy.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
