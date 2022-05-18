@@ -254,7 +254,7 @@ void demoAmbushes(Field &ally, Field &enemy)
         new DolBlathannaArcher(),
         new Swallow(),
         new Swallow(),
-        new AnCraiteGreatsword(),
+        new AlzursThunder(),
         new AnCraiteGreatsword(),
     };
     enemy.hand = enemy.cardsAdded;

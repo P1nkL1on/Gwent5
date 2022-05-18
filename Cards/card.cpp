@@ -471,7 +471,7 @@ RowAndPos findRowAndPos(const Card *card, const Field &field)
     return RowAndPos();
 }
 
-RowAndPos rowAndPosLastInRow(const Field &field, const Row row)
+RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
 {
     assert(row == Meele || row == Range || row == Seige);
     const Pos size = Pos(field.row(row).size());
@@ -1489,14 +1489,16 @@ bool canPlay(Card *card, const Field &field)
     return card->isSpecial || (!isRowFull(field.rowMeele) || !isRowFull(field.rowRange) || !isRowFull(field.rowSeige));
 }
 
+// TODO: test it!
 bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const bool isNew, const RowAndPos &rowAndPos, const bool triggerDeploy)
 {
+    // *puts to discard by itself
     const bool play = canPlay(card, card->isLoyal ? ally : enemy);
     if (!play) {
         if (isNew) {
             delete card;
         } else {
-            putOnDiscard(card, ally, enemy, src);
+            putOnDiscard(card, ally, enemy, card);
         }
         return false;
     }
@@ -1506,7 +1508,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
 
     if (card->isSpecial) {
         _activateSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy, src);
+        putOnDiscard(card, ally, enemy, card);
         return true;
     }
 

@@ -160,7 +160,7 @@ bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 RowAndPos findRowAndPos(const Card *card, const Field &field);
-RowAndPos rowAndPosLastInRow(const Field &field, const Row row);
+RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
 RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosRandom(Field &field);
 std::vector<Card *> highests(const std::vector<Card *> &row);

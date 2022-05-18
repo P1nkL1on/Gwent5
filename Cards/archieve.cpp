@@ -1138,8 +1138,7 @@ void Frightener::onDeploy(Field &ally, Field &enemy)
 
 void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    // FIXME: Not Meele, but its same
-    moveExistedUnitToPos(target, rowAndPosLastInRow(enemy, Meele), enemy, ally, this);
+    moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, findRowAndPos(this, enemy).row), enemy, ally, this);
 }
 
 Cleaver::Cleaver()
@@ -2713,7 +2712,7 @@ void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
         return;
     applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
     for (int n = 0; n < 3; ++n)
-        spawnNewUnitToPos(new Wolf(), rowAndPosLastInRow(ally, Meele), ally, enemy, this);
+        spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
 }
 
 Trollololo::Trollololo()
@@ -2891,8 +2890,7 @@ HjalmarAnCraite::HjalmarAnCraite()
 
 void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
 {
-    // FIXME: Not Meele but the opposite row
-    spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInRow(enemy, Meele), enemy, ally, this);
+    spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, findRowAndPos(this, ally).row), enemy, ally, this);
 }
 
 Regis::Regis()
@@ -3955,8 +3953,7 @@ void HaraldHoundsnout::onDeploy(Field &ally, Field &enemy)
 {
     spawnNewUnitToPos(new Wilfred(), rowAndPosNextTo(this, ally, 0), ally, enemy, this);
     spawnNewUnitToPos(new Wilhelm(), rowAndPosNextTo(this, ally, 1), ally, enemy, this);
-    // FIXME: Opposite row instead of Meele
-    spawnNewUnitToPos(new Wilmar(), rowAndPosLastInRow(enemy, Meele), enemy, ally, this);
+    spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, findRowAndPos(this, ally).row), enemy, ally, this);
 }
 
 HaraldHoundsnout::Wilfred::Wilfred()
@@ -4725,7 +4722,7 @@ void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
         if (_row != row) {
             Card *copy = defaultCopy();
             copy->isDoomed = true;
-            spawnNewUnitToPos(copy, rowAndPosLastInRow(ally, Row(_row)), ally, enemy, this);
+            spawnNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
         }
 }
 
