@@ -372,7 +372,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
             assert(false);
 
     } else {
-        card->isSpy = true;
+        spy(card, ally, enemy, card);
         if (takenFrom == Deck) {
             if (triggerDeploy)
                 card->onDeployFromDeck(enemy, ally);
@@ -1191,22 +1191,15 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 
 void charm(Card *card, Field &ally, Field &enemy, const Card *src)
 {
-    // FIXME: charm isn't working at all
     Field *allyPtr = &ally;
     Field *enemyPtr = &enemy;
 
     if (isOnBoard(card, ally))
+        /// `card` is alway on `enemyPtr`
         std::swap(allyPtr, enemyPtr);
 
-    /// target card is alway on enemyPtr
-
-    const Row row = findRowAndPos(card, *enemyPtr).row;
-    assert(row >= 0);
-
-    if (isRowFull(allyPtr->row(row)))
-        return;
-
-    moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, row), *allyPtr, *enemyPtr, src);
+    if (moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, findRowAndPos(card, *enemyPtr).row), *allyPtr, *enemyPtr, src))
+        spy(card, ally, enemy, card);
 }
 
 void copyCardText(const Card *card, Card *dst)
@@ -1421,15 +1414,28 @@ void transform(
     card->isResilient = false;
 }
 
-void toggleLock(Card *card, Field &, Field &)
+void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     card->isLocked = !card->isLocked;
+    saveFieldsSnapshot(ally, enemy, card->isLocked ? GainLock : LostLock, src, {card});
 }
 
-void lock(Card *card, Field &ally, Field &enemy)
+void toggleSpy(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    card->isSpy = !card->isSpy;
+    saveFieldsSnapshot(ally, enemy, card->isSpy ? GainSpy : LostSpy, src, {card});
+}
+
+void lock(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     if (!card->isLocked)
-        toggleLock(card, ally, enemy);
+        toggleLock(card, ally, enemy, src);
+}
+
+void spy(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    if (!card->isSpy)
+        toggleSpy(card, ally, enemy, src);
 }
 
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo)
@@ -1540,9 +1546,9 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src)
     playCard2(card, ally, enemy, src, false, RowAndPos(), true);
 }
 
-void moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
+bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
 {
-    playCard2(card, ally, enemy, src, false, rowAndPos, false);
+    return playCard2(card, ally, enemy, src, false, rowAndPos, false);
 }
 
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)

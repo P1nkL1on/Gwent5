@@ -558,7 +558,6 @@ struct ShupesDayOff : CardCollectible<ShupesDayOff>
 struct ShupeKnight : CardCollectible<ShupeKnight>
 {
     ShupeKnight();
-    static bool isFourOrLessPower(Card *card);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -1370,7 +1369,6 @@ struct Recruit : CardCollectible<Recruit>
 struct Ointment : CardCollectible<Ointment>
 {
     Ointment();
-    static bool isFiveOrLessPower(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -1414,9 +1412,16 @@ struct VriheddDragoon : CardCollectible<VriheddDragoon>
 struct Malena : CardCollectible<Malena>
 {
     Malena();
-    static bool isFiveOrLessPower(Card *card);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTurnStart(Field &ally, Field &enemy) override;
+};
+
+
+struct Muzzle : CardCollectible<Muzzle>
+{
+    Muzzle();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 

@@ -18,5 +18,6 @@ void demoSpawnAndSummon(Field &ally, Field &enemy);
 void demoSingleUseFrightener(Field &ally, Field &enemy);
 void demoAmbushes(Field &ally, Field &enemy);
 void demoMalena(Field &ally, Field &enemy);
+void demoCharm(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

@@ -67,6 +67,12 @@ inline Filter isCopy(const std::string &name)
         return card->name == name;
     };
 }
+inline Filter hasPowerXorLess(const int x)
+{
+    return [x](Card *card) {
+        return card->power <= x;
+    };
+}
 inline Filter hasCopyInADeck(const Field *field)
 {
     return [field](Card *card) {

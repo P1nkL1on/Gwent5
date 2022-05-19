@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoSpawnAndSummon(_ally, _enemy);
 //    demoSingleUseFrightener(_ally, _enemy);
 //    demoAmbushes(_ally, _enemy);
-    demoMalena(_ally, _enemy);
+    demoCharm(_ally, _enemy);
 
     resize(1400, 800);
     setMouseTracking(true);
@@ -799,6 +799,18 @@ void MainWindow::repaintCustom()
             break;
         case GainArmor:
             stream << prefix << dst << " gains " << x << " armor by " << src;
+            break;
+        case GainLock:
+            stream << prefix << dst << " gains LOCK by " << src;
+            break;
+        case GainSpy:
+            stream << prefix << dst << " gains SPY by " << src;
+            break;
+        case LostLock:
+            stream << prefix << dst << " loses LOCK by " << src;
+            break;
+        case LostSpy:
+            stream << prefix << dst << " loses SPY by " << src;
             break;
         }
         requestSoundByUrl(snapshot.actionSound);

@@ -173,6 +173,7 @@ std::vector<Card *> allCards(const Patch)
         new TridamInfantry(),
         new VriheddDragoon(),
         new Malena(),
+        new Muzzle(),
     };
 }
 
@@ -901,9 +902,9 @@ void Infiltrator::onDeploy(Field &ally, Field &enemy)
     startChoiceToTargetCard(ally, enemy, this);
 }
 
-void Infiltrator::onTargetChoosen(Card *target, Field &, Field &)
+void Infiltrator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    target->isSpy = !target->isSpy;
+    toggleSpy(target, ally, enemy, this);
 }
 
 ImpenetrableFog::ImpenetrableFog()
@@ -2058,11 +2059,6 @@ ShupeKnight::ShupeKnight()
     tags = { Ogroid };
 }
 
-bool ShupeKnight::isFourOrLessPower(Card *card)
-{
-    return card->power <= 4;
-}
-
 void ShupeKnight::onDeploy(Field &ally, Field &)
 {
     auto *option1 = new ShupeKnight::Destroy;
@@ -2095,7 +2091,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         acceptOptionAndDeleteOthers(this, target);
 
         if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {isFourOrLessPower}, EnemyBoard))
+            for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
                 putOnDiscard(card, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
@@ -2960,7 +2956,7 @@ void LethoOfGulet::onDeploy(Field &ally, Field &enemy)
 
 void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    lock(target, ally, enemy);
+    lock(target, ally, enemy, this);
     drain(target, target->power, ally, enemy, this);
 }
 
@@ -4776,14 +4772,9 @@ Ointment::Ointment()
     rarity = Bronze;
 }
 
-bool Ointment::isFiveOrLessPower(Card *card)
-{
-    return card->power <= 5;
-}
-
 void Ointment::onPlaySpecial(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, isFiveOrLessPower}, AllyDiscard);
+    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasPowerXorLess(5)}, AllyDiscard);
 }
 
 void Ointment::onTargetChoosen(Card *target, Field &ally, Field &enemy)
@@ -4897,7 +4888,7 @@ void Auckes::onDeploy(Field &ally, Field &enemy)
 
 void Auckes::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    toggleLock(target, ally, enemy);
+    toggleLock(target, ally, enemy, this);
 }
 
 Eskel::Eskel()
@@ -5042,11 +5033,6 @@ Malena::Malena()
     };
 }
 
-bool Malena::isFiveOrLessPower(Card *card)
-{
-    return card->power <= 5;
-}
-
 void Malena::onDeploy(Field &ally, Field &enemy)
 {
     setTimer(this, ally, enemy, 2);
@@ -5054,10 +5040,31 @@ void Malena::onDeploy(Field &ally, Field &enemy)
 
 void Malena::onTurnStart(Field &ally, Field &enemy)
 {
-    if (tick(this, ally, enemy)) {
-        flipOver(this, ally, enemy);
-        if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isFiveOrLessPower}, EnemyBoard), ally.rng)) {
-            charm(card, ally, enemy, this);
-        }
-    }
+    if (!tick(this, ally, enemy))
+        return;
+    flipOver(this, ally, enemy);
+    if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+        charm(card, ally, enemy, this);
+}
+
+Muzzle::Muzzle()
+{
+    id = "200225";
+    name = "Muzzle";
+    text = "Charm a Bronze or Silver enemy with 8 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Item };
+}
+
+void Muzzle::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasPowerXorLess(8)}, EnemyBoard);
+}
+
+void Muzzle::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    charm(target, ally, enemy, this);
 }

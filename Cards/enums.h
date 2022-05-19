@@ -152,6 +152,10 @@ enum ActionType {
     MoveFromRowToRow,
     TimerSet,
     FlipOver,
+    GainLock,
+    LostLock,
+    GainSpy,
+    LostSpy,
 };
 
 
