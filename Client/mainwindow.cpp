@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoSingleUseFrightener(_ally, _enemy);
 //    demoAmbushes(_ally, _enemy);
 //    demoMalena(_ally, _enemy);
-    demoUnseenElder(_ally, _enemy);
+//    demoUnseenElder(_ally, _enemy);
+    demoRunestones(_ally, _enemy);
 
     resize(1400, 800);
     setMouseTracking(true);
