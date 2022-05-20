@@ -1185,4 +1185,17 @@ struct DimunWarship : CardCollectible<DimunWarship>
 {
     DimunWarship();
 };
+<<<<<<< Updated upstream
+=======
+
+
+struct UnseenElder : CardCollectible<UnseenElder>
+{
+    UnseenElder();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+>>>>>>> Stashed changes
 #endif // CARDS_H

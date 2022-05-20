@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
+<<<<<<< Updated upstream
 //    const std::vector<Card *> deckStarting = {
 //        /// axes
 //        new Derran, new Reconnaissance,
@@ -131,6 +132,31 @@ MainWindow::MainWindow(QWidget *parent)
 //    }
 
     resize(1300, 1000);
+=======
+    auto *w = new QWidget;
+    auto *l = new QHBoxLayout;
+    w->setLayout(l);
+    l->addStretch(3);
+    l->addWidget(_textAlly = new QTextEdit, 1);
+    l->addWidget(_textEnemy = new QTextEdit, 1);
+    _textAlly->setReadOnly(true);
+    _textEnemy->setReadOnly(true);
+    w->setAttribute(Qt::WA_TransparentForMouseEvents);
+    setCentralWidget(w);
+
+//    demoTransforms(_ally, _enemy);
+//    demoNilfgaardSoldiersDeck(_ally, _enemy);
+//    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
+//    demoInstantEffects(_ally, _enemy);
+//    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
+//    demoSpawnAndSummon(_ally, _enemy);
+//    demoSingleUseFrightener(_ally, _enemy);
+//    demoAmbushes(_ally, _enemy);
+//    demoMalena(_ally, _enemy);
+    demoUnseenElder(_ally, _enemy);
+
+    resize(1400, 800);
+>>>>>>> Stashed changes
     setMouseTracking(true);
     installEventFilter(this);
     _snapshot = fieldView(_ally, _enemy);
