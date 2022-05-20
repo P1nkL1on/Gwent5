@@ -11,6 +11,10 @@
 #include <QThread>
 #include <QTimer>
 #include <QApplication>
+#include <QHBoxLayout>
+#include <QPointer>
+
+#include "Cards/demos.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,121 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
 
-<<<<<<< Updated upstream
-//    const std::vector<Card *> deckStarting = {
-//        /// axes
-//        new Derran, new Reconnaissance,
-//        new TuirseachAxeman, new TuirseachAxeman, new TuirseachAxeman,
-//        new SkelligeStorm, new Gremist, new Reconnaissance,
-//        new GeraltOfRivia, new Roach, new TuirseachBearmaster,
-
-        /// armors
-//        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
-//        new Reinforcements, new Ves, new SileDeTansarville,
-//        new Trollololo, new PrinceStennis, new VincentMeis,
-//        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
-//        new RedanianElite, new RedanianElite, new RedanianElite,
-//        new ReaverScout, new ReaverScout, new ReaverScout,
-//        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
-//        new Reconnaissance, new Thunderbolt, new Thunderbolt,
-
-        /// veterans
-
-        /// other
-//        new DandelionPoet, new ManticoreVenom, new Reconnaissance,
-//        new TemerianDrummer, new SileDeTansarville, new KeiraMetz,
-//        new BranTuirseach, new ChampionOfHov, new AnCraiteGreatsword,
-//        new Vaedermakar, new CiriNova, new CiriNova, new HaraldTheCripple, new DolBlathannaArcher, new DolBlathannaArcher,
-//        new HaraldTheCripple, new HaraldTheCripple, new FirstLight, new FirstLight,
-//        new GeraltIgni, new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-//        new HeymaeySpearmaiden, new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-//        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
-//        new AnCraiteGreatsword, new AnCraiteGreatsword, new AnCraiteGreatsword,
-//        new ChampionOfHov, new DandelionPoet, new Frightener, new Vaedermakar,
-//        new TuirseachBearmaster, new TuirseachBearmaster,
-//        new DimunDracar, new DimunDracar,
-//    };
-
-//    const std::vector<Card *> deckStarting2 = {
-        /// dicards
-//        new AnCraiteLongship, new AnCraiteLongship, new AnCraiteLongship,
-//        new CerysAnCraite, new CerysFearless, new MadmanLugos, new Ermion,
-//        new ChampionOfHov, new Morkvarg, new Sigrdrifa, new Restore,
-//        new AnCraiteRaider, new AnCraiteRaider, new AnCraiteRaider,
-//        new DimunPirate, new DimunPirate, new DimunPirate,
-//        new DrummondQueensguard, new DrummondQueensguard, new DrummondQueensguard,
-//        new DrummondWarmonger, new DrummondWarmonger, new DrummondWarmonger,
-//        new Reconnaissance, new Reconnaissance,
-//        new PriestessOfFreya, new PriestessOfFreya, new PriestessOfFreya,
-
-        /// other
-//        new CahirDyffryn, new LethoKingslayer,
-//        new Swallow, new Swallow,
-//        new ElvenMercenary, new ElvenMercenary, new ElvenMercenary,
-//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-//        new Ambassador, new Ambassador,
-//        new Assassin, new Assassin,
-//        new Emissary, new Emissary,
-//        new DolBlathannaArcher, new DolBlathannaArcher, new DolBlathannaArcher,
-//        new ShupesDayOff, new ArachasVenom, new AlzursThunder,
-//        new ReaverScout, new ReaverScout, new ReaverScout,
-//        new KaedweniKnight, new KaedweniKnight, new KaedweniKnight,
-//        new JohnNatalis, new Vaedermakar, new KeiraMetz,
-//        new TemerianDrummer, new TemerianDrummer, new TemerianDrummer,
-//        new SileDeTansarville,
-//        new GeraltIgni, new GeraltIgni, new GeraltIgni, new GeraltIgni,
-//        new Reconnaissance, new Reconnaissance, new Reconnaissance,
-//        new PoorFingInfantry, new PoorFingInfantry, new PoorFingInfantry,
-//    };
-
-//    initField(deckStarting, new EistTuirseach, _ally);
-//    initField(deckStarting2, new JanCalveit, _enemy);
-
-
-    /// ally
-    const std::vector<Card *> deck1 {
-        new JohnNatalis, new GeraltIgni, new SeltkirkOfGulet, new BloodyBaron,
-        new Dethmold, new RonvidTheIncessant,
-    };
-    initField(deck1, new KingHenselt, _ally);
-
-    /// veterans
-    const std::vector<Card *> deck2 {
-        new Restore, new Udalryk, new Sigrdrifa, new Gremist, new Operator,
-        new TuirseachVeteran, new TuirseachVeteran, new TuirseachVeteran,
-        new TuirseachBearmaster, new TuirseachBearmaster, new TuirseachBearmaster,
-        new TuirseachHunter, new TuirseachHunter, new TuirseachHunter,
-        new HeymaeySpearmaiden, new HeymaeySpearmaiden,
-        new PriestessOfFreya, new PriestessOfFreya,
-        new Reconnaissance, new Reconnaissance,
-    };
-    initField(deck2, new EistTuirseach, _enemy);
-
-    startNextRound(_ally, _enemy);
-
-    // TODO: remove test units
-//    for (int i = 1; i <= 7; ++i) {
-//        auto *c = new Card;
-//        c->name = "Dummy";
-//        c->url = "https://gwent.one/image/card/low/cid/png/113201.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _ally.rowMeele.push_back(c);
-//        _ally.cardsAdded.push_back(c);
-//    }
-//    for (int i = 1; i <= 5; ++i) {
-//        auto *c = new Card;
-//        c->name = "Egg";
-//        c->url = "https://gwent.one/image/card/low/cid/png/132316.png";
-//        c->isDoomed = true;
-//        c->power = c->powerBase = i;
-//        _enemy.rowMeele.push_back(c);
-//        _enemy.cardsAdded.push_back(c);
-//    }
-
-    resize(1300, 1000);
-=======
     auto *w = new QWidget;
     auto *l = new QHBoxLayout;
     w->setLayout(l);
@@ -156,10 +45,14 @@ MainWindow::MainWindow(QWidget *parent)
     demoUnseenElder(_ally, _enemy);
 
     resize(1400, 800);
->>>>>>> Stashed changes
     setMouseTracking(true);
     installEventFilter(this);
-    _snapshot = fieldView(_ally, _enemy);
+    repaintCustom();
+}
+
+QMargins MainWindow::margins() const
+{
+    return QMargins(10, 10, int(width() * 0.4) + 20, 10);
 }
 
 void MainWindow::requestImageByUrl(const std::string &url)
@@ -233,21 +126,18 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return nullptr;
     };
 
-    const auto rowAndPostAt = [=](const bool ally, const QPoint &point, Row &row, Pos &pos) -> bool {
+    const auto rowAndPostAt = [=](const bool ally, const QPoint &point) -> RowAndPos {
         const int jFrom = ally ? 3 : 0;
         const int jTo = ally ? 6 : 3;
         for (int j = jFrom; j < jTo; ++j) {
             const Row _row = Row(j < 3 ? (2 - j) : (j - 3));
             for (size_t i = 0; i < 9; ++i) {
                 const QRectF cardRect = QRectF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight, posWidth, posHeight).translated(rect.topLeft());
-                if (cardRect.contains(point)) {
-                    row = _row;
-                    pos = Pos(i);
-                    return true;
-                }
+                if (cardRect.contains(point))
+                    return RowAndPos(_row, Pos(i));
             }
         }
-        return false;
+        return RowAndPos();
     };
 
     const auto rowAt = [=](const bool ally, const QPoint &point, Row &row) -> bool {
@@ -275,9 +165,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     const auto topLeftOf = [=](const Card *card) -> QPointF {
         Row row;
         Pos pos;
-        if (rowAndPos(card, ally, row, pos))
+        if (findRowAndPos(card, ally, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
-        if (rowAndPos(card, enemy, row, pos))
+        if (findRowAndPos(card, enemy, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
@@ -310,24 +200,18 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     }
 
     if (ally.choice().choiceType == SelectAllyRowAndPos) {
-        Row row;
-        Pos pos;
-        if (!rowAndPostAt(true, point, row, pos))
+        const RowAndPos rowAndPos = rowAndPostAt(true, point);
+        if (!isOkRowAndPos(rowAndPos, ally))
             return;
-        if (!isOkRowAndPos(row, pos, ally))
-            return;
-        onChoiceDoneRowAndPlace(row, pos, ally, enemy);
+        onChoiceDoneRowAndPlace(rowAndPos, ally, enemy);
         goto finish_turn;
     }
 
     if (ally.choice().choiceType == SelectEnemyRowAndPos) {
-        Row row;
-        Pos pos;
-        if (!rowAndPostAt(false, point, row, pos))
+        const RowAndPos rowAndPos = rowAndPostAt(false, point);
+        if (!isOkRowAndPos(rowAndPos, ally))
             return;
-        if (!isOkRowAndPos(row, pos, enemy))
-            return;
-        onChoiceDoneRowAndPlace(row, pos, ally, enemy);
+        onChoiceDoneRowAndPlace(rowAndPos, ally, enemy);
         goto finish_turn;
     }
 
@@ -364,6 +248,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 
 finish_turn:
+    repaintCustom();
     tryFinishTurn(ally, enemy);
     repaintCustom();
 }
@@ -417,36 +302,6 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.drawText(rect.marginsRemoved(QMarginsF(_layout.borderNamePx, 0, _layout.borderNamePx, 0)), textElided);
     };
 
-    const auto paintCardHidden = [=, &painter](const QPointF &topLeft)
-    {
-        const QSizeF size(posWidth, posHeight);
-        const QRectF rect(topLeft, size);
-        painter.setPen(Qt::black);
-        painter.drawRect(rect);
-    };
-
-    const auto paintCardGrayscale = [=, &painter](const CardView &cardView, const QPointF &topLeft)
-    {
-        Q_ASSERT(!cardView.isAmbush);
-        const QSizeF size(posWidth, posHeight);
-        const QRectF rect(topLeft, size);
-        painter.setPen(Qt::black);
-        painter.drawRect(rect);
-
-        const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
-
-        /// draw url image
-        if (cardView.url.size() > 0) {
-            requestImageByUrl(cardView.url);
-            const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url)).convertToFormat(QImage::Format_Grayscale8);
-            painter.drawImage(rectBorder, image);
-        }
-
-        /// draw name
-        const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - metrics.height(), posWidth, metrics.height());
-        paintTextInRect(QString::fromStdString(cardView.name), rectNameText);
-    };
-
     const QMap<int, QString> rarityToBorderUrl {
         {Bronze, "https://gwent.one/image/card/medium/assets/open-beta/border-bronze.png"},
         {Silver, "https://gwent.one/image/card/medium/assets/open-beta/border-silver.png"},
@@ -498,11 +353,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     };
     const auto paintCard = [=, &painter](const CardView &cardView, const QPointF &topLeft)
     {
-        Q_ASSERT(!cardView.isAmbush);
         const QSizeF size(posWidth, posHeight);
         const QRectF rect(topLeft, size);
         painter.setPen(Qt::black);
         painter.drawRect(rect);
+
+        if (!cardView.isVisible)
+            /// TODO: draw a card back
+            return;
 
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
 
@@ -558,7 +416,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             width += _layout.borderTextPx;
         }
 
-        if (cardView.timer) {
+        if (cardView.timer > 0) {
             width += paintTextInPoint("TIMER " + QString::number(cardView.timer), QPointF(topLeft.x() + width, topLeft.y()), Qt::cyan, Qt::black);
             width += _layout.borderTextPx;
         }
@@ -715,6 +573,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
     }
 
+    static_assert(View_count == 7, "");
     if (_view == ViewStack) {
         double statusWidth = 0;
         if (currentChoiceView){
@@ -750,29 +609,44 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
                 }
             }
         }
-    } else if (_view == ViewHand) {
-        const QString stringStatus = QString("Hand (%1):").arg(view.allyHandIds.size());
-        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < view.allyHandIds.size(); ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCardGrayscale(view.cardView(view.allyHandIds[i]), topLeft);
-        }
-    } else if (_view == ViewDiscard) {
-        const QString stringStatus = QString("Discard (%1):").arg(view.allyDiscardIds.size());
-        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < view.allyDiscardIds.size(); ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCardGrayscale(view.cardView(view.allyDiscardIds[i]), topLeft);
-        }
-    } else if (_view == ViewDeck) {
-        const QString stringStatus = QString("Deck (%1):").arg(view.allyDeckIds.size());
-        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
-        for (size_t i = 0; i < view.allyDeckIds.size(); ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
-            paintCardHidden(topLeft);
-        }
     } else {
-        Q_ASSERT(false);
+        QString title;
+        const std::vector<int> *ids = nullptr;
+        if (_view == ViewHand) {
+            title = "Hand";
+            ids = &view.allyHandIds;
+
+        } else if (_view == ViewDiscard) {
+            title = "Discard";
+            ids = &view.allyDiscardIds;
+
+        } else if (_view == ViewDeck) {
+            title = "Deck";
+            ids = &view.allyDeckIds;
+
+        } else if (_view == ViewHandOpponent) {
+            title = "Opponent's Hand";
+            ids = &view.enemyHandIds;
+
+        } else if (_view == ViewDiscardOpponent) {
+            title = "Opponent's Discard";
+            ids = &view.enemyDiscardIds;
+
+        } else if (_view == ViewDeckOpponent) {
+            title = "Opponent's Deck";
+            ids = &view.enemyDeckIds;
+        } else {
+            Q_ASSERT(false);
+        }
+        const QString stringStatus = QString("%1 (%2):").arg(title).arg(ids->size());
+        paintTextInPoint(stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray);
+        for (size_t i = 0, pos = 0; i < ids->size(); ++i, ++pos) {
+            const QPointF topLeft = rect.topLeft() + QPointF(pos * posWidth, 2 * _layout.spacingPx + 7 * posHeight);
+            const CardView &cardView = view.cardView(ids->at(i));
+            paintCard(cardView, topLeft);
+            // if (!cardView.isVisible)
+            //     --pos;
+        }
     }
     const QString stringStatusAlly = QString("ALLY: Power = %1, Pass = %2, Wins = %3")
             .arg(view.nPowerRowAllyMeele + view.nPowerRowAllyRange + view.nPowerRowAllySeige)
@@ -808,7 +682,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    const QRect rect = this->rect().marginsRemoved(QMargins(10, 10, 200, 20));
+    const QRect rect = this->rect().marginsRemoved(margins());
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
@@ -835,15 +709,16 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     }
 
     if (e->type() == QEvent::Wheel) {
+        const int n = int(View_count);
         auto *ew = static_cast<QWheelEvent *>(e);
         if (rect.contains(ew->pos())) {
             int view = _view;
             if (ew->delta() > 0) {
-                view = (view + 1) % 4;
+                view = (view + 1) % n;
             } else {
                 view--;
                 if (view < 0)
-                    view += 4;
+                    view += n;
             }
             _view = View(view);
             repaint();
@@ -854,29 +729,121 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    const QRect rect = e->rect().marginsRemoved(QMargins(10, 10, 200, 20));
+    const QRect rect = e->rect().marginsRemoved(margins());
     paintInRect(rect, _snapshot);
 }
 
-
 void MainWindow::repaintCustom()
 {
-    for (const FieldView &snapshot : _ally.snapshots)
-       requestSoundByUrl(snapshot.sound);
-    for (const FieldView &snapshot : _enemy.snapshots)
-       requestSoundByUrl(snapshot.sound);
-    _ally.snapshots.clear();
-    _enemy.snapshots.clear();
+    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "")
+    {
+        const auto idToName = [=](const int id) -> QString
+        {
+            if (id < 0)
+                return "NONE";
+            return QString("%1 {%2}").arg(QString::fromStdString(snapshot.cardView(id).name), QString::number(id));
+        };
+        const QString dst = [=]() -> QString {
+            QStringList res;
+            for (const int id : snapshot.actionIdsDst)
+                res.push_back(idToName(id));
+            return res.isEmpty() ? "NONE" : res.join(", ");
+        }();
+        const QString src = [=]() -> QString {
+            const QString res = idToName(snapshot.actionIdSrc);
+            return res == dst ? "ITSELF" : res;
+        }();
+        const int x = snapshot.actionValue;
+        stream << "\n";
+        switch (snapshot.actionType) {
+        case Invalid:
+            stream << prefix << "Invalid Src = " << src << ", Dst = " << dst;
+            break;
+        case TurnStart:
+            stream << prefix << "\n#" << x << " turn started";
+            break;
+        case PlaySpecial:
+            stream << prefix << dst << " special plays by " << src;
+            break;
+        case PutOnField:
+            stream << prefix << dst << " enters the board by " << src;
+            break;
+        case MoveFromRowToRow:
+            stream << prefix << dst << " moves from row to row by " << src;
+            break;
+        case TimerSet:
+            stream << prefix << src << " timer is set to " << x;
+            break;
+        case FlipOver:
+            stream << prefix << src << " flips over";
+            break;
+        case PutToHand:
+            stream << prefix << dst << " moves to hand by " << src;
+            break;
+        case PutToDiscard:
+            stream << prefix << dst << " moves to discard by " << src;
+            break;
+        case Destroyed:
+            stream << prefix << dst << " destroyed by " << src;
+            break;
+        case DealDamage:
+            stream << prefix << src << " deals " << x << " damage to " << dst;
+            break;
+        case Boosted:
+            stream << prefix << dst << " gain " << x << " power by " << src;
+            break;
+        case Damaged:
+            stream << prefix << dst << " takes " << x << " damage by " << src;
+            break;
+        case DamagedInArmor:
+            stream << prefix << dst << " absorbs " << x << " damage by " << src;
+            break;
+        case GainArmor:
+            stream << prefix << dst << " gains " << x << " armor by " << src;
+            break;
+        }
+        requestSoundByUrl(snapshot.actionSound);
+    };
+    class TextEditIoDevice : public QIODevice
+    {
+    public:
+        TextEditIoDevice(QTextEdit *const textEdit, QObject *const parent)
+            : QIODevice(parent), textEdit(textEdit)
+        {
+            open(QIODevice::WriteOnly | QIODevice::Text);
+        }
+    protected:
+        qint64 readData(char *, qint64 ) override { return 0; }
+        qint64 writeData(const char *data, qint64 maxSize) override
+        {
+            if(textEdit)
+            {
+                textEdit->setPlainText(textEdit->toPlainText() + data);
+            }
+            return maxSize;
+        }
 
-
-    // fast version
+    private:
+        QPointer<QTextEdit> textEdit;
+    };
+    {
+        QTextStream ss(new TextEditIoDevice(_textAlly, this));
+        for (const FieldView &snapshot : _ally.snapshots)
+            processAction(snapshot, ss);
+        _ally.snapshots.clear();
+    }
+    {
+        QTextStream ss(new TextEditIoDevice(_textEnemy, this));
+        for (const FieldView &snapshot : _enemy.snapshots)
+            processAction(snapshot, ss);
+        _enemy.snapshots.clear();
+    }
     if (_ally.cardStack.size()) {
         _snapshot = fieldView(_ally, _enemy);
     } else if (_enemy.cardStack.size()) {
         _snapshot = fieldView(_enemy, _ally);
     }
     repaint();
-//    return;
 
 //    if (_ally.cardStack.size()) {
 //        for (const FieldView &snapshot : _ally.snapshots) {
@@ -902,5 +869,5 @@ void MainWindow::repaintCustom()
 //        _enemy.snapshots.clear();
 //        _snapshot = fieldView(_enemy, _ally);
 //        repaint();
-//    }
+    //    }
 }

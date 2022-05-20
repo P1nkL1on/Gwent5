@@ -1,7 +1,7 @@
 #include "view.h"
 
-#include <map>
 #include <cassert>
+#include <algorithm>
 
 #include "card.h"
 
@@ -22,13 +22,22 @@ CardView cardView(const Card *card, const int id)
     view.isAmbush = card->isAmbush;
     view.isImmune = card->isImmune;
     view.isDoomed = card->isDoomed;
+    view.isRevealed = card->isRevealed;
     view.name = card->name;
     view.text = card->text;
-    view.url = card->url;
+    view.url = "https://gwent.one/image/card/low/cid/png/" + card->id + ".png";
+    view.urlLarge = "https://gwent.one/image/card/medium/cid/png/" + card->id + ".png";
     return view;
 }
 
-FieldView fieldView(const Field &ally, const Field &enemy)
+FieldView fieldView(
+        const Field &ally,
+        const Field &enemy,
+        const ActionType actionType,
+        const Card *src,
+        const std::vector<Card *> &dst,
+        const std::string &sound,
+        const int actionValue)
 {
     std::map<const Card *, CardView> cardToView;
 
@@ -39,12 +48,14 @@ FieldView fieldView(const Field &ally, const Field &enemy)
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : ally.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+
     if (enemy.leaderStarting != nullptr)
         cardToView.insert({enemy.leaderStarting, cardView(enemy.leaderStarting, cardViewId++)});
     for (const Card *card : enemy.deckStarting)
         cardToView.insert({card, cardView(card, cardViewId++)});
     for (const Card *card : enemy.cardsAdded)
         cardToView.insert({card, cardView(card, cardViewId++)});
+
     /// add extra crads that are just options)
     for (const Choice &choice : ally.cardStack)
         for (const Card *card : choice.cardOptions)
@@ -75,9 +86,55 @@ FieldView fieldView(const Field &ally, const Field &enemy)
         choiceViews.push_back(view);
     }
 
+    /// checking hidden cards
+    std::vector<int> choiceCardIds;
+    for (const ChoiceView &choiceView : choiceViews) {
+        for (const int id : choiceView.cardOptionIds)
+            choiceCardIds.push_back(id);
+        /// not bad if duplicates. if id isn't given, skip
+        if (choiceView.cardSourceId >= 0)
+            choiceCardIds.push_back(choiceView.cardSourceId);
+    }
+    const auto isInChoice = [=](const int id) {
+        return std::find(choiceCardIds.begin(), choiceCardIds.end(), id) != choiceCardIds.end();
+    };
+    /// in a deck -> check if an ally option choice
+    for (const Card *card : ally.deck)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id);
+    for (const Card *card : enemy.deck)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id);
+
+    /// in a hand -> check if revealed and is ally option choice
+    for (const Card *card : enemy.hand)
+        cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
+
+    /// in a field -> check if ambush
+    for (auto it = cardToView.begin(); it != cardToView.end(); ++it){
+        bool isOnBoard = false;
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (isIn(it->first, ally.row(row)) || isIn(it->first, enemy.row(row))) {
+                isOnBoard = true;
+                break;
+            }
+        if (isOnBoard && it->first->isAmbush)
+            it->second.isVisible = false;
+    }
+
+    /// obfuscate invisible cards
+    for (auto it = cardToView.begin(); it != cardToView.end(); ++it) {
+        CardView &view = it->second;
+        if (view.isVisible)
+            continue;
+
+        const int id = view.id;
+        view = CardView();
+        view.id = id;
+        view.name = "???";
+        view.isVisible = false;
+    }
+
     FieldView res;
 
-    // TODO: check hidden cards
     for (const Card *card : ally.rowMeele)
         res.allyRowMeeleIds.push_back(id(card));
     for (const Card *card : ally.rowRange)
@@ -128,6 +185,15 @@ FieldView fieldView(const Field &ally, const Field &enemy)
         res.cards.push_back(std::move(cardAndViewPair.second));
     /// move all choices
     res.choices = std::move(choiceViews);
+
+    /// animation data of current action
+    res.actionType = actionType;
+    res.actionIdSrc = id(src);
+    res.actionIdsDst = {};
+    res.actionValue = actionValue;
+    for (const Card *card : dst)
+        res.actionIdsDst.push_back(id(card));
+    res.actionSound = sound;
 
     return res;
 }
@@ -339,6 +405,7 @@ std::string stringTag(const Tag tag)
     case ClanBrokvar: return "Clan Brokvar";
     case ClanHeymaey: return "Clan Heymaey";
     case ClanDimun: return "Clan Dimun";
+    case ClanTordarroch: return "Clan Tordarroch";
     case ClanTuirseach: return "Clan Tuirseach";
     case ClanDrummond: return "Clan Drummond";
     case Ogroid: return "Ogroid";
@@ -377,4 +444,30 @@ bool isLeader(const CardView &view)
         if (tag == Leader)
             return true;
     return false;
+}
+
+std::vector<CardView> cardOptionViews(const Card *card)
+{
+    std::vector<CardView> res;
+    /// add any usable previews
+    Card *copy = card->defaultCopy();
+    Field a, e;
+    if (!card->isSpecial)
+        copy->onDeploy(a, e);
+    else
+        copy->onPlaySpecial(a, e);
+
+    int previewId = 0;
+    for (const Choice &choice : a.cardStack){
+        if (choice.cardSource != copy && choice.cardSource != nullptr) {
+            res.push_back(cardView(choice.cardSource, previewId));
+            ++previewId;
+        }
+        for (const Card *card : choice.cardOptions) {
+            res.push_back(cardView(card, previewId));
+            ++previewId;
+        }
+    }
+
+    return res;
 }

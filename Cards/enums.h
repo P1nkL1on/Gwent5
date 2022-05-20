@@ -19,6 +19,16 @@ enum Row
 using Pos = int;
 
 
+struct RowAndPos
+{
+    RowAndPos() = default;
+    RowAndPos(const Row row, const Pos pos) : row(row), pos(pos) {}
+
+    Row row = Row(-1);
+    Pos pos = Pos(-1);
+};
+
+
 enum Rarity
 {
     Bronze,
@@ -43,8 +53,8 @@ enum Tag
     ClanAnCraite,
     ClanBrokvar,
     ClanHeymaey,
-    // TODO: add ClanTordarroch
     ClanDimun,
+    ClanTordarroch,
     ClanTuirseach,
     ClanDrummond,
     Ogroid,
@@ -123,6 +133,25 @@ enum ChoiceGroup
     AllyBoardHandDeck,
     AllyAnywhere,
     EnemyAnywhere,
+};
+
+
+enum ActionType {
+    Invalid,
+    TurnStart,
+    PlaySpecial,
+    PutOnField,
+    PutToHand,
+    PutToDiscard,
+    Destroyed,
+    DealDamage,
+    Damaged,
+    DamagedInArmor,
+    Boosted,
+    GainArmor,
+    MoveFromRowToRow,
+    TimerSet,
+    FlipOver,
 };
 
 

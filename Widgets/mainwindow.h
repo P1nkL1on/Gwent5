@@ -25,6 +25,7 @@ private slots:
 private:
     CardsLineView *_cardsLineView = nullptr;
     CardsLineView *_cardsLineView2 = nullptr;
+    CardsLineView *_cardsLineViewOptions = nullptr;
     CardSingleView *_cardSingleView = nullptr;
     QCheckBox *_checkBoxGold = nullptr;
     QCheckBox *_checkBoxSilver = nullptr;
