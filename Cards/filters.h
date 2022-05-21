@@ -92,10 +92,10 @@ inline Filter isOnSameRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!findRowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!findRowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf == rowCard;
     };
@@ -105,10 +105,10 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!findRowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!findRowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf != rowCard;
     };

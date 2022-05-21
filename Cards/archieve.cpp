@@ -272,8 +272,8 @@ PoorFingInfantry::PoorFingInfantry()
 
 void PoorFingInfantry::onDeploy(Field &ally, Field &enemy)
 {
-    spawnNewUnitToPos(new LeftFlankInfantry(), rowAndPosNextTo(this, ally, 0), ally, enemy, this);
-    spawnNewUnitToPos(new RightFlankInfantry(), rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new LeftFlankInfantry(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new RightFlankInfantry(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 DeithwenArbalest::DeithwenArbalest()
@@ -494,11 +494,7 @@ DimunLightLongship::DimunLightLongship()
 
 void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
 {
-    Row row;
-    Pos pos;
-    if (!findRowAndPos(this, ally, row, pos))
-        return;
-    if (Card *right = cardAtRowAndPos(row, pos + 1, ally)) {
+    if (Card *right = cardNextTo(this, ally, enemy, 1)) {
         damage(right, 1, ally, enemy, this);
         boost(this, 2, ally, enemy, this);
     }
@@ -815,7 +811,7 @@ void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
 {
     Card *copy = defaultCopy();
     copy->isDoomed = true;
-    spawnNewUnitToPos(copy, rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 Ambassador::Ambassador()
@@ -1147,7 +1143,7 @@ void Frightener::onDeploy(Field &ally, Field &enemy)
 
 void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, findRowAndPos(this, enemy).row), enemy, ally, this);
+    moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, enemy), enemy, ally, this);
 }
 
 Cleaver::Cleaver()
@@ -1158,7 +1154,7 @@ Cleaver::Cleaver()
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 7;
     rarity = Silver;
-    faction = Scoiatael;
+    faction = Neutral;
     tags = { Dwarf };
 }
 
@@ -1905,14 +1901,11 @@ void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         Card *left = cardNextTo(target, ally, enemy, -1);
         Card *right = cardNextTo(target, ally, enemy, 1);
 
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 10, ally, enemy, this);
         if (left != nullptr) {
-//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
             damage(left, 5, ally, enemy, this);
         }
         if (right != nullptr) {
-//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, right));
             damage(right, 5, ally, enemy, this);
         }
 
@@ -2352,7 +2345,7 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!findRowAndPos(this, ally, row, pos))
+    if (!_findRowAndPos(this, ally, row, pos))
         return;
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row), ally.rng)) {
@@ -2462,7 +2455,7 @@ DrummondQueensguard::DrummondQueensguard()
 void DrummondQueensguard::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
-        moveExistedUnitToPos(card, rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+        moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 BranTuirseach::BranTuirseach()
@@ -2717,7 +2710,7 @@ void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!findRowAndPos(this, ally, row, pos))
+    if (!_findRowAndPos(this, ally, row, pos))
         return;
     applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
     for (int n = 0; n < 3; ++n)
@@ -2899,7 +2892,7 @@ HjalmarAnCraite::HjalmarAnCraite()
 
 void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
 {
-    spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, findRowAndPos(this, ally).row), enemy, ally, this);
+    spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
 }
 
 Regis::Regis()
@@ -3251,7 +3244,7 @@ void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy
 {
     Pos _;
     Row row;
-    if (!findRowAndPos(other, enemy, row, _))
+    if (!_findRowAndPos(other, enemy, row, _))
         return;
     if (isIn(this, ally.row(row)))
         boost(this, 1, ally, enemy, this);
@@ -3960,9 +3953,9 @@ HaraldHoundsnout::HaraldHoundsnout()
 
 void HaraldHoundsnout::onDeploy(Field &ally, Field &enemy)
 {
-    spawnNewUnitToPos(new Wilfred(), rowAndPosNextTo(this, ally, 0), ally, enemy, this);
-    spawnNewUnitToPos(new Wilhelm(), rowAndPosNextTo(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, findRowAndPos(this, ally).row), enemy, ally, this);
+    spawnNewUnitToPos(new Wilfred(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Wilhelm(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
 }
 
 HaraldHoundsnout::Wilfred::Wilfred()
@@ -3977,7 +3970,7 @@ HaraldHoundsnout::Wilfred::Wilfred()
 
 void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
-    for (Card *card : enemy.row(rowAndPos.row))
+    for (Card *card : enemy.row(rowAndPos.row()))
         damage(card, 1, ally, enemy, this);
 }
 
@@ -4411,7 +4404,7 @@ void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!findRowAndPos(this, ally, row, pos))
+    if (!_findRowAndPos(this, ally, row, pos))
         return;
     if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
         strengthen(left, 1, ally, enemy);
@@ -4568,10 +4561,10 @@ GermainPiquant::GermainPiquant()
 
 void GermainPiquant::onDeploy(Field &ally, Field &enemy)
 {
-    spawnNewUnitToPos(new Cow(), rowAndPosNextTo(this, ally, 0), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosNextTo(this, ally, 0), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosNextTo(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 CommandersHorn::CommandersHorn()
@@ -4724,7 +4717,7 @@ void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
 {
     Row row;
     Pos pos;
-    if (!findRowAndPos(this, ally, row, pos))
+    if (!_findRowAndPos(this, ally, row, pos))
         return;
 
     for (int _row = Meele; _row <= Seige; ++_row)
@@ -4912,9 +4905,10 @@ Eskel::Eskel()
 void Eskel::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosNextTo(this, ally, 0), ally, enemy, this);
+        moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+
     for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        moveExistedUnitToPos(vesemir, rowAndPosNextTo(this, ally, 0), ally, enemy, this);
+        moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 Lambert::Lambert()
@@ -4940,9 +4934,10 @@ Lambert::Lambert()
 void Lambert::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-        moveExistedUnitToPos(eskel, rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+        moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
     for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        moveExistedUnitToPos(vesemir, rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+        moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 Vesemir::Vesemir()
@@ -4965,9 +4960,10 @@ Vesemir::Vesemir()
 void Vesemir::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosNextTo(this, ally, 0), ally, enemy, this);
+        moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosNextTo(this, ally, 1), ally, enemy, this);
+        moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 TridamInfantry::TridamInfantry()

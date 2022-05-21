@@ -314,12 +314,12 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     if (!isOkRowAndPos(rowAndPos, ally))
         return false;
 
-    const Row row = rowAndPos.row;
-    const Pos pos = rowAndPos.pos;
+    const Row row = rowAndPos.row();
+    const Pos pos = rowAndPos.pos();
 
     const Row takenFrom = takeCard(card, ally, enemy);
 
-    switch (rowAndPos.row) {
+    switch (rowAndPos.row()) {
     case Meele:
         assert(!isIn(card, ally.rowMeele));
         ally.rowMeele.insert(ally.rowMeele.begin() + pos, card);
@@ -437,7 +437,7 @@ void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
     }
 }
 
-bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
+bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
 {
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         const std::vector<Card *> &__row = field.row(_row);
@@ -454,7 +454,7 @@ bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos)
     return false;
 }
 
-RowAndPos findRowAndPos(const Card *card, const Field &field)
+RowAndPos _findRowAndPos(const Card *card, const Field &field)
 {
     for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
         const std::vector<Card *> &__row = field.row(_row);
@@ -465,17 +465,39 @@ RowAndPos findRowAndPos(const Card *card, const Field &field)
     return RowAndPos();
 }
 
-RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
+RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
 {
-    assert(row == Meele || row == Range || row == Seige);
-    const Pos size = Pos(field.row(row).size());
-    return size < 9 ? RowAndPos(row, size) : RowAndPos();
+    assert(offset > 0);
+    const RowAndPos p = _findRowAndPos(card, field);
+    return p ? RowAndPos(p.row(), p.pos() + offset) : RowAndPos();
 }
 
-RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset)
+RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset)
 {
-    const RowAndPos rowAndPos = findRowAndPos(card, field);
-    return isOkRowAndPos(rowAndPos, field) ? RowAndPos(rowAndPos.row, rowAndPos.pos + offset) : RowAndPos();
+    assert(offset > 0);
+    const RowAndPos p = _findRowAndPos(card, field);
+    return p ? RowAndPos(p.row(), p.pos() + 1 - offset) : RowAndPos();
+}
+
+RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
+{
+    return field.lastPosInARow(row);
+}
+
+RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy)
+{
+    if (const RowAndPos p = _findRowAndPos(card, ally))
+        return enemy.lastPosInARow(p.row());
+    if (const RowAndPos p = _findRowAndPos(card, enemy))
+        return ally.lastPosInARow(p.row());
+    return RowAndPos();
+}
+
+RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field)
+{
+    if (const RowAndPos p = _findRowAndPos(card, field))
+        return field.lastPosInARow(p.row());
+    return RowAndPos();
 }
 
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
@@ -657,14 +679,14 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
 bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field)
 {
-    if (rowAndPos.pos < 0)
+    if (rowAndPos.pos() < 0)
         return false;
 
-    if (rowAndPos.pos >= 9)
+    if (rowAndPos.pos() >= 9)
         return false;
 
-    const std::vector<Card *> &_row = field.row(rowAndPos.row);
-    return !isRowFull(_row) && (rowAndPos.pos <= int(_row.size()));
+    const std::vector<Card *> &_row = field.row(rowAndPos.row());
+    return !isRowFull(_row) && (rowAndPos.pos() <= int(_row.size()));
 }
 
 
@@ -685,9 +707,9 @@ Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const 
 {
     Row row;
     Pos pos;
-    if (findRowAndPos(card, ally, row, pos))
+    if (_findRowAndPos(card, ally, row, pos))
         return cardAtRowAndPos(row, pos + offset, ally);
-    if (findRowAndPos(card, enemy, row, pos))
+    if (_findRowAndPos(card, enemy, row, pos))
         return cardAtRowAndPos(row, pos + offset, enemy);
     return nullptr;
 }
@@ -818,6 +840,12 @@ Choice Field::takeChoice()
     Choice res = cardStack.back();
     cardStack.pop_back();
     return res;
+}
+
+RowAndPos Field::lastPosInARow(const Row _row) const
+{
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return RowAndPos(_row, Pos(row(_row).size()));
 }
 
 const std::vector<Card *> &Field::row(const Row _row) const
@@ -1198,7 +1226,7 @@ void charm(Card *card, Field &ally, Field &enemy, const Card *src)
         /// `card` is alway on `enemyPtr`
         std::swap(allyPtr, enemyPtr);
 
-    if (moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, findRowAndPos(card, *enemyPtr).row), *allyPtr, *enemyPtr, src))
+    if (moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, _findRowAndPos(card, *enemyPtr).row()), *allyPtr, *enemyPtr, src))
         spy(card, ally, enemy, card);
 }
 
@@ -1531,7 +1559,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         return true;
     }
 
-    if (rowAndPos.row < 0 && rowAndPos.pos < 0){
+    if (rowAndPos.row() < 0 && rowAndPos.pos() < 0) {
         /// if no row and pos given, then start rowAndPos selection
         ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
         return true;
@@ -1559,4 +1587,23 @@ void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
 {
     playCard2(card, ally, enemy, src, true, rowAndPos, false);
+}
+
+RowAndPos::operator bool() const
+{
+    return (0 <= _row && _row < 3) && (0 <= _pos && _pos < posMax);
+}
+
+RowAndPos::RowAndPos(const Row row, const Pos pos) :
+    _row(row), _pos(pos)
+{}
+
+Row RowAndPos::row() const
+{
+    return Row(_row);
+}
+
+Pos RowAndPos::pos() const
+{
+    return _pos;
 }

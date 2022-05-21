@@ -164,9 +164,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     const auto topLeftOf = [=](const Card *card) -> QPointF {
         Row row;
         Pos pos;
-        if (findRowAndPos(card, ally, row, pos))
+        if (_findRowAndPos(card, ally, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (row + 4) * posHeight);
-        if (findRowAndPos(card, enemy, row, pos))
+        if (_findRowAndPos(card, enemy, row, pos))
             return rect.topLeft() + QPointF(pos * posWidth, _layout.spacingPx + (3 - row) * posHeight);
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
