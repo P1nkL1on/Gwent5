@@ -5,14 +5,14 @@
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
 - [ ] Aguara: True Form
-- [ ] Avallac'h
+- [ ] Avallac'h _(easy card)_
 - [ ] Geralt: Aard
 - [ ] Geralt: Yrden
 - [ ] Hanmarvyn's Dream
 - [ ] Ihuarraquax
 - [ ] Korathi Heatwave
-- [ ] Phoenix
-- [ ] Ragh Nar Roog
+- [ ] Phoenix _(easy card)_
+- [ ] Ragh Nar Roog _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
 - [ ] Wolfsbane
@@ -21,19 +21,19 @@
 - [x] Renew
 - [ ] Sihil
 - [x] Triss: Butterflies
-- [ ] Vesemir: Mentor
+- [ ] Vesemir: Mentor _(easy card)_
 - [ ] Villentretenmerth
 - [x] Yennefer
 - [x] Muzzle
-- [ ] Royal Decree
+- [ ] Royal Decree _(easy card)_
 - [ ] Triss: Telekinesis
 - [ ] Uma's Curse
 - [x] Ciri: Nova
 - [x] Dandelion: Poet
 - [x] Geralt: Igni
 - [x] Shupe's Day Off
-- [ ] Eskel: Pathfinder
-- [ ] Geralt: Professional
+- [ ] Eskel: Pathfinder _(easy card)_
+- [ ] Geralt: Professional _(easy card)_
 - [ ] Black Blood
 - [ ] Rock Barrage
 - [ ] Ciri
@@ -42,8 +42,8 @@
 - [ ] Mastercrafted Spear
 - [ ] Peasant Militia
 - [ ] Spores
-- [ ] Glorious Hunt
-- [ ] Cleaver
+- [x] Glorious Hunt
+- [x] Cleaver
 - [ ] Ale of the Ancestors
 - [ ] Dandelion: Vainglory
 - [ ] Cyprian Wiley
@@ -57,9 +57,9 @@
 - [ ] Iris' Companions
 - [ ] Johnny
 - [ ] Stregobor
-- [ ] Doppler
+- [ ] Doppler _(easy card)_
 - [x] Geralt of Rivia
-- [ ] Triss Merigold
+- [ ] Triss Merigold _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
 - [ ] Bekker's Dark Mirror
@@ -71,7 +71,6 @@
 - [ ] Dudu
 - [x] Eskel
 - [x] Germain Piquant
-- [x] Glorious Hunt
 - [ ] Iris von Everec
 - [x] Lambert
 - [x] Mandrake
@@ -99,21 +98,21 @@
 - [x] Arachas Venom
 - [x] Biting Frost
 - [x] Bloodcurdling Roar
-- [ ] Dimeritium Shackles
+- [ ] Dimeritium Shackles _(easy card)_
 - [x] Epidemic
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
-- [ ] Mahakam Ale
+- [ ] Mahakam Ale _(easy card)_
 - [ ] Mardroeme
-- [ ] Petri's Philter
+- [ ] Petri's Philter _(easy card)_
 - [x] Reconnaissance
-- [ ] Shrike
+- [ ] Shrike _(easy card)_
 - [ ] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain
-- [ ] Wyvern Scale Shield
+- [ ] Wyvern Scale Shield _(easy card)_
 
 # Nothern Realms
 
@@ -130,21 +129,21 @@
 - [x] Priscilla
 - [ ] Roche: Merciless
 - [x] Seltkirk of Gulet
-- [ ] Shani
+- [ ] Shani _(easy card)_
 - [ ] Sigismund Dijkstra
 - [ ] Vandergrift
 - [ ] Vernon Roche
-- [ ] Botchling
+- [ ] Botchling _(easy card)_
 - [x] Dethmold
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
-- [ ] Lubberkin
+- [ ] Lubberkin _(easy card)_
 - [ ] Margarita of Aretuza
 - [ ] Nenneke
 - [ ] Odrin
 - [ ] Prince Stennis
 - [ ] Princess Pavetta
-- [x] Ronvid the Incessant (NO ABILITY)
+- [x] Ronvid the Incessant __(NO ABILITY)__
 - [ ] Sabrina Glevissig
 - [ ] Sabrina's Specter
 - [x] Sile de Tansarville
@@ -152,20 +151,20 @@
 - [x] Trollololo
 - [ ] Vandergrift's Blade
 - [x] Ves
-- [ ] Vincent Meis
+- [x] Vincent Meis
 - [ ] Zoria Runestone
-- [ ] Aedirnian Mauler
-- [ ] Aretuza Adept
+- [ ] Aedirnian Mauler _(easy card)_
+- [ ] Aretuza Adept _(easy card)_
 - [ ] Ballista
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram
-- [ ] Bloody Flail
+- [ ] Bloody Flail _(easy card)_
 - [ ] Blue Stripe Commando
 - [ ] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
 - [ ] Dun Banner
-- [ ] Field Medic
+- [ ] Field Medic _(easy card)_
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
 - [ ] Kaedweni Revenant
@@ -183,9 +182,9 @@
 - [ ] Siege Tower
 - [x] Temerian Drummer
 - [x] Temerian Infantry
-- [ ] Tormented Mage
+- [ ] Tormented Mage _(easy card)_
 - [ ] Trebuchet
-- [ ] Tridam Infantry
+- [x] Tridam Infantry
 - [ ] Witch Hunter
 
 # Skellige
@@ -197,7 +196,7 @@
 - [x] Eist Tuirseach
 - [x] Ermion
 - [x] Harald the Cripple
-- [x] Hym (NO ABILITY)
+- [x] Hym __(NO ABILITY)__
 - [x] Madman Lugos
 - [x] Ulfhedinn
 - [x] Vabjorn
@@ -211,7 +210,7 @@
 - [x] Holger Blackhand
 - [x] Jutta an Dimun
 - [x] Morkvarg
-- [x] Ornamental Sword (NO ABILITY)
+- [x] Ornamental Sword __(NO ABILITY)__
 - [x] Restore
 - [x] Sigrdrifa
 - [x] Skjall
@@ -235,15 +234,15 @@
 - [x] Dimun Pirate Captain
 - [x] Dimun Warship
 - [x] Drummond Queensguard
-- [x] Drummond Shieldmaid (NO ABILITY)
+- [x] Drummond Shieldmaid __(NO ABILITY)__
 - [x] Drummond Warmonger
-- [x] Heymaey Flaminica (NO ABILITY)
+- [x] Heymaey Flaminica __(NO ABILITY)__
 - [x] Heymaey Herbalist
 - [x] Heymaey Protector
-- [x] Heymaey Skald (NO ABILITY)
+- [x] Heymaey Skald __(NO ABILITY)__
 - [x] Heymaey Spearmaiden
 - [x] Priestess of Freya
-- [x] Raging Berserker (NO ABILITY)
+- [x] Raging Berserker __(NO ABILITY)__
 - [x] Savage Bear
 - [x] Tuirseach Archer
 - [x] Tuirseach Axeman
@@ -287,7 +286,7 @@
 - [ ] Nature's Gift
 - [ ] Paulie Dahlberg
 - [ ] Pavko Gale
-- [ ] Pit Trap
+- [x] Pit Trap
 - [ ] Sheldon Skaggs
 - [ ] Toruviel
 - [ ] Yaevinn
@@ -301,7 +300,7 @@
 - [ ] Dwarven Agitator
 - [ ] Dwarven Mercenary
 - [ ] Dwarven Skirmisher
-- [ ] Elven Blade
+- [ ] Elven Blade _(easy card)_
 - [x] Elven Mercenary
 - [ ] Elven Scout
 - [ ] Elven Swordmaster
@@ -310,12 +309,12 @@
 - [ ] Hawker Healer
 - [ ] Hawker Smuggler
 - [ ] Hawker Support
-- [ ] Mahakam Defender
-- [ ] Mahakam Guard
+- [ ] Mahakam Defender _(easy card)_
+- [ ] Mahakam Guard _(easy card)_
 - [ ] Mahakam Marauder
 - [ ] Mahakam Volunteers
 - [ ] Panther
-- [ ] Pyrotechnician
+- [ ] Pyrotechnician _(easy card)_
 - [x] Sage
 - [ ] Vrihedd Brigade
 - [x] Vrihedd Dragoon
@@ -327,14 +326,14 @@
 
 # Nilfgaard
 
-- [ ] Assassination
+- [ ] Assassination _(easy card)_
 - [x] Cahir Dyffryn
 - [ ] Emhyr var Emreis
 - [x] Jan Calveit
 - [ ] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
-- [ ] Menno Coehoorn
+- [ ] Menno Coehoorn _(easy card)_
 - [ ] Morvran Voorhis
 - [ ] Rainfarn of Attre
 - [ ] Shilard
@@ -342,7 +341,7 @@
 - [ ] Tibor Eggebracht
 - [ ] Usurper
 - [ ] Vattier de Rideaux
-- [x] Vilgefortz (NO ABILITY)
+- [x] Vilgefortz __(NO ABILITY)__
 - [ ] Xarthisius
 - [ ] Yennefer: Enchantress
 - [ ] Yennefer: Necromancer
@@ -359,14 +358,14 @@
 - [ ] Hefty Helge
 - [ ] Henry var Attre
 - [ ] Joachim de Wett
-- [ ] Nilfgaardian Gate
-- [ ] Peter Saar Gwynleve
+- [ ] Nilfgaardian Gate _(easy card)_
+- [ ] Peter Saar Gwynleve _(easy card)_
 - [ ] Serrit
 - [ ] Sweers
 - [ ] The Guardian
 - [ ] Treason
 - [ ] Vanhemar
-- [x] Vreemde (NO ABILITY)
+- [x] Vreemde __(NO ABILITY)__
 - [ ] Vrygheff
 - [x] Alba Armored Cavalry
 - [ ] Alba Pikeman
@@ -387,7 +386,7 @@
 - [ ] Mangonel
 - [ ] Master of Disguise
 - [ ] Nauzicaa Brigade
-- [x] Nauzicaa Sergeant (NO ABILITY)
+- [x] Nauzicaa Sergeant __(NO ABILITY)__
 - [ ] Nilfgaardian Knight
 - [x] Ointment
 - [x] Recruit
@@ -400,7 +399,7 @@
 - [ ] Standard Bearer
 - [ ] Venendal Elite
 - [ ] Vicovaro Medic
-- [ ] Vicovaro Novice
+- [ ] Vicovaro Novice _(easy card)_
 - [ ] Viper Witcher
 
 # Monster
@@ -436,7 +435,7 @@
 - [ ] Monster Nest
 - [ ] Morvudd
 - [ ] Mourntart
-- [ ] Nekurat
+- [ ] Nekurat _(easy card)_
 - [ ] Nithral
 - [ ] Ozzrel
 - [ ] Parasite
@@ -455,10 +454,10 @@
 - [ ] Bridge Troll
 - [ ] Celaeno Harpy
 - [ ] Cockatrice
-- [ ] Cyclops
+- [ ] Cyclops _(easy card)_
 - [x] D'ao
 - [ ] Drowner
-- [ ] Ekimmara
+- [ ] Ekimmara _(easy card)_
 - [ ] Fiend
 - [ ] Foglet
 - [ ] Forktail
@@ -481,5 +480,5 @@
 - [ ] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
 - [ ] Wild Hunt Warrior
-- [ ] Wyvern
+- [ ] Wyvern _(easy card)_
 - [x] Moonlight
