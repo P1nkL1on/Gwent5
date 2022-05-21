@@ -1425,4 +1425,12 @@ struct Muzzle : CardCollectible<Muzzle>
 };
 
 
+struct RockBarrage : CardCollectible<RockBarrage>
+{
+    RockBarrage();
+    void onPlaySpecial(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

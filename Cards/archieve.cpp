@@ -5064,3 +5064,31 @@ void Muzzle::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     charm(target, ally, enemy, this);
 }
+
+RockBarrage::RockBarrage()
+{
+    id = "201647";
+    name = "Rock Barrage";
+    text = "Deal 7 damage to an enemy and move it to the row above. If the row is full, destroy the enemy instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = {};
+}
+
+void RockBarrage::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+}
+
+void RockBarrage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+
+    if (rowAndPos.row() == Seige || moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, Row(rowAndPos.row() + 1)), enemy, ally, this)) {
+        damage(target, 7, ally, enemy, this);
+        return;
+    }
+    putOnDiscard(target, ally, enemy, this);
+}

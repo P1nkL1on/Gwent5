@@ -301,3 +301,26 @@ void demoCharm(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoRockBarrage(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+    };
+    enemy.hand = enemy.cardsAdded;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
