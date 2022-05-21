@@ -197,11 +197,13 @@ FieldView fieldView(
 
     /// value computation for hand cards
     // TODO: move out from fieldView to the choice showing
-    if (ally.cardStack.size()) {
-        // std::map<const Card *, int>
-        std::cout << std::endl << "---" << std::endl;
-        for (const auto &it : valueOfOptions(ally, enemy))
-            std::cout << it.first->name << "->" << it.second << std::endl;
+    if (ally.cardStack.size() && ally.choice().choiceType == RoundStartPlay) {
+        const std::map<const Card *, int> options = optionToGap(ally, enemy);
+        std::cout << std::endl << "HAND OPTIONS (" << options.size() << ")" << std::endl;
+        for (const auto &it : options) {
+            const int valueGain = (it.second - powerField(ally) + powerField(enemy));
+            std::cout << it.first->name << " -> " << (valueGain > 0 ? "+" : "") << valueGain << std::endl;
+        }
     }
 
     return res;

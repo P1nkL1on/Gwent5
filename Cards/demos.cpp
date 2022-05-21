@@ -309,8 +309,8 @@ void demoRockBarrage(Field &ally, Field &enemy)
         new GermainPiquant(),
         new GermainPiquant(),
         new GermainPiquant(),
-        new GermainPiquant(),
-        new GermainPiquant(),
+        new AddaStriga(),
+        new TemerianDrummer(),
         new TridamInfantry(),
     };
     ally.hand = ally.cardsAdded;

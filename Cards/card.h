@@ -277,6 +277,6 @@ void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType =
 bool tryFinishTurn(Field &ally, Field &enemy);
 
 /// value computation
-std::map<const Card *, int> valueOfOptions(const Field &ally, const Field &enemy);
+std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy);
 
 #endif // CARD_H
