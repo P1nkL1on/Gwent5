@@ -16,7 +16,9 @@ public:
     void setCardView(const CardView &view);
 
 private:
+    bool eventFilter(QObject*o, QEvent* e) override;
     void paintEvent(QPaintEvent *e) override;
+    void updateSize(const QSize &size);
 
     ResourceManager *_resourceManager = nullptr;
     CardView _view;

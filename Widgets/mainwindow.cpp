@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <qtimer.h>
+#include <QSplitter>
 
 #include "../Cards/archieve.h"
 #include "cardsingleview.h"
@@ -22,10 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     int id = 0;
+    std::map<int, std::vector<CardView>> views;
     for (const Card *card : allCards(PublicBeta_0_9_24_3_432)) {
         CardView view = cardView(card, id++);
         view.count = card->rarity == Bronze ? 3 : 1;
         _allCardViews.push_back(view);
+
+        const std::vector<CardView> options = cardOptionViews(card);
+        if (options.size())
+            views.insert({id - 1, cardOptionViews(card)});
     }
 
     auto *_resourceManager = new ResourceManager();
@@ -52,11 +58,14 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(_lineEditSearch = new QLineEdit());
 
 
-    auto *layoutH2 = new QHBoxLayout;
-    layoutH2->addWidget(createScrollArea(_cardsLineView = new CardsLineView(_resourceManager, {}, {}, Qt::Vertical, 6)), 2);
-    layoutH2->addWidget(_cardSingleView = new CardSingleView(_resourceManager, {}, nullptr), 1);
-    layout->addLayout(layoutH2, 5);
-    layout->addWidget(createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)), 1);
+    auto *splitterH2 = new QSplitter(Qt::Horizontal);
+    splitterH2->insertWidget(0, (createScrollArea(_cardsLineView = new CardsLineView(_resourceManager, {}, {}, Qt::Vertical, 6))));
+    splitterH2->insertWidget(1, createScrollArea(_cardSingleView = new CardSingleView(_resourceManager, {}, nullptr)));
+    auto *splitterV = new QSplitter(Qt::Vertical);
+    splitterV->insertWidget(0, splitterH2);
+    splitterV->insertWidget(1, createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
+    layout->addWidget(splitterV, 5);
+    layout->addWidget(createScrollArea(_cardsLineViewOptions = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     setCentralWidget(widget);
 
     connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
@@ -72,14 +81,22 @@ MainWindow::MainWindow(QWidget *parent)
     const auto hoverId = [=](const int id) {
         if (id >= 0)
             for (const CardView &view : _allCardViews)
-                if (view.id == id)
+                if (view.id == id) {
+                    auto it = views.find(id);
+                    if (it == views.end())
+                        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
+                    else
+                        _cardsLineViewOptions->setCardAndChoiceViews(it->second, {});
                     return _cardSingleView->setCardView(view);
+                }
+        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
         _cardSingleView->setCardView({});
     };
     connect(_cardsLineView, &CardsLineView::hovered, this, hoverId);
     connect(_cardsLineView2, &CardsLineView::hovered, this, hoverId);
     connect(_cardsLineView, &CardsLineView::clicked, this, &MainWindow::putCardToDeck);
     connect(_cardsLineView2, &CardsLineView::clicked, this, &MainWindow::putCardBack);
+    connect(_resourceManager, &ResourceManager::imageRequestSucceed, this, static_cast<void(QWidget::*)()>(&QWidget::repaint));
 
     updateCardsList();
 }

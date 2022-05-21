@@ -18,7 +18,6 @@ enum Row
 
 using Pos = int;
 
-
 enum Rarity
 {
     Bronze,
@@ -43,8 +42,8 @@ enum Tag
     ClanAnCraite,
     ClanBrokvar,
     ClanHeymaey,
-    // TODO: add ClanTordarroch
     ClanDimun,
+    ClanTordarroch,
     ClanTuirseach,
     ClanDrummond,
     Ogroid,
@@ -123,6 +122,29 @@ enum ChoiceGroup
     AllyBoardHandDeck,
     AllyAnywhere,
     EnemyAnywhere,
+};
+
+
+enum ActionType {
+    Invalid,
+    TurnStart,
+    PlaySpecial,
+    PutOnField,
+    PutToHand,
+    PutToDiscard,
+    Destroyed,
+    DealDamage,
+    Damaged,
+    DamagedInArmor,
+    Boosted,
+    GainArmor,
+    MoveFromRowToRow,
+    TimerSet,
+    FlipOver,
+    GainLock,
+    LostLock,
+    GainSpy,
+    LostSpy,
 };
 
 

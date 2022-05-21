@@ -18,6 +18,8 @@ inline bool isSkelligeFaction(Card *card) { return card->faction == Skellige; }
 inline bool isNonMonsterFaction(Card *card) { return card->faction != Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }
 inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
+inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
+inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
 
 
 
@@ -65,10 +67,24 @@ inline Filter isCopy(const std::string &name)
         return card->name == name;
     };
 }
+inline Filter hasPowerXorLess(const int x)
+{
+    return [x](Card *card) {
+        return card->power <= x;
+    };
+}
 inline Filter hasCopyInADeck(const Field *field)
 {
     return [field](Card *card) {
         return findCopy(card, field->deck) != nullptr;
+    };
+}
+inline Filter hasCopyOnABoard(const Field *field)
+{
+    return [field](Card *card) {
+        return findCopy(card, field->rowMeele) != nullptr
+                || findCopy(card, field->rowRange) != nullptr
+                || findCopy(card, field->rowSeige) != nullptr;
     };
 }
 inline Filter isOnSameRow(const Field *field, const Card *self)
@@ -76,10 +92,10 @@ inline Filter isOnSameRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!rowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!rowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf == rowCard;
     };
@@ -89,10 +105,10 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!rowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!rowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf != rowCard;
     };

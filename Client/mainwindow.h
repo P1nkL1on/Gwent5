@@ -7,6 +7,7 @@
 #include <QMediaPlayer>
 #include <QVariantAnimation>
 #include <QMetaEnum>
+#include <QTextEdit>
 
 #include "../Cards/archieve.h"
 #include "../Cards/view.h"
@@ -40,11 +41,22 @@ private:
     void mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy);
     void paintInRect(const QRect rect, const FieldView &view);
     void repaintCustom();
+    QMargins margins() const;
 
     Layout _layout;
     int _sound = 20;
 
-    enum View { ViewStack, ViewHand, ViewDiscard, ViewDeck, View_count };
+    enum View
+    {
+        ViewStack,
+        ViewHand,
+        ViewDiscard,
+        ViewDeck,
+        ViewHandOpponent,
+        ViewDeckOpponent,
+        ViewDiscardOpponent,
+        View_count
+    };
     View _view = ViewStack;
     QPoint _pos;
     Field _ally;
@@ -55,6 +67,8 @@ private:
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
     QMap<QString, QMediaPlayer *> _sounds;
+    QTextEdit *_textAlly = nullptr;
+    QTextEdit *_textEnemy = nullptr;
 };
 
 #endif // MAINWINDOW_H

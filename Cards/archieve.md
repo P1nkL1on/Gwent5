@@ -1,0 +1,484 @@
+# Neutral
+
+- [ ] Aguara
+- [ ] Lambert: Swordmaster
+- [ ] Regis: Higher Vampire
+- [ ] Zoltan: Scoundrel
+- [ ] Aguara: True Form
+- [ ] Avallac'h _(easy card)_
+- [ ] Geralt: Aard
+- [ ] Geralt: Yrden
+- [ ] Hanmarvyn's Dream
+- [ ] Ihuarraquax
+- [ ] Korathi Heatwave
+- [ ] Phoenix _(easy card)_
+- [ ] Ragh Nar Roog _(easy card)_
+- [ ] Saesenthessis: Blaze
+- [ ] Trial of the Grasses
+- [ ] Wolfsbane
+- [ ] Ciri: Dash
+- [x] Regis
+- [x] Renew
+- [ ] Sihil
+- [x] Triss: Butterflies
+- [ ] Vesemir: Mentor _(easy card)_
+- [ ] Villentretenmerth
+- [x] Yennefer
+- [x] Muzzle
+- [ ] Royal Decree _(easy card)_
+- [ ] Triss: Telekinesis
+- [ ] Uma's Curse
+- [x] Ciri: Nova
+- [x] Dandelion: Poet
+- [x] Geralt: Igni
+- [x] Shupe's Day Off
+- [ ] Eskel: Pathfinder _(easy card)_
+- [ ] Geralt: Professional _(easy card)_
+- [ ] Black Blood
+- [ ] Rock Barrage
+- [ ] Ciri
+- [ ] Yennefer: Conjurer
+- [ ] King of Beggars
+- [ ] Mastercrafted Spear
+- [ ] Peasant Militia
+- [ ] Spores
+- [x] Glorious Hunt
+- [x] Cleaver
+- [ ] Ale of the Ancestors
+- [ ] Dandelion: Vainglory
+- [ ] Cyprian Wiley
+- [ ] Expired Ale
+- [ ] Crow's Eye
+- [ ] Lacerate
+- [ ] Avallac'h: Sage
+- [ ] Gaunter O'Dimm
+- [ ] Dorregaray of Vole
+- [ ] Garrison
+- [ ] Iris' Companions
+- [ ] Johnny
+- [ ] Stregobor
+- [ ] Doppler _(easy card)_
+- [x] Geralt of Rivia
+- [ ] Triss Merigold _(easy card)_
+- [x] Alzur's Double–Cross
+- [x] Artefact Compression
+- [ ] Bekker's Dark Mirror
+- [ ] Bekker's Rockslide
+- [x] Commander's Horn
+- [x] Decoy
+- [ ] Dimeritium Bomb
+- [ ] Dragon's Dream
+- [ ] Dudu
+- [x] Eskel
+- [x] Germain Piquant
+- [ ] Iris von Everec
+- [x] Lambert
+- [x] Mandrake
+- [x] Manticore Venom
+- [x] Marching Orders
+- [ ] Merigold's Hailstorm
+- [ ] Myrgtabrakke
+- [ ] Necromancy
+- [ ] Nivellen
+- [ ] Ocvist
+- [ ] Olgierd von Everec
+- [x] Operator
+- [ ] Prize-Winning Cow
+- [x] Roach
+- [ ] Sarah
+- [x] Scorch
+- [x] Skellige Storm
+- [ ] Summoning Circle
+- [ ] The Last Wish
+- [x] Vaedermakar
+- [x] Vesemir
+- [ ] White Frost
+- [x] Adrenaline Rush
+- [x] Alzur's Thunder
+- [x] Arachas Venom
+- [x] Biting Frost
+- [x] Bloodcurdling Roar
+- [ ] Dimeritium Shackles _(easy card)_
+- [x] Epidemic
+- [x] First Light
+- [x] Golden Froth
+- [x] Impenetrable Fog
+- [ ] Mahakam Ale _(easy card)_
+- [ ] Mardroeme
+- [ ] Petri's Philter _(easy card)_
+- [x] Reconnaissance
+- [ ] Shrike _(easy card)_
+- [ ] Stammelford's Tremor
+- [x] Swallow
+- [x] Thunderbolt
+- [x] Torrential Rain
+- [ ] Wyvern Scale Shield _(easy card)_
+
+# Nothern Realms
+
+- [x] Bloody Baron
+- [ ] Dandelion
+- [x] John Natalis
+- [x] Keira Metz
+- [ ] King Foltest
+- [x] King Henselt
+- [ ] King Radovid V
+- [ ] Kiyan
+- [ ] Philippa Eilhart
+- [ ] Princess Adda
+- [x] Priscilla
+- [ ] Roche: Merciless
+- [x] Seltkirk of Gulet
+- [ ] Shani _(easy card)_
+- [ ] Sigismund Dijkstra
+- [ ] Vandergrift
+- [ ] Vernon Roche
+- [ ] Botchling _(easy card)_
+- [x] Dethmold
+- [ ] Foltest's Pride
+- [x] Hubert Rejk
+- [ ] Lubberkin _(easy card)_
+- [ ] Margarita of Aretuza
+- [ ] Nenneke
+- [ ] Odrin
+- [ ] Prince Stennis
+- [ ] Princess Pavetta
+- [x] Ronvid the Incessant __(NO ABILITY)__
+- [ ] Sabrina Glevissig
+- [ ] Sabrina's Specter
+- [x] Sile de Tansarville
+- [ ] Thaler
+- [x] Trollololo
+- [ ] Vandergrift's Blade
+- [x] Ves
+- [x] Vincent Meis
+- [ ] Zoria Runestone
+- [ ] Aedirnian Mauler _(easy card)_
+- [ ] Aretuza Adept _(easy card)_
+- [ ] Ballista
+- [ ] Ban Ard Tutor
+- [ ] Battering Ram
+- [ ] Bloody Flail _(easy card)_
+- [ ] Blue Stripe Commando
+- [ ] Blue Stripe Scout
+- [ ] Cursed Knight
+- [ ] Damned Sorceress
+- [ ] Dun Banner
+- [ ] Field Medic _(easy card)_
+- [x] Kaedweni Cavalry
+- [x] Kaedweni Knight
+- [ ] Kaedweni Revenant
+- [ ] Kaedweni Sergeant
+- [x] Poor F'ing Infantry
+- [ ] Reaver Hunter
+- [x] Reaver Scout
+- [x] Redanian Elite
+- [x] Redanian Knight
+- [x] Redanian Knight-Elect
+- [ ] Reinforced Ballista
+- [ ] Reinforced Trebuchet
+- [ ] Siege Master
+- [ ] Siege Support
+- [ ] Siege Tower
+- [x] Temerian Drummer
+- [x] Temerian Infantry
+- [ ] Tormented Mage _(easy card)_
+- [ ] Trebuchet
+- [x] Tridam Infantry
+- [ ] Witch Hunter
+
+# Skellige
+
+- [x] Birna Bran
+- [x] Bran Tuirseach
+- [x] Coral (BUGGY TRANSFORM) 
+- [x] Crach an Craite
+- [x] Eist Tuirseach
+- [x] Ermion
+- [x] Harald the Cripple
+- [x] Hym __(NO ABILITY)__
+- [x] Madman Lugos
+- [x] Ulfhedinn
+- [x] Vabjorn
+- [x] Wild Boar of the Sea
+- [x] Champion of Hov
+- [x] Derran
+- [x] Djenge Frett
+- [x] Draig Bon-Dhu
+- [x] Giant Boar
+- [x] Gremist
+- [x] Holger Blackhand
+- [x] Jutta an Dimun
+- [x] Morkvarg
+- [x] Ornamental Sword __(NO ABILITY)__
+- [x] Restore
+- [x] Sigrdrifa
+- [x] Skjall
+- [ ] Stribog Runestone
+- [x] Svanrige Tuirseach
+- [x] Udalryk
+- [x] Yoana
+- [ ] An Craite Armorsmith
+- [x] An Craite Blacksmith
+- [x] An Craite Greatsword
+- [x] An Craite Longship
+- [x] An Craite Marauder
+- [x] An Craite Raider
+- [x] An Craite Warcrier
+- [x] An Craite Warrior
+- [x] Berserker Marauder
+- [x] Bone Talisman
+- [x] Dimun Corsair
+- [x] Dimun Light Longship
+- [x] Dimun Pirate
+- [x] Dimun Pirate Captain
+- [x] Dimun Warship
+- [x] Drummond Queensguard
+- [x] Drummond Shieldmaid __(NO ABILITY)__
+- [x] Drummond Warmonger
+- [x] Heymaey Flaminica __(NO ABILITY)__
+- [x] Heymaey Herbalist
+- [x] Heymaey Protector
+- [x] Heymaey Skald __(NO ABILITY)__
+- [x] Heymaey Spearmaiden
+- [x] Priestess of Freya
+- [x] Raging Berserker __(NO ABILITY)__
+- [x] Savage Bear
+- [x] Tuirseach Archer
+- [x] Tuirseach Axeman
+- [x] Tuirseach Bearmaster
+- [x] Tuirseach Hunter
+- [x] Tuirseach Skirmisher
+- [x] Tuirseach Veteran
+
+# Scoia'tael
+
+- [ ] Aglais
+- [ ] Brouver Hoog
+- [ ] Eithne
+- [ ] Filavandrel
+- [ ] Francesca Findabair
+- [ ] Iorveth
+- [ ] Iorveth: Meditation
+- [ ] Isengrim Faoiltiarna
+- [ ] Isengrim: Outlaw
+- [ ] Ithlinne Aegli
+- [ ] Milva
+- [ ] Morenn: Forest Child
+- [ ] Saesenthessis
+- [ ] Saskia
+- [ ] Schirru
+- [ ] Xavier Moran
+- [ ] Zoltan Chivay
+- [ ] Aelirenn
+- [ ] Barclay Els
+- [ ] Braenn
+- [ ] Ciaran aep Easnillen
+- [ ] Dennis Cranmer
+- [ ] Eibhear Hattori
+- [x] Ele'yas
+- [ ] Ida Emean aep Sivney
+- [ ] Mahakam Horn
+- [x] Malena
+- [ ] Milaen
+- [ ] Morana Runestone
+- [ ] Morenn
+- [ ] Nature's Gift
+- [ ] Paulie Dahlberg
+- [ ] Pavko Gale
+- [x] Pit Trap
+- [ ] Sheldon Skaggs
+- [ ] Toruviel
+- [ ] Yaevinn
+- [ ] Yarpen Zigrin
+- [ ] Blue Mountain Elite
+- [ ] Crushing Trap
+- [x] Dol Blathanna Archer
+- [ ] Dol Blathanna Bomber
+- [ ] Dol Blathanna Bowman
+- [ ] Dol Blathanna Sentry
+- [ ] Dwarven Agitator
+- [ ] Dwarven Mercenary
+- [ ] Dwarven Skirmisher
+- [ ] Elven Blade _(easy card)_
+- [x] Elven Mercenary
+- [ ] Elven Scout
+- [ ] Elven Swordmaster
+- [ ] Farseer
+- [x] Half-Elf Hunter
+- [ ] Hawker Healer
+- [ ] Hawker Smuggler
+- [ ] Hawker Support
+- [ ] Mahakam Defender _(easy card)_
+- [ ] Mahakam Guard _(easy card)_
+- [ ] Mahakam Marauder
+- [ ] Mahakam Volunteers
+- [ ] Panther
+- [ ] Pyrotechnician _(easy card)_
+- [x] Sage
+- [ ] Vrihedd Brigade
+- [x] Vrihedd Dragoon
+- [ ] Vrihedd Neophyte
+- [ ] Vrihedd Officer
+- [x] Vrihedd Sappers
+- [ ] Vrihedd Vanguard
+- [ ] Wardancer
+
+# Nilfgaard
+
+- [ ] Assassination _(easy card)_
+- [x] Cahir Dyffryn
+- [ ] Emhyr var Emreis
+- [x] Jan Calveit
+- [ ] Leo Bonhart
+- [x] Letho of Gulet
+- [x] Letho: Kingslayer
+- [ ] Menno Coehoorn _(easy card)_
+- [ ] Morvran Voorhis
+- [ ] Rainfarn of Attre
+- [ ] Shilard
+- [ ] Stefan Skellen
+- [ ] Tibor Eggebracht
+- [ ] Usurper
+- [ ] Vattier de Rideaux
+- [x] Vilgefortz __(NO ABILITY)__
+- [ ] Xarthisius
+- [ ] Yennefer: Enchantress
+- [ ] Yennefer: Necromancer
+- [ ] Albrich
+- [ ] Assire var Anahid
+- [x] Auckes
+- [ ] Cadaverine
+- [ ] Cantarella
+- [x] Ceallach Dyffryn
+- [ ] Cynthia
+- [ ] Dazhbog Runestone
+- [ ] False Ciri
+- [ ] Fringilla Vigo
+- [ ] Hefty Helge
+- [ ] Henry var Attre
+- [ ] Joachim de Wett
+- [ ] Nilfgaardian Gate _(easy card)_
+- [ ] Peter Saar Gwynleve _(easy card)_
+- [ ] Serrit
+- [ ] Sweers
+- [ ] The Guardian
+- [ ] Treason
+- [ ] Vanhemar
+- [x] Vreemde __(NO ABILITY)__
+- [ ] Vrygheff
+- [x] Alba Armored Cavalry
+- [ ] Alba Pikeman
+- [ ] Alba Spearman
+- [ ] Alchemist
+- [x] Ambassador
+- [x] Assassin
+- [ ] Combat Engineer
+- [ ] Daerlan Soldier
+- [x] Deithwen Arbalest
+- [x] Emissary
+- [ ] Fire Scorpion
+- [ ] Impera Brigade
+- [ ] Impera Enforcers
+- [ ] Imperial Golem
+- [x] Infiltrator
+- [ ] Magne Division
+- [ ] Mangonel
+- [ ] Master of Disguise
+- [ ] Nauzicaa Brigade
+- [x] Nauzicaa Sergeant __(NO ABILITY)__
+- [ ] Nilfgaardian Knight
+- [x] Ointment
+- [x] Recruit
+- [ ] Rot Tosser
+- [x] Sentry
+- [ ] Slave Driver
+- [ ] Slave Hunter
+- [x] Slave Infantry
+- [ ] Spotter
+- [ ] Standard Bearer
+- [ ] Venendal Elite
+- [ ] Vicovaro Medic
+- [ ] Vicovaro Novice _(easy card)_
+- [ ] Viper Witcher
+
+# Monster
+
+- [ ] Arachas Queen
+- [ ] Brewess: Ritual
+- [ ] Caranthir Ar-Feiniel
+- [ ] Caretaker
+- [ ] Dagon
+- [ ] Draug
+- [ ] Eredin Breacc Glas
+- [ ] Ge'els
+- [ ] Imlerith
+- [ ] Imlerith: Sabbath
+- [ ] Kayran
+- [ ] Miruna
+- [ ] Old Speartip
+- [ ] Old Speartip: Asleep
+- [ ] Unseen Elder
+- [ ] Weavess: Incantation
+- [ ] Whispering Hillock
+- [ ] Whispess: Tribute
+- [x] Woodland Spirit
+- [x] Adda: Striga
+- [ ] Brewess
+- [ ] Devana Runestone
+- [x] Frightener
+- [ ] Golyat
+- [ ] Ifrit
+- [x] Imperial Manticore
+- [ ] Jotunn
+- [ ] Maerolorn
+- [ ] Monster Nest
+- [ ] Morvudd
+- [ ] Mourntart
+- [ ] Nekurat _(easy card)_
+- [ ] Nithral
+- [ ] Ozzrel
+- [ ] Parasite
+- [ ] Ruehin
+- [ ] She-Troll of Vergen
+- [ ] Toad Prince
+- [ ] Weavess
+- [ ] Whispess
+- [ ] Alpha Werewolf
+- [ ] Ancient Foglet
+- [ ] Arachas Behemoth
+- [ ] Arachas Drone
+- [ ] Archespore
+- [ ] Archgriffin
+- [ ] Barbegazi
+- [ ] Bridge Troll
+- [ ] Celaeno Harpy
+- [ ] Cockatrice
+- [ ] Cyclops _(easy card)_
+- [x] D'ao
+- [ ] Drowner
+- [ ] Ekimmara _(easy card)_
+- [ ] Fiend
+- [ ] Foglet
+- [ ] Forktail
+- [ ] Ghoul
+- [ ] Griffin
+- [ ] Harpy
+- [ ] Ice Giant
+- [ ] Ice Troll
+- [ ] Lamia
+- [ ] Nekker
+- [ ] Nekker Warrior
+- [ ] Rotfiend
+- [ ] Siren
+- [ ] Slyzard
+- [ ] Vran Warrior
+- [ ] Werecat
+- [ ] Werewolf
+- [ ] Wild Hunt Drakkar
+- [ ] Wild Hunt Hound
+- [ ] Wild Hunt Navigator
+- [ ] Wild Hunt Rider
+- [ ] Wild Hunt Warrior
+- [ ] Wyvern _(easy card)_
+- [x] Moonlight
