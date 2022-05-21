@@ -20,5 +20,6 @@ void demoAmbushes(Field &ally, Field &enemy);
 void demoMalena(Field &ally, Field &enemy);
 void demoCharm(Field &ally, Field &enemy);
 void demoRockBarrage(Field &ally, Field &enemy);
+void demoMoving(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

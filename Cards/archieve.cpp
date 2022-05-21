@@ -5092,3 +5092,20 @@ void RockBarrage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
     putOnDiscard(target, ally, enemy, this);
 }
+
+Nivellen::Nivellen()
+{
+    id = "200089";
+    name = "Nivellen";
+    text = "Move all units on a row to random rows.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Cursed };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.167.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
+    };
+}

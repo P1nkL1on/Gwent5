@@ -1433,4 +1433,10 @@ struct RockBarrage : CardCollectible<RockBarrage>
 };
 
 
+struct Nivellen : CardCollectible<Nivellen>
+{
+    Nivellen();
+    // FIXME: ability isn't implemented
+};
+
 #endif // CARDS_H

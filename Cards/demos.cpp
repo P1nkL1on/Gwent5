@@ -324,3 +324,20 @@ void demoRockBarrage(Field &ally, Field &enemy)
     enemy.hand = enemy.cardsAdded;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoMoving(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new RockBarrage(),
+        new Nivellen(),
+        new Nivellen(),
+    };
+    enemy.hand = enemy.cardsAdded;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
