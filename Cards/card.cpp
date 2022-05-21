@@ -1607,3 +1607,85 @@ Pos RowAndPos::pos() const
 {
     return _pos;
 }
+
+std::map<const Card *, int> valueOfOptions(const Field &ally, const Field &enemy)
+{
+    assert(ally.cardStack.size());
+    /// remember current gap (same for all other options)
+    const int gapCurrent = powerField(ally) - powerField(enemy);
+
+    std::map<const Card *, int> res;
+
+    for (const Card *_option : ally.choice().cardOptions) {
+
+        /// copy all the fields to work w/ consts
+        std::map<const Card *, Card *> origCardToCopyMap;
+
+        const auto copyCard = [&](const Card *card) -> Card * {
+            if (card == nullptr)
+                return nullptr;
+
+            if (origCardToCopyMap.find(card) != origCardToCopyMap.end())
+                return origCardToCopyMap[card];
+
+            Card *copy = card->exactCopy();
+            origCardToCopyMap[card] = copy;
+            return copy;
+        };
+        const auto copyCards = [&](const std::vector<Card *> &cards) {
+            std::vector<Card *> copies;
+            for (const Card *card : cards)
+                copies.push_back(copyCard(card));
+            return copies;
+        };
+
+        Field allyCopy(ally);
+        allyCopy.rowMeele = copyCards(ally.rowMeele);
+        allyCopy.rowRange = copyCards(ally.rowRange);
+        allyCopy.rowSeige = copyCards(ally.rowSeige);
+        allyCopy.hand = copyCards(ally.hand);
+        allyCopy.deck = copyCards(ally.deck);
+        allyCopy.discard = copyCards(ally.discard);
+        allyCopy.leader = copyCard(ally.leader);
+        allyCopy.leaderStarting = copyCard(ally.leaderStarting);
+        allyCopy.deckStarting = copyCards(ally.deckStarting);
+        allyCopy.cardsAdded = copyCards(ally.cardsAdded);
+        allyCopy.rowMeele = copyCards(ally.rowMeele);
+        for (Choice &choice : allyCopy.cardStack) {
+            choice.cardSource = copyCard(choice.cardSource);
+            choice.cardOptions = copyCards(choice.cardOptions);
+            choice.cardOptionsSelected = copyCards(choice.cardOptionsSelected);
+        }
+        Field enemyCopy(enemy);
+        enemyCopy.rowMeele = copyCards(enemy.rowMeele);
+        enemyCopy.rowRange = copyCards(enemy.rowRange);
+        enemyCopy.rowSeige = copyCards(enemy.rowSeige);
+        enemyCopy.hand = copyCards(enemy.hand);
+        enemyCopy.deck = copyCards(enemy.deck);
+        enemyCopy.discard = copyCards(enemy.discard);
+        enemyCopy.leader = copyCard(enemy.leader);
+        enemyCopy.leaderStarting = copyCard(enemy.leaderStarting);
+        enemyCopy.deckStarting = copyCards(enemy.deckStarting);
+        enemyCopy.cardsAdded = copyCards(enemy.cardsAdded);
+        enemyCopy.rowMeele = copyCards(enemy.rowMeele);
+
+        /// run an option in new proxy copy
+        Card *option = origCardToCopyMap[_option];
+        onChoiceDoneCard(option, allyCopy, enemyCopy);
+
+        if (allyCopy.cardStack.size() == 0) {
+            const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
+            const int value = gapNew - gapCurrent;
+            res.insert({_option, value});
+            continue;
+        }
+        /// if new choice found, then restart in recursion
+        const std::map<const Card *, int> optionToValue = valueOfOptions(allyCopy, enemyCopy);
+        int gapBest = 0;
+        for (const auto &it : optionToValue)
+            gapBest = std::max(gapBest, it.second);
+
+        res.insert({_option, gapBest});
+    }
+    return res;
+}

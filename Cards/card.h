@@ -85,6 +85,9 @@ struct Card
     inline virtual void onOtherEnemyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual void onOtherAllyResurrecteded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
     inline virtual Card *defaultCopy() const { return new Card; }
+
+    /// value computation helpers
+    inline virtual Card *exactCopy() const { return new Card; }
 };
 
 
@@ -101,6 +104,11 @@ struct CardCollectible : Card
     Card *defaultCopy() const override
     {
         return CardCollectible<T>::create(patch);
+    }
+    Card *exactCopy() const override
+    {
+        const T *self = dynamic_cast<const T*>(this);
+        return new T(*self);
     }
 };
 
@@ -268,5 +276,7 @@ void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType =
 /// returns false when no choice left (game end)
 bool tryFinishTurn(Field &ally, Field &enemy);
 
+/// value computation
+std::map<const Card *, int> valueOfOptions(const Field &ally, const Field &enemy);
 
 #endif // CARD_H

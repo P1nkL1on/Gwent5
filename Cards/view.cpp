@@ -195,6 +195,15 @@ FieldView fieldView(
         res.actionIdsDst.push_back(id(card));
     res.actionSound = sound;
 
+    /// value computation for hand cards
+    // TODO: move out from fieldView to the choice showing
+    if (ally.cardStack.size()) {
+        // std::map<const Card *, int>
+        std::cout << std::endl << "---" << std::endl;
+        for (const auto &it : valueOfOptions(ally, enemy))
+            std::cout << it.first->name << "->" << it.second << std::endl;
+    }
+
     return res;
 }
 

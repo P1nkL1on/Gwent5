@@ -305,21 +305,22 @@ void demoCharm(Field &ally, Field &enemy)
 void demoRockBarrage(Field &ally, Field &enemy)
 {
     ally.cardsAdded = {
-        new RockBarrage(),
-        new RockBarrage(),
-        new RockBarrage(),
-        new RockBarrage(),
-        new RockBarrage(),
-        new RockBarrage(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new TridamInfantry(),
     };
     ally.hand = ally.cardsAdded;
     enemy.cardsAdded = {
-        new GermainPiquant(),
-        new GermainPiquant(),
-        new GermainPiquant(),
-        new GermainPiquant(),
-        new GermainPiquant(),
-        new GermainPiquant(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
     };
     enemy.hand = enemy.cardsAdded;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
