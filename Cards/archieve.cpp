@@ -173,6 +173,11 @@ std::vector<Card *> allCards(const Patch)
         new TridamInfantry(),
         new VriheddDragoon(),
         new Malena(),
+        new UnseenElder(),
+        new DevanaRunestone(),
+        new DazhbogRunestone(),
+        new MoranaRunestone(),
+        new StribogRunestone(),
         new Muzzle(),
     };
 }
@@ -5041,6 +5046,126 @@ void Malena::onTurnStart(Field &ally, Field &enemy)
     flipOver(this, ally, enemy);
     if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
         charm(card, ally, enemy, this);
+}
+
+UnseenElder::UnseenElder()
+{
+    id = "200055";
+    name = "UnseenElder";
+    text = "Drain a unit by half.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Vampire };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.255.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.257.mp3",
+    };
+}
+
+void UnseenElder::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+}
+
+void UnseenElder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    const int x = int(std::ceil(target->power / 2.0));
+    drain(target, x, ally, enemy, this);
+}
+
+DevanaRunestone::DevanaRunestone()
+{
+    id = "201584";
+    name = "Devana Runestone";
+    text = "Create a Bronze or Silver Monster card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Alchemy, Item };
+}
+
+void DevanaRunestone::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
+}
+
+void DevanaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+DazhbogRunestone::DazhbogRunestone()
+{
+    id = "201583";
+    name = "Dazhbog Runestone";
+    text = "Create a Bronze or Silver Nilfgaard card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Alchemy, Item };
+}
+
+void DazhbogRunestone::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
+}
+
+void DazhbogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+MoranaRunestone::MoranaRunestone()
+{
+    id = "201585";
+    name = "Morana Runestone";
+    text = "Create a Bronze or Silver Scoia'tael card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Alchemy, Item };
+}
+
+void MoranaRunestone::onPlaySpecial(Field &ally, Field &emeny)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
+}
+
+void MoranaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+StribogRunestone::StribogRunestone()
+{
+    id = "201581";
+    name = "Stribog Runestone";
+    text = "Create a Bronze or Silver Skellige card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Alchemy, Item };
+}
+
+void StribogRunestone::onPlaySpecial(Field &ally, Field &enemy)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
+}
+
+void StribogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
 }
 
 Muzzle::Muzzle()
