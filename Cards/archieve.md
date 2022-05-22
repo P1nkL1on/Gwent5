@@ -152,7 +152,7 @@
 - [ ] Vandergrift's Blade
 - [x] Ves
 - [x] Vincent Meis
-- [x] Zoria Runestone
+- [ ] Zoria Runestone
 - [ ] Aedirnian Mauler _(easy card)_
 - [ ] Aretuza Adept _(easy card)_
 - [ ] Ballista
@@ -214,7 +214,7 @@
 - [x] Restore
 - [x] Sigrdrifa
 - [x] Skjall
-- [x] Stribog Runestone
+- [ ] Stribog Runestone
 - [x] Svanrige Tuirseach
 - [x] Udalryk
 - [x] Yoana
@@ -281,7 +281,7 @@
 - [ ] Mahakam Horn
 - [x] Malena
 - [ ] Milaen
-- [x] Morana Runestone
+- [ ] Morana Runestone
 - [ ] Morenn
 - [ ] Nature's Gift
 - [ ] Paulie Dahlberg
@@ -352,7 +352,7 @@
 - [ ] Cantarella
 - [x] Ceallach Dyffryn
 - [ ] Cynthia
-- [x] Dazhbog Runestone
+- [ ] Dazhbog Runestone
 - [ ] False Ciri
 - [ ] Fringilla Vigo
 - [ ] Hefty Helge
@@ -418,14 +418,14 @@
 - [ ] Miruna
 - [ ] Old Speartip
 - [ ] Old Speartip: Asleep
-- [x] Unseen Elder
+- [ ] Unseen Elder
 - [ ] Weavess: Incantation
 - [ ] Whispering Hillock
 - [ ] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
 - [ ] Brewess
-- [x] Devana Runestone
+- [ ] Devana Runestone
 - [x] Frightener
 - [ ] Golyat
 - [ ] Ifrit

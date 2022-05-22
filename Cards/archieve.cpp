@@ -173,11 +173,6 @@ std::vector<Card *> allCards(const Patch)
         new TridamInfantry(),
         new VriheddDragoon(),
         new Malena(),
-        new UnseenElder(),
-        new DevanaRunestone(),
-        new DazhbogRunestone(),
-        new MoranaRunestone(),
-        new StribogRunestone(),
         new Muzzle(),
     };
 }
