@@ -179,6 +179,7 @@ std::vector<Card *> allCards(const Patch)
         new MoranaRunestone(),
         new StribogRunestone(),
         new Muzzle(),
+        new WhisperingHillock(),
     };
 }
 
@@ -5188,4 +5189,34 @@ void Muzzle::onPlaySpecial(Field &ally, Field &enemy)
 void Muzzle::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     charm(target, ally, enemy, this);
+}
+
+WhisperingHillock::WhisperingHillock()
+{
+    id = "201587";
+    name = "Whispering Hillock";
+    text = "Create a Bronze or Silver Organic card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Relict };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.4.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.3.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.1.mp3",
+    };
+}
+
+void WhisperingHillock::onDeploy(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Organic)});
+}
+
+void WhisperingHillock::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
 }

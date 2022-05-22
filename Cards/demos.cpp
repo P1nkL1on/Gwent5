@@ -349,3 +349,30 @@ void demoRunestones(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoMonsterLeaders(Field &ally, Field &enemy)
+{
+    auto *u = new UnseenElder();
+    auto *w = new WhisperingHillock();
+    auto *t3 = new TemerianDrummer();
+    auto *p1 = new PoorFingInfantry();
+    auto *p2 = new PoorFingInfantry();
+    auto *p3 = new PoorFingInfantry();
+    ally.cardsAdded = {u, w, t3, p1, p2, p3};
+
+    auto *t1 = new TemerianDrummer();
+    auto *t2 = new TemerianDrummer();
+    auto *mo = new Morkvarg();
+    auto *w1 = new Wolf();
+    auto *w2 = new Wolf();
+    enemy.cardsAdded = {t1, t2, mo, w1, w2};
+
+    ally.hand = {u, t3, w};
+    ally.rowMeele = {p1, p2, p3};
+    enemy.rowMeele = {w1, w2};
+    enemy.rowRange = {mo};
+    enemy.hand = {t1, t2};
+    enemy.passed = false;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

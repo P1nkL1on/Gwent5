@@ -1465,4 +1465,12 @@ struct Muzzle : CardCollectible<Muzzle>
 };
 
 
+struct WhisperingHillock : CardCollectible<WhisperingHillock>
+{
+    WhisperingHillock();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H
