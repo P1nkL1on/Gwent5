@@ -1417,46 +1417,6 @@ struct Malena : CardCollectible<Malena>
 };
 
 
-struct UnseenElder : CardCollectible<UnseenElder>
-{
-    UnseenElder();
-    void onDeploy(Field &ally, Field &enemy) override;
-    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-};
-
-
-struct DevanaRunestone : CardCollectible<DevanaRunestone>
-{
-    DevanaRunestone();
-    void onPlaySpecial(Field &ally, Field &enemy) override;
-    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-};
-
-
-struct DazhbogRunestone : CardCollectible<DazhbogRunestone>
-{
-    DazhbogRunestone();
-    void onPlaySpecial(Field &ally, Field &enemy) override;
-    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-};
-
-
-struct MoranaRunestone : CardCollectible<MoranaRunestone>
-{
-    MoranaRunestone();
-    void onPlaySpecial(Field &ally, Field &emeny) override;
-    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-};
-
-
-struct StribogRunestone : CardCollectible<StribogRunestone>
-{
-    StribogRunestone();
-    void onPlaySpecial(Field &ally, Field &emeny) override;
-    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
-};
-
-
 struct Muzzle : CardCollectible<Muzzle>
 {
     Muzzle();
