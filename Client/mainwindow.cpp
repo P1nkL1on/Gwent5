@@ -41,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoSpawnAndSummon(_ally, _enemy);
 //    demoSingleUseFrightener(_ally, _enemy);
 //    demoAmbushes(_ally, _enemy);
-    demoCharm(_ally, _enemy);
+//    demoCharm(_ally, _enemy);
+    demoRunestones(_ally, _enemy);
 
     resize(1400, 800);
     setMouseTracking(true);

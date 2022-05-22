@@ -173,6 +173,11 @@ std::vector<Card *> allCards(const Patch)
         new TridamInfantry(),
         new VriheddDragoon(),
         new Malena(),
+        new UnseenElder(),
+        new DevanaRunestone(),
+        new DazhbogRunestone(),
+        new MoranaRunestone(),
+        new StribogRunestone(),
         new Muzzle(),
     };
 }
@@ -1550,7 +1555,7 @@ void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     duel(this, target, ally, enemy);
 }
 
-GeraltIgni::GeraltIgni(const Lang lang)
+GeraltIgni::GeraltIgni(const Lang)
 {
     id = "112102";
     name = "Geralt: Igni";
@@ -3548,7 +3553,7 @@ void RonvidTheIncessant::onDeploy(Field &, Field &)
     isCrew = true;
 }
 
-void RonvidTheIncessant::onTurnEnd(Field &ally, Field &enemy)
+void RonvidTheIncessant::onTurnEnd(Field &, Field &)
 {
 
 }
@@ -4457,7 +4462,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     tags = { Cursed };
 }
 
-void BlueboyLugos::SpectralWhale::onTurnEnd(Field &ally, Field &enemy)
+void BlueboyLugos::SpectralWhale::onTurnEnd(Field &, Field &)
 {
     // FIXME: ability missing
 }
@@ -5083,7 +5088,7 @@ DevanaRunestone::DevanaRunestone()
     tags = { Alchemy, Item };
 }
 
-void DevanaRunestone::onPlaySpecial(Field &ally, Field &enemy)
+void DevanaRunestone::onPlaySpecial(Field &ally, Field &)
 {
     startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
 }
@@ -5106,7 +5111,7 @@ DazhbogRunestone::DazhbogRunestone()
     tags = { Alchemy, Item };
 }
 
-void DazhbogRunestone::onPlaySpecial(Field &ally, Field &enemy)
+void DazhbogRunestone::onPlaySpecial(Field &ally, Field &)
 {
     startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
 }
@@ -5129,7 +5134,7 @@ MoranaRunestone::MoranaRunestone()
     tags = { Alchemy, Item };
 }
 
-void MoranaRunestone::onPlaySpecial(Field &ally, Field &emeny)
+void MoranaRunestone::onPlaySpecial(Field &ally, Field &)
 {
     startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
 }
@@ -5152,7 +5157,7 @@ StribogRunestone::StribogRunestone()
     tags = { Alchemy, Item };
 }
 
-void StribogRunestone::onPlaySpecial(Field &ally, Field &enemy)
+void StribogRunestone::onPlaySpecial(Field &ally, Field &)
 {
     startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
 }
