@@ -281,7 +281,25 @@ void demoMalena(Field &ally, Field &enemy)
     enemy.passed = false;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
 
+void demoCharm(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new Muzzle(),
+        new Muzzle(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new TemerianDrummer(),
+        new TemerianDrummer(),
+    };
+    enemy.rowRange = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
 void demoUnseenElder(Field &ally, Field &enemy)

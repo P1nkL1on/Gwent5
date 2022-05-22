@@ -9,6 +9,21 @@
 
 struct Field;
 
+
+struct RowAndPos
+{
+    static const int posMax = 9;
+    RowAndPos() = default;
+    RowAndPos(const Row row, const Pos pos);
+    operator bool() const;
+    Row row() const;
+    Pos pos() const;
+private:
+    int _row = -1;
+    int _pos = -1;
+};
+
+
 struct Card
 {
     Card() = default;
@@ -143,6 +158,7 @@ struct Field
     const Choice &choice() const;
     Choice &choice();
     Choice takeChoice();
+    RowAndPos lastPosInARow(const Row _row) const;
     const std::vector<Card *> &row(const Row _row) const;
     std::vector<Card *> &row(const Row _row);
     RowEffect &rowEffect(const Row _row);
@@ -159,10 +175,15 @@ bool isRowFull(const std::vector<Card *> &row);
 bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
-RowAndPos findRowAndPos(const Card *card, const Field &field);
+RowAndPos _findRowAndPos(const Card *card, const Field &field);
+RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset);
+RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
-RowAndPos rowAndPosNextTo(const Card *card, const Field &field, const int offset);
+RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy);
+RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
+//RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
+
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
@@ -186,7 +207,7 @@ bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
 /// find a place of a card in the field. returns false if non found
-bool findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
+bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 
 /// put a non-special card on exact place, then resolve it enter abilities, then resolve others' otherEnter abilities
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
@@ -199,7 +220,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
-void moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 
@@ -221,8 +242,10 @@ void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy);
 void duel(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy, const Card *src);
-void toggleLock(Card *card, Field &ally, Field &enemy);
-void lock(Card *card, Field &ally, Field &enemy);
+void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src);
+void lock(Card *card, Field &ally, Field &enemy, const Card *src);
+void toggleSpy(Card *card, Field &ally, Field &enemy, const Card *src);
+void spy(Card *card, Field &ally, Field &enemy, const Card *src);
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
@@ -238,7 +261,7 @@ void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
-void onChoiceDoneRowAndPlace(const RowAndPos &findRowAndPos, Field &ally, Field &enemy);
+void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1);

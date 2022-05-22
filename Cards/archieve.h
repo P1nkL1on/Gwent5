@@ -23,7 +23,7 @@ struct Dao : CardCollectible<Dao>
         DaoLesser();
     };
     Dao();
-    void onDestroy(Field &ally, Field &enemy, const RowAndPos &findRowAndPos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos) override;
 };
 
 
@@ -558,7 +558,6 @@ struct ShupesDayOff : CardCollectible<ShupesDayOff>
 struct ShupeKnight : CardCollectible<ShupeKnight>
 {
     ShupeKnight();
-    static bool isFourOrLessPower(Card *card);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 private:
@@ -749,7 +748,7 @@ struct Morkvarg : CardCollectible<Morkvarg>
 {
     Morkvarg();
     void onDiscard(Field &ally, Field &enemy) override;
-    void onDestroy(Field &ally, Field &enemy, const RowAndPos & findRowAndPos) override;
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos) override;
 };
 
 
@@ -1370,7 +1369,6 @@ struct Recruit : CardCollectible<Recruit>
 struct Ointment : CardCollectible<Ointment>
 {
     Ointment();
-    static bool isFiveOrLessPower(Card *card);
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
@@ -1414,7 +1412,6 @@ struct VriheddDragoon : CardCollectible<VriheddDragoon>
 struct Malena : CardCollectible<Malena>
 {
     Malena();
-    static bool isFiveOrLessPower(Card *card);
     void onDeploy(Field &ally, Field &enemy) override;
     void onTurnStart(Field &ally, Field &enemy) override;
 };
@@ -1455,6 +1452,14 @@ struct MoranaRunestone : CardCollectible<MoranaRunestone>
 struct StribogRunestone : CardCollectible<StribogRunestone>
 {
     StribogRunestone();
+    void onPlaySpecial(Field &ally, Field &emeny) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct Muzzle : CardCollectible<Muzzle>
+{
+    Muzzle();
     void onPlaySpecial(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };

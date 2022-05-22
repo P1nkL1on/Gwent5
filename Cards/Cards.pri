@@ -21,3 +21,6 @@ SOURCES += \
     $$PWD/demos.cpp
 
 }
+
+DISTFILES += \
+    $$PWD/archieve.md

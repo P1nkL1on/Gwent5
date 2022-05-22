@@ -18,17 +18,6 @@ enum Row
 
 using Pos = int;
 
-
-struct RowAndPos
-{
-    RowAndPos() = default;
-    RowAndPos(const Row row, const Pos pos) : row(row), pos(pos) {}
-
-    Row row = Row(-1);
-    Pos pos = Pos(-1);
-};
-
-
 enum Rarity
 {
     Bronze,
@@ -152,6 +141,10 @@ enum ActionType {
     MoveFromRowToRow,
     TimerSet,
     FlipOver,
+    GainLock,
+    LostLock,
+    GainSpy,
+    LostSpy,
 };
 
 

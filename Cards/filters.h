@@ -70,6 +70,12 @@ inline Filter isCopy(const std::string &name)
         return card->name == name;
     };
 }
+inline Filter hasPowerXorLess(const int x)
+{
+    return [x](Card *card) {
+        return card->power <= x;
+    };
+}
 inline Filter hasCopyInADeck(const Field *field)
 {
     return [field](Card *card) {
@@ -89,10 +95,10 @@ inline Filter isOnSameRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!findRowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!findRowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf == rowCard;
     };
@@ -102,10 +108,10 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
-        if (!findRowAndPos(self, *field, rowSelf, _))
+        if (!_findRowAndPos(self, *field, rowSelf, _))
             return false;
         Row rowCard;
-        if (!findRowAndPos(card, *field, rowCard, _))
+        if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf != rowCard;
     };
