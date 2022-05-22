@@ -420,7 +420,7 @@
 - [ ] Old Speartip: Asleep
 - [x] Unseen Elder
 - [ ] Weavess: Incantation
-- [ ] Whispering Hillock
+- [x] Whispering Hillock
 - [ ] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
