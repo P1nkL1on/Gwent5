@@ -301,3 +301,51 @@ void demoCharm(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+
+void demoUnseenElder(Field &ally, Field &enemy)
+{
+    auto *u = new UnseenElder();
+    auto *t3 = new TemerianDrummer();
+    auto *p1 = new PoorFingInfantry();
+    auto *p2 = new PoorFingInfantry();
+    auto *p3 = new PoorFingInfantry();
+    ally.cardsAdded = {u, t3, p1, p2, p3};
+
+    auto *t1 = new TemerianDrummer();
+    auto *t2 = new TemerianDrummer();
+    auto *mo = new Morkvarg();
+    auto *w1 = new Wolf();
+    auto *w2 = new Wolf();
+    enemy.cardsAdded = {t1, t2, mo, w1, w2};
+
+    ally.hand = {u, t3};
+    ally.rowMeele = {p1, p2, p3};
+    enemy.rowMeele = {w1, w2};
+    enemy.rowRange = {mo};
+    enemy.hand = {t1, t2};
+    enemy.passed = false;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoRunestones(Field &ally, Field &enemy)
+{
+    auto *r1 = new ZoriaRunestone();
+    auto *r2 = new DevanaRunestone();
+    auto *r3 = new DazhbogRunestone();
+    auto *r4 = new MoranaRunestone();
+    auto *r5 = new StribogRunestone();
+    ally.cardsAdded = {r1, r2, r3, r4, r5};
+
+    auto *w1 = new Wolf();
+    auto *w2 = new Wolf();
+    auto *w3 = new Wolf();
+    enemy.cardsAdded = {w1, w2, w3};
+
+    ally.hand = {r1, r2, r3, r4, r5};
+    enemy.rowMeele = {w1, w2, w3};
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
