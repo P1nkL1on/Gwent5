@@ -5051,7 +5051,7 @@ void Malena::onTurnStart(Field &ally, Field &enemy)
 UnseenElder::UnseenElder()
 {
     id = "200055";
-    name = "UnseenElder";
+    name = "Unseen Elder";
     text = "Drain a unit by half.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 5;
