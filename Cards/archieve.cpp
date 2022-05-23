@@ -179,6 +179,8 @@ std::vector<Card *> allCards(const Patch)
         new MoranaRunestone(),
         new StribogRunestone(),
         new Muzzle(),
+        new LeoBonhart(),
+        new MorvranVoorhis(),
     };
 }
 
@@ -2582,12 +2584,10 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (_discarded == nullptr) {
         _discarded = target;
-
         putOnDiscard(target, ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
         return;
     }
-
     damage(target, _discarded->powerBase, ally, enemy, this);
 }
 
@@ -5048,7 +5048,7 @@ UnseenElder::UnseenElder()
     power = powerBase = 5;
     rarity = Gold;
     faction = Monster;
-    tags = { Leader, Vampire };
+    tags = { Vampire, Leader };
     sounds = {
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.255.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
@@ -5224,4 +5224,64 @@ Nivellen::Nivellen()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
     };
+}
+
+LeoBonhart::LeoBonhart()
+{
+    id = "200031";
+    name = "Leo Bonhart";
+    text = "Reveal one of your units and deal damage equal to its base power to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.13.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.14.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.15.mp3",
+    };
+}
+
+void LeoBonhart::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed, isUnit}, AllyHand);
+}
+
+void LeoBonhart::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_revealed == nullptr) {
+        _revealed = target;
+        reveal(target, ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        return;
+    }
+    damage(target, _revealed->powerBase, ally, enemy, this);
+}
+
+MorvranVoorhis::MorvranVoorhis()
+{
+    id = "200163";
+    name = "Morvran Voorhis";
+    text = "Reveal up to 4 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Officer, Leader };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.52.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.53.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.54.mp3",
+    };
+}
+
+void MorvranVoorhis::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, BothHandsShuffled, 4, false);
+}
+
+void MorvranVoorhis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    reveal(target, ally, enemy, this);
 }

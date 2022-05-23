@@ -12,6 +12,7 @@ inline bool isGold(Card *card) { return card->rarity == Silver; }
 inline bool isLeader(Card *card) { return hasTag(card, Leader); }
 inline bool isNonLeader(Card *card) { return !hasTag(card, Leader); }
 inline bool isBronzeOrSilver(Card *card) { return (card->rarity == Bronze) || (card->rarity == Silver); }
+inline bool isNonRevealed(Card *card) { return !card->isRevealed; }
 inline bool hasArmor(Card *card) { return card->armor > 0; }
 inline bool isNothernRealmsFaction(Card *card) { return card->faction == NothernRealms; }
 inline bool isSkelligeFaction(Card *card) { return card->faction == Skellige; }

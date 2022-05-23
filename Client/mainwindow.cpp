@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Rock Barrage", demoRockBarrage},
         {"Row Movement", demoMoving},
         {"Runestones Generation", demoRunestones},
+        {"Reveal Leo Bonhart", demoLeoBonhart},
     };
 
     /// make a choosing menu for it
@@ -470,6 +471,11 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             width += _layout.borderTextPx;
         }
 
+        if (cardView.isRevealed) {
+            width += paintTextInPoint("REVEALED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::yellow);
+            width += _layout.borderTextPx;
+        }
+
         /// draw name
         const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - metrics.height(), posWidth, metrics.height());
         paintTextInRect(QString::fromStdString(cardView.name), rectNameText);
@@ -519,6 +525,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             QString("Spying? %1").arg(cardView.isSpy ? "True" : "False"),
             QString("Immune? %1").arg(cardView.isImmune ? "True" : "False"),
             QString("Doomed? %1").arg(cardView.isDoomed ? "True" : "False"),
+            QString("Revealed? %1").arg(cardView.isRevealed? "True" : "False"),
         };
 
         for (int i = 0; i < infos.size(); ++i)
@@ -841,6 +848,9 @@ void MainWindow::repaintCustom()
             break;
         case LostSpy:
             stream << prefix << dst << " loses SPY by " << src;
+            break;
+        case Reveal:
+            stream << prefix << dst << " relvealed by " << src;
             break;
         }
         requestSoundByUrl(snapshot.actionSound);

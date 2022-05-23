@@ -257,6 +257,7 @@ void spy(Card *card, Field &ally, Field &enemy, const Card *src);
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
+void reveal(Card *card, Field &ally, Field &enemy, const Card *src);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 

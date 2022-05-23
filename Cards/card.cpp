@@ -767,6 +767,16 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyAnywhere)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
+        // FIXME: enemy hand is visible during REVEAL choice
+        // because its a choice
+        if (group == BothHandsShuffled) {
+            std::vector<Card *> allyHand = ally.hand;
+            std::vector<Card *> enemyHand = enemy.hand;
+            shuffle(allyHand, ally.rng);
+            shuffle(enemyHand, ally.rng);
+            return _united(Rows{allyHand, enemyHand});
+        }
+
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
@@ -1755,4 +1765,11 @@ std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy)
     //    SelectAllyRow,
     //    SelectEnemyRow,
     //    RoundStartSwap,
+}
+
+void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    assert(!card->isRevealed);
+    card->isRevealed = true;
+    saveFieldsSnapshot(ally, enemy, Reveal, src);
 }

@@ -1479,4 +1479,22 @@ struct Nivellen : CardCollectible<Nivellen>
     // FIXME: ability isn't implemented
 };
 
+
+struct LeoBonhart : CardCollectible<LeoBonhart>
+{
+    LeoBonhart();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    Card *_revealed = nullptr;
+};
+
+
+struct MorvranVoorhis : CardCollectible<MorvranVoorhis>
+{
+    MorvranVoorhis();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
 #endif // CARDS_H

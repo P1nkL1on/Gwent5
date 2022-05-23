@@ -174,7 +174,7 @@ void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy)
         new Reconnaissance, new Thunderbolt, new Thunderbolt,
     };
     initField(deckStartingAlly, new BranTuirseach, ally);
-    initField(deckStartingEnemy, new JanCalveit, enemy);
+    initField(deckStartingEnemy, new MorvranVoorhis, enemy);
     startNextRound(ally, enemy);
 }
 
@@ -385,6 +385,24 @@ void demoRunestones(Field &ally, Field &enemy)
 
     ally.hand = {r1, r2, r3, r4, r5};
     enemy.rowMeele = {w1, w2, w3};
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoLeoBonhart(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new LeoBonhart(),
+        new CahirDyffryn(),
+        new Sentry(),
+        new RockBarrage(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new DjengeFrett()
+    };
+    enemy.rowRange = enemy.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

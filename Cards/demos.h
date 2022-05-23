@@ -23,5 +23,6 @@ void demoRockBarrage(Field &ally, Field &enemy);
 void demoMoving(Field &ally, Field &enemy);
 void demoUnseenElder(Field &ally, Field &enemy);
 void demoRunestones(Field &ally, Field &enemy);
+void demoLeoBonhart(Field &ally, Field &enemy);
 
 #endif // DEMOS_H
