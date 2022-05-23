@@ -37,7 +37,8 @@ FieldView fieldView(
         const Card *src,
         const std::vector<Card *> &dst,
         const std::string &sound,
-        const int actionValue)
+        const int actionValue,
+        const bool computeOptionScoreGaps)
 {
     std::map<const Card *, CardView> cardToView;
 
@@ -196,8 +197,7 @@ FieldView fieldView(
     res.actionSound = sound;
 
     /// value computation for hand cards
-    // TODO: move out from fieldView to the choice showing
-    if (ally.cardStack.size() && ally.choice().choiceType == RoundStartPlay) {
+    if (computeOptionScoreGaps && ally.cardStack.size() && ally.choice().choiceType == RoundStartPlay) {
         const std::map<const Card *, int> options = optionToGap(ally, enemy);
         std::cout << std::endl << "HAND OPTIONS (" << options.size() << ")" << std::endl;
         for (const auto &it : options) {

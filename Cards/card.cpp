@@ -156,21 +156,38 @@ void triggerRowEffects(Field &ally, Field &enemy)
 
 void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field)
 {
-    assert(field.rowMeele.size() == 0);
-    assert(field.rowRange.size() == 0);
-    assert(field.rowSeige.size() == 0);
-    assert(field.hand.size() == 0);
-    assert(field.discard.size() == 0);
-    assert(field.cardsAdded.size() == 0);
-    assert(field.cardStack.size() == 0);
+    if (field.leaderStarting != nullptr)
+        delete field.leaderStarting;
+    for (Card *card : field.deckStarting)
+        delete card;
+    for (Card *card : field.cardsAdded)
+        delete card;
+
+    /// clear all the current stuff
+    field.rowMeele = std::vector<Card *>();
+    field.rowRange = std::vector<Card *>();
+    field.rowSeige = std::vector<Card *>();
+    field.hand = std::vector<Card *>();
+    field.deck = std::vector<Card *>();
+    field.discard = std::vector<Card *>();
+    field.leader = nullptr;
+
+    field.cardStack = std::vector<Choice>();
+    field.snapshots = std::vector<FieldView>();
+    field.nTurns = 0;
+    field.nRounds = 0;
+    field.nWins = 0;
+    field.nSwaps = 0;
+    field.passed = false;
+    field.canPass = true;
 
     /// init a deck
     field.deck = field.deckStarting = deckStarting;
+    field.cardsAdded = std::vector<Card *>();
     field.leaderStarting = field.leader = leader;
     field.rowEffectMeele = NoRowEffect;
     field.rowEffectRange = NoRowEffect;
     field.rowEffectSeige = NoRowEffect;
-    field.nTurns = 0;
 
     /// shuffle a deck
     shuffle(field.deck, field.rng);

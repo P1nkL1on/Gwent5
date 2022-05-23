@@ -173,6 +173,11 @@ std::vector<Card *> allCards(const Patch)
         new TridamInfantry(),
         new VriheddDragoon(),
         new Malena(),
+        new UnseenElder(),
+        new DevanaRunestone(),
+        new DazhbogRunestone(),
+        new MoranaRunestone(),
+        new StribogRunestone(),
         new Muzzle(),
     };
 }
@@ -300,7 +305,6 @@ void DeithwenArbalest::onDeploy(Field &ally, Field &enemy)
 
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
 }
 
@@ -791,7 +795,6 @@ void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
 
 void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
 }
 
@@ -853,7 +856,6 @@ Assassin::Assassin()
 void Assassin::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 10, ally, enemy, this);
     }
 }
@@ -1043,7 +1045,6 @@ void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
 
 void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 13, ally, enemy, this);
 }
 
@@ -1166,7 +1167,6 @@ void Cleaver::onDeploy(Field &ally, Field &enemy)
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, int(ally.hand.size()), ally, enemy, this);
 }
 
@@ -1310,7 +1310,6 @@ void HeymaeySpearmaiden::onDeploy(Field &ally, Field &enemy)
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy, this);
     if (Card *copy = findCopy(target, ally.deck))
         playExistedCard(copy, ally, enemy, this);
@@ -1550,7 +1549,7 @@ void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     duel(this, target, ally, enemy);
 }
 
-GeraltIgni::GeraltIgni(const Lang lang)
+GeraltIgni::GeraltIgni(const Lang)
 {
     id = "112102";
     name = "Geralt: Igni";
@@ -1779,7 +1778,6 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
                 if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
-//                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy, this);
                 }
             delete _choosen;
@@ -1798,7 +1796,6 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 15, ally, enemy, this);
         delete _choosen;
         _choosen = nullptr;
@@ -2349,7 +2346,6 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
         return;
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row), ally.rng)) {
-//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
             damage(card, 1, ally, enemy, this);
         }
 }
@@ -3548,7 +3544,7 @@ void RonvidTheIncessant::onDeploy(Field &, Field &)
     isCrew = true;
 }
 
-void RonvidTheIncessant::onTurnEnd(Field &ally, Field &enemy)
+void RonvidTheIncessant::onTurnEnd(Field &, Field &)
 {
 
 }
@@ -4457,7 +4453,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     tags = { Cursed };
 }
 
-void BlueboyLugos::SpectralWhale::onTurnEnd(Field &ally, Field &enemy)
+void BlueboyLugos::SpectralWhale::onTurnEnd(Field &, Field &)
 {
     // FIXME: ability missing
 }
@@ -4844,7 +4840,7 @@ Yennefer::Unicorn::Unicorn()
 void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        boost(card, 1, ally, enemy, this);
+        boost(card, 2, ally, enemy, this);
 }
 
 GermainPiquant::Cow::Cow()
@@ -5041,6 +5037,126 @@ void Malena::onTurnStart(Field &ally, Field &enemy)
     flipOver(this, ally, enemy);
     if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
         charm(card, ally, enemy, this);
+}
+
+UnseenElder::UnseenElder()
+{
+    id = "200055";
+    name = "Unseen Elder";
+    text = "Drain a unit by half.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Vampire };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.255.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.257.mp3",
+    };
+}
+
+void UnseenElder::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+}
+
+void UnseenElder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    const int x = int(std::ceil(target->power / 2.0));
+    drain(target, x, ally, enemy, this);
+}
+
+DevanaRunestone::DevanaRunestone()
+{
+    id = "201584";
+    name = "Devana Runestone";
+    text = "Create a Bronze or Silver Monster card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Alchemy, Item };
+}
+
+void DevanaRunestone::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
+}
+
+void DevanaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+DazhbogRunestone::DazhbogRunestone()
+{
+    id = "201583";
+    name = "Dazhbog Runestone";
+    text = "Create a Bronze or Silver Nilfgaard card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Alchemy, Item };
+}
+
+void DazhbogRunestone::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
+}
+
+void DazhbogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+MoranaRunestone::MoranaRunestone()
+{
+    id = "201585";
+    name = "Morana Runestone";
+    text = "Create a Bronze or Silver Scoia'tael card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Alchemy, Item };
+}
+
+void MoranaRunestone::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
+}
+
+void MoranaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
+}
+
+StribogRunestone::StribogRunestone()
+{
+    id = "201581";
+    name = "Stribog Runestone";
+    text = "Create a Bronze or Silver Skellige card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Skellige;
+    tags = { Alchemy, Item };
+}
+
+void StribogRunestone::onPlaySpecial(Field &ally, Field &)
+{
+    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
+}
+
+void StribogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    acceptOptionAndDeleteOthers(this, target);
+    spawnNewCard(target, ally, enemy, this);
 }
 
 Muzzle::Muzzle()

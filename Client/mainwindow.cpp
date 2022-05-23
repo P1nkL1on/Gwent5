@@ -13,6 +13,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QPointer>
+#include <QMenuBar>
 
 #include "Cards/demos.h"
 
@@ -33,20 +34,49 @@ MainWindow::MainWindow(QWidget *parent)
     w->setAttribute(Qt::WA_TransparentForMouseEvents);
     setCentralWidget(w);
 
-//    demoTransforms(_ally, _enemy);
-//    demoNilfgaardSoldiersDeck(_ally, _enemy);
-//    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
-//    demoInstantEffects(_ally, _enemy);
-//    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
-//    demoSpawnAndSummon(_ally, _enemy);
-//    demoSingleUseFrightener(_ally, _enemy);
-//    demoAmbushes(_ally, _enemy);
-    demoRockBarrage(_ally, _enemy);
+
+    using Demo = std::function<void(Field &, Field &)>;
+    const std::vector<std::pair<std::string, Demo>> demoTitleToMethod {
+        {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
+        {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
+        {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
+        {"Cards Transformation", demoTransforms},
+        {"Instant Log Effects", demoInstantEffects},
+        {"Spawning and Summoning", demoSpawnAndSummon},
+        {"Single-Use (Frightener)", demoSingleUseFrightener},
+        {"Ambushes & Invisible Timers", demoAmbushes},
+        {"Charming Happy Case", demoCharm},
+        {"Rock Barrage", demoRockBarrage},
+        {"Row Movement", demoMoving},
+        {"Runestones Generation", demoRunestones},
+    };
+
+    /// make a choosing menu for it
+    QMenu *menuDemos = new QMenu("Demos");
+    QList<QAction *> actions;
+    for (const auto &it : demoTitleToMethod) {
+        const QString title = QString::fromStdString(it.first);
+        QAction *action = menuDemos->addAction(title, this, [=]{
+            _textAlly->clear();
+            _textEnemy->clear();
+            initField({}, nullptr, _ally);
+            initField({}, nullptr, _enemy);
+            it.second(_ally, _enemy);
+            repaintCustom();
+        });
+        actions.push_back(action);
+    }
+    QMenuBar *menuBar = new QMenuBar(this);
+    menuBar->addMenu(menuDemos);
+    setMenuBar(menuBar);
 
     resize(1400, 800);
     setMouseTracking(true);
     installEventFilter(this);
-    repaintCustom();
+
+    /// trigger last exist demo
+    if (!actions.isEmpty())
+        actions.last()->trigger();
 }
 
 QMargins MainWindow::margins() const
@@ -655,8 +685,8 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             .arg(view.nPowerRowEnemyMeele + view.nPowerRowEnemyRange + view.nPowerRowEnemySeige)
             .arg(view.enemyPassed)
             .arg(view.nEnemyWins);
-    paintTextInPoint(stringStatusAlly, QPointF(0, 0), Qt::black, Qt::cyan);
-    paintTextInPoint(stringStatusEnemy, QPointF(0, 15), Qt::black, Qt::red);
+    paintTextInPoint(stringStatusAlly, QPointF(0, 20), Qt::black, Qt::cyan);
+    paintTextInPoint(stringStatusEnemy, QPointF(0, 35), Qt::black, Qt::red);
 }
 
 void MainWindow::onImageRequestFinished(QNetworkReply *reply)
