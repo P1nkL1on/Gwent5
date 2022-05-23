@@ -182,6 +182,8 @@ std::vector<Card *> allCards(const Patch)
         new LeoBonhart(),
         new MorvranVoorhis(),
         new Cynthia(),
+        new Serrit(),
+        new Sweers(),
     };
 }
 

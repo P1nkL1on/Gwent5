@@ -29,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
         view.count = card->rarity == Bronze ? 3 : 1;
         _allCardViews.push_back(view);
 
-        const std::vector<CardView> options = cardOptionViews(card);
-        if (options.size())
-            views.insert({id - 1, cardOptionViews(card)});
+//        const std::vector<CardView> options = cardOptionViews(card);
+//        if (options.size())
+//            views.insert({id - 1, cardOptionViews(card)});
     }
 
     auto *_resourceManager = new ResourceManager();
@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     splitterV->insertWidget(0, splitterH2);
     splitterV->insertWidget(1, createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     layout->addWidget(splitterV, 5);
-    layout->addWidget(createScrollArea(_cardsLineViewOptions = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
+//    layout->addWidget(createScrollArea(_cardsLineViewOptions = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     setCentralWidget(widget);
 
     connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
@@ -83,13 +83,13 @@ MainWindow::MainWindow(QWidget *parent)
             for (const CardView &view : _allCardViews)
                 if (view.id == id) {
                     auto it = views.find(id);
-                    if (it == views.end())
-                        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
-                    else
-                        _cardsLineViewOptions->setCardAndChoiceViews(it->second, {});
+//                    if (it == views.end())
+//                        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
+//                    else
+//                        _cardsLineViewOptions->setCardAndChoiceViews(it->second, {});
                     return _cardSingleView->setCardView(view);
                 }
-        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
+//        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
         _cardSingleView->setCardView({});
     };
     connect(_cardsLineView, &CardsLineView::hovered, this, hoverId);
