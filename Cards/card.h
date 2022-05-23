@@ -221,7 +221,7 @@ bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
 
 /// put any card to discard
-void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
+void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
@@ -236,6 +236,7 @@ void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Fiel
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
+void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
 void heal(Card *card, Field &ally, Field &enemy);

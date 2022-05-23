@@ -1348,7 +1348,8 @@ struct Sentry : CardCollectible<Sentry>
 struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
 {
     NauzicaaSergeant();
-    // FIXME: ability isn't implemented
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };
 
 
@@ -1493,6 +1494,29 @@ private:
 struct MorvranVoorhis : CardCollectible<MorvranVoorhis>
 {
     MorvranVoorhis();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct Cynthia : CardCollectible<Cynthia>
+{
+    Cynthia();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
+struct Serrit : CardCollectible<Serrit>
+{
+    Serrit();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+};
+
+
+struct Sweers : CardCollectible<Sweers>
+{
+    Sweers();
     void onDeploy(Field &ally, Field &enemy) override;
     void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
 };

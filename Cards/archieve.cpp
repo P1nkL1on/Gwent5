@@ -181,6 +181,7 @@ std::vector<Card *> allCards(const Patch)
         new Muzzle(),
         new LeoBonhart(),
         new MorvranVoorhis(),
+        new Cynthia(),
     };
 }
 
@@ -1187,7 +1188,7 @@ Scorch::Scorch()
 void Scorch::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
 }
 
 Reinforcements::Reinforcements()
@@ -1600,7 +1601,7 @@ void GeraltIgni::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row ro
         return;
 
     for (Card *card : highests(enemy.row(row)))
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
 }
 
 Priscilla::Priscilla()
@@ -2084,7 +2085,7 @@ void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 
         if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
             for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
-                putOnDiscard(card, ally, enemy, this);
+                putToDiscard(card, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -2241,7 +2242,7 @@ Epidemic::Epidemic()
 void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
 {
     for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
 }
 
 Moonlight::Moonlight()
@@ -2480,7 +2481,7 @@ void BranTuirseach::onDeploy(Field &ally, Field &enemy)
 
 void BranTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
     if (!target->isSpecial)
         strengthen(target, 1, ally, enemy);
 }
@@ -2509,7 +2510,7 @@ void DrummondWarmonger::onDeploy(Field &ally, Field &enemy)
 
 void DrummondWarmonger::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
 }
 
 DimunPirate::DimunPirate()
@@ -2532,7 +2533,7 @@ DimunPirate::DimunPirate()
 void DimunPirate::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
 }
 
 AnCraiteRaider::AnCraiteRaider()
@@ -2584,7 +2585,7 @@ void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (_discarded == nullptr) {
         _discarded = target;
-        putOnDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
         return;
     }
@@ -2618,7 +2619,7 @@ void Ermion::onDeploy(Field &ally, Field &enemy)
 
 void Ermion::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
 }
 
 CerysFearless::CerysFearless()
@@ -3048,7 +3049,7 @@ void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     putToHand(target, ally, enemy);
     for (Card *card : _drawn)
         if (card != target)
-            putOnDiscard(card, ally, enemy, this);
+            putToDiscard(card, ally, enemy, this);
 
     _drawn.clear();
 }
@@ -3072,7 +3073,7 @@ void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
 
 void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
     spawnNewCard(new Bear(), ally, enemy, this);
 }
 
@@ -3421,7 +3422,7 @@ void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-        putOnDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, this);
         boost(this, 5, ally, enemy, this);
 
         delete _choosen;
@@ -3677,7 +3678,7 @@ void Kambi::Hemdall::onDeploy(Field &ally, Field &enemy)
         enemy.rowEffect(row) = NoRowEffect;
     }
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
 }
 
 Vabjorn::Vabjorn()
@@ -3705,7 +3706,7 @@ void Vabjorn::onDeploy(Field &ally, Field &enemy)
 void Vabjorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     if (isDamaged(target))
-        putOnDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, this);
     else
         damage(target, 2, ally, enemy, this);
 }
@@ -3901,7 +3902,7 @@ void SvanrigeTuirseach::onDeploy(Field &ally, Field &enemy)
 
 void SvanrigeTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
 }
 
 Skjall::Skjall()
@@ -4423,7 +4424,7 @@ GiantBoar::GiantBoar()
 void GiantBoar::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
-        putOnDiscard(card, ally, enemy, this);
+        putToDiscard(card, ally, enemy, this);
         boost(this, 10, ally, enemy, this);
     }
 }
@@ -4688,6 +4689,17 @@ NauzicaaSergeant::NauzicaaSergeant()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
     };
+}
+
+void NauzicaaSergeant::onDeploy(Field &ally, Field &enemy)
+{
+    clearHazardsFromItsRow(this, ally);
+    startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyBoardAndHandRevealed);
+}
+
+void NauzicaaSergeant::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    boost(target, 3, ally, enemy, this);
 }
 
 SlaveInfantry::SlaveInfantry()
@@ -5206,7 +5218,7 @@ void RockBarrage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         damage(target, 7, ally, enemy, this);
         return;
     }
-    putOnDiscard(target, ally, enemy, this);
+    putToDiscard(target, ally, enemy, this);
 }
 
 Nivellen::Nivellen()
@@ -5278,10 +5290,91 @@ MorvranVoorhis::MorvranVoorhis()
 
 void MorvranVoorhis::onDeploy(Field &ally, Field &enemy)
 {
-    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, BothHandsShuffled, 4, false);
+    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 4, false);
 }
 
 void MorvranVoorhis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     reveal(target, ally, enemy, this);
+}
+
+Cynthia::Cynthia()
+{
+    id = "162203";
+    name = "Cynthia";
+    text = "Reveal the Highest unit in your opponent's hand and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_CNTH_303653_0335.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_CNTH_303743_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_CNTH_303656_0001.mp3",
+    };
+}
+
+void Cynthia::onDeploy(Field &ally, Field &enemy)
+{
+    if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isNonRevealed}, EnemyHand), ally.rng)) {
+        reveal(card, ally, enemy, this);
+        boost(this, card->power, ally, enemy, this);
+    }
+}
+
+Serrit::Serrit()
+{
+    id = "162209";
+    name = "Serrit";
+    text = "Deal 7 damage to an enemy; or Set a Revealed opposing unit's power to 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Witcher };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.115.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.116.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.117.mp3",
+    };
+}
+
+void Serrit::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isUnit}, EnemyBoardAndHandRevealed);
+}
+
+void Serrit::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
+    damage(target, x, ally, enemy, this);
+}
+
+Sweers::Sweers()
+{
+    id = "162206";
+    name = "Sweers";
+    text = "Choose an enemy or a Revealed unit in your opponent's hand, then move all copies of it from their deck to the graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.100.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.101.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.102.mp3",
+    };
+}
+
+void Sweers::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isUnit, hasCopyInADeck(&enemy)}, EnemyBoardAndHandRevealed);
+}
+
+void Sweers::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    for (Card *copy : findCopies(target, enemy.deck))
+        putToDiscard(copy, ally, enemy, this);
 }

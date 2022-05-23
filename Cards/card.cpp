@@ -6,6 +6,7 @@
 #include <map>
 
 #include "archieve.h"
+#include "filters.h"
 
 using Rows = std::vector<std::vector<Card *>>;
 
@@ -409,7 +410,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     return true;
 }
 
-void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
+void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     Pos pos;
     bool isAlly;
@@ -767,15 +768,24 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyAnywhere)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
+        if (group == EnemyHand)
+            return enemy.hand;
+
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
-        if (group == BothHandsShuffled) {
+        if (group == AnyHandsShuffled) {
             std::vector<Card *> allyHand = ally.hand;
             std::vector<Card *> enemyHand = enemy.hand;
             shuffle(allyHand, ally.rng);
             shuffle(enemyHand, ally.rng);
             return _united(Rows{allyHand, enemyHand});
         }
+
+        if (group == EnemyBoardAndHandRevealed)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({isNonRevealed}, enemy.hand)});
+
+        if (group == AllyBoardAndHandRevealed)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({isNonRevealed}, ally.hand)});
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -1008,7 +1018,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         return false;
     }
 
-    putOnDiscard(card, ally, enemy, src);
+    putToDiscard(card, ally, enemy, src);
     return true;
 }
 
@@ -1028,7 +1038,7 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
         return;
     }
 
-    putOnDiscard(target, ally, enemy, self);
+    putToDiscard(target, ally, enemy, self);
 }
 
 void heal(Card *card, Field &, Field &)
@@ -1335,6 +1345,12 @@ bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards)
     return true;
 }
 
+void clearHazardsFromItsRow(const Card *card, Field &field)
+{
+    if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
+        field.rowEffect(rowAndPos.row()) = NoRowEffect;
+}
+
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards)
 {
     if (damagedUnitsUnderHazards != nullptr)
@@ -1572,7 +1588,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         if (isNew) {
             delete card;
         } else {
-            putOnDiscard(card, ally, enemy, card);
+            putToDiscard(card, ally, enemy, card);
         }
         return false;
     }
@@ -1582,7 +1598,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
 
     if (card->isSpecial) {
         _activateSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy, card);
+        putToDiscard(card, ally, enemy, card);
         return true;
     }
 

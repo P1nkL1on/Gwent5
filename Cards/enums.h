@@ -122,7 +122,10 @@ enum ChoiceGroup
     AllyBoardHandDeck,
     AllyAnywhere,
     EnemyAnywhere,
-    BothHandsShuffled,
+    EnemyHand,
+    AnyHandsShuffled,
+    EnemyBoardAndHandRevealed,
+    AllyBoardAndHandRevealed,
 };
 
 
