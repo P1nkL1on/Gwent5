@@ -1195,6 +1195,46 @@ struct Muzzle : CardCollectible<Muzzle>
 };
 
 
+struct WhisperingHillock : CardCollectible<WhisperingHillock>
+{
+    WhisperingHillock();
+};
+
+
+struct Brewess : CardCollectible<Brewess>
+{
+    Brewess();
+};
+
+
+struct Weavess : CardCollectible<Weavess>
+{
+    Weavess();
+};
+
+
+struct Whispess : CardCollectible<Whispess>
+{
+    Whispess();
+};
+
+
+struct WeavessIncantation : CardCollectible<WeavessIncantation>
+{
+    WeavessIncantation();
+private:
+    struct StrengthenAll : CardCollectible<StrengthenAll> {};
+    struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct BrewessRitual : CardCollectible<BrewessRitual>
+{
+    BrewessRitual();
+};
+
+
 struct RockBarrage : CardCollectible<RockBarrage>
 {
     RockBarrage();

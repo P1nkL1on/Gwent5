@@ -34,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     w->setAttribute(Qt::WA_TransparentForMouseEvents);
     setCentralWidget(w);
 
-
     using Demo = std::function<void(Field &, Field &)>;
     const std::vector<std::pair<std::string, Demo>> demoTitleToMethod {
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
@@ -51,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Runestones Generation", demoRunestones},
         {"Reveal Leo Bonhart", demoLeoBonhart},
         {"Locking The Deathwish", demoLockingDeathwish},
+        {"Monsters Leaders", demoMonsterLeaders},
+        {"Monsters Sisters", demoMonsterSisters},
     };
 
     /// make a choosing menu for it
