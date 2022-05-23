@@ -407,3 +407,24 @@ void demoLeoBonhart(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoLockingDeathwish(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new Auckes(),
+        new DimunLightLongship(),
+        new RagingBerserker(),
+        new AlzursThunder(),
+        new AlzursThunder(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new DimunLightLongship(),
+        new Dao(),
+        new Dao(),
+    };
+    enemy.rowRange = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

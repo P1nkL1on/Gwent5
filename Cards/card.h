@@ -60,36 +60,64 @@ struct Card
     /// temporary created options
     std::vector<Card *> _options;
 
-    inline virtual void onDeploy(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDeployFromDiscard(Field &ally, Field &enemy) { return onDeploy(ally, enemy); }
-    inline virtual void onDeployFromDeck(Field &ally, Field &enemy) { return onDeploy(ally, enemy); }
-    inline virtual void onMoveFromRowToRow(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onTurnStart(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onTurnEnd(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onTargetChoosen(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onTargetRowAllyChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
-    inline virtual void onTargetRowEnemyChoosen(Field &/*ally*/, Field &/*enemy*/, const Row) {}
-    inline virtual void onDraw(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onSwap(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDiscard(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDestroy(Field &/*ally*/, Field &/*enemy*/, const RowAndPos &) {}
-    inline virtual void onPlaySpecial(Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onBoost(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onDamaged(const int, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onArmorLost(Field &/*ally*/, Field &/*enemy*/) {}
-    /// check whether self on board, in hand/deck/discard
-    inline virtual void onOtherEnemyDamaged(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherEnemyDestroyed(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyDiscarded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherEnemyPlayedFromHand(Card *, Field &/*ally*/, Field &/*enemy*/) {}
-    inline virtual void onOtherAllyResurrecteded(Card *, Field &/*ally*/, Field &/*enemy*/) {}
+    void onDeploy(Field &ally, Field &enemy);
+    void onDeployFromDiscard(Field &ally, Field &enemy);
+    void onDeployFromDeck(Field &ally, Field &enemy);
+    void onMoveFromRowToRow(Field &ally, Field &enemy);
+    void onTurnStart(Field &ally, Field &enemy);
+    void onTurnEnd(Field &ally, Field &enemy);
+    void onTargetChoosen(Card *card, Field &ally, Field &enemy);
+    void onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row);
+    void onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row);
+    void onDraw(Field &ally, Field &enemy);
+    void onSwap(Field &ally, Field &enemy);
+    void onDiscard(Field &ally, Field &enemy);
+    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos);
+    void onPlaySpecial(Field &ally, Field &enemy);
+    void onBoost(const int x, Field &ally, Field &enemy);
+    void onDamaged(const int x, Field &ally, Field &enemy);
+    void onArmorLost(Field &ally, Field &enemy);
+        /// check whether self on board, in hand/deck/discard
+    void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
+    void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
+    void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+
     inline virtual Card *defaultCopy() const { return new Card; }
-
-    /// value computation helpers
     inline virtual Card *exactCopy() const { return new Card; }
-};
 
+protected:
+    using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
+    using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
+    using AllyEnemy = std::function<void(Field &, Field &)>;
+    using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
+    using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
+    AllyEnemyRowAndPos _onDestroy = nullptr;
+    AllyEnemy _onDeploy = nullptr;
+    AllyEnemy _onDeployFromDiscard = nullptr;
+    AllyEnemy _onDeployFromDeck = nullptr;
+    AllyEnemy _onPlaySpecial = nullptr;
+    AllyEnemy _onDraw = nullptr;
+    AllyEnemy _onMoveFromRowToRow = nullptr;
+    AllyEnemy _onTurnStart = nullptr;
+    AllyEnemy _onTurnEnd = nullptr;
+    AllyEnemy _onSwap = nullptr;
+    AllyEnemy _onDiscard = nullptr;
+    AllyEnemy _onArmorLost = nullptr;
+    AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
+    AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
+    IntAllyEnemy _onBoost = nullptr;
+    IntAllyEnemy _onDamaged = nullptr;
+    CardAllyEnemy _onOtherEnemyDamaged = nullptr;
+    CardAllyEnemy _onTargetChoosen = nullptr;
+    CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
+    CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
+    CardAllyEnemy _onOtherAllyDiscarded = nullptr;
+    CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
+    CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+};
 
 template <class T>
 struct CardCollectible : Card
@@ -238,7 +266,7 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
-void transform(Card *card, const std::string &id, const std::string &name, const std::string &text, const std::string &url, const int power, const Rarity rarity, const Tag faction = Neutral, const std::vector<Tag> &tags = {});
+void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
