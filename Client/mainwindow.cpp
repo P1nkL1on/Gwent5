@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Row Movement", demoMoving},
         {"Runestones Generation", demoRunestones},
         {"Reveal Leo Bonhart", demoLeoBonhart},
+        {"Locking The Deathwish", demoLockingDeathwish},
     };
 
     /// make a choosing menu for it

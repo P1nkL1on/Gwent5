@@ -185,7 +185,7 @@ std::vector<Card *> allCards(const Patch)
         new Serrit(),
         new Sweers(),
     };
-}
+};
 
 AddaStriga::AddaStriga()
 {
@@ -197,17 +197,15 @@ AddaStriga::AddaStriga()
     rarity = Silver;
     faction = Monster;
     tags = { Relict, Cursed };
-}
 
-void AddaStriga::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isNonMonsterFaction});
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonMonsterFaction});
+    };
 
-void AddaStriga::onTargetChoosen(Card *card, Field &ally, Field &enemy)
-{
-    damage(card, 8, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
+        damage(card, 8, ally, enemy, this);
+    };
+};
 
 Dao::Dao()
 {
@@ -219,13 +217,12 @@ Dao::Dao()
     rarity = Bronze;
     faction = Monster;
     tags = { Construct };
-}
 
-void Dao::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
-{
-    spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
-    spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
+    };
+};
 
 Dao::DaoLesser::DaoLesser()
 {
@@ -237,7 +234,7 @@ Dao::DaoLesser::DaoLesser()
     faction = Monster;
     tags = { Construct };
     isDoomed = true;
-}
+};
 
 PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
 {
@@ -249,7 +246,7 @@ PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
     faction = NothernRealms;
     tags = { Temeria, Soldier };
     isDoomed = true;
-}
+};
 
 PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
 {
@@ -278,12 +275,11 @@ PoorFingInfantry::PoorFingInfantry()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Temeria, Soldier };
-}
 
-void PoorFingInfantry::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewUnitToPos(new LeftFlankInfantry(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new RightFlankInfantry(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new LeftFlankInfantry(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new RightFlankInfantry(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
 }
 
 DeithwenArbalest::DeithwenArbalest()
@@ -301,17 +297,15 @@ DeithwenArbalest::DeithwenArbalest()
     rarity = Bronze;
     faction = Nilfgaard;
     tags = { Soldier };
-}
 
-void DeithwenArbalest::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
 
-void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
+    };
+};
 
 TemerianDrummer::TemerianDrummer()
 {
@@ -328,17 +322,15 @@ TemerianDrummer::TemerianDrummer()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Temeria, Support };
-}
 
-void TemerianDrummer::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
 
-void TemerianDrummer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, 6, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 6, ally, enemy, this);
+    };
+};
 
 DandelionPoet::DandelionPoet()
 {
@@ -359,18 +351,16 @@ DandelionPoet::DandelionPoet()
     rarity = Gold;
     faction = Neutral;
     tags = { Support };
-}
 
-void DandelionPoet::onDeploy(Field &ally, Field &enemy)
-{
-    if (drawACard(ally, enemy))
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (drawACard(ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
 
-void DandelionPoet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 SileDeTansarville::SileDeTansarville()
 {
@@ -387,18 +377,16 @@ SileDeTansarville::SileDeTansarville()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Mage };
-}
 
-void SileDeTansarville::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyHand);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyHand);
+    };
 
-void SileDeTansarville::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-    drawACard(ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        drawACard(ally, enemy);
+    };
+};
 
 RedanianKnightElect::RedanianKnightElect()
 {
@@ -417,26 +405,24 @@ RedanianKnightElect::RedanianKnightElect()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Redania, Soldier };
-}
 
-void RedanianKnightElect::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+    };
 
-void RedanianKnightElect::onTurnEnd(Field &ally, Field &enemy)
-{
-    if (armor == 0)
-        return;
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (armor == 0)
+            return;
 
-    Card *left = cardNextTo(this, ally, enemy, -1);
-    Card *right = cardNextTo(this, ally, enemy, 1);
+        Card *left = cardNextTo(this, ally, enemy, -1);
+        Card *right = cardNextTo(this, ally, enemy, 1);
 
-    if (left != nullptr)
-        boost(left, 1, ally, enemy, this);
-    if (right != nullptr)
-        boost(right, 1, ally, enemy, this);
-}
+        if (left != nullptr)
+            boost(left, 1, ally, enemy, this);
+        if (right != nullptr)
+            boost(right, 1, ally, enemy, this);
+    };
+};
 
 AnCraiteMarauder::AnCraiteMarauder()
 {
@@ -453,7 +439,7 @@ AnCraiteMarauder::AnCraiteMarauder()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Soldier };
-}
+};
 
 AnCraiteGreatsword::AnCraiteGreatsword()
 {
@@ -470,24 +456,22 @@ AnCraiteGreatsword::AnCraiteGreatsword()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Soldier };
-}
 
-void AnCraiteGreatsword::onDeploy(Field &ally, Field &enemy)
-{
-    setTimer(this, ally, enemy, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
 
-void AnCraiteGreatsword::onTurnStart(Field &ally, Field &enemy)
-{
-    if (!tick(this, ally, enemy, 2))
-        return;
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy, 2))
+            return;
 
-    if (power >= powerBase)
-        return;
+        if (power >= powerBase)
+            return;
 
-    heal(this, ally, enemy);
-    strengthen(this, 2, ally, enemy);
-}
+        heal(this, ally, enemy);
+        strengthen(this, 2, ally, enemy);
+    };
+};
 
 DimunLightLongship::DimunLightLongship()
 {
@@ -499,15 +483,14 @@ DimunLightLongship::DimunLightLongship()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanDimun, Machine };
-}
 
-void DimunLightLongship::onTurnEnd(Field &ally, Field &enemy)
-{
-    if (Card *right = cardNextTo(this, ally, enemy, 1)) {
-        damage(right, 1, ally, enemy, this);
-        boost(this, 2, ally, enemy, this);
-    }
-}
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (Card *right = cardNextTo(this, ally, enemy, 1)) {
+            damage(right, 1, ally, enemy, this);
+            boost(this, 2, ally, enemy, this);
+        }
+    };
+};
 
 Bear::Bear()
 {
@@ -518,7 +501,7 @@ Bear::Bear()
     rarity = Bronze;
     faction = Neutral;
     tags = { Beast, Cursed };
-}
+};
 
 Wolf::Wolf()
 {
@@ -530,7 +513,7 @@ Wolf::Wolf()
     rarity = Bronze;
     faction = Monster;
     tags = { Beast };
-}
+};
 
 TuirseachBearmaster::TuirseachBearmaster()
 {
@@ -549,12 +532,11 @@ TuirseachBearmaster::TuirseachBearmaster()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Soldier };
-}
 
-void TuirseachBearmaster::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewCard(new Bear(), ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new Bear(), ally, enemy, this);
+    };
+};
 
 RedanianElite::RedanianElite()
 {
@@ -571,17 +553,15 @@ RedanianElite::RedanianElite()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Redania, Soldier };
-}
 
-void RedanianElite::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 4, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 4, ally, enemy, this);
+    };
 
-void RedanianElite::onArmorLost(Field &ally, Field &enemy)
-{
-    boost(this, 5, ally, enemy, this);
-}
+    _onArmorLost = [=](Field &ally, Field &enemy) {
+        boost(this, 5, ally, enemy, this);
+    };
+};
 
 RedanianKnight::RedanianKnight()
 {
@@ -598,15 +578,14 @@ RedanianKnight::RedanianKnight()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Redania, Soldier };
-}
 
-void RedanianKnight::onTurnEnd(Field &ally, Field &enemy)
-{
-    if (armor != 0)
-        return;
-    boost(this, 2, ally, enemy, this);
-    gainArmor(this, 2, ally, enemy, this);
-}
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (armor != 0)
+            return;
+        boost(this, 2, ally, enemy, this);
+        gainArmor(this, 2, ally, enemy, this);
+    };
+};
 
 KaedweniCavalry::KaedweniCavalry()
 {
@@ -623,19 +602,17 @@ KaedweniCavalry::KaedweniCavalry()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Kaedwen, Soldier };
-}
 
-void KaedweniCavalry::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {hasArmor});
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasArmor});
+    };
 
-void KaedweniCavalry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const int armorTarget = target->armor;
-    damage(target, armorTarget, ally, enemy, this);
-    boost(this, armorTarget, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int armorTarget = target->armor;
+        damage(target, armorTarget, ally, enemy, this);
+        boost(this, armorTarget, ally, enemy, this);
+    };
+};
 
 AlzursThunder::AlzursThunder()
 {
@@ -647,18 +624,16 @@ AlzursThunder::AlzursThunder()
     faction = Neutral;
     tags = { Spell };
     isSpecial = true;
-}
 
-void AlzursThunder::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void AlzursThunder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 9);
-    damage(target, 9, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 9);
+        damage(target, 9, ally, enemy, this);
+    };
+};
 
 Swallow::Swallow()
 {
@@ -670,17 +645,15 @@ Swallow::Swallow()
     faction = Neutral;
     tags = { Alchemy, Item };
     isSpecial = true;
-}
 
-void Swallow::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void Swallow::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, 10, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 10, ally, enemy, this);
+    };
+};
 
 Thunderbolt::Thunderbolt()
 {
@@ -692,30 +665,28 @@ Thunderbolt::Thunderbolt()
     faction = Neutral;
     tags = { Alchemy, Item };
     isSpecial = true;
-}
 
-void Thunderbolt::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void Thunderbolt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, 3, ally, enemy, this);
-    gainArmor(target, 2, ally, enemy, this);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, this);
+        gainArmor(target, 2, ally, enemy, this);
 
-    Card *left = cardNextTo(target, ally, enemy, -1);
-    Card *right = cardNextTo(target, ally, enemy, 1);
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
 
-    if (left != nullptr) {
-        boost(left, 3, ally, enemy, this);
-        gainArmor(left, 2, ally, enemy, this);
-    }
-    if (right != nullptr) {
-        boost(right, 3, ally, enemy, this);
-        gainArmor(right, 2, ally, enemy, this);
-    }
-}
+        if (left != nullptr) {
+            boost(left, 3, ally, enemy, this);
+            gainArmor(left, 2, ally, enemy, this);
+        }
+        if (right != nullptr) {
+            boost(right, 3, ally, enemy, this);
+            gainArmor(right, 2, ally, enemy, this);
+        }
+    };
+};
 
 ArachasVenom::ArachasVenom()
 {
@@ -727,21 +698,19 @@ ArachasVenom::ArachasVenom()
     faction = Neutral;
     tags = { Organic };
     isSpecial = true;
-}
 
-void ArachasVenom::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void ArachasVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    Card *left = cardNextTo(target, ally, enemy, -1);
-    Card *right = cardNextTo(target, ally, enemy, 1);
-    for (Card *card : std::vector<Card *>{left, target, right})
-        if (card != nullptr)
-            damage(card, 4, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
+        for (Card *card : std::vector<Card *>{left, target, right})
+            if (card != nullptr)
+                damage(card, 4, ally, enemy, this);
+    };
+};
 
 KeiraMetz::KeiraMetz()
 {
@@ -758,18 +727,16 @@ KeiraMetz::KeiraMetz()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Temeria, Mage };
-}
 
-void KeiraMetz::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
+    };
 
-void KeiraMetz::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 DolBlathannaArcher::DolBlathannaArcher()
 {
@@ -789,19 +756,17 @@ DolBlathannaArcher::DolBlathannaArcher()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.802.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.803.mp3",
     };
-}
 
-void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
-{
-    _nShots = 0;
-    startChoiceToTargetCard(ally, enemy, this);
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        _nShots = 0;
+        startChoiceToTargetCard(ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
+    };
+};
 
 HalfElfHunter::HalfElfHunter()
 {
@@ -813,14 +778,13 @@ HalfElfHunter::HalfElfHunter()
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Soldier };
-}
 
-void HalfElfHunter::onDeploy(Field &ally, Field &enemy)
-{
-    Card *copy = defaultCopy();
-    copy->isDoomed = true;
-    spawnNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Card *copy = defaultCopy();
+        copy->isDoomed = true;
+        spawnNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 Ambassador::Ambassador()
 {
@@ -833,17 +797,15 @@ Ambassador::Ambassador()
     rarity = Bronze;
     faction = Nilfgaard;
     tags = {};
-}
 
-void Ambassador::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
 
-void Ambassador::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, 12, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 12, ally, enemy, this);
+    };
+};
 
 Assassin::Assassin()
 {
@@ -856,14 +818,13 @@ Assassin::Assassin()
     rarity = Bronze;
     faction = Nilfgaard;
     tags = {};
-}
 
-void Assassin::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-        damage(left, 10, ally, enemy, this);
-    }
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *left = cardNextTo(this, ally, enemy, -1)) {
+            damage(left, 10, ally, enemy, this);
+        }
+    };
+};
 
 TuirseachArcher::TuirseachArcher()
 {
@@ -875,18 +836,16 @@ TuirseachArcher::TuirseachArcher()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Soldier };
-}
 
-void TuirseachArcher::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
+    };
 
-void TuirseachArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 1);
-    damage(target, 1, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 1);
+        damage(target, 1, ally, enemy, this);
+    };
+};
 
 Infiltrator::Infiltrator()
 {
@@ -898,17 +857,15 @@ Infiltrator::Infiltrator()
     rarity = Bronze;
     faction = Nilfgaard;
     tags = {};
-}
 
-void Infiltrator::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void Infiltrator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    toggleSpy(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        toggleSpy(target, ally, enemy, this);
+    };
+};
 
 ImpenetrableFog::ImpenetrableFog()
 {
@@ -920,17 +877,15 @@ ImpenetrableFog::ImpenetrableFog()
     rarity = Bronze;
     faction = Neutral;
     tags = { Hazard };
-}
 
-void ImpenetrableFog::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void ImpenetrableFog::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+    };
+};
 
 TorrentialRain::TorrentialRain()
 {
@@ -942,17 +897,15 @@ TorrentialRain::TorrentialRain()
     rarity = Bronze;
     faction = Neutral;
     tags = { Hazard };
-}
 
-void TorrentialRain::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void TorrentialRain::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, TorrentialRainEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, TorrentialRainEffect);
+    };
+};
 
 BitingFrost::BitingFrost()
 {
@@ -964,17 +917,15 @@ BitingFrost::BitingFrost()
     rarity = Bronze;
     faction = Neutral;
     tags = { Hazard };
-}
 
-void BitingFrost::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void BitingFrost::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, BitingFrostEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, BitingFrostEffect);
+    };
+};
 
 GoldenFroth::GoldenFroth()
 {
@@ -986,17 +937,15 @@ GoldenFroth::GoldenFroth()
     rarity = Bronze;
     faction = Neutral;
     tags = { Hazard };
-}
 
-void GoldenFroth::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceToSelectAllyRow(ally, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceToSelectAllyRow(ally, this);
+    };
 
-void GoldenFroth::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(ally, enemy, row, GoldenFrothEffect);
-}
+    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, GoldenFrothEffect);
+    };
+};
 
 SkelligeStorm::SkelligeStorm()
 {
@@ -1008,17 +957,15 @@ SkelligeStorm::SkelligeStorm()
     rarity = Silver;
     faction = Neutral;
     tags = { Hazard };
-}
 
-void SkelligeStorm::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void SkelligeStorm::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, SkelligeStormEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    };
+};
 
 ImperialManticore::ImperialManticore()
 {
@@ -1029,7 +976,7 @@ ImperialManticore::ImperialManticore()
     rarity = Silver;
     faction = Monster;
     tags = { Beast };
-}
+};
 
 ManticoreVenom::ManticoreVenom()
 {
@@ -1041,17 +988,15 @@ ManticoreVenom::ManticoreVenom()
     rarity = Silver;
     faction = Neutral;
     tags = { Organic };
-}
 
-void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, 13, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 13, ally, enemy, this);
+    };
+};
 
 GloriousHunt::GloriousHunt()
 {
@@ -1063,15 +1008,14 @@ GloriousHunt::GloriousHunt()
     rarity = Silver;
     faction = Neutral;
     tags = { Tactics };
-}
 
-void GloriousHunt::onPlaySpecial(Field &ally, Field &enemy)
-{
-    if (powerField(ally) < powerField(enemy))
-        return spawnNewCard(new ImperialManticore(), ally, enemy, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (powerField(ally) < powerField(enemy))
+            return spawnNewCard(new ImperialManticore(), ally, enemy, this);
 
-    return spawnNewCard(new ManticoreVenom(), ally, enemy, this);
-}
+        return spawnNewCard(new ManticoreVenom(), ally, enemy, this);
+    };
+};
 
 Ves::Ves()
 {
@@ -1089,17 +1033,15 @@ Ves::Ves()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Temeria, Soldier };
-}
 
-void Ves::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2, true);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2, true);
+    };
 
-void Ves::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    swapACard(target, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        swapACard(target, ally, enemy);
+    };
+};
 
 Vaedermakar::Vaedermakar()
 {
@@ -1111,18 +1053,16 @@ Vaedermakar::Vaedermakar()
     rarity = Silver;
     faction = Neutral;
     tags = { Mage };
-}
 
-void Vaedermakar::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
+    };
 
-void Vaedermakar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 Frightener::Frightener()
 {
@@ -1136,21 +1076,19 @@ Frightener::Frightener()
     rarity = Silver;
     faction = Monster;
     tags = { Construct, Agent };
-}
 
-void Frightener::onDeploy(Field &ally, Field &enemy)
-{
-    if (tick(this, ally, enemy))
-        drawACard(ally, enemy);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            drawACard(ally, enemy);
 
-    /// can't move another to this row, if its already full
-    startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, EnemyBoard);
-}
+        /// can't move another to this row, if its already full
+        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, EnemyBoard);
+    };
 
-void Frightener::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, enemy), enemy, ally, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, enemy), enemy, ally, this);
+    };
+};
 
 Cleaver::Cleaver()
 {
@@ -1162,18 +1100,16 @@ Cleaver::Cleaver()
     rarity = Silver;
     faction = Neutral;
     tags = { Dwarf };
-}
 
-void Cleaver::onDeploy(Field &ally, Field &enemy)
-{
-    if (ally.hand.size() != 0)
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.hand.size() != 0)
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
 
-void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, int(ally.hand.size()), ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, int(ally.hand.size()), ally, enemy, this);
+    };
+};
 
 Scorch::Scorch()
 {
@@ -1185,13 +1121,12 @@ Scorch::Scorch()
     rarity = Silver;
     faction = Neutral;
     tags = { Spell };
-}
 
-void Scorch::onPlaySpecial(Field &ally, Field &enemy)
-{
-    for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putToDiscard(card, ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
+            putToDiscard(card, ally, enemy, this);
+    };
+};
 
 Reinforcements::Reinforcements()
 {
@@ -1203,17 +1138,15 @@ Reinforcements::Reinforcements()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Tactics };
-}
 
-void Reinforcements::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Soldier, Support, Machine, Officer})}, AllyDeckShuffled);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Soldier, Support, Machine, Officer})}, AllyDeckShuffled);
+    };
 
-void Reinforcements::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 JohnNatalis::JohnNatalis()
 {
@@ -1229,17 +1162,15 @@ JohnNatalis::JohnNatalis()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Temeria, Officer };
-}
 
-void JohnNatalis::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
+    };
 
-void JohnNatalis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 Eleyas::Eleyas()
 {
@@ -1251,17 +1182,15 @@ Eleyas::Eleyas()
     rarity = Silver;
     faction = Scoiatael;
     tags = { Elf, Soldier };
-}
 
-void Eleyas::onDraw(Field &ally, Field &enemy)
-{
-    boost(this, 2, ally, enemy, this);
-}
+    _onDraw = [=](Field &ally, Field &enemy) {
+        boost(this, 2, ally, enemy, this);
+    };
 
-void Eleyas::onSwap(Field &ally, Field &enemy)
-{
-    boost(this, 2, ally, enemy, this);
-}
+    _onSwap = [=](Field &ally, Field &enemy) {
+        boost(this, 2, ally, enemy, this);
+    };
+};
 
 ReaverScout::ReaverScout()
 {
@@ -1278,18 +1207,16 @@ ReaverScout::ReaverScout()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Redania, Support };
-}
 
-void ReaverScout::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, AllyBoard);
+    };
 
-void ReaverScout::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (Card *copy = findCopy(target, ally.deck))
-        playExistedCard(copy, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (Card *copy = findCopy(target, ally.deck))
+            playExistedCard(copy, ally, enemy, this);
+    };
+};
 
 HeymaeySpearmaiden::HeymaeySpearmaiden()
 {
@@ -1306,19 +1233,17 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Support };
-}
 
-void HeymaeySpearmaiden::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, AllyBoard);
+    };
 
-void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, 1, ally, enemy, this);
-    if (Card *copy = findCopy(target, ally.deck))
-        playExistedCard(copy, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 1, ally, enemy, this);
+        if (Card *copy = findCopy(target, ally.deck))
+            playExistedCard(copy, ally, enemy, this);
+    };
+};
 
 KaedweniKnight::KaedweniKnight()
 {
@@ -1335,18 +1260,16 @@ KaedweniKnight::KaedweniKnight()
     rarity = Bronze;
     faction = NothernRealms;
     tags = { Kaedwen, Soldier };
-}
 
-void KaedweniKnight::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+    };
 
-void KaedweniKnight::onDeployFromDeck(Field &ally, Field &enemy)
-{
-    gainArmor(this, 2, ally, enemy, this);
-    boost(this, 5, ally, enemy, this);
-}
+    _onDeployFromDeck = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+        boost(this, 5, ally, enemy, this);
+    };
+};
 
 VriheddSappers::VriheddSappers()
 {
@@ -1364,18 +1287,16 @@ VriheddSappers::VriheddSappers()
         "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0007.mp3",
         "https://gwent.one/audio/card/ob/en/VO_SMV2_202544_0022.mp3",
     };
-}
 
-void VriheddSappers::onDeploy(Field &ally, Field &enemy)
-{
-    setTimer(this, ally, enemy, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
 
-void VriheddSappers::onTurnStart(Field &ally, Field &enemy)
-{
-    if (tick(this, ally, enemy))
-        flipOver(this, ally, enemy);
-}
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            flipOver(this, ally, enemy);
+    };
+};
 
 PriestessOfFreya::PriestessOfFreya()
 {
@@ -1393,17 +1314,15 @@ PriestessOfFreya::PriestessOfFreya()
     faction = Skellige;
     tags = { ClanHeymaey, Support };
     isDoomed = true;
-}
 
-void PriestessOfFreya::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Soldier)}, AllyDiscard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Soldier)}, AllyDiscard);
+    };
 
-void PriestessOfFreya::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 DimunCorsair::DimunCorsair()
 {
@@ -1421,17 +1340,15 @@ DimunCorsair::DimunCorsair()
     faction = Skellige;
     tags = { ClanDimun, Support };
     isDoomed = true;
-}
 
-void DimunCorsair::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Machine)}, AllyDiscard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Machine)}, AllyDiscard);
+    };
 
-void DimunCorsair::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 Sigrdrifa::Sigrdrifa()
 {
@@ -1449,17 +1366,15 @@ Sigrdrifa::Sigrdrifa()
     faction = Skellige;
     tags = { Support };
     isDoomed = true;
-}
 
-void Sigrdrifa::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyDiscard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyDiscard);
+    };
 
-void Sigrdrifa::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 Sage::Sage()
 {
@@ -1471,18 +1386,16 @@ Sage::Sage()
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Mage };
-}
 
-void Sage::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Alchemy, Spell})}, AllyDiscard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Alchemy, Spell})}, AllyDiscard);
+    };
 
-void Sage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    target->isDoomed = true;
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        target->isDoomed = true;
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 Reconnaissance::Reconnaissance()
 {
@@ -1494,17 +1407,15 @@ Reconnaissance::Reconnaissance()
     rarity = Bronze;
     faction = Neutral;
     tags = { Tactics };
-}
 
-void Reconnaissance::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng));
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng));
+    };
 
-void Reconnaissance::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 ElvenMercenary::ElvenMercenary()
 {
@@ -1516,17 +1427,15 @@ ElvenMercenary::ElvenMercenary()
     rarity = Bronze;
     faction = Scoiatael;
     tags = { Elf, Soldier };
-}
 
-void ElvenMercenary::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng));
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng));
+    };
 
-void ElvenMercenary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 ChampionOfHov::ChampionOfHov()
 {
@@ -1542,17 +1451,15 @@ ChampionOfHov::ChampionOfHov()
     rarity = Silver;
     faction = Skellige;
     tags = { Ogroid };
-}
 
-void ChampionOfHov::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
 
-void ChampionOfHov::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    duel(this, target, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        duel(this, target, ally, enemy);
+    };
+};
 
 GeraltIgni::GeraltIgni(const Lang)
 {
@@ -1571,7 +1478,7 @@ GeraltIgni::GeraltIgni(const Lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
-}
+};
 
 GeraltOfRivia::GeraltOfRivia()
 {
@@ -1589,22 +1496,20 @@ GeraltOfRivia::GeraltOfRivia()
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
-}
 
-void GeraltIgni::onDeploy(Field &ally, Field &)
-{
-    // TODO: select only between rows with 25 or more power
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        // TODO: select only between rows with 25 or more power
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void GeraltIgni::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    if (powerRow(enemy.row(row)) < 25)
-        return;
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        if (powerRow(enemy.row(row)) < 25)
+            return;
 
-    for (Card *card : highests(enemy.row(row)))
-        putToDiscard(card, ally, enemy, this);
-}
+        for (Card *card : highests(enemy.row(row)))
+            putToDiscard(card, ally, enemy, this);
+    };
+};
 
 Priscilla::Priscilla()
 {
@@ -1622,13 +1527,12 @@ Priscilla::Priscilla()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Support };
-}
 
-void Priscilla::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
-        boost(card, 3, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
+            boost(card, 3, ally, enemy, this);
+    };
+};
 
 SeltkirkOfGulet::SeltkirkOfGulet()
 {
@@ -1645,18 +1549,16 @@ SeltkirkOfGulet::SeltkirkOfGulet()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Aedirn, Officer, Cursed };
-}
 
-void SeltkirkOfGulet::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 3, ally, enemy, this);
-    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 3, ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
 
-void SeltkirkOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    duel(this, target, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        duel(this, target, ally, enemy);
+    };
+};
 
 AdrenalineRush::AdrenalineRush()
 {
@@ -1668,17 +1570,15 @@ AdrenalineRush::AdrenalineRush()
     rarity = Bronze;
     faction = Neutral;
     tags = { Organic };
-}
 
-void AdrenalineRush::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void AdrenalineRush::onTargetChoosen(Card *target, Field &, Field &)
-{
-    target->isResilient = !target->isResilient;
-}
+    _onTargetChoosen = [=](Card *target, Field &, Field &) {
+        target->isResilient = !target->isResilient;
+    };
+};
 
 ShupesDayOff::ShupesDayOff()
 {
@@ -1697,21 +1597,19 @@ ShupesDayOff::ShupesDayOff()
     rarity = Gold;
     faction = Neutral;
     tags = { Organic };
-}
 
-void ShupesDayOff::onPlaySpecial(Field &ally, Field &)
-{
-    if (!hasNoDuplicates(ally.deckStarting))
-        return;
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        if (!hasNoDuplicates(ally.deckStarting))
+            return;
 
-    startChoiceToSelectOption(ally, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
-}
+        startChoiceToSelectOption(ally, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
+    };
 
-void ShupesDayOff::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 ShupeHunter::ShupeHunter()
 {
@@ -1723,101 +1621,99 @@ ShupeHunter::ShupeHunter()
     rarity = Gold;
     faction = Neutral;
     tags = { Ogroid };
-}
 
-void ShupeHunter::onDeploy(Field &ally, Field &)
-{
-    auto *option1 = new ShupeHunter::Play;
-    copyCardText(this, option1);
-    option1->text = "Play a Bronze or Silver unit from Deck.";
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new ShupeHunter::Play;
+        copyCardText(this, option1);
+        option1->text = "Play a Bronze or Silver unit from Deck.";
 
-    auto *option2 = new ShupeHunter::Shot;
-    copyCardText(this, option2);
-    option2->text = "Deal 15 damage.";
+        auto *option2 = new ShupeHunter::Shot;
+        copyCardText(this, option2);
+        option2->text = "Deal 15 damage.";
 
-    auto *option3 = new ShupeHunter::Replay;
-    copyCardText(this, option3);
-    option3->text = "Replay a Bronze or Silver unit and Boost it by 5.";
+        auto *option3 = new ShupeHunter::Replay;
+        copyCardText(this, option3);
+        option3->text = "Replay a Bronze or Silver unit and Boost it by 5.";
 
-    auto *option4 = new ShupeHunter::Clear;
-    copyCardText(this, option4);
-    option4->text = "Clear all Hazards from your side and Boost allies by 1.";
+        auto *option4 = new ShupeHunter::Clear;
+        copyCardText(this, option4);
+        option4->text = "Clear all Hazards from your side and Boost allies by 1.";
 
-    auto *option5 = new ShupeHunter::Barrage;
-    copyCardText(this, option5);
-    option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
+        auto *option5 = new ShupeHunter::Barrage;
+        copyCardText(this, option5);
+        option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
-}
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+    };
 
-void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+
+            if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
+                return;
+            }
+
+            if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this);
+                return;
+            }
+
+            if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
+                return;
+            }
+
+            if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
+                for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
+                    boost(card, 1, ally, enemy, this);
+                clearAllHazards(ally);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
+                for (int n = 0; n < 8; ++n)
+                    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
+                        damage(card, 2, ally, enemy, this);
+                    }
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            assert(false);
+        }
 
         if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
-            return;
-        }
-
-        if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this);
-            return;
-        }
-
-        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
-            return;
-        }
-
-        if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
-                boost(card, 1, ally, enemy, this);
-            clearAllHazards(ally);
+            playExistedCard(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
-            for (int n = 0; n < 8; ++n)
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
-                    damage(card, 2, ally, enemy, this);
-                }
+        if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
+            damage(target, 15, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
+            putToHand(target, ally, enemy);
+            boost(target, 5, ally, enemy, this);
+            playExistedCard(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
 
         assert(false);
-    }
-
-    if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-        playExistedCard(target, ally, enemy, this);
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-        damage(target, 15, ally, enemy, this);
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-        putToHand(target, ally, enemy);
-        boost(target, 5, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    assert(false);
-}
+    };
+};
 
 ShupeMage::ShupeMage()
 {
@@ -1829,103 +1725,101 @@ ShupeMage::ShupeMage()
     rarity = Gold;
     faction = Neutral;
     tags = { Ogroid };
-}
 
-void ShupeMage::onDeploy(Field &ally, Field &)
-{
-    auto *option1 = new ShupeMage::Draw;
-    copyCardText(this, option1);
-    option1->text = "Draw a card.";
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new ShupeMage::Draw;
+        copyCardText(this, option1);
+        option1->text = "Draw a card.";
 
-    auto *option2 = new ShupeMage::Charm;
-    copyCardText(this, option2);
-    option2->text = "Charm a random enemy.";
+        auto *option2 = new ShupeMage::Charm;
+        copyCardText(this, option2);
+        option2->text = "Charm a random enemy.";
 
-    auto *option3 = new ShupeMage::Hazards;
-    copyCardText(this, option3);
-    option3->text = "Spawn a random Hazard on each enemy row.";
+        auto *option3 = new ShupeMage::Hazards;
+        copyCardText(this, option3);
+        option3->text = "Spawn a random Hazard on each enemy row.";
 
-    auto *option4 = new ShupeMage::Meteor;
-    copyCardText(this, option4);
-    option4->text = "Deal 10 damage to an enemy and 5 damage to each adjacent enemy.";
+        auto *option4 = new ShupeMage::Meteor;
+        copyCardText(this, option4);
+        option4->text = "Deal 10 damage to an enemy and 5 damage to each adjacent enemy.";
 
-    auto *option5 = new ShupeMage::Play;
-    copyCardText(this, option5);
-    option5->text = "Play a Bronze or Silver special card from your deck.";
+        auto *option5 = new ShupeMage::Play;
+        copyCardText(this, option5);
+        option5->text = "Play a Bronze or Silver special card from your deck.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
-}
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+    };
 
-void ShupeMage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
 
-        if (dynamic_cast<ShupeMage::Draw *>(_choosen)) {
-            drawACard(ally, enemy);
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
+            if (dynamic_cast<ShupeMage::Draw *>(_choosen)) {
+                drawACard(ally, enemy);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
 
-        if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
-            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-                charm(card, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
+            if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                    charm(card, ally, enemy, this);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
 
-        if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-            applyRowEffect(enemy, ally, Meele, randomHazardEffect(ally.rng));
-            applyRowEffect(enemy, ally, Range, randomHazardEffect(ally.rng));
-            applyRowEffect(enemy, ally, Seige, randomHazardEffect(ally.rng));
-            delete _choosen;
-            _choosen = nullptr;
-            return;
+            if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
+                applyRowEffect(enemy, ally, Meele, randomHazardEffect(ally.rng));
+                applyRowEffect(enemy, ally, Range, randomHazardEffect(ally.rng));
+                applyRowEffect(enemy, ally, Seige, randomHazardEffect(ally.rng));
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+                return;
+            }
+
+            if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+                return;
+            }
+
+            assert(false);
         }
 
         if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            Card *left = cardNextTo(target, ally, enemy, -1);
+            Card *right = cardNextTo(target, ally, enemy, 1);
+
+            damage(target, 10, ally, enemy, this);
+            if (left != nullptr) {
+                damage(left, 5, ally, enemy, this);
+            }
+            if (right != nullptr) {
+                damage(right, 5, ally, enemy, this);
+            }
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
 
         if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+            playExistedCard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
 
         assert(false);
-    }
-
-    if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
-        Card *left = cardNextTo(target, ally, enemy, -1);
-        Card *right = cardNextTo(target, ally, enemy, 1);
-
-        damage(target, 10, ally, enemy, this);
-        if (left != nullptr) {
-            damage(left, 5, ally, enemy, this);
-        }
-        if (right != nullptr) {
-            damage(right, 5, ally, enemy, this);
-        }
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-        playExistedCard(target, ally, enemy, this);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    assert(false);
-}
+    };
+};
 
 Mandrake::Mandrake()
 {
@@ -1937,50 +1831,48 @@ Mandrake::Mandrake()
     rarity = Silver;
     faction = Neutral;
     tags = { Alchemy, Organic };
-}
 
-void Mandrake::onPlaySpecial(Field &ally, Field &)
-{
-    auto *option1 = new Mandrake::Buff;
-    copyCardText(this, option1);
-    option1->text = "Heal a unit and and Strengthen it by 6.";
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new Mandrake::Buff;
+        copyCardText(this, option1);
+        option1->text = "Heal a unit and and Strengthen it by 6.";
 
-    auto *option2 = new Mandrake::Debuff;
-    copyCardText(this, option2);
-    option2->text = "Reset a unit and Weaken it by 6.";
+        auto *option2 = new Mandrake::Debuff;
+        copyCardText(this, option2);
+        option2->text = "Reset a unit and Weaken it by 6.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2});
-}
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
 
-void Mandrake::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
-        startChoiceToTargetCard(ally, enemy, this);
-        return;
-    }
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            startChoiceToTargetCard(ally, enemy, this);
+            return;
+        }
 
-    if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
-        heal(target, ally, enemy);
-        strengthen(target, 6, ally, enemy);
+        if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
+            heal(target, ally, enemy);
+            strengthen(target, 6, ally, enemy);
 
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
 
-    if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-        reset(target, ally, enemy);
-        weaken(target, 6, ally, enemy);
+        if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
+            reset(target, ally, enemy);
+            weaken(target, 6, ally, enemy);
 
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
 
-    assert(false);
-}
+        assert(false);
+    };
+};
 
 BoneTalisman::BoneTalisman()
 {
@@ -1992,55 +1884,53 @@ BoneTalisman::BoneTalisman()
     rarity = Bronze;
     faction = Skellige;
     tags = { Item };
-}
 
-void BoneTalisman::onPlaySpecial(Field &ally, Field &)
-{
-    auto *option1 = new BoneTalisman::Resurrect;
-    copyCardText(this, option1);
-    option1->text = "Resurrect a Bronze Beast or Cultist.";
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new BoneTalisman::Resurrect;
+        copyCardText(this, option1);
+        option1->text = "Resurrect a Bronze Beast or Cultist.";
 
-    auto *option2 = new BoneTalisman::Buff;
-    copyCardText(this, option2);
-    option2->text = "Heal an ally and Strengthen it by 3.";
+        auto *option2 = new BoneTalisman::Buff;
+        copyCardText(this, option2);
+        option2->text = "Heal an ally and Strengthen it by 3.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2});
-}
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
 
-void BoneTalisman::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
 
-        if (dynamic_cast<BoneTalisman::Resurrect *>(target)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+            if (dynamic_cast<BoneTalisman::Resurrect *>(target)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+                return;
+            }
+            if (dynamic_cast<BoneTalisman::Buff *>(target)) {
+                startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+                return;
+            }
+            assert(false);
+        }
+
+        if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
+            playExistedCard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
-        if (dynamic_cast<BoneTalisman::Buff *>(target)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+        if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
+            heal(target, ally, enemy);
+            strengthen(target, 3, ally, enemy);
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
         assert(false);
-    }
-
-    if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
-        playExistedCard(target, ally, enemy, this);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-    if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
-        heal(target, ally, enemy);
-        strengthen(target, 3, ally, enemy);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-    assert(false);
-}
+    };
+};
 
 ShupeKnight::ShupeKnight()
 {
@@ -2052,90 +1942,88 @@ ShupeKnight::ShupeKnight()
     rarity = Gold;
     faction = Neutral;
     tags = { Ogroid };
-}
 
-void ShupeKnight::onDeploy(Field &ally, Field &)
-{
-    auto *option1 = new ShupeKnight::Destroy;
-    copyCardText(this, option1);
-    option1->text = "Destroy enemies with 4 or less power.";
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new ShupeKnight::Destroy;
+        copyCardText(this, option1);
+        option1->text = "Destroy enemies with 4 or less power.";
 
-    auto *option2 = new ShupeKnight::Reset;
-    copyCardText(this, option2);
-    option2->text = "Reset a unit.";
+        auto *option2 = new ShupeKnight::Reset;
+        copyCardText(this, option2);
+        option2->text = "Reset a unit.";
 
-    auto *option3 = new ShupeKnight::Duel;
-    copyCardText(this, option3);
-    option3->text = "Duel an enemy.";
+        auto *option3 = new ShupeKnight::Duel;
+        copyCardText(this, option3);
+        option3->text = "Duel an enemy.";
 
-    auto *option4 = new ShupeKnight::Strengthen;
-    copyCardText(this, option4);
-    option4->text = "Strengthen self to 25.";
+        auto *option4 = new ShupeKnight::Strengthen;
+        copyCardText(this, option4);
+        option4->text = "Strengthen self to 25.";
 
-    auto *option5 = new ShupeKnight::Resilient;
-    copyCardText(this, option5);
-    option5->text = "Resilent.";
+        auto *option5 = new ShupeKnight::Resilient;
+        copyCardText(this, option5);
+        option5->text = "Resilent.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
-}
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+    };
 
-void ShupeKnight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
 
-        if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
-                putToDiscard(card, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
-            return;
+            if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
+                for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
+                    putToDiscard(card, ally, enemy, this);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this);
+                return;
+            }
+
+            if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+                return;
+            }
+
+            if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
+                strengthen(this, 25 - powerBase, ally, enemy);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            if (dynamic_cast<ShupeKnight::Resilient *>(_choosen)) {
+                isResilient = true;
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+
+            assert(false);
         }
 
         if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this);
+            target->power = target->powerBase;
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
 
         if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-            return;
-        }
-
-        if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
-            strengthen(this, 25 - powerBase, ally, enemy);
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
-
-        if (dynamic_cast<ShupeKnight::Resilient *>(_choosen)) {
-            isResilient = true;
+            duel(this, target, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
 
         assert(false);
-    }
-
-    if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
-        target->power = target->powerBase;
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
-        duel(this, target, ally, enemy);
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    assert(false);
-}
+    };
+};
 
 Decoy::Decoy()
 {
@@ -2147,19 +2035,17 @@ Decoy::Decoy()
     rarity = Silver;
     faction = Neutral;
     tags = { Tactics };
-}
 
-void Decoy::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, AllyBoard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, AllyBoard);
+    };
 
-void Decoy::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToHand(target, ally, enemy);
-    boost(target, 3, ally, enemy, this);
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy);
+        boost(target, 3, ally, enemy, this);
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 FirstLight::FirstLight()
 {
@@ -2171,43 +2057,41 @@ FirstLight::FirstLight()
     rarity = Bronze;
     faction = Neutral;
     tags = { Tactics };
-}
 
-void FirstLight::onPlaySpecial(Field &ally, Field &)
-{
-    auto *option1 = new FirstLight::Clear;
-    copyCardText(this, option1);
-    option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new FirstLight::Clear;
+        copyCardText(this, option1);
+        option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
 
-    auto *option2 = new FirstLight::Play;
-    copyCardText(this, option2);
-    option2->text = "Play a random Bronze unit from your deck.";
+        auto *option2 = new FirstLight::Play;
+        copyCardText(this, option2);
+        option2->text = "Play a random Bronze unit from your deck.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2});
-}
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
 
-void FirstLight::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-     acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+         acceptOptionAndDeleteOthers(this, target);
 
-     if (dynamic_cast<FirstLight::Clear *>(target)) {
-         std::vector<Card *> damagedUnitsUnderHazards;
-         clearAllHazards(ally, &damagedUnitsUnderHazards);
-         for (Card *card : damagedUnitsUnderHazards)
-             boost(card, 2, ally, enemy, this);
-         delete target;
-         return;
-     }
+         if (dynamic_cast<FirstLight::Clear *>(target)) {
+             std::vector<Card *> damagedUnitsUnderHazards;
+             clearAllHazards(ally, &damagedUnitsUnderHazards);
+             for (Card *card : damagedUnitsUnderHazards)
+                 boost(card, 2, ally, enemy, this);
+             delete target;
+             return;
+         }
 
-     if (dynamic_cast<FirstLight::Play *>(target)) {
-         if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
-             playExistedCard(card, ally, enemy, this);
-         delete target;
-         return;
-     }
+         if (dynamic_cast<FirstLight::Play *>(target)) {
+             if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
+                 playExistedCard(card, ally, enemy, this);
+             delete target;
+             return;
+         }
 
-     assert(false);
-}
+         assert(false);
+    };
+};
 
 ClearSkies::ClearSkies()
 {
@@ -2219,15 +2103,14 @@ ClearSkies::ClearSkies()
     rarity = Bronze;
     faction = Neutral;
     tags = { Tactics };
-}
 
-void ClearSkies::onPlaySpecial(Field &ally, Field &enemy)
-{
-    std::vector<Card *> damagedUnitsUnderHazards;
-    clearAllHazards(ally, &damagedUnitsUnderHazards);
-    for (Card *card : damagedUnitsUnderHazards)
-        boost(card, 2, ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> damagedUnitsUnderHazards;
+        clearAllHazards(ally, &damagedUnitsUnderHazards);
+        for (Card *card : damagedUnitsUnderHazards)
+            boost(card, 2, ally, enemy, this);
+    };
+};
 
 Epidemic::Epidemic()
 {
@@ -2239,13 +2122,12 @@ Epidemic::Epidemic()
     rarity = Bronze;
     faction = Neutral;
     tags = { Organic, Spell };
-}
 
-void Epidemic::onPlaySpecial(Field &ally, Field &enemy)
-{
-    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-        putToDiscard(card, ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
+            putToDiscard(card, ally, enemy, this);
+    };
+};
 
 Moonlight::Moonlight()
 {
@@ -2257,47 +2139,43 @@ Moonlight::Moonlight()
     rarity = Bronze;
     faction = Monster;
     tags = { Hazard, Boon };
-}
 
-void Moonlight::onPlaySpecial(Field &ally, Field &)
-{
-    auto *option1 = new Moonlight::FullMoon;
-    copyCardText(this, option1);
-    option1->name = "Full Moon";
-    option1->text = "Apply a Boon to an allied row that boosts a random Beast or Vampire by 2 on turn start.";
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new Moonlight::FullMoon;
+        copyCardText(this, option1);
+        option1->name = "Full Moon";
+        option1->text = "Apply a Boon to an allied row that boosts a random Beast or Vampire by 2 on turn start.";
 
-    auto *option2 = new Moonlight::BloodMoon;
-    copyCardText(this, option2);
-    option2->name = "Blood Moon";
-    option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
+        auto *option2 = new Moonlight::BloodMoon;
+        copyCardText(this, option2);
+        option2->name = "Blood Moon";
+        option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2});
-}
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
 
-void Moonlight::onTargetChoosen(Card *target, Field &ally, Field &)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-        startChoiceToSelectAllyRow(ally, this);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+        acceptOptionAndDeleteOthers(this, target);
+        if (dynamic_cast<Moonlight::FullMoon *>(target)) {
+            startChoiceToSelectAllyRow(ally, this);
 
-    } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-        startChoiceToSelectEnemyRow(ally, this);
+        } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
+            startChoiceToSelectEnemyRow(ally, this);
 
-    } else
-        assert(false);
+        } else
+            assert(false);
 
-    delete target;
-}
+        delete target;
+    };
 
-void Moonlight::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(ally, enemy, row, FullMoonEffect);
-}
+    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, FullMoonEffect);
+    };
 
-void Moonlight::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, BloodMoonEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, BloodMoonEffect);
+    };
+};
 
 CiriNova::CiriNova()
 {
@@ -2316,15 +2194,14 @@ CiriNova::CiriNova()
     rarity = Gold;
     faction = Neutral;
     tags = { Cintra, Witcher };
-}
 
-void CiriNova::onDeploy(Field &ally, Field &enemy)
-{
-    if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
-        return;
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
+            return;
 
-    strengthen(this, 22 - powerBase, ally, enemy);
-}
+        strengthen(this, 22 - powerBase, ally, enemy);
+    };
+};
 
 HaraldTheCripple::HaraldTheCripple()
 {
@@ -2341,19 +2218,18 @@ HaraldTheCripple::HaraldTheCripple()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanAnCraite, Leader };
-}
 
-void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
-{
-    Row row;
-    Pos pos;
-    if (!_findRowAndPos(this, ally, row, pos))
-        return;
-    for (int n = 0; n < 9; ++n)
-        if (Card *card = random(enemy.row(row), ally.rng)) {
-            damage(card, 1, ally, enemy, this);
-        }
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row row;
+        Pos pos;
+        if (!_findRowAndPos(this, ally, row, pos))
+            return;
+        for (int n = 0; n < 9; ++n)
+            if (Card *card = random(enemy.row(row), ally.rng)) {
+                damage(card, 1, ally, enemy, this);
+            }
+    };
+};
 
 Emissary::Emissary()
 {
@@ -2371,17 +2247,15 @@ Emissary::Emissary()
     rarity = Bronze;
     faction = Nilfgaard;
     tags = { };
-}
 
-void Emissary::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng));
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng));
+    };
 
-void Emissary::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 CeallachDyffryn::CeallachDyffryn()
 {
@@ -2398,18 +2272,16 @@ CeallachDyffryn::CeallachDyffryn()
     rarity = Silver;
     faction = Nilfgaard;
     tags = { Officer };
-}
 
-void CeallachDyffryn::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new Ambassador(), new Assassin(), new Emissary()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new Ambassador(), new Assassin(), new Emissary()});
+    };
 
-void CeallachDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 Restore::Restore()
 {
@@ -2421,20 +2293,18 @@ Restore::Restore()
     rarity = Silver;
     faction = Skellige;
     tags = { Spell };
-}
 
-void Restore::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isSkelligeFaction}, AllyDiscard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isSkelligeFaction}, AllyDiscard);
+    };
 
-void Restore::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToHand(target, ally, enemy);
-    target->isDoomed = true;
-    target->powerBase = target->power = 8;
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy);
+        target->isDoomed = true;
+        target->powerBase = target->power = 8;
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 DrummondQueensguard::DrummondQueensguard()
 {
@@ -2451,13 +2321,12 @@ DrummondQueensguard::DrummondQueensguard()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanDrummond, Soldier };
-}
 
-void DrummondQueensguard::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
-        moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
+            moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 BranTuirseach::BranTuirseach()
 {
@@ -2474,19 +2343,17 @@ BranTuirseach::BranTuirseach()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanTuirseach, Leader };
-}
 
-void BranTuirseach::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, true);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, true);
+    };
 
-void BranTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToDiscard(target, ally, enemy, this);
-    if (!target->isSpecial)
-        strengthen(target, 1, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+        if (!target->isSpecial)
+            strengthen(target, 1, ally, enemy);
+    };
+};
 
 DrummondWarmonger::DrummondWarmonger()
 {
@@ -2503,17 +2370,15 @@ DrummondWarmonger::DrummondWarmonger()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanDrummond, Soldier };
-}
 
-void DrummondWarmonger::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyDeckShuffled);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyDeckShuffled);
+    };
 
-void DrummondWarmonger::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToDiscard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+    };
+};
 
 DimunPirate::DimunPirate()
 {
@@ -2530,13 +2395,12 @@ DimunPirate::DimunPirate()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanDimun, Soldier };
-}
 
-void DimunPirate::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
-        putToDiscard(card, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
+            putToDiscard(card, ally, enemy, this);
+    };
+};
 
 AnCraiteRaider::AnCraiteRaider()
 {
@@ -2553,12 +2417,11 @@ AnCraiteRaider::AnCraiteRaider()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Soldier };
-}
 
-void AnCraiteRaider::onDiscard(Field &ally, Field &enemy)
-{
-    moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
-}
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+};
 
 MadmanLugos::MadmanLugos()
 {
@@ -2576,23 +2439,21 @@ MadmanLugos::MadmanLugos()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanDrummond, Officer };
-}
 
-void MadmanLugos::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDeckShuffled);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDeckShuffled);
+    };
 
-void MadmanLugos::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_discarded == nullptr) {
-        _discarded = target;
-        putToDiscard(target, ally, enemy, this);
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-        return;
-    }
-    damage(target, _discarded->powerBase, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_discarded == nullptr) {
+            _discarded = target;
+            putToDiscard(target, ally, enemy, this);
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _discarded->powerBase, ally, enemy, this);
+    };
+};
 
 Ermion::Ermion()
 {
@@ -2610,19 +2471,17 @@ Ermion::Ermion()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanAnCraite, Support };
-}
 
-void Ermion::onDeploy(Field &ally, Field &enemy)
-{
-    drawACard(ally, enemy);
-    drawACard(ally, enemy);
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        drawACard(ally, enemy);
+        drawACard(ally, enemy);
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2);
+    };
 
-void Ermion::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToDiscard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+    };
+};
 
 CerysFearless::CerysFearless()
 {
@@ -2640,21 +2499,19 @@ CerysFearless::CerysFearless()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanAnCraite, Officer };
-}
 
-void CerysFearless::onDeploy(Field &ally, Field &enemy)
-{
-    setTimer(this, ally, enemy, 1);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 1);
+    };
 
-void CerysFearless::onOtherAllyDiscarded(Card *other, Field &ally, Field &enemy)
-{
-    if (other->isSpecial || !isOnBoard(this, ally))
-        return;
+    _onOtherAllyDiscarded = [=](Card *other, Field &ally, Field &enemy) {
+        if (other->isSpecial || !isOnBoard(this, ally))
+            return;
 
-    if (tick(this, ally, enemy))
-        playExistedCard(other, ally, enemy, this);
-}
+        if (tick(this, ally, enemy))
+            playExistedCard(other, ally, enemy, this);
+    };
+};
 
 CerysAnCraite::CerysAnCraite()
 {
@@ -2672,26 +2529,23 @@ CerysAnCraite::CerysAnCraite()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanAnCraite, Officer };
-}
 
-void CerysAnCraite::onDiscard(Field &ally, Field &enemy)
-{
-    setTimer(this, ally, enemy, 4);
-}
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 4);
+    };
 
-void CerysAnCraite::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
-{
-    setTimer(this, ally, enemy, 4);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        setTimer(this, ally, enemy, 4);
+    };
 
-void CerysAnCraite::onOtherAllyResurrecteded(Card *, Field &ally, Field &enemy)
-{
-    if (!isIn(this, ally.discard))
-        return;
+    _onOtherAllyResurrecteded = [=](Card *, Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
 
-    if (tick(this, ally, enemy))
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
-}
+        if (tick(this, ally, enemy))
+            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+};
 
 WoodlandSpirit::WoodlandSpirit()
 {
@@ -2703,18 +2557,17 @@ WoodlandSpirit::WoodlandSpirit()
     rarity = Gold;
     faction = Monster;
     tags = { Relict };
-}
 
-void WoodlandSpirit::onDeploy(Field &ally, Field &enemy)
-{
-    Row row;
-    Pos pos;
-    if (!_findRowAndPos(this, ally, row, pos))
-        return;
-    applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
-    for (int n = 0; n < 3; ++n)
-        spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row row;
+        Pos pos;
+        if (!_findRowAndPos(this, ally, row, pos))
+            return;
+        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+        for (int n = 0; n < 3; ++n)
+            spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
+    };
+};
 
 Trollololo::Trollololo()
 {
@@ -2733,12 +2586,11 @@ Trollololo::Trollololo()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Redania, Ogroid };
-}
 
-void Trollololo::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 9, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 9, ally, enemy, this);
+    };
+};
 
 PrinceStennis::PrinceStennis()
 {
@@ -2755,19 +2607,18 @@ PrinceStennis::PrinceStennis()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Aedirn, Officer };
-}
 
-void PrinceStennis::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 3, ally, enemy, this);
-    const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isNonSpying, isBronzeOrSilver, isUnit}, AllyDeck);
-    if (cards.size() == 0)
-        return;
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 3, ally, enemy, this);
+        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isNonSpying, isBronzeOrSilver, isUnit}, AllyDeck);
+        if (cards.size() == 0)
+            return;
 
-    Card *target = cards.front();
-    playExistedCard(target, ally, enemy, this);
-    gainArmor(target, 5, ally, enemy, this);
-}
+        Card *target = cards.front();
+        playExistedCard(target, ally, enemy, this);
+        gainArmor(target, 5, ally, enemy, this);
+    };
+};
 
 VincentMeis::VincentMeis()
 {
@@ -2784,19 +2635,18 @@ VincentMeis::VincentMeis()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Beast, Cursed };
-}
 
-void VincentMeis::onDeploy(Field &ally, Field &enemy)
-{
-    int _armor = 0;
-    for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, AnyBoard)) {
-        const int armorTarget = target->armor;
-        damage(target, armorTarget, ally, enemy, this);
-        _armor += armorTarget;
-    }
-    if (_armor)
-        boost(this, _armor / 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        int _armor = 0;
+        for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, AnyBoard)) {
+            const int armorTarget = target->armor;
+            damage(target, armorTarget, ally, enemy, this);
+            _armor += armorTarget;
+        }
+        if (_armor)
+            boost(this, _armor / 2, ally, enemy, this);
+    };
+};
 
 Morkvarg::Morkvarg()
 {
@@ -2813,23 +2663,21 @@ Morkvarg::Morkvarg()
     rarity = Silver;
     faction = Skellige;
     tags = { Beast, Cursed };
-}
 
-void Morkvarg::onDiscard(Field &ally, Field &enemy)
-{
-    if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
-        return;
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+            return;
 
-    moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
-}
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
 
-void Morkvarg::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
-{
-    if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
-        return;
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+            return;
 
-    moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
-}
+        moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+    };
+};
 
 ArtefactCompression::ArtefactCompression()
 {
@@ -2841,17 +2689,15 @@ ArtefactCompression::ArtefactCompression()
     rarity = Silver;
     faction = Neutral;
     tags = { Spell };
-}
 
-void ArtefactCompression::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver});
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver});
+    };
 
-void ArtefactCompression::onTargetChoosen(Card *target, Field &, Field &)
-{
-    transform(target, id, "Jade Figurine", "", url, 2, Bronze, Neutral);
-}
+    _onTargetChoosen = [=](Card *target, Field &, Field &) {
+        transform(target, id, "Jade Figurine", "", url, 2, Bronze, Neutral);
+    };
+};
 
 HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 {
@@ -2863,13 +2709,12 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
     rarity = Silver;
     faction = Skellige;
     tags = { Ogroid };
-}
 
-void HjalmarAnCraite::LordOfUndvik::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
-        boost(card, 10, ally, enemy, this);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
+            boost(card, 10, ally, enemy, this);
+    };
+};
 
 HjalmarAnCraite::HjalmarAnCraite()
 {
@@ -2887,12 +2732,11 @@ HjalmarAnCraite::HjalmarAnCraite()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanAnCraite, Officer };
-}
 
-void HjalmarAnCraite::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
+    };
+};
 
 Regis::Regis()
 {
@@ -2909,18 +2753,16 @@ Regis::Regis()
     rarity = Gold;
     faction = Neutral;
     tags = { Vampire };
-}
 
-void Regis::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBoosted}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBoosted}, AnyBoard);
+    };
 
-void Regis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const int x = target->power - target->powerBase;
-    drain(target, x, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int x = target->power - target->powerBase;
+        drain(target, x, ally, enemy, this);
+    };
+};
 
 LethoOfGulet::LethoOfGulet()
 {
@@ -2939,18 +2781,16 @@ LethoOfGulet::LethoOfGulet()
     rarity = Gold;
     faction = Nilfgaard;
     tags = { Witcher };
-}
 
-void LethoOfGulet::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, EnemyBoard, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, EnemyBoard, 2);
+    };
 
-void LethoOfGulet::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    lock(target, ally, enemy, this);
-    drain(target, target->power, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        lock(target, ally, enemy, this);
+        drain(target, target->power, ally, enemy, this);
+    };
+};
 
 AnCraiteLongship::AnCraiteLongship()
 {
@@ -2962,19 +2802,17 @@ AnCraiteLongship::AnCraiteLongship()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Machine };
-}
 
-void AnCraiteLongship::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-        damage(card, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+            damage(card, 2, ally, enemy, this);
+    };
 
-void AnCraiteLongship::onOtherAllyDiscarded(Card *, Field &ally, Field &enemy)
-{
-    if (isOnBoard(this, ally))
-        AnCraiteLongship::onDeploy(ally, enemy);
-}
+    _onOtherAllyDiscarded = [=](Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(this, ally))
+            AnCraiteLongship::onDeploy(ally, enemy);
+    };
+};
 
 TuirseachVeteran::TuirseachVeteran()
 {
@@ -2991,13 +2829,12 @@ TuirseachVeteran::TuirseachVeteran()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Support };
-}
 
-void TuirseachVeteran::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
-        strengthen(card, 1, ally, enemy);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy);
+    };
+};
 
 TuirseachHunter::TuirseachHunter()
 {
@@ -3014,17 +2851,15 @@ TuirseachHunter::TuirseachHunter()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Soldier };
-}
 
-void TuirseachHunter::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void TuirseachHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, 5, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+};
 
 Udalryk::Udalryk()
 {
@@ -3038,23 +2873,21 @@ Udalryk::Udalryk()
     rarity = Silver;
     faction = Skellige;
     tags = { ClanBrokvar, Cursed, Agent };
-}
 
-void Udalryk::onDeploy(Field &ally, Field &enemy)
-{
-    if (tick(this, ally, enemy))
-        startChoiceToTargetCard(ally, enemy, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
 
-void Udalryk::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToHand(target, ally, enemy);
-    for (Card *card : _drawn)
-        if (card != target)
-            putToDiscard(card, ally, enemy, this);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy);
+        for (Card *card : _drawn)
+            if (card != target)
+                putToDiscard(card, ally, enemy, this);
 
-    _drawn.clear();
-}
+        _drawn.clear();
+    };
+};
 
 BloodcurdlingRoar::BloodcurdlingRoar()
 {
@@ -3066,18 +2899,16 @@ BloodcurdlingRoar::BloodcurdlingRoar()
     rarity = Bronze;
     faction = Neutral;
     tags = { Organic };
-}
 
-void BloodcurdlingRoar::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
 
-void BloodcurdlingRoar::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToDiscard(target, ally, enemy, this);
-    spawnNewCard(new Bear(), ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+        spawnNewCard(new Bear(), ally, enemy, this);
+    };
+};
 
 Gremist::Gremist()
 {
@@ -3095,18 +2926,16 @@ Gremist::Gremist()
     rarity = Silver;
     faction = Skellige;
     tags = { Support };
-}
 
-void Gremist::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
+    };
 
-void Gremist::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 Operator::Operator()
 {
@@ -3123,26 +2952,24 @@ Operator::Operator()
     rarity = Silver;
     faction = Neutral;
     tags = { Mage };
-}
 
-void Operator::onDeploy(Field &ally, Field &enemy)
-{
-    if (ally.passed || enemy.passed)
-        return;
-    if (tick(this, ally, enemy))
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyHand);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        if (tick(this, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyHand);
+    };
 
-void Operator::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    Card *copyAlly = target->defaultCopy();
-    ally.cardsAdded.push_back(copyAlly);
-    putToHand(copyAlly, ally, enemy);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copyAlly = target->defaultCopy();
+        ally.cardsAdded.push_back(copyAlly);
+        putToHand(copyAlly, ally, enemy);
 
-    Card *copyEnemy = target->defaultCopy();
-    enemy.cardsAdded.push_back(copyEnemy);
-    putToHand(copyEnemy, enemy, ally);
-}
+        Card *copyEnemy = target->defaultCopy();
+        enemy.cardsAdded.push_back(copyEnemy);
+        putToHand(copyEnemy, enemy, ally);
+    };
+};
 
 ZoriaRunestone::ZoriaRunestone()
 {
@@ -3154,18 +2981,16 @@ ZoriaRunestone::ZoriaRunestone()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Alchemy, Item };
-}
 
-void ZoriaRunestone::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNothernRealmsFaction});
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNothernRealmsFaction});
+    };
 
-void ZoriaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 Renew::Renew()
 {
@@ -3177,17 +3002,15 @@ Renew::Renew()
     rarity = Gold;
     faction = Neutral;
     tags = { Spell };
-}
 
-void Renew::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isGold, isNonLeader}, AllyDiscard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isGold, isNonLeader}, AllyDiscard);
+    };
 
-void Renew::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 EistTuirseach::EistTuirseach()
 {
@@ -3204,18 +3027,16 @@ EistTuirseach::EistTuirseach()
     rarity = Gold;
     faction = Skellige;
     tags = { ClanTuirseach, Leader };
-}
 
-void EistTuirseach::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
+    };
 
-void EistTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 TuirseachAxeman::TuirseachAxeman()
 {
@@ -3232,22 +3053,20 @@ TuirseachAxeman::TuirseachAxeman()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Soldier };
-}
 
-void TuirseachAxeman::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+    };
 
-void TuirseachAxeman::onOtherEnemyDamaged(Card *other, Field &ally, Field &enemy)
-{
-    Pos _;
-    Row row;
-    if (!_findRowAndPos(other, enemy, row, _))
-        return;
-    if (isIn(this, ally.row(row)))
-        boost(this, 1, ally, enemy, this);
-}
+    _onOtherEnemyDamaged = [=](Card *other, Field &ally, Field &enemy) {
+        Pos _;
+        Row row;
+        if (!_findRowAndPos(other, enemy, row, _))
+            return;
+        if (isIn(this, ally.row(row)))
+            boost(this, 1, ally, enemy, this);
+    };
+};
 
 TuirseachSkirmisher::TuirseachSkirmisher()
 {
@@ -3264,12 +3083,11 @@ TuirseachSkirmisher::TuirseachSkirmisher()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanTuirseach, Soldier };
-}
 
-void TuirseachSkirmisher::onDeployFromDiscard(Field &ally, Field &enemy)
-{
-    strengthen(this, 3, ally, enemy);
-}
+    _onDeployFromDiscard = [=](Field &ally, Field &enemy) {
+        strengthen(this, 3, ally, enemy);
+    };
+};
 
 Derran::Derran()
 {
@@ -3286,13 +3104,12 @@ Derran::Derran()
     rarity = Silver;
     faction = Skellige;
     tags = { ClanTuirseach, Cursed };
-}
 
-void Derran::onOtherEnemyDamaged(Card *, Field &ally, Field &enemy)
-{
-    if (isOnBoard(this, ally))
-        boost(this, 1, ally, enemy, this);
-}
+    _onOtherEnemyDamaged = [=](Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(this, ally))
+            boost(this, 1, ally, enemy, this);
+    };
+};
 
 Roach::Roach()
 {
@@ -3304,18 +3121,17 @@ Roach::Roach()
     rarity = Silver;
     faction = Neutral;
     tags = { Beast };
-}
 
-void Roach::onOtherAllyPlayedFromHand(Card *other, Field &ally, Field &enemy)
-{
-    if (other->rarity != Gold)
-        return;
+    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+        if (other->rarity != Gold)
+            return;
 
-    if (!isIn(this, ally.deck))
-        return;
+        if (!isIn(this, ally.deck))
+            return;
 
-    spawnNewUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
-}
+        spawnNewUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+};
 
 JanCalveit::JanCalveit()
 {
@@ -3332,18 +3148,16 @@ JanCalveit::JanCalveit()
     rarity = Gold;
     faction = Nilfgaard;
     tags = { Officer, Leader };
-}
 
-void JanCalveit::onDeploy(Field &ally, Field &enemy)
-{
-    const std::vector<Card *> topThreeCards(ally.deck.begin(), ally.deck.begin() + std::min(int(ally.deck.size()), 3));
-    startChoiceToTargetCard(ally, enemy, this, topThreeCards);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const std::vector<Card *> topThreeCards(ally.deck.begin(), ally.deck.begin() + std::min(int(ally.deck.size()), 3));
+        startChoiceToTargetCard(ally, enemy, this, topThreeCards);
+    };
 
-void JanCalveit::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 CahirDyffryn::CahirDyffryn()
 {
@@ -3361,17 +3175,15 @@ CahirDyffryn::CahirDyffryn()
     rarity = Gold;
     faction = Nilfgaard;
     tags = { Officer };
-}
 
-void CahirDyffryn::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, AllyDiscard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, AllyDiscard);
+    };
 
-void CahirDyffryn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 LethoKingslayer::LethoKingslayer()
 {
@@ -3389,59 +3201,57 @@ LethoKingslayer::LethoKingslayer()
     rarity = Gold;
     faction = Nilfgaard;
     tags = { Witcher };
-}
 
-void LethoKingslayer::onDeploy(Field &ally, Field &)
-{
-    auto *option1 = new LethoKingslayer::Destroy;
-    copyCardText(this, option1);
-    option1->text = "Destroy an enemy Leader, then boost self by 5.";
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new LethoKingslayer::Destroy;
+        copyCardText(this, option1);
+        option1->text = "Destroy an enemy Leader, then boost self by 5.";
 
-    auto *option2 = new LethoKingslayer::Play;
-    copyCardText(this, option2);
-    option2->text = "Play a Bronze or Silver Tactic from your deck.";
+        auto *option2 = new LethoKingslayer::Play;
+        copyCardText(this, option2);
+        option2->text = "Play a Bronze or Silver Tactic from your deck.";
 
-    startChoiceToSelectOption(ally, this, {option1, option2});
-}
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
 
-void LethoKingslayer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_options.size() > 0) {
-        _choosen = target;
-        acceptOptionAndDeleteOthers(this, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+
+            if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
+                return;
+            }
+
+            if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeck);
+                return;
+            }
+
+            assert(false);
+        }
 
         if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
+            putToDiscard(target, ally, enemy, this);
+            boost(this, 5, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
 
         if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeck);
+            playExistedCard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
 
         assert(false);
-    }
-
-    if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-        putToDiscard(target, ally, enemy, this);
-        boost(this, 5, ally, enemy, this);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-        playExistedCard(target, ally, enemy, this);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-
-    assert(false);
-}
+    };
+};
 
 KingHenselt::KingHenselt()
 {
@@ -3458,19 +3268,17 @@ KingHenselt::KingHenselt()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Kaedwen, Leader };
-}
 
-void KingHenselt::onDeploy(Field &ally, Field &enemy)
-{
-    isCrew = true;
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isCrew = true;
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
+    };
 
-void KingHenselt::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    for (Card *copy : findCopies(target, ally.deck))
-        playExistedCard(copy, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *copy : findCopies(target, ally.deck))
+            playExistedCard(copy, ally, enemy, this);
+    };
+};
 
 BloodyBaron::BloodyBaron()
 {
@@ -3489,13 +3297,12 @@ BloodyBaron::BloodyBaron()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Temeria, Officer };
-}
 
-void BloodyBaron::onOtherEnemyDestroyed(Card *, Field &ally, Field &enemy)
-{
-    if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
-        boost(this, 1, ally, enemy, this);
-}
+    _onOtherEnemyDestroyed = [=](Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
+            boost(this, 1, ally, enemy, this);
+    };
+};
 
 Dethmold::Dethmold()
 {
@@ -3512,18 +3319,16 @@ Dethmold::Dethmold()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Kaedwen, Mage };
-}
 
-void Dethmold::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
+    };
 
-void Dethmold::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 RonvidTheIncessant::RonvidTheIncessant()
 {
@@ -3540,17 +3345,15 @@ RonvidTheIncessant::RonvidTheIncessant()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Kaedwen, Soldier };
-}
 
-void RonvidTheIncessant::onDeploy(Field &, Field &)
-{
-    isCrew = true;
-}
+    _onDeploy = [=](Field &, Field &) {
+        isCrew = true;
+    };
 
-void RonvidTheIncessant::onTurnEnd(Field &, Field &)
-{
-
-}
+    _onTurnEnd = [=](Field &, Field &) {
+        // FIXME: ability is missing
+    };
+};
 
 HubertRejk::HubertRejk()
 {
@@ -3567,13 +3370,12 @@ HubertRejk::HubertRejk()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Vampire };
-}
 
-void HubertRejk::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
-        drain(card, card->power - card->powerBase, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
+            drain(card, card->power - card->powerBase, ally, enemy, this);
+    };
+};
 
 CrachAnCraite::CrachAnCraite()
 {
@@ -3591,15 +3393,14 @@ CrachAnCraite::CrachAnCraite()
     faction = Skellige;
     rarity = Gold;
     tags = { ClanAnCraite, Leader };
-}
 
-void CrachAnCraite::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
-        strengthen(card, 2, ally, enemy);
-        playExistedCard(card, ally, enemy, this);
-    }
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
+            strengthen(card, 2, ally, enemy);
+            playExistedCard(card, ally, enemy, this);
+        }
+    };
+};
 
 BirnaBran::BirnaBran()
 {
@@ -3616,17 +3417,15 @@ BirnaBran::BirnaBran()
     faction = Skellige; 
     rarity = Gold;
     tags = { ClanTuirseach, Officer };
-}
 
-void BirnaBran::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectEnemyRow(ally, this);
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
 
-void BirnaBran::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    applyRowEffect(enemy, ally, row, SkelligeStormEffect);
-}
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    };
+};
 
 Coral::Coral()
 {
@@ -3643,17 +3442,15 @@ Coral::Coral()
     faction = Skellige; 
     rarity = Gold;
     tags = { Mage };
-}
 
-void Coral::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AnyBoard);
+    };
 
-void Coral::onTargetChoosen(Card *target, Field &, Field &)
-{
-    transform(target, id, "Jade Figurine", "", "https://gwent.one/image/card/low/cid/png/200053.png", 2, Bronze, Neutral);
-}
+    _onTargetChoosen = [=](Card *target, Field &, Field &) {
+        transform(target, id, "Jade Figurine", "", "https://gwent.one/image/card/low/cid/png/200053.png", 2, Bronze, Neutral);
+    };
+};
 
 Kambi::Hemdall::Hemdall()
 {
@@ -3671,17 +3468,16 @@ Kambi::Hemdall::Hemdall()
     faction = Skellige;
     rarity = Gold;
     tags = {};
-}
 
-void Kambi::Hemdall::onDeploy(Field &ally, Field &enemy)
-{
-    for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
-        ally.rowEffect(row) = NoRowEffect;
-        enemy.rowEffect(row) = NoRowEffect;
-    }
-    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        putToDiscard(card, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
+            ally.rowEffect(row) = NoRowEffect;
+            enemy.rowEffect(row) = NoRowEffect;
+        }
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            putToDiscard(card, ally, enemy, this);
+    };
+};
 
 Vabjorn::Vabjorn()
 {
@@ -3698,20 +3494,18 @@ Vabjorn::Vabjorn()
     faction = Skellige;
     rarity = Gold;
     tags = { Cursed, Cultist };
-}
 
-void Vabjorn::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
 
-void Vabjorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (isDamaged(target))
-        putToDiscard(target, ally, enemy, this);
-    else
-        damage(target, 2, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (isDamaged(target))
+            putToDiscard(target, ally, enemy, this);
+        else
+            damage(target, 2, ally, enemy, this);
+    };
+};
 
 BlueboyLugos::BlueboyLugos()
 {
@@ -3727,13 +3521,11 @@ BlueboyLugos::BlueboyLugos()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanDrummond, Soldier };
-}
 
-void BlueboyLugos::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewCard(new SpectralWhale(), ally, enemy, this);
-}
-
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new SpectralWhale(), ally, enemy, this);
+    };
+};
 
 DjengeFrett::DjengeFrett()
 {
@@ -3751,19 +3543,16 @@ DjengeFrett::DjengeFrett()
     faction = Skellige;
     rarity = Silver;
     tags = { Soldier, ClanDimun };
-}
 
-void DjengeFrett::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
 
-void DjengeFrett::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    damage(target, 1, ally, enemy, this);
-    strengthen(this, 2, ally, enemy);
-}
-
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 1, ally, enemy, this);
+        strengthen(this, 2, ally, enemy);
+    };
+};
 
 DonarAnHindar::DonarAnHindar()
 {
@@ -3780,7 +3569,7 @@ DonarAnHindar::DonarAnHindar()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanHeymaey, Officer };
-}
+};
 
 DraigBonDhu::DraigBonDhu()
 {
@@ -3796,17 +3585,15 @@ DraigBonDhu::DraigBonDhu()
     faction = Skellige;
     rarity = Silver;
     tags = { Support };
-}
 
-void DraigBonDhu::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isNonLeader, isUnit}, AllyDiscard, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonLeader, isUnit}, AllyDiscard, 2);
+    };
 
-void DraigBonDhu::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    strengthen(target, 3, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 3, ally, enemy);
+    };
+};
 
 HolgerBlackhand::HolgerBlackhand()
 {
@@ -3823,19 +3610,17 @@ HolgerBlackhand::HolgerBlackhand()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanDimun, Officer };
-}
 
-void HolgerBlackhand::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
 
-void HolgerBlackhand::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (damage(target, 6, ally, enemy, this))
-        if (Card *card = highest(ally.discard, ally.rng))
-            strengthen(card, 3, ally, enemy);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 6, ally, enemy, this))
+            if (Card *card = highest(ally.discard, ally.rng))
+                strengthen(card, 3, ally, enemy);
+    };
+};
 
 JuttaAnDimun::JuttaAnDimun()
 {
@@ -3852,12 +3637,11 @@ JuttaAnDimun::JuttaAnDimun()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanDimun, Soldier };
-}
 
-void JuttaAnDimun::onDeploy(Field &ally, Field &enemy)
-{
-    damage(this, 1, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        damage(this, 1, ally, enemy, this);
+    };
+};
 
 SavageBear::SavageBear()
 {
@@ -3869,13 +3653,12 @@ SavageBear::SavageBear()
     faction = Skellige;
     rarity = Bronze;
     tags = { Beast, Cursed };
-}
 
-void SavageBear::onOtherEnemyPlayedFromHand(Card *other, Field &ally, Field &enemy)
-{
-    if (isOnBoard(this, ally))
-        damage(other, 1, ally, enemy, this);
-}
+    _onOtherEnemyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+        if (isOnBoard(this, ally))
+            damage(other, 1, ally, enemy, this);
+    };
+};
 
 SvanrigeTuirseach::SvanrigeTuirseach()
 {
@@ -3894,18 +3677,16 @@ SvanrigeTuirseach::SvanrigeTuirseach()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTuirseach, Officer };
-}
 
-void SvanrigeTuirseach::onDeploy(Field &ally, Field &enemy)
-{
-    if (drawACard(ally, enemy))
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (drawACard(ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
 
-void SvanrigeTuirseach::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    putToDiscard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+    };
+};
 
 Skjall::Skjall()
 {
@@ -3925,13 +3706,12 @@ Skjall::Skjall()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanHeymaey, Cursed };
-}
 
-void Skjall::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, hasTag(Cursed)}, AllyDeck), ally.rng))
-        playExistedCard(card, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, hasTag(Cursed)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+};
 
 HaraldHoundsnout::HaraldHoundsnout()
 {
@@ -3948,14 +3728,13 @@ HaraldHoundsnout::HaraldHoundsnout()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTordarroch, Cursed };
-}
 
-void HaraldHoundsnout::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewUnitToPos(new Wilfred(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Wilhelm(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new Wilfred(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Wilhelm(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
+    };
+};
 
 HaraldHoundsnout::Wilfred::Wilfred()
 {
@@ -3965,13 +3744,12 @@ HaraldHoundsnout::Wilfred::Wilfred()
     faction = Skellige;
     rarity = Bronze;
     isDoomed = true;
-}
 
-void HaraldHoundsnout::Wilfred::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
-{
-    for (Card *card : enemy.row(rowAndPos.row()))
-        damage(card, 1, ally, enemy, this);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        for (Card *card : enemy.row(rowAndPos.row()))
+            damage(card, 1, ally, enemy, this);
+    };
+};
 
 HaraldHoundsnout::Wilhelm::Wilhelm()
 {
@@ -3981,13 +3759,12 @@ HaraldHoundsnout::Wilhelm::Wilhelm()
     faction = Skellige;
     rarity = Bronze;
     isDoomed = true;
-}
 
-void HaraldHoundsnout::Wilhelm::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-        strengthen(card, 3, ally, enemy);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+            strengthen(card, 3, ally, enemy);
+    };
+};
 
 HaraldHoundsnout::Wilmar::Wilmar()
 {
@@ -3997,12 +3774,11 @@ HaraldHoundsnout::Wilmar::Wilmar()
     faction = Skellige;
     rarity = Bronze;
     isDoomed = true;
-}
 
-void HaraldHoundsnout::Wilmar::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
-{
-    spawnNewUnitToPos(new Bear(), rowAndPosRandom(enemy), ally, enemy, this);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        spawnNewUnitToPos(new Bear(), rowAndPosRandom(enemy), ally, enemy, this);
+    };
+};
 
 Yoana::Yoana()
 {
@@ -4021,19 +3797,17 @@ Yoana::Yoana()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanTordarroch, Support };
-}
 
-void Yoana::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isUnit, isDamaged}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, isDamaged}, AllyBoard);
+    };
 
-void Yoana::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const int x = target->powerBase - target->power;
-    heal(target, ally, enemy);
-    boost(target, x, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int x = target->powerBase - target->power;
+        heal(target, ally, enemy);
+        boost(target, x, ally, enemy, this);
+    };
+};
 
 AnCraiteBlacksmith::AnCraiteBlacksmith()
 {
@@ -4050,18 +3824,16 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanAnCraite, Support };
-}
 
-void AnCraiteBlacksmith::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
 
-void AnCraiteBlacksmith::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    strengthen(target, 2, ally, enemy);
-    gainArmor(target, 2, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 2, ally, enemy);
+        gainArmor(target, 2, ally, enemy, this);
+    };
+};
 
 AnCraiteWarcrier::AnCraiteWarcrier()
 {
@@ -4080,18 +3852,15 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanAnCraite, Support};
-}
 
-void AnCraiteWarcrier::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
 
-void AnCraiteWarcrier::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, int(std::floor(target->power / 2.0)), ally, enemy, this);
-}
-
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, int(std::floor(target->power / 2.0)), ally, enemy, this);
+    };
+};
 
 AnCraiteWarrior::AnCraiteWarrior()
 {
@@ -4108,12 +3877,11 @@ AnCraiteWarrior::AnCraiteWarrior()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanAnCraite, Soldier };
-}
 
-void AnCraiteWarrior::onDeploy(Field &ally, Field &enemy)
-{
-    damage(this, 1, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        damage(this, 1, ally, enemy, this);
+    };
+};
 
 BerserkerMarauder::BerserkerMarauder()
 {
@@ -4130,17 +3898,16 @@ BerserkerMarauder::BerserkerMarauder()
     faction = Skellige;
     rarity = Bronze;
     tags = { Cursed, Soldier, Cultist };
-}
 
-void BerserkerMarauder::onDeploy(Field &ally, Field &enemy)
-{
-    const auto isDamagedOrCursed = [=](Card *card) {
-        return (card != this) && (isDamaged(card) || hasTag(card, Cursed));
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const auto isDamagedOrCursed = [=](Card *card) {
+            return (card != this) && (isDamaged(card) || hasTag(card, Cursed));
+        };
+        const int nUnits = int(cardsFiltered(ally, enemy, {isDamagedOrCursed}, AllyBoard).size());
+        if (nUnits)
+            boost(this, nUnits, ally, enemy, this);
     };
-    const int nUnits = int(cardsFiltered(ally, enemy, {isDamagedOrCursed}, AllyBoard).size());
-    if (nUnits)
-        boost(this, nUnits, ally, enemy, this);
-}
+};
 
 DimunPirateCaptain::DimunPirateCaptain()
 {
@@ -4158,17 +3925,15 @@ DimunPirateCaptain::DimunPirateCaptain()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Officer };
-}
 
-void DimunPirateCaptain::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasTag(ClanDimun)}, AllyDeckShuffled);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasTag(ClanDimun)}, AllyDeckShuffled);
+    };
 
-void DimunPirateCaptain::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 DimunSmuggler::DimunSmuggler()
 {
@@ -4185,7 +3950,7 @@ DimunSmuggler::DimunSmuggler()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Soldier };
-}
+};
 
 DrummondShieldmaid::DrummondShieldmaid()
 {
@@ -4202,7 +3967,7 @@ DrummondShieldmaid::DrummondShieldmaid()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDrummond, Soldier };
-}
+};
 
 HeymaeyFlaminica::HeymaeyFlaminica()
 {
@@ -4219,7 +3984,7 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
-}
+};
 
 
 HeymaeyHerbalist::HeymaeyHerbalist()
@@ -4237,13 +4002,12 @@ HeymaeyHerbalist::HeymaeyHerbalist()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
-}
 
-void HeymaeyHerbalist::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *target = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
-        playExistedCard(target, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *target = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
+            playExistedCard(target, ally, enemy, this);
+    };
+};
 
 HeymaeyProtector::HeymaeyProtector()
 {
@@ -4260,17 +4024,15 @@ HeymaeyProtector::HeymaeyProtector()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Soldier };
-}
 
-void HeymaeyProtector::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Item)}, AllyDeck);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Item)}, AllyDeck);
+    };
 
-void HeymaeyProtector::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 HeymaeySkald::HeymaeySkald()
 {
@@ -4287,7 +4049,7 @@ HeymaeySkald::HeymaeySkald()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
-}
+};
 
 RagingBerserker::RagingBerserker()
 {
@@ -4304,7 +4066,7 @@ RagingBerserker::RagingBerserker()
     faction = Skellige;
     rarity = Bronze;
     tags = { Cursed, Soldier, Cultist };
-}
+};
 
 RagingBerserker::RagingBear::RagingBear()
 {
@@ -4316,7 +4078,7 @@ RagingBerserker::RagingBear::RagingBear()
     faction = Skellige;
     rarity = Bronze;
     tags = { Cursed, Beast, Cultist };
-}
+};
 
 Hym::Hym()
 {
@@ -4328,7 +4090,7 @@ Hym::Hym()
     faction = Skellige;
     rarity = Gold;
     tags = { Cursed };
-}
+};
 
 Kambi::Kambi()
 {
@@ -4341,12 +4103,11 @@ Kambi::Kambi()
     faction = Skellige;
     rarity = Gold;
     tags = { };
-}
 
-void Kambi::onDestroy(Field &ally, Field &enemy, const RowAndPos &)
-{
-    spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
-}
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+};
 
 Olaf::Olaf()
 {
@@ -4358,7 +4119,7 @@ Olaf::Olaf()
     faction = Skellige;
     rarity = Gold;
     tags = { Beast, Cursed };
-}
+};
 
 Ulfhedinn::Ulfhedinn()
 {
@@ -4370,17 +4131,16 @@ Ulfhedinn::Ulfhedinn()
     faction = Skellige;
     rarity = Gold;
     tags = { Beast, Cursed };
-}
 
-void Ulfhedinn::onDeploy(Field &ally, Field &enemy)
-{
-    const std::vector<Card *> damaged = cardsFiltered(ally, enemy, {isDamaged}, EnemyBoard);
-    const std::vector<Card *> other   = cardsFiltered(ally, enemy, {isUndamaged}, EnemyBoard);
-    for (Card *card : other)
-        damage(card, 1, ally, enemy, this);
-    for (Card *card : damaged)
-        damage(card, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const std::vector<Card *> damaged = cardsFiltered(ally, enemy, {isDamaged}, EnemyBoard);
+        const std::vector<Card *> other   = cardsFiltered(ally, enemy, {isUndamaged}, EnemyBoard);
+        for (Card *card : other)
+            damage(card, 1, ally, enemy, this);
+        for (Card *card : damaged)
+            damage(card, 2, ally, enemy, this);
+    };
+};
 
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
@@ -4392,24 +4152,22 @@ WildBoarOfTheSea::WildBoarOfTheSea()
     faction = Skellige;
     rarity = Gold;
     tags = { ClanAnCraite, Machine };
-}
 
-void WildBoarOfTheSea::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 5, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 5, ally, enemy, this);
+    };
 
-void WildBoarOfTheSea::onTurnEnd(Field &ally, Field &enemy)
-{
-    Row row;
-    Pos pos;
-    if (!_findRowAndPos(this, ally, row, pos))
-        return;
-    if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
-        strengthen(left, 1, ally, enemy);
-    if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
-        damage(right, 1, ally, enemy, this);
-}
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        Row row;
+        Pos pos;
+        if (!_findRowAndPos(this, ally, row, pos))
+            return;
+        if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
+            strengthen(left, 1, ally, enemy);
+        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
+            damage(right, 1, ally, enemy, this);
+    };
+};
 
 GiantBoar::GiantBoar()
 {
@@ -4421,15 +4179,14 @@ GiantBoar::GiantBoar()
     faction = Skellige;
     rarity = Silver;
     tags = { Beast };
-}
 
-void GiantBoar::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
-        putToDiscard(card, ally, enemy, this);
-        boost(this, 10, ally, enemy, this);
-    }
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
+            putToDiscard(card, ally, enemy, this);
+            boost(this, 10, ally, enemy, this);
+        }
+    };
+};
 
 OrnamentalSword::OrnamentalSword()
 {
@@ -4441,7 +4198,7 @@ OrnamentalSword::OrnamentalSword()
     faction = Skellige;
     rarity = Silver;
     tags = { Item };
-}
+};
 
 BlueboyLugos::SpectralWhale::SpectralWhale()
 {
@@ -4454,12 +4211,11 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     faction = Skellige;
     rarity = Silver;
     tags = { Cursed };
-}
 
-void BlueboyLugos::SpectralWhale::onTurnEnd(Field &, Field &)
-{
-    // FIXME: ability missing
-}
+    _onTurnEnd = [=](Field &, Field &) {
+        // FIXME: ability missing
+    };
+};
 
 DimunWarship::DimunWarship()
 {
@@ -4471,20 +4227,18 @@ DimunWarship::DimunWarship()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Machine };
-}
 
-void DimunWarship::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
 
-void DimunWarship::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    /// break if killed already
-    for (int n = 0; n < 4; ++n)
-        if (damage(target, 1, ally, enemy, this))
-            break;
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        /// break if killed already
+        for (int n = 0; n < 4; ++n)
+            if (damage(target, 1, ally, enemy, this))
+                break;
+    };
+};
 
 TrissButterflies::TrissButterflies()
 {
@@ -4504,13 +4258,12 @@ TrissButterflies::TrissButterflies()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
         "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
     };
-}
 
-void TrissButterflies::onTurnEnd(Field &ally, Field &enemy)
-{
-    for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
-        boost(card, 1, ally, enemy, this);
-}
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
+            boost(card, 1, ally, enemy, this);
+    };
+};
 
 Yennefer::Yennefer()
 {
@@ -4527,18 +4280,16 @@ Yennefer::Yennefer()
         "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
         "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
     };
-}
 
-void Yennefer::onDeploy(Field &ally, Field &)
-{
-    startChoiceToSelectOption(ally, this, {new Unicorn(), new Chironex()});
-}
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new Unicorn(), new Chironex()});
+    };
 
-void Yennefer::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 GermainPiquant::GermainPiquant()
 {
@@ -4556,15 +4307,14 @@ GermainPiquant::GermainPiquant()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.244.mp3",
     };
-}
 
-void GermainPiquant::onDeploy(Field &ally, Field &enemy)
-{
-    spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-    spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 CommandersHorn::CommandersHorn()
 {
@@ -4576,23 +4326,21 @@ CommandersHorn::CommandersHorn()
     isSpecial = true;
     faction = Neutral;
     rarity = Silver;
-}
 
-void CommandersHorn::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
 
-void CommandersHorn::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    Card *target1 = cardNextTo(target, ally, enemy, -2);
-    Card *target2 = cardNextTo(target, ally, enemy, -1);
-    Card *target3 = cardNextTo(target, ally, enemy, 1);
-    Card *target4 = cardNextTo(target, ally, enemy, 2);
-    for (Card *card : std::vector<Card *>{target1, target2, target, target3, target4})
-        if (card != nullptr)
-            boost(card, 3, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *target1 = cardNextTo(target, ally, enemy, -2);
+        Card *target2 = cardNextTo(target, ally, enemy, -1);
+        Card *target3 = cardNextTo(target, ally, enemy, 1);
+        Card *target4 = cardNextTo(target, ally, enemy, 2);
+        for (Card *card : std::vector<Card *>{target1, target2, target, target3, target4})
+            if (card != nullptr)
+                boost(card, 3, ally, enemy, this);
+    };
+};
 
 MarchingOrders::MarchingOrders()
 {
@@ -4604,16 +4352,15 @@ MarchingOrders::MarchingOrders()
     isSpecial = true;
     faction = Neutral;
     rarity = Silver;
-}
 
-void MarchingOrders::onPlaySpecial(Field &ally, Field &enemy)
-{
-    Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
-    if (card != nullptr) {
-        boost(card, 2, ally, enemy, this);
-        playExistedCard(card, ally, enemy, this);
-    }
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
+        if (card != nullptr) {
+            boost(card, 2, ally, enemy, this);
+            playExistedCard(card, ally, enemy, this);
+        }
+    };
+};
 
 AlzursDoubleCross::AlzursDoubleCross()
 {
@@ -4625,16 +4372,15 @@ AlzursDoubleCross::AlzursDoubleCross()
     isSpecial = true;
     faction = Neutral;
     rarity = Silver;
-}
 
-void AlzursDoubleCross::onPlaySpecial(Field &ally, Field &enemy)
-{
-    Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
-    if (card != nullptr) {
-        boost(card, 2, ally, enemy, this);
-        playExistedCard(card, ally, enemy, this);
-    }
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
+        if (card != nullptr) {
+            boost(card, 2, ally, enemy, this);
+            playExistedCard(card, ally, enemy, this);
+        }
+    };
+};
 
 AlbaArmoredCavalry::AlbaArmoredCavalry()
 {
@@ -4651,7 +4397,7 @@ AlbaArmoredCavalry::AlbaArmoredCavalry()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
     };
-}
+};
 
 Sentry::Sentry()
 {
@@ -4663,18 +4409,16 @@ Sentry::Sentry()
     power = powerBase = 8;
     faction = Nilfgaard;
     rarity = Bronze;
-}
 
-void Sentry::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {hasTag(Soldier), hasCopyOnABoard(&ally)}, AllyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasTag(Soldier), hasCopyOnABoard(&ally)}, AllyBoard);
+    };
 
-void Sentry::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
-        boost(card, 2, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
+            boost(card, 2, ally, enemy, this);
+    };
+};
 
 NauzicaaSergeant::NauzicaaSergeant()
 {
@@ -4691,18 +4435,16 @@ NauzicaaSergeant::NauzicaaSergeant()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
     };
-}
 
-void NauzicaaSergeant::onDeploy(Field &ally, Field &enemy)
-{
-    clearHazardsFromItsRow(this, ally);
-    startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyBoardAndHandRevealed);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(this, ally);
+        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyBoardAndHandRevealed);
+    };
 
-void NauzicaaSergeant::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    boost(target, 3, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, this);
+    };
+};
 
 SlaveInfantry::SlaveInfantry()
 {
@@ -4721,22 +4463,21 @@ SlaveInfantry::SlaveInfantry()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.109.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.111.mp3",
     };
-}
 
-void SlaveInfantry::onDeploy(Field &ally, Field &enemy)
-{
-    Row row;
-    Pos pos;
-    if (!_findRowAndPos(this, ally, row, pos))
-        return;
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row row;
+        Pos pos;
+        if (!_findRowAndPos(this, ally, row, pos))
+            return;
 
-    for (int _row = Meele; _row <= Seige; ++_row)
-        if (_row != row) {
-            Card *copy = defaultCopy();
-            copy->isDoomed = true;
-            spawnNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
-        }
-}
+        for (int _row = Meele; _row <= Seige; ++_row)
+            if (_row != row) {
+                Card *copy = defaultCopy();
+                copy->isDoomed = true;
+                spawnNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
+            }
+    };
+};
 
 Recruit::Recruit()
 {
@@ -4755,13 +4496,12 @@ Recruit::Recruit()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.33.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.32.mp3",
     };
-}
 
-void Recruit::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(this->name)}, AllyDeckShuffled), ally.rng))
-        playExistedCard(card, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(this->name)}, AllyDeckShuffled), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+};
 
 Ointment::Ointment()
 {
@@ -4773,17 +4513,15 @@ Ointment::Ointment()
     isSpecial = true;
     faction = Nilfgaard;
     rarity = Bronze;
-}
 
-void Ointment::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasPowerXorLess(5)}, AllyDiscard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasPowerXorLess(5)}, AllyDiscard);
+    };
 
-void Ointment::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    playExistedCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+};
 
 Vilgefortz::Vilgefortz()
 {
@@ -4800,7 +4538,7 @@ Vilgefortz::Vilgefortz()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
     };
-}
+};
 
 Vreemde::Vreemde()
 {
@@ -4817,7 +4555,7 @@ Vreemde::Vreemde()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
     };
-}
+};
 
 Yennefer::Chironex::Chironex()
 {
@@ -4830,13 +4568,12 @@ Yennefer::Chironex::Chironex()
     power = powerBase = 4;
     faction = Neutral;
     rarity = Silver;
-}
 
-void Yennefer::Chironex::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        damage(card, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            damage(card, 2, ally, enemy, this);
+    };
+};
 
 Yennefer::Unicorn::Unicorn()
 {
@@ -4849,13 +4586,12 @@ Yennefer::Unicorn::Unicorn()
     power = powerBase = 1;
     faction = Neutral;
     rarity = Silver;
-}
 
-void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        boost(card, 2, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            boost(card, 2, ally, enemy, this);
+    };
+};
 
 GermainPiquant::Cow::Cow()
 {
@@ -4865,7 +4601,7 @@ GermainPiquant::Cow::Cow()
     power = powerBase = 1;
     faction = Neutral;
     rarity = Bronze;
-}
+};
 
 Auckes::Auckes()
 {
@@ -4882,17 +4618,15 @@ Auckes::Auckes()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.113.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.114.mp3",
     };
-}
 
-void Auckes::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
+    };
 
-void Auckes::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    toggleLock(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+    };
+};
 
 Eskel::Eskel()
 {
@@ -4910,16 +4644,15 @@ Eskel::Eskel()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
         "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3",
     };
-}
 
-void Eskel::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-    for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+            moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 Lambert::Lambert()
 {
@@ -4939,16 +4672,15 @@ Lambert::Lambert()
         "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
         "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
     };
-}
 
-void Lambert::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-        moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+            moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 
-    for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+            moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 Vesemir::Vesemir()
 {
@@ -4965,16 +4697,15 @@ Vesemir::Vesemir()
         "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
         "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
     };
-}
 
-void Vesemir::onDeploy(Field &ally, Field &enemy)
-{
-    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-}
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+            moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+};
 
 TridamInfantry::TridamInfantry()
 {
@@ -4991,12 +4722,11 @@ TridamInfantry::TridamInfantry()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.231.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.226.mp3",
     };
-}
 
-void TridamInfantry::onDeploy(Field &ally, Field &enemy)
-{
-    gainArmor(this, 4, ally, enemy, this);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 4, ally, enemy, this);
+    };
+};
 
 VriheddDragoon::VriheddDragoon()
 {
@@ -5013,13 +4743,12 @@ VriheddDragoon::VriheddDragoon()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.781.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.780.mp3",
     };
-}
 
-void VriheddDragoon::onTurnEnd(Field &ally, Field &enemy)
-{
-    if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
-        boost(card, 1, ally, enemy, this);
-}
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
+            boost(card, 1, ally, enemy, this);
+    };
+};
 
 Malena::Malena()
 {
@@ -5037,21 +4766,19 @@ Malena::Malena()
         "https://gwent.one/audio/card/ob/en/VO_MALN_106745_0017.mp3",
         "https://gwent.one/audio/card/ob/en/VO_MALN_106657_0009.mp3",
     };
-}
 
-void Malena::onDeploy(Field &ally, Field &enemy)
-{
-    setTimer(this, ally, enemy, 2);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
 
-void Malena::onTurnStart(Field &ally, Field &enemy)
-{
-    if (!tick(this, ally, enemy))
-        return;
-    flipOver(this, ally, enemy);
-    if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
-        charm(card, ally, enemy, this);
-}
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        flipOver(this, ally, enemy);
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+            charm(card, ally, enemy, this);
+    };
+};
 
 UnseenElder::UnseenElder()
 {
@@ -5068,18 +4795,16 @@ UnseenElder::UnseenElder()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.257.mp3",
     };
-}
 
-void UnseenElder::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
 
-void UnseenElder::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const int x = int(std::ceil(target->power / 2.0));
-    drain(target, x, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int x = int(std::ceil(target->power / 2.0));
+        drain(target, x, ally, enemy, this);
+    };
+};
 
 DevanaRunestone::DevanaRunestone()
 {
@@ -5091,18 +4816,16 @@ DevanaRunestone::DevanaRunestone()
     rarity = Silver;
     faction = Monster;
     tags = { Alchemy, Item };
-}
 
-void DevanaRunestone::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
+    };
 
-void DevanaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 DazhbogRunestone::DazhbogRunestone()
 {
@@ -5114,18 +4837,16 @@ DazhbogRunestone::DazhbogRunestone()
     rarity = Silver;
     faction = Nilfgaard;
     tags = { Alchemy, Item };
-}
 
-void DazhbogRunestone::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
+    };
 
-void DazhbogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 MoranaRunestone::MoranaRunestone()
 {
@@ -5137,18 +4858,16 @@ MoranaRunestone::MoranaRunestone()
     rarity = Silver;
     faction = Scoiatael;
     tags = { Alchemy, Item };
-}
 
-void MoranaRunestone::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
+    };
 
-void MoranaRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 StribogRunestone::StribogRunestone()
 {
@@ -5160,18 +4879,16 @@ StribogRunestone::StribogRunestone()
     rarity = Silver;
     faction = Skellige;
     tags = { Alchemy, Item };
-}
 
-void StribogRunestone::onPlaySpecial(Field &ally, Field &)
-{
-    startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
-}
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
+    };
 
-void StribogRunestone::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    acceptOptionAndDeleteOthers(this, target);
-    spawnNewCard(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+};
 
 Muzzle::Muzzle()
 {
@@ -5183,17 +4900,15 @@ Muzzle::Muzzle()
     rarity = Gold;
     faction = Neutral;
     tags = { Item };
-}
 
-void Muzzle::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasPowerXorLess(8)}, EnemyBoard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasPowerXorLess(8)}, EnemyBoard);
+    };
 
-void Muzzle::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    charm(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, this);
+    };
+};
 
 RockBarrage::RockBarrage()
 {
@@ -5205,23 +4920,21 @@ RockBarrage::RockBarrage()
     rarity = Bronze;
     faction = Neutral;
     tags = {};
-}
 
-void RockBarrage::onPlaySpecial(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-}
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
 
-void RockBarrage::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
 
-    if (rowAndPos.row() == Seige || moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, Row(rowAndPos.row() + 1)), enemy, ally, this)) {
-        damage(target, 7, ally, enemy, this);
-        return;
-    }
-    putToDiscard(target, ally, enemy, this);
-}
+        if (rowAndPos.row() == Seige || moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, Row(rowAndPos.row() + 1)), enemy, ally, this)) {
+            damage(target, 7, ally, enemy, this);
+            return;
+        }
+        putToDiscard(target, ally, enemy, this);
+    };
+};
 
 Nivellen::Nivellen()
 {
@@ -5238,7 +4951,7 @@ Nivellen::Nivellen()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
     };
-}
+};
 
 LeoBonhart::LeoBonhart()
 {
@@ -5255,23 +4968,21 @@ LeoBonhart::LeoBonhart()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.14.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.15.mp3",
     };
-}
 
-void LeoBonhart::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed, isUnit}, AllyHand);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed, isUnit}, AllyHand);
+    };
 
-void LeoBonhart::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    if (_revealed == nullptr) {
-        _revealed = target;
-        reveal(target, ally, enemy, this);
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-        return;
-    }
-    damage(target, _revealed->powerBase, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_revealed == nullptr) {
+            _revealed = target;
+            reveal(target, ally, enemy, this);
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _revealed->powerBase, ally, enemy, this);
+    };
+};
 
 MorvranVoorhis::MorvranVoorhis()
 {
@@ -5288,17 +4999,15 @@ MorvranVoorhis::MorvranVoorhis()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.53.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.54.mp3",
     };
-}
 
-void MorvranVoorhis::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 4, false);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 4, false);
+    };
 
-void MorvranVoorhis::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    reveal(target, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, this);
+    };
+};
 
 Cynthia::Cynthia()
 {
@@ -5315,15 +5024,14 @@ Cynthia::Cynthia()
         "https://gwent.one/audio/card/ob/en/VO_CNTH_303743_0002.mp3",
         "https://gwent.one/audio/card/ob/en/VO_CNTH_303656_0001.mp3",
     };
-}
 
-void Cynthia::onDeploy(Field &ally, Field &enemy)
-{
-    if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isNonRevealed}, EnemyHand), ally.rng)) {
-        reveal(card, ally, enemy, this);
-        boost(this, card->power, ally, enemy, this);
-    }
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isNonRevealed}, EnemyHand), ally.rng)) {
+            reveal(card, ally, enemy, this);
+            boost(this, card->power, ally, enemy, this);
+        }
+    };
+};
 
 Serrit::Serrit()
 {
@@ -5340,18 +5048,16 @@ Serrit::Serrit()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.116.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.117.mp3",
     };
-}
 
-void Serrit::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isUnit}, EnemyBoardAndHandRevealed);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit}, EnemyBoardAndHandRevealed);
+    };
 
-void Serrit::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
-    damage(target, x, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
+        damage(target, x, ally, enemy, this);
+    };
+};
 
 Sweers::Sweers()
 {
@@ -5368,15 +5074,13 @@ Sweers::Sweers()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.101.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.102.mp3",
     };
-}
 
-void Sweers::onDeploy(Field &ally, Field &enemy)
-{
-    startChoiceToTargetCard(ally, enemy, this, {isUnit, hasCopyInADeck(&enemy)}, EnemyBoardAndHandRevealed);
-}
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, hasCopyInADeck(&enemy)}, EnemyBoardAndHandRevealed);
+    };
 
-void Sweers::onTargetChoosen(Card *target, Field &ally, Field &enemy)
-{
-    for (Card *copy : findCopies(target, enemy.deck))
-        putToDiscard(copy, ally, enemy, this);
-}
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *copy : findCopies(target, enemy.deck))
+            putToDiscard(copy, ally, enemy, this);
+    };
+};
