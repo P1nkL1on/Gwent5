@@ -305,7 +305,6 @@ void DeithwenArbalest::onDeploy(Field &ally, Field &enemy)
 
 void DeithwenArbalest::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
 }
 
@@ -796,7 +795,6 @@ void DolBlathannaArcher::onDeploy(Field &ally, Field &enemy)
 
 void DolBlathannaArcher::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
 }
 
@@ -858,7 +856,6 @@ Assassin::Assassin()
 void Assassin::onDeploy(Field &ally, Field &enemy)
 {
     if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, left));
         damage(left, 10, ally, enemy, this);
     }
 }
@@ -1048,7 +1045,6 @@ void ManticoreVenom::onPlaySpecial(Field &ally, Field &enemy)
 
 void ManticoreVenom::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 13, ally, enemy, this);
 }
 
@@ -1171,7 +1167,6 @@ void Cleaver::onDeploy(Field &ally, Field &enemy)
 
 void Cleaver::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, int(ally.hand.size()), ally, enemy, this);
 }
 
@@ -1315,7 +1310,6 @@ void HeymaeySpearmaiden::onDeploy(Field &ally, Field &enemy)
 
 void HeymaeySpearmaiden::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
-//    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
     damage(target, 1, ally, enemy, this);
     if (Card *copy = findCopy(target, ally.deck))
         playExistedCard(copy, ally, enemy, this);
@@ -1784,7 +1778,6 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
         if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
             for (int n = 0; n < 8; ++n)
                 if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
-//                    ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
                     damage(card, 2, ally, enemy, this);
                 }
             delete _choosen;
@@ -1803,7 +1796,6 @@ void ShupeHunter::onTargetChoosen(Card *target, Field &ally, Field &enemy)
     }
 
     if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, target));
         damage(target, 15, ally, enemy, this);
         delete _choosen;
         _choosen = nullptr;
@@ -2354,7 +2346,6 @@ void HaraldTheCripple::onDeploy(Field &ally, Field &enemy)
         return;
     for (int n = 0; n < 9; ++n)
         if (Card *card = random(enemy.row(row), ally.rng)) {
-//            ally.snapshots.push_back(new Animation("", Animation::LineDamage, this, card));
             damage(card, 1, ally, enemy, this);
         }
 }
@@ -4849,7 +4840,7 @@ Yennefer::Unicorn::Unicorn()
 void Yennefer::Unicorn::onDeploy(Field &ally, Field &enemy)
 {
     for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-        boost(card, 1, ally, enemy, this);
+        boost(card, 2, ally, enemy, this);
 }
 
 GermainPiquant::Cow::Cow()
