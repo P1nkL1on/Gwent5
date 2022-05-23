@@ -1286,6 +1286,7 @@ void copyCardText(const Card *card, Card *dst)
     dst->name = card->name;
     dst->text = card->text;
     dst->url = card->url;
+    dst->id = card->id;
     dst->sounds = card->sounds;
 }
 void acceptOptionAndDeleteOthers(Card *card, const Card *option)
