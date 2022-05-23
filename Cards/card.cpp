@@ -1,11 +1,12 @@
 #include "card.h"
-
+#include "card.h"
 #include <assert.h>
 #include <iostream>
 #include <algorithm>
 #include <map>
 
 #include "archieve.h"
+#include "filters.h"
 
 using Rows = std::vector<std::vector<Card *>>;
 
@@ -156,21 +157,38 @@ void triggerRowEffects(Field &ally, Field &enemy)
 
 void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field)
 {
-    assert(field.rowMeele.size() == 0);
-    assert(field.rowRange.size() == 0);
-    assert(field.rowSeige.size() == 0);
-    assert(field.hand.size() == 0);
-    assert(field.discard.size() == 0);
-    assert(field.cardsAdded.size() == 0);
-    assert(field.cardStack.size() == 0);
+    if (field.leaderStarting != nullptr)
+        delete field.leaderStarting;
+    for (Card *card : field.deckStarting)
+        delete card;
+    for (Card *card : field.cardsAdded)
+        delete card;
+
+    /// clear all the current stuff
+    field.rowMeele = std::vector<Card *>();
+    field.rowRange = std::vector<Card *>();
+    field.rowSeige = std::vector<Card *>();
+    field.hand = std::vector<Card *>();
+    field.deck = std::vector<Card *>();
+    field.discard = std::vector<Card *>();
+    field.leader = nullptr;
+
+    field.cardStack = std::vector<Choice>();
+    field.snapshots = std::vector<FieldView>();
+    field.nTurns = 0;
+    field.nRounds = 0;
+    field.nWins = 0;
+    field.nSwaps = 0;
+    field.passed = false;
+    field.canPass = true;
 
     /// init a deck
     field.deck = field.deckStarting = deckStarting;
+    field.cardsAdded = std::vector<Card *>();
     field.leaderStarting = field.leader = leader;
     field.rowEffectMeele = NoRowEffect;
     field.rowEffectRange = NoRowEffect;
     field.rowEffectSeige = NoRowEffect;
-    field.nTurns = 0;
 
     /// shuffle a deck
     shuffle(field.deck, field.rng);
@@ -392,7 +410,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     return true;
 }
 
-void putOnDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
+void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     Pos pos;
     bool isAlly;
@@ -755,6 +773,25 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyAnywhere)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
+        if (group == EnemyHand)
+            return enemy.hand;
+
+        // FIXME: enemy hand is visible during REVEAL choice
+        // because its a choice
+        if (group == AnyHandsShuffled) {
+            std::vector<Card *> allyHand = ally.hand;
+            std::vector<Card *> enemyHand = enemy.hand;
+            shuffle(allyHand, ally.rng);
+            shuffle(enemyHand, ally.rng);
+            return _united(Rows{allyHand, enemyHand});
+        }
+
+        if (group == EnemyBoardAndHandRevealed)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({isNonRevealed}, enemy.hand)});
+
+        if (group == AllyBoardAndHandRevealed)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({isNonRevealed}, ally.hand)});
+
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
@@ -986,7 +1023,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         return false;
     }
 
-    putOnDiscard(card, ally, enemy, src);
+    putToDiscard(card, ally, enemy, src);
     return true;
 }
 
@@ -1006,7 +1043,7 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
         return;
     }
 
-    putOnDiscard(target, ally, enemy, self);
+    putToDiscard(target, ally, enemy, self);
 }
 
 void heal(Card *card, Field &, Field &)
@@ -1313,6 +1350,12 @@ bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards)
     return true;
 }
 
+void clearHazardsFromItsRow(const Card *card, Field &field)
+{
+    if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
+        field.rowEffect(rowAndPos.row()) = NoRowEffect;
+}
+
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards)
 {
     if (damagedUnitsUnderHazards != nullptr)
@@ -1419,32 +1462,10 @@ bool isOnBoard(const Card *card, const Field &field)
     return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }
 
-void transform(
-        Card *card,
-        const std::string &id,
-        const std::string &name,
-        const std::string &text,
-        const std::string &url,
-        const int power,
-        const Rarity rarity,
-        const Tag faction,
-        const std::vector<Tag> &tags)
+void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src)
 {
-    card->id = id;
-    card->name = name;
-    card->text = text;
-    card->url = url;
-    card->power = card->powerBase = power;
-    card->rarity = rarity;
-    card->faction = faction;
-    card->tags = tags;
-
-    card->timer = 0;
-    card->armor = 0;
-    card->isDoomed = true;
-    card->isLocked = true;
-    card->isSpy = false;
-    card->isResilient = false;
+    *card = target;
+    saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
 void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -1550,7 +1571,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         if (isNew) {
             delete card;
         } else {
-            putOnDiscard(card, ally, enemy, card);
+            putToDiscard(card, ally, enemy, card);
         }
         return false;
     }
@@ -1560,7 +1581,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
 
     if (card->isSpecial) {
         _activateSpecial(card, ally, enemy, src);
-        putOnDiscard(card, ally, enemy, card);
+        putToDiscard(card, ally, enemy, card);
         return true;
     }
 
@@ -1611,4 +1632,283 @@ Row RowAndPos::row() const
 Pos RowAndPos::pos() const
 {
     return _pos;
+}
+
+void _copyFields(
+        const Field &ally,
+        const Field &enemy,
+        Field &allyCopy,
+        Field &enemyCopy,
+        std::map<const Card *, Card *> &origCardToCopyMap)
+{
+    const auto copyCard = [&](const Card *card) -> Card * {
+        if (card == nullptr)
+            return nullptr;
+
+        if (origCardToCopyMap.find(card) != origCardToCopyMap.end())
+            return origCardToCopyMap[card];
+
+        Card *copy = card->exactCopy();
+        origCardToCopyMap[card] = copy;
+        return copy;
+    };
+    const auto copyCards = [&](const std::vector<Card *> &cards) {
+        std::vector<Card *> copies;
+        for (const Card *card : cards)
+            copies.push_back(copyCard(card));
+        return copies;
+    };
+
+    allyCopy = Field(ally);
+    allyCopy.rowMeele = copyCards(ally.rowMeele);
+    allyCopy.rowRange = copyCards(ally.rowRange);
+    allyCopy.rowSeige = copyCards(ally.rowSeige);
+    allyCopy.hand = copyCards(ally.hand);
+    allyCopy.deck = copyCards(ally.deck);
+    allyCopy.discard = copyCards(ally.discard);
+    allyCopy.leader = copyCard(ally.leader);
+    allyCopy.leaderStarting = copyCard(ally.leaderStarting);
+    allyCopy.deckStarting = copyCards(ally.deckStarting);
+    allyCopy.cardsAdded = copyCards(ally.cardsAdded);
+    allyCopy.rowMeele = copyCards(ally.rowMeele);
+    for (Choice &choice : allyCopy.cardStack) {
+        choice.cardSource = copyCard(choice.cardSource);
+        choice.cardOptions = copyCards(choice.cardOptions);
+        choice.cardOptionsSelected = copyCards(choice.cardOptionsSelected);
+    }
+    enemyCopy = Field(enemy);
+    enemyCopy.rowMeele = copyCards(enemy.rowMeele);
+    enemyCopy.rowRange = copyCards(enemy.rowRange);
+    enemyCopy.rowSeige = copyCards(enemy.rowSeige);
+    enemyCopy.hand = copyCards(enemy.hand);
+    enemyCopy.deck = copyCards(enemy.deck);
+    enemyCopy.discard = copyCards(enemy.discard);
+    enemyCopy.leader = copyCard(enemy.leader);
+    enemyCopy.leaderStarting = copyCard(enemy.leaderStarting);
+    enemyCopy.deckStarting = copyCards(enemy.deckStarting);
+    enemyCopy.cardsAdded = copyCards(enemy.cardsAdded);
+    enemyCopy.rowMeele = copyCards(enemy.rowMeele);
+};
+
+std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy)
+{
+    assert(ally.cardStack.size());
+
+    /// okey for `Target` and `RoundStartPlay`
+    if (ally.choice().choiceType == RoundStartPlay || ally.choice().choiceType == Target) {
+        std::map<const Card *, int> res;
+        for (const Card *_option : ally.choice().cardOptions) {
+            /// copy all the fields to work w/ consts
+            Field allyCopy;
+            Field enemyCopy;
+            std::map<const Card *, Card *> origCardToCopyMap;
+            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
+
+            /// run an option in new proxy copy
+            Card *option = origCardToCopyMap[_option];
+            onChoiceDoneCard(option, allyCopy, enemyCopy);
+
+            if (allyCopy.cardStack.size() == 0) {
+                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
+                res.insert({_option, gapNew});
+                continue;
+            }
+            /// if new choice found, then restart in recursion
+            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
+            int gapBest = INT_MIN;
+            for (const auto &it : optionToValue)
+                gapBest = std::max(gapBest, it.second);
+
+            res.insert({_option, gapBest});
+        }
+        return res;
+    }
+
+    if (ally.choice().choiceType == SelectAllyRowAndPos || ally.choice().choiceType == SelectEnemyRowAndPos) {
+        std::map<RowAndPos, int> res;
+        for (int i = 0; i < 27; ++i) {
+            const RowAndPos rowAndPos(Row(i / 9), Pos(i % 9));
+            if (ally.choice().choiceType == SelectAllyRowAndPos && !isOkRowAndPos(rowAndPos, ally))
+                continue;
+            if (ally.choice().choiceType == SelectEnemyRowAndPos && !isOkRowAndPos(rowAndPos, enemy))
+                continue;
+
+            Field allyCopy;
+            Field enemyCopy;
+            std::map<const Card *, Card *> origCardToCopyMap;
+            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
+            onChoiceDoneRowAndPlace(rowAndPos, allyCopy, enemyCopy);
+
+            if (allyCopy.cardStack.size() == 0) {
+                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
+                res.insert({rowAndPos, gapNew});
+                continue;
+            }
+            /// if new choice found, then restart in recursion
+            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
+            int gapBest = INT_MIN;
+            for (const auto &it : optionToValue)
+                gapBest = std::max(gapBest, it.second);
+
+            res.insert({rowAndPos, gapBest});
+        }
+        /// find better pos, return it (but w/ itself)
+        int gapBest = 0;
+        for (const auto &it : res)
+            gapBest = std::max(gapBest, it.second);
+        return {{ally.choice().cardSource, gapBest}};
+    }
+
+    return {};
+
+    //    SelectAllyRow,
+    //    SelectEnemyRow,
+    //    RoundStartSwap,
+}
+
+void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    assert(!card->isRevealed);
+    card->isRevealed = true;
+    saveFieldsSnapshot(ally, enemy, Reveal, src);
+}
+
+void Card::onDeploy(Field &ally, Field &enemy)
+{
+    if (_onDeploy && !isLocked)
+        return _onDeploy(ally, enemy);
+}
+
+void Card::onDeployFromDiscard(Field &ally, Field &enemy)
+{
+    if (_onDeployFromDiscard && !isLocked)
+        return _onDeployFromDiscard(ally, enemy);
+    return onDeploy(ally, enemy);
+}
+
+void Card::onDeployFromDeck(Field &ally, Field &enemy)
+{
+    if (_onDeployFromDeck && !isLocked)
+        return _onDeployFromDeck(ally, enemy);
+    return onDeploy(ally, enemy);
+}
+
+void Card::onMoveFromRowToRow(Field &ally, Field &enemy)
+{
+    if (_onMoveFromRowToRow && !isLocked)
+        return _onMoveFromRowToRow(ally, enemy);
+}
+
+void Card::onTurnStart(Field &ally, Field &enemy)
+{
+    if (_onTurnStart && !isLocked)
+        return _onTurnStart(ally, enemy);
+}
+
+void Card::onTurnEnd(Field &ally, Field &enemy)
+{
+    if (_onTurnEnd && !isLocked)
+        return _onTurnEnd(ally, enemy);
+}
+
+void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
+{
+    if (_onTargetChoosen && !isLocked)
+        return _onTargetChoosen(card, ally, enemy);
+}
+
+void Card::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
+{
+    if (_onTargetRowAllyChoosen && !isLocked)
+        return _onTargetRowAllyChoosen(ally, enemy, row);
+}
+
+void Card::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
+{
+    if (_onTargetRowEnemyChoosen && !isLocked)
+        return _onTargetRowEnemyChoosen(ally, enemy, row);
+}
+
+void Card::onDraw(Field &ally, Field &enemy)
+{
+    if (_onDraw && !isLocked)
+        return _onDraw(ally, enemy);
+}
+
+void Card::onSwap(Field &ally, Field &enemy)
+{
+    if (_onSwap && !isLocked)
+        return _onSwap(ally, enemy);
+}
+
+void Card::onDiscard(Field &ally, Field &enemy)
+{
+    if (_onDiscard && !isLocked)
+        return _onDiscard(ally, enemy);
+}
+
+void Card::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
+{
+    if (_onDestroy && !isLocked)
+        return _onDestroy(ally, enemy, rowAndPos);
+}
+
+void Card::onPlaySpecial(Field &ally, Field &enemy)
+{
+    if (_onPlaySpecial && !isLocked)
+        return _onPlaySpecial(ally, enemy);
+}
+
+void Card::onBoost(const int x, Field &ally, Field &enemy)
+{
+    if (_onBoost && !isLocked)
+        return _onBoost(x, ally, enemy);
+}
+
+void Card::onDamaged(const int x, Field &ally, Field &enemy)
+{
+    if (_onDamaged && !isLocked)
+        return _onDamaged(x, ally, enemy);
+}
+
+void Card::onArmorLost(Field &ally, Field &enemy)
+{
+    if (_onArmorLost && !isLocked)
+        return _onArmorLost(ally, enemy);
+}
+
+void Card::onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyDamaged && !isLocked)
+        return _onOtherEnemyDamaged(card, ally, enemy);
+}
+
+void Card::onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyDestroyed && !isLocked)
+        return _onOtherEnemyDestroyed(card, ally, enemy);
+}
+
+void Card::onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherAllyDiscarded && !isLocked)
+        return _onOtherAllyDiscarded(card, ally, enemy);
+}
+
+void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherAllyPlayedFromHand && !isLocked)
+        return _onOtherAllyPlayedFromHand(card, ally, enemy);
+}
+
+void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyPlayedFromHand && !isLocked)
+        return _onOtherEnemyPlayedFromHand(card, ally, enemy);
+}
+
+void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherAllyResurrecteded && !isLocked)
+        return _onOtherAllyResurrecteded(card, ally, enemy);
 }

@@ -122,6 +122,10 @@ enum ChoiceGroup
     AllyBoardHandDeck,
     AllyAnywhere,
     EnemyAnywhere,
+    EnemyHand,
+    AnyHandsShuffled,
+    EnemyBoardAndHandRevealed,
+    AllyBoardAndHandRevealed,
 };
 
 
@@ -145,6 +149,8 @@ enum ActionType {
     LostLock,
     GainSpy,
     LostSpy,
+    Reveal,
+    Transform,
 };
 
 

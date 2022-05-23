@@ -13,6 +13,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QPointer>
+#include <QMenuBar>
 
 #include "Cards/demos.h"
 
@@ -33,23 +34,52 @@ MainWindow::MainWindow(QWidget *parent)
     w->setAttribute(Qt::WA_TransparentForMouseEvents);
     setCentralWidget(w);
 
-//    demoTransforms(_ally, _enemy);
-//    demoNilfgaardSoldiersDeck(_ally, _enemy);
-//    demoSkelligeVeteransPrimeDeck(_ally, _enemy);
-//    demoInstantEffects(_ally, _enemy);
-//    demoVsSkelligeDiscardVsNothernRealmsArmor(_ally, _enemy);
-//    demoSpawnAndSummon(_ally, _enemy);
-//    demoSingleUseFrightener(_ally, _enemy);
-//    demoAmbushes(_ally, _enemy);
-//    demoCharm(_ally, _enemy);
-//    demoRunestones(_ally, _enemy);
-//    demoMonsterLeaders(_ally, _enemy);
-    demoMonsterSisters(_ally, _enemy);
+    using Demo = std::function<void(Field &, Field &)>;
+    const std::vector<std::pair<std::string, Demo>> demoTitleToMethod {
+        {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
+        {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
+        {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
+        {"Transformation", demoTransforms},
+        {"Instant Log Effects", demoInstantEffects},
+        {"Spawning and Summoning", demoSpawnAndSummon},
+        {"Single-Use (Frightener)", demoSingleUseFrightener},
+        {"Ambushes & Invisible Timers", demoAmbushes},
+        {"Charming Happy Case", demoCharm},
+        {"Rock Barrage", demoRockBarrage},
+        {"Row Movement", demoMoving},
+        {"Runestones Generation", demoRunestones},
+        {"Reveal Leo Bonhart", demoLeoBonhart},
+        {"Locking The Deathwish", demoLockingDeathwish},
+        {"Monsters Leaders", demoMonsterLeaders},
+        {"Monsters Sisters", demoMonsterSisters},
+    };
+
+    /// make a choosing menu for it
+    QMenu *menuDemos = new QMenu("Demos");
+    QList<QAction *> actions;
+    for (const auto &it : demoTitleToMethod) {
+        const QString title = QString::fromStdString(it.first);
+        QAction *action = menuDemos->addAction(title, this, [=]{
+            _textAlly->clear();
+            _textEnemy->clear();
+            initField({}, nullptr, _ally);
+            initField({}, nullptr, _enemy);
+            it.second(_ally, _enemy);
+            repaintCustom();
+        });
+        actions.push_back(action);
+    }
+    QMenuBar *menuBar = new QMenuBar(this);
+    menuBar->addMenu(menuDemos);
+    setMenuBar(menuBar);
 
     resize(1400, 800);
     setMouseTracking(true);
     installEventFilter(this);
-    repaintCustom();
+
+    /// trigger last exist demo
+    if (!actions.isEmpty())
+        actions.last()->trigger();
 }
 
 QMargins MainWindow::margins() const
@@ -414,7 +444,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
 
         if (cardView.isLocked) {
-            width += paintTextInPoint("LOCKED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::white);
+            width += paintTextInPoint("X", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::white);
             width += _layout.borderTextPx;
         }
 
@@ -439,7 +469,12 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
 
         if (cardView.isDoomed) {
-            width += paintTextInPoint("DOOMED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::cyan);
+            width += paintTextInPoint("*", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::cyan);
+            width += _layout.borderTextPx;
+        }
+
+        if (cardView.isRevealed) {
+            width += paintTextInPoint("REVEALED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::yellow);
             width += _layout.borderTextPx;
         }
 
@@ -492,6 +527,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             QString("Spying? %1").arg(cardView.isSpy ? "True" : "False"),
             QString("Immune? %1").arg(cardView.isImmune ? "True" : "False"),
             QString("Doomed? %1").arg(cardView.isDoomed ? "True" : "False"),
+            QString("Revealed? %1").arg(cardView.isRevealed? "True" : "False"),
         };
 
         for (int i = 0; i < infos.size(); ++i)
@@ -658,8 +694,8 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             .arg(view.nPowerRowEnemyMeele + view.nPowerRowEnemyRange + view.nPowerRowEnemySeige)
             .arg(view.enemyPassed)
             .arg(view.nEnemyWins);
-    paintTextInPoint(stringStatusAlly, QPointF(0, 0), Qt::black, Qt::cyan);
-    paintTextInPoint(stringStatusEnemy, QPointF(0, 15), Qt::black, Qt::red);
+    paintTextInPoint(stringStatusAlly, QPointF(0, 20), Qt::black, Qt::cyan);
+    paintTextInPoint(stringStatusEnemy, QPointF(0, 35), Qt::black, Qt::red);
 }
 
 void MainWindow::onImageRequestFinished(QNetworkReply *reply)
@@ -806,6 +842,9 @@ void MainWindow::repaintCustom()
         case GainLock:
             stream << prefix << dst << " gains LOCK by " << src;
             break;
+        case Transform:
+            stream << prefix << dst << " transforms by " << src;
+            break;
         case GainSpy:
             stream << prefix << dst << " gains SPY by " << src;
             break;
@@ -814,6 +853,9 @@ void MainWindow::repaintCustom()
             break;
         case LostSpy:
             stream << prefix << dst << " loses SPY by " << src;
+            break;
+        case Reveal:
+            stream << prefix << dst << " relvealed by " << src;
             break;
         }
         requestSoundByUrl(snapshot.actionSound);

@@ -174,7 +174,7 @@ void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy)
         new Reconnaissance, new Thunderbolt, new Thunderbolt,
     };
     initField(deckStartingAlly, new BranTuirseach, ally);
-    initField(deckStartingEnemy, new JanCalveit, enemy);
+    initField(deckStartingEnemy, new MorvranVoorhis, enemy);
     startNextRound(ally, enemy);
 }
 
@@ -302,6 +302,46 @@ void demoCharm(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
+void demoRockBarrage(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new AddaStriga(),
+        new TemerianDrummer(),
+        new TridamInfantry(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+        new RockBarrage(),
+    };
+    enemy.hand = enemy.cardsAdded;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoMoving(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new GermainPiquant(),
+        new GermainPiquant(),
+        new GermainPiquant(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new RockBarrage(),
+        new Nivellen(),
+        new Nivellen(),
+    };
+    enemy.hand = enemy.cardsAdded;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
 
 void demoUnseenElder(Field &ally, Field &enemy)
 {
@@ -377,6 +417,24 @@ void demoMonsterLeaders(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
+void demoLeoBonhart(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new LeoBonhart(),
+        new CahirDyffryn(),
+        new Sentry(),
+        new RockBarrage(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new DjengeFrett()
+    };
+    enemy.rowRange = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
 void demoMonsterSisters(Field &ally, Field &enemy)
 {
     auto *w1 = new Brewess();
@@ -400,5 +458,25 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
 
+void demoLockingDeathwish(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new Auckes(),
+        new DimunLightLongship(),
+        new RagingBerserker(),
+        new AlzursThunder(),
+        new AlzursThunder(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.cardsAdded = {
+        new DimunLightLongship(),
+        new Dao(),
+        new Dao(),
+    };
+    enemy.rowRange = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

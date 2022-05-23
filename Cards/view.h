@@ -108,7 +108,7 @@ bool isIn(const int id, const std::vector<int> &vector);
 CardView cardView(const Card *card, const int id);
 std::vector<CardView> cardOptionViews(const Card *card);
 /// returns a field view and a cardToCardViewMap if any pointer given
-FieldView fieldView(const Field &ally, const Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int actionValue = -1);
+FieldView fieldView(const Field &ally, const Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int actionValue = -1, const bool computeOptionScoreGaps = false);
 std::string stringRarity(const Rarity rarity);
 std::string stringTag(const Tag tag);
 bool isLeader(const CardView &view);

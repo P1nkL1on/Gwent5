@@ -2,7 +2,6 @@
 
 void paintCard(QPainter &painter, ResourceManager *resourceManager, const Layout &layout, const CardView &cardView, const ChoiceView &choiceView, const QRectF &rect, const bool isStatusVisible)
 {
-    Q_ASSERT(!cardView.isAmbush);
     painter.setPen(Qt::black);
     painter.drawRect(rect);
 
