@@ -77,7 +77,7 @@ struct Card
     void onBoost(const int x, Field &ally, Field &enemy);
     void onDamaged(const int x, Field &ally, Field &enemy);
     void onArmorLost(Field &ally, Field &enemy);
-        /// check whether self on board, in hand/deck/discard
+    /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
@@ -87,6 +87,7 @@ struct Card
 
     inline virtual Card *defaultCopy() const { return new Card; }
     inline virtual Card *exactCopy() const { return new Card; }
+    inline bool hasDeathwish() const { return _onDestroy != nullptr; }
 
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;

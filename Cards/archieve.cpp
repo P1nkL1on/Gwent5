@@ -185,7 +185,8 @@ std::vector<Card *> allCards(const Patch)
         new Serrit(),
         new Sweers(),
     };
-};
+}
+
 
 AddaStriga::AddaStriga()
 {
@@ -205,7 +206,8 @@ AddaStriga::AddaStriga()
     _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
         damage(card, 8, ally, enemy, this);
     };
-};
+}
+
 
 Dao::Dao()
 {
@@ -222,7 +224,8 @@ Dao::Dao()
         spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
         spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
     };
-};
+}
+
 
 Dao::DaoLesser::DaoLesser()
 {
@@ -234,7 +237,8 @@ Dao::DaoLesser::DaoLesser()
     faction = Monster;
     tags = { Construct };
     isDoomed = true;
-};
+}
+
 
 PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
 {
@@ -246,7 +250,8 @@ PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
     faction = NothernRealms;
     tags = { Temeria, Soldier };
     isDoomed = true;
-};
+}
+
 
 PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
 {
@@ -305,7 +310,8 @@ DeithwenArbalest::DeithwenArbalest()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
     };
-};
+}
+
 
 TemerianDrummer::TemerianDrummer()
 {
@@ -330,7 +336,8 @@ TemerianDrummer::TemerianDrummer()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 6, ally, enemy, this);
     };
-};
+}
+
 
 DandelionPoet::DandelionPoet()
 {
@@ -360,7 +367,8 @@ DandelionPoet::DandelionPoet()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 SileDeTansarville::SileDeTansarville()
 {
@@ -386,7 +394,8 @@ SileDeTansarville::SileDeTansarville()
         playExistedCard(target, ally, enemy, this);
         drawACard(ally, enemy);
     };
-};
+}
+
 
 RedanianKnightElect::RedanianKnightElect()
 {
@@ -422,7 +431,8 @@ RedanianKnightElect::RedanianKnightElect()
         if (right != nullptr)
             boost(right, 1, ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteMarauder::AnCraiteMarauder()
 {
@@ -439,7 +449,8 @@ AnCraiteMarauder::AnCraiteMarauder()
     rarity = Bronze;
     faction = Skellige;
     tags = { ClanAnCraite, Soldier };
-};
+}
+
 
 AnCraiteGreatsword::AnCraiteGreatsword()
 {
@@ -471,7 +482,8 @@ AnCraiteGreatsword::AnCraiteGreatsword()
         heal(this, ally, enemy);
         strengthen(this, 2, ally, enemy);
     };
-};
+}
+
 
 DimunLightLongship::DimunLightLongship()
 {
@@ -490,7 +502,8 @@ DimunLightLongship::DimunLightLongship()
             boost(this, 2, ally, enemy, this);
         }
     };
-};
+}
+
 
 Bear::Bear()
 {
@@ -501,7 +514,8 @@ Bear::Bear()
     rarity = Bronze;
     faction = Neutral;
     tags = { Beast, Cursed };
-};
+}
+
 
 Wolf::Wolf()
 {
@@ -513,7 +527,8 @@ Wolf::Wolf()
     rarity = Bronze;
     faction = Monster;
     tags = { Beast };
-};
+}
+
 
 TuirseachBearmaster::TuirseachBearmaster()
 {
@@ -536,7 +551,8 @@ TuirseachBearmaster::TuirseachBearmaster()
     _onDeploy = [=](Field &ally, Field &enemy) {
         spawnNewCard(new Bear(), ally, enemy, this);
     };
-};
+}
+
 
 RedanianElite::RedanianElite()
 {
@@ -561,7 +577,8 @@ RedanianElite::RedanianElite()
     _onArmorLost = [=](Field &ally, Field &enemy) {
         boost(this, 5, ally, enemy, this);
     };
-};
+}
+
 
 RedanianKnight::RedanianKnight()
 {
@@ -585,7 +602,8 @@ RedanianKnight::RedanianKnight()
         boost(this, 2, ally, enemy, this);
         gainArmor(this, 2, ally, enemy, this);
     };
-};
+}
+
 
 KaedweniCavalry::KaedweniCavalry()
 {
@@ -612,7 +630,8 @@ KaedweniCavalry::KaedweniCavalry()
         damage(target, armorTarget, ally, enemy, this);
         boost(this, armorTarget, ally, enemy, this);
     };
-};
+}
+
 
 AlzursThunder::AlzursThunder()
 {
@@ -633,7 +652,8 @@ AlzursThunder::AlzursThunder()
         saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 9);
         damage(target, 9, ally, enemy, this);
     };
-};
+}
+
 
 Swallow::Swallow()
 {
@@ -653,7 +673,8 @@ Swallow::Swallow()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 10, ally, enemy, this);
     };
-};
+}
+
 
 Thunderbolt::Thunderbolt()
 {
@@ -686,7 +707,8 @@ Thunderbolt::Thunderbolt()
             gainArmor(right, 2, ally, enemy, this);
         }
     };
-};
+}
+
 
 ArachasVenom::ArachasVenom()
 {
@@ -710,7 +732,8 @@ ArachasVenom::ArachasVenom()
             if (card != nullptr)
                 damage(card, 4, ally, enemy, this);
     };
-};
+}
+
 
 KeiraMetz::KeiraMetz()
 {
@@ -736,7 +759,8 @@ KeiraMetz::KeiraMetz()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 DolBlathannaArcher::DolBlathannaArcher()
 {
@@ -766,7 +790,8 @@ DolBlathannaArcher::DolBlathannaArcher()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
     };
-};
+}
+
 
 HalfElfHunter::HalfElfHunter()
 {
@@ -784,7 +809,8 @@ HalfElfHunter::HalfElfHunter()
         copy->isDoomed = true;
         spawnNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 Ambassador::Ambassador()
 {
@@ -805,7 +831,8 @@ Ambassador::Ambassador()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 12, ally, enemy, this);
     };
-};
+}
+
 
 Assassin::Assassin()
 {
@@ -824,7 +851,8 @@ Assassin::Assassin()
             damage(left, 10, ally, enemy, this);
         }
     };
-};
+}
+
 
 TuirseachArcher::TuirseachArcher()
 {
@@ -845,7 +873,8 @@ TuirseachArcher::TuirseachArcher()
         saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 1);
         damage(target, 1, ally, enemy, this);
     };
-};
+}
+
 
 Infiltrator::Infiltrator()
 {
@@ -865,7 +894,8 @@ Infiltrator::Infiltrator()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         toggleSpy(target, ally, enemy, this);
     };
-};
+}
+
 
 ImpenetrableFog::ImpenetrableFog()
 {
@@ -885,7 +915,8 @@ ImpenetrableFog::ImpenetrableFog()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
     };
-};
+}
+
 
 TorrentialRain::TorrentialRain()
 {
@@ -905,7 +936,8 @@ TorrentialRain::TorrentialRain()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, TorrentialRainEffect);
     };
-};
+}
+
 
 BitingFrost::BitingFrost()
 {
@@ -925,7 +957,8 @@ BitingFrost::BitingFrost()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, BitingFrostEffect);
     };
-};
+}
+
 
 GoldenFroth::GoldenFroth()
 {
@@ -945,7 +978,8 @@ GoldenFroth::GoldenFroth()
     _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(ally, enemy, row, GoldenFrothEffect);
     };
-};
+}
+
 
 SkelligeStorm::SkelligeStorm()
 {
@@ -965,7 +999,8 @@ SkelligeStorm::SkelligeStorm()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, SkelligeStormEffect);
     };
-};
+}
+
 
 ImperialManticore::ImperialManticore()
 {
@@ -976,7 +1011,8 @@ ImperialManticore::ImperialManticore()
     rarity = Silver;
     faction = Monster;
     tags = { Beast };
-};
+}
+
 
 ManticoreVenom::ManticoreVenom()
 {
@@ -996,7 +1032,8 @@ ManticoreVenom::ManticoreVenom()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 13, ally, enemy, this);
     };
-};
+}
+
 
 GloriousHunt::GloriousHunt()
 {
@@ -1015,7 +1052,8 @@ GloriousHunt::GloriousHunt()
 
         return spawnNewCard(new ManticoreVenom(), ally, enemy, this);
     };
-};
+}
+
 
 Ves::Ves()
 {
@@ -1041,7 +1079,8 @@ Ves::Ves()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         swapACard(target, ally, enemy);
     };
-};
+}
+
 
 Vaedermakar::Vaedermakar()
 {
@@ -1062,7 +1101,8 @@ Vaedermakar::Vaedermakar()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Frightener::Frightener()
 {
@@ -1088,7 +1128,8 @@ Frightener::Frightener()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, enemy), enemy, ally, this);
     };
-};
+}
+
 
 Cleaver::Cleaver()
 {
@@ -1109,7 +1150,8 @@ Cleaver::Cleaver()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, int(ally.hand.size()), ally, enemy, this);
     };
-};
+}
+
 
 Scorch::Scorch()
 {
@@ -1126,7 +1168,8 @@ Scorch::Scorch()
         for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
             putToDiscard(card, ally, enemy, this);
     };
-};
+}
+
 
 Reinforcements::Reinforcements()
 {
@@ -1146,7 +1189,8 @@ Reinforcements::Reinforcements()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 JohnNatalis::JohnNatalis()
 {
@@ -1170,7 +1214,8 @@ JohnNatalis::JohnNatalis()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Eleyas::Eleyas()
 {
@@ -1190,7 +1235,8 @@ Eleyas::Eleyas()
     _onSwap = [=](Field &ally, Field &enemy) {
         boost(this, 2, ally, enemy, this);
     };
-};
+}
+
 
 ReaverScout::ReaverScout()
 {
@@ -1216,7 +1262,8 @@ ReaverScout::ReaverScout()
         if (Card *copy = findCopy(target, ally.deck))
             playExistedCard(copy, ally, enemy, this);
     };
-};
+}
+
 
 HeymaeySpearmaiden::HeymaeySpearmaiden()
 {
@@ -1243,7 +1290,8 @@ HeymaeySpearmaiden::HeymaeySpearmaiden()
         if (Card *copy = findCopy(target, ally.deck))
             playExistedCard(copy, ally, enemy, this);
     };
-};
+}
+
 
 KaedweniKnight::KaedweniKnight()
 {
@@ -1269,7 +1317,8 @@ KaedweniKnight::KaedweniKnight()
         gainArmor(this, 2, ally, enemy, this);
         boost(this, 5, ally, enemy, this);
     };
-};
+}
+
 
 VriheddSappers::VriheddSappers()
 {
@@ -1296,7 +1345,8 @@ VriheddSappers::VriheddSappers()
         if (tick(this, ally, enemy))
             flipOver(this, ally, enemy);
     };
-};
+}
+
 
 PriestessOfFreya::PriestessOfFreya()
 {
@@ -1322,7 +1372,8 @@ PriestessOfFreya::PriestessOfFreya()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 DimunCorsair::DimunCorsair()
 {
@@ -1348,7 +1399,8 @@ DimunCorsair::DimunCorsair()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Sigrdrifa::Sigrdrifa()
 {
@@ -1374,7 +1426,8 @@ Sigrdrifa::Sigrdrifa()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Sage::Sage()
 {
@@ -1395,7 +1448,8 @@ Sage::Sage()
         target->isDoomed = true;
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Reconnaissance::Reconnaissance()
 {
@@ -1415,7 +1469,8 @@ Reconnaissance::Reconnaissance()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 ElvenMercenary::ElvenMercenary()
 {
@@ -1435,7 +1490,8 @@ ElvenMercenary::ElvenMercenary()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 ChampionOfHov::ChampionOfHov()
 {
@@ -1459,7 +1515,8 @@ ChampionOfHov::ChampionOfHov()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         duel(this, target, ally, enemy);
     };
-};
+}
+
 
 GeraltIgni::GeraltIgni(const Lang)
 {
@@ -1478,7 +1535,8 @@ GeraltIgni::GeraltIgni(const Lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
-};
+}
+
 
 GeraltOfRivia::GeraltOfRivia()
 {
@@ -1509,7 +1567,8 @@ GeraltOfRivia::GeraltOfRivia()
         for (Card *card : highests(enemy.row(row)))
             putToDiscard(card, ally, enemy, this);
     };
-};
+}
+
 
 Priscilla::Priscilla()
 {
@@ -1532,7 +1591,8 @@ Priscilla::Priscilla()
         for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
             boost(card, 3, ally, enemy, this);
     };
-};
+}
+
 
 SeltkirkOfGulet::SeltkirkOfGulet()
 {
@@ -1558,7 +1618,8 @@ SeltkirkOfGulet::SeltkirkOfGulet()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         duel(this, target, ally, enemy);
     };
-};
+}
+
 
 AdrenalineRush::AdrenalineRush()
 {
@@ -1578,7 +1639,8 @@ AdrenalineRush::AdrenalineRush()
     _onTargetChoosen = [=](Card *target, Field &, Field &) {
         target->isResilient = !target->isResilient;
     };
-};
+}
+
 
 ShupesDayOff::ShupesDayOff()
 {
@@ -1609,7 +1671,8 @@ ShupesDayOff::ShupesDayOff()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 ShupeHunter::ShupeHunter()
 {
@@ -1713,7 +1776,8 @@ ShupeHunter::ShupeHunter()
 
         assert(false);
     };
-};
+}
+
 
 ShupeMage::ShupeMage()
 {
@@ -1819,7 +1883,8 @@ ShupeMage::ShupeMage()
 
         assert(false);
     };
-};
+}
+
 
 Mandrake::Mandrake()
 {
@@ -1872,7 +1937,8 @@ Mandrake::Mandrake()
 
         assert(false);
     };
-};
+}
+
 
 BoneTalisman::BoneTalisman()
 {
@@ -1930,7 +1996,8 @@ BoneTalisman::BoneTalisman()
         }
         assert(false);
     };
-};
+}
+
 
 ShupeKnight::ShupeKnight()
 {
@@ -2023,7 +2090,8 @@ ShupeKnight::ShupeKnight()
 
         assert(false);
     };
-};
+}
+
 
 Decoy::Decoy()
 {
@@ -2045,7 +2113,8 @@ Decoy::Decoy()
         boost(target, 3, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 FirstLight::FirstLight()
 {
@@ -2091,7 +2160,8 @@ FirstLight::FirstLight()
 
          assert(false);
     };
-};
+}
+
 
 ClearSkies::ClearSkies()
 {
@@ -2110,7 +2180,8 @@ ClearSkies::ClearSkies()
         for (Card *card : damagedUnitsUnderHazards)
             boost(card, 2, ally, enemy, this);
     };
-};
+}
+
 
 Epidemic::Epidemic()
 {
@@ -2127,7 +2198,8 @@ Epidemic::Epidemic()
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
             putToDiscard(card, ally, enemy, this);
     };
-};
+}
+
 
 Moonlight::Moonlight()
 {
@@ -2175,7 +2247,8 @@ Moonlight::Moonlight()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, BloodMoonEffect);
     };
-};
+}
+
 
 CiriNova::CiriNova()
 {
@@ -2201,7 +2274,8 @@ CiriNova::CiriNova()
 
         strengthen(this, 22 - powerBase, ally, enemy);
     };
-};
+}
+
 
 HaraldTheCripple::HaraldTheCripple()
 {
@@ -2229,7 +2303,8 @@ HaraldTheCripple::HaraldTheCripple()
                 damage(card, 1, ally, enemy, this);
             }
     };
-};
+}
+
 
 Emissary::Emissary()
 {
@@ -2255,7 +2330,8 @@ Emissary::Emissary()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 CeallachDyffryn::CeallachDyffryn()
 {
@@ -2281,7 +2357,8 @@ CeallachDyffryn::CeallachDyffryn()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Restore::Restore()
 {
@@ -2304,7 +2381,8 @@ Restore::Restore()
         target->powerBase = target->power = 8;
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 DrummondQueensguard::DrummondQueensguard()
 {
@@ -2326,7 +2404,8 @@ DrummondQueensguard::DrummondQueensguard()
         for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
             moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 BranTuirseach::BranTuirseach()
 {
@@ -2353,7 +2432,8 @@ BranTuirseach::BranTuirseach()
         if (!target->isSpecial)
             strengthen(target, 1, ally, enemy);
     };
-};
+}
+
 
 DrummondWarmonger::DrummondWarmonger()
 {
@@ -2378,7 +2458,8 @@ DrummondWarmonger::DrummondWarmonger()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDiscard(target, ally, enemy, this);
     };
-};
+}
+
 
 DimunPirate::DimunPirate()
 {
@@ -2400,7 +2481,8 @@ DimunPirate::DimunPirate()
         for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
             putToDiscard(card, ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteRaider::AnCraiteRaider()
 {
@@ -2421,7 +2503,8 @@ AnCraiteRaider::AnCraiteRaider()
     _onDiscard = [=](Field &ally, Field &enemy) {
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
-};
+}
+
 
 MadmanLugos::MadmanLugos()
 {
@@ -2453,7 +2536,8 @@ MadmanLugos::MadmanLugos()
         }
         damage(target, _discarded->powerBase, ally, enemy, this);
     };
-};
+}
+
 
 Ermion::Ermion()
 {
@@ -2481,7 +2565,8 @@ Ermion::Ermion()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDiscard(target, ally, enemy, this);
     };
-};
+}
+
 
 CerysFearless::CerysFearless()
 {
@@ -2511,7 +2596,8 @@ CerysFearless::CerysFearless()
         if (tick(this, ally, enemy))
             playExistedCard(other, ally, enemy, this);
     };
-};
+}
+
 
 CerysAnCraite::CerysAnCraite()
 {
@@ -2545,7 +2631,8 @@ CerysAnCraite::CerysAnCraite()
         if (tick(this, ally, enemy))
             moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
-};
+}
+
 
 WoodlandSpirit::WoodlandSpirit()
 {
@@ -2567,7 +2654,8 @@ WoodlandSpirit::WoodlandSpirit()
         for (int n = 0; n < 3; ++n)
             spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
     };
-};
+}
+
 
 Trollololo::Trollololo()
 {
@@ -2590,7 +2678,8 @@ Trollololo::Trollololo()
     _onDeploy = [=](Field &ally, Field &enemy) {
         gainArmor(this, 9, ally, enemy, this);
     };
-};
+}
+
 
 PrinceStennis::PrinceStennis()
 {
@@ -2618,7 +2707,8 @@ PrinceStennis::PrinceStennis()
         playExistedCard(target, ally, enemy, this);
         gainArmor(target, 5, ally, enemy, this);
     };
-};
+}
+
 
 VincentMeis::VincentMeis()
 {
@@ -2646,10 +2736,12 @@ VincentMeis::VincentMeis()
         if (_armor)
             boost(this, _armor / 2, ally, enemy, this);
     };
-};
+}
+
 
 Morkvarg::Morkvarg()
 {
+    // FIXME: isn't carry over...
     id = "152209";
     name = "Morkvarg";
     text = "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.";
@@ -2677,7 +2769,8 @@ Morkvarg::Morkvarg()
 
         moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
     };
-};
+}
+
 
 ArtefactCompression::ArtefactCompression()
 {
@@ -2697,11 +2790,14 @@ ArtefactCompression::ArtefactCompression()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         transform(target, JadeFigurine(), ally, enemy, this);
     };
-};
+}
+
 
 ArtefactCompression::JadeFigurine::JadeFigurine()
 {
+    id = "200053";
     name = "Jade Figurine";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     isDoomed = true;
     power = powerBase = 2;
     rarity = Bronze;
@@ -2724,7 +2820,8 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
         for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
             boost(card, 10, ally, enemy, this);
     };
-};
+}
+
 
 HjalmarAnCraite::HjalmarAnCraite()
 {
@@ -2746,7 +2843,8 @@ HjalmarAnCraite::HjalmarAnCraite()
     _onDeploy = [=](Field &ally, Field &enemy) {
         spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
     };
-};
+}
+
 
 Regis::Regis()
 {
@@ -2772,7 +2870,8 @@ Regis::Regis()
         const int x = target->power - target->powerBase;
         drain(target, x, ally, enemy, this);
     };
-};
+}
+
 
 LethoOfGulet::LethoOfGulet()
 {
@@ -2800,7 +2899,8 @@ LethoOfGulet::LethoOfGulet()
         lock(target, ally, enemy, this);
         drain(target, target->power, ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteLongship::AnCraiteLongship()
 {
@@ -2822,7 +2922,8 @@ AnCraiteLongship::AnCraiteLongship()
         if (isOnBoard(this, ally))
             AnCraiteLongship::onDeploy(ally, enemy);
     };
-};
+}
+
 
 TuirseachVeteran::TuirseachVeteran()
 {
@@ -2844,7 +2945,8 @@ TuirseachVeteran::TuirseachVeteran()
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
             strengthen(card, 1, ally, enemy);
     };
-};
+}
+
 
 TuirseachHunter::TuirseachHunter()
 {
@@ -2869,7 +2971,8 @@ TuirseachHunter::TuirseachHunter()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 5, ally, enemy, this);
     };
-};
+}
+
 
 Udalryk::Udalryk()
 {
@@ -2897,7 +3000,8 @@ Udalryk::Udalryk()
 
         _drawn.clear();
     };
-};
+}
+
 
 BloodcurdlingRoar::BloodcurdlingRoar()
 {
@@ -2918,7 +3022,8 @@ BloodcurdlingRoar::BloodcurdlingRoar()
         putToDiscard(target, ally, enemy, this);
         spawnNewCard(new Bear(), ally, enemy, this);
     };
-};
+}
+
 
 Gremist::Gremist()
 {
@@ -2945,7 +3050,8 @@ Gremist::Gremist()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Operator::Operator()
 {
@@ -2979,7 +3085,8 @@ Operator::Operator()
         enemy.cardsAdded.push_back(copyEnemy);
         putToHand(copyEnemy, enemy, ally);
     };
-};
+}
+
 
 ZoriaRunestone::ZoriaRunestone()
 {
@@ -3000,7 +3107,8 @@ ZoriaRunestone::ZoriaRunestone()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Renew::Renew()
 {
@@ -3020,7 +3128,8 @@ Renew::Renew()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 EistTuirseach::EistTuirseach()
 {
@@ -3046,7 +3155,8 @@ EistTuirseach::EistTuirseach()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 TuirseachAxeman::TuirseachAxeman()
 {
@@ -3076,7 +3186,8 @@ TuirseachAxeman::TuirseachAxeman()
         if (isIn(this, ally.row(row)))
             boost(this, 1, ally, enemy, this);
     };
-};
+}
+
 
 TuirseachSkirmisher::TuirseachSkirmisher()
 {
@@ -3097,7 +3208,8 @@ TuirseachSkirmisher::TuirseachSkirmisher()
     _onDeployFromDiscard = [=](Field &ally, Field &enemy) {
         strengthen(this, 3, ally, enemy);
     };
-};
+}
+
 
 Derran::Derran()
 {
@@ -3119,7 +3231,8 @@ Derran::Derran()
         if (isOnBoard(this, ally))
             boost(this, 1, ally, enemy, this);
     };
-};
+}
+
 
 Roach::Roach()
 {
@@ -3141,7 +3254,8 @@ Roach::Roach()
 
         spawnNewUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
-};
+}
+
 
 JanCalveit::JanCalveit()
 {
@@ -3167,7 +3281,8 @@ JanCalveit::JanCalveit()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 CahirDyffryn::CahirDyffryn()
 {
@@ -3193,7 +3308,8 @@ CahirDyffryn::CahirDyffryn()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 LethoKingslayer::LethoKingslayer()
 {
@@ -3261,7 +3377,8 @@ LethoKingslayer::LethoKingslayer()
 
         assert(false);
     };
-};
+}
+
 
 KingHenselt::KingHenselt()
 {
@@ -3288,7 +3405,8 @@ KingHenselt::KingHenselt()
         for (Card *copy : findCopies(target, ally.deck))
             playExistedCard(copy, ally, enemy, this);
     };
-};
+}
+
 
 BloodyBaron::BloodyBaron()
 {
@@ -3312,7 +3430,8 @@ BloodyBaron::BloodyBaron()
         if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
             boost(this, 1, ally, enemy, this);
     };
-};
+}
+
 
 Dethmold::Dethmold()
 {
@@ -3338,7 +3457,8 @@ Dethmold::Dethmold()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 RonvidTheIncessant::RonvidTheIncessant()
 {
@@ -3363,7 +3483,8 @@ RonvidTheIncessant::RonvidTheIncessant()
     _onTurnEnd = [=](Field &, Field &) {
         // FIXME: ability is missing
     };
-};
+}
+
 
 HubertRejk::HubertRejk()
 {
@@ -3385,7 +3506,8 @@ HubertRejk::HubertRejk()
         for (Card *card : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
             drain(card, card->power - card->powerBase, ally, enemy, this);
     };
-};
+}
+
 
 CrachAnCraite::CrachAnCraite()
 {
@@ -3410,7 +3532,8 @@ CrachAnCraite::CrachAnCraite()
             playExistedCard(card, ally, enemy, this);
         }
     };
-};
+}
+
 
 BirnaBran::BirnaBran()
 {
@@ -3435,7 +3558,8 @@ BirnaBran::BirnaBran()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, SkelligeStormEffect);
     };
-};
+}
+
 
 Coral::Coral()
 {
@@ -3460,7 +3584,8 @@ Coral::Coral()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         transform(target, ArtefactCompression::JadeFigurine(), ally, enemy, this);
     };
-};
+}
+
 
 Kambi::Hemdall::Hemdall()
 {
@@ -3487,7 +3612,8 @@ Kambi::Hemdall::Hemdall()
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
             putToDiscard(card, ally, enemy, this);
     };
-};
+}
+
 
 Vabjorn::Vabjorn()
 {
@@ -3515,7 +3641,8 @@ Vabjorn::Vabjorn()
         else
             damage(target, 2, ally, enemy, this);
     };
-};
+}
+
 
 BlueboyLugos::BlueboyLugos()
 {
@@ -3535,7 +3662,8 @@ BlueboyLugos::BlueboyLugos()
     _onDeploy = [=](Field &ally, Field &enemy) {
         spawnNewCard(new SpectralWhale(), ally, enemy, this);
     };
-};
+}
+
 
 DjengeFrett::DjengeFrett()
 {
@@ -3562,7 +3690,8 @@ DjengeFrett::DjengeFrett()
         damage(target, 1, ally, enemy, this);
         strengthen(this, 2, ally, enemy);
     };
-};
+}
+
 
 DonarAnHindar::DonarAnHindar()
 {
@@ -3579,7 +3708,8 @@ DonarAnHindar::DonarAnHindar()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanHeymaey, Officer };
-};
+}
+
 
 DraigBonDhu::DraigBonDhu()
 {
@@ -3603,7 +3733,8 @@ DraigBonDhu::DraigBonDhu()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         strengthen(target, 3, ally, enemy);
     };
-};
+}
+
 
 HolgerBlackhand::HolgerBlackhand()
 {
@@ -3630,7 +3761,8 @@ HolgerBlackhand::HolgerBlackhand()
             if (Card *card = highest(ally.discard, ally.rng))
                 strengthen(card, 3, ally, enemy);
     };
-};
+}
+
 
 JuttaAnDimun::JuttaAnDimun()
 {
@@ -3651,7 +3783,8 @@ JuttaAnDimun::JuttaAnDimun()
     _onDeploy = [=](Field &ally, Field &enemy) {
         damage(this, 1, ally, enemy, this);
     };
-};
+}
+
 
 SavageBear::SavageBear()
 {
@@ -3668,7 +3801,8 @@ SavageBear::SavageBear()
         if (isOnBoard(this, ally))
             damage(other, 1, ally, enemy, this);
     };
-};
+}
+
 
 SvanrigeTuirseach::SvanrigeTuirseach()
 {
@@ -3696,7 +3830,8 @@ SvanrigeTuirseach::SvanrigeTuirseach()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDiscard(target, ally, enemy, this);
     };
-};
+}
+
 
 Skjall::Skjall()
 {
@@ -3721,7 +3856,8 @@ Skjall::Skjall()
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, hasTag(Cursed)}, AllyDeck), ally.rng))
             playExistedCard(card, ally, enemy, this);
     };
-};
+}
+
 
 HaraldHoundsnout::HaraldHoundsnout()
 {
@@ -3744,7 +3880,8 @@ HaraldHoundsnout::HaraldHoundsnout()
         spawnNewUnitToPos(new Wilhelm(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
         spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
     };
-};
+}
+
 
 HaraldHoundsnout::Wilfred::Wilfred()
 {
@@ -3759,7 +3896,8 @@ HaraldHoundsnout::Wilfred::Wilfred()
         for (Card *card : enemy.row(rowAndPos.row()))
             damage(card, 1, ally, enemy, this);
     };
-};
+}
+
 
 HaraldHoundsnout::Wilhelm::Wilhelm()
 {
@@ -3774,7 +3912,8 @@ HaraldHoundsnout::Wilhelm::Wilhelm()
         if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
             strengthen(card, 3, ally, enemy);
     };
-};
+}
+
 
 HaraldHoundsnout::Wilmar::Wilmar()
 {
@@ -3788,7 +3927,8 @@ HaraldHoundsnout::Wilmar::Wilmar()
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Bear(), rowAndPosRandom(enemy), ally, enemy, this);
     };
-};
+}
+
 
 Yoana::Yoana()
 {
@@ -3817,7 +3957,8 @@ Yoana::Yoana()
         heal(target, ally, enemy);
         boost(target, x, ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteBlacksmith::AnCraiteBlacksmith()
 {
@@ -3843,7 +3984,8 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
         strengthen(target, 2, ally, enemy);
         gainArmor(target, 2, ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteWarcrier::AnCraiteWarcrier()
 {
@@ -3870,7 +4012,8 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, int(std::floor(target->power / 2.0)), ally, enemy, this);
     };
-};
+}
+
 
 AnCraiteWarrior::AnCraiteWarrior()
 {
@@ -3891,7 +4034,8 @@ AnCraiteWarrior::AnCraiteWarrior()
     _onDeploy = [=](Field &ally, Field &enemy) {
         damage(this, 1, ally, enemy, this);
     };
-};
+}
+
 
 BerserkerMarauder::BerserkerMarauder()
 {
@@ -3917,7 +4061,8 @@ BerserkerMarauder::BerserkerMarauder()
         if (nUnits)
             boost(this, nUnits, ally, enemy, this);
     };
-};
+}
+
 
 DimunPirateCaptain::DimunPirateCaptain()
 {
@@ -3943,7 +4088,8 @@ DimunPirateCaptain::DimunPirateCaptain()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 DimunSmuggler::DimunSmuggler()
 {
@@ -3960,7 +4106,8 @@ DimunSmuggler::DimunSmuggler()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Soldier };
-};
+}
+
 
 DrummondShieldmaid::DrummondShieldmaid()
 {
@@ -3977,7 +4124,8 @@ DrummondShieldmaid::DrummondShieldmaid()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDrummond, Soldier };
-};
+}
+
 
 HeymaeyFlaminica::HeymaeyFlaminica()
 {
@@ -3994,7 +4142,7 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
-};
+}
 
 
 HeymaeyHerbalist::HeymaeyHerbalist()
@@ -4017,7 +4165,8 @@ HeymaeyHerbalist::HeymaeyHerbalist()
         if (Card *target = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
             playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 HeymaeyProtector::HeymaeyProtector()
 {
@@ -4042,7 +4191,8 @@ HeymaeyProtector::HeymaeyProtector()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 HeymaeySkald::HeymaeySkald()
 {
@@ -4059,7 +4209,8 @@ HeymaeySkald::HeymaeySkald()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
-};
+}
+
 
 RagingBerserker::RagingBerserker()
 {
@@ -4080,7 +4231,8 @@ RagingBerserker::RagingBerserker()
     _onDamaged = [=](const int, Field &ally, Field &enemy) {
         transform(this, RagingBear(), ally, enemy, this);
     };
-};
+}
+
 
 RagingBerserker::RagingBear::RagingBear()
 {
@@ -4092,7 +4244,8 @@ RagingBerserker::RagingBear::RagingBear()
     faction = Skellige;
     rarity = Bronze;
     tags = { Cursed, Beast, Cultist };
-};
+}
+
 
 Hym::Hym()
 {
@@ -4104,7 +4257,8 @@ Hym::Hym()
     faction = Skellige;
     rarity = Gold;
     tags = { Cursed };
-};
+}
+
 
 Kambi::Kambi()
 {
@@ -4121,7 +4275,8 @@ Kambi::Kambi()
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
     };
-};
+}
+
 
 Olaf::Olaf()
 {
@@ -4133,7 +4288,8 @@ Olaf::Olaf()
     faction = Skellige;
     rarity = Gold;
     tags = { Beast, Cursed };
-};
+}
+
 
 Ulfhedinn::Ulfhedinn()
 {
@@ -4154,7 +4310,8 @@ Ulfhedinn::Ulfhedinn()
         for (Card *card : damaged)
             damage(card, 2, ally, enemy, this);
     };
-};
+}
+
 
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
@@ -4181,7 +4338,8 @@ WildBoarOfTheSea::WildBoarOfTheSea()
         if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
             damage(right, 1, ally, enemy, this);
     };
-};
+}
+
 
 GiantBoar::GiantBoar()
 {
@@ -4200,7 +4358,8 @@ GiantBoar::GiantBoar()
             boost(this, 10, ally, enemy, this);
         }
     };
-};
+}
+
 
 OrnamentalSword::OrnamentalSword()
 {
@@ -4212,7 +4371,8 @@ OrnamentalSword::OrnamentalSword()
     faction = Skellige;
     rarity = Silver;
     tags = { Item };
-};
+}
+
 
 BlueboyLugos::SpectralWhale::SpectralWhale()
 {
@@ -4229,7 +4389,8 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     _onTurnEnd = [=](Field &, Field &) {
         // FIXME: ability missing
     };
-};
+}
+
 
 DimunWarship::DimunWarship()
 {
@@ -4252,7 +4413,8 @@ DimunWarship::DimunWarship()
             if (damage(target, 1, ally, enemy, this))
                 break;
     };
-};
+}
+
 
 TrissButterflies::TrissButterflies()
 {
@@ -4277,7 +4439,8 @@ TrissButterflies::TrissButterflies()
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
             boost(card, 1, ally, enemy, this);
     };
-};
+}
+
 
 Yennefer::Yennefer()
 {
@@ -4303,7 +4466,8 @@ Yennefer::Yennefer()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 GermainPiquant::GermainPiquant()
 {
@@ -4328,7 +4492,8 @@ GermainPiquant::GermainPiquant()
         spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
         spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 CommandersHorn::CommandersHorn()
 {
@@ -4354,7 +4519,8 @@ CommandersHorn::CommandersHorn()
             if (card != nullptr)
                 boost(card, 3, ally, enemy, this);
     };
-};
+}
+
 
 MarchingOrders::MarchingOrders()
 {
@@ -4374,7 +4540,8 @@ MarchingOrders::MarchingOrders()
             playExistedCard(card, ally, enemy, this);
         }
     };
-};
+}
+
 
 AlzursDoubleCross::AlzursDoubleCross()
 {
@@ -4394,7 +4561,8 @@ AlzursDoubleCross::AlzursDoubleCross()
             playExistedCard(card, ally, enemy, this);
         }
     };
-};
+}
+
 
 AlbaArmoredCavalry::AlbaArmoredCavalry()
 {
@@ -4411,7 +4579,8 @@ AlbaArmoredCavalry::AlbaArmoredCavalry()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
     };
-};
+}
+
 
 Sentry::Sentry()
 {
@@ -4432,7 +4601,8 @@ Sentry::Sentry()
         for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
             boost(card, 2, ally, enemy, this);
     };
-};
+}
+
 
 NauzicaaSergeant::NauzicaaSergeant()
 {
@@ -4458,7 +4628,8 @@ NauzicaaSergeant::NauzicaaSergeant()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 3, ally, enemy, this);
     };
-};
+}
+
 
 SlaveInfantry::SlaveInfantry()
 {
@@ -4491,7 +4662,8 @@ SlaveInfantry::SlaveInfantry()
                 spawnNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
             }
     };
-};
+}
+
 
 Recruit::Recruit()
 {
@@ -4515,7 +4687,8 @@ Recruit::Recruit()
         if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(this->name)}, AllyDeckShuffled), ally.rng))
             playExistedCard(card, ally, enemy, this);
     };
-};
+}
+
 
 Ointment::Ointment()
 {
@@ -4535,7 +4708,8 @@ Ointment::Ointment()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Vilgefortz::Vilgefortz()
 {
@@ -4552,7 +4726,8 @@ Vilgefortz::Vilgefortz()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
     };
-};
+}
+
 
 Vreemde::Vreemde()
 {
@@ -4569,7 +4744,8 @@ Vreemde::Vreemde()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
     };
-};
+}
+
 
 Yennefer::Chironex::Chironex()
 {
@@ -4587,7 +4763,8 @@ Yennefer::Chironex::Chironex()
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
             damage(card, 2, ally, enemy, this);
     };
-};
+}
+
 
 Yennefer::Unicorn::Unicorn()
 {
@@ -4605,17 +4782,21 @@ Yennefer::Unicorn::Unicorn()
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
             boost(card, 2, ally, enemy, this);
     };
-};
+}
+
 
 GermainPiquant::Cow::Cow()
 {
+    id = "201576";
     name = "Cow";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Beast };
     isDoomed = true;
     power = powerBase = 1;
     faction = Neutral;
     rarity = Bronze;
-};
+}
+
 
 Auckes::Auckes()
 {
@@ -4640,7 +4821,8 @@ Auckes::Auckes()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         toggleLock(target, ally, enemy, this);
     };
-};
+}
+
 
 Eskel::Eskel()
 {
@@ -4666,7 +4848,8 @@ Eskel::Eskel()
         for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
             moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 Lambert::Lambert()
 {
@@ -4694,7 +4877,8 @@ Lambert::Lambert()
         for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
             moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 Vesemir::Vesemir()
 {
@@ -4719,7 +4903,8 @@ Vesemir::Vesemir()
         for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
             moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
-};
+}
+
 
 TridamInfantry::TridamInfantry()
 {
@@ -4740,7 +4925,8 @@ TridamInfantry::TridamInfantry()
     _onDeploy = [=](Field &ally, Field &enemy) {
         gainArmor(this, 4, ally, enemy, this);
     };
-};
+}
+
 
 VriheddDragoon::VriheddDragoon()
 {
@@ -4762,7 +4948,8 @@ VriheddDragoon::VriheddDragoon()
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
             boost(card, 1, ally, enemy, this);
     };
-};
+}
+
 
 Malena::Malena()
 {
@@ -4792,7 +4979,8 @@ Malena::Malena()
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
             charm(card, ally, enemy, this);
     };
-};
+}
+
 
 UnseenElder::UnseenElder()
 {
@@ -4818,7 +5006,8 @@ UnseenElder::UnseenElder()
         const int x = int(std::ceil(target->power / 2.0));
         drain(target, x, ally, enemy, this);
     };
-};
+}
+
 
 DevanaRunestone::DevanaRunestone()
 {
@@ -4839,7 +5028,8 @@ DevanaRunestone::DevanaRunestone()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 DazhbogRunestone::DazhbogRunestone()
 {
@@ -4860,7 +5050,8 @@ DazhbogRunestone::DazhbogRunestone()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 MoranaRunestone::MoranaRunestone()
 {
@@ -4881,7 +5072,8 @@ MoranaRunestone::MoranaRunestone()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 StribogRunestone::StribogRunestone()
 {
@@ -4902,7 +5094,8 @@ StribogRunestone::StribogRunestone()
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
     };
-};
+}
+
 
 Muzzle::Muzzle()
 {
@@ -4922,7 +5115,8 @@ Muzzle::Muzzle()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         charm(target, ally, enemy, this);
     };
-};
+}
+
 
 RockBarrage::RockBarrage()
 {
@@ -4948,7 +5142,8 @@ RockBarrage::RockBarrage()
         }
         putToDiscard(target, ally, enemy, this);
     };
-};
+}
+
 
 Nivellen::Nivellen()
 {
@@ -4965,7 +5160,8 @@ Nivellen::Nivellen()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
     };
-};
+}
+
 
 LeoBonhart::LeoBonhart()
 {
@@ -4996,7 +5192,8 @@ LeoBonhart::LeoBonhart()
         }
         damage(target, _revealed->powerBase, ally, enemy, this);
     };
-};
+}
+
 
 MorvranVoorhis::MorvranVoorhis()
 {
@@ -5021,7 +5218,8 @@ MorvranVoorhis::MorvranVoorhis()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         reveal(target, ally, enemy, this);
     };
-};
+}
+
 
 Cynthia::Cynthia()
 {
@@ -5045,7 +5243,8 @@ Cynthia::Cynthia()
             boost(this, card->power, ally, enemy, this);
         }
     };
-};
+}
+
 
 Serrit::Serrit()
 {
@@ -5071,7 +5270,8 @@ Serrit::Serrit()
         const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
         damage(target, x, ally, enemy, this);
     };
-};
+}
+
 
 Sweers::Sweers()
 {
@@ -5097,4 +5297,5 @@ Sweers::Sweers()
         for (Card *copy : findCopies(target, enemy.deck))
             putToDiscard(copy, ally, enemy, this);
     };
-};
+}
+
