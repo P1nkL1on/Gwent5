@@ -5344,30 +5344,22 @@ void WeavessIncantation::onTargetChoosen(Card *target, Field &ally, Field &enemy
         _choosen = target;
         acceptOptionAndDeleteOthers(this, target);
         if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
-            for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict)}, AllyBoardHandDeck))
-                if (card != this)
-                    strengthen(card, 2, ally, enemy);
-
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
+                strengthen(card, 2, ally, enemy);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
         if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag({Relict})}, AllyDeckShuffled);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
+            delete _choosen;
+            _choosen = nullptr;
             return;
         }
         assert(false);
     }
-
-    if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
-        playExistedCard(target, ally, enemy, this);
-        strengthen(target, 2, ally, enemy);
-
-        delete _choosen;
-        _choosen = nullptr;
-        return;
-    }
-    assert(false);
+    strengthen(target, 2, ally, enemy);
+    playExistedCard(target, ally, enemy, this);
 }
 
 BrewessRitual::BrewessRitual()
