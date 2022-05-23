@@ -376,3 +376,19 @@ void demoMonsterLeaders(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoMonsterSisters(Field &ally, Field &enemy)
+{
+    auto *w1 = new Brewess();
+    auto *w2 = new Weavess();
+    auto *w3 = new Whispess();
+    ally.cardsAdded = {w1, w2, w3};
+
+
+    ally.hand = {w1};
+    ally.deck = {w2, w3};
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}

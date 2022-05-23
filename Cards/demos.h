@@ -22,5 +22,6 @@ void demoCharm(Field &ally, Field &enemy);
 void demoUnseenElder(Field &ally, Field &enemy);
 void demoRunestones(Field &ally, Field &enemy);
 void demoMonsterLeaders(Field &ally, Field &enemy);
+void demoMonsterSisters(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

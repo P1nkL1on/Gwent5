@@ -180,6 +180,9 @@ std::vector<Card *> allCards(const Patch)
         new StribogRunestone(),
         new Muzzle(),
         new WhisperingHillock(),
+        new Brewess(),
+        new Weavess(),
+        new Whispess(),
     };
 }
 
@@ -4914,7 +4917,7 @@ void Eskel::onDeploy(Field &ally, Field &enemy)
         moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
     for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-        moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        moveExistedUnitToPos(vesemir, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 }
 
 Lambert::Lambert()
@@ -4968,8 +4971,8 @@ void Vesemir::onDeploy(Field &ally, Field &enemy)
     for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
         moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-    for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-        moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+        moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 }
 
 TridamInfantry::TridamInfantry()
@@ -5219,4 +5222,86 @@ void WhisperingHillock::onTargetChoosen(Card *target, Field &ally, Field &enemy)
 {
     acceptOptionAndDeleteOthers(this, target);
     spawnNewCard(target, ally, enemy, this);
+}
+
+Brewess::Brewess()
+{
+    id = "132207";
+    name = "Brewess";
+    text = "Summon Whispess and Weavess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 8;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
+    };
+}
+
+void Brewess::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+        moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
+    for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+        moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+}
+
+Weavess::Weavess()
+{
+    id = "132208";
+    name = "Weavess";
+    text = "Summon Brewess and Whispess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
+    };
+}
+
+void Weavess::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+        moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+
+    for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+        moveExistedUnitToPos(brewess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+}
+
+Whispess::Whispess()
+{
+    id = "132206";
+    name = "Whispess";
+    text = "Summon Brewess and Weavess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
+    };
+}
+
+void Whispess::onDeploy(Field &ally, Field &enemy)
+{
+    for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+        moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
+    for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+        moveExistedUnitToPos(brewess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
 }

@@ -1473,4 +1473,25 @@ struct WhisperingHillock : CardCollectible<WhisperingHillock>
 };
 
 
+struct Brewess : CardCollectible<Brewess>
+{
+    Brewess();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
+struct Weavess : CardCollectible<Weavess>
+{
+    Weavess();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
+struct Whispess : CardCollectible<Whispess>
+{
+    Whispess();
+    void onDeploy(Field &ally, Field &enemy) override;
+};
+
+
 #endif // CARDS_H

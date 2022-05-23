@@ -43,7 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    demoAmbushes(_ally, _enemy);
 //    demoCharm(_ally, _enemy);
 //    demoRunestones(_ally, _enemy);
-    demoMonsterLeaders(_ally, _enemy);
+//    demoMonsterLeaders(_ally, _enemy);
+    demoMonsterSisters(_ally, _enemy);
 
     resize(1400, 800);
     setMouseTracking(true);
