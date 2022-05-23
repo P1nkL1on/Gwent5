@@ -23,6 +23,7 @@ inline bool isNonSpying(Card *card) { return card->isLoyal; }
 inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
 inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
+inline bool isDeathwish(Card *card) { return card->text.find("Deathwish: ") != std::string::npos; }
 
 
 

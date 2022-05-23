@@ -384,11 +384,19 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     auto *w3 = new Whispess();
     auto *gw1 = new WeavessIncantation();
     auto *gw2 = new WeavessIncantation();
-    ally.cardsAdded = {w1, w2, w3, gw1, gw2};
+    auto *gb1 = new  BrewessRitual();
+    auto *gb2 = new  BrewessRitual();
+    auto *gb3 = new  BrewessRitual();
+    auto *t = new TuirseachArcher();
+    auto *d1 = new Dao();
+    auto *d2 = new Dao();
+    auto *k = new Kambi();
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, d1, d2, k, t};
 
 
-    ally.hand = {w1, gw1, gw2};
-    ally.deck = {w2, w3};
+    ally.hand = {w1, gw1, gb1, gb2, t};
+    ally.deck = {w2, w3, gw2};
+    ally.discard = {gb3, d1, d2, k};
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

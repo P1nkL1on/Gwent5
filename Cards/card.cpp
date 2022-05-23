@@ -559,6 +559,11 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     /// clean excess automatic choices
     for (;;) {
         const Choice choice = ally.cardStack.back();
+        if ((choice.choiceType == SelectAllyRow)
+                || (choice.choiceType == SelectEnemyRow)
+                || (choice.choiceType == SelectAllyRowAndPos)
+                || (choice.choiceType == SelectEnemyRowAndPos))
+            break;
         if (choice.isOptional && choice.cardOptions.size() > 0)
             break;
         if (int(choice.cardOptions.size()) > choice.nTargets)

@@ -405,7 +405,7 @@
 # Monster
 
 - [ ] Arachas Queen
-- [ ] Brewess: Ritual
+- [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
 - [ ] Caretaker
 - [ ] Dagon

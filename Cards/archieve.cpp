@@ -184,6 +184,7 @@ std::vector<Card *> allCards(const Patch)
         new Weavess(),
         new Whispess(),
         new WeavessIncantation(),
+        new BrewessRitual(),
     };
 }
 
@@ -5367,4 +5368,33 @@ void WeavessIncantation::onTargetChoosen(Card *target, Field &ally, Field &enemy
         return;
     }
     assert(false);
+}
+
+BrewessRitual::BrewessRitual()
+{
+    id = "200221";
+    name = "Brewess: Ritual";
+    text = "Resurrect 2 Bronze Deathwish units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 1;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
+    };
+}
+
+void BrewessRitual::onDeploy(Field &ally, Field &enemy)
+{
+    startChoiceToTargetCard(ally, enemy, this, {isDeathwish}, AllyDiscard, 2);
+}
+
+void BrewessRitual::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    // TODO: play order is inverted
+    // look demoMonsterSisters
+    playExistedCard(target, ally, enemy, this);
 }
