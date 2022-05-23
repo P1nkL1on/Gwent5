@@ -601,6 +601,10 @@ struct Morkvarg : CardCollectible<Morkvarg>
 
 struct ArtefactCompression : CardCollectible<ArtefactCompression>
 {
+    struct JadeFigurine : CardCollectible<JadeFigurine>
+    {
+        JadeFigurine();
+    };
     ArtefactCompression();
 };
 
@@ -965,7 +969,6 @@ struct RagingBerserker : CardCollectible<RagingBerserker>
         RagingBear();
     };
     RagingBerserker();
-    // FIXME: ability isn't implemented
 };
 
 

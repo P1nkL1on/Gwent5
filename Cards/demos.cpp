@@ -412,11 +412,14 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
 {
     ally.cardsAdded = {
         new Auckes(),
+        new DimunLightLongship(),
+        new RagingBerserker(),
         new AlzursThunder(),
         new AlzursThunder(),
     };
     ally.hand = ally.cardsAdded;
     enemy.cardsAdded = {
+        new DimunLightLongship(),
         new Dao(),
         new Dao(),
     };

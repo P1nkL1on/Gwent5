@@ -150,6 +150,7 @@ enum ActionType {
     GainSpy,
     LostSpy,
     Reveal,
+    Transform,
 };
 
 

@@ -1457,32 +1457,10 @@ bool isOnBoard(const Card *card, const Field &field)
     return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }
 
-void transform(
-        Card *card,
-        const std::string &id,
-        const std::string &name,
-        const std::string &text,
-        const std::string &url,
-        const int power,
-        const Rarity rarity,
-        const Tag faction,
-        const std::vector<Tag> &tags)
+void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src)
 {
-    card->id = id;
-    card->name = name;
-    card->text = text;
-    card->url = url;
-    card->power = card->powerBase = power;
-    card->rarity = rarity;
-    card->faction = faction;
-    card->tags = tags;
-
-    card->timer = 0;
-    card->armor = 0;
-    card->isDoomed = true;
-    card->isLocked = true;
-    card->isSpy = false;
-    card->isResilient = false;
+    *card = target;
+    saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
 void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src)

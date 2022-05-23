@@ -2694,10 +2694,20 @@ ArtefactCompression::ArtefactCompression()
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &, Field &) {
-        transform(target, id, "Jade Figurine", "", url, 2, Bronze, Neutral);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        transform(target, JadeFigurine(), ally, enemy, this);
     };
 };
+
+ArtefactCompression::JadeFigurine::JadeFigurine()
+{
+    name = "Jade Figurine";
+    isDoomed = true;
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = {};
+}
 
 HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 {
@@ -3447,8 +3457,8 @@ Coral::Coral()
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &, Field &) {
-        transform(target, id, "Jade Figurine", "", "https://gwent.one/image/card/low/cid/png/200053.png", 2, Bronze, Neutral);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        transform(target, ArtefactCompression::JadeFigurine(), ally, enemy, this);
     };
 };
 
@@ -4066,6 +4076,10 @@ RagingBerserker::RagingBerserker()
     faction = Skellige;
     rarity = Bronze;
     tags = { Cursed, Soldier, Cultist };
+
+    _onDamaged = [=](const int, Field &ally, Field &enemy) {
+        transform(this, RagingBear(), ally, enemy, this);
+    };
 };
 
 RagingBerserker::RagingBear::RagingBear()

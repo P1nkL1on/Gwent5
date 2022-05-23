@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
-        {"Cards Transformation", demoTransforms},
+        {"Transformation", demoTransforms},
         {"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
         {"Single-Use (Frightener)", demoSingleUseFrightener},
@@ -443,7 +443,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
 
         if (cardView.isLocked) {
-            width += paintTextInPoint("LOCKED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::white);
+            width += paintTextInPoint("X", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::white);
             width += _layout.borderTextPx;
         }
 
@@ -468,7 +468,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
 
         if (cardView.isDoomed) {
-            width += paintTextInPoint("DOOMED", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::cyan);
+            width += paintTextInPoint("*", QPointF(topLeft.x() + width, topLeft.y()), Qt::black, Qt::cyan);
             width += _layout.borderTextPx;
         }
 
@@ -840,6 +840,9 @@ void MainWindow::repaintCustom()
             break;
         case GainLock:
             stream << prefix << dst << " gains LOCK by " << src;
+            break;
+        case Transform:
+            stream << prefix << dst << " transforms by " << src;
             break;
         case GainSpy:
             stream << prefix << dst << " gains SPY by " << src;
