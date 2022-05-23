@@ -1494,4 +1494,16 @@ struct Whispess : CardCollectible<Whispess>
 };
 
 
+struct WeavessIncantation : CardCollectible<WeavessIncantation>
+{
+    WeavessIncantation();
+    void onDeploy(Field &ally, Field &enemy) override;
+    void onTargetChoosen(Card *target, Field &ally, Field &enemy) override;
+private:
+    struct StrengthenAll : CardCollectible<StrengthenAll> {};
+    struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H

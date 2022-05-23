@@ -183,6 +183,7 @@ std::vector<Card *> allCards(const Patch)
         new Brewess(),
         new Weavess(),
         new Whispess(),
+        new WeavessIncantation(),
     };
 }
 
@@ -5304,4 +5305,66 @@ void Whispess::onDeploy(Field &ally, Field &enemy)
     for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
         moveExistedUnitToPos(brewess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 
+}
+
+WeavessIncantation::WeavessIncantation()
+{
+    id = "200222";
+    name = "Weavess: Incantation";
+    text = "Choose One: Strengthen all your other Relicts in hand, deck, and on board by 2; or Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 4;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
+    };
+}
+
+void WeavessIncantation::onDeploy(Field &ally, Field &enemy)
+{
+    auto *option1 = new WeavessIncantation::StrengthenAll;
+    copyCardText(this, option1);
+    option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
+
+    auto *option2 = new WeavessIncantation::PlayAndStrengthen;
+    copyCardText(this, option2);
+    option2->text = "Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
+
+    startChoiceToSelectOption(ally, this, {option1, option2});
+}
+
+void WeavessIncantation::onTargetChoosen(Card *target, Field &ally, Field &enemy)
+{
+    if (_options.size() > 0) {
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+        if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict)}, AllyBoardHandDeck))
+                if (card != this)
+                    strengthen(card, 2, ally, enemy);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag({Relict})}, AllyDeckShuffled);
+            return;
+        }
+        assert(false);
+    }
+
+    if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
+        playExistedCard(target, ally, enemy, this);
+        strengthen(target, 2, ally, enemy);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    }
+    assert(false);
 }

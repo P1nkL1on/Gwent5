@@ -382,10 +382,12 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     auto *w1 = new Brewess();
     auto *w2 = new Weavess();
     auto *w3 = new Whispess();
-    ally.cardsAdded = {w1, w2, w3};
+    auto *gw1 = new WeavessIncantation();
+    auto *gw2 = new WeavessIncantation();
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2};
 
 
-    ally.hand = {w1};
+    ally.hand = {w1, gw1, gw2};
     ally.deck = {w2, w3};
     enemy.passed = true;
     ally.canPass = false;
