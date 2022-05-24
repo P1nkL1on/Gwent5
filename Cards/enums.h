@@ -58,6 +58,7 @@ enum Tag
     Witcher,
     Leader,
     Cultist,
+    WildHunt,
 
     Alchemy,
     Tactics,

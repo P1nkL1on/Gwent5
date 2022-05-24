@@ -430,6 +430,7 @@ std::string stringTag(const Tag tag)
     case Witcher: return "Witcher";
     case Leader: return "Leader";
     case Cultist: return "Cultist";
+    case WildHunt: return "Wild Hunt";
     case Alchemy: return "Alchemy";
     case Tactics: return "Tactics";
     case Spell: return "Spell";

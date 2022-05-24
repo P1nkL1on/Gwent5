@@ -191,6 +191,7 @@ std::vector<Card *> allCards(const Patch)
         new Cynthia(),
         new Serrit(),
         new Sweers(),
+        new WildHuntHound(),
     };
 };
 
@@ -5322,3 +5323,20 @@ Sweers::Sweers()
             putToDiscard(copy, ally, enemy, this);
     };
 };
+
+WildHuntHound::WildHuntHound()
+{
+    id = "132402";
+    name = "Wild Hunt Hound";
+    text = "Play Biting Frost from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Construct };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if(Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+}

@@ -1286,4 +1286,10 @@ struct Sweers : CardCollectible<Sweers>
 };
 
 
+struct WildHuntHound : CardCollectible<WildHuntHound>
+{
+    WildHuntHound();
+};
+
+
 #endif // CARDS_H

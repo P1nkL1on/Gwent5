@@ -486,3 +486,32 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoWildHunt(Field &ally, Field &enemy)
+{
+    auto *whh1 = new WildHuntHound();
+    auto *whh2 = new WildHuntHound();
+    auto *whh3 = new WildHuntHound();
+    auto *bf1 = new BitingFrost();
+    auto *bf2 = new BitingFrost();
+    ally.cardsAdded = {whh1, whh2, whh3, bf1, bf2};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *m4 = new ImperialManticore();
+    auto *m5 = new ImperialManticore();
+    auto *m6 = new ImperialManticore();
+    enemy.cardsAdded = {m1, m2, m3, m4, m5, m6};
+
+    ally.hand = {whh1, whh2, whh3};
+    ally.deck = {bf1, bf2};
+    ally.canPass = false;
+
+    enemy.rowSeige = {m1};
+    enemy.rowRange = {m2, m3};
+    enemy.rowMeele = {m4, m5, m6};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

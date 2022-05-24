@@ -476,7 +476,7 @@
 - [ ] Werecat
 - [ ] Werewolf
 - [ ] Wild Hunt Drakkar
-- [ ] Wild Hunt Hound
+- [x] Wild Hunt Hound
 - [ ] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
 - [ ] Wild Hunt Warrior
