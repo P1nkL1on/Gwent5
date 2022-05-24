@@ -390,6 +390,33 @@ void demoRunestones(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
+void demoMonsterLeaders(Field &ally, Field &enemy)
+{
+    auto *u = new UnseenElder();
+    auto *w = new WhisperingHillock();
+    auto *t3 = new TemerianDrummer();
+    auto *p1 = new PoorFingInfantry();
+    auto *p2 = new PoorFingInfantry();
+    auto *p3 = new PoorFingInfantry();
+    ally.cardsAdded = {u, w, t3, p1, p2, p3};
+
+    auto *t1 = new TemerianDrummer();
+    auto *t2 = new TemerianDrummer();
+    auto *mo = new Morkvarg();
+    auto *w1 = new Wolf();
+    auto *w2 = new Wolf();
+    enemy.cardsAdded = {t1, t2, mo, w1, w2};
+
+    ally.hand = {u, t3, w};
+    ally.rowMeele = {p1, p2, p3};
+    enemy.rowMeele = {w1, w2};
+    enemy.rowRange = {mo};
+    enemy.hand = {t1, t2};
+    enemy.passed = false;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
 void demoLeoBonhart(Field &ally, Field &enemy)
 {
     ally.cardsAdded = {
@@ -403,6 +430,31 @@ void demoLeoBonhart(Field &ally, Field &enemy)
         new DjengeFrett()
     };
     enemy.rowRange = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoMonsterSisters(Field &ally, Field &enemy)
+{
+    auto *w1 = new Brewess();
+    auto *w2 = new Weavess();
+    auto *w3 = new Whispess();
+    auto *gw1 = new WeavessIncantation();
+    auto *gw2 = new WeavessIncantation();
+    auto *gb1 = new  BrewessRitual();
+    auto *gb2 = new  BrewessRitual();
+    auto *gb3 = new  BrewessRitual();
+    auto *t = new TuirseachArcher();
+    auto *d1 = new Dao();
+    auto *d2 = new Dao();
+    auto *k = new Kambi();
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, d1, d2, k, t};
+
+
+    ally.hand = {w1, gw1, gb1, gb2, t};
+    ally.deck = {w2, w3, gw2};
+    ally.discard = {gb3, d1, d2, k};
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

@@ -179,6 +179,12 @@ std::vector<Card *> allCards(const Patch)
         new MoranaRunestone(),
         new StribogRunestone(),
         new Muzzle(),
+        new WhisperingHillock(),
+        new Brewess(),
+        new Weavess(),
+        new Whispess(),
+        new WeavessIncantation(),
+        new BrewessRitual(),
         new LeoBonhart(),
         new MorvranVoorhis(),
         new Cynthia(),
@@ -187,6 +193,47 @@ std::vector<Card *> allCards(const Patch)
     };
 }
 
+
+std::map<std::string, std::string> keywordDescriptions(const Patch patch)
+{
+    if (patch == PublicBeta_0_9_24_3_432)
+        return {
+            {"Charm", "Move an enemy to the opposite row."},
+            {"Highest", "Highest power, ties are resolved randomly."},
+            {"Lowest", "Lowest power, ties are resolved randomly."},
+            {"Truce", "If neither player has passed."},
+            {"Spawn", "Add a card to the game."},
+            {"Armor", "Absorbs a given amount of damage, then is removed."},
+            {"Discard", "Move a card from your hand to the graveyard. Note: Related abilities are not triggered when discarding manually."},
+            {"Strengthen", "Increase the base power of a unit."},
+            {"Weaken", "Decrease the base power of a unit. If it falls below 1, remove it from the game. Does not trigger Deathwish abilities."},
+            {"Reset", "Restore a card to its default state (as it would appear in the Deck Builder)."},
+            {"Drain", "Deal damage and boost self by the same amount."},
+            {"Consume", "Eat a unit and boost by its power. If it's on the battlefield, destroy it. If in hand or deck, move it to the graveyard. If in the graveyard, remove it from the game."},
+            {"Create", "Spawn one of three randomly selected cards from the specified source."},
+            {"Summon", "Move automatically to the battlefield (not considered played)."},
+            {"Deathwish", "Trigger this ability when destroyed and moved from the battlefield to the graveyard. Note: Banished units are not sent to the graveyard."},
+            {"Spying", "Status for a unit played on or moved to the opposite side of the battlefield."},
+            {"Single-Use", "This card's ability can be used only once per game."},
+            {"Resurrect", "Play from your graveyard."},
+            {"Hazard", "Negative row effect. Replaced by other row effects and removed on round end."},
+            {"Banish", "Remove from the game. Note: Does not count as being destroyed."},
+            {"Heal", "If a unit's current power is lower than its base power, restore it either to base power or by the amount specified."},
+            {"Lock", "Status that disables a unit's abilities."},
+            {"Boon", "Positive row effect. Replaced by other row effects and removed on round end."},
+            {"Duel", "Units take turns dealing damage equal to their power until one of them is destroyed."},
+            {"Reveal", "Show a card to both players, then hide it back in the hand or deck."},
+            {"Revealed", "A card in the hand that has been turned over."},
+            {"Crew", "This unit triggers the ability of Crewed units played adjacent to it."},
+            {"Ambush", "Played face down, then flips over when the ability's condition is met."},
+            {"Crewed", "When played, trigger this ability once for each adjacent Crew unit."},
+            {"Swap", "Move a card from hand to deck and draw another in its place during your turn."},
+            {"Resilience", "Status that allows a unit to remain on the board at round end, and if boosted restores it to its base power."},
+            {"Doomed", "Banish instead of putting in a Discard."},
+            {"Immunity", "Status whereby this card cannot be manually targeted."},
+        };
+    return {};
+}
 
 AddaStriga::AddaStriga()
 {
@@ -4846,7 +4893,7 @@ Eskel::Eskel()
             moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
         for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
-            moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+            moveExistedUnitToPos(vesemir, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
     };
 }
 
@@ -4900,11 +4947,10 @@ Vesemir::Vesemir()
         for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
             moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
-            moveExistedUnitToPos(lambert, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+            moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
-
 
 TridamInfantry::TridamInfantry()
 {
@@ -5145,7 +5191,194 @@ RockBarrage::RockBarrage()
 }
 
 
-Nivellen::Nivellen()
+WhisperingHillock::WhisperingHillock()
+{
+    id = "201587";
+    name = "Whispering Hillock";
+    text = "Create a Bronze or Silver Organic card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Relict };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.4.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.3.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.1.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Organic)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Brewess::Brewess()
+{
+    id = "132207";
+    name = "Brewess";
+    text = "Summon Whispess and Weavess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 8;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+            moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Weavess::Weavess()
+{
+    id = "132208";
+    name = "Weavess";
+    text = "Summon Brewess and Whispess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
+    };
+    
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+            moveExistedUnitToPos(brewess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    };
+}
+
+
+Whispess::Whispess()
+{
+    id = "132206";
+    name = "Whispess";
+    text = "Summon Brewess and Weavess to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+            moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+            moveExistedUnitToPos(brewess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+WeavessIncantation::WeavessIncantation()
+{
+    id = "200222";
+    name = "Weavess: Incantation";
+    text = "Choose One: Strengthen all your other Relicts in hand, deck, and on board by 2; or Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 4;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
+        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        auto *option1 = new WeavessIncantation::StrengthenAll;
+        copyCardText(this, option1);
+        option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
+
+        auto *option2 = new WeavessIncantation::PlayAndStrengthen;
+        copyCardText(this, option2);
+        option2->text = "Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
+                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
+                    strengthen(card, 2, ally, enemy);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+            if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
+                delete _choosen;
+                _choosen = nullptr;
+                return;
+            }
+            assert(false);
+        }
+        strengthen(target, 2, ally, enemy);
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+BrewessRitual::BrewessRitual()
+{
+    id = "200221";
+    name = "Brewess: Ritual";
+    text = "Resurrect 2 Bronze Deathwish units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 1;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
+        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isDeathwish}, AllyDiscard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: play order is inverted
+        // look demoMonsterSisters
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+
+Nivellen::Nivellen() 
 {
     id = "200089";
     name = "Nivellen";
@@ -5161,6 +5394,7 @@ Nivellen::Nivellen()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
     };
 }
+
 
 
 LeoBonhart::LeoBonhart()
@@ -5195,6 +5429,7 @@ LeoBonhart::LeoBonhart()
 }
 
 
+
 MorvranVoorhis::MorvranVoorhis()
 {
     id = "200163";
@@ -5219,6 +5454,7 @@ MorvranVoorhis::MorvranVoorhis()
         reveal(target, ally, enemy, this);
     };
 }
+
 
 
 Cynthia::Cynthia()

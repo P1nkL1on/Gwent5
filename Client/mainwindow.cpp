@@ -34,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     w->setAttribute(Qt::WA_TransparentForMouseEvents);
     setCentralWidget(w);
 
-
     using Demo = std::function<void(Field &, Field &)>;
     const std::vector<std::pair<std::string, Demo>> demoTitleToMethod {
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
@@ -51,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Runestones Generation", demoRunestones},
         {"Reveal Leo Bonhart", demoLeoBonhart},
         {"Locking The Deathwish", demoLockingDeathwish},
+        {"Monsters Leaders", demoMonsterLeaders},
+        {"Monsters Sisters", demoMonsterSisters},
     };
 
     /// make a choosing menu for it
@@ -513,7 +514,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         for (const Tag tag : cardView.tags)
             tags += (tags.isEmpty() ? "" : ", ") + QString::fromStdString(stringTag(tag));
 
-        const QStringList infos {
+        QStringList infos {
             QString("Name: %1").arg(QString::fromStdString(cardView.name)),
             QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(cardView.faction)))),
             QString("Tags: %1").arg(tags),
@@ -528,6 +529,9 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             QString("Doomed? %1").arg(cardView.isDoomed ? "True" : "False"),
             QString("Revealed? %1").arg(cardView.isRevealed? "True" : "False"),
         };
+        for (const auto &it : keywordDescriptions())
+            if (cardView.text.find(it.first) != std::string::npos)
+                infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
 
         for (int i = 0; i < infos.size(); ++i)
             paintTextInPoint(infos[i], topLeft + QPointF(0, 2 * posHeight + i * metrics.height()), Qt::white, Qt::black);

@@ -2,6 +2,8 @@
 
 #include <QPaintEvent>
 
+#include "Cards/archieve.h"
+
 CardSingleView::CardSingleView(ResourceManager *resourceManager, const CardView &view, QWidget *parent) :
     QWidget(parent),
     _resourceManager(resourceManager),
@@ -42,13 +44,17 @@ void CardSingleView::paintEvent(QPaintEvent *e)
     for (const Tag tag : _view.tags)
         tags += (tags.isEmpty() ? "" : ", ") + QString::fromStdString(stringTag(tag));
 
-    const QStringList infos {
+    QStringList infos {
         QString("Name: %1").arg(QString::fromStdString(_view.name)),
         QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(_view.faction)))),
         QString("Tags: %1").arg(tags),
         _view.powerBase ? QString("Power = %1").arg(_view.power) : QString("Special"),
         QString("Text: %1").arg(QString::fromStdString(_view.text)),
     };
+
+    for (const auto &it : keywordDescriptions())
+        if (_view.text.find(it.first) != std::string::npos)
+            infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
 
     double offsetVertical = 0;
     for (const QString &info : infos){

@@ -405,7 +405,7 @@
 # Monster
 
 - [ ] Arachas Queen
-- [ ] Brewess: Ritual
+- [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
 - [ ] Caretaker
 - [ ] Dagon
@@ -419,12 +419,12 @@
 - [ ] Old Speartip
 - [ ] Old Speartip: Asleep
 - [x] Unseen Elder
-- [ ] Weavess: Incantation
-- [ ] Whispering Hillock
+- [x] Weavess: Incantation
+- [x] Whispering Hillock
 - [ ] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
-- [ ] Brewess
+- [x] Brewess
 - [x] Devana Runestone
 - [x] Frightener
 - [ ] Golyat
@@ -442,8 +442,8 @@
 - [ ] Ruehin
 - [ ] She-Troll of Vergen
 - [ ] Toad Prince
-- [ ] Weavess
-- [ ] Whispess
+- [x] Weavess
+- [x] Whispess
 - [ ] Alpha Werewolf
 - [ ] Ancient Foglet
 - [ ] Arachas Behemoth

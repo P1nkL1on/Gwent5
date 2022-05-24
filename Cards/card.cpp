@@ -577,6 +577,11 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     /// clean excess automatic choices
     for (;;) {
         const Choice choice = ally.cardStack.back();
+        if ((choice.choiceType == SelectAllyRow)
+                || (choice.choiceType == SelectEnemyRow)
+                || (choice.choiceType == SelectAllyRowAndPos)
+                || (choice.choiceType == SelectEnemyRowAndPos))
+            break;
         if (choice.isOptional && choice.cardOptions.size() > 0)
             break;
         if (int(choice.cardOptions.size()) > choice.nTargets)
@@ -1281,6 +1286,7 @@ void copyCardText(const Card *card, Card *dst)
     dst->name = card->name;
     dst->text = card->text;
     dst->url = card->url;
+    dst->id = card->id;
     dst->sounds = card->sounds;
 }
 void acceptOptionAndDeleteOthers(Card *card, const Card *option)

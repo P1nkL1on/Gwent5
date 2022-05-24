@@ -6,6 +6,7 @@
 
 /// returns all cards in games (no tokens included)
 std::vector<Card *> allCards(const Patch);
+std::map<std::string, std::string> keywordDescriptions(const Patch patch = PublicBeta_0_9_24_3_432);
 
 
 struct AddaStriga : CardCollectible<AddaStriga>
@@ -1192,6 +1193,46 @@ struct StribogRunestone : CardCollectible<StribogRunestone>
 struct Muzzle : CardCollectible<Muzzle>
 {
     Muzzle();
+};
+
+
+struct WhisperingHillock : CardCollectible<WhisperingHillock>
+{
+    WhisperingHillock();
+};
+
+
+struct Brewess : CardCollectible<Brewess>
+{
+    Brewess();
+};
+
+
+struct Weavess : CardCollectible<Weavess>
+{
+    Weavess();
+};
+
+
+struct Whispess : CardCollectible<Whispess>
+{
+    Whispess();
+};
+
+
+struct WeavessIncantation : CardCollectible<WeavessIncantation>
+{
+    WeavessIncantation();
+private:
+    struct StrengthenAll : CardCollectible<StrengthenAll> {};
+    struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct BrewessRitual : CardCollectible<BrewessRitual>
+{
+    BrewessRitual();
 };
 
 
