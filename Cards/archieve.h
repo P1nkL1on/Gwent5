@@ -985,7 +985,6 @@ struct Kambi : CardCollectible<Kambi>
     struct Hemdall : CardCollectible<Hemdall>
     {
         Hemdall();
-
     };
     Kambi();
 };
@@ -1032,7 +1031,6 @@ struct DimunWarship : CardCollectible<DimunWarship>
 struct Vilgefortz : CardCollectible<Vilgefortz>
 {
     Vilgefortz();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1279,5 +1277,48 @@ struct Sweers : CardCollectible<Sweers>
 {
     Sweers();
 };
+
+
+struct TiborEggebracht : CardCollectible<TiborEggebracht>
+{
+    TiborEggebracht();
+};
+
+
+struct VattierDeRideaux : CardCollectible<VattierDeRideaux>
+{
+    VattierDeRideaux();
+};
+
+
+struct Albrich : CardCollectible<Albrich>
+{
+    Albrich();
+};
+
+
+struct HeftyHelge : CardCollectible<HeftyHelge>
+{
+    HeftyHelge();
+};
+
+
+struct Alchemist : CardCollectible<Alchemist>
+{
+    Alchemist();
+};
+
+
+struct DaerlanSoldier : CardCollectible<DaerlanSoldier>
+{
+    DaerlanSoldier();
+};
+
+
+struct FireScorpion : CardCollectible<FireScorpion>
+{
+    FireScorpion();
+};
+
 
 #endif // CARDS_H

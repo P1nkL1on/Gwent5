@@ -76,6 +76,7 @@ struct Card
     void onPlaySpecial(Field &ally, Field &enemy);
     void onBoost(const int x, Field &ally, Field &enemy);
     void onDamaged(const int x, Field &ally, Field &enemy);
+    void onRevealed(Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
@@ -94,6 +95,7 @@ protected:
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
     using AllyEnemy = std::function<void(Field &, Field &)>;
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
+    using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     AllyEnemy _onDeploy = nullptr;
@@ -111,6 +113,7 @@ protected:
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
     IntAllyEnemy _onDamaged = nullptr;
+    AllyEnemySrc _onRevealed = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
@@ -221,6 +224,10 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 
+/// may be used as top or most-left
+Card *first(const std::vector<Card *> &cards);
+/// may be used as bottom or most-right
+Card *last(const std::vector<Card *> &cards);
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);

@@ -776,6 +776,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyHand)
             return enemy.hand;
 
+        if (group == EnemyDeck)
+            return enemy.deck;
+
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
         if (group == AnyHandsShuffled) {
@@ -1770,8 +1773,11 @@ std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy)
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isRevealed);
+
     card->isRevealed = true;
     saveFieldsSnapshot(ally, enemy, Reveal, src);
+
+    card->onRevealed(ally, enemy, src);
 }
 
 void Card::onDeploy(Field &ally, Field &enemy)
@@ -1872,6 +1878,12 @@ void Card::onDamaged(const int x, Field &ally, Field &enemy)
         return _onDamaged(x, ally, enemy);
 }
 
+void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
+{
+    if (_onRevealed && !isLocked)
+        return _onRevealed(ally, enemy, src);
+}
+
 void Card::onArmorLost(Field &ally, Field &enemy)
 {
     if (_onArmorLost && !isLocked)
@@ -1912,4 +1924,14 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+Card *first(const std::vector<Card *> &cards)
+{
+    return cards.size() ? cards.front() : nullptr;
+}
+
+Card *last(const std::vector<Card *> &cards)
+{
+    return cards.size() ? cards.back() : nullptr;
 }

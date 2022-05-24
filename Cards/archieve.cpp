@@ -4321,6 +4321,7 @@ Kambi::Kambi()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
+        // FIXME: Hemdall doesn't wipe a board!
     };
 }
 
@@ -4772,6 +4773,26 @@ Vilgefortz::Vilgefortz()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.72.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const bool isTruce = !ally.passed && !enemy.passed;
+        const ChoiceGroup choiceGroup = isTruce ? AnyBoard : AllyBoard;
+        startChoiceToTargetCard(ally, enemy, this, {}, choiceGroup);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const bool isAlly = isOnBoard(target, ally);
+        putToDiscard(target, ally, enemy, this);
+        if (isAlly) {
+            if (Card *copy = first(ally.deck))
+                playExistedCard(copy, ally, enemy, this);
+        } else {
+            if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
+                putToHand(card, enemy, ally);
+                reveal(card, ally, enemy, this);
+            }
+        }
     };
 }
 
@@ -5535,3 +5556,177 @@ Sweers::Sweers()
     };
 }
 
+
+TiborEggebracht::TiborEggebracht()
+{
+    id = "162107";
+    name = "Tibor Eggebracht";
+    text = "Truce: Boost self by 15, then your opponent draws a Revealed Bronze card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.66.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.67.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.68.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
+            putToHand(card, enemy, ally);
+            reveal(card, ally, enemy, this);
+        }
+    };
+}
+
+VattierDeRideaux::VattierDeRideaux()
+{
+    id = "162103";
+    name = "Vattier de Rideaux";
+    text = "Reveal up to 2 of your cards, then Reveal the same number of your opponent's randomly.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.106.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.107.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.108.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AllyHand, 2, true);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, this);
+        if (Card *card = random(cardsFiltered(ally, enemy, {isNonRevealed}, EnemyHand), ally.rng))
+            reveal(card, ally, enemy, this);
+    };
+}
+
+Albrich::Albrich()
+{
+    id = "162201";
+    name = "Albrich";
+    text = "Truce: Each player draws a card. The opponent's card is Revealed.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.78.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.79.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.80.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        drawACard(ally, enemy);
+        if (Card *card = first(enemy.deck)) {
+            putToHand(card, ally, enemy);
+            reveal(card, ally, enemy, this);
+        }
+    };
+}
+
+HeftyHelge::HeftyHelge()
+{
+    id = "200041";
+    name = "Hefty Helge";
+    text = "Deal 1 damage to all enemies except those on the opposite row. If this unit was Revealed, deal damage to all enemies instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&enemy, this)};
+        for (Card *card : cardsFiltered(ally, enemy, filters, EnemyBoard))
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+Alchemist::Alchemist()
+{
+    id = "200041";
+    name = "Alchemist";
+    text = "Reveal up to 2 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423237.mp3",
+        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00459610.mp3",
+        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423227.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 2, false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, this);
+    };
+}
+
+DaerlanSoldier::DaerlanSoldier()
+{
+    id = "162301";
+    name = "Daerlan Soldier";
+    text = "Whenever you Reveal this unit, play it automatically on a random row and draw a card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.417.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.418.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.419.mp3",
+    };
+
+    _onRevealed = [=](Field &ally, Field &enemy, const Card *src) {
+        /// reveal is possible only by units on a board
+        /// check if revealed by an you
+        if (!isOnBoard(src, ally))
+            return;
+        /// don't jump and draw a card, if no place on a field
+        if (moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this))
+            drawACard(ally, enemy);
+    };
+}
+
+FireScorpion::FireScorpion()
+{
+    id = "162306";
+    name = "Fire Scorpion";
+    text = "Deal 5 damage to an enemy. Whenever you Reveal this unit, trigger its ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+    _onRevealed = [=](Field &ally, Field &enemy, const Card *src) {
+        if (isOnBoard(src, ally))
+            onDeploy(ally, enemy);
+    };
+}
