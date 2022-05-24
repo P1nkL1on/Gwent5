@@ -1292,4 +1292,16 @@ struct WildHuntHound : CardCollectible<WildHuntHound>
 };
 
 
+struct WildHuntWarrior : CardCollectible<WildHuntWarrior>
+{
+    WildHuntWarrior();
+};
+
+
+struct WildHuntNavigator : CardCollectible<WildHuntNavigator>
+{
+    WildHuntNavigator();
+};
+
+
 #endif // CARDS_H

@@ -477,8 +477,8 @@
 - [ ] Werewolf
 - [ ] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
-- [ ] Wild Hunt Navigator
+- [x] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
-- [ ] Wild Hunt Warrior
+- [x] Wild Hunt Warrior
 - [ ] Wyvern _(easy card)_
 - [x] Moonlight

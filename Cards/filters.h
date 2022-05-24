@@ -55,6 +55,21 @@ inline Filter hasTag(const Tag tag)
         return hasTag(card, tag);
     };
 }
+inline Filter hasNoneOfTags(const std::vector<Tag> &tags)
+{
+    return [tags](Card *card) {
+        for (const Tag &tag : tags)
+            if (hasTag(card, tag))
+                return false;
+        return true;
+    };
+}
+inline Filter hasNoTag(const Tag tag)
+{
+    return  [tag](Card *card) {
+        return !hasTag(card, tag);
+    };
+}
 inline Filter otherThan(const std::string &name)
 {
     return [name](Card *card) {

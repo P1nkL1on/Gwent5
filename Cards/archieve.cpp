@@ -192,6 +192,8 @@ std::vector<Card *> allCards(const Patch)
         new Serrit(),
         new Sweers(),
         new WildHuntHound(),
+        new WildHuntWarrior(),
+        new WildHuntNavigator(),
     };
 };
 
@@ -5338,5 +5340,58 @@ WildHuntHound::WildHuntHound()
     _onDeploy = [=](Field &ally, Field &enemy) {
         if(Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
             playExistedCard(card, ally, enemy, this);
+    };
+}
+
+WildHuntWarrior::WildHuntWarrior()
+{
+    id = "132309";
+    name = "Wild Hunt Warrior";
+    text = "Deal 3 damage to an enemy. If the enemy is destroyed or is under Biting Frost, boost self by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.793.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.792.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.794.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        if (damage(target, 3, ally, enemy, this) || isUnderFrost)
+            boost(this, 2, ally, enemy, this);
+    };
+}
+
+WildHuntNavigator::WildHuntNavigator()
+{
+    id = "200026";
+    name = "Wild Hunt Navigator";
+    text = "Choose a Bronze non-Mage Wild Hunt ally and play a copy of it from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.45.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.44.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.43.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(WildHunt), hasNoTag(Mage), hasCopyInADeck(&ally)}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (Card *copy = findCopy(target, ally.deck))
+            playExistedCard(copy, ally, enemy, this);
     };
 }
