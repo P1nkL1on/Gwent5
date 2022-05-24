@@ -6,6 +6,7 @@
 
 /// returns all cards in games (no tokens included)
 std::vector<Card *> allCards(const Patch);
+std::map<std::string, std::string> keywordDescriptions(const Patch patch = PublicBeta_0_9_24_3_432);
 
 
 struct AddaStriga : CardCollectible<AddaStriga>
