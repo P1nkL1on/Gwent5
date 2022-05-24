@@ -442,18 +442,24 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     auto *w3 = new Whispess();
     auto *gw1 = new WeavessIncantation();
     auto *gw2 = new WeavessIncantation();
-    auto *gb1 = new  BrewessRitual();
-    auto *gb2 = new  BrewessRitual();
-    auto *gb3 = new  BrewessRitual();
+    auto *gb1 = new BrewessRitual();
+    auto *gb2 = new BrewessRitual();
+    auto *gb3 = new BrewessRitual();
+    auto *gwh = new WhispessTribute();
+    auto *o1 = new ArachasVenom();
+    auto *o2 = new ManticoreVenom();
+    auto *o3 = new AdrenalineRush();
+    auto *o4 = new Mandrake();
+    auto *o5 = new BloodcurdlingRoar();
     auto *t = new TuirseachArcher();
     auto *d1 = new Dao();
     auto *d2 = new Dao();
     auto *k = new Kambi();
-    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, d1, d2, k, t};
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, gwh, d1, d2, k, t, o1, o2, o3, o4, o5};
 
 
-    ally.hand = {w1, gw1, gb1, gb2, t};
-    ally.deck = {w2, w3, gw2};
+    ally.hand = {w1, gw1, gb1, gb2, gwh, t};
+    ally.deck = {w2, w3, gw2, o1, o2, o3, o4, o5};
     ally.discard = {gb3, d1, d2, k};
     enemy.passed = true;
     ally.canPass = false;

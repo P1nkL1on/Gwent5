@@ -1235,6 +1235,12 @@ struct BrewessRitual : CardCollectible<BrewessRitual>
 };
 
 
+struct WhispessTribute : CardCollectible<WhispessTribute>
+{
+    WhispessTribute();
+};
+
+
 struct RockBarrage : CardCollectible<RockBarrage>
 {
     RockBarrage();
@@ -1278,5 +1284,6 @@ struct Sweers : CardCollectible<Sweers>
 {
     Sweers();
 };
+
 
 #endif // CARDS_H

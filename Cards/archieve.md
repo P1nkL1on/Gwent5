@@ -421,7 +421,7 @@
 - [x] Unseen Elder
 - [x] Weavess: Incantation
 - [x] Whispering Hillock
-- [ ] Whispess: Tribute
+- [x] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
 - [x] Brewess

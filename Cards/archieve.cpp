@@ -185,6 +185,7 @@ std::vector<Card *> allCards(const Patch)
         new Whispess(),
         new WeavessIncantation(),
         new BrewessRitual(),
+        new WhispessTribute(),
         new LeoBonhart(),
         new MorvranVoorhis(),
         new Cynthia(),
@@ -3241,7 +3242,7 @@ LethoKingslayer::LethoKingslayer()
             }
 
             if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeck);
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
                 return;
             }
 
@@ -5079,7 +5080,7 @@ WeavessIncantation::WeavessIncantation()
         "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         auto *option1 = new WeavessIncantation::StrengthenAll;
         copyCardText(this, option1);
         option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
@@ -5142,6 +5143,33 @@ BrewessRitual::BrewessRitual()
     };
 }
 
+WhispessTribute::WhispessTribute()
+{
+    id = "200220";
+    name = "Whispess: Tribute";
+    text = "Play a Bronze or Silver Organic card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Organic)}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
 
 Nivellen::Nivellen() 
 {
