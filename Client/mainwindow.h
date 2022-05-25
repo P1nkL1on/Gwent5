@@ -45,6 +45,7 @@ private:
 
     Layout _layout;
     int _sound = 20;
+    int _turn = 0;
 
     enum View
     {

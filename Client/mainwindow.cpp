@@ -777,7 +777,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::repaintCustom()
 {
-    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "")
+    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "", const int msWait = 0)
     {
         const auto idToName = [=](const int id) -> QString
         {
@@ -865,7 +865,19 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " concealed by " << src;
             break;
         }
+
         requestSoundByUrl(snapshot.actionSound);
+
+        if (!msWait)
+            return;
+
+        _snapshot = snapshot;
+        repaint();
+
+        QEventLoop loop(this);
+        QTimer::singleShot(msWait, &loop, &QEventLoop::quit);
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
+        QApplication::processEvents();
     };
     class TextEditIoDevice : public QIODevice
     {
@@ -879,8 +891,7 @@ void MainWindow::repaintCustom()
         qint64 readData(char *, qint64 ) override { return 0; }
         qint64 writeData(const char *data, qint64 maxSize) override
         {
-            if(textEdit)
-            {
+            if(textEdit) {
                 textEdit->setPlainText(textEdit->toPlainText() + data);
             }
             return maxSize;
@@ -891,8 +902,13 @@ void MainWindow::repaintCustom()
     };
     {
         QTextStream ss(new TextEditIoDevice(_textAlly, this));
-        for (const FieldView &snapshot : _ally.snapshots)
-            processAction(snapshot, ss);
+        for (const FieldView &snapshot : _ally.snapshots) {
+            // BUG: doesn't work after a pass..
+            // Maybe add a function determined, which turn is it
+            if (snapshot.actionType == TurnStart)
+                _turn = (_turn + 1) % 2;
+            processAction(snapshot, ss, "", _turn ? 500 : 0);
+        }
         _ally.snapshots.clear();
     }
     {

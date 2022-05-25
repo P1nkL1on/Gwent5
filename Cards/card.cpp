@@ -334,7 +334,6 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     const Row row = rowAndPos.row();
     const Pos pos = rowAndPos.pos();
-
     const Row takenFrom = takeCard(card, ally, enemy);
 
     switch (rowAndPos.row()) {
@@ -417,6 +416,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
     const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
     const bool mayTriggerDeathwish = card->powerBase > 0;
+
 
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
@@ -1393,7 +1393,8 @@ void saveFieldsSnapshot(
             const size_t j = field.snapshots.size() - 1 - i;
 
             // if uncollapsable type, then stop it
-            const ActionType type = field.snapshots[j].actionType;
+            // TODO: check what is it...
+            // const ActionType type = field.snapshots[j].actionType;
             // if (type == PlaySpecial || type == PutOnField)
             //    break;
 

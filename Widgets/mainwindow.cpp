@@ -206,7 +206,7 @@ bool MainWindow::putCardBack(const int id)
         _deckCardViews[i].count--;
         if (_deckCardViews[i].count >= 1)
             break;
-        _deckCardViews.erase(_deckCardViews.begin() + i);
+        _deckCardViews.erase(_deckCardViews.begin() + int(i));
         break;
     }
     for (CardView &view : _allCardViews) {
