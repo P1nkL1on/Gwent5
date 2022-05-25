@@ -134,5 +134,18 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
         return rowSelf != rowCard;
     };
 }
+inline Filter isOnOppositeRow(const Field *ally, const Field *enemy, const Card *self)
+{
+    return [ally, enemy, self](Card *card) {
+        Row rowSelf;
+        Pos _;
+        if (!_findRowAndPos(self, *ally, rowSelf, _))
+            return false;
+        Row rowCard;
+        if (!_findRowAndPos(card, *enemy, rowCard, _))
+            return false;
+        return rowSelf == rowCard;
+    };
+}
 
 #endif // FILTERS_H

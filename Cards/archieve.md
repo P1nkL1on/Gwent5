@@ -415,7 +415,7 @@
 - [ ] Imlerith
 - [ ] Imlerith: Sabbath
 - [ ] Kayran
-- [ ] Miruna
+- [x] Miruna
 - [ ] Old Speartip
 - [ ] Old Speartip: Asleep
 - [x] Unseen Elder

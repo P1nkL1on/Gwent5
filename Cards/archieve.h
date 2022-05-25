@@ -1309,4 +1309,10 @@ struct Nithral : CardCollectible<Nithral>
     Nithral();
 };
 
+
+struct Miruna : CardCollectible<Miruna>
+{
+    Miruna();
+};
+
 #endif // CARDS_H

@@ -195,6 +195,7 @@ std::vector<Card *> allCards(const Patch)
         new WildHuntWarrior(),
         new WildHuntNavigator(),
         new Nithral(),
+        new Miruna(),
     };
 };
 
@@ -5420,5 +5421,33 @@ Nithral::Nithral()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         int whuCount = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
         damage(target, 6 + whuCount, ally, enemy, this);
+    };
+}
+
+Miruna::Miruna()
+{
+    id = "132108";
+    name = "Miruna";
+    text = "After 2 turns, Charm the Highest enemy on the opposite row on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Beast };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053075.mp3",
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053091.mp3",
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053077.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
+            charm(card, ally, enemy, this);
     };
 }
