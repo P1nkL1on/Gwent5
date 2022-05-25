@@ -43,7 +43,7 @@ struct Card
     bool isLocked = false;
     bool isSpy = false;
     bool isResilient = false;
-    // TODO: still can damage unit in ambush (with near)
+    // BUG: still can damage unit in ambush (with near)
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
@@ -77,6 +77,7 @@ struct Card
     void onBoost(const int x, Field &ally, Field &enemy);
     void onDamaged(const int x, Field &ally, Field &enemy);
     void onRevealed(Field &ally, Field &enemy, const Card *src);
+    void onOtherRevealed(Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
@@ -114,6 +115,7 @@ protected:
     IntAllyEnemy _onBoost = nullptr;
     IntAllyEnemy _onDamaged = nullptr;
     AllyEnemySrc _onRevealed = nullptr;
+    AllyEnemySrc _onOtherRevealed = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
@@ -295,6 +297,7 @@ bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src);
+void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 

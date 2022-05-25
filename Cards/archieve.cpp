@@ -190,6 +190,19 @@ std::vector<Card *> allCards(const Patch)
         new Cynthia(),
         new Serrit(),
         new Sweers(),
+        new TiborEggebracht(),
+        new VattierDeRideaux(),
+        new Albrich(),
+        new HeftyHelge(),
+        new Alchemist(),
+        new DaerlanSoldier(),
+        new FireScorpion(),
+        new Mangonel(),
+        new NilfgaardianKnight(),
+        new Spotter(),
+        new VenendalElite(),
+        new MasterOfDisguise(),
+        new HenryVarAttre(),
     };
 }
 
@@ -223,6 +236,7 @@ std::map<std::string, std::string> keywordDescriptions(const Patch patch)
             {"Boon", "Positive row effect. Replaced by other row effects and removed on round end."},
             {"Duel", "Units take turns dealing damage equal to their power until one of them is destroyed."},
             {"Reveal", "Show a card to both players, then hide it back in the hand or deck."},
+            {"Conceal", "Turn over a face-up card in hand."},
             {"Revealed", "A card in the hand that has been turned over."},
             {"Crew", "This unit triggers the ability of Crewed units played adjacent to it."},
             {"Ambush", "Played face down, then flips over when the ability's condition is met."},
@@ -1004,6 +1018,7 @@ BitingFrost::BitingFrost()
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, BitingFrostEffect);
     };
+    // BUG: can select any row (not only enemy)
 }
 
 
@@ -2788,7 +2803,8 @@ VincentMeis::VincentMeis()
 
 Morkvarg::Morkvarg()
 {
-    // FIXME: isn't carry over...
+    // BUG: isn't carry over...
+    // Add a onPutOnDiscard for Morkvarg and golden spell which strikes after 3 turns
     id = "152209";
     name = "Morkvarg";
     text = "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.";
@@ -3524,6 +3540,7 @@ RonvidTheIncessant::RonvidTheIncessant()
     tags = { Kaedwen, Soldier };
 
     _onDeploy = [=](Field &, Field &) {
+        // BUG: isCrew isn't fixed by Locking a unit
         isCrew = true;
     };
 
@@ -4321,7 +4338,7 @@ Kambi::Kambi()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
-        // FIXME: Hemdall doesn't wipe a board!
+        // BUG: Hemdall doesn't wipe a board!
     };
 }
 
@@ -4419,6 +4436,16 @@ OrnamentalSword::OrnamentalSword()
     faction = Skellige;
     rarity = Silver;
     tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        strengthen(target, 3, ally, enemy);
+        spawnNewCard(target, ally, enemy, this);
+    };
 }
 
 
@@ -4811,6 +4838,15 @@ Vreemde::Vreemde()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.109.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
+    };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
     };
 }
 
@@ -5468,7 +5504,7 @@ MorvranVoorhis::MorvranVoorhis()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 4, false);
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandShuffled, 4, true);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5657,7 +5693,7 @@ HeftyHelge::HeftyHelge()
 
 Alchemist::Alchemist()
 {
-    id = "200041";
+    id = "162316";
     name = "Alchemist";
     text = "Reveal up to 2 cards.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -5672,7 +5708,7 @@ Alchemist::Alchemist()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandsShuffled, 2, false);
+        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandShuffled, 2, true);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5728,5 +5764,177 @@ FireScorpion::FireScorpion()
     _onRevealed = [=](Field &ally, Field &enemy, const Card *src) {
         if (isOnBoard(src, ally))
             onDeploy(ally, enemy);
+    };
+}
+
+Mangonel::Mangonel()
+{
+    id = "162317";
+    name = "Mangonel";
+    text = "Deal 2 damage to a random enemy. Repeat this ability whenever you Reveal a card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+            damage(card, 2, ally, enemy, this);
+    };
+
+    _onOtherRevealed = [=](Field &ally, Field &enemy, const Card *) {
+        onDeploy(ally, enemy);
+    };
+}
+
+NilfgaardianKnight::NilfgaardianKnight()
+{
+    id = "162318";
+    name = "Nilfgaardian Knight";
+    text = "Reveal a random card in your hand, with priority given to Bronze, then Silver, then Gold. 2 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 12;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.441.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.442.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.443.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+
+        for (const Filter &filter : Filters{isBronze, isSilver, isGold})
+            if (Card *card = random(cardsFiltered(ally, enemy, {filter, isNonRevealed}, AllyHand), ally.rng)) {
+                reveal(card, ally, enemy, this);
+                break;
+            }
+    };
+}
+
+Spotter::Spotter()
+{
+    id = "162303";
+    name = "Spotter";
+    text = "Boost self by the base power of a Revealed Bronze or Silver unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051421.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF4_VSET_00514238.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051417.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, ::isRevealed}, AnyHandShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(this, target->powerBase, ally, enemy, this);
+    };
+}
+
+VenendalElite::VenendalElite()
+{
+    id = "200518";
+    name = "Venendal Elite";
+    text = "Switch this unit's power with that of a Revealed unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.383.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.384.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.382.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, ::isRevealed}, AnyHandShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: replace with setPower
+        const int powerTarget = target->power;
+        if (powerTarget > power) {
+            // TODO: check if triggered onDamaged and onDamaged of other units,
+            // because it shouldn't
+            const int x = powerTarget - power;
+            damage(target, x, ally, enemy, this);
+            boost(this, x, ally, enemy, this);
+            return;
+        }
+        if (powerTarget < power) {
+            const int x = power - powerTarget;
+            damage(this, x, ally, enemy, this);
+            boost(target, x, ally, enemy, this);
+            return;
+        }
+    };
+}
+
+MasterOfDisguise::MasterOfDisguise()
+{
+    id = "201616";
+    name = "Master of Disguise";
+    text = "Conceal 2 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.359.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.360.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.361.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {::isRevealed}, AnyHandShuffled, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        conceal(target, ally, enemy, this);
+    };
+}
+
+HenryVarAttre::HenryVarAttre()
+{
+    id = "200227";
+    name = "Henry var Attre";
+    text = "Conceal any number of units. If allies, boost by 2. If enemies, deal 2 damage.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Support };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.435.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.436.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.437.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Filters filters {::isRevealed, isUnit};
+        const int nRevealed = int(cardsFiltered(ally, enemy, filters, AnyHandShuffled).size());
+        if (nRevealed)
+            startChoiceToTargetCard(ally, enemy, this, filters, AnyHandShuffled, nRevealed);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.hand)) {
+            boost(target, 2, ally, enemy, this);
+            conceal(target, ally, enemy, this);
+            return;
+        }
+        damage(target, 2, ally, enemy, this);
+        conceal(target, ally, enemy, this);
     };
 }

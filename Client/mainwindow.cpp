@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
+        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Transformation", demoTransforms},
         {"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
@@ -858,7 +859,10 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " loses SPY by " << src;
             break;
         case Reveal:
-            stream << prefix << dst << " relvealed by " << src;
+            stream << prefix << dst << " revealed by " << src;
+            break;
+        case Conceal:
+            stream << prefix << dst << " concealed by " << src;
             break;
         }
         requestSoundByUrl(snapshot.actionSound);

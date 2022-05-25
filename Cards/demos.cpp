@@ -480,3 +480,29 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoNilfgaardReveal(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deckStartingAlly = {
+        new LeoBonhart(), new Vilgefortz(), new TiborEggebracht(), new VattierDeRideaux(),
+        new Cynthia(), new Serrit(), new HeftyHelge(), new HenryVarAttre(), new Sweers(), new Albrich(),
+        new DaerlanSoldier(), new DaerlanSoldier(), new DaerlanSoldier(),
+        new FireScorpion(), new FireScorpion(), new FireScorpion(),
+        new Spotter(), new Alchemist(), new MasterOfDisguise(),
+        new Mangonel(), new Mangonel(), new Mangonel(),
+        new NauzicaaSergeant(), new NilfgaardianKnight(), new Reconnaissance()
+    };
+    const std::vector<Card *> deckStartingEnemy = {
+        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+        new Reinforcements, new Ves, new SileDeTansarville,
+        new Trollololo, new PrinceStennis, new VincentMeis,
+        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+        new RedanianElite, new RedanianElite, new RedanianElite,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+    };
+    initField(deckStartingAlly, new MorvranVoorhis, ally);
+    initField(deckStartingEnemy, new JanCalveit, enemy);
+    startNextRound(ally, enemy);
+}

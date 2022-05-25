@@ -779,9 +779,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyDeck)
             return enemy.deck;
 
-        // FIXME: enemy hand is visible during REVEAL choice
+        // BUG: enemy hand is visible during REVEAL choice
         // because its a choice
-        if (group == AnyHandsShuffled) {
+        if (group == AnyHandShuffled) {
             std::vector<Card *> allyHand = ally.hand;
             std::vector<Card *> enemyHand = enemy.hand;
             shuffle(allyHand, ally.rng);
@@ -790,10 +790,10 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         }
 
         if (group == EnemyBoardAndHandRevealed)
-            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({isNonRevealed}, enemy.hand)});
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({::isRevealed}, enemy.hand)});
 
         if (group == AllyBoardAndHandRevealed)
-            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({isNonRevealed}, ally.hand)});
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({::isRevealed}, ally.hand)});
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -1199,7 +1199,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// finish turn if noone passed
-    // TODO: Ronvid on turn end in discard
+    // BUG: Ronvid on turn end in discard
     for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
@@ -1775,9 +1775,21 @@ void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
     assert(!card->isRevealed);
 
     card->isRevealed = true;
-    saveFieldsSnapshot(ally, enemy, Reveal, src);
+    saveFieldsSnapshot(ally, enemy, Reveal, src, {card});
 
     card->onRevealed(ally, enemy, src);
+
+    /// trigger only for allies
+    for (Card *other : cardsFiltered(ally, enemy, {}, AllyBoard))
+        other->onOtherRevealed(ally, enemy, src);
+}
+
+void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    assert(card->isRevealed);
+
+    saveFieldsSnapshot(ally, enemy, Conceal, src, {card});
+    card->isRevealed = false;
 }
 
 void Card::onDeploy(Field &ally, Field &enemy)
@@ -1882,6 +1894,12 @@ void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
 {
     if (_onRevealed && !isLocked)
         return _onRevealed(ally, enemy, src);
+}
+
+void Card::onOtherRevealed(Field &ally, Field &enemy, const Card *src)
+{
+    if (_onOtherRevealed && !isLocked)
+        return _onOtherRevealed(ally, enemy, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)

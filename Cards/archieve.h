@@ -1018,7 +1018,6 @@ struct GiantBoar : CardCollectible<GiantBoar>
 struct OrnamentalSword : CardCollectible<OrnamentalSword>
 {
     OrnamentalSword();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1124,7 +1123,6 @@ struct Ointment : CardCollectible<Ointment>
 struct Vreemde : CardCollectible<Vreemde>
 {
     Vreemde();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1319,6 +1317,43 @@ struct FireScorpion : CardCollectible<FireScorpion>
 {
     FireScorpion();
 };
+
+
+struct Mangonel : CardCollectible<Mangonel>
+{
+    Mangonel();
+};
+
+
+struct NilfgaardianKnight : CardCollectible<NilfgaardianKnight>
+{
+    NilfgaardianKnight();
+};
+
+
+struct Spotter : CardCollectible<Spotter>
+{
+    Spotter();
+};
+
+
+struct VenendalElite : CardCollectible<VenendalElite>
+{
+    VenendalElite();
+};
+
+
+struct MasterOfDisguise : CardCollectible<MasterOfDisguise>
+{
+    MasterOfDisguise();
+};
+
+
+struct HenryVarAttre : CardCollectible<HenryVarAttre>
+{
+    HenryVarAttre();
+};
+
 
 
 #endif // CARDS_H
