@@ -1315,4 +1315,11 @@ struct Miruna : CardCollectible<Miruna>
     Miruna();
 };
 
+
+struct Imlerith : CardCollectible<Imlerith>
+{
+    Imlerith();
+};
+
+
 #endif // CARDS_H

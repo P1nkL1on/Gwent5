@@ -196,6 +196,7 @@ std::vector<Card *> allCards(const Patch)
         new WildHuntNavigator(),
         new Nithral(),
         new Miruna(),
+        new Imlerith(),
     };
 };
 
@@ -5449,5 +5450,34 @@ Miruna::Miruna()
             return;
         if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
             charm(card, ally, enemy, this);
+    };
+}
+
+Imlerith::Imlerith()
+{
+    id = "132102";
+    name = "Imlerith";
+    text = "Deal 4 damage to an enemy. If the enemy is under Biting Frost, deal 8 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524739.mp3",
+        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524776.mp3",
+        "https://gwent.one/audio/card/ob/en/IMLR_Q111_01062046.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        if (isUnderFrost)
+            damage(target, 8, ally, enemy, this);
+        else
+            damage(target, 4, ally, enemy, this);
     };
 }

@@ -498,10 +498,10 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *whn1 = new WildHuntNavigator();
     auto *whn2 = new WildHuntNavigator();
     auto *whn3 = new WildHuntNavigator();
-    auto *n1 = new Nithral();
-    auto *n2 = new Nithral();
+    auto *n = new Nithral();
+    auto *i = new Imlerith();
     auto *m = new Miruna();
-    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n1, n2};
+    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i};
 
     auto *b1 = new BrewessRitual();
     auto *m2 = new ImperialManticore();
@@ -511,7 +511,7 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *m6 = new ImperialManticore();
     enemy.cardsAdded = {b1, m2, m3, m4, m5, m6};
 
-    ally.hand = {m, whh1, whh2, whw1, whn1, n1, n2};
+    ally.hand = {m, whh1, whh2, whw1, whn1, n, i};
     ally.deck = {bf, whn2, whw2, whw3};
     ally.rowSeige = {whn3};
     ally.canPass = false;

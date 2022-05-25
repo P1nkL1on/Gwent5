@@ -412,7 +412,7 @@
 - [ ] Draug
 - [ ] Eredin Breacc Glas
 - [ ] Ge'els
-- [ ] Imlerith
+- [x] Imlerith
 - [ ] Imlerith: Sabbath
 - [ ] Kayran
 - [x] Miruna
