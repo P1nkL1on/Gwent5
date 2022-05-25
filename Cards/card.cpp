@@ -776,6 +776,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyHand)
             return enemy.hand;
 
+        if (group == EnemyDiscard)
+            return enemy.discard;
+
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
         if (group == AnyHandsShuffled) {

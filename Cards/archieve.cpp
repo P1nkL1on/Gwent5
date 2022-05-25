@@ -197,6 +197,7 @@ std::vector<Card *> allCards(const Patch)
         new Nithral(),
         new Miruna(),
         new Imlerith(),
+        new Caretaker(),
     };
 };
 
@@ -5479,5 +5480,25 @@ Imlerith::Imlerith()
             damage(target, 8, ally, enemy, this);
         else
             damage(target, 4, ally, enemy, this);
+    };
+}
+
+Caretaker::Caretaker()
+{
+    id = "132106";
+    name = "Caretaker";
+    text = "Resurrect a Bronze or Silver unit from your opponent's graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Gold;
+    faction = Monster;
+    isDoomed = true;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver}, EnemyDiscard);
+    };
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

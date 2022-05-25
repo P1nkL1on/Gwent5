@@ -523,3 +523,24 @@ void demoWildHunt(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoRessurectFromEnemy(Field &ally, Field &enemy)
+{
+    auto *c1 = new Caretaker();
+    auto *c2 = new Caretaker();
+    ally.cardsAdded = {c1, c2};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    enemy.cardsAdded = {m1, m2};
+
+    ally.hand = {c1, c2};
+    ally.canPass = false;
+
+    enemy.rowSeige = {m1};
+    enemy.discard = {m2};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}

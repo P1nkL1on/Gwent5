@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
+        {"Caretaker end EnemyDiscard", demoRessurectFromEnemy},
         {"Wild Hunt", demoWildHunt},
     };
 

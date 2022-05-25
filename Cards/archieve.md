@@ -407,7 +407,7 @@
 - [ ] Arachas Queen
 - [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
-- [ ] Caretaker
+- [x] Caretaker
 - [ ] Dagon
 - [ ] Draug
 - [ ] Eredin Breacc Glas

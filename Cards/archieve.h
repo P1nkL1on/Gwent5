@@ -1322,4 +1322,10 @@ struct Imlerith : CardCollectible<Imlerith>
 };
 
 
+struct Caretaker : CardCollectible<Caretaker>
+{
+    Caretaker();
+};
+
+
 #endif // CARDS_H
