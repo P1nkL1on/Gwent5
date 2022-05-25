@@ -436,7 +436,7 @@
 - [ ] Morvudd
 - [ ] Mourntart
 - [ ] Nekurat _(easy card)_
-- [ ] Nithral
+- [x] Nithral
 - [ ] Ozzrel
 - [ ] Parasite
 - [ ] Ruehin

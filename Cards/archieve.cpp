@@ -194,6 +194,7 @@ std::vector<Card *> allCards(const Patch)
         new WildHuntHound(),
         new WildHuntWarrior(),
         new WildHuntNavigator(),
+        new Nithral(),
     };
 };
 
@@ -5393,5 +5394,31 @@ WildHuntNavigator::WildHuntNavigator()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (Card *copy = findCopy(target, ally.deck))
             playExistedCard(copy, ally, enemy, this);
+    };
+}
+
+Nithral::Nithral()
+{
+    id = "132214";
+    name = "Nithral";
+    text = "Deal 6 damage to an enemy. Increase damage by 1 for each Wild Hunt unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555151.mp3",
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555148.mp3",
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555150.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int whuCount = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
+        damage(target, 6 + whuCount, ally, enemy, this);
     };
 }

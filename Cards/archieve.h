@@ -1304,4 +1304,9 @@ struct WildHuntNavigator : CardCollectible<WildHuntNavigator>
 };
 
 
+struct Nithral : CardCollectible<Nithral>
+{
+    Nithral();
+};
+
 #endif // CARDS_H
