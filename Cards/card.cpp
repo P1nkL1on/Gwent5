@@ -1050,13 +1050,13 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     putToDiscard(target, ally, enemy, self);
 }
 
-int consume(Card *target, Field &ally, Field &enemy, Card *src)
+int consume(Card *target, Field &ally, Field &enemy, const Card *src)
 {
     assert(!target->isSpecial);
     assert(!src->isSpecial);
     const int powerConsumed = target->power;
 
-    if(isIn(target, ally.discard) || isIn(target, enemy.discard))
+    if (isIn(target, ally.discard) || isIn(target, enemy.discard))
         banish(target, ally, enemy, src);
     else
         putToDiscard(target, ally, enemy, src);

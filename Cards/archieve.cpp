@@ -5111,7 +5111,7 @@ WeavessIncantation::WeavessIncantation()
             _choosen = target;
             acceptOptionAndDeleteOthers(this, target);
             if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
-                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this), isUnit}, AllyBoardHandDeck))
+                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
                     strengthen(card, 2, ally, enemy);
                 delete _choosen;
                 _choosen = nullptr;
@@ -5349,7 +5349,7 @@ WildHuntHound::WildHuntHound()
     tags = { WildHunt, Construct };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        if(Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
+        if (Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
             playExistedCard(card, ally, enemy, this);
     };
 }
@@ -5428,8 +5428,8 @@ Nithral::Nithral()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int whuCount = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
-        damage(target, 6 + whuCount, ally, enemy, this);
+        int const nWildHuntUnits = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
+        damage(target, 6 + nWildHuntUnits, ally, enemy, this);
     };
 }
 
@@ -5483,10 +5483,7 @@ Imlerith::Imlerith()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
-        if (isUnderFrost)
-            damage(target, 8, ally, enemy, this);
-        else
-            damage(target, 4, ally, enemy, this);
+        damage(target, isUnderFrost ? 8 : 4, ally, enemy, this);
     };
 }
 
@@ -5577,7 +5574,7 @@ Golyat::Golyat()
     };
 
     _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *src) {
-        if(src != this)
+        if (src != this)
             damage(this, 2, ally, enemy, this);
     };
 }
@@ -5592,9 +5589,9 @@ Barbegazi::Barbegazi()
     rarity = Bronze;
     faction = Monster;
     tags = { Insectoid };
-    isResilient = true;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        isResilient = true;
         startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
     };
 

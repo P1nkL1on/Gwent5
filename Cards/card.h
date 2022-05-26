@@ -264,7 +264,7 @@ void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Fiel
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
-int consume(Card *target, Field &ally, Field &enemy, Card *src);
+int consume(Card *target, Field &ally, Field &enemy, const Card *src);
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
