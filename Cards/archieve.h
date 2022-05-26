@@ -1373,6 +1373,22 @@ struct YenneferEnchantress : CardCollectible<YenneferEnchantress>
 };
 
 
+struct VernonRoche : CardCollectible<VernonRoche>
+{
+    VernonRoche();
+};
+
+
+struct BlueStripeScout : CardCollectible<BlueStripeScout>
+{
+    BlueStripeScout();
+};
+
+
+struct BlueStripeCommando : CardCollectible<BlueStripeCommando>
+{
+    BlueStripeCommando();
+};
 
 
 #endif // CARDS_H

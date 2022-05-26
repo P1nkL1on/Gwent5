@@ -1805,6 +1805,12 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
     card->isRevealed = false;
 }
 
+void Card::onGameStart(Field &ally, Field &enemy)
+{
+    if (_onGameStart)
+        return _onGameStart(ally, enemy);
+}
+
 void Card::onDeploy(Field &ally, Field &enemy)
 {
     if (_onDeploy && !isLocked)

@@ -5999,3 +5999,75 @@ YenneferEnchantress::YenneferEnchantress()
             spawnNewCard(card->defaultCopy(), ally, enemy, this);
     };
 }
+
+VernonRoche::VernonRoche()
+{
+    id = "122102";
+    name = "Vernon Roche";
+    text = "Deal 7 damage to an enemy. At game start, add a Blue Stripe Commando to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Officer };
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
+        "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
+    };
+
+    _onGameStart = [=](Field &ally, Field &) {
+        Card *card = new BlueStripeCommando();
+        addAsNew(ally, card);
+        /// put in a random place in a deck
+        const int ind = int(ally.rng() % (ally.deck.size() + 1));
+        ally.deck.insert(ally.deck.begin() + ind, card);
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
+        damage(card, 7, ally, enemy, this);
+    };
+}
+
+BlueStripeScout::BlueStripeScout()
+{
+    id = "122310";
+    name = "Blue Stripe Scout";
+    text = "Boost all Temerian allies and your non-Spying Temerian units in hand and deck with the same power as this unit by 1. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Soldier };
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_RS01_101992_0004.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ROS1_102779_0005.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_RS01_106541_0014.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isCrew = true;
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Temeria), isNonSpying, hasPowerX(power)}, AllyBoardHandDeck))
+            boost(card, 1, ally, enemy, this);
+    };
+}
+
+BlueStripeCommando::BlueStripeCommando()
+{
+    id = "122311";
+    name = "Blue Stripe Commando";
+    text = "Whenever a different Temerian ally with the same power is played, Summon a copy of this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Soldier };
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_ROS3_102779_0003.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0003.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0004.mp3",
+    };
+}

@@ -80,6 +80,12 @@ inline Filter hasPowerXorLess(const int x)
         return card->power <= x;
     };
 }
+inline Filter hasPowerX(const int x)
+{
+    return [x](Card *card) {
+        return card->power == x;
+    };
+}
 inline Filter hasCopyInADeck(const Field *field)
 {
     return [field](Card *card) {

@@ -60,6 +60,7 @@ struct Card
     /// temporary created options
     std::vector<Card *> _options;
 
+    void onGameStart(Field &ally, Field &enemy);
     void onDeploy(Field &ally, Field &enemy);
     void onDeployFromDiscard(Field &ally, Field &enemy);
     void onDeployFromDeck(Field &ally, Field &enemy);
@@ -99,6 +100,7 @@ protected:
     using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
+    AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
     AllyEnemy _onDeployFromDiscard = nullptr;
     AllyEnemy _onDeployFromDeck = nullptr;
@@ -277,6 +279,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
