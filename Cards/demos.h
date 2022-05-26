@@ -29,5 +29,6 @@ void demoLeoBonhart(Field &ally, Field &enemy);
 void demoLockingDeathwish(Field &ally, Field &enemy);
 void demoWildHunt(Field &ally, Field &enemy);
 void demoRessurectFromEnemy(Field &ally, Field &enemy);
+void demoBigOgrs(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

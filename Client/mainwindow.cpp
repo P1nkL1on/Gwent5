@@ -52,7 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
-        {"Caretaker end EnemyDiscard", demoRessurectFromEnemy},
+        {"Caretaker and EnemyDiscard", demoRessurectFromEnemy},
+        {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
     };
 

@@ -1328,4 +1328,28 @@ struct Caretaker : CardCollectible<Caretaker>
 };
 
 
+struct Ruehin : CardCollectible<Ruehin>
+{
+    Ruehin();
+};
+
+
+struct OldSpeartipAsleep : CardCollectible<OldSpeartipAsleep>
+{
+    OldSpeartipAsleep();
+};
+
+
+struct OldSpeartip : CardCollectible<OldSpeartip>
+{
+    OldSpeartip();
+};
+
+
+struct Golyat : CardCollectible<Golyat>
+{
+    Golyat();
+};
+
+
 #endif // CARDS_H

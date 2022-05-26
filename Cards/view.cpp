@@ -420,6 +420,8 @@ std::string stringTag(const Tag tag)
     case ClanTuirseach: return "Clan Tuirseach";
     case ClanDrummond: return "Clan Drummond";
     case Ogroid: return "Ogroid";
+    case Insectoid: return "Insectoid";
+    case Necrophage: return "Necrophage";
     case Cursed: return "Cursed";
     case Support: return "Support";
     case Officer: return "Officer";

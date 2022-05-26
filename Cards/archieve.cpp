@@ -198,6 +198,9 @@ std::vector<Card *> allCards(const Patch)
         new Miruna(),
         new Imlerith(),
         new Caretaker(),
+        new Ruehin(),
+        new OldSpeartipAsleep(),
+        new OldSpeartip(),
     };
 };
 
@@ -4091,7 +4094,7 @@ RagingBerserker::RagingBerserker()
     rarity = Bronze;
     tags = { Cursed, Soldier, Cultist };
 
-    _onDamaged = [=](const int, Field &ally, Field &enemy) {
+    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *) {
         transform(this, RagingBear(), ally, enemy, this);
     };
 };
@@ -5104,7 +5107,7 @@ WeavessIncantation::WeavessIncantation()
             _choosen = target;
             acceptOptionAndDeleteOthers(this, target);
             if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
-                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
+                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this), isUnit}, AllyBoardHandDeck))
                     strengthen(card, 2, ally, enemy);
                 delete _choosen;
                 _choosen = nullptr;
@@ -5500,5 +5503,77 @@ Caretaker::Caretaker()
     };
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Ruehin::Ruehin()
+{
+    id = "201660";
+    name = "Ruehin";
+    text = "Strengthen all your other Insectoids and Cursed units in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Insectoid, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(this), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy);
+    };
+}
+
+OldSpeartipAsleep::OldSpeartipAsleep()
+{
+    id = "132218";
+    name = "Old Speartip: Asleep";
+    text = "Strengthen all your other Ogroids in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 12;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(this), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy);
+    };
+}
+
+OldSpeartip::OldSpeartip()
+{
+    id = "132408";
+    name = "Old Speartip";
+    text = "Deal 2 damage to 5 random enemies on the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for(Card *card : randoms(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), 5, ally.rng))
+            damage(card, 2, ally, enemy, this);
+    };
+}
+
+Golyat::Golyat()
+{
+    id = "200052";
+    name = "Golyat";
+    text = "Boost self by 7. Whenever this unit is damaged, deal 2 damage to self.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        boost(this, 7, ally, enemy, this);
+    };
+
+    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *src) {
+        if(src != this)
+            damage(this, 2, ally, enemy, this);
     };
 }

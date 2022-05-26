@@ -1022,7 +1022,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         other->onOtherEnemyDamaged(card, enemy, ally);
 
     if (card->power > 0) {
-        card->onDamaged(dmgInPower, ally, enemy);
+        card->onDamaged(dmgInPower, ally, enemy, src);
         return false;
     }
 
@@ -1041,7 +1041,7 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     self->power += powerDrained;
     // TODO: trigger other on boosted
     if (target->power > 0) {
-        target->onDamaged(powerDrained, ally, enemy);
+        target->onDamaged(powerDrained, ally, enemy, self);
         // TODO: trigger other on damaged
         return;
     }
@@ -1869,10 +1869,10 @@ void Card::onBoost(const int x, Field &ally, Field &enemy)
         return _onBoost(x, ally, enemy);
 }
 
-void Card::onDamaged(const int x, Field &ally, Field &enemy)
+void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onDamaged && !isLocked)
-        return _onDamaged(x, ally, enemy);
+        return _onDamaged(x, ally, enemy, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)

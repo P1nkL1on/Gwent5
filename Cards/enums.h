@@ -47,6 +47,8 @@ enum Tag
     ClanTuirseach,
     ClanDrummond,
     Ogroid,
+    Insectoid,
+    Necrophage,
 
     Cursed,
     Support,

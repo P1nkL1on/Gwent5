@@ -544,3 +544,33 @@ void demoRessurectFromEnemy(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 
 }
+
+void demoBigOgrs(Field &ally, Field &enemy)
+{
+    auto *osa = new OldSpeartipAsleep();
+    auto *os = new OldSpeartip();
+    auto *g = new Golyat();
+    ally.cardsAdded = {osa, os, g};
+
+    auto *h1 = new HeymaeyHerbalist();
+    auto *h2 = new HeymaeyHerbalist();
+    auto *h3 = new HeymaeyHerbalist();
+    auto *b1 = new Bear();
+    auto *b2 = new Bear();
+    auto *a1 = new TuirseachArcher();
+    auto *a2 = new TuirseachArcher();
+    auto *th1 = new TuirseachHunter();
+    auto *th2 = new TuirseachHunter();
+    auto *th3 = new TuirseachHunter();
+    enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
+
+    ally.hand = {osa, os, g};
+    ally.canPass = false;
+
+    enemy.hand = {a1, a2, th1};
+    enemy.rowRange = {b1, h1, h2, h3, b2};
+    enemy.rowMeele = {th2, th3};
+    enemy.passed = false;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

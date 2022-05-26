@@ -75,7 +75,7 @@ struct Card
     void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onPlaySpecial(Field &ally, Field &enemy);
     void onBoost(const int x, Field &ally, Field &enemy);
-    void onDamaged(const int x, Field &ally, Field &enemy);
+    void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
         /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
@@ -93,6 +93,7 @@ protected:
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
     using AllyEnemy = std::function<void(Field &, Field &)>;
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
+    using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     AllyEnemy _onDeploy = nullptr;
@@ -109,7 +110,7 @@ protected:
     AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
-    IntAllyEnemy _onDamaged = nullptr;
+    IntAllyEnemySrc _onDamaged = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;

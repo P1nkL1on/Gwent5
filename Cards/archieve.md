@@ -416,8 +416,8 @@
 - [ ] Imlerith: Sabbath
 - [ ] Kayran
 - [x] Miruna
-- [ ] Old Speartip
-- [ ] Old Speartip: Asleep
+- [x] Old Speartip
+- [x] Old Speartip: Asleep
 - [x] Unseen Elder
 - [x] Weavess: Incantation
 - [x] Whispering Hillock
@@ -427,7 +427,7 @@
 - [x] Brewess
 - [x] Devana Runestone
 - [x] Frightener
-- [ ] Golyat
+- [x] Golyat
 - [ ] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
@@ -439,7 +439,7 @@
 - [x] Nithral
 - [ ] Ozzrel
 - [ ] Parasite
-- [ ] Ruehin
+- [x] Ruehin
 - [ ] She-Troll of Vergen
 - [ ] Toad Prince
 - [x] Weavess
