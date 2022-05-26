@@ -776,6 +776,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyHand)
             return enemy.hand;
 
+        if (group == EnemyDiscard)
+            return enemy.discard;
+
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
         if (group == AnyHandsShuffled) {
@@ -970,9 +973,10 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(drawn);
 }
 
-void banish(Card *card, Field &ally, Field &enemy)
+void banish(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
+    saveFieldsSnapshot(ally, enemy, Banished, src, {card});
     assert(row != AlreadyCreated);
 }
 
@@ -1019,7 +1023,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         other->onOtherEnemyDamaged(card, enemy, ally);
 
     if (card->power > 0) {
-        card->onDamaged(dmgInPower, ally, enemy);
+        card->onDamaged(dmgInPower, ally, enemy, src);
         return false;
     }
 
@@ -1038,12 +1042,26 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     self->power += powerDrained;
     // TODO: trigger other on boosted
     if (target->power > 0) {
-        target->onDamaged(powerDrained, ally, enemy);
+        target->onDamaged(powerDrained, ally, enemy, self);
         // TODO: trigger other on damaged
         return;
     }
 
     putToDiscard(target, ally, enemy, self);
+}
+
+int consume(Card *target, Field &ally, Field &enemy, const Card *src)
+{
+    assert(!target->isSpecial);
+    assert(!src->isSpecial);
+    const int powerConsumed = target->power;
+
+    if (isIn(target, ally.discard) || isIn(target, enemy.discard))
+        banish(target, ally, enemy, src);
+    else
+        putToDiscard(target, ally, enemy, src);
+    //  TODO: create a trigger _onConsume and trigger it here for nekkers
+    return powerConsumed;
 }
 
 void heal(Card *card, Field &, Field &)
@@ -1106,7 +1124,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     // TODO: others trigger on strengthen
 }
 
-bool weaken(Card *card, const int x, Field &ally, Field &enemy)
+bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
@@ -1117,7 +1135,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy)
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase <= 0) {
-        banish(card, ally, enemy);
+        banish(card, ally, enemy, src);
         return true;
     }
 
@@ -1866,10 +1884,10 @@ void Card::onBoost(const int x, Field &ally, Field &enemy)
         return _onBoost(x, ally, enemy);
 }
 
-void Card::onDamaged(const int x, Field &ally, Field &enemy)
+void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onDamaged && !isLocked)
-        return _onDamaged(x, ally, enemy);
+        return _onDamaged(x, ally, enemy, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)

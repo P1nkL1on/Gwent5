@@ -55,6 +55,21 @@ inline Filter hasTag(const Tag tag)
         return hasTag(card, tag);
     };
 }
+inline Filter hasNoneOfTags(const std::vector<Tag> &tags)
+{
+    return [tags](Card *card) {
+        for (const Tag &tag : tags)
+            if (hasTag(card, tag))
+                return false;
+        return true;
+    };
+}
+inline Filter hasNoTag(const Tag tag)
+{
+    return  [tag](Card *card) {
+        return !hasTag(card, tag);
+    };
+}
 inline Filter otherThan(const std::string &name)
 {
     return [name](Card *card) {
@@ -117,6 +132,19 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
         if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
         return rowSelf != rowCard;
+    };
+}
+inline Filter isOnOppositeRow(const Field *ally, const Field *enemy, const Card *self)
+{
+    return [ally, enemy, self](Card *card) {
+        Row rowSelf;
+        Pos _;
+        if (!_findRowAndPos(self, *ally, rowSelf, _))
+            return false;
+        Row rowCard;
+        if (!_findRowAndPos(card, *enemy, rowCard, _))
+            return false;
+        return rowSelf == rowCard;
     };
 }
 

@@ -47,6 +47,9 @@ enum Tag
     ClanTuirseach,
     ClanDrummond,
     Ogroid,
+    Insectoid,
+    Necrophage,
+    Draconid,
 
     Cursed,
     Support,
@@ -58,6 +61,7 @@ enum Tag
     Witcher,
     Leader,
     Cultist,
+    WildHunt,
 
     Alchemy,
     Tactics,
@@ -123,6 +127,7 @@ enum ChoiceGroup
     AllyAnywhere,
     EnemyAnywhere,
     EnemyHand,
+    EnemyDiscard,
     AnyHandsShuffled,
     EnemyBoardAndHandRevealed,
     AllyBoardAndHandRevealed,
@@ -137,6 +142,7 @@ enum ActionType {
     PutToHand,
     PutToDiscard,
     Destroyed,
+    Banished,
     DealDamage,
     Damaged,
     DamagedInArmor,

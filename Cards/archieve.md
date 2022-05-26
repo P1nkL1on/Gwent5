@@ -407,27 +407,27 @@
 - [ ] Arachas Queen
 - [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
-- [ ] Caretaker
+- [x] Caretaker
 - [ ] Dagon
 - [ ] Draug
 - [ ] Eredin Breacc Glas
 - [ ] Ge'els
-- [ ] Imlerith
+- [x] Imlerith
 - [ ] Imlerith: Sabbath
 - [ ] Kayran
-- [ ] Miruna
-- [ ] Old Speartip
-- [ ] Old Speartip: Asleep
+- [x] Miruna
+- [x] Old Speartip
+- [x] Old Speartip: Asleep
 - [x] Unseen Elder
 - [x] Weavess: Incantation
 - [x] Whispering Hillock
-- [ ] Whispess: Tribute
+- [x] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
 - [x] Brewess
 - [x] Devana Runestone
 - [x] Frightener
-- [ ] Golyat
+- [x] Golyat
 - [ ] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
@@ -436,10 +436,10 @@
 - [ ] Morvudd
 - [ ] Mourntart
 - [ ] Nekurat _(easy card)_
-- [ ] Nithral
+- [x] Nithral
 - [ ] Ozzrel
 - [ ] Parasite
-- [ ] Ruehin
+- [x] Ruehin
 - [ ] She-Troll of Vergen
 - [ ] Toad Prince
 - [x] Weavess
@@ -450,7 +450,7 @@
 - [ ] Arachas Drone
 - [ ] Archespore
 - [ ] Archgriffin
-- [ ] Barbegazi
+- [x] Barbegazi
 - [ ] Bridge Troll
 - [ ] Celaeno Harpy
 - [ ] Cockatrice
@@ -460,8 +460,8 @@
 - [ ] Ekimmara _(easy card)_
 - [ ] Fiend
 - [ ] Foglet
-- [ ] Forktail
-- [ ] Ghoul
+- [x] Forktail
+- [x] Ghoul
 - [ ] Griffin
 - [ ] Harpy
 - [ ] Ice Giant
@@ -476,9 +476,9 @@
 - [ ] Werecat
 - [ ] Werewolf
 - [ ] Wild Hunt Drakkar
-- [ ] Wild Hunt Hound
-- [ ] Wild Hunt Navigator
+- [x] Wild Hunt Hound
+- [x] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
-- [ ] Wild Hunt Warrior
+- [x] Wild Hunt Warrior
 - [ ] Wyvern _(easy card)_
 - [x] Moonlight

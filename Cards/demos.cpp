@@ -442,18 +442,24 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     auto *w3 = new Whispess();
     auto *gw1 = new WeavessIncantation();
     auto *gw2 = new WeavessIncantation();
-    auto *gb1 = new  BrewessRitual();
-    auto *gb2 = new  BrewessRitual();
-    auto *gb3 = new  BrewessRitual();
+    auto *gb1 = new BrewessRitual();
+    auto *gb2 = new BrewessRitual();
+    auto *gb3 = new BrewessRitual();
+    auto *gwh = new WhispessTribute();
+    auto *o1 = new ArachasVenom();
+    auto *o2 = new ManticoreVenom();
+    auto *o3 = new AdrenalineRush();
+    auto *o4 = new Mandrake();
+    auto *o5 = new BloodcurdlingRoar();
     auto *t = new TuirseachArcher();
     auto *d1 = new Dao();
     auto *d2 = new Dao();
     auto *k = new Kambi();
-    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, d1, d2, k, t};
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, gwh, d1, d2, k, t, o1, o2, o3, o4, o5};
 
 
-    ally.hand = {w1, gw1, gb1, gb2, t};
-    ally.deck = {w2, w3, gw2};
+    ally.hand = {w1, gw1, gb1, gb2, gwh, t};
+    ally.deck = {w2, w3, gw2, o1, o2, o3, o4, o5};
     ally.discard = {gb3, d1, d2, k};
     enemy.passed = true;
     ally.canPass = false;
@@ -478,5 +484,118 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
     enemy.rowRange = enemy.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoWildHunt(Field &ally, Field &enemy)
+{
+    auto *whh1 = new WildHuntHound();
+    auto *whh2 = new WildHuntHound();
+    auto *bf = new BitingFrost();
+    auto *whw1 = new WildHuntWarrior();
+    auto *whw2 = new WildHuntWarrior();
+    auto *whw3 = new WildHuntWarrior();
+    auto *whn1 = new WildHuntNavigator();
+    auto *whn2 = new WildHuntNavigator();
+    auto *whn3 = new WildHuntNavigator();
+    auto *n = new Nithral();
+    auto *i = new Imlerith();
+    auto *m = new Miruna();
+    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i};
+
+    auto *b1 = new BrewessRitual();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *m4 = new ImperialManticore();
+    auto *m5 = new ImperialManticore();
+    auto *m6 = new ImperialManticore();
+    enemy.cardsAdded = {b1, m2, m3, m4, m5, m6};
+
+    ally.hand = {m, whh1, whh2, whw1, whn1, n, i};
+    ally.deck = {bf, whn2, whw2, whw3};
+    ally.rowSeige = {whn3};
+    ally.canPass = false;
+
+    enemy.rowSeige = {b1};
+    enemy.rowRange = {m2, m3};
+    enemy.rowMeele = {m4, m5, m6};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoRessurectFromEnemy(Field &ally, Field &enemy)
+{
+    auto *c1 = new Caretaker();
+    auto *c2 = new Caretaker();
+    ally.cardsAdded = {c1, c2};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    enemy.cardsAdded = {m1, m2};
+
+    ally.hand = {c1, c2};
+    ally.canPass = false;
+
+    enemy.rowSeige = {m1};
+    enemy.discard = {m2};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}
+
+void demoBigOgrs(Field &ally, Field &enemy)
+{
+    auto *osa = new OldSpeartipAsleep();
+    auto *os = new OldSpeartip();
+    auto *g = new Golyat();
+    ally.cardsAdded = {osa, os, g};
+
+    auto *h1 = new HeymaeyHerbalist();
+    auto *h2 = new HeymaeyHerbalist();
+    auto *h3 = new HeymaeyHerbalist();
+    auto *b1 = new Bear();
+    auto *b2 = new Bear();
+    auto *a1 = new TuirseachArcher();
+    auto *a2 = new TuirseachArcher();
+    auto *th1 = new TuirseachHunter();
+    auto *th2 = new TuirseachHunter();
+    auto *th3 = new TuirseachHunter();
+    enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
+
+    ally.hand = {osa, os, g};
+    ally.canPass = false;
+
+    enemy.hand = {a1, a2, th1};
+    enemy.rowRange = {b1, h1, h2, h3, b2};
+    enemy.rowMeele = {th2, th3};
+    enemy.passed = false;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoConsume(Field &ally, Field &enemy)
+{
+    auto *g1 = new Ghoul();
+    auto *g2 = new Ghoul();
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *b1 = new Barbegazi();
+    auto *b2 = new Barbegazi();
+    auto *d1 = new DevanaRunestone();
+    auto *d2 = new DevanaRunestone();
+    auto *d3 = new DevanaRunestone();
+    auto *f = new Forktail();
+    ally.cardsAdded = {g1, g2, m1, m2, b1, b2, d1, d2, d3, f};
+
+    ally.hand = {g1, g2, b1, b2, d1, f};
+    ally.discard = {m1, d2};
+    ally.rowMeele = {m2};
+    ally.deck = {d3};
+    ally.canPass = false;
+
+    enemy.passed = true;
+
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
