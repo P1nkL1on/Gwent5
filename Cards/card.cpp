@@ -795,6 +795,12 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == AllyBoardAndHandRevealed)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({::isRevealed}, ally.hand)});
 
+        if (group == AllyAppeared)
+            return ally.cardsAppeared;
+
+        if (group == BothAppeared)
+            return ally.cardsAppearedBoth;
+
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
@@ -1580,6 +1586,11 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         }
         return false;
     }
+    /// remember it in the stack of played units
+    /// TODO: its definetly should be one structure for both player
+    ally.cardsAppearedBoth.push_back(card);
+    enemy.cardsAppearedBoth.push_back(card);
+    ally.cardsAppeared.push_back(card);
 
     if (isNew)
         addAsNew(ally, card);
@@ -1589,6 +1600,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         putToDiscard(card, ally, enemy, card);
         return true;
     }
+
 
     if (rowAndPos.row() < 0 && rowAndPos.pos() < 0) {
         /// if no row and pos given, then start rowAndPos selection

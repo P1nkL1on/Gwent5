@@ -184,8 +184,16 @@ struct Field
 
     Card *leaderStarting = nullptr;
     std::vector<Card *> deckStarting;
+    /// cards, that didn't start in the deck,
+    /// but were added in the process of game
+    /// with `spawn`, `create`, etc
     std::vector<Card *> cardsAdded;
+    /// current choices player should resolve
     std::vector<Choice> cardStack;
+    /// cards played in order for history
+    /// and retrograde effects
+    std::vector<Card *> cardsAppearedBoth;
+    std::vector<Card *> cardsAppeared;
     int nTurns = 0;
     int nRounds = 0;
     int nWins = 0;

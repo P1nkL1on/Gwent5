@@ -56,6 +56,8 @@ private:
         ViewHandOpponent,
         ViewDeckOpponent,
         ViewDiscardOpponent,
+        ViewCardsAppeared,
+        ViewCardsPlayed,
         View_count
     };
     View _view = ViewStack;

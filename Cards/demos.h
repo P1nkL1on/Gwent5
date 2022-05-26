@@ -28,5 +28,6 @@ void demoMonsterSisters(Field &ally, Field &enemy);
 void demoLeoBonhart(Field &ally, Field &enemy);
 void demoLockingDeathwish(Field &ally, Field &enemy);
 void demoNilfgaardReveal(Field &ally, Field &enemy);
+void demoLastPlayed(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

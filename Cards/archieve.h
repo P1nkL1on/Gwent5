@@ -1355,5 +1355,24 @@ struct HenryVarAttre : CardCollectible<HenryVarAttre>
 };
 
 
+struct SummoningCircle : CardCollectible<SummoningCircle>
+{
+    SummoningCircle();
+};
+
+
+struct XavierMoran : CardCollectible<XavierMoran>
+{
+    XavierMoran();
+};
+
+
+struct YenneferEnchantress : CardCollectible<YenneferEnchantress>
+{
+    YenneferEnchantress();
+};
+
+
+
 
 #endif // CARDS_H

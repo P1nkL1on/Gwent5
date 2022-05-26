@@ -506,3 +506,21 @@ void demoNilfgaardReveal(Field &ally, Field &enemy)
     initField(deckStartingEnemy, new JanCalveit, enemy);
     startNextRound(ally, enemy);
 }
+
+void demoLastPlayed(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new SummoningCircle(),
+        new SummoningCircle(),
+        new YenneferEnchantress(),
+        new YenneferEnchantress(),
+        new XavierMoran(),
+        new Cleaver(),
+        new Cleaver(),
+        new Frightener(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

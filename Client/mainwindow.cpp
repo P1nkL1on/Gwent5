@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
+        {"Last Played Card", demoLastPlayed},
     };
 
     /// make a choosing menu for it
@@ -615,7 +616,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
     }
 
-    static_assert(View_count == 7, "");
+    static_assert(View_count == 9, "");
     if (_view == ViewStack) {
         double statusWidth = 0;
         if (currentChoiceView){
@@ -677,6 +678,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         } else if (_view == ViewDeckOpponent) {
             title = "Opponent's Deck";
             ids = &view.enemyDeckIds;
+
+        } else if (_view == ViewCardsAppeared) {
+            title = "Cards Appeared (Both Players)";
+            ids = &view.cardsAppearedIds;
+
+        } else if (_view == ViewCardsPlayed) {
+            title = "Cards Played";
+            ids = &view.cardsPlayedIds;
         } else {
             Q_ASSERT(false);
         }

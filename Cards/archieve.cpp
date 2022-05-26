@@ -5938,3 +5938,64 @@ HenryVarAttre::HenryVarAttre()
         conceal(target, ally, enemy, this);
     };
 }
+
+SummoningCircle::SummoningCircle()
+{
+    id = "200022";
+    name = "Summoning Circle";
+    text = "Spawn a default copy of the last Bronze or Silver non-Agent unit that appeared.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (Card *card = last(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonAgent, otherThan(this)}, BothAppeared)))
+            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+    };
+}
+
+XavierMoran::XavierMoran()
+{
+    id = "200080";
+    name = "Xavier Moran";
+    text = "Boost this unit by the default power of the last other Dwarf you played.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Scoiatael;
+    tags = { Dwarf };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.290.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.291.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.292.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = last(cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(this)}, AllyAppeared)))
+            boost(this, card->powerBase, ally, enemy, this);
+    };
+}
+
+YenneferEnchantress::YenneferEnchantress()
+{
+    id = "201601";
+    name = "Yennefer";
+    text = "Spawn the last Bronze or Silver Spell you played.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Aedirn };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = last(cardsFiltered(ally, enemy, {hasTag(Spell), isBronzeOrSilver}, AllyAppeared)))
+            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+    };
+}

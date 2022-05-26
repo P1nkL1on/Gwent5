@@ -127,6 +127,8 @@ enum ChoiceGroup
     AnyHandShuffled,
     EnemyBoardAndHandRevealed,
     AllyBoardAndHandRevealed,
+    AllyAppeared,
+    BothAppeared,
 };
 
 

@@ -160,6 +160,10 @@ FieldView fieldView(
         res.enemyDeckIds.push_back(id(card));
     for (const Card *card : enemy.discard)
         res.enemyDiscardIds.push_back(id(card));
+    for (const Card *card : ally.cardsAppearedBoth)
+        res.cardsAppearedIds.push_back(id(card));
+    for (const Card *card : ally.cardsAppeared)
+        res.cardsPlayedIds.push_back(id(card));
     res.allyLeader = ally.leader ? -1 : id(ally.leader);
     res.enemyLeader = enemy.leader ? -1 : id(enemy.leader);
     res.allyRowEffectMeele = ally.rowEffectMeele;
