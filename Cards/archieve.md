@@ -460,7 +460,7 @@
 - [ ] Ekimmara _(easy card)_
 - [ ] Fiend
 - [ ] Foglet
-- [ ] Forktail
+- [x] Forktail
 - [x] Ghoul
 - [ ] Griffin
 - [ ] Harpy

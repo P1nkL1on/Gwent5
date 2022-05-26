@@ -586,9 +586,10 @@ void demoConsume(Field &ally, Field &enemy)
     auto *d1 = new DevanaRunestone();
     auto *d2 = new DevanaRunestone();
     auto *d3 = new DevanaRunestone();
-    ally.cardsAdded = {g1, g2, m1, m2, b1, b2, d1, d2, d3};
+    auto *f = new Forktail();
+    ally.cardsAdded = {g1, g2, m1, m2, b1, b2, d1, d2, d3, f};
 
-    ally.hand = {g1, g2, b1, b2, d1};
+    ally.hand = {g1, g2, b1, b2, d1, f};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
     ally.deck = {d3};

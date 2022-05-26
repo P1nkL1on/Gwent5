@@ -1364,4 +1364,10 @@ struct Ghoul : CardCollectible<Ghoul>
 };
 
 
+struct Forktail: CardCollectible<Forktail>
+{
+    Forktail();
+};
+
+
 #endif // CARDS_H

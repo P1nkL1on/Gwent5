@@ -204,6 +204,7 @@ std::vector<Card *> allCards(const Patch)
         new Golyat(),
         new Barbegazi(),
         new Ghoul(),
+        new Forktail(),
     };
 };
 
@@ -5615,6 +5616,26 @@ Ghoul::Ghoul()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Forktail::Forktail()
+{
+    id = "201606";
+    name = "Forktail";
+    text = "Consume 2 allies and boost self by their power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
     };
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {

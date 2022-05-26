@@ -49,6 +49,7 @@ enum Tag
     Ogroid,
     Insectoid,
     Necrophage,
+    Draconid,
 
     Cursed,
     Support,
