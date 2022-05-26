@@ -973,9 +973,10 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     assert(drawn);
 }
 
-void banish(Card *card, Field &ally, Field &enemy)
+void banish(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
+    saveFieldsSnapshot(ally, enemy, Banished, src, {card});
     assert(row != AlreadyCreated);
 }
 
@@ -1049,6 +1050,20 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     putToDiscard(target, ally, enemy, self);
 }
 
+int consume(Card *target, Field &ally, Field &enemy, Card *src)
+{
+    assert(!target->isSpecial);
+    assert(!src->isSpecial);
+    const int powerConsumed = target->power;
+
+    if(isIn(target, ally.discard) || isIn(target, enemy.discard))
+        banish(target, ally, enemy, src);
+    else
+        putToDiscard(target, ally, enemy, src);
+    //  TODO: create a trigger _onConsume and trigger it here for nekkers
+    return powerConsumed;
+}
+
 void heal(Card *card, Field &, Field &)
 {
     assert(!card->isSpecial);
@@ -1109,7 +1124,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy)
     // TODO: others trigger on strengthen
 }
 
-bool weaken(Card *card, const int x, Field &ally, Field &enemy)
+bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
@@ -1120,7 +1135,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy)
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase <= 0) {
-        banish(card, ally, enemy);
+        banish(card, ally, enemy, src);
         return true;
     }
 

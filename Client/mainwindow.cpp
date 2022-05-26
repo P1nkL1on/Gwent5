@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Caretaker and EnemyDiscard", demoRessurectFromEnemy},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
+        {"Consume demo", demoConsume},
     };
 
     /// make a choosing menu for it
@@ -826,6 +827,9 @@ void MainWindow::repaintCustom()
             break;
         case Destroyed:
             stream << prefix << dst << " destroyed by " << src;
+            break;
+        case Banished:
+            stream << prefix << dst << " removed from the game by " << src;
             break;
         case DealDamage:
             stream << prefix << src << " deals " << x << " damage to " << dst;

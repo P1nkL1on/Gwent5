@@ -1352,4 +1352,16 @@ struct Golyat : CardCollectible<Golyat>
 };
 
 
+struct Barbegazi : CardCollectible<Barbegazi>
+{
+    Barbegazi();
+};
+
+
+struct Ghoul : CardCollectible<Ghoul>
+{
+    Ghoul();
+};
+
+
 #endif // CARDS_H

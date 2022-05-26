@@ -201,6 +201,9 @@ std::vector<Card *> allCards(const Patch)
         new Ruehin(),
         new OldSpeartipAsleep(),
         new OldSpeartip(),
+        new Golyat(),
+        new Barbegazi(),
+        new Ghoul(),
     };
 };
 
@@ -1880,7 +1883,7 @@ Mandrake::Mandrake()
 
         if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
             reset(target, ally, enemy);
-            weaken(target, 6, ally, enemy);
+            weaken(target, 6, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2682,14 +2685,14 @@ Morkvarg::Morkvarg()
     tags = { Beast, Cursed };
 
     _onDiscard = [=](Field &ally, Field &enemy) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
@@ -5575,5 +5578,46 @@ Golyat::Golyat()
     _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *src) {
         if(src != this)
             damage(this, 2, ally, enemy, this);
+    };
+}
+
+Barbegazi::Barbegazi()
+{
+    id = "201701";
+    name = "Barbegazi";
+    text = "Resilience. Consume an ally and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+    isResilient = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Ghoul::Ghoul()
+{
+    id = "132306";
+    name = "Ghoul";
+    text = "Consume a Bronze or Silver unit from your graveyard and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
     };
 }

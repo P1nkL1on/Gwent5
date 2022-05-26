@@ -141,6 +141,7 @@ enum ActionType {
     PutToHand,
     PutToDiscard,
     Destroyed,
+    Banished,
     DealDamage,
     Damaged,
     DamagedInArmor,

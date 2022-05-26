@@ -450,7 +450,7 @@
 - [ ] Arachas Drone
 - [ ] Archespore
 - [ ] Archgriffin
-- [ ] Barbegazi
+- [x] Barbegazi
 - [ ] Bridge Troll
 - [ ] Celaeno Harpy
 - [ ] Cockatrice
@@ -461,7 +461,7 @@
 - [ ] Fiend
 - [ ] Foglet
 - [ ] Forktail
-- [ ] Ghoul
+- [x] Ghoul
 - [ ] Griffin
 - [ ] Harpy
 - [ ] Ice Giant

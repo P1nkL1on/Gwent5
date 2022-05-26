@@ -574,3 +574,27 @@ void demoBigOgrs(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoConsume(Field &ally, Field &enemy)
+{
+    auto *g1 = new Ghoul();
+    auto *g2 = new Ghoul();
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *b1 = new Barbegazi();
+    auto *b2 = new Barbegazi();
+    auto *d1 = new DevanaRunestone();
+    auto *d2 = new DevanaRunestone();
+    auto *d3 = new DevanaRunestone();
+    ally.cardsAdded = {g1, g2, m1, m2, b1, b2, d1, d2, d3};
+
+    ally.hand = {g1, g2, b1, b2, d1};
+    ally.discard = {m1, d2};
+    ally.rowMeele = {m2};
+    ally.deck = {d3};
+    ally.canPass = false;
+
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
