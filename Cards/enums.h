@@ -128,6 +128,7 @@ enum ChoiceGroup
     EnemyAnywhere,
     EnemyHand,
     EnemyDiscard,
+    BothDiscard,
     AnyHandsShuffled,
     EnemyBoardAndHandRevealed,
     AllyBoardAndHandRevealed,

@@ -1371,4 +1371,34 @@ struct Forktail: CardCollectible<Forktail>
 };
 
 
+struct ArachasQueen : CardCollectible<ArachasQueen>
+{
+    ArachasQueen();
+};
+
+
+
+struct Ozzrel : CardCollectible<Ozzrel>
+{
+    Ozzrel();
+};
+
+
+struct Kayran : CardCollectible<Kayran>
+{
+    Kayran();
+};
+
+
+struct Mourntart : CardCollectible<Mourntart>
+{
+    Mourntart();
+};
+
+
+struct ToadPrince : CardCollectible<ToadPrince>
+{
+    ToadPrince();
+};
+
 #endif // CARDS_H

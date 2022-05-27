@@ -205,6 +205,11 @@ std::vector<Card *> allCards(const Patch)
         new Barbegazi(),
         new Ghoul(),
         new Forktail(),
+        new ArachasQueen(),
+        new Ozzrel(),
+        new Kayran(),
+        new Mourntart(),
+        new ToadPrince(),
     };
 };
 
@@ -5674,6 +5679,109 @@ Forktail::Forktail()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+ArachasQueen::ArachasQueen()
+{
+    id = "201743";
+    name = "Arachas Queen";
+    text = "Immune. Consume 3 allies and boost self by their power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Insectoid };
+    isImmune = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 3);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Ozzrel::Ozzrel()
+{
+    id = "201698";
+    name = "Ozzrel";
+    text = "Consume a Bronze or Silver unit from either graveyard and boost by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, BothDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Kayran::Kayran()
+{
+    id = "132107";
+    name = "Kayran";
+    text = "Consume a unit with 7 power or less and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasPowerXorLess(7)}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Mourntart::Mourntart()
+{
+    id = "132202";
+    name = "Mourntart";
+    text = "Consume all Bronze and Silver units in your graveyard and boost self by 1 for each.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+            for (Card *card : cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDiscard)) {
+                consume(card, ally, enemy, this);
+                boost(this, 1, ally, enemy, this);
+            };
+        };
+}
+
+ToadPrince::ToadPrince()
+{
+    id = "132216";
+    name = "Toad Prince";
+    text = "Draw a unit, then Consume a unit in your hand and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+            putToHand(unit, ally, enemy);
+            startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyHand);
+        }
     };
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {

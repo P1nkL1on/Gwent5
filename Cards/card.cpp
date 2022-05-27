@@ -778,6 +778,8 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
         if (group == EnemyDiscard)
             return enemy.discard;
+        if (group == BothDiscard)
+            return _united(Rows{ally.discard, enemy.discard});
 
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
@@ -846,6 +848,13 @@ Card *lowest(const std::vector<Card *> &row, Rng &rng)
         return nullptr;
 
     return res[rng() % res.size()];
+}
+
+Card *first(const std::vector<Card *> &row)
+{
+    if (row.size() == 0)
+        return nullptr;
+    return row[0];
 }
 
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
@@ -1955,3 +1964,4 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
     assert(false);
     return NoRowEffect;
 }
+

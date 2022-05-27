@@ -581,19 +581,36 @@ void demoConsume(Field &ally, Field &enemy)
     auto *g2 = new Ghoul();
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *r = new Ruehin();
     auto *b1 = new Barbegazi();
     auto *b2 = new Barbegazi();
     auto *d1 = new DevanaRunestone();
     auto *d2 = new DevanaRunestone();
     auto *d3 = new DevanaRunestone();
     auto *f = new Forktail();
-    ally.cardsAdded = {g1, g2, m1, m2, b1, b2, d1, d2, d3, f};
+    auto *o = new Ozzrel();
+    auto *aq = new ArachasQueen();
+    auto *k = new Kayran();
+    auto *m0 = new Mourntart();
+    auto *tp = new ToadPrince();
+    ally.cardsAdded = {g1, g2, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp};
 
-    ally.hand = {g1, g2, b1, b2, d1, f};
+    ally.hand = {g1, g2, b1, b2, d1, f, o, aq, k, m0, tp};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
-    ally.deck = {d3};
+    ally.deck = {d3, m3, r};
     ally.canPass = false;
+
+    auto *t1 = new TuirseachAxeman();
+    auto *t2 = new TuirseachAxeman();
+    auto *t3 = new TuirseachAxeman();
+    auto *am = new AnCraiteMarauder();
+    auto *m = new Morkvarg();
+
+    enemy.cardsAdded = {t1, t2, t3, m, am};
+    enemy.rowRange = {t3, m, am};
+    enemy.discard = {t1, t2};
 
     enemy.passed = true;
 

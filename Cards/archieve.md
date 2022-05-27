@@ -404,7 +404,7 @@
 
 # Monster
 
-- [ ] Arachas Queen
+- [x Arachas Queen
 - [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
 - [x] Caretaker
@@ -414,7 +414,7 @@
 - [ ] Ge'els
 - [x] Imlerith
 - [ ] Imlerith: Sabbath
-- [ ] Kayran
+- [x] Kayran
 - [x] Miruna
 - [x] Old Speartip
 - [x] Old Speartip: Asleep
@@ -434,14 +434,14 @@
 - [ ] Maerolorn
 - [ ] Monster Nest
 - [ ] Morvudd
-- [ ] Mourntart
+- [x] Mourntart
 - [ ] Nekurat _(easy card)_
 - [x] Nithral
-- [ ] Ozzrel
+- [x] Ozzrel
 - [ ] Parasite
 - [x] Ruehin
 - [ ] She-Troll of Vergen
-- [ ] Toad Prince
+- [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
 - [ ] Alpha Werewolf

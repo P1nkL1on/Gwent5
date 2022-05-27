@@ -226,6 +226,7 @@ std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
 Card *lowest(const std::vector<Card *> &row, Rng &rng);
+Card *first(const std::vector<Card *> &row);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bool *isAlly = nullptr);
