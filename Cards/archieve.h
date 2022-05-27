@@ -1388,7 +1388,18 @@ struct BlueStripeScout : CardCollectible<BlueStripeScout>
 struct BlueStripeCommando : CardCollectible<BlueStripeCommando>
 {
     BlueStripeCommando();
+private:
+    std::map<Card *, Card *> _allyPlayedToCopy;
 };
+
+
+struct ImperialGolem : CardCollectible<ImperialGolem>
+{
+    ImperialGolem();
+private:
+    std::map<Card *, Card *> _cardRevealedToCopy;
+};
+
 
 
 #endif // CARDS_H

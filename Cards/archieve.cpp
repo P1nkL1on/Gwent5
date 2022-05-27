@@ -2463,7 +2463,7 @@ DrummondQueensguard::DrummondQueensguard()
     tags = { ClanDrummond, Soldier };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDiscard))
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DrummondQueensguard>}, AllyDiscard))
             moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
@@ -2540,7 +2540,7 @@ DimunPirate::DimunPirate()
     tags = { ClanDimun, Soldier };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy(name)}, AllyDeck))
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DimunPirate>}, AllyDeck))
             putToDiscard(card, ally, enemy, this);
     };
 }
@@ -2880,7 +2880,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
     tags = { Ogroid };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Hjalmar an Craite")}, EnemyBoard))
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<HjalmarAnCraite>}, EnemyBoard))
             boost(card, 10, ally, enemy, this);
     };
 }
@@ -3315,7 +3315,7 @@ Roach::Roach()
         if (!isIn(this, ally.deck))
             return;
 
-        spawnNewUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -4946,10 +4946,10 @@ Eskel::Eskel()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy<Lambert>}, AllyDeck))
             moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy<Vesemir>}, AllyDeck))
             moveExistedUnitToPos(vesemir, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
     };
 }
@@ -4975,10 +4975,10 @@ Lambert::Lambert()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy<Eskel>}, AllyDeck))
             moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 
-        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("Vesemir")}, AllyDeck))
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy<Vesemir>}, AllyDeck))
             moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
@@ -5001,10 +5001,10 @@ Vesemir::Vesemir()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("Lambert")}, AllyDeck))
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy<Lambert>}, AllyDeck))
             moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("Eskel")}, AllyDeck))
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy<Eskel>}, AllyDeck))
             moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
@@ -5293,10 +5293,10 @@ Brewess::Brewess()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy<Weavess>}, AllyDeck))
             moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 
-        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy<Whispess>}, AllyDeck))
             moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
     };
 }
@@ -5318,10 +5318,10 @@ Weavess::Weavess()
     };
     
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("Whispess")}, AllyDeck))
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy<Whispess>}, AllyDeck))
             moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
 
-        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy<Brewess>}, AllyDeck))
             moveExistedUnitToPos(brewess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
     };
 }
@@ -5347,10 +5347,10 @@ Whispess::Whispess()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("Weavess")}, AllyDeck))
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy<Weavess>}, AllyDeck))
             moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
 
-        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("Brewess")}, AllyDeck))
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy<Brewess>}, AllyDeck))
             moveExistedUnitToPos(brewess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
@@ -5783,8 +5783,9 @@ Mangonel::Mangonel()
             damage(card, 2, ally, enemy, this);
     };
 
-    _onOtherRevealed = [=](Field &ally, Field &enemy, const Card *) {
-        onDeploy(ally, enemy);
+    _onOtherRevealed = [=](Field &ally, Field &enemy, Card *, const Card *) {
+        if (isOnBoard(this, ally))
+            onDeploy(ally, enemy);
     };
 }
 
@@ -6069,5 +6070,47 @@ BlueStripeCommando::BlueStripeCommando()
         "https://gwent.one/audio/card/ob/en/VO_ROS3_102779_0003.mp3",
         "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0003.mp3",
         "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0004.mp3",
+    };
+
+    _onOtherAllyPlayedFromHand = [=](Card *target, Field &ally, Field &enemy) {
+        if (!hasTag(Temeria) || !hasPowerX(power) || !isIn(this, ally.deck))
+            return;
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<BlueStripeCommando>, otherThan(this)}, AllyDeckShuffled)) {
+            BlueStripeCommando *commando = static_cast<BlueStripeCommando *>(card);
+            commando->_allyPlayedToCopy.insert({target, this});
+        }
+
+        if (_allyPlayedToCopy.find(target) == _allyPlayedToCopy.end())
+            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+
+        _allyPlayedToCopy.clear();
+    };
+}
+
+ImperialGolem::ImperialGolem()
+{
+    id = "132407";
+    name = "Imperial Golem";
+    text = "Summon a copy of this unit to a random row whenever you Reveal a card in your opponent's hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Construct };
+    power = powerBase = 3;
+    faction = Nilfgaard;
+    rarity = Bronze;
+
+    _onOtherRevealed = [=](Field &ally, Field &enemy, Card *target, const Card *) {
+        if (!isIn(this, ally.deck) || !isIn(target, enemy.hand))
+            return;
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<ImperialGolem>, otherThan(this)}, AllyDeckShuffled)) {
+            ImperialGolem *golem = static_cast<ImperialGolem *>(card);
+            golem->_cardRevealedToCopy.insert({target, this});
+        }
+
+        if (_cardRevealedToCopy.find(target) == _cardRevealedToCopy.end())
+            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+
+        _cardRevealedToCopy.clear();
     };
 }

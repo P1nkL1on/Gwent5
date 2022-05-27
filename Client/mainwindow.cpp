@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
         {"Last Played Card", demoLastPlayed},
+        {"Blue Stripes", demoBlueStripes},
     };
 
     /// make a choosing menu for it
@@ -914,9 +915,10 @@ void MainWindow::repaintCustom()
         for (const FieldView &snapshot : _ally.snapshots) {
             // BUG: doesn't work after a pass..
             // Maybe add a function determined, which turn is it
-            if (snapshot.actionType == TurnStart)
-                _turn = (_turn + 1) % 2;
-            processAction(snapshot, ss, "", _turn ? 500 : 0);
+            // if (snapshot.actionType == TurnStart)
+            //    _turn = (_turn + 1) % 2;
+            // processAction(snapshot, ss, "", _turn ? 500 : 0);
+            processAction(snapshot, ss);
         }
         _ally.snapshots.clear();
     }

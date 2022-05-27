@@ -1400,9 +1400,9 @@ void saveFieldsSnapshot(
 
             // if uncollapsable type, then stop it
             // TODO: check what is it...
-            // const ActionType type = field.snapshots[j].actionType;
-            // if (type == PlaySpecial || type == PutOnField)
-            //    break;
+            const ActionType type = field.snapshots[j].actionType;
+            if (type == PlaySpecial || type == PutOnField)
+                break;
 
             // find previous snapshot with same animation type and src
             if (field.snapshots[j].actionIdSrc != snapshot.actionIdSrc)
@@ -1793,8 +1793,8 @@ void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onRevealed(ally, enemy, src);
 
     /// trigger only for allies
-    for (Card *other : cardsFiltered(ally, enemy, {}, AllyBoard))
-        other->onOtherRevealed(ally, enemy, src);
+    for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        other->onOtherRevealed(ally, enemy, card, src);
 }
 
 void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -1915,10 +1915,10 @@ void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
         return _onRevealed(ally, enemy, src);
 }
 
-void Card::onOtherRevealed(Field &ally, Field &enemy, const Card *src)
+void Card::onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src)
 {
     if (_onOtherRevealed && !isLocked)
-        return _onOtherRevealed(ally, enemy, src);
+        return _onOtherRevealed(ally, enemy, card, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)

@@ -487,10 +487,10 @@ void demoNilfgaardReveal(Field &ally, Field &enemy)
         new LeoBonhart(), new Vilgefortz(), new TiborEggebracht(), new VattierDeRideaux(),
         new Cynthia(), new Serrit(), new HeftyHelge(), new HenryVarAttre(), new Sweers(), new Albrich(),
         new DaerlanSoldier(), new DaerlanSoldier(), new DaerlanSoldier(),
-        new FireScorpion(), new FireScorpion(), new FireScorpion(),
+        new FireScorpion(), new FireScorpion(), new ImperialGolem(),
         new Spotter(), new Alchemist(), new MasterOfDisguise(),
         new Mangonel(), new Mangonel(), new Mangonel(),
-        new NauzicaaSergeant(), new NilfgaardianKnight(), new Reconnaissance()
+        new NauzicaaSergeant(), new ImperialGolem(), new ImperialGolem()
     };
     const std::vector<Card *> deckStartingEnemy = {
         new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
@@ -522,5 +522,25 @@ void demoLastPlayed(Field &ally, Field &enemy)
     ally.hand = ally.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoBlueStripes(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new VernonRoche(),
+        new BlueStripeScout(),
+        new BlueStripeScout(),
+        new BlueStripeScout(),
+        new Roach(),
+        new BlueStripeCommando(),
+        new BlueStripeCommando(),
+        new BlueStripeCommando(),
+    };
+    ally.deck = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    for (int i = 0; i < 4; ++i)
+        drawACard(ally, enemy);
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
