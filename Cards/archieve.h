@@ -1232,6 +1232,12 @@ struct BrewessRitual : CardCollectible<BrewessRitual>
 };
 
 
+struct WhispessTribute : CardCollectible<WhispessTribute>
+{
+    WhispessTribute();
+};
+
+
 struct RockBarrage : CardCollectible<RockBarrage>
 {
     RockBarrage();
@@ -1401,5 +1407,87 @@ private:
 };
 
 
+struct WildHuntHound : CardCollectible<WildHuntHound>
+{
+    WildHuntHound();
+};
+
+
+struct WildHuntWarrior : CardCollectible<WildHuntWarrior>
+{
+    WildHuntWarrior();
+};
+
+
+struct WildHuntNavigator : CardCollectible<WildHuntNavigator>
+{
+    WildHuntNavigator();
+};
+
+
+struct Nithral : CardCollectible<Nithral>
+{
+    Nithral();
+};
+
+
+struct Miruna : CardCollectible<Miruna>
+{
+    Miruna();
+};
+
+
+struct Imlerith : CardCollectible<Imlerith>
+{
+    Imlerith();
+};
+
+
+struct Caretaker : CardCollectible<Caretaker>
+{
+    Caretaker();
+};
+
+
+struct Ruehin : CardCollectible<Ruehin>
+{
+    Ruehin();
+};
+
+
+struct OldSpeartipAsleep : CardCollectible<OldSpeartipAsleep>
+{
+    OldSpeartipAsleep();
+};
+
+
+struct OldSpeartip : CardCollectible<OldSpeartip>
+{
+    OldSpeartip();
+};
+
+
+struct Golyat : CardCollectible<Golyat>
+{
+    Golyat();
+};
+
+
+struct Barbegazi : CardCollectible<Barbegazi>
+{
+    Barbegazi();
+};
+
+
+struct Ghoul : CardCollectible<Ghoul>
+{
+    Ghoul();
+};
+
+
+struct Forktail: CardCollectible<Forktail>
+{
+    Forktail();
+};
 
 #endif // CARDS_H

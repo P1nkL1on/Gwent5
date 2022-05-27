@@ -185,6 +185,7 @@ std::vector<Card *> allCards(const Patch)
         new Whispess(),
         new WeavessIncantation(),
         new BrewessRitual(),
+        new WhispessTribute(),
         new LeoBonhart(),
         new MorvranVoorhis(),
         new Cynthia(),
@@ -203,6 +204,20 @@ std::vector<Card *> allCards(const Patch)
         new VenendalElite(),
         new MasterOfDisguise(),
         new HenryVarAttre(),
+        new WildHuntHound(),
+        new WildHuntWarrior(),
+        new WildHuntNavigator(),
+        new Nithral(),
+        new Miruna(),
+        new Imlerith(),
+        new Caretaker(),
+        new Ruehin(),
+        new OldSpeartipAsleep(),
+        new OldSpeartip(),
+        new Golyat(),
+        new Barbegazi(),
+        new Ghoul(),
+        new Forktail(),
     };
 }
 
@@ -1990,7 +2005,7 @@ Mandrake::Mandrake()
 
         if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
             reset(target, ally, enemy);
-            weaken(target, 6, ally, enemy);
+            weaken(target, 6, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2820,14 +2835,14 @@ Morkvarg::Morkvarg()
     tags = { Beast, Cursed };
 
     _onDiscard = [=](Field &ally, Field &enemy) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy))
+        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
@@ -3414,7 +3429,7 @@ LethoKingslayer::LethoKingslayer()
             }
 
             if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeck);
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
                 return;
             }
 
@@ -4292,7 +4307,7 @@ RagingBerserker::RagingBerserker()
     rarity = Bronze;
     tags = { Cursed, Soldier, Cultist };
 
-    _onDamaged = [=](const int, Field &ally, Field &enemy) {
+    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *) {
         transform(this, RagingBear(), ally, enemy, this);
     };
 }
@@ -5371,7 +5386,7 @@ WeavessIncantation::WeavessIncantation()
         "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         auto *option1 = new WeavessIncantation::StrengthenAll;
         copyCardText(this, option1);
         option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
@@ -5434,6 +5449,33 @@ BrewessRitual::BrewessRitual()
     };
 }
 
+WhispessTribute::WhispessTribute()
+{
+    id = "200220";
+    name = "Whispess: Tribute";
+    text = "Play a Bronze or Silver Organic card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Relict };
+    power = powerBase = 6;
+    faction = Monster;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Organic)}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
 
 Nivellen::Nivellen() 
 {
@@ -5766,6 +5808,51 @@ FireScorpion::FireScorpion()
             onDeploy(ally, enemy);
     };
 }
+
+WildHuntHound::WildHuntHound()
+{
+    id = "132402";
+    name = "Wild Hunt Hound";
+    text = "Play Biting Frost from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Construct };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+}
+
+WildHuntWarrior::WildHuntWarrior()
+{
+    id = "132309";
+    name = "Wild Hunt Warrior";
+    text = "Deal 3 damage to an enemy. If the enemy is destroyed or is under Biting Frost, boost self by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.793.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.792.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.794.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        if (damage(target, 3, ally, enemy, this) || isUnderFrost)
+            boost(this, 2, ally, enemy, this);
+    };
+}
+
 
 Mangonel::Mangonel()
 {
@@ -6112,5 +6199,264 @@ ImperialGolem::ImperialGolem()
             moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
 
         _cardRevealedToCopy.clear();
+    };
+}
+
+WildHuntNavigator::WildHuntNavigator()
+{
+    id = "200026";
+    name = "Wild Hunt Navigator";
+    text = "Choose a Bronze non-Mage Wild Hunt ally and play a copy of it from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.45.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.44.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.43.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(WildHunt), hasNoTag(Mage), hasCopyInADeck(&ally)}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (Card *copy = findCopy(target, ally.deck))
+            playExistedCard(copy, ally, enemy, this);
+    };
+}
+
+Nithral::Nithral()
+{
+    id = "132214";
+    name = "Nithral";
+    text = "Deal 6 damage to an enemy. Increase damage by 1 for each Wild Hunt unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555151.mp3",
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555148.mp3",
+        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555150.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int const nWildHuntUnits = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
+        damage(target, 6 + nWildHuntUnits, ally, enemy, this);
+    };
+}
+
+Miruna::Miruna()
+{
+    id = "132108";
+    name = "Miruna";
+    text = "After 2 turns, Charm the Highest enemy on the opposite row on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Beast };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053075.mp3",
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053091.mp3",
+        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053077.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
+            charm(card, ally, enemy, this);
+    };
+}
+
+Imlerith::Imlerith()
+{
+    id = "132102";
+    name = "Imlerith";
+    text = "Deal 4 damage to an enemy. If the enemy is under Biting Frost, deal 8 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524739.mp3",
+        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524776.mp3",
+        "https://gwent.one/audio/card/ob/en/IMLR_Q111_01062046.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        damage(target, isUnderFrost ? 8 : 4, ally, enemy, this);
+    };
+}
+
+Caretaker::Caretaker()
+{
+    id = "132106";
+    name = "Caretaker";
+    text = "Resurrect a Bronze or Silver unit from your opponent's graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Gold;
+    faction = Monster;
+    isDoomed = true;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver}, EnemyDiscard);
+    };
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Ruehin::Ruehin()
+{
+    id = "201660";
+    name = "Ruehin";
+    text = "Strengthen all your other Insectoids and Cursed units in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Insectoid, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(this), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy);
+    };
+}
+
+OldSpeartipAsleep::OldSpeartipAsleep()
+{
+    id = "132218";
+    name = "Old Speartip: Asleep";
+    text = "Strengthen all your other Ogroids in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 12;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(this), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy);
+    };
+}
+
+OldSpeartip::OldSpeartip()
+{
+    id = "132408";
+    name = "Old Speartip";
+    text = "Deal 2 damage to 5 random enemies on the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for(Card *card : randoms(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), 5, ally.rng))
+            damage(card, 2, ally, enemy, this);
+    };
+}
+
+Golyat::Golyat()
+{
+    id = "200052";
+    name = "Golyat";
+    text = "Boost self by 7. Whenever this unit is damaged, deal 2 damage to self.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        boost(this, 7, ally, enemy, this);
+    };
+
+    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *src) {
+        if (src != this)
+            damage(this, 2, ally, enemy, this);
+    };
+}
+
+Barbegazi::Barbegazi()
+{
+    id = "201701";
+    name = "Barbegazi";
+    text = "Resilience. Consume an ally and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isResilient = true;
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Ghoul::Ghoul()
+{
+    id = "132306";
+    name = "Ghoul";
+    text = "Consume a Bronze or Silver unit from your graveyard and boost self by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Forktail::Forktail()
+{
+    id = "201606";
+    name = "Forktail";
+    text = "Consume 2 allies and boost self by their power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
     };
 }
