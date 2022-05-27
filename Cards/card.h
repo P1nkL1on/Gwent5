@@ -199,6 +199,7 @@ struct Field
     const std::vector<Card *> &row(const Row _row) const;
     std::vector<Card *> &row(const Row _row);
     RowEffect &rowEffect(const Row _row);
+    RowEffect rowEffect(const Row _row) const;
 };
 
 
@@ -240,6 +241,7 @@ std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
+RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
 // TODO: remove old function
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 

@@ -5416,7 +5416,7 @@ WildHuntWarrior::WildHuntWarrior()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        const bool isUnderFrost = rowEffectUnderUnit(target, enemy) == BitingFrostEffect;
         if (damage(target, 3, ally, enemy, this) || isUnderFrost)
             boost(this, 2, ally, enemy, this);
     };
@@ -5469,7 +5469,7 @@ Nithral::Nithral()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int const nWildHuntUnits = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
+        const int nWildHuntUnits = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
         damage(target, 6 + nWildHuntUnits, ally, enemy, this);
     };
 }
@@ -5523,7 +5523,7 @@ Imlerith::Imlerith()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const bool isUnderFrost = enemy.rowEffect(_findRowAndPos(target, enemy).row()) == BitingFrostEffect;
+        const bool isUnderFrost = rowEffectUnderUnit(target, enemy) == BitingFrostEffect;
         damage(target, isUnderFrost ? 8 : 4, ally, enemy, this);
     };
 }

@@ -941,6 +941,22 @@ RowEffect &Field::rowEffect(const Row _row)
     return rowEffectMeele;
 }
 
+RowEffect Field::rowEffect(const Row _row) const
+{
+    switch (_row) {
+    case Meele:
+        return rowEffectMeele;
+    case Range:
+        return rowEffectRange;
+    case Seige:
+        return rowEffectSeige;
+    default:
+        break;
+    }
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return rowEffectMeele;
+}
+
 bool drawACard(Field &ally, Field &enemy)
 {
     if (ally.deck.size() == 0)
@@ -1930,4 +1946,12 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
+{
+    if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
+        return field.rowEffect(rowAndPos.row());
+    assert(false);
+    return NoRowEffect;
 }
