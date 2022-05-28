@@ -32,6 +32,7 @@ public:
 
 private slots:
     void onImageRequestFinished(QNetworkReply *reply);
+    void openLoadDialog();
 
 private:
     void requestImageByUrl(const std::string &url);

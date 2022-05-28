@@ -6,8 +6,11 @@
 #include <QLineEdit>
 #include <qtimer.h>
 #include <QSplitter>
+#include <QFileDialog>
+#include <QMenuBar>
 
 #include "../Cards/archieve.h"
+#include "../Cards/io.h"
 #include "cardsingleview.h"
 #include "cardslineview.h"
 
@@ -22,6 +25,14 @@ QScrollArea *createScrollArea(QWidget *widget)
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    QAction *saveDeck = new QAction("Save Deck...");
+    connect(saveDeck, &QAction::triggered, this, &MainWindow::openSaveDialog);
+    saveDeck->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+
+    QMenuBar *menuBar = new QMenuBar(this);
+    menuBar->addAction(saveDeck);
+    setMenuBar(menuBar);
+
     int id = 0;
     std::map<int, std::vector<CardView>> views;
     for (const Card *card : allCards(PublicBeta_0_9_24_3_432)) {
@@ -167,6 +178,28 @@ void MainWindow::updateCardsList()
     std::vector<CardView> views2 = _deckCardViews;
     std::sort(views2.begin(), views2.end(), sortDeck);
     _cardsLineView2->setCardAndChoiceViews(views2, {});
+}
+
+void MainWindow::openSaveDialog()
+{
+    QFileDialog d(this);
+    d.setWindowTitle("Save Deck");
+    d.setAcceptMode(QFileDialog::AcceptSave);
+    d.setNameFilter("TXT (*.txt);; All Files (*.*)");
+    if (!d.exec())
+        return;
+    const QStringList files = d.selectedFiles();
+    if (files.isEmpty())
+        return;
+    const std::string filename = files.first().toStdString();
+
+    Deck2 deck;
+    for (auto it = _deckCardViews.begin(); it != _deckCardViews.end(); ++it) {
+        deck.nameToCount.insert({it->name, it->count});
+    }
+
+    const bool isOk = write(filename, deck);
+    qDebug() << "save deck to" << files.first() << isOk;
 }
 
 bool MainWindow::putCardToDeck(const int id)

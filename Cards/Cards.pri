@@ -11,16 +11,19 @@ HEADERS += \
     $$PWD/view.h \
     $$PWD/enums.h \
     $$PWD/filters.h \
-    $$PWD/demos.h
+    $$PWD/demos.h \
+    $$PWD/io.h
+
 
 
 SOURCES += \
     $$PWD/card.cpp \
     $$PWD/archieve.cpp \
     $$PWD/view.cpp \
-    $$PWD/demos.cpp
-
-}
+    $$PWD/demos.cpp \
+    $$PWD/io.cpp
 
 DISTFILES += \
     $$PWD/archieve.md
+
+}
