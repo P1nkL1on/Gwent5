@@ -45,6 +45,7 @@ private:
 
     Layout _layout;
     int _sound = 20;
+    int _turn = 0;
 
     enum View
     {
@@ -55,6 +56,8 @@ private:
         ViewHandOpponent,
         ViewDeckOpponent,
         ViewDiscardOpponent,
+        ViewCardsAppeared,
+        ViewCardsPlayed,
         View_count
     };
     View _view = ViewStack;

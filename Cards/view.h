@@ -68,6 +68,8 @@ struct FieldView
     std::vector<int> enemyHandIds;
     std::vector<int> enemyDeckIds;
     std::vector<int> enemyDiscardIds;
+    std::vector<int> cardsAppearedIds;
+    std::vector<int> cardsPlayedIds;
     RowEffect allyRowEffectMeele = NoRowEffect;
     RowEffect allyRowEffectRange = NoRowEffect;
     RowEffect allyRowEffectSeige = NoRowEffect;

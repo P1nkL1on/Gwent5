@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
+        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Transformation", demoTransforms},
         {"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
@@ -52,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
+        {"Last Played Card", demoLastPlayed},
+        {"Blue Stripes", demoBlueStripes},
         {"Caretaker and EnemyDiscard", demoRessurectFromEnemy},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
@@ -618,7 +621,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
     }
 
-    static_assert(View_count == 7, "");
+    static_assert(View_count == 9, "");
     if (_view == ViewStack) {
         double statusWidth = 0;
         if (currentChoiceView){
@@ -680,6 +683,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         } else if (_view == ViewDeckOpponent) {
             title = "Opponent's Deck";
             ids = &view.enemyDeckIds;
+
+        } else if (_view == ViewCardsAppeared) {
+            title = "Cards Appeared (Both Players)";
+            ids = &view.cardsAppearedIds;
+
+        } else if (_view == ViewCardsPlayed) {
+            title = "Cards Played";
+            ids = &view.cardsPlayedIds;
         } else {
             Q_ASSERT(false);
         }
@@ -780,7 +791,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::repaintCustom()
 {
-    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "")
+    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "", const int msWait = 0)
     {
         const auto idToName = [=](const int id) -> QString
         {
@@ -865,10 +876,25 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " loses SPY by " << src;
             break;
         case Reveal:
-            stream << prefix << dst << " relvealed by " << src;
+            stream << prefix << dst << " revealed by " << src;
+            break;
+        case Conceal:
+            stream << prefix << dst << " concealed by " << src;
             break;
         }
+
         requestSoundByUrl(snapshot.actionSound);
+
+        if (!msWait)
+            return;
+
+        _snapshot = snapshot;
+        repaint();
+
+        QEventLoop loop(this);
+        QTimer::singleShot(msWait, &loop, &QEventLoop::quit);
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
+        QApplication::processEvents();
     };
     class TextEditIoDevice : public QIODevice
     {
@@ -882,8 +908,7 @@ void MainWindow::repaintCustom()
         qint64 readData(char *, qint64 ) override { return 0; }
         qint64 writeData(const char *data, qint64 maxSize) override
         {
-            if(textEdit)
-            {
+            if(textEdit) {
                 textEdit->setPlainText(textEdit->toPlainText() + data);
             }
             return maxSize;
@@ -894,8 +919,14 @@ void MainWindow::repaintCustom()
     };
     {
         QTextStream ss(new TextEditIoDevice(_textAlly, this));
-        for (const FieldView &snapshot : _ally.snapshots)
+        for (const FieldView &snapshot : _ally.snapshots) {
+            // BUG: doesn't work after a pass..
+            // Maybe add a function determined, which turn is it
+            // if (snapshot.actionType == TurnStart)
+            //    _turn = (_turn + 1) % 2;
+            // processAction(snapshot, ss, "", _turn ? 500 : 0);
             processAction(snapshot, ss);
+        }
         _ally.snapshots.clear();
     }
     {

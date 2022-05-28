@@ -985,7 +985,6 @@ struct Kambi : CardCollectible<Kambi>
     struct Hemdall : CardCollectible<Hemdall>
     {
         Hemdall();
-
     };
     Kambi();
 };
@@ -1019,7 +1018,6 @@ struct GiantBoar : CardCollectible<GiantBoar>
 struct OrnamentalSword : CardCollectible<OrnamentalSword>
 {
     OrnamentalSword();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1032,7 +1030,6 @@ struct DimunWarship : CardCollectible<DimunWarship>
 struct Vilgefortz : CardCollectible<Vilgefortz>
 {
     Vilgefortz();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1126,7 +1123,6 @@ struct Ointment : CardCollectible<Ointment>
 struct Vreemde : CardCollectible<Vreemde>
 {
     Vreemde();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1287,6 +1283,130 @@ struct Sweers : CardCollectible<Sweers>
 };
 
 
+struct TiborEggebracht : CardCollectible<TiborEggebracht>
+{
+    TiborEggebracht();
+};
+
+
+struct VattierDeRideaux : CardCollectible<VattierDeRideaux>
+{
+    VattierDeRideaux();
+};
+
+
+struct Albrich : CardCollectible<Albrich>
+{
+    Albrich();
+};
+
+
+struct HeftyHelge : CardCollectible<HeftyHelge>
+{
+    HeftyHelge();
+};
+
+
+struct Alchemist : CardCollectible<Alchemist>
+{
+    Alchemist();
+};
+
+
+struct DaerlanSoldier : CardCollectible<DaerlanSoldier>
+{
+    DaerlanSoldier();
+};
+
+
+struct FireScorpion : CardCollectible<FireScorpion>
+{
+    FireScorpion();
+};
+
+
+struct Mangonel : CardCollectible<Mangonel>
+{
+    Mangonel();
+};
+
+
+struct NilfgaardianKnight : CardCollectible<NilfgaardianKnight>
+{
+    NilfgaardianKnight();
+};
+
+
+struct Spotter : CardCollectible<Spotter>
+{
+    Spotter();
+};
+
+
+struct VenendalElite : CardCollectible<VenendalElite>
+{
+    VenendalElite();
+};
+
+
+struct MasterOfDisguise : CardCollectible<MasterOfDisguise>
+{
+    MasterOfDisguise();
+};
+
+
+struct HenryVarAttre : CardCollectible<HenryVarAttre>
+{
+    HenryVarAttre();
+};
+
+
+struct SummoningCircle : CardCollectible<SummoningCircle>
+{
+    SummoningCircle();
+};
+
+
+struct XavierMoran : CardCollectible<XavierMoran>
+{
+    XavierMoran();
+};
+
+
+struct YenneferEnchantress : CardCollectible<YenneferEnchantress>
+{
+    YenneferEnchantress();
+};
+
+
+struct VernonRoche : CardCollectible<VernonRoche>
+{
+    VernonRoche();
+};
+
+
+struct BlueStripeScout : CardCollectible<BlueStripeScout>
+{
+    BlueStripeScout();
+};
+
+
+struct BlueStripeCommando : CardCollectible<BlueStripeCommando>
+{
+    BlueStripeCommando();
+private:
+    std::map<Card *, Card *> _allyPlayedToCopy;
+};
+
+
+struct ImperialGolem : CardCollectible<ImperialGolem>
+{
+    ImperialGolem();
+private:
+    std::map<Card *, Card *> _cardRevealedToCopy;
+};
+
+
 struct WildHuntHound : CardCollectible<WildHuntHound>
 {
     WildHuntHound();
@@ -1369,6 +1489,5 @@ struct Forktail: CardCollectible<Forktail>
 {
     Forktail();
 };
-
 
 #endif // CARDS_H

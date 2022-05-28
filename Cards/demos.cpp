@@ -487,6 +487,70 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
+void demoNilfgaardReveal(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deckStartingAlly = {
+        new LeoBonhart(), new Vilgefortz(), new TiborEggebracht(), new VattierDeRideaux(),
+        new Cynthia(), new Serrit(), new HeftyHelge(), new HenryVarAttre(), new Sweers(), new Albrich(),
+        new DaerlanSoldier(), new DaerlanSoldier(), new DaerlanSoldier(),
+        new FireScorpion(), new FireScorpion(), new ImperialGolem(),
+        new Spotter(), new Alchemist(), new MasterOfDisguise(),
+        new Mangonel(), new Mangonel(), new Mangonel(),
+        new NauzicaaSergeant(), new ImperialGolem(), new ImperialGolem()
+    };
+    const std::vector<Card *> deckStartingEnemy = {
+        new JohnNatalis, new KeiraMetz, new Priscilla, new SeltkirkOfGulet,
+        new Reinforcements, new Ves, new SileDeTansarville,
+        new Trollololo, new PrinceStennis, new VincentMeis,
+        new RedanianKnightElect, new RedanianKnightElect, new RedanianKnightElect,
+        new RedanianElite, new RedanianElite, new RedanianElite,
+        new ReaverScout, new ReaverScout, new ReaverScout,
+        new KaedweniCavalry, new KaedweniCavalry, new KaedweniCavalry,
+        new Reconnaissance, new Thunderbolt, new Thunderbolt,
+    };
+    initField(deckStartingAlly, new MorvranVoorhis, ally);
+    initField(deckStartingEnemy, new JanCalveit, enemy);
+    startNextRound(ally, enemy);
+}
+
+void demoLastPlayed(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new SummoningCircle(),
+        new SummoningCircle(),
+        new YenneferEnchantress(),
+        new YenneferEnchantress(),
+        new XavierMoran(),
+        new Cleaver(),
+        new Cleaver(),
+        new Frightener(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoBlueStripes(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new VernonRoche(),
+        new BlueStripeScout(),
+        new BlueStripeScout(),
+        new BlueStripeScout(),
+        new Roach(),
+        new BlueStripeCommando(),
+        new BlueStripeCommando(),
+        new BlueStripeCommando(),
+    };
+    ally.deck = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    for (int i = 0; i < 4; ++i)
+        drawACard(ally, enemy);
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
 void demoWildHunt(Field &ally, Field &enemy)
 {
     auto *whh1 = new WildHuntHound();
@@ -596,6 +660,5 @@ void demoConsume(Field &ally, Field &enemy)
     ally.canPass = false;
 
     enemy.passed = true;
-
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
