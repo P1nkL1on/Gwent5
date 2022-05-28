@@ -195,10 +195,6 @@ void MainWindow::openSaveDialog()
 
     Deck2 deck;
     for (auto it = _deckCardViews.begin(); it != _deckCardViews.end(); ++it) {
-        if (it == _deckCardViews.begin()) {
-            deck.leader = it->name;
-            continue;
-        }
         deck.nameToCount.insert({it->name, it->count});
     }
 

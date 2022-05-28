@@ -767,18 +767,19 @@ void MainWindow::openLoadDialog()
 
     // TODO: not reading leader correctly...
     const std::vector<Card *> cards = allCards(PublicBeta_0_9_24_3_432);
-    const auto addNewCard = [cards](const std::string &name) -> Card *
+    const auto addNewCard = [cards](const std::string &name) -> const Card *
     {
         for (const Card *card : cards)
             if (card->name == name)
-                return card->defaultCopy();
+                return card;
         return nullptr;
     };
     bool isOkSpawn = true;
     std::vector<Card *> cardsDeck;
     for (const auto &it : deck.nameToCount) {
-        if (Card *card = addNewCard(it.first)) {
-            cardsDeck.push_back(card);
+        if (const Card *card = addNewCard(it.first)) {
+            for (int n = 0; n < it.second; ++n)
+                cardsDeck.push_back(card->defaultCopy());
             continue;
         }
         isOkSpawn = false;
