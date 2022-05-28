@@ -28,6 +28,7 @@ bool read(std::ifstream &in, Deck2 &deck)
     while (std::getline(in, line, '\n')) {
         if (!isLeaderReaded) {
             deck.leader = line;
+            isLeaderReaded = true;
             continue;
         }
         std::stringstream ss(line);

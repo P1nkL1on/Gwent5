@@ -14,8 +14,11 @@
 #include <QHBoxLayout>
 #include <QPointer>
 #include <QMenuBar>
+#include <qfiledialog.h>
 
 #include "Cards/demos.h"
+#include "Cards/io.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -76,7 +79,13 @@ MainWindow::MainWindow(QWidget *parent)
         });
         actions.push_back(action);
     }
+
+    QAction *loadDeck = new QAction("Load Deck...");
+    connect(loadDeck, &QAction::triggered, this, &MainWindow::openLoadDialog);
+    loadDeck->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
+
     QMenuBar *menuBar = new QMenuBar(this);
+    menuBar->addAction(loadDeck);
     menuBar->addMenu(menuDemos);
     setMenuBar(menuBar);
 
@@ -734,6 +743,61 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
     } else {
         Q_ASSERT(false);
     }
+}
+
+void MainWindow::openLoadDialog()
+{
+    QFileDialog d(this);
+    d.setWindowTitle("Load Deck");
+    d.setAcceptMode(QFileDialog::AcceptOpen);
+    d.setNameFilter("TXT (*.txt);; All Files (*.*)");
+    if (!d.exec())
+        return;
+    const QStringList files = d.selectedFiles();
+    if (files.isEmpty())
+        return;
+    const std::string filename = files.first().toStdString();
+
+    Deck2 deck;
+    const bool isOkRead = read(filename, deck);
+    if (!isOkRead) {
+        qDebug() << "Can't read a deck" << files.first();
+        return;
+    }
+
+    // TODO: not reading leader correctly...
+    const std::vector<Card *> cards = allCards(PublicBeta_0_9_24_3_432);
+    const auto addNewCard = [cards](const std::string &name) -> Card *
+    {
+        for (const Card *card : cards)
+            if (card->name == name)
+                return card->defaultCopy();
+        return nullptr;
+    };
+    bool isOkSpawn = true;
+    std::vector<Card *> cardsDeck;
+    for (const auto &it : deck.nameToCount) {
+        if (Card *card = addNewCard(it.first)) {
+            cardsDeck.push_back(card);
+            continue;
+        }
+        isOkSpawn = false;
+        qDebug() << "Unknown card with name" << QString::fromStdString(it.first);
+    }
+    if (!isOkSpawn)
+        return;
+
+    _textAlly->clear();
+    _textEnemy->clear();
+    initField(cardsDeck, nullptr, _ally);
+    initField({}, nullptr, _enemy);
+    _enemy.passed = true;
+    _ally.canPass = false;
+
+    for (int i = 0; i < 10; ++i)
+        drawACard(_ally, _enemy);
+    _ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, _ally.hand, 1, false));
+    repaintCustom();
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)

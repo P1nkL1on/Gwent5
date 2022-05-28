@@ -193,7 +193,6 @@ void MainWindow::openSaveDialog()
         return;
     const std::string filename = files.first().toStdString();
 
-    /// save a deck
     Deck2 deck;
     for (auto it = _deckCardViews.begin(); it != _deckCardViews.end(); ++it) {
         if (it == _deckCardViews.begin()) {
