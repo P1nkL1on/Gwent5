@@ -6,8 +6,8 @@ TEMPLATE = app
 include($$PWD/../Cards/Cards.pri)
 
 SOURCES += \
-     main.cpp \
-     mainwindow.cpp
+     $$PWD/main.cpp \
+     $$PWD/mainwindow.cpp
 
 HEADERS += \
-     mainwindow.h
+     $$PWD/mainwindow.h

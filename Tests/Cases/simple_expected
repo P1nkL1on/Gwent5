@@ -1,2 +1,39 @@
-blablabla
-123
+ACTIONS:
+type = PUT_ON_FIELD, src = -1, dst = [0], value = -1
+type = GAIN_ARMOR, src = 0, dst = [0], value = 4
+LAST SNAPSHOT:
+id = 0, name = 'Tridam Infantry', power = 10, powerBase = 10, armor = 4, rarity = 0, timer = 0, count = 1
+allyLeader = -1,
+allyRowMeeleIds = [0],
+allyRowRangeIds = [],
+allyRowSeigeIds = [],
+allyHandIds = [],
+allyDeckIds = [],
+allyDiscardIds = [],
+enemyLeader = -1,
+enemyRowMeeleIds = [],
+enemyRowRangeIds = [],
+enemyRowSeigeIds = [],
+enemyHandIds = [],
+enemyDeckIds = [],
+enemyDiscardIds = [],
+cardsAppearedIds = [0],
+cardsPlayedIds = [0],
+nPowerRowAllyMeele = 10,
+nPowerRowAllyRange = 0,
+nPowerRowAllySeige = 0,
+nPowerRowEnemyMeele = 0,
+nPowerRowEnemyRange = 0,
+nPowerRowEnemySeige = 0,
+nTurns = 0,
+nRounds = 0,
+nAllyWins = 0,
+nEnemyWins = 0,
+allyPassed = 0,
+enemyPassed = 0,
+allyRowEffectMeele = NO,
+allyRowEffectRange = NO,
+allyRowEffectSeige = NO,
+enemyRowEffectMeele = NO,
+enemyRowEffectRange = NO,
+enemyRowEffectSeige = NO

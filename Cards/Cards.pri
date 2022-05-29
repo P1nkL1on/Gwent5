@@ -14,8 +14,6 @@ HEADERS += \
     $$PWD/demos.h \
     $$PWD/io.h
 
-
-
 SOURCES += \
     $$PWD/card.cpp \
     $$PWD/archieve.cpp \

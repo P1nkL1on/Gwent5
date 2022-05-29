@@ -273,6 +273,8 @@ void startNextRound(Field &ally, Field &enemy)
         assert(false);
     }
 
+    // TODO: check if its enought cards to draw and to swap
+    // because you don't need a swap if deck is empty..
     while (nDraw--) {
         drawACard(ally, enemy);
         drawACard(enemy, ally);
