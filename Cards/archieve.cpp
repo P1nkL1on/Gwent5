@@ -5788,3 +5788,37 @@ ToadPrince::ToadPrince()
         boost(this, consume(target, ally, enemy, this), ally, enemy, this);
     };
 }
+
+AlphaWerewolf::AlphaWerewolf()
+{
+    id = "200114";
+    name = "Alpha Werewolf";
+    text = "Spawn a Wolf on each side of this unit on contact with Full Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+
+    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new Wolf(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Wolf(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Werewolf::Werewolf()
+{
+    id = "201600";
+    name = "Werewolf";
+    text = "Immune. Boost this unit by 7 on first contact with Full Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+    isImmune = true;
+
+    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
+        boost(this, 7, ally, enemy, this);
+    };
+}
