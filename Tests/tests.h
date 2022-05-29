@@ -16,7 +16,8 @@ private slots:
 private:
     static void writeToFile(const std::string &filename, const std::string &text);
     static bool compareFiles(const std::string &res, const std::string &expect);
-    bool test(const std::string &name, const std::string &text) const;
+    void test(const std::string &name, const std::string &text) const;
+    std::string _dir = "../Tests/Cases/";
     bool _writeExpected = false;
 };
 

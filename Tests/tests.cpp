@@ -27,13 +27,17 @@ void Tests::a()
     test("simple", "blablabla\n123\n");
 }
 
-bool Tests::test(const std::string &name, const std::string &text) const
+void Tests::test(const std::string &name, const std::string &text) const
 {
     const std::string suffixExpected = "_expected";
     const std::string suffixActual = "_actual";
-    const std::string filename = name + (_writeExpected ? suffixExpected : suffixActual);
+    const std::string filename = _dir + name
+            + (_writeExpected ? suffixExpected : suffixActual);
     writeToFile(filename, text);
-    return _writeExpected || compareFiles(name + suffixActual, name + suffixExpected);
+    const bool isOk = _writeExpected || compareFiles(
+                _dir + name + suffixActual,
+                _dir + name + suffixExpected);
+    QVERIFY(isOk);
 }
 
 void Tests::writeToFile(const std::string &filename, const std::string &text)

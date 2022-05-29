@@ -4,5 +4,6 @@
 
 int main(int argc, char *argv[])
 {
+//    return Tests::writeExpected(argc, argv);
     return Tests::matchWithExpected(argc, argv);
 }
