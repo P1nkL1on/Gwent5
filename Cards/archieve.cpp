@@ -219,6 +219,7 @@ std::vector<Card *> allCards(const Patch)
         new Maerolorn(),
         new MonsterNest(),
         new ArachasDrone(),
+        new EredinBreaccGlas(),
     };
 };
 
@@ -5898,40 +5899,6 @@ Archespore::Archespore()
     };
 }
 
-AlphaWerewolf::AlphaWerewolf()
-{
-    id = "200114";
-    name = "Alpha Werewolf";
-    text = "Spawn a Wolf on each side of this unit on contact with Full Moon.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast, Cursed };
-
-    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new Wolf(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Wolf(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-    };
-}
-
-Werewolf::Werewolf()
-{
-    id = "201600";
-    name = "Werewolf";
-    text = "Immune. Boost this unit by 7 on first contact with Full Moon.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast, Cursed };
-    isImmune = true;
-
-    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
-        boost(this, 7, ally, enemy, this);
-    };
-}
-
 Cyclops::Cyclops()
 {
     id = "200037";
@@ -6017,5 +5984,67 @@ ArachasDrone::ArachasDrone()
         // if wanna play from hand
 //        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyHand))
 //            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    };
+}
+
+AlphaWerewolf::AlphaWerewolf()
+{
+    id = "200114";
+    name = "Alpha Werewolf";
+    text = "Spawn a Wolf on each side of this unit on contact with Full Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+
+    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new Wolf(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new Wolf(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Werewolf::Werewolf()
+{
+    id = "201600";
+    name = "Werewolf";
+    text = "Immune. Boost this unit by 7 on first contact with Full Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+    isImmune = true;
+
+    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
+        boost(this, 7, ally, enemy, this);
+    };
+}
+
+EredinBreaccGlas::EredinBreaccGlas()
+{
+    id = "131101";
+    name = "Eredin Bréacc Glas";
+    text = "Spawn a Bronze Wild Hunt unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Leader };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ERDN_Q501_00534051.mp3",
+        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040841.mp3",
+        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040845.mp3",
+        "https://gwent.one/audio/card/ob/en/ERDN_Q311_00312654.mp3",
+        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040754.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceSpawnOptions(ally, this, {isBronze, hasTag(WildHunt)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
     };
 }

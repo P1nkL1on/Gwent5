@@ -501,7 +501,8 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *n = new Nithral();
     auto *i = new Imlerith();
     auto *m = new Miruna();
-    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i};
+    auto *e = new EredinBreaccGlas();
+    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i, e};
 
     auto *b1 = new BrewessRitual();
     auto *m2 = new ImperialManticore();
@@ -511,7 +512,7 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *m6 = new ImperialManticore();
     enemy.cardsAdded = {b1, m2, m3, m4, m5, m6};
 
-    ally.hand = {m, whh1, whh2, whw1, whn1, n, i};
+    ally.hand = {m, whh1, whh2, whw1, whn1, n, i, e};
     ally.deck = {bf, whn2, whw2, whw3};
     ally.rowSeige = {whn3};
     ally.canPass = false;

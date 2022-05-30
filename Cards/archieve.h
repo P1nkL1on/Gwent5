@@ -1470,4 +1470,10 @@ struct AlphaWerewolf : CardCollectible<AlphaWerewolf>
 };
 
 
+struct EredinBreaccGlas : CardCollectible<EredinBreaccGlas>
+{
+    EredinBreaccGlas();
+};
+
+
 #endif // CARDS_H

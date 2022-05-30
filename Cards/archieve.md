@@ -404,13 +404,13 @@
 
 # Monster
 
-- [x Arachas Queen
+- [x] Arachas Queen
 - [x] Brewess: Ritual
 - [ ] Caranthir Ar-Feiniel
 - [x] Caretaker
 - [ ] Dagon
 - [ ] Draug
-- [ ] Eredin Breacc Glas
+- [x] Eredin Breacc Glas
 - [ ] Ge'els
 - [x] Imlerith
 - [ ] Imlerith: Sabbath
@@ -444,7 +444,7 @@
 - [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
-- [ ] Alpha Werewolf
+- [x] Alpha Werewolf
 - [ ] Ancient Foglet
 - [ ] Arachas Behemoth
 - [x] Arachas Drone
@@ -474,7 +474,7 @@
 - [ ] Slyzard
 - [ ] Vran Warrior
 - [ ] Werecat
-- [ ] Werewolf
+- [x] Werewolf
 - [ ] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
 - [x] Wild Hunt Navigator
