@@ -359,8 +359,13 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     if (ally.rowEffect(row) == BloodMoonEffect)
         damage(card, 2, ally, enemy, nullptr);
+
     else if (ally.rowEffect(row) == PitTrapEffect)
         damage(card, 3, ally, enemy, nullptr);
+
+    else if (ally.rowEffect(row) == FullMoonEffect)
+        // FIXME: probably not working right
+        card->onContactWithFullMoon(ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
@@ -1950,6 +1955,12 @@ void Card::onArmorLost(Field &ally, Field &enemy)
 {
     if (_onArmorLost && !isLocked)
         return _onArmorLost(ally, enemy);
+}
+
+void Card::onContactWithFullMoon(Field &ally, Field &enemy)
+{
+    if (_onContactWithFullMoon && !isLocked)
+        return _onContactWithFullMoon(ally, enemy);
 }
 
 void Card::onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy)

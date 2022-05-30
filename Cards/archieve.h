@@ -1458,4 +1458,16 @@ struct ArachasDrone : CardCollectible<ArachasDrone>
 };
 
 
+struct Werewolf : CardCollectible<Werewolf>
+{
+    Werewolf();
+};
+
+
+struct AlphaWerewolf : CardCollectible<AlphaWerewolf>
+{
+    AlphaWerewolf();
+};
+
+
 #endif // CARDS_H

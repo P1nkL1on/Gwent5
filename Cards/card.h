@@ -77,6 +77,7 @@ struct Card
     void onBoost(const int x, Field &ally, Field &enemy);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
+    void onContactWithFullMoon(Field &ally, Field &enemy);
         /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
@@ -107,6 +108,7 @@ protected:
     AllyEnemy _onSwap = nullptr;
     AllyEnemy _onDiscard = nullptr;
     AllyEnemy _onArmorLost = nullptr;
+    AllyEnemy _onContactWithFullMoon = nullptr;
     AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
