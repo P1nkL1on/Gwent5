@@ -524,25 +524,29 @@ void demoWildHunt(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
-void demoRessurectFromEnemy(Field &ally, Field &enemy)
+void demoSummoning(Field &ally, Field &enemy)
 {
-    auto *c1 = new Caretaker();
-    auto *c2 = new Caretaker();
-    ally.cardsAdded = {c1, c2};
+    auto *a1 = new ArachasDrone();
+    auto *a2 = new ArachasDrone();
+    auto *a3 = new ArachasDrone();
+    auto *a4 = new ArachasDrone();
+    auto *s1 = new DrummondShieldmaid();
+    auto *s2 = new DrummondShieldmaid();
+    auto *s3 = new DrummondShieldmaid();
+    auto *s4 = new DrummondShieldmaid();
+    auto *m = new Maerolorn();
+    auto *mn = new MonsterNest();
+    auto *r = new Rotfiend();
+    auto *d = new Dao();
+    ally.cardsAdded = {a1, a2, a3, a4, s1, s2, s3, s4, m, mn, r, d};
 
-    auto *m1 = new ImperialManticore();
-    auto *m2 = new ImperialManticore();
-    enemy.cardsAdded = {m1, m2};
-
-    ally.hand = {c1, c2};
+    ally.hand = {a1, a2, s1, s2, m, mn};
+    ally.discard = {a3, s3};
+    ally.deck = {a4, s4, r, d};
     ally.canPass = false;
 
-    enemy.rowSeige = {m1};
-    enemy.discard = {m2};
     enemy.passed = true;
-
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
-
 }
 
 void demoBigOgrs(Field &ally, Field &enemy)
@@ -550,7 +554,8 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *osa = new OldSpeartipAsleep();
     auto *os = new OldSpeartip();
     auto *g = new Golyat();
-    ally.cardsAdded = {osa, os, g};
+    auto *m = new Morvudd();
+    ally.cardsAdded = {osa, os, g, m};
 
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -564,7 +569,7 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *th3 = new TuirseachHunter();
     enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
 
-    ally.hand = {osa, os, g};
+    ally.hand = {osa, os, g, m};
     ally.canPass = false;
 
     enemy.hand = {a1, a2, th1};
@@ -613,6 +618,43 @@ void demoConsume(Field &ally, Field &enemy)
     enemy.discard = {t1, t2};
 
     enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoArchesporeJumping(Field &ally, Field &enemy)
+{
+    auto *a1 = new Archespore();
+    auto *a2 = new Archespore();
+    auto *a3 = new Archespore();
+    auto *f1 = new Fiend();
+    auto *f2 = new Fiend();
+    auto *f3 = new Fiend();
+    auto *f4 = new Fiend();
+    auto *f5 = new Fiend();
+    auto *f6 = new Fiend();
+    auto *f7 = new Fiend();
+    auto *f8 = new Fiend();
+    auto *f9 = new Fiend();
+    ally.cardsAdded = {a1, a2, a3, f1, f2, f3, f4, f5, f6, f7, f8, f9};
+    ally.hand = {a1, a2, f6, f7, f8, f9};
+    ally.rowMeele = {f1, f2, f3, f4, f5};
+    ally.rowRange = {a3};
+    ally.canPass = false;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *c1 = new Cyclops();
+    auto *t1 = new TuirseachHunter();
+    auto *t2 = new TuirseachHunter();
+    auto *t3 = new TuirseachHunter();
+
+    enemy.cardsAdded = {m1, m2, m3, c1, t1, t2, t3};
+    enemy.rowMeele = {m1, m2};
+    enemy.rowRange = {m3};
+    enemy.hand = {c1, t1, t2, t3};
+    enemy.passed = false;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

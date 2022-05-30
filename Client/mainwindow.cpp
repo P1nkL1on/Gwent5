@@ -52,9 +52,10 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
-        {"Caretaker and EnemyDiscard", demoRessurectFromEnemy},
+        {"Dudes summon dudes", demoSummoning},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
+        {"Archespore demo", demoArchesporeJumping},
         {"Consume demo", demoConsume},
     };
 

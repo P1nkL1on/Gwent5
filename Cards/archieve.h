@@ -1401,4 +1401,61 @@ struct ToadPrince : CardCollectible<ToadPrince>
     ToadPrince();
 };
 
+
+struct Fiend : CardCollectible<Fiend>
+{
+    Fiend();
+};
+
+
+struct Morvudd : CardCollectible<Morvudd>
+{
+    Morvudd();
+};
+
+
+struct Ekimmara : CardCollectible<Ekimmara>
+{
+    Ekimmara();
+};
+
+
+struct Rotfiend : CardCollectible<Rotfiend>
+{
+    Rotfiend();
+};
+
+
+struct Archespore : CardCollectible<Archespore>
+{
+    Archespore();
+};
+
+
+struct Cyclops : CardCollectible<Cyclops>
+{
+    Cyclops();
+private:
+    Card *_destroyed = nullptr;
+};
+
+
+struct Maerolorn : CardCollectible<Maerolorn>
+{
+    Maerolorn();
+};
+
+
+struct MonsterNest : CardCollectible<MonsterNest>
+{
+    MonsterNest();
+};
+
+
+struct ArachasDrone : CardCollectible<ArachasDrone>
+{
+    ArachasDrone();
+};
+
+
 #endif // CARDS_H

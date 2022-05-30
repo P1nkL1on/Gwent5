@@ -547,21 +547,33 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
     ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, isOptional));
 }
 
-void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
+void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
 {
     // TODO: empty allCards, so not implemented
-    assert(self != nullptr);
-    assert(self->_options.size() == 0);
+    assert(src != nullptr);
+    assert(src->_options.size() == 0);
 
-    std::vector<Card *> options = _filtered(filters, allCards(self->patch));
+    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
     shuffle(options, ally.rng);
 
     for (size_t i = 3; i < options.size(); ++i)
         delete options.at(size_t(i));
     options.resize(3);
 
-    self->_options = options;
-    ally.cardStack.push_back(Choice(Target, self, options, 1, isOptional));
+    src->_options = options;
+    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
+}
+
+void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
+{
+    assert(src != nullptr);
+    assert(src->_options.size() == 0);
+
+    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
+    shuffle(options, ally.rng);
+
+    src->_options = options;
+    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -1649,6 +1661,25 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
     return playCard2(card, ally, enemy, src, false, rowAndPos, false);
 }
 
+bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
+{
+    std::vector<Row> possibleRows;
+    Row row = _findRowAndPos(card, ally).row();
+    if(row != Meele && row != Range && row != Seige)
+        return false;
+    for (const Row newRow : std::vector<Row>{Meele, Range, Seige}) {
+        if (newRow == row || isRowFull(ally.row(newRow)))
+            continue;
+        possibleRows.push_back(newRow);
+    }
+    if (possibleRows.size() == 0)
+        return false;
+    row = possibleRows[ally.rng() % possibleRows.size()];
+    RowAndPos *rowAndPos = new RowAndPos(row, Pos(ally.row(row).size()));
+    return moveExistedUnitToPos(card, *rowAndPos, ally, enemy, card);
+    //return true;
+}
+
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     playCard2(card, ally, enemy, src, true, RowAndPos(), true);
@@ -1964,4 +1995,3 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
     assert(false);
     return NoRowEffect;
 }
-

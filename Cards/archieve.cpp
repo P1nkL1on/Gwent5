@@ -210,6 +210,15 @@ std::vector<Card *> allCards(const Patch)
         new Kayran(),
         new Mourntart(),
         new ToadPrince(),
+        new Fiend(),
+        new Morvudd(),
+        new Ekimmara(),
+        new Rotfiend(),
+        new Archespore(),
+        new Cyclops(),
+        new Maerolorn(),
+        new MonsterNest(),
+        new ArachasDrone(),
     };
 };
 
@@ -4044,6 +4053,12 @@ DrummondShieldmaid::DrummondShieldmaid()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDrummond, Soldier };
+
+    // TODO: test an ability
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    };
 };
 
 HeymaeyFlaminica::HeymaeyFlaminica()
@@ -5696,9 +5711,9 @@ ArachasQueen::ArachasQueen()
     rarity = Gold;
     faction = Monster;
     tags = { Leader, Insectoid };
-    isImmune = true;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        isImmune = true;
         startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 3);
     };
 
@@ -5786,5 +5801,186 @@ ToadPrince::ToadPrince()
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+Fiend::Fiend()
+{
+    id = "112405";
+    name = "Fiend";
+    text = "No ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Relict };
+}
+
+Morvudd::Morvudd()
+{
+    id = "112405";
+    name = "Morvudd";
+    text = "Toggle a unit's Lock status. If it was an enemy, halve its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, int(std::ceil(target->power / 2.0)), ally, enemy, this);
+    };
+}
+
+Ekimmara::Ekimmara()
+{
+    id = "132313";
+    name = "Ekimmara";
+    text = "Drain a unit by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Vampire };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        drain(target, 3, ally, enemy, this);
+    };
+}
+
+Rotfiend::Rotfiend()
+{
+    id = "200295";
+    name = "Rotfiend";
+    text = "Deathwish: Deal 2 damage to units on the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        for(Card *target : cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard))
+            damage(target, 2, ally, enemy, this);
+    };
+}
+
+Archespore::Archespore()
+{
+    id = "200038";
+    name = "Archespore";
+    text = "Move to a random row and deal 1 damage to a random enemy on turn start. Deathwish: Deal 4 damage to a random enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Cursed };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
+               4, ally, enemy, this);
+    };
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if(moveSelfToRandomRow(this, ally, enemy))
+            damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
+                    1, ally, enemy, this);
+    };
+}
+
+Cyclops::Cyclops()
+{
+    id = "200037";
+    name = "Cyclops";
+    text = "Destroy an ally and deal damage equal to its power to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if(_destroyed == nullptr) {
+            _destroyed = target;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _destroyed->power, ally, enemy, this);
+        damage(_destroyed, _destroyed->power + _destroyed->armor, ally, enemy, this);
+        _destroyed = nullptr;
+    };
+}
+
+Maerolorn::Maerolorn()
+{
+    id = "132406";
+    name = "Maerolorn";
+    text = "Play a Bronze Deathwish unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+MonsterNest::MonsterNest()
+{
+    id = "133302";
+    name = "Monster Nest";
+    text = "Spawn a Bronze Necrophage or Insectoid and boost it by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceSpawnOptions(ally, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+ArachasDrone::ArachasDrone()
+{
+    id = "132304";
+    name = "Arachas Drone";
+    text = "Summon all copies of this unit to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+        // if wanna play from hand
+//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyHand))
+//            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
     };
 }

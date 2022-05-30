@@ -431,9 +431,9 @@
 - [ ] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
-- [ ] Maerolorn
-- [ ] Monster Nest
-- [ ] Morvudd
+- [x] Maerolorn
+- [x] Monster Nest
+- [x] Morvudd
 - [x] Mourntart
 - [ ] Nekurat _(easy card)_
 - [x] Nithral
@@ -447,18 +447,18 @@
 - [ ] Alpha Werewolf
 - [ ] Ancient Foglet
 - [ ] Arachas Behemoth
-- [ ] Arachas Drone
-- [ ] Archespore
+- [x] Arachas Drone
+- [x] Archespore
 - [ ] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
 - [ ] Celaeno Harpy
 - [ ] Cockatrice
-- [ ] Cyclops _(easy card)_
+- [x] Cyclops _(easy card)_
 - [x] D'ao
 - [ ] Drowner
-- [ ] Ekimmara _(easy card)_
-- [ ] Fiend
+- [x] Ekimmara _(easy card)_
+- [x] Fiend
 - [ ] Foglet
 - [x] Forktail
 - [x] Ghoul
@@ -469,7 +469,7 @@
 - [ ] Lamia
 - [ ] Nekker
 - [ ] Nekker Warrior
-- [ ] Rotfiend
+- [x] Rotfiend
 - [ ] Siren
 - [ ] Slyzard
 - [ ] Vran Warrior
