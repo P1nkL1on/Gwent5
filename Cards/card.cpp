@@ -1114,6 +1114,17 @@ void heal(Card *card, Field &, Field &)
         card->power = card->powerBase;
 }
 
+void heal(Card *card, const int x, Field &ally, Field &enemy)
+{
+    assert(!card->isSpecial);
+
+    if (card->power < card->powerBase)
+    {
+        const int possibleX = std::min(x, card->powerBase - card->power);
+        card->power += possibleX;
+    }
+}
+
 void reset(Card *card, Field &, Field &)
 {
     assert(!card->isSpecial);

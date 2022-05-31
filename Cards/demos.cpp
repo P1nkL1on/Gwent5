@@ -660,3 +660,25 @@ void demoArchesporeJumping(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoImlerithSabbath(Field &ally, Field &enemy)
+{
+    auto *i = new ImlerithSabbath();
+    auto *m1 = new Mandrake();
+    auto *m2 = new Mandrake();
+    auto *f = new Frightener();
+    ally.cardsAdded = {i, m1, m2, f};
+    ally.hand = {i, m1, m2, f};
+    ally.canPass = false;
+
+    auto *d = new Derran();
+    auto *h = new HaraldHoundsnout();
+    auto *j = new JuttaAnDimun();
+    auto *s = new SvanrigeTuirseach();
+    enemy.cardsAdded = {d, h, j, s};
+    enemy.hand = {h, j};
+    enemy.rowRange = {d, s};
+    enemy.passed = false;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

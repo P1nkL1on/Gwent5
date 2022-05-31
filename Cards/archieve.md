@@ -413,7 +413,7 @@
 - [x] Eredin Breacc Glas
 - [ ] Ge'els
 - [x] Imlerith
-- [ ] Imlerith: Sabbath
+- [x] Imlerith: Sabbath
 - [x] Kayran
 - [x] Miruna
 - [x] Old Speartip

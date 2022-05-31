@@ -1482,4 +1482,10 @@ struct CaranthirArFeiniel : CardCollectible<CaranthirArFeiniel>
 };
 
 
+struct ImlerithSabbath : CardCollectible<ImlerithSabbath>
+{
+    ImlerithSabbath();
+};
+
+
 #endif // CARDS_H

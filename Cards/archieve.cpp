@@ -221,6 +221,7 @@ std::vector<Card *> allCards(const Patch)
         new ArachasDrone(),
         new EredinBreaccGlas(),
         new CaranthirArFeiniel(),
+        new ImlerithSabbath(),
     };
 };
 
@@ -5894,7 +5895,7 @@ Archespore::Archespore()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if(moveSelfToRandomRow(this, ally, enemy))
+        if (moveSelfToRandomRow(this, ally, enemy))
             damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
                     1, ally, enemy, this);
     };
@@ -6074,7 +6075,36 @@ CaranthirArFeiniel::CaranthirArFeiniel()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
         RowAndPos *rowAndPos = new RowAndPos(row, Pos(enemy.row(row).size()));
-        if(moveExistedUnitToPos(target, *rowAndPos, enemy, ally, this))
+        if (moveExistedUnitToPos(target, *rowAndPos, enemy, ally, this))
             applyRowEffect(enemy, ally, row, BitingFrostEffect);
+    };
+}
+
+ImlerithSabbath::ImlerithSabbath()
+{
+    id = "201781";
+    name = "Imlerith: Sabbath";
+    text = "Every turn, Duel the Highest enemy on turn end. If this unit survives, Heal it by 2 and give it 2 Armor. 2 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.852.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.853.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.851.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy);
+        if (isOnBoard(this, ally)) {
+            heal(this, 2, ally, enemy);
+            gainArmor(this, 2, ally, enemy, this);
+        }
     };
 }

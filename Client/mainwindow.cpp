@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
         {"Archespore demo", demoArchesporeJumping},
+        {"Party against Devil Lord", demoImlerithSabbath},
         {"Consume demo", demoConsume},
     };
 

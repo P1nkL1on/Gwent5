@@ -276,6 +276,7 @@ void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, Field &ally, Field &enemy);
+void heal(Card *card, const int x, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);

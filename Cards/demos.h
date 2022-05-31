@@ -32,5 +32,6 @@ void demoSummoning(Field &ally, Field &enemy);
 void demoBigOgrs(Field &ally, Field &enemy);
 void demoConsume(Field &ally, Field &enemy);
 void demoArchesporeJumping(Field &ally, Field &enemy);
+void demoImlerithSabbath(Field &ally, Field &enemy);
 
 #endif // DEMOS_H
