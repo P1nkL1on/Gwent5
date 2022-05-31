@@ -80,7 +80,8 @@ struct Card
     void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
-    /// check whether self on board, in hand/deck/discard
+    void onContactWithFullMoon(Field &ally, Field &enemy);
+        /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
@@ -114,6 +115,7 @@ protected:
     AllyEnemy _onSwap = nullptr;
     AllyEnemy _onDiscard = nullptr;
     AllyEnemy _onArmorLost = nullptr;
+    AllyEnemy _onContactWithFullMoon = nullptr;
     AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
@@ -216,6 +218,7 @@ struct Field
     const std::vector<Card *> &row(const Row _row) const;
     std::vector<Card *> &row(const Row _row);
     RowEffect &rowEffect(const Row _row);
+    RowEffect rowEffect(const Row _row) const;
 };
 
 
@@ -246,6 +249,7 @@ std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
 Card *lowest(const std::vector<Card *> &row, Rng &rng);
+Card *first(const std::vector<Card *> &row);
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards);
 Card *findCopy(const Card *card, const std::vector<Card *> &cards);
 Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bool *isAlly = nullptr);
@@ -261,6 +265,7 @@ std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
+RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
 // TODO: remove old function
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
@@ -279,6 +284,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void addAsNew(Field &field, Card *card);
@@ -292,6 +298,7 @@ void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, Field &ally, Field &enemy);
+void heal(Card *card, const int x, Field &ally, Field &enemy);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
@@ -320,7 +327,8 @@ void startChoiceToSelectAllyRow(Field &field, Card *self);
 void startChoiceToSelectEnemyRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
-void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters = {}, const bool isOptional = false);
+void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
+void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);

@@ -358,8 +358,13 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     if (ally.rowEffect(row) == BloodMoonEffect)
         damage(card, 2, ally, enemy, nullptr);
+
     else if (ally.rowEffect(row) == PitTrapEffect)
         damage(card, 3, ally, enemy, nullptr);
+
+    else if (ally.rowEffect(row) == FullMoonEffect)
+        // FIXME: probably not working right
+        card->onContactWithFullMoon(ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
@@ -547,21 +552,33 @@ void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *
     ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, isOptional));
 }
 
-void startChoiceCreateOptions(Field &ally, Card *self, const Filters &filters, const bool isOptional)
+void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
 {
     // TODO: empty allCards, so not implemented
-    assert(self != nullptr);
-    assert(self->_options.size() == 0);
+    assert(src != nullptr);
+    assert(src->_options.size() == 0);
 
-    std::vector<Card *> options = _filtered(filters, allCards(self->patch));
+    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
     shuffle(options, ally.rng);
 
     for (size_t i = 3; i < options.size(); ++i)
         delete options.at(size_t(i));
     options.resize(3);
 
-    self->_options = options;
-    ally.cardStack.push_back(Choice(Target, self, options, 1, isOptional));
+    src->_options = options;
+    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
+}
+
+void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
+{
+    assert(src != nullptr);
+    assert(src->_options.size() == 0);
+
+    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
+    shuffle(options, ally.rng);
+
+    src->_options = options;
+    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -782,6 +799,8 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         // BUG: enemy hand is visible during REVEAL choice
         if (group == EnemyDiscard)
             return enemy.discard;
+        if (group == BothDiscard)
+            return _united(Rows{ally.discard, enemy.discard});
 
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
@@ -856,6 +875,13 @@ Card *lowest(const std::vector<Card *> &row, Rng &rng)
         return nullptr;
 
     return res[rng() % res.size()];
+}
+
+Card *first(const std::vector<Card *> &row)
+{
+    if (row.size() == 0)
+        return nullptr;
+    return row[0];
 }
 
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
@@ -936,6 +962,22 @@ std::vector<Card *> &Field::row(const Row _row)
 }
 
 RowEffect &Field::rowEffect(const Row _row)
+{
+    switch (_row) {
+    case Meele:
+        return rowEffectMeele;
+    case Range:
+        return rowEffectRange;
+    case Seige:
+        return rowEffectSeige;
+    default:
+        break;
+    }
+    assert(_row == Meele || _row == Range || _row == Seige);
+    return rowEffectMeele;
+}
+
+RowEffect Field::rowEffect(const Row _row) const
 {
     switch (_row) {
     case Meele:
@@ -1080,6 +1122,17 @@ void heal(Card *card, Field &, Field &)
 
     if (card->power < card->powerBase)
         card->power = card->powerBase;
+}
+
+void heal(Card *card, const int x, Field &ally, Field &enemy)
+{
+    assert(!card->isSpecial);
+
+    if (card->power < card->powerBase)
+    {
+        const int possibleX = std::min(x, card->powerBase - card->power);
+        card->power += possibleX;
+    }
 }
 
 void reset(Card *card, Field &, Field &)
@@ -1641,6 +1694,25 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
     return playCard2(card, ally, enemy, src, false, rowAndPos, false);
 }
 
+bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
+{
+    std::vector<Row> possibleRows;
+    Row row = _findRowAndPos(card, ally).row();
+    if(row != Meele && row != Range && row != Seige)
+        return false;
+    for (const Row newRow : std::vector<Row>{Meele, Range, Seige}) {
+        if (newRow == row || isRowFull(ally.row(newRow)))
+            continue;
+        possibleRows.push_back(newRow);
+    }
+    if (possibleRows.size() == 0)
+        return false;
+    row = possibleRows[ally.rng() % possibleRows.size()];
+    RowAndPos *rowAndPos = new RowAndPos(row, Pos(ally.row(row).size()));
+    return moveExistedUnitToPos(card, *rowAndPos, ally, enemy, card);
+    //return true;
+}
+
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     playCard2(card, ally, enemy, src, true, RowAndPos(), true);
@@ -1946,6 +2018,12 @@ void Card::onArmorLost(Field &ally, Field &enemy)
         return _onArmorLost(ally, enemy);
 }
 
+void Card::onContactWithFullMoon(Field &ally, Field &enemy)
+{
+    if (_onContactWithFullMoon && !isLocked)
+        return _onContactWithFullMoon(ally, enemy);
+}
+
 void Card::onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyDamaged && !isLocked)
@@ -1980,6 +2058,14 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
+{
+    if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
+        return field.rowEffect(rowAndPos.row());
+    assert(false);
+    return NoRowEffect;
 }
 
 Card *first(const std::vector<Card *> &cards)

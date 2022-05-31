@@ -404,17 +404,17 @@
 
 # Monster
 
-- [ ] Arachas Queen
+- [x] Arachas Queen
 - [x] Brewess: Ritual
-- [ ] Caranthir Ar-Feiniel
+- [x] Caranthir Ar-Feiniel
 - [x] Caretaker
 - [ ] Dagon
 - [ ] Draug
-- [ ] Eredin Breacc Glas
+- [x] Eredin Breacc Glas
 - [ ] Ge'els
 - [x] Imlerith
-- [ ] Imlerith: Sabbath
-- [ ] Kayran
+- [x] Imlerith: Sabbath
+- [x] Kayran
 - [x] Miruna
 - [x] Old Speartip
 - [x] Old Speartip: Asleep
@@ -431,34 +431,34 @@
 - [ ] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
-- [ ] Maerolorn
-- [ ] Monster Nest
-- [ ] Morvudd
-- [ ] Mourntart
+- [x] Maerolorn
+- [x] Monster Nest
+- [x] Morvudd
+- [x] Mourntart
 - [ ] Nekurat _(easy card)_
 - [x] Nithral
-- [ ] Ozzrel
+- [x] Ozzrel
 - [ ] Parasite
 - [x] Ruehin
 - [ ] She-Troll of Vergen
-- [ ] Toad Prince
+- [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
-- [ ] Alpha Werewolf
+- [x] Alpha Werewolf
 - [ ] Ancient Foglet
 - [ ] Arachas Behemoth
-- [ ] Arachas Drone
-- [ ] Archespore
+- [x] Arachas Drone
+- [x] Archespore
 - [ ] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
 - [ ] Celaeno Harpy
 - [ ] Cockatrice
-- [ ] Cyclops _(easy card)_
+- [x] Cyclops _(easy card)_
 - [x] D'ao
 - [ ] Drowner
-- [ ] Ekimmara _(easy card)_
-- [ ] Fiend
+- [x] Ekimmara _(easy card)_
+- [x] Fiend
 - [ ] Foglet
 - [x] Forktail
 - [x] Ghoul
@@ -469,12 +469,12 @@
 - [ ] Lamia
 - [ ] Nekker
 - [ ] Nekker Warrior
-- [ ] Rotfiend
+- [x] Rotfiend
 - [ ] Siren
 - [ ] Slyzard
 - [ ] Vran Warrior
 - [ ] Werecat
-- [ ] Werewolf
+- [x] Werewolf
 - [ ] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
 - [x] Wild Hunt Navigator

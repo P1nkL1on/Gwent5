@@ -1490,4 +1490,122 @@ struct Forktail: CardCollectible<Forktail>
     Forktail();
 };
 
+
+struct ArachasQueen : CardCollectible<ArachasQueen>
+{
+    ArachasQueen();
+};
+
+
+
+struct Ozzrel : CardCollectible<Ozzrel>
+{
+    Ozzrel();
+};
+
+
+struct Kayran : CardCollectible<Kayran>
+{
+    Kayran();
+};
+
+
+struct Mourntart : CardCollectible<Mourntart>
+{
+    Mourntart();
+};
+
+
+struct ToadPrince : CardCollectible<ToadPrince>
+{
+    ToadPrince();
+};
+
+
+struct Fiend : CardCollectible<Fiend>
+{
+    Fiend();
+};
+
+
+struct Morvudd : CardCollectible<Morvudd>
+{
+    Morvudd();
+};
+
+
+struct Ekimmara : CardCollectible<Ekimmara>
+{
+    Ekimmara();
+};
+
+
+struct Rotfiend : CardCollectible<Rotfiend>
+{
+    Rotfiend();
+};
+
+
+struct Archespore : CardCollectible<Archespore>
+{
+    Archespore();
+};
+
+
+struct Cyclops : CardCollectible<Cyclops>
+{
+    Cyclops();
+private:
+    Card *_destroyed = nullptr;
+};
+
+
+struct Maerolorn : CardCollectible<Maerolorn>
+{
+    Maerolorn();
+};
+
+
+struct MonsterNest : CardCollectible<MonsterNest>
+{
+    MonsterNest();
+};
+
+
+struct ArachasDrone : CardCollectible<ArachasDrone>
+{
+    ArachasDrone();
+};
+
+
+struct Werewolf : CardCollectible<Werewolf>
+{
+    Werewolf();
+};
+
+
+struct AlphaWerewolf : CardCollectible<AlphaWerewolf>
+{
+    AlphaWerewolf();
+};
+
+
+struct EredinBreaccGlas : CardCollectible<EredinBreaccGlas>
+{
+    EredinBreaccGlas();
+};
+
+
+struct CaranthirArFeiniel : CardCollectible<CaranthirArFeiniel>
+{
+    CaranthirArFeiniel();
+};
+
+
+struct ImlerithSabbath : CardCollectible<ImlerithSabbath>
+{
+    ImlerithSabbath();
+};
+
+
 #endif // CARDS_H

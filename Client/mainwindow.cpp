@@ -56,11 +56,13 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
+        {"Dudes summon dudes", demoSummoning},
         {"Last Played Card", demoLastPlayed},
         {"Blue Stripes", demoBlueStripes},
-        {"Caretaker and EnemyDiscard", demoRessurectFromEnemy},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
+        {"Archespore demo", demoArchesporeJumping},
+        {"Party against Devil Lord", demoImlerithSabbath},
         {"Consume demo", demoConsume},
     };
 

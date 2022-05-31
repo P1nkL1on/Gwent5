@@ -31,8 +31,10 @@ void demoNilfgaardReveal(Field &ally, Field &enemy);
 void demoLastPlayed(Field &ally, Field &enemy);
 void demoBlueStripes(Field &ally, Field &enemy);
 void demoWildHunt(Field &ally, Field &enemy);
-void demoRessurectFromEnemy(Field &ally, Field &enemy);
+void demoSummoning(Field &ally, Field &enemy);
 void demoBigOgrs(Field &ally, Field &enemy);
 void demoConsume(Field &ally, Field &enemy);
+void demoArchesporeJumping(Field &ally, Field &enemy);
+void demoImlerithSabbath(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

@@ -130,6 +130,7 @@ enum ChoiceGroup
     EnemyDeck,
     AnyHandShuffled,
     EnemyDiscard,
+    BothDiscard,
     AnyHandsShuffled,
     EnemyBoardAndHandRevealed,
     AllyBoardAndHandRevealed,
