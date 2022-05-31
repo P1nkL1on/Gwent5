@@ -1476,4 +1476,10 @@ struct EredinBreaccGlas : CardCollectible<EredinBreaccGlas>
 };
 
 
+struct CaranthirArFeiniel : CardCollectible<CaranthirArFeiniel>
+{
+    CaranthirArFeiniel();
+};
+
+
 #endif // CARDS_H

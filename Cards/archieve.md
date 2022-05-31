@@ -406,7 +406,7 @@
 
 - [x] Arachas Queen
 - [x] Brewess: Ritual
-- [ ] Caranthir Ar-Feiniel
+- [x] Caranthir Ar-Feiniel
 - [x] Caretaker
 - [ ] Dagon
 - [ ] Draug

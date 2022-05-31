@@ -220,6 +220,7 @@ std::vector<Card *> allCards(const Patch)
         new MonsterNest(),
         new ArachasDrone(),
         new EredinBreaccGlas(),
+        new CaranthirArFeiniel(),
     };
 };
 
@@ -5921,7 +5922,7 @@ Cyclops::Cyclops()
             return;
         }
         damage(target, _destroyed->power, ally, enemy, this);
-        damage(_destroyed, _destroyed->power + _destroyed->armor, ally, enemy, this);
+        putToDiscard(_destroyed, ally, enemy, this);
         _destroyed = nullptr;
     };
 }
@@ -5964,6 +5965,7 @@ MonsterNest::MonsterNest()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+        boost(target, 1, ally, enemy, this);
     };
 }
 
@@ -6046,5 +6048,33 @@ EredinBreaccGlas::EredinBreaccGlas()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+CaranthirArFeiniel::CaranthirArFeiniel()
+{
+    id = "132104";
+    name = "Caranthir Ar-Feiniel";
+    text = "Move an enemy to the row opposite this unit and apply Biting Frost to that row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Mage, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.192.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.191.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.189.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        RowAndPos *rowAndPos = new RowAndPos(row, Pos(enemy.row(row).size()));
+        if(moveExistedUnitToPos(target, *rowAndPos, enemy, ally, this))
+            applyRowEffect(enemy, ally, row, BitingFrostEffect);
     };
 }
