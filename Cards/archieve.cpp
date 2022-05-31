@@ -2234,25 +2234,25 @@ FirstLight::FirstLight()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-         acceptOptionAndDeleteOthers(this, target);
+        acceptOptionAndDeleteOthers(this, target);
 
-         if (dynamic_cast<FirstLight::Clear *>(target)) {
-             std::vector<Card *> damagedUnitsUnderHazards;
-             clearAllHazards(ally, &damagedUnitsUnderHazards);
-             for (Card *card : damagedUnitsUnderHazards)
-                 boost(card, 2, ally, enemy, this);
-             delete target;
-             return;
-         }
+        if (dynamic_cast<FirstLight::Clear *>(target)) {
+            std::vector<Card *> damagedUnitsUnderHazards;
+            clearAllHazards(ally, &damagedUnitsUnderHazards);
+            for (Card *card : damagedUnitsUnderHazards)
+                boost(card, 2, ally, enemy, this);
+            delete target;
+            return;
+        }
 
-         if (dynamic_cast<FirstLight::Play *>(target)) {
-             if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
-                 playExistedCard(card, ally, enemy, this);
-             delete target;
-             return;
-         }
+        if (dynamic_cast<FirstLight::Play *>(target)) {
+            if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
+                playExistedCard(card, ally, enemy, this);
+            delete target;
+            return;
+        }
 
-         assert(false);
+        assert(false);
     };
 }
 
@@ -2852,14 +2852,14 @@ Morkvarg::Morkvarg()
     tags = { Beast, Cursed };
 
     _onDiscard = [=](Field &ally, Field &enemy) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
+        if (weaken(this, half(powerBase), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (weaken(this, int(std::ceil(powerBase / 2.0)), ally, enemy, this))
+        if (weaken(this, half(powerBase), ally, enemy, this))
             return;
 
         moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
@@ -3643,7 +3643,7 @@ BirnaBran::BirnaBran()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.205.mp3",
     };
     power = powerBase = 6;
-    faction = Skellige; 
+    faction = Skellige;
     rarity = Gold;
     tags = { ClanTuirseach, Officer };
 
@@ -3669,7 +3669,7 @@ Coral::Coral()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.203.mp3",
     };
     power = powerBase = 5;
-    faction = Skellige; 
+    faction = Skellige;
     rarity = Gold;
     tags = { Mage };
 
@@ -5144,8 +5144,7 @@ UnseenElder::UnseenElder()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const int x = int(std::ceil(target->power / 2.0));
-        drain(target, x, ally, enemy, this);
+        drain(target, half(target->power), ally, enemy, this);
     };
 }
 
@@ -6409,7 +6408,7 @@ Golyat::Golyat()
     text = "Boost self by 7. Whenever this unit is damaged, deal 2 damage to self.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 10;
-    rarity = Gold;
+    rarity = Silver;
     faction = Monster;
     tags = { Ogroid };
 
@@ -6557,11 +6556,13 @@ Mourntart::Mourntart()
     tags = { Necrophage };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-            for (Card *card : cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDiscard)) {
-                consume(card, ally, enemy, this);
-                boost(this, 1, ally, enemy, this);
-            };
-        };
+        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDiscard);
+
+        for (Card *card : cards)
+            consume(card, ally, enemy, this);
+
+        boost(this, cards.size(), ally, enemy, this);
+    };
 }
 
 ToadPrince::ToadPrince()
@@ -6617,7 +6618,7 @@ Morvudd::Morvudd()
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         toggleLock(target, ally, enemy, this);
         if (isOnBoard(target, enemy))
-            damage(target, int(std::ceil(target->power / 2.0)), ally, enemy, this);
+            setPower(target, half(target->power), ally, enemy, this);
     };
 }
 
@@ -6677,7 +6678,7 @@ Archespore::Archespore()
     _onTurnStart = [=](Field &ally, Field &enemy) {
         if (moveSelfToRandomRow(this, ally, enemy))
             damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
-                    1, ally, enemy, this);
+                   1, ally, enemy, this);
     };
 }
 
@@ -6697,14 +6698,14 @@ Cyclops::Cyclops()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if(_destroyed == nullptr) {
-            _destroyed = target;
+        if(!_powerOfDestroyed) {
+            _powerOfDestroyed = target->power;
+            putToDiscard(_destroyed, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
-        damage(target, _destroyed->power, ally, enemy, this);
-        putToDiscard(_destroyed, ally, enemy, this);
-        _destroyed = nullptr;
+        damage(target, _powerOfDestroyed, ally, enemy, this);
+        _powerOfDestroyed = 0;
     };
 }
 
@@ -6763,10 +6764,7 @@ ArachasDrone::ArachasDrone()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
-        // if wanna play from hand
-//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyHand))
-//            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+            moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
 
@@ -6854,8 +6852,7 @@ CaranthirArFeiniel::CaranthirArFeiniel()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
-        RowAndPos *rowAndPos = new RowAndPos(row, Pos(enemy.row(row).size()));
-        if (moveExistedUnitToPos(target, *rowAndPos, enemy, ally, this))
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this))
             applyRowEffect(enemy, ally, row, BitingFrostEffect);
     };
 }
@@ -6881,8 +6878,7 @@ ImlerithSabbath::ImlerithSabbath()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy);
-        if (isOnBoard(this, ally)) {
+        if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
             heal(this, 2, ally, enemy);
             gainArmor(this, 2, ally, enemy, this);
         }

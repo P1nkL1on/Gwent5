@@ -593,7 +593,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
 
     /// clean excess automatic choices
-    for (;;) {
+    while (true) {
         const Choice choice = ally.cardStack.back();
         if ((choice.choiceType == SelectAllyRow)
                 || (choice.choiceType == SelectEnemyRow)
@@ -1032,10 +1032,10 @@ void duel(Card *first, Card *second, Field &ally, Field &enemy)
     assert(!second->isSpecial);
 
     while (true) {
-//        ally.snapshots.push_back(new Animation("", Animation::LineDamage, first, second));
         if (damage(second, first->power, ally, enemy, first))
-            break;
-        std::swap(first, second);
+            return true;
+        if (damage(first, second->power, ally, enemy, second))
+            return false;
     }
 }
 
@@ -1118,14 +1118,16 @@ void heal(Card *card, Field &, Field &)
         card->power = card->powerBase;
 }
 
-void heal(Card *card, const int x, Field &ally, Field &enemy)
+void heal(Card *card, const int x, Field &, Field &)
 {
     assert(!card->isSpecial);
 
-    if (card->power < card->powerBase)
-    {
-        const int possibleX = std::min(x, card->powerBase - card->power);
-        card->power += possibleX;
+    if (card->power < card->powerBase) {
+        const int boost = std::min(x, card->powerBase - card->power);
+        card->power += boost;
+        // TODO: check if heal is actually a boost
+        // in case of triggers and other stuff.
+        // probably, its correct to call `boost` here instead
     }
 }
 
@@ -1691,20 +1693,20 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
 {
     std::vector<Row> possibleRows;
-    Row row = _findRowAndPos(card, ally).row();
-    if(row != Meele && row != Range && row != Seige)
+    const Row rowCurrent = _findRowAndPos(card, ally).row();
+    if(rowCurrent != Meele && rowCurrent != Range && rowCurrent != Seige)
         return false;
-    for (const Row newRow : std::vector<Row>{Meele, Range, Seige}) {
-        if (newRow == row || isRowFull(ally.row(newRow)))
-            continue;
-        possibleRows.push_back(newRow);
-    }
+
+    for (const Row row : std::vector<Row>{Meele, Range, Seige})
+        if (row != rowCurrent && !isRowFull(ally.row(row)))
+            possibleRows.push_back(row);
+
     if (possibleRows.size() == 0)
         return false;
-    row = possibleRows[ally.rng() % possibleRows.size()];
-    RowAndPos *rowAndPos = new RowAndPos(row, Pos(ally.row(row).size()));
-    return moveExistedUnitToPos(card, *rowAndPos, ally, enemy, card);
-    //return true;
+
+    const Row rowNext = possibleRows[ally.rng() % possibleRows.size()];
+    const RowAndPos rowAndPosNext(rowNext, Pos(ally.row(rowNext).size()));
+    return moveExistedUnitToPos(card, rowAndPosNext, ally, enemy, card);
 }
 
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -2070,4 +2072,19 @@ Card *first(const std::vector<Card *> &cards)
 Card *last(const std::vector<Card *> &cards)
 {
     return cards.size() ? cards.back() : nullptr;
+}
+
+void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
+{
+    if (card->power > x) {
+        damage(card, card->power - x, ally, enemy, src);
+        return;
+    }
+    if (card->power < x)
+        return boost(card, x - card->power, ally, enemy, src);
+}
+
+int half(const int x)
+{
+    return int(std::ceil(x / 2.0));
 }

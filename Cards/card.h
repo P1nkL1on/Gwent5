@@ -291,6 +291,7 @@ void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
+void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 int consume(Card *target, Field &ally, Field &enemy, const Card *src);
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
@@ -299,6 +300,8 @@ void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, Field &ally, Field &enemy);
 void heal(Card *card, const int x, Field &ally, Field &enemy);
+/// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
+int half(const int x);
 void reset(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
@@ -308,7 +311,8 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *s
 bool drawACard(Field &ally, Field &enemy);
 void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
-void duel(Card *first, Card *second, Field &ally, Field &enemy);
+/// returns true if wins a duel
+bool duel(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy, const Card *src);
 void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src);
 void lock(Card *card, Field &ally, Field &enemy, const Card *src);
