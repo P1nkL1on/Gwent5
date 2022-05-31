@@ -1556,7 +1556,7 @@ struct Cyclops : CardCollectible<Cyclops>
 {
     Cyclops();
 private:
-    Card *_destroyed = nullptr;
+    int _powerOfDestroyed = 0;
 };
 
 
