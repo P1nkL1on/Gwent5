@@ -14,8 +14,11 @@
 #include <QHBoxLayout>
 #include <QPointer>
 #include <QMenuBar>
+#include <qfiledialog.h>
 
 #include "Cards/demos.h"
+#include "Cards/io.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -39,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
+        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Transformation", demoTransforms},
         {"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
@@ -53,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
         {"Dudes summon dudes", demoSummoning},
+        {"Last Played Card", demoLastPlayed},
+        {"Blue Stripes", demoBlueStripes},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
         {"Archespore demo", demoArchesporeJumping},
@@ -75,7 +81,13 @@ MainWindow::MainWindow(QWidget *parent)
         });
         actions.push_back(action);
     }
+
+    QAction *loadDeck = new QAction("Load Deck...");
+    connect(loadDeck, &QAction::triggered, this, &MainWindow::openLoadDialog);
+    loadDeck->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
+
     QMenuBar *menuBar = new QMenuBar(this);
+    menuBar->addAction(loadDeck);
     menuBar->addMenu(menuDemos);
     setMenuBar(menuBar);
 
@@ -620,7 +632,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
     }
 
-    static_assert(View_count == 7, "");
+    static_assert(View_count == 9, "");
     if (_view == ViewStack) {
         double statusWidth = 0;
         if (currentChoiceView){
@@ -682,6 +694,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         } else if (_view == ViewDeckOpponent) {
             title = "Opponent's Deck";
             ids = &view.enemyDeckIds;
+
+        } else if (_view == ViewCardsAppeared) {
+            title = "Cards Appeared (Both Players)";
+            ids = &view.cardsAppearedIds;
+
+        } else if (_view == ViewCardsPlayed) {
+            title = "Cards Played";
+            ids = &view.cardsPlayedIds;
         } else {
             Q_ASSERT(false);
         }
@@ -725,6 +745,62 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
     } else {
         Q_ASSERT(false);
     }
+}
+
+void MainWindow::openLoadDialog()
+{
+    QFileDialog d(this);
+    d.setWindowTitle("Load Deck");
+    d.setAcceptMode(QFileDialog::AcceptOpen);
+    d.setNameFilter("TXT (*.txt);; All Files (*.*)");
+    if (!d.exec())
+        return;
+    const QStringList files = d.selectedFiles();
+    if (files.isEmpty())
+        return;
+    const std::string filename = files.first().toStdString();
+
+    Deck2 deck;
+    const bool isOkRead = read(filename, deck);
+    if (!isOkRead) {
+        qDebug() << "Can't read a deck" << files.first();
+        return;
+    }
+
+    // TODO: not reading leader correctly...
+    const std::vector<Card *> cards = allCards(PublicBeta_0_9_24_3_432);
+    const auto addNewCard = [cards](const std::string &name) -> const Card *
+    {
+        for (const Card *card : cards)
+            if (card->name == name)
+                return card;
+        return nullptr;
+    };
+    bool isOkSpawn = true;
+    std::vector<Card *> cardsDeck;
+    for (const auto &it : deck.nameToCount) {
+        if (const Card *card = addNewCard(it.first)) {
+            for (int n = 0; n < it.second; ++n)
+                cardsDeck.push_back(card->defaultCopy());
+            continue;
+        }
+        isOkSpawn = false;
+        qDebug() << "Unknown card with name" << QString::fromStdString(it.first);
+    }
+    if (!isOkSpawn)
+        return;
+
+    _textAlly->clear();
+    _textEnemy->clear();
+    initField(cardsDeck, nullptr, _ally);
+    initField({}, nullptr, _enemy);
+    _enemy.passed = true;
+    _ally.canPass = false;
+
+    for (int i = 0; i < 10; ++i)
+        drawACard(_ally, _enemy);
+    _ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, _ally.hand, 1, false));
+    repaintCustom();
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
@@ -782,7 +858,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::repaintCustom()
 {
-    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "")
+    const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "", const int msWait = 0)
     {
         const auto idToName = [=](const int id) -> QString
         {
@@ -867,10 +943,25 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " loses SPY by " << src;
             break;
         case Reveal:
-            stream << prefix << dst << " relvealed by " << src;
+            stream << prefix << dst << " revealed by " << src;
+            break;
+        case Conceal:
+            stream << prefix << dst << " concealed by " << src;
             break;
         }
+
         requestSoundByUrl(snapshot.actionSound);
+
+        if (!msWait)
+            return;
+
+        _snapshot = snapshot;
+        repaint();
+
+        QEventLoop loop(this);
+        QTimer::singleShot(msWait, &loop, &QEventLoop::quit);
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
+        QApplication::processEvents();
     };
     class TextEditIoDevice : public QIODevice
     {
@@ -884,8 +975,7 @@ void MainWindow::repaintCustom()
         qint64 readData(char *, qint64 ) override { return 0; }
         qint64 writeData(const char *data, qint64 maxSize) override
         {
-            if(textEdit)
-            {
+            if(textEdit) {
                 textEdit->setPlainText(textEdit->toPlainText() + data);
             }
             return maxSize;
@@ -896,8 +986,14 @@ void MainWindow::repaintCustom()
     };
     {
         QTextStream ss(new TextEditIoDevice(_textAlly, this));
-        for (const FieldView &snapshot : _ally.snapshots)
+        for (const FieldView &snapshot : _ally.snapshots) {
+            // BUG: doesn't work after a pass..
+            // Maybe add a function determined, which turn is it
+            // if (snapshot.actionType == TurnStart)
+            //    _turn = (_turn + 1) % 2;
+            // processAction(snapshot, ss, "", _turn ? 500 : 0);
             processAction(snapshot, ss);
+        }
         _ally.snapshots.clear();
     }
     {

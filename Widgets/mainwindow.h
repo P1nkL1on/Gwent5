@@ -21,6 +21,7 @@ private slots:
     bool putCardToDeck(const int id);
     bool putCardBack(const int id);
     void updateCardsList();
+    void openSaveDialog();
 
 private:
     CardsLineView *_cardsLineView = nullptr;

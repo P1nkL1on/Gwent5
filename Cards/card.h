@@ -43,7 +43,7 @@ struct Card
     bool isLocked = false;
     bool isSpy = false;
     bool isResilient = false;
-    // TODO: still can damage unit in ambush (with near)
+    // BUG: still can damage unit in ambush (with near)
     bool isAmbush = false;
     bool isImmune = false;
     bool isDoomed = false;
@@ -60,6 +60,7 @@ struct Card
     /// temporary created options
     std::vector<Card *> _options;
 
+    void onGameStart(Field &ally, Field &enemy);
     void onDeploy(Field &ally, Field &enemy);
     void onDeployFromDiscard(Field &ally, Field &enemy);
     void onDeployFromDeck(Field &ally, Field &enemy);
@@ -75,6 +76,8 @@ struct Card
     void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onPlaySpecial(Field &ally, Field &enemy);
     void onBoost(const int x, Field &ally, Field &enemy);
+    void onRevealed(Field &ally, Field &enemy, const Card *src);
+    void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
@@ -88,15 +91,19 @@ struct Card
 
     inline virtual Card *defaultCopy() const { return new Card; }
     inline virtual Card *exactCopy() const { return new Card; }
+    inline bool hasDeathwish() const { return _onDestroy != nullptr; }
 
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
     using AllyEnemy = std::function<void(Field &, Field &)>;
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
+    using AllyEnemyCardSrc = std::function<void(Field &, Field &, Card *, const Card *)>;
+    using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
+    AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
     AllyEnemy _onDeployFromDiscard = nullptr;
     AllyEnemy _onDeployFromDeck = nullptr;
@@ -112,6 +119,8 @@ protected:
     AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
+    AllyEnemySrc _onRevealed = nullptr;
+    AllyEnemyCardSrc _onOtherRevealed = nullptr;
     IntAllyEnemySrc _onDamaged = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
@@ -181,8 +190,16 @@ struct Field
 
     Card *leaderStarting = nullptr;
     std::vector<Card *> deckStarting;
+    /// cards, that didn't start in the deck,
+    /// but were added in the process of game
+    /// with `spawn`, `create`, etc
     std::vector<Card *> cardsAdded;
+    /// current choices player should resolve
     std::vector<Choice> cardStack;
+    /// cards played in order for history
+    /// and retrograde effects
+    std::vector<Card *> cardsAppearedBoth;
+    std::vector<Card *> cardsAppeared;
     int nTurns = 0;
     int nRounds = 0;
     int nWins = 0;
@@ -224,6 +241,10 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 
+/// may be used as top or most-left
+Card *first(const std::vector<Card *> &cards);
+/// may be used as bottom or most-right
+Card *last(const std::vector<Card *> &cards);
 std::vector<Card *> highests(const std::vector<Card *> &row);
 Card *highest(const std::vector<Card *> &row, Rng &rng);
 std::vector<Card *> lowests(const std::vector<Card *> &row);
@@ -266,6 +287,7 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
@@ -296,6 +318,7 @@ bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src);
+void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 

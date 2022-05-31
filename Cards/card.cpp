@@ -334,7 +334,6 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     const Row row = rowAndPos.row();
     const Pos pos = rowAndPos.pos();
-
     const Row takenFrom = takeCard(card, ally, enemy);
 
     switch (rowAndPos.row()) {
@@ -422,6 +421,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
     const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
     const bool mayTriggerDeathwish = card->powerBase > 0;
+
 
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
@@ -793,6 +793,10 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyHand)
             return enemy.hand;
 
+        if (group == EnemyDeck)
+            return enemy.deck;
+
+        // BUG: enemy hand is visible during REVEAL choice
         if (group == EnemyDiscard)
             return enemy.discard;
         if (group == BothDiscard)
@@ -800,7 +804,7 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
-        if (group == AnyHandsShuffled) {
+        if (group == AnyHandShuffled) {
             std::vector<Card *> allyHand = ally.hand;
             std::vector<Card *> enemyHand = enemy.hand;
             shuffle(allyHand, ally.rng);
@@ -809,10 +813,16 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         }
 
         if (group == EnemyBoardAndHandRevealed)
-            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({isNonRevealed}, enemy.hand)});
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({::isRevealed}, enemy.hand)});
 
         if (group == AllyBoardAndHandRevealed)
-            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({isNonRevealed}, ally.hand)});
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({::isRevealed}, ally.hand)});
+
+        if (group == AllyAppeared)
+            return ally.cardsAppeared;
+
+        if (group == BothAppeared)
+            return ally.cardsAppearedBoth;
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -1267,7 +1277,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     }
 
     /// finish turn if noone passed
-    // TODO: Ronvid on turn end in discard
+    // BUG: Ronvid on turn end in discard
     for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
         _card->onTurnEnd(ally, enemy);
 
@@ -1461,9 +1471,10 @@ void saveFieldsSnapshot(
             const size_t j = field.snapshots.size() - 1 - i;
 
             // if uncollapsable type, then stop it
+            // TODO: check what is it...
             const ActionType type = field.snapshots[j].actionType;
-            // if (type == PlaySpecial || type == PutOnField)
-            //    break;
+            if (type == PlaySpecial || type == PutOnField)
+                break;
 
             // find previous snapshot with same animation type and src
             if (field.snapshots[j].actionIdSrc != snapshot.actionIdSrc)
@@ -1647,6 +1658,11 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         }
         return false;
     }
+    /// remember it in the stack of played units
+    /// TODO: its definetly should be one structure for both player
+    ally.cardsAppearedBoth.push_back(card);
+    enemy.cardsAppearedBoth.push_back(card);
+    ally.cardsAppeared.push_back(card);
 
     if (isNew)
         addAsNew(ally, card);
@@ -1656,6 +1672,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         putToDiscard(card, ally, enemy, card);
         return true;
     }
+
 
     if (rowAndPos.row() < 0 && rowAndPos.pos() < 0) {
         /// if no row and pos given, then start rowAndPos selection
@@ -1860,8 +1877,29 @@ std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy)
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isRevealed);
+
     card->isRevealed = true;
-    saveFieldsSnapshot(ally, enemy, Reveal, src);
+    saveFieldsSnapshot(ally, enemy, Reveal, src, {card});
+
+    card->onRevealed(ally, enemy, src);
+
+    /// trigger only for allies
+    for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        other->onOtherRevealed(ally, enemy, card, src);
+}
+
+void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
+{
+    assert(card->isRevealed);
+
+    saveFieldsSnapshot(ally, enemy, Conceal, src, {card});
+    card->isRevealed = false;
+}
+
+void Card::onGameStart(Field &ally, Field &enemy)
+{
+    if (_onGameStart)
+        return _onGameStart(ally, enemy);
 }
 
 void Card::onDeploy(Field &ally, Field &enemy)
@@ -1962,6 +2000,18 @@ void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
         return _onDamaged(x, ally, enemy, src);
 }
 
+void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
+{
+    if (_onRevealed && !isLocked)
+        return _onRevealed(ally, enemy, src);
+}
+
+void Card::onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src)
+{
+    if (_onOtherRevealed && !isLocked)
+        return _onOtherRevealed(ally, enemy, card, src);
+}
+
 void Card::onArmorLost(Field &ally, Field &enemy)
 {
     if (_onArmorLost && !isLocked)
@@ -2016,4 +2066,14 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
         return field.rowEffect(rowAndPos.row());
     assert(false);
     return NoRowEffect;
+}
+
+Card *first(const std::vector<Card *> &cards)
+{
+    return cards.size() ? cards.front() : nullptr;
+}
+
+Card *last(const std::vector<Card *> &cards)
+{
+    return cards.size() ? cards.back() : nullptr;
 }

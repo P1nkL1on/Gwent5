@@ -25,8 +25,9 @@ inline bool isNonSpying(Card *card) { return card->isLoyal; }
 inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
 inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
-inline bool isDeathwish(Card *card) { return card->text.find("Deathwish: ") != std::string::npos; }
-
+inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }
+inline bool isDeathwish(Card *card) { return card->hasDeathwish(); }
+template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
 
 
 using Filter = std::function<bool(Card *)>;
@@ -92,6 +93,12 @@ inline Filter hasPowerXorLess(const int x)
 {
     return [x](Card *card) {
         return card->power <= x;
+    };
+}
+inline Filter hasPowerX(const int x)
+{
+    return [x](Card *card) {
+        return card->power == x;
     };
 }
 inline Filter hasCopyInADeck(const Field *field)
