@@ -235,6 +235,7 @@ std::vector<Card *> allCards(const Patch)
         new EredinBreaccGlas(),
         new CaranthirArFeiniel(),
         new ImlerithSabbath(),
+        new Dagon(),
     };
 }
 
@@ -6700,7 +6701,7 @@ Cyclops::Cyclops()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if(!_powerOfDestroyed) {
             _powerOfDestroyed = target->power;
-            putToDiscard(_destroyed, ally, enemy, this);
+            putToDiscard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
@@ -6882,5 +6883,26 @@ ImlerithSabbath::ImlerithSabbath()
             heal(this, 2, ally, enemy);
             gainArmor(this, 2, ally, enemy, this);
         }
+    };
+}
+
+Dagon::Dagon()
+{
+    id = "200158";
+    name = "Dagon";
+    text = "Spawn Impenetrable Fog or Torrential Rain.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Vodyanoi };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new ImpenetrableFog(), new TorrentialRain()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
     };
 }

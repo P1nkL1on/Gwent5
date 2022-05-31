@@ -621,7 +621,8 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *os = new OldSpeartip();
     auto *g = new Golyat();
     auto *m = new Morvudd();
-    ally.cardsAdded = {osa, os, g, m};
+    auto *d = new Dagon();
+    ally.cardsAdded = {osa, os, g, m, d};
 
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -635,7 +636,7 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *th3 = new TuirseachHunter();
     enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
 
-    ally.hand = {osa, os, g, m};
+    ally.hand = {osa, os, g, m, d};
     ally.canPass = false;
 
     enemy.hand = {a1, a2, th1};
@@ -649,7 +650,6 @@ void demoBigOgrs(Field &ally, Field &enemy)
 void demoConsume(Field &ally, Field &enemy)
 {
     auto *g1 = new Ghoul();
-    auto *g2 = new Ghoul();
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
@@ -665,9 +665,9 @@ void demoConsume(Field &ally, Field &enemy)
     auto *k = new Kayran();
     auto *m0 = new Mourntart();
     auto *tp = new ToadPrince();
-    ally.cardsAdded = {g1, g2, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp};
+    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp};
 
-    ally.hand = {g1, g2, b1, b2, d1, f, o, aq, k, m0, tp};
+    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
     ally.deck = {d3, m3, r};

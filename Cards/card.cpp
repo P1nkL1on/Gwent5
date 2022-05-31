@@ -1026,7 +1026,7 @@ void banish(Card *card, Field &ally, Field &enemy, const Card *src)
     assert(row != AlreadyCreated);
 }
 
-void duel(Card *first, Card *second, Field &ally, Field &enemy)
+bool duel(Card *first, Card *second, Field &ally, Field &enemy)
 {
     assert(!first->isSpecial);
     assert(!second->isSpecial);

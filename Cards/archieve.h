@@ -1608,4 +1608,10 @@ struct ImlerithSabbath : CardCollectible<ImlerithSabbath>
 };
 
 
+struct Dagon : CardCollectible<Dagon>
+{
+    Dagon();
+};
+
+
 #endif // CARDS_H
