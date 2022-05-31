@@ -877,13 +877,6 @@ Card *lowest(const std::vector<Card *> &row, Rng &rng)
     return res[rng() % res.size()];
 }
 
-Card *first(const std::vector<Card *> &row)
-{
-    if (row.size() == 0)
-        return nullptr;
-    return row[0];
-}
-
 std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &cards)
 {
     std::vector<Card *> res;
