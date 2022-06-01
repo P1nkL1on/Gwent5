@@ -238,6 +238,9 @@ std::vector<Card *> allCards(const Patch)
         new Dagon(),
         new Ifrit(),
         new SheTrollOfVergen(),
+        new Wyvern(),
+        new Abaya(),
+        new Parasite(),
     };
 }
 
@@ -6949,7 +6952,6 @@ Ifrit::IfritLesser::IfritLesser()
 
 SheTrollOfVergen::SheTrollOfVergen()
 {
-
     id = "200534";
     name = "She-Troll of Vergen";
     text = "Play a Bronze Deathwish unit from your deck, Consume it and boost self by its base power.";
@@ -6974,4 +6976,71 @@ SheTrollOfVergen::SheTrollOfVergen()
         boost(this, consume(target, ally, enemy, this), ally, enemy, this);
         // FIXME : the dude is played after it's consumed
     };
+}
+
+Wyvern::Wyvern()
+{
+    id = "132303";
+    name = "Wyvern";
+    text = "Deal 5 damage to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=] (Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+}
+
+Abaya::Abaya()
+{
+    id = "132203";
+    name = "Abaya";
+    text = "Spawn Torrential Rain, Clear Skies or Arachas Venom.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Parasite::Parasite()
+{
+    id = "201657";
+    name = "Parasite";
+    text = "Deal 12 damage to an enemy; or Boost an ally by 12.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Organic };
+
+    _onPlaySpecial = [=] (Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (isOnBoard(target, ally))
+            boost(target, 12, ally, enemy, this);
+        else if (isOnBoard(target, enemy))
+            damage(target, 12, ally, enemy, this);
+        else
+            assert(false);
+    };
+
 }

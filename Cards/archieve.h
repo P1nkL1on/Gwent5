@@ -1630,4 +1630,22 @@ struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
 };
 
 
+struct Wyvern : CardCollectible<Wyvern>
+{
+    Wyvern();
+};
+
+
+struct Abaya : CardCollectible<Abaya>
+{
+    Abaya();
+};
+
+
+struct Parasite : CardCollectible<Parasite>
+{
+    Parasite();
+};
+
+
 #endif // CARDS_H

@@ -749,3 +749,25 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoTemporaryForTests(Field &ally, Field &enemy)
+{
+    auto *w = new Wyvern();
+    auto *a = new Abaya();
+    auto *p = new Parasite();
+
+    ally.cardsAdded = {w, a, p};
+    ally.hand = {w, a, p};
+    ally.canPass = false;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2, m3};
+    enemy.rowMeele = {m1, m2};
+    enemy.rowRange = {m3};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
