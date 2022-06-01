@@ -1648,4 +1648,10 @@ struct Parasite : CardCollectible<Parasite>
 };
 
 
+struct Jotunn : CardCollectible<Jotunn>
+{
+    Jotunn();
+};
+
+
 #endif // CARDS_H

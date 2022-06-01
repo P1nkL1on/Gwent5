@@ -241,6 +241,7 @@ std::vector<Card *> allCards(const Patch)
         new Wyvern(),
         new Abaya(),
         new Parasite(),
+        new Jotunn(),
     };
 }
 
@@ -7043,4 +7044,28 @@ Parasite::Parasite()
             assert(false);
     };
 
+}
+
+Jotunn::Jotunn()
+{
+    id = "200218";
+    name = "Jotunn";
+    text = "Move 3 enemies to the row opposite this unit and deal 2 damage to them. If that row is under Biting Frost, deal 3 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
+           damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, this);
+
+    };
 }

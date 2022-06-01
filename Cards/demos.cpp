@@ -755,9 +755,11 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *w = new Wyvern();
     auto *a = new Abaya();
     auto *p = new Parasite();
+    auto *j = new Jotunn();
+    auto *b = new BitingFrost();
 
-    ally.cardsAdded = {w, a, p};
-    ally.hand = {w, a, p};
+    ally.cardsAdded = {w, a, p, j, b};
+    ally.hand = {w, a, p, j, b};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

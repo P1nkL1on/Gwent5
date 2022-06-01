@@ -154,5 +154,25 @@ inline Filter isOnOppositeRow(const Field *ally, const Field *enemy, const Card 
         return rowSelf == rowCard;
     };
 }
+inline Filter isOnRow(const Field *field, const Row row)
+{
+    return [field, row](Card *card) {
+        Row rowCard;
+        Pos _;
+        if (!_findRowAndPos(card, *field, rowCard, _))
+            return false;
+        return row == rowCard;
+    };
+}
+inline Filter isNotOnRow(const Field *field, const Row row)
+{
+    return [field, row](Card *card) {
+        Row rowCard;
+        Pos _;
+        if (!_findRowAndPos(card, *field, rowCard, _))
+            return false;
+        return row != rowCard;
+    };
+}
 
 #endif // FILTERS_H
