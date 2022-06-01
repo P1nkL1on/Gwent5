@@ -50,6 +50,7 @@ enum Tag
     Insectoid,
     Necrophage,
     Draconid,
+    Vodyanoi,
 
     Cursed,
     Support,

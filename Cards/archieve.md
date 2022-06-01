@@ -408,7 +408,7 @@
 - [x] Brewess: Ritual
 - [x] Caranthir Ar-Feiniel
 - [x] Caretaker
-- [ ] Dagon
+- [x] Dagon
 - [ ] Draug
 - [x] Eredin Breacc Glas
 - [ ] Ge'els
@@ -424,11 +424,12 @@
 - [x] Whispess: Tribute
 - [x] Woodland Spirit
 - [x] Adda: Striga
+- [x] Abaya
 - [x] Brewess
 - [x] Devana Runestone
 - [x] Frightener
 - [x] Golyat
-- [ ] Ifrit
+- [x] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
 - [x] Maerolorn
@@ -438,9 +439,9 @@
 - [ ] Nekurat _(easy card)_
 - [x] Nithral
 - [x] Ozzrel
-- [ ] Parasite
+- [x] Parasite
 - [x] Ruehin
-- [ ] She-Troll of Vergen
+- [x] She-Troll of Vergen
 - [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
@@ -480,5 +481,5 @@
 - [x] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
 - [x] Wild Hunt Warrior
-- [ ] Wyvern _(easy card)_
+- [x] Wyvern _(easy card)_
 - [x] Moonlight

@@ -427,6 +427,7 @@ std::string stringTag(const Tag tag)
     case Insectoid: return "Insectoid";
     case Necrophage: return "Necrophage";
     case Draconid: return "Draconid";
+    case Vodyanoi: return "Vodyanoi";
     case Cursed: return "Cursed";
     case Support: return "Support";
     case Officer: return "Officer";

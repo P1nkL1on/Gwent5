@@ -1026,7 +1026,7 @@ void banish(Card *card, Field &ally, Field &enemy, const Card *src)
     assert(row != AlreadyCreated);
 }
 
-void duel(Card *first, Card *second, Field &ally, Field &enemy)
+bool duel(Card *first, Card *second, Field &ally, Field &enemy)
 {
     assert(!first->isSpecial);
     assert(!second->isSpecial);
@@ -1717,6 +1717,11 @@ void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
 void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
 {
     playCard2(card, ally, enemy, src, true, rowAndPos, false);
+}
+
+void spawnNewUnitToPosWithDeploy(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
+{
+    playCard2(card, ally, enemy, src, true, rowAndPos, true);
 }
 
 RowAndPos::operator bool() const

@@ -621,7 +621,8 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *os = new OldSpeartip();
     auto *g = new Golyat();
     auto *m = new Morvudd();
-    ally.cardsAdded = {osa, os, g, m};
+    auto *d = new Dagon();
+    ally.cardsAdded = {osa, os, g, m, d};
 
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -635,7 +636,7 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *th3 = new TuirseachHunter();
     enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
 
-    ally.hand = {osa, os, g, m};
+    ally.hand = {osa, os, g, m, d};
     ally.canPass = false;
 
     enemy.hand = {a1, a2, th1};
@@ -649,7 +650,6 @@ void demoBigOgrs(Field &ally, Field &enemy)
 void demoConsume(Field &ally, Field &enemy)
 {
     auto *g1 = new Ghoul();
-    auto *g2 = new Ghoul();
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
@@ -665,12 +665,15 @@ void demoConsume(Field &ally, Field &enemy)
     auto *k = new Kayran();
     auto *m0 = new Mourntart();
     auto *tp = new ToadPrince();
-    ally.cardsAdded = {g1, g2, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp};
+    auto *s = new SheTrollOfVergen();
+    auto *r1 = new Rotfiend();
+    auto *a = new Archespore();
+    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a};
 
-    ally.hand = {g1, g2, b1, b2, d1, f, o, aq, k, m0, tp};
+    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
-    ally.deck = {d3, m3, r};
+    ally.deck = {d3, m3, r1, r, a};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();
@@ -701,8 +704,9 @@ void demoArchesporeJumping(Field &ally, Field &enemy)
     auto *f7 = new Fiend();
     auto *f8 = new Fiend();
     auto *f9 = new Fiend();
-    ally.cardsAdded = {a1, a2, a3, f1, f2, f3, f4, f5, f6, f7, f8, f9};
-    ally.hand = {a1, a2, f6, f7, f8, f9};
+    auto *i = new Ifrit();
+    ally.cardsAdded = {a1, a2, a3, f1, f2, f3, f4, f5, f6, f7, f8, f9, i};
+    ally.hand = {a1, a2, f6, f7, f8, f9, i};
     ally.rowMeele = {f1, f2, f3, f4, f5};
     ally.rowRange = {a3};
     ally.canPass = false;
@@ -742,6 +746,28 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
     enemy.hand = {h, j};
     enemy.rowRange = {d, s};
     enemy.passed = false;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoTemporaryForTests(Field &ally, Field &enemy)
+{
+    auto *w = new Wyvern();
+    auto *a = new Abaya();
+    auto *p = new Parasite();
+
+    ally.cardsAdded = {w, a, p};
+    ally.hand = {w, a, p};
+    ally.canPass = false;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2, m3};
+    enemy.rowMeele = {m1, m2};
+    enemy.rowRange = {m3};
+    enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

@@ -235,6 +235,12 @@ std::vector<Card *> allCards(const Patch)
         new EredinBreaccGlas(),
         new CaranthirArFeiniel(),
         new ImlerithSabbath(),
+        new Dagon(),
+        new Ifrit(),
+        new SheTrollOfVergen(),
+        new Wyvern(),
+        new Abaya(),
+        new Parasite(),
     };
 }
 
@@ -6700,7 +6706,7 @@ Cyclops::Cyclops()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if(!_powerOfDestroyed) {
             _powerOfDestroyed = target->power;
-            putToDiscard(_destroyed, ally, enemy, this);
+            putToDiscard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
@@ -6883,4 +6889,158 @@ ImlerithSabbath::ImlerithSabbath()
             gainArmor(this, 2, ally, enemy, this);
         }
     };
+}
+
+Dagon::Dagon()
+{
+    id = "200158";
+    name = "Dagon";
+    text = "Spawn Impenetrable Fog or Torrential Rain.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Vodyanoi };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new ImpenetrableFog(), new TorrentialRain()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Ifrit::Ifrit()
+{
+    id = "132210";
+    name = "Ifrit";
+    text = "Spawn 3 Lesser Ifrits to the right of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Construct };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        const RowAndPos rowAndPos(row, Pos(ally.row(row).size()));
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+    };
+
+}
+
+Ifrit::IfritLesser::IfritLesser()
+{
+    id = "132404";
+    name = "Lesser Ifrit";
+    text = "Deal 1 damage to a random enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Construct };
+    isDoomed = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+    };
+}
+
+SheTrollOfVergen::SheTrollOfVergen()
+{
+    id = "200534";
+    name = "She-Troll of Vergen";
+    text = "Play a Bronze Deathwish unit from your deck, Consume it and boost self by its base power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.406.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.405.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.404.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        //if(isOnBoard(target, ally))
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+        // FIXME : the dude is played after it's consumed
+    };
+}
+
+Wyvern::Wyvern()
+{
+    id = "132303";
+    name = "Wyvern";
+    text = "Deal 5 damage to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=] (Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+}
+
+Abaya::Abaya()
+{
+    id = "132203";
+    name = "Abaya";
+    text = "Spawn Torrential Rain, Clear Skies or Arachas Venom.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Parasite::Parasite()
+{
+    id = "201657";
+    name = "Parasite";
+    text = "Deal 12 damage to an enemy; or Boost an ally by 12.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Organic };
+
+    _onPlaySpecial = [=] (Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (isOnBoard(target, ally))
+            boost(target, 12, ally, enemy, this);
+        else if (isOnBoard(target, enemy))
+            damage(target, 12, ally, enemy, this);
+        else
+            assert(false);
+    };
+
 }

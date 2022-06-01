@@ -1608,4 +1608,44 @@ struct ImlerithSabbath : CardCollectible<ImlerithSabbath>
 };
 
 
+struct Dagon : CardCollectible<Dagon>
+{
+    Dagon();
+};
+
+
+struct Ifrit : CardCollectible<Ifrit>
+{
+    Ifrit();
+    struct IfritLesser : CardCollectible<IfritLesser>
+    {
+        IfritLesser();
+    };
+};
+
+
+struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
+{
+    SheTrollOfVergen();
+};
+
+
+struct Wyvern : CardCollectible<Wyvern>
+{
+    Wyvern();
+};
+
+
+struct Abaya : CardCollectible<Abaya>
+{
+    Abaya();
+};
+
+
+struct Parasite : CardCollectible<Parasite>
+{
+    Parasite();
+};
+
+
 #endif // CARDS_H
