@@ -665,12 +665,15 @@ void demoConsume(Field &ally, Field &enemy)
     auto *k = new Kayran();
     auto *m0 = new Mourntart();
     auto *tp = new ToadPrince();
-    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp};
+    auto *s = new SheTrollOfVergen();
+    auto *r1 = new Rotfiend();
+    auto *a = new Archespore();
+    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a};
 
-    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp};
+    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
-    ally.deck = {d3, m3, r};
+    ally.deck = {d3, m3, r1, r, a};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();
@@ -701,8 +704,9 @@ void demoArchesporeJumping(Field &ally, Field &enemy)
     auto *f7 = new Fiend();
     auto *f8 = new Fiend();
     auto *f9 = new Fiend();
-    ally.cardsAdded = {a1, a2, a3, f1, f2, f3, f4, f5, f6, f7, f8, f9};
-    ally.hand = {a1, a2, f6, f7, f8, f9};
+    auto *i = new Ifrit();
+    ally.cardsAdded = {a1, a2, a3, f1, f2, f3, f4, f5, f6, f7, f8, f9, i};
+    ally.hand = {a1, a2, f6, f7, f8, f9, i};
     ally.rowMeele = {f1, f2, f3, f4, f5};
     ally.rowRange = {a3};
     ally.canPass = false;

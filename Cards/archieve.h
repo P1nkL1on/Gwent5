@@ -1614,4 +1614,20 @@ struct Dagon : CardCollectible<Dagon>
 };
 
 
+struct Ifrit : CardCollectible<Ifrit>
+{
+    Ifrit();
+    struct IfritLesser : CardCollectible<IfritLesser>
+    {
+        IfritLesser();
+    };
+};
+
+
+struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
+{
+    SheTrollOfVergen();
+};
+
+
 #endif // CARDS_H

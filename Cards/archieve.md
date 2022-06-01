@@ -408,7 +408,7 @@
 - [x] Brewess: Ritual
 - [x] Caranthir Ar-Feiniel
 - [x] Caretaker
-- [ ] Dagon
+- [x] Dagon
 - [ ] Draug
 - [x] Eredin Breacc Glas
 - [ ] Ge'els
@@ -428,7 +428,7 @@
 - [x] Devana Runestone
 - [x] Frightener
 - [x] Golyat
-- [ ] Ifrit
+- [x] Ifrit
 - [x] Imperial Manticore
 - [ ] Jotunn
 - [x] Maerolorn

@@ -236,6 +236,8 @@ std::vector<Card *> allCards(const Patch)
         new CaranthirArFeiniel(),
         new ImlerithSabbath(),
         new Dagon(),
+        new Ifrit(),
+        new SheTrollOfVergen(),
     };
 }
 
@@ -6904,5 +6906,72 @@ Dagon::Dagon()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Ifrit::Ifrit()
+{
+    id = "132210";
+    name = "Ifrit";
+    text = "Spawn 3 Lesser Ifrits to the right of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Construct };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        const RowAndPos rowAndPos(row, Pos(ally.row(row).size()));
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+    };
+
+}
+
+Ifrit::IfritLesser::IfritLesser()
+{
+    id = "132404";
+    name = "Lesser Ifrit";
+    text = "Deal 1 damage to a random enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Construct };
+    isDoomed = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+    };
+}
+
+SheTrollOfVergen::SheTrollOfVergen()
+{
+
+    id = "200534";
+    name = "She-Troll of Vergen";
+    text = "Play a Bronze Deathwish unit from your deck, Consume it and boost self by its base power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.406.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.405.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.404.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        //if(isOnBoard(target, ally))
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+        // FIXME : the dude is played after it's consumed
     };
 }
