@@ -7116,10 +7116,13 @@ IceTroll::IceTroll()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (rowEffectUnderUnit(target, enemy) == BitingFrostEffect)
-            duelDealDoubleDamage(this, target, ally, enemy);
-        else
-            duel(this, target, ally, enemy);
+        const int mult = rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 2 : 1;
+        while (true) {
+            if (damage(target, power * mult, ally, enemy, this))
+                return true;
+            if (damage(this, target->power, ally, enemy, target))
+                return false;
+        }
     };
 }
 
@@ -7143,7 +7146,6 @@ Drowner::Drowner()
         Row rowSelf = _findRowAndPos(this, ally).row();
         if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
            damage(target, (rowEffectUnderUnit(target, enemy) > 0 && rowEffectUnderUnit(target, enemy) <= 9) ? 4 : 2, ally, enemy, this);
-
     };
 }
 
@@ -7158,17 +7160,18 @@ Foglet::Foglet()
     faction = Monster;
     tags = { Necrophage };
 
-    _onAllyApplyEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, Row row) {
-        if(rowEffect != ImpenetrableFogEffect)
+    _onAllyAppliedRowEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, const Row row) {
+        if (rowEffect != ImpenetrableFogEffect || !isIn(this, ally.deck))
             return;
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), }, AllyDeckShuffled)) {
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), otherThan(this)}, AllyDeckShuffled)) {
             Foglet *foglet = static_cast<Foglet *>(card);
-            foglet->_rowFogedToCopy.insert({&row, this});
+            foglet->_rowToCopy.insert({row, this});
         }
-        // TODO: make it worked
-        //if (_rowFogedToCopy.find(&row) == _rowFogedToCopy.end())
+
+        if (_rowToCopy.find(row) == _rowToCopy.end())
             moveExistedUnitToPos(this, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
 
-        _rowFogedToCopy.clear();
+        _rowToCopy.clear();
     };
 }

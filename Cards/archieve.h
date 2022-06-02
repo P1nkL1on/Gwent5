@@ -1676,7 +1676,7 @@ struct Foglet : CardCollectible<Foglet>
 {
     Foglet();
 private:
-    std::map<Row *, Card *> _rowFogedToCopy;
+    std::map<Row, const Card *> _rowToCopy;
 };
 
 
