@@ -1104,16 +1104,29 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     putToDiscard(target, ally, enemy, self);
 }
 
-int consume(Card *target, Field &ally, Field &enemy, const Card *src)
+int consume(Card *target, Field &ally, Field &enemy, Card *src)
 {
     assert(!target->isSpecial);
     assert(!src->isSpecial);
     const int powerConsumed = target->power;
-
+    target->onConsumed(ally, enemy, src);
     if (isIn(target, ally.discard) || isIn(target, enemy.discard))
         banish(target, ally, enemy, src);
-    else
+    else if(isOnBoard(target, ally) || isOnBoard(target, enemy)) {
+            const Field *targetOnBoardAlly = isOnBoard(target, ally) ? &ally : &enemy;
+            const RowAndPos targetRowAndPos = _findRowAndPos(target, *targetOnBoardAlly);
+            putToDiscard(target, ally, enemy, src);
+            if (targetOnBoardAlly == &ally)
+                target->onDestroy(ally, enemy, targetRowAndPos);
+            if (targetOnBoardAlly == &enemy)
+                target->onDestroy(enemy, ally, targetRowAndPos);
+    }
+    else {
         putToDiscard(target, ally, enemy, src);
+    }
+
+    for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        card->onAllyConsume(ally, enemy, src); // я покушол
     //  TODO: create a trigger _onConsume and trigger it here for nekkers
     return powerConsumed;
 }
@@ -2091,6 +2104,18 @@ void Card::onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field 
 {
     if (_onAllyAppliedRowEffect && !isLocked)
         return _onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+}
+
+void Card::onConsumed(Field &ally, Field &enemy, Card *src)
+{
+    if (_onConsumed && !isLocked)
+        return _onConsumed(ally, enemy, src);
+}
+
+void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
+{
+    if (_onAllyConsume && !isLocked)
+        return _onAllyConsume(ally, enemy, src);
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)

@@ -409,7 +409,7 @@
 - [x] Caranthir Ar-Feiniel
 - [x] Caretaker
 - [x] Dagon
-- [ ] Draug
+- [x] Draug
 - [x] Eredin Breacc Glas
 - [ ] Ge'els
 - [x] Imlerith
@@ -446,14 +446,14 @@
 - [x] Weavess
 - [x] Whispess
 - [x] Alpha Werewolf
-- [ ] Ancient Foglet
-- [ ] Arachas Behemoth
+- [x] Ancient Foglet
+- [x] Arachas Behemoth
 - [x] Arachas Drone
 - [x] Archespore
 - [ ] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
-- [ ] Celaeno Harpy
+- [x] Celaeno Harpy
 - [ ] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao

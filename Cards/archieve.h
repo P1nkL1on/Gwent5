@@ -1680,4 +1680,43 @@ private:
 };
 
 
+struct AncientFoglet : CardCollectible<AncientFoglet>
+{
+    AncientFoglet();
+};
+
+
+struct Draug : CardCollectible<Draug>
+{
+    Draug();
+private:
+    struct Draugir : CardCollectible<Draugir>
+    {
+        Draugir();
+    };
+};
+
+
+struct CelaenoHarpy : CardCollectible<CelaenoHarpy>
+{
+    CelaenoHarpy();
+private:
+    struct HarpyEgg : CardCollectible<HarpyEgg>
+    {
+        HarpyEgg();
+    };
+};
+
+
+struct ArachasBehemoth : CardCollectible<ArachasBehemoth>
+{
+    ArachasBehemoth();
+private:
+    struct ArachasHatchling : CardCollectible<ArachasHatchling>
+    {
+        ArachasHatchling();
+    };
+};
+
+
 #endif // CARDS_H
