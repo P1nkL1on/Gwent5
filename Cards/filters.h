@@ -27,6 +27,7 @@ inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
 inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }
 inline bool isDeathwish(Card *card) { return card->hasDeathwish(); }
+inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(); }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
 
 

@@ -756,10 +756,20 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *a = new Abaya();
     auto *p = new Parasite();
     auto *j = new Jotunn();
-    auto *b = new BitingFrost();
+    auto *b1 = new BitingFrost();
+    auto *b2 = new BitingFrost();
+    auto *ig = new IceGiant();
+    auto *it = new IceTroll();
+    auto *d = new Drowner();
+    auto *f1 = new Foglet();
+    auto *f2= new Foglet();
+    auto *f3 = new Foglet();
+    auto *ws = new WoodlandSpirit();
+    auto *i = new ImpenetrableFog();
 
-    ally.cardsAdded = {w, a, p, j, b};
-    ally.hand = {w, a, p, j, b};
+    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws};
+    ally.hand = {w, a, p, j, b1, b2, ig, it, d, ws, i};
+    ally.deck = {f1, f2, f3};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

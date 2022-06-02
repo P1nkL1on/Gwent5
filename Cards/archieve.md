@@ -431,7 +431,7 @@
 - [x] Golyat
 - [x] Ifrit
 - [x] Imperial Manticore
-- [ ] Jotunn
+- [x] Jotunn
 - [x] Maerolorn
 - [x] Monster Nest
 - [x] Morvudd
@@ -457,16 +457,16 @@
 - [ ] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao
-- [ ] Drowner
+- [x] Drowner
 - [x] Ekimmara _(easy card)_
 - [x] Fiend
-- [ ] Foglet
+- [x] Foglet __(NOT EXECT ABILITY)__
 - [x] Forktail
 - [x] Ghoul
 - [ ] Griffin
 - [ ] Harpy
-- [ ] Ice Giant
-- [ ] Ice Troll
+- [x] Ice Giant
+- [x] Ice Troll
 - [ ] Lamia
 - [ ] Nekker
 - [ ] Nekker Warrior

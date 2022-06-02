@@ -1039,6 +1039,19 @@ bool duel(Card *first, Card *second, Field &ally, Field &enemy)
     }
 }
 
+bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy)
+{
+    assert(!first->isSpecial);
+    assert(!second->isSpecial);
+
+    while (true) {
+        if (damage(second, first->power * 2, ally, enemy, first))
+            return true;
+        if (damage(first, second->power, ally, enemy, second))
+            return false;
+    }
+}
+
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
@@ -1328,6 +1341,22 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
     assert(row == Meele || row == Range || row == Seige);
 
     ally.rowEffect(row) = rowEffect;
+
+    if (rowEffect == ImpenetrableFogEffect
+            || rowEffect == TorrentialRainEffect
+            || rowEffect == BitingFrostEffect
+            || rowEffect == SkelligeStormEffect
+            || rowEffect == DragonsDreamEffect
+            || rowEffect == KorathiHeatwaveEffect
+            || rowEffect == RaghNarRoogEffect
+            || rowEffect == BloodMoonEffect
+            || rowEffect == RaghNarRoogEffect)
+        for (Card *card : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+            card->onAllyApplyEffect(rowEffect, enemy, ally, row);
+    if (rowEffect == GoldenFrothEffect
+            || rowEffect == FullMoonEffect)
+        for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+            card->onAllyApplyEffect(rowEffect, ally, enemy, row);
 
     for (Card *card : ally.row(row))
         if (rowEffect == BloodMoonEffect)
@@ -2059,6 +2088,12 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+void Card::onAllyApplyEffect(const RowEffect rowEffect, Field &ally, Field &enemy, Row row)
+{
+    if (_onAllyApplyEffect && !isLocked)
+        return _onAllyApplyEffect(rowEffect, ally, enemy, row);
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)

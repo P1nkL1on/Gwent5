@@ -88,10 +88,14 @@ struct Card
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+            // TODO: test and find all the cases
+    void onAllyApplyEffect(const RowEffect rowEffect, Field &ally, Field &enemy, Row row);
+            /// check whether self on board, in hand/deck/discard
 
     inline virtual Card *defaultCopy() const { return new Card; }
     inline virtual Card *exactCopy() const { return new Card; }
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
+    inline bool hasOnAllyApplyEffect() const { return _onAllyApplyEffect != nullptr; }
 
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
@@ -102,6 +106,7 @@ protected:
     using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
+    using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
@@ -129,6 +134,7 @@ protected:
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+    RowEffectAllyEnemyRow _onAllyApplyEffect = nullptr;
 };
 
 template <class T>
@@ -314,6 +320,7 @@ void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns true if wins a duel
 bool duel(Card *first, Card *second, Field &ally, Field &enemy);
+bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy, const Card *src);
 void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src);
 void lock(Card *card, Field &ally, Field &enemy, const Card *src);

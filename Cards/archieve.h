@@ -1654,4 +1654,30 @@ struct Jotunn : CardCollectible<Jotunn>
 };
 
 
+struct IceGiant : CardCollectible<IceGiant>
+{
+    IceGiant();
+};
+
+
+struct IceTroll : CardCollectible<IceTroll>
+{
+    IceTroll();
+};
+
+
+struct Drowner : CardCollectible<Drowner>
+{
+    Drowner();
+};
+
+
+struct Foglet : CardCollectible<Foglet>
+{
+    Foglet();
+private:
+    std::map<Row *, Card *> _rowFogedToCopy;
+};
+
+
 #endif // CARDS_H

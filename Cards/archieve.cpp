@@ -242,6 +242,10 @@ std::vector<Card *> allCards(const Patch)
         new Abaya(),
         new Parasite(),
         new Jotunn(),
+        new IceGiant(),
+        new IceTroll(),
+        new Drowner(),
+        new Foglet(),
     };
 }
 
@@ -7067,5 +7071,104 @@ Jotunn::Jotunn()
         if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
            damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, this);
 
+    };
+}
+
+IceGiant::IceGiant()
+{
+    id = "132212";
+    name = "Ice Giant";
+    text = "Boost by 6 if Biting Frost is anywhere on the board.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ice_giant_aggro07.mp3",
+        "https://gwent.one/audio/card/ob/en/ice_giant_aggro06.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (enemy.rowEffect(Meele) == BitingFrostEffect
+                || enemy.rowEffect(Range) == BitingFrostEffect
+                || enemy.rowEffect(Seige) == BitingFrostEffect
+                || ally.rowEffect(Meele) == BitingFrostEffect
+                || ally.rowEffect(Range) == BitingFrostEffect
+                || ally.rowEffect(Seige) == BitingFrostEffect)
+            boost(this, 6, ally, enemy, this);
+    };
+}
+
+IceTroll::IceTroll()
+{
+    id = "200502";
+    name = "Ice Troll";
+    text = "Duel an enemy. If it's under Biting Frost, deal double damage.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (rowEffectUnderUnit(target, enemy) == BitingFrostEffect)
+            duelDealDoubleDamage(this, target, ally, enemy);
+        else
+            duel(this, target, ally, enemy);
+    };
+}
+
+Drowner::Drowner()
+{
+    id = "132314";
+    name = "Drowner";
+    text = "Move an enemy to the row opposite this unit and deal 2 damage to it. If that row is under a Hazard, deal 4 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
+           damage(target, (rowEffectUnderUnit(target, enemy) > 0 && rowEffectUnderUnit(target, enemy) <= 9) ? 4 : 2, ally, enemy, this);
+
+    };
+}
+
+Foglet::Foglet()
+{
+    id = "132301";
+    name = "Foglet";
+    text = "Whenever you apply Impenetrable Fog to an enemy row, Summon a copy of this unit to the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onAllyApplyEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, Row row) {
+        if(rowEffect != ImpenetrableFogEffect)
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), }, AllyDeckShuffled)) {
+            Foglet *foglet = static_cast<Foglet *>(card);
+            foglet->_rowFogedToCopy.insert({&row, this});
+        }
+        // TODO: make it worked
+        //if (_rowFogedToCopy.find(&row) == _rowFogedToCopy.end())
+            moveExistedUnitToPos(this, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+
+        _rowFogedToCopy.clear();
     };
 }
