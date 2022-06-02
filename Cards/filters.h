@@ -27,6 +27,7 @@ inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
 inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }
 inline bool isDeathwish(Card *card) { return card->hasDeathwish(); }
+inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(); }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
 
 
@@ -152,6 +153,26 @@ inline Filter isOnOppositeRow(const Field *ally, const Field *enemy, const Card 
         if (!_findRowAndPos(card, *enemy, rowCard, _))
             return false;
         return rowSelf == rowCard;
+    };
+}
+inline Filter isOnRow(const Field *field, const Row row)
+{
+    return [field, row](Card *card) {
+        Row rowCard;
+        Pos _;
+        if (!_findRowAndPos(card, *field, rowCard, _))
+            return false;
+        return row == rowCard;
+    };
+}
+inline Filter isNotOnRow(const Field *field, const Row row)
+{
+    return [field, row](Card *card) {
+        Row rowCard;
+        Pos _;
+        if (!_findRowAndPos(card, *field, rowCard, _))
+            return false;
+        return row != rowCard;
     };
 }
 

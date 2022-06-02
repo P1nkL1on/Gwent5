@@ -668,9 +668,10 @@ void demoConsume(Field &ally, Field &enemy)
     auto *s = new SheTrollOfVergen();
     auto *r1 = new Rotfiend();
     auto *a = new Archespore();
-    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a};
+    auto *ab = new ArachasBehemoth();
+    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a, ab};
 
-    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s};
+    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s, ab};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
     ally.deck = {d3, m3, r1, r, a};
@@ -755,9 +756,27 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *w = new Wyvern();
     auto *a = new Abaya();
     auto *p = new Parasite();
+    auto *j = new Jotunn();
+    auto *b1 = new BitingFrost();
+    auto *b2 = new BitingFrost();
+    auto *ig = new IceGiant();
+    auto *it = new IceTroll();
+    auto *d = new Drowner();
+    auto *f1 = new Foglet();
+    auto *f2= new Foglet();
+    auto *f3 = new Foglet();
+    auto *ws = new WoodlandSpirit();
+    auto *i = new ImpenetrableFog();
+    auto *ai = new AncientFoglet();
+    auto *d1 = new Draug();
+    auto *h = new CelaenoHarpy();
+    auto *ba = new Barbegazi();
 
-    ally.cardsAdded = {w, a, p};
-    ally.hand = {w, a, p};
+    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws, ai, d1, h, ba};
+    ally.hand = {a, p, j, b1, ws, i, d1, h, ba};
+    ally.deck = {f1, f2, f3};
+    ally.discard = {b2, ig, it, d};
+    ally.rowSeige = {ai, w};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

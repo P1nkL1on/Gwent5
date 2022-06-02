@@ -1648,4 +1648,75 @@ struct Parasite : CardCollectible<Parasite>
 };
 
 
+struct Jotunn : CardCollectible<Jotunn>
+{
+    Jotunn();
+};
+
+
+struct IceGiant : CardCollectible<IceGiant>
+{
+    IceGiant();
+};
+
+
+struct IceTroll : CardCollectible<IceTroll>
+{
+    IceTroll();
+};
+
+
+struct Drowner : CardCollectible<Drowner>
+{
+    Drowner();
+};
+
+
+struct Foglet : CardCollectible<Foglet>
+{
+    Foglet();
+private:
+    std::map<Row, const Card *> _rowToCopy;
+};
+
+
+struct AncientFoglet : CardCollectible<AncientFoglet>
+{
+    AncientFoglet();
+};
+
+
+struct Draug : CardCollectible<Draug>
+{
+    Draug();
+private:
+    struct Draugir : CardCollectible<Draugir>
+    {
+        Draugir();
+    };
+};
+
+
+struct CelaenoHarpy : CardCollectible<CelaenoHarpy>
+{
+    CelaenoHarpy();
+private:
+    struct HarpyEgg : CardCollectible<HarpyEgg>
+    {
+        HarpyEgg();
+    };
+};
+
+
+struct ArachasBehemoth : CardCollectible<ArachasBehemoth>
+{
+    ArachasBehemoth();
+private:
+    struct ArachasHatchling : CardCollectible<ArachasHatchling>
+    {
+        ArachasHatchling();
+    };
+};
+
+
 #endif // CARDS_H

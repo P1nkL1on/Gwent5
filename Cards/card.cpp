@@ -1039,6 +1039,14 @@ bool duel(Card *first, Card *second, Field &ally, Field &enemy)
     }
 }
 
+bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy)
+{
+    assert(!first->isSpecial);
+    assert(!second->isSpecial);
+
+
+}
+
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
@@ -1096,16 +1104,29 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     putToDiscard(target, ally, enemy, self);
 }
 
-int consume(Card *target, Field &ally, Field &enemy, const Card *src)
+int consume(Card *target, Field &ally, Field &enemy, Card *src)
 {
     assert(!target->isSpecial);
     assert(!src->isSpecial);
     const int powerConsumed = target->power;
-
+    target->onConsumed(ally, enemy, src);
     if (isIn(target, ally.discard) || isIn(target, enemy.discard))
         banish(target, ally, enemy, src);
-    else
+    else if(isOnBoard(target, ally) || isOnBoard(target, enemy)) {
+            const Field *targetOnBoardAlly = isOnBoard(target, ally) ? &ally : &enemy;
+            const RowAndPos targetRowAndPos = _findRowAndPos(target, *targetOnBoardAlly);
+            putToDiscard(target, ally, enemy, src);
+            if (targetOnBoardAlly == &ally)
+                target->onDestroy(ally, enemy, targetRowAndPos);
+            if (targetOnBoardAlly == &enemy)
+                target->onDestroy(enemy, ally, targetRowAndPos);
+    }
+    else {
         putToDiscard(target, ally, enemy, src);
+    }
+
+    for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        card->onAllyConsume(ally, enemy, src); // я покушол
     //  TODO: create a trigger _onConsume and trigger it here for nekkers
     return powerConsumed;
 }
@@ -1328,6 +1349,24 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
     assert(row == Meele || row == Range || row == Seige);
 
     ally.rowEffect(row) = rowEffect;
+
+    // TODO: change it, when the row effects would be
+    // multifield (you actually can play them on both sides)
+    if (rowEffect == ImpenetrableFogEffect
+            || rowEffect == TorrentialRainEffect
+            || rowEffect == BitingFrostEffect
+            || rowEffect == SkelligeStormEffect
+            || rowEffect == DragonsDreamEffect
+            || rowEffect == KorathiHeatwaveEffect
+            || rowEffect == RaghNarRoogEffect
+            || rowEffect == BloodMoonEffect
+            || rowEffect == RaghNarRoogEffect)
+        for (Card *card : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+            card->onAllyAppliedRowEffect(rowEffect, enemy, ally, row);
+    if (rowEffect == GoldenFrothEffect
+            || rowEffect == FullMoonEffect)
+        for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+            card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
 
     for (Card *card : ally.row(row))
         if (rowEffect == BloodMoonEffect)
@@ -2059,6 +2098,24 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+void Card::onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row)
+{
+    if (_onAllyAppliedRowEffect && !isLocked)
+        return _onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+}
+
+void Card::onConsumed(Field &ally, Field &enemy, Card *src)
+{
+    if (_onConsumed && !isLocked)
+        return _onConsumed(ally, enemy, src);
+}
+
+void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
+{
+    if (_onAllyConsume && !isLocked)
+        return _onAllyConsume(ally, enemy, src);
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)

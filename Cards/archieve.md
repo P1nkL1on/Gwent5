@@ -409,7 +409,7 @@
 - [x] Caranthir Ar-Feiniel
 - [x] Caretaker
 - [x] Dagon
-- [ ] Draug
+- [x] Draug
 - [x] Eredin Breacc Glas
 - [ ] Ge'els
 - [x] Imlerith
@@ -431,7 +431,7 @@
 - [x] Golyat
 - [x] Ifrit
 - [x] Imperial Manticore
-- [ ] Jotunn
+- [x] Jotunn
 - [x] Maerolorn
 - [x] Monster Nest
 - [x] Morvudd
@@ -446,27 +446,27 @@
 - [x] Weavess
 - [x] Whispess
 - [x] Alpha Werewolf
-- [ ] Ancient Foglet
-- [ ] Arachas Behemoth
+- [x] Ancient Foglet
+- [x] Arachas Behemoth
 - [x] Arachas Drone
 - [x] Archespore
 - [ ] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
-- [ ] Celaeno Harpy
+- [x] Celaeno Harpy
 - [ ] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao
-- [ ] Drowner
+- [x] Drowner
 - [x] Ekimmara _(easy card)_
 - [x] Fiend
-- [ ] Foglet
+- [x] Foglet __(NOT EXECT ABILITY)__
 - [x] Forktail
 - [x] Ghoul
 - [ ] Griffin
 - [ ] Harpy
-- [ ] Ice Giant
-- [ ] Ice Troll
+- [x] Ice Giant
+- [x] Ice Troll
 - [ ] Lamia
 - [ ] Nekker
 - [ ] Nekker Warrior

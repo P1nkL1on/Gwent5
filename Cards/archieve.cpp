@@ -241,6 +241,15 @@ std::vector<Card *> allCards(const Patch)
         new Wyvern(),
         new Abaya(),
         new Parasite(),
+        new Jotunn(),
+        new IceGiant(),
+        new IceTroll(),
+        new Drowner(),
+        new Foglet(),
+        new AncientFoglet(),
+        new Draug(),
+        new CelaenoHarpy(),
+        new ArachasBehemoth(),
     };
 }
 
@@ -7043,4 +7052,260 @@ Parasite::Parasite()
             assert(false);
     };
 
+}
+
+Jotunn::Jotunn()
+{
+    id = "200218";
+    name = "Jotunn";
+    text = "Move 3 enemies to the row opposite this unit and deal 2 damage to them. If that row is under Biting Frost, deal 3 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
+           damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, this);
+    };
+}
+
+IceGiant::IceGiant()
+{
+    id = "132212";
+    name = "Ice Giant";
+    text = "Boost by 6 if Biting Frost is anywhere on the board.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ice_giant_aggro07.mp3",
+        "https://gwent.one/audio/card/ob/en/ice_giant_aggro06.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (enemy.rowEffect(Meele) == BitingFrostEffect
+                || enemy.rowEffect(Range) == BitingFrostEffect
+                || enemy.rowEffect(Seige) == BitingFrostEffect
+                || ally.rowEffect(Meele) == BitingFrostEffect
+                || ally.rowEffect(Range) == BitingFrostEffect
+                || ally.rowEffect(Seige) == BitingFrostEffect)
+            boost(this, 6, ally, enemy, this);
+    };
+}
+
+IceTroll::IceTroll()
+{
+    id = "200502";
+    name = "Ice Troll";
+    text = "Duel an enemy. If it's under Biting Frost, deal double damage.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int mult = rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 2 : 1;
+        while (true) {
+            if (damage(target, power * mult, ally, enemy, this))
+                return true;
+            if (damage(this, target->power, ally, enemy, target))
+                return false;
+        }
+    };
+}
+
+Drowner::Drowner()
+{
+    id = "132314";
+    name = "Drowner";
+    text = "Move an enemy to the row opposite this unit and deal 2 damage to it. If that row is under a Hazard, deal 4 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(this, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
+           damage(target, (rowEffectUnderUnit(target, enemy) > 0 && rowEffectUnderUnit(target, enemy) <= 9) ? 4 : 2, ally, enemy, this);
+    };
+}
+
+Foglet::Foglet()
+{
+    id = "132301";
+    name = "Foglet";
+    text = "Whenever you apply Impenetrable Fog to an enemy row, Summon a copy of this unit to the opposite row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onAllyAppliedRowEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, const Row row) {
+        if (rowEffect != ImpenetrableFogEffect || !isIn(this, ally.deck))
+            return;
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), otherThan(this)}, AllyDeckShuffled)) {
+            Foglet *foglet = static_cast<Foglet *>(card);
+            foglet->_rowToCopy.insert({row, this});
+        }
+
+        if (_rowToCopy.find(row) == _rowToCopy.end())
+            moveExistedUnitToPos(this, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+
+        _rowToCopy.clear();
+    };
+}
+
+AncientFoglet::AncientFoglet()
+{
+    id = "132302";
+    name = "Ancient Foglet";
+    text = "Boost by 1 if Impenetrable Fog is on the board on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (enemy.rowEffect(Meele) == ImpenetrableFogEffect
+                || enemy.rowEffect(Range) == ImpenetrableFogEffect
+                || enemy.rowEffect(Seige) == ImpenetrableFogEffect
+                || ally.rowEffect(Meele) == ImpenetrableFogEffect
+                || ally.rowEffect(Range) == ImpenetrableFogEffect
+                || ally.rowEffect(Seige) == ImpenetrableFogEffect)
+            boost(this, 1, ally, enemy, this);
+    };
+}
+
+Draug::Draug()
+{
+    id = "132101";
+    name = "Draug";
+    text = "Resurrect units as 1-power Draugirs until you fill this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Cursed, Officer };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isUnit}, AllyDiscard);
+        for (Card *card : cards) {
+            if (isRowFull(ally.row(row)))
+                return;
+            moveExistedUnitToPos(card, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            transform(card, Draug::Draugir(), ally, enemy, this);
+        }
+    };
+}
+
+Draug::Draugir::Draugir()
+{
+    // TODO: find picture and verify stats
+    id = "132101";
+    name = "Draugir";
+    text = "";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Cursed };
+    isDoomed = true;
+}
+
+CelaenoHarpy::CelaenoHarpy()
+{
+    id = "132217";
+    name = "Celaeno Harpy";
+    text = "Spawn 2 Harpy Eggs to the left of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    };
+}
+
+CelaenoHarpy::HarpyEgg::HarpyEgg()
+{
+    id = "132316";
+    name = "Harpy Egg";
+    text = "When Consumed, boost Consuming unit by 4. Deathwish: Spawn a Harpy Hatchling on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    isDoomed = true;
+
+    _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
+        boost(src, 4, ally, enemy, this);
+    };
+}
+
+ArachasBehemoth::ArachasBehemoth()
+{
+    id = "132201";
+    name = "Arachas Behemoth";
+    text = "The next 4 times you Consume a unit, Spawn an Arachas Hatchling on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 5);
+    };
+
+    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
+        if(tick(this, ally, enemy) || !isOnBoard(this, ally))
+            return;
+        spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+ArachasBehemoth::ArachasHatchling::ArachasHatchling()
+{
+    id = "132304";
+    name = "Arachas Hatchling";
+    text = "Summon all Arachas Drones.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy("ArachasDrone")}, AllyDeck))
+            moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
 }
