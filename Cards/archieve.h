@@ -1680,4 +1680,21 @@ private:
 };
 
 
+struct AncientFoglet : CardCollectible<AncientFoglet>
+{
+    AncientFoglet();
+};
+
+
+struct Draug : CardCollectible<Draug>
+{
+    Draug();
+private:
+    struct Draugir : CardCollectible<Draugir>
+    {
+        Draugir();
+    };
+};
+
+
 #endif // CARDS_H

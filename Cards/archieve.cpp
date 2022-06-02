@@ -246,6 +246,8 @@ std::vector<Card *> allCards(const Patch)
         new IceTroll(),
         new Drowner(),
         new Foglet(),
+        new AncientFoglet(),
+        new Draug(),
     };
 }
 
@@ -7070,7 +7072,6 @@ Jotunn::Jotunn()
         Row rowSelf = _findRowAndPos(this, ally).row();
         if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
            damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, this);
-
     };
 }
 
@@ -7159,7 +7160,7 @@ Foglet::Foglet()
     tags = { Necrophage };
 
     _onAllyApplyEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, Row row) {
-        if(rowEffect != ImpenetrableFogEffect)
+        if (rowEffect != ImpenetrableFogEffect)
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), }, AllyDeckShuffled)) {
             Foglet *foglet = static_cast<Foglet *>(card);
@@ -7171,4 +7172,63 @@ Foglet::Foglet()
 
         _rowFogedToCopy.clear();
     };
+}
+
+AncientFoglet::AncientFoglet()
+{
+    id = "132302";
+    name = "Ancient Foglet";
+    text = "Boost by 1 if Impenetrable Fog is on the board on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Necrophage };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (enemy.rowEffect(Meele) == ImpenetrableFogEffect
+                || enemy.rowEffect(Range) == ImpenetrableFogEffect
+                || enemy.rowEffect(Seige) == ImpenetrableFogEffect
+                || ally.rowEffect(Meele) == ImpenetrableFogEffect
+                || ally.rowEffect(Range) == ImpenetrableFogEffect
+                || ally.rowEffect(Seige) == ImpenetrableFogEffect)
+            boost(this, 1, ally, enemy, this);
+    };
+}
+
+Draug::Draug()
+{
+    id = "132101";
+    name = "Draug";
+    text = "Resurrect units as 1-power Draugirs until you fill this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Cursed, Officer };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isUnit}, AllyDiscard);
+        for (Card *card : cards) {
+            if (isRowFull(ally.row(row)))
+                return;
+            moveExistedUnitToPos(card, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            transform(card, Draug::Draugir(), ally, enemy, this);
+        }
+    };
+}
+
+Draug::Draugir::Draugir()
+{
+    // TODO: find picture and verify stats
+    id = "132101";
+    name = "Draugir";
+    text = "";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Cursed };
+    isDoomed = true;
 }

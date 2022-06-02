@@ -766,10 +766,14 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *f3 = new Foglet();
     auto *ws = new WoodlandSpirit();
     auto *i = new ImpenetrableFog();
+    auto *ai = new AncientFoglet();
+    auto *d1 = new Draug();
 
-    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws};
-    ally.hand = {w, a, p, j, b1, b2, ig, it, d, ws, i};
+    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws, ai, d1};
+    ally.hand = {w, a, p, j, b1, d, ws, i, d1};
     ally.deck = {f1, f2, f3};
+    ally.discard = {b2, ig, it};
+    ally.rowSeige = {ai};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
