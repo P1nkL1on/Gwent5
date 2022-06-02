@@ -768,12 +768,14 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *i = new ImpenetrableFog();
     auto *ai = new AncientFoglet();
     auto *d1 = new Draug();
+    auto *h = new CelaenoHarpy();
+    auto *ba = new Barbegazi();
 
-    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws, ai, d1};
-    ally.hand = {w, a, p, j, b1, d, ws, i, d1};
+    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws, ai, d1, h, ba};
+    ally.hand = {a, p, j, b1, ws, i, d1, h, ba};
     ally.deck = {f1, f2, f3};
-    ally.discard = {b2, ig, it};
-    ally.rowSeige = {ai};
+    ally.discard = {b2, ig, it, d};
+    ally.rowSeige = {ai, w};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

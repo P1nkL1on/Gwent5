@@ -248,6 +248,7 @@ std::vector<Card *> allCards(const Patch)
         new Foglet(),
         new AncientFoglet(),
         new Draug(),
+        new CelaenoHarpy(),
     };
 }
 
@@ -7231,4 +7232,37 @@ Draug::Draugir::Draugir()
     faction = Monster;
     tags = { Cursed };
     isDoomed = true;
+}
+
+CelaenoHarpy::CelaenoHarpy()
+{
+    id = "132217";
+    name = "Celaeno Harpy";
+    text = "Spawn 2 Harpy Eggs to the left of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    };
+}
+
+CelaenoHarpy::HarpyEgg::HarpyEgg()
+{
+    id = "132316";
+    name = "Harpy Egg";
+    text = "When Consumed, boost Consuming unit by 4. Deathwish: Spawn a Harpy Hatchling on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Bronze;
+    faction = Monster;
+    isDoomed = true;
+
+    _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
+        boost(src, 4, ally, enemy, this);
+    };
 }

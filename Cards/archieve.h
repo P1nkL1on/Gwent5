@@ -1697,4 +1697,15 @@ private:
 };
 
 
+struct CelaenoHarpy : CardCollectible<CelaenoHarpy>
+{
+    CelaenoHarpy();
+private:
+    struct HarpyEgg : CardCollectible<HarpyEgg>
+    {
+        HarpyEgg();
+    };
+};
+
+
 #endif // CARDS_H

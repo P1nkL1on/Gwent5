@@ -91,6 +91,8 @@ struct Card
             // TODO: test and find all the cases
     void onAllyApplyEffect(const RowEffect rowEffect, Field &ally, Field &enemy, Row row);
             /// check whether self on board, in hand/deck/discard
+    void onConsumed(Field &ally, Field &enemy, Card *src);
+    void onAllyConsume(Field &ally, Field &enemy, Card *src);
 
     inline virtual Card *defaultCopy() const { return new Card; }
     inline virtual Card *exactCopy() const { return new Card; }
@@ -104,6 +106,7 @@ protected:
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
     using AllyEnemyCardSrc = std::function<void(Field &, Field &, Card *, const Card *)>;
     using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
+    using AllyEnemySrcChangable = std::function<void(Field &, Field &, Card *)>;
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, Row)>;
@@ -134,6 +137,8 @@ protected:
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+    AllyEnemySrcChangable _onConsumed = nullptr;
+    AllyEnemySrcChangable _onAllyConsume = nullptr;
     RowEffectAllyEnemyRow _onAllyApplyEffect = nullptr;
 };
 
@@ -300,7 +305,7 @@ void addAsNew(Field &field, Card *card);
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
-int consume(Card *target, Field &ally, Field &enemy, const Card *src);
+int consume(Card *target, Field &ally, Field &enemy, Card *src);
 void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);

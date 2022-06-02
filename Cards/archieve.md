@@ -453,7 +453,7 @@
 - [ ] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
-- [ ] Celaeno Harpy
+- [x] Celaeno Harpy
 - [ ] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao
