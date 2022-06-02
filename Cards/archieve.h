@@ -1712,7 +1712,6 @@ struct ArachasBehemoth : CardCollectible<ArachasBehemoth>
 {
     ArachasBehemoth();
 private:
-    int numberOfTimes = 0;
     struct ArachasHatchling : CardCollectible<ArachasHatchling>
     {
         ArachasHatchling();

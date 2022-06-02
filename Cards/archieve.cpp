@@ -7274,16 +7274,19 @@ ArachasBehemoth::ArachasBehemoth()
     name = "Arachas Behemoth";
     text = "The next 4 times you Consume a unit, Spawn an Arachas Hatchling on a random row.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
+    power = powerBase = 8;
     rarity = Bronze;
     faction = Monster;
     tags = { Insectoid };
 
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 5);
+    };
+
     _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if(numberOfTimes >= 4 || !isOnBoard(this, ally))
+        if(tick(this, ally, enemy) || !isOnBoard(this, ally))
             return;
         spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
-        numberOfTimes++;
     };
 }
 
