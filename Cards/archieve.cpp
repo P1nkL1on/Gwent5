@@ -249,6 +249,7 @@ std::vector<Card *> allCards(const Patch)
         new AncientFoglet(),
         new Draug(),
         new CelaenoHarpy(),
+        new ArachasBehemoth(),
     };
 }
 
@@ -7264,5 +7265,41 @@ CelaenoHarpy::HarpyEgg::HarpyEgg()
 
     _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
         boost(src, 4, ally, enemy, this);
+    };
+}
+
+ArachasBehemoth::ArachasBehemoth()
+{
+    id = "132201";
+    name = "Arachas Behemoth";
+    text = "The next 4 times you Consume a unit, Spawn an Arachas Hatchling on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
+        if(numberOfTimes >= 4 || !isOnBoard(this, ally))
+            return;
+        spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+        numberOfTimes++;
+    };
+}
+
+ArachasBehemoth::ArachasHatchling::ArachasHatchling()
+{
+    id = "132304";
+    name = "Arachas Hatchling";
+    text = "Summon all Arachas Drones.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Insectoid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy("ArachasDrone")}, AllyDeck))
+            moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }

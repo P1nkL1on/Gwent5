@@ -668,9 +668,10 @@ void demoConsume(Field &ally, Field &enemy)
     auto *s = new SheTrollOfVergen();
     auto *r1 = new Rotfiend();
     auto *a = new Archespore();
-    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a};
+    auto *ab = new ArachasBehemoth();
+    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a, ab};
 
-    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s};
+    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s, ab};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2};
     ally.deck = {d3, m3, r1, r, a};

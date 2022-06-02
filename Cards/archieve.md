@@ -447,7 +447,7 @@
 - [x] Whispess
 - [x] Alpha Werewolf
 - [x] Ancient Foglet
-- [ ] Arachas Behemoth
+- [x] Arachas Behemoth
 - [x] Arachas Drone
 - [x] Archespore
 - [ ] Archgriffin
