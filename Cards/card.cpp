@@ -1044,12 +1044,7 @@ bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy)
     assert(!first->isSpecial);
     assert(!second->isSpecial);
 
-    while (true) {
-        if (damage(second, first->power * 2, ally, enemy, first))
-            return true;
-        if (damage(first, second->power, ally, enemy, second))
-            return false;
-    }
+
 }
 
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
@@ -1355,6 +1350,8 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
 
     ally.rowEffect(row) = rowEffect;
 
+    // TODO: change it, when the row effects would be
+    // multifield (you actually can play them on both sides)
     if (rowEffect == ImpenetrableFogEffect
             || rowEffect == TorrentialRainEffect
             || rowEffect == BitingFrostEffect
@@ -1365,11 +1362,11 @@ void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect ro
             || rowEffect == BloodMoonEffect
             || rowEffect == RaghNarRoogEffect)
         for (Card *card : cardsFiltered(enemy, ally, {}, AllyAnywhere))
-            card->onAllyApplyEffect(rowEffect, enemy, ally, row);
+            card->onAllyAppliedRowEffect(rowEffect, enemy, ally, row);
     if (rowEffect == GoldenFrothEffect
             || rowEffect == FullMoonEffect)
         for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
-            card->onAllyApplyEffect(rowEffect, ally, enemy, row);
+            card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
 
     for (Card *card : ally.row(row))
         if (rowEffect == BloodMoonEffect)
@@ -2103,10 +2100,10 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
         return _onOtherAllyResurrecteded(card, ally, enemy);
 }
 
-void Card::onAllyApplyEffect(const RowEffect rowEffect, Field &ally, Field &enemy, Row row)
+void Card::onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row)
 {
-    if (_onAllyApplyEffect && !isLocked)
-        return _onAllyApplyEffect(rowEffect, ally, enemy, row);
+    if (_onAllyAppliedRowEffect && !isLocked)
+        return _onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
 }
 
 void Card::onConsumed(Field &ally, Field &enemy, Card *src)

@@ -81,23 +81,25 @@ struct Card
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
-        /// check whether self on board, in hand/deck/discard
+    /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+    // TODO: test and find all the cases
+    /// check whether self on board, in hand/deck/discard
+    void onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row);
             // TODO: test and find all the cases
-    void onAllyApplyEffect(const RowEffect rowEffect, Field &ally, Field &enemy, Row row);
-            /// check whether self on board, in hand/deck/discard
+             /// check whether self on board, in hand/deck/discard
     void onConsumed(Field &ally, Field &enemy, Card *src);
     void onAllyConsume(Field &ally, Field &enemy, Card *src);
 
     inline virtual Card *defaultCopy() const { return new Card; }
     inline virtual Card *exactCopy() const { return new Card; }
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
-    inline bool hasOnAllyApplyEffect() const { return _onAllyApplyEffect != nullptr; }
+    inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
 
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
@@ -109,7 +111,7 @@ protected:
     using AllyEnemySrcChangable = std::function<void(Field &, Field &, Card *)>;
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
-    using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, Row)>;
+    using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
@@ -137,9 +139,9 @@ protected:
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+    RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
     AllyEnemySrcChangable _onConsumed = nullptr;
     AllyEnemySrcChangable _onAllyConsume = nullptr;
-    RowEffectAllyEnemyRow _onAllyApplyEffect = nullptr;
 };
 
 template <class T>
@@ -294,6 +296,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
+// FIXME: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
@@ -325,7 +328,6 @@ void swapACard(Card *card, Field &ally, Field &enemy);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns true if wins a duel
 bool duel(Card *first, Card *second, Field &ally, Field &enemy);
-bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy);
 void charm(Card *card, Field &ally, Field &enemy, const Card *src);
 void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src);
 void lock(Card *card, Field &ally, Field &enemy, const Card *src);
