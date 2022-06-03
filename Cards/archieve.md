@@ -450,7 +450,7 @@
 - [x] Arachas Behemoth
 - [x] Arachas Drone
 - [x] Archespore
-- [ ] Archgriffin
+- [x] Archgriffin
 - [x] Barbegazi
 - [ ] Bridge Troll
 - [x] Celaeno Harpy
@@ -463,7 +463,7 @@
 - [x] Foglet __(NOT EXECT ABILITY)__
 - [x] Forktail
 - [x] Ghoul
-- [ ] Griffin
+- [x] Griffin
 - [ ] Harpy
 - [x] Ice Giant
 - [x] Ice Troll

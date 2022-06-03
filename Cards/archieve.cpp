@@ -250,6 +250,8 @@ std::vector<Card *> allCards(const Patch)
         new Draug(),
         new CelaenoHarpy(),
         new ArachasBehemoth(),
+        new Archgriffin(),
+        new Griffin(),
     };
 }
 
@@ -7307,5 +7309,43 @@ ArachasBehemoth::ArachasHatchling::ArachasHatchling()
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *copy : cardsFiltered(ally, enemy, {isCopy("ArachasDrone")}, AllyDeck))
             moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Archgriffin::Archgriffin()
+{
+    id = "132307";
+    name = "Archgriffin";
+    text = "Clear Hazards on its row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        RowEffect rowEffect = rowEffectUnderUnit(this, ally);
+        if (rowEffect != NoRowEffect && (int(rowEffect) < 9))
+            applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), NoRowEffect);
+    };
+}
+
+Griffin::Griffin()
+{
+    id = "132312";
+    name = "Griffin";
+    text = "Trigger the Deathwish of a Bronze ally.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        target->onDestroy(ally, enemy, _findRowAndPos(target, ally));
     };
 }

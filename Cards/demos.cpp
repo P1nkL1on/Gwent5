@@ -754,36 +754,36 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
 void demoTemporaryForTests(Field &ally, Field &enemy)
 {
     auto *w = new Wyvern();
-    auto *a = new Abaya();
     auto *p = new Parasite();
     auto *j = new Jotunn();
     auto *b1 = new BitingFrost();
     auto *b2 = new BitingFrost();
-    auto *ig = new IceGiant();
-    auto *it = new IceTroll();
-    auto *d = new Drowner();
-    auto *f1 = new Foglet();
-    auto *f2= new Foglet();
-    auto *f3 = new Foglet();
     auto *ws = new WoodlandSpirit();
-    auto *i = new ImpenetrableFog();
+    auto *i1 = new ImpenetrableFog();
     auto *ai = new AncientFoglet();
     auto *d1 = new Draug();
     auto *h = new CelaenoHarpy();
     auto *ba = new Barbegazi();
+    auto *ag = new Archgriffin();
+    auto *g = new Griffin();
+    auto *a = new Archespore();
+    auto *r = new Rotfiend();
 
-    ally.cardsAdded = {w, a, p, j, b1, b2, ig, it, d, f1, f2, f3, i, ws, ai, d1, h, ba};
-    ally.hand = {a, p, j, b1, ws, i, d1, h, ba};
-    ally.deck = {f1, f2, f3};
-    ally.discard = {b2, ig, it, d};
+    ally.cardsAdded = {w, p, j, b1, b2, i1, ws, ai, d1, h, ba, ag, g, a, r};
+    ally.hand = {p, j, b1, b2, ws, i1, d1, h, ba, ag, g};
     ally.rowSeige = {ai, w};
+    ally.rowMeele = {r, a};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
+    auto *b3 = new BitingFrost();
+    auto *i2 = new ImpenetrableFog();
+    auto *s = new SkelligeStorm();
 
-    enemy.cardsAdded = {m1, m2, m3};
+    enemy.cardsAdded = {m1, m2, m3, b3, s};
+    enemy.hand = {b3, s};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3};
     enemy.passed = true;

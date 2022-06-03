@@ -1719,4 +1719,16 @@ private:
 };
 
 
+struct Archgriffin : CardCollectible<Archgriffin>
+{
+    Archgriffin();
+};
+
+
+struct Griffin : CardCollectible<Griffin>
+{
+    Griffin();
+};
+
+
 #endif // CARDS_H
