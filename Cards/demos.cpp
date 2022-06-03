@@ -757,23 +757,25 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *p = new Parasite();
     auto *j = new Jotunn();
     auto *b = new BitingFrost();
-    auto *ws = new WoodlandSpirit();
     auto *i1 = new ImpenetrableFog();
     auto *ai = new AncientFoglet();
-    auto *d1 = new Draug();
     auto *h = new CelaenoHarpy();
     auto *ba = new Barbegazi();
-    auto *ag = new Archgriffin();
-    auto *g = new Griffin();
-    auto *a = new Archespore();
-    auto *r = new Rotfiend();
     auto *bt = new BridgeTroll();
     auto *c = new Cockatrice();
+    auto *as = new Archespore();
+    auto *n = new Nekurat();
+    auto *s1 = new Siren();
+    auto *s2 = new Siren();
+    auto *m = new Moonlight();
+    auto *l1 = new Lamia();
+    auto *l2 = new Lamia();
 
-    ally.cardsAdded = {w, p, j, b, i1, ws, ai, d1, h, ba, ag, g, a, r, bt, c};
-    ally.hand = {p, j, b, ws, i1, d1, h, ba, ag, g, bt, c};
-    ally.rowSeige = {ai, w};
-    ally.rowMeele = {r, a};
+    ally.cardsAdded = {w, p, j, b, i1, ai, h, ba, bt, c, as, n, s1, s2, m, l1, l2};
+    ally.hand = {p, b, i1, h, ba, n, s1, s2, l1, l2};
+    ally.deck = {m};
+    ally.rowSeige = {ai, w, j, bt, c};
+    ally.rowMeele = {as};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

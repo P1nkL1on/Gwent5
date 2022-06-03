@@ -254,6 +254,8 @@ std::vector<Card *> allCards(const Patch)
         new Griffin(),
         new BridgeTroll(),
         new Cockatrice(),
+        new Siren(),
+        new Lamia(),
     };
 }
 
@@ -7399,5 +7401,64 @@ Cockatrice::Cockatrice()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         reset(target, ally, enemy);
+    };
+}
+
+Nekurat::Nekurat()
+{
+    id = "132220";
+    name = "Nekurat";
+    text = "Spawn Moonlight.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Vampire };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new Moonlight(), ally, enemy, this);
+    };
+}
+
+Siren::Siren()
+{
+    id = "200112";
+    name = "Siren";
+    text = "Play Moonlight from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.91.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.93.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.92.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy("Moonlight")}, AllyDeckShuffled), ally.rng);
+        if (moonlight != nullptr)
+            playExistedCard(moonlight, ally, enemy, this);
+    };
+}
+
+Lamia::Lamia()
+{
+    id = "132409";
+    name = "Lamia";
+    text = "Deal 4 damage to an enemy. If the enemy is under Blood Moon, deal 7 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, rowEffectUnderUnit(target, enemy) == BloodMoonEffect ? 7 : 4 , ally, enemy, this);
     };
 }

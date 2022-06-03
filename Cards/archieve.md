@@ -467,11 +467,11 @@
 - [ ] Harpy
 - [x] Ice Giant
 - [x] Ice Troll
-- [ ] Lamia
+- [x] Lamia
 - [ ] Nekker
 - [ ] Nekker Warrior
 - [x] Rotfiend
-- [ ] Siren
+- [x] Siren
 - [ ] Slyzard
 - [ ] Vran Warrior
 - [ ] Werecat

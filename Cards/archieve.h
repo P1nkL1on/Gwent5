@@ -1745,4 +1745,22 @@ struct Cockatrice : CardCollectible<Cockatrice>
 };
 
 
+struct Nekurat : CardCollectible<Nekurat>
+{
+    Nekurat();
+};
+
+
+struct Siren : CardCollectible<Siren>
+{
+    Siren();
+};
+
+
+struct Lamia : CardCollectible<Lamia>
+{
+    Lamia();
+};
+
+
 #endif // CARDS_H
