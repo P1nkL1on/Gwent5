@@ -252,6 +252,8 @@ std::vector<Card *> allCards(const Patch)
         new ArachasBehemoth(),
         new Archgriffin(),
         new Griffin(),
+        new BridgeTroll(),
+        new Cockatrice(),
     };
 }
 
@@ -7325,7 +7327,7 @@ Archgriffin::Archgriffin()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         RowEffect rowEffect = rowEffectUnderUnit(this, ally);
-        if (rowEffect != NoRowEffect && (int(rowEffect) < 9))
+        if (rowEffect != NoRowEffect && (int(rowEffect) <= 9))
             applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), NoRowEffect);
     };
 }
@@ -7347,5 +7349,55 @@ Griffin::Griffin()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         target->onDestroy(ally, enemy, _findRowAndPos(target, ally));
+    };
+}
+
+BridgeTroll::BridgeTroll()
+{
+    id = "201700";
+    name = "Bridge Troll";
+    text = "Move a Hazard on an enemy row to a different enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        if (movedEffect != NoRowEffect) {
+            applyRowEffect(enemy, ally, row, movedEffect);
+            movedEffect = NoRowEffect;
+            return;
+        }
+        movedEffect = enemy.rowEffect(row);
+        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
+            return;
+        applyRowEffect(enemy, ally, row, NoRowEffect);
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+}
+
+Cockatrice::Cockatrice()
+{
+    id = "200233";
+    name = "Cockatrice";
+    text = "Reset a unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy);
     };
 }

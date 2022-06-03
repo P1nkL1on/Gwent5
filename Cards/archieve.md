@@ -452,9 +452,9 @@
 - [x] Archespore
 - [x] Archgriffin
 - [x] Barbegazi
-- [ ] Bridge Troll
+- [x] Bridge Troll
 - [x] Celaeno Harpy
-- [ ] Cockatrice
+- [x] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao
 - [x] Drowner

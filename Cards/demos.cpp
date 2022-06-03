@@ -756,8 +756,7 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *w = new Wyvern();
     auto *p = new Parasite();
     auto *j = new Jotunn();
-    auto *b1 = new BitingFrost();
-    auto *b2 = new BitingFrost();
+    auto *b = new BitingFrost();
     auto *ws = new WoodlandSpirit();
     auto *i1 = new ImpenetrableFog();
     auto *ai = new AncientFoglet();
@@ -768,9 +767,11 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *g = new Griffin();
     auto *a = new Archespore();
     auto *r = new Rotfiend();
+    auto *bt = new BridgeTroll();
+    auto *c = new Cockatrice();
 
-    ally.cardsAdded = {w, p, j, b1, b2, i1, ws, ai, d1, h, ba, ag, g, a, r};
-    ally.hand = {p, j, b1, b2, ws, i1, d1, h, ba, ag, g};
+    ally.cardsAdded = {w, p, j, b, i1, ws, ai, d1, h, ba, ag, g, a, r, bt, c};
+    ally.hand = {p, j, b, ws, i1, d1, h, ba, ag, g, bt, c};
     ally.rowSeige = {ai, w};
     ally.rowMeele = {r, a};
     ally.canPass = false;
@@ -779,7 +780,6 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
     auto *b3 = new BitingFrost();
-    auto *i2 = new ImpenetrableFog();
     auto *s = new SkelligeStorm();
 
     enemy.cardsAdded = {m1, m2, m3, b3, s};

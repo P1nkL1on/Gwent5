@@ -1731,4 +1731,18 @@ struct Griffin : CardCollectible<Griffin>
 };
 
 
+struct BridgeTroll : CardCollectible<BridgeTroll>
+{
+    BridgeTroll();
+private:
+    RowEffect movedEffect = NoRowEffect;
+};
+
+
+struct Cockatrice : CardCollectible<Cockatrice>
+{
+    Cockatrice();
+};
+
+
 #endif // CARDS_H
