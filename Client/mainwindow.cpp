@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Party against Devil Lord", demoImlerithSabbath},
         {"Consume demo", demoConsume},
         {"Temporary demo", demoTemporaryForTests},
+        {"Nekker Warrior", demoNekkerWarrior},
     };
 
     /// make a choosing menu for it

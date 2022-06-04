@@ -468,8 +468,8 @@
 - [x] Ice Giant
 - [x] Ice Troll
 - [x] Lamia
-- [ ] Nekker
-- [ ] Nekker Warrior
+- [x] Nekker
+- [x] Nekker Warrior
 - [x] Rotfiend
 - [x] Siren
 - [ ] Slyzard

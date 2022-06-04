@@ -37,5 +37,6 @@ void demoConsume(Field &ally, Field &enemy);
 void demoArchesporeJumping(Field &ally, Field &enemy);
 void demoImlerithSabbath(Field &ally, Field &enemy);
 void demoTemporaryForTests(Field &ally, Field &enemy);
+void demoNekkerWarrior(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

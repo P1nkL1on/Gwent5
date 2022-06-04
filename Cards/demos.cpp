@@ -791,3 +791,19 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoNekkerWarrior(Field &ally, Field &enemy)
+{
+    auto *c0 = new NekkerWarrior();
+    auto *c1 = new NekkerWarrior();
+    auto *c2 = new ToadPrince();
+    auto *c3 = new ToadPrince();
+    auto *c4 = new Siren();
+
+    ally.cardsAdded = { c0, c1, c2, c3, c4 };
+    ally.hand = { c0, c1, c2, c3 };
+    ally.deck = { c4 };
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

@@ -7512,12 +7512,12 @@ NekkerWarrior::NekkerWarrior()
         startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        Card *newCard = target->exactCopy();
-        ally.cardsAdded.push_back(newCard);
-        ally.deck.push_back(newCard);
-//        newCard = target->exactCopy();
-//        ally.cardsAdded.push_back(newCard);
-//        ally.deck.push_back(newCard);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+        int n = 2;
+        while (n--) {
+            Card *card = target->defaultCopy();
+            addAsNew(ally, card);
+            ally.deck.push_back(card);
+        }
     };
 }
