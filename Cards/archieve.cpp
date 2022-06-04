@@ -250,6 +250,14 @@ std::vector<Card *> allCards(const Patch)
         new Draug(),
         new CelaenoHarpy(),
         new ArachasBehemoth(),
+        new Archgriffin(),
+        new Griffin(),
+        new BridgeTroll(),
+        new Cockatrice(),
+        new Siren(),
+        new Lamia(),
+        new Nekker(),
+        new NekkerWarrior(),
     };
 }
 
@@ -7213,23 +7221,22 @@ Draug::Draug()
     tags = { Cursed, Officer };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        const Row row = _findRowAndPos(this, ally).row();
-        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isUnit}, AllyDiscard);
-        for (Card *card : cards) {
+        // TODO: check interaction w/ Cyris
+        for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
                 return;
-            moveExistedUnitToPos(card, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
-            transform(card, Draug::Draugir(), ally, enemy, this);
+            banish(card, ally, enemy, this);
+            if (!spawnNewUnitToPos(new Draugir(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this))
+                break;
         }
     };
 }
 
 Draug::Draugir::Draugir()
 {
-    // TODO: find picture and verify stats
+    // TODO: find picture
     id = "132101";
     name = "Draugir";
-    text = "";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     rarity = Bronze;
@@ -7269,6 +7276,21 @@ CelaenoHarpy::HarpyEgg::HarpyEgg()
     _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
         boost(src, 4, ally, enemy, this);
     };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        spawnNewUnitToPos(new HarpyHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+CelaenoHarpy::HarpyHatchling::HarpyHatchling()
+{
+    id = "132315";
+    name = "Harpy Hatchling";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
 }
 
 ArachasBehemoth::ArachasBehemoth()
@@ -7283,13 +7305,14 @@ ArachasBehemoth::ArachasBehemoth()
     tags = { Insectoid };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 5);
+        setTimer(this, ally, enemy, 4);
     };
 
     _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if(tick(this, ally, enemy) || !isOnBoard(this, ally))
+        if (!isOnBoard(this, ally))
             return;
-        spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+        if (!tick(this, ally, enemy))
+            spawnNewUnitToPosWithDeploy(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -7305,7 +7328,208 @@ ArachasBehemoth::ArachasHatchling::ArachasHatchling()
     tags = { Insectoid };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy("ArachasDrone")}, AllyDeck))
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy<ArachasDrone>}, AllyDeck))
             moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Archgriffin::Archgriffin()
+{
+    id = "132307";
+    name = "Archgriffin";
+    text = "Clear Hazards on its row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(this, ally);
+    };
+}
+
+Griffin::Griffin()
+{
+    id = "132312";
+    name = "Griffin";
+    text = "Trigger the Deathwish of a Bronze ally.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        target->onDestroy(ally, enemy, _findRowAndPos(target, ally));
+    };
+}
+
+BridgeTroll::BridgeTroll()
+{
+    id = "201700";
+    name = "Bridge Troll";
+    text = "Move a Hazard on an enemy row to a different enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+
+    // TODO: change when weather logic will work with any rows
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        if (movedEffect != NoRowEffect) {
+            applyRowEffect(enemy, ally, row, movedEffect);
+            movedEffect = NoRowEffect;
+            return;
+        }
+        movedEffect = enemy.rowEffect(row);
+        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
+            return;
+        applyRowEffect(enemy, ally, row, NoRowEffect);
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+}
+
+Cockatrice::Cockatrice()
+{
+    id = "200233";
+    name = "Cockatrice";
+    text = "Reset a unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy);
+    };
+}
+
+Nekurat::Nekurat()
+{
+    id = "132220";
+    name = "Nekurat";
+    text = "Spawn Moonlight.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Silver;
+    faction = Monster;
+    tags = { Vampire };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new Moonlight(), ally, enemy, this);
+    };
+}
+
+Siren::Siren()
+{
+    id = "200112";
+    name = "Siren";
+    text = "Play Moonlight from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.91.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.93.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.92.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy<Moonlight>}, AllyDeck), ally.rng))
+            playExistedCard(moonlight, ally, enemy, this);
+    };
+}
+
+Lamia::Lamia()
+{
+    id = "132409";
+    name = "Lamia";
+    text = "Deal 4 damage to an enemy. If the enemy is under Blood Moon, deal 7 damage instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, rowEffectUnderUnit(target, enemy) == BloodMoonEffect ? 7 : 4 , ally, enemy, this);
+    };
+}
+
+Nekker::Nekker()
+{
+    id = "132305";
+    name = "Nekker";
+    text = "If in hand, deck, or on board, boost self by 1 whenever you Consume a card. Deathwish: Summon a copy of this unit to the same position.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/nekker_mumble_003.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_attack_004.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_attack_009.mp3",
+    };
+
+    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
+        if (!isIn(this, ally.discard))
+            boost(this, 1, ally, enemy, this);
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Nekker>}, AllyDeck), ally.rng))
+            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
+    };
+}
+
+NekkerWarrior::NekkerWarrior()
+{
+    id = "132211";
+    name = "Nekker Warrior";
+    text = "Choose a Bronze ally and add 2 copies of it to the bottom of your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/nekker_scream_006.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_scream_004.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+        int n = 2;
+        while (n--) {
+            Card *card = target->defaultCopy();
+            addAsNew(ally, card);
+            ally.deck.push_back(card);
+        }
     };
 }

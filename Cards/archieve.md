@@ -450,11 +450,11 @@
 - [x] Arachas Behemoth
 - [x] Arachas Drone
 - [x] Archespore
-- [ ] Archgriffin
+- [x] Archgriffin
 - [x] Barbegazi
-- [ ] Bridge Troll
+- [x] Bridge Troll
 - [x] Celaeno Harpy
-- [ ] Cockatrice
+- [x] Cockatrice
 - [x] Cyclops _(easy card)_
 - [x] D'ao
 - [x] Drowner
@@ -463,15 +463,15 @@
 - [x] Foglet __(NOT EXECT ABILITY)__
 - [x] Forktail
 - [x] Ghoul
-- [ ] Griffin
+- [x] Griffin
 - [ ] Harpy
 - [x] Ice Giant
 - [x] Ice Troll
-- [ ] Lamia
-- [ ] Nekker
-- [ ] Nekker Warrior
+- [x] Lamia
+- [x] Nekker
+- [x] Nekker Warrior
 - [x] Rotfiend
-- [ ] Siren
+- [x] Siren
 - [ ] Slyzard
 - [ ] Vran Warrior
 - [ ] Werecat

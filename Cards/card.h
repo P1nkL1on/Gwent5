@@ -300,8 +300,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
-void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
-void spawnNewUnitToPosWithDeploy(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
@@ -333,6 +332,8 @@ void toggleLock(Card *card, Field &ally, Field &enemy, const Card *src);
 void lock(Card *card, Field &ally, Field &enemy, const Card *src);
 void toggleSpy(Card *card, Field &ally, Field &enemy, const Card *src);
 void spy(Card *card, Field &ally, Field &enemy, const Card *src);
+/// returns true if timer ends, otherwise returns false
+/// if resetTo >0 then timer ll go to the loop, otherwise is singleshot
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo = -1);
 void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);

@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Locking The Deathwish", demoLockingDeathwish},
         {"Monsters Leaders", demoMonsterLeaders},
         {"Monsters Sisters", demoMonsterSisters},
-        {"Dudes summon dudes", demoSummoning},
+        {"Monsters Summoning", demoSummoning},
         {"Last Played Card", demoLastPlayed},
         {"Blue Stripes", demoBlueStripes},
         {"New Big Ogrs vs some Skellige", demoBigOgrs},
@@ -65,6 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
         {"Party against Devil Lord", demoImlerithSabbath},
         {"Consume demo", demoConsume},
         {"Temporary demo", demoTemporaryForTests},
+        {"Nekker Warrior", demoNekkerWarrior},
+        {"Nekkers", demoNekkers},
+        {"Arachas Drones", demoArachasDrones},
     };
 
     /// make a choosing menu for it

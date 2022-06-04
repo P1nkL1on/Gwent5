@@ -1705,6 +1705,10 @@ private:
     {
         HarpyEgg();
     };
+    struct HarpyHatchling : CardCollectible<HarpyHatchling>
+    {
+        HarpyHatchling();
+    };
 };
 
 
@@ -1716,6 +1720,62 @@ private:
     {
         ArachasHatchling();
     };
+};
+
+
+struct Archgriffin : CardCollectible<Archgriffin>
+{
+    Archgriffin();
+};
+
+
+struct Griffin : CardCollectible<Griffin>
+{
+    Griffin();
+};
+
+
+struct BridgeTroll : CardCollectible<BridgeTroll>
+{
+    BridgeTroll();
+private:
+    RowEffect movedEffect = NoRowEffect;
+};
+
+
+struct Cockatrice : CardCollectible<Cockatrice>
+{
+    Cockatrice();
+};
+
+
+struct Nekurat : CardCollectible<Nekurat>
+{
+    Nekurat();
+};
+
+
+struct Siren : CardCollectible<Siren>
+{
+    Siren();
+};
+
+
+struct Lamia : CardCollectible<Lamia>
+{
+    Lamia();
+};
+
+
+struct Nekker : CardCollectible<Nekker>
+{
+    Nekker();
+};
+
+
+struct NekkerWarrior : CardCollectible<NekkerWarrior>
+{
+    NekkerWarrior();
 };
 
 
