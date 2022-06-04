@@ -7221,23 +7221,22 @@ Draug::Draug()
     tags = { Cursed, Officer };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        const Row row = _findRowAndPos(this, ally).row();
-        const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isUnit}, AllyDiscard);
-        for (Card *card : cards) {
+        // TODO: check interaction w/ Cyris
+        for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
                 return;
-            moveExistedUnitToPos(card, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
-            transform(card, Draug::Draugir(), ally, enemy, this);
+            banish(card, ally, enemy, this);
+            if (!spawnNewUnitToPos(new Draugir(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this))
+                break;
         }
     };
 }
 
 Draug::Draugir::Draugir()
 {
-    // TODO: find picture and verify stats
+    // TODO: find picture
     id = "132101";
     name = "Draugir";
-    text = "";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 1;
     rarity = Bronze;
@@ -7277,6 +7276,21 @@ CelaenoHarpy::HarpyEgg::HarpyEgg()
     _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
         boost(src, 4, ally, enemy, this);
     };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        spawnNewUnitToPos(new HarpyHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+CelaenoHarpy::HarpyHatchling::HarpyHatchling()
+{
+    id = "132315";
+    name = "Harpy Hatchling";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
 }
 
 ArachasBehemoth::ArachasBehemoth()
@@ -7297,8 +7311,8 @@ ArachasBehemoth::ArachasBehemoth()
     _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
         if (!isOnBoard(this, ally))
             return;
-        if (tick(this, ally, enemy))
-            spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+        if (!tick(this, ally, enemy))
+            spawnNewUnitToPosWithDeploy(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 

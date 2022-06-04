@@ -1705,6 +1705,10 @@ private:
     {
         HarpyEgg();
     };
+    struct HarpyHatchling : CardCollectible<HarpyHatchling>
+    {
+        HarpyHatchling();
+    };
 };
 
 

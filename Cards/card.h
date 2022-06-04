@@ -300,8 +300,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
-void spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
-void spawnNewUnitToPosWithDeploy(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
