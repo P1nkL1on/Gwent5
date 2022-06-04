@@ -3827,6 +3827,20 @@ DonarAnHindar::DonarAnHindar()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanHeymaey, Officer };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!isIn(target, enemy.discard)) {
+            toggleLock(target, ally, enemt, this);
+            return;
+        }
+        // FIXME: will crash
+        putToDiscard(card, ally, enemy, this);
+    };
 }
 
 
@@ -4225,6 +4239,16 @@ DimunSmuggler::DimunSmuggler()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Soldier };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        /// put in a random place in a deck
+        const int ind = int(ally.rng() % (ally.deck.size() + 1));
+        ally.deck.insert(ally.deck.begin() + ind, target);
+    };
 }
 
 
@@ -4244,7 +4268,6 @@ DrummondShieldmaid::DrummondShieldmaid()
     rarity = Bronze;
     tags = { ClanDrummond, Soldier };
 
-    // TODO: test an ability
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
             moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
@@ -4267,6 +4290,15 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(this, ally);
+        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(ally, this)}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(card, rowAndPosLastInTheSameRow(this, ally), ally, enemy, this);
+    };
 }
 
 
@@ -4334,6 +4366,20 @@ HeymaeySkald::HeymaeySkald()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (const Tag tag : std::vector<Tag>{ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch}) {
+            if (!hasTag(target, tag))
+                continue;
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(tag), otherThan(this)}, AllyBoard))
+                boost(card, 1, ally, enemy, this);
+            break;
+        }
+    };
 }
 
 
@@ -4382,6 +4428,50 @@ Hym::Hym()
     faction = Skellige;
     rarity = Gold;
     tags = { Cursed };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new Hym::Play;
+        copyCardText(this, option1);
+        option1->text = "Play a Bronze or Silver Cursed unit from your deck.";
+
+        auto *option2 = new Hym::Create;
+        copyCardText(this, option2);
+        option2->text = "Create a Silver unit from your opponent's starting deck.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+
+            if (dynamic_cast<Hym::Play *>(_choosen))
+                return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
+
+            if (dynamic_cast<Hym::Create *>(_choosen))
+                return startChoiceCreateOptions(ally, this, {isSilver, isUnit, isNonAgent});
+
+            assert(false);
+        }
+
+        if (dynamic_cast<Hym::Play *>(_choosen)) {
+            playExistedCard(target, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<Hym::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
 }
 
 
@@ -4399,7 +4489,7 @@ Kambi::Kambi()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
-        // BUG: Hemdall doesn't wipe a board!
+        // TODO: Check if Hemdall doesn't wipe a board!
     };
 }
 
@@ -4414,6 +4504,12 @@ Olaf::Olaf()
     faction = Skellige;
     rarity = Gold;
     tags = { Beast, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const int n = cardsFiltered(ally, enemy, {hasTag(Beast)}, AllyAppeared).size();
+        const int x = std::max(0, 10 - 2 * n);
+        damage(this, x, ally, enemy, this);
+    };
 }
 
 
@@ -4522,8 +4618,11 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     rarity = Silver;
     tags = { Cursed };
 
-    _onTurnEnd = [=](Field &, Field &) {
-        // FIXME: ability missing
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!moveSelfToRandomRow(this, ally, enemy))
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(ally, this)}, AllyBoard))
+            damage(card, 1, ally, enemy, this);
     };
 }
 
@@ -7380,7 +7479,7 @@ BridgeTroll::BridgeTroll()
     faction = Monster;
     tags = { Ogroid };
 
-    // TODO: change when weather logic will work with any rows
+    // FIXME: change when weather logic will work with any rows
     _onDeploy = [=](Field &ally, Field &enemy) {
         startChoiceToSelectEnemyRow(ally, this);
     };

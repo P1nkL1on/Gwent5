@@ -423,7 +423,6 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
     const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
     const bool mayTriggerDeathwish = card->powerBase > 0;
 
-
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
     if (!isAlly)

@@ -811,7 +811,6 @@ struct BlueboyLugos : CardCollectible<BlueboyLugos>
     struct SpectralWhale : CardCollectible<SpectralWhale>
     {
         SpectralWhale();
-
     };
     BlueboyLugos();
 };
@@ -926,21 +925,18 @@ struct DimunPirateCaptain : CardCollectible<DimunPirateCaptain>
 struct DimunSmuggler : CardCollectible<DimunSmuggler>
 {
     DimunSmuggler();
-    // FIXME: ability isn't implemented
 };
 
 
 struct DrummondShieldmaid : CardCollectible<DrummondShieldmaid>
 {
     DrummondShieldmaid();
-    // FIXME: ability isn't implemented
 };
 
 
 struct HeymaeyFlaminica : CardCollectible<HeymaeyFlaminica>
 {
     HeymaeyFlaminica();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -959,7 +955,6 @@ struct HeymaeyProtector : CardCollectible<HeymaeyProtector>
 struct HeymaeySkald : CardCollectible<HeymaeySkald>
 {
     HeymaeySkald();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -976,7 +971,10 @@ struct RagingBerserker : CardCollectible<RagingBerserker>
 struct Hym : CardCollectible<Hym>
 {
     Hym();
-    // FIXME: ability isn't implemented
+private:
+    struct Play : CardCollectible<Play> {};
+    struct Create : CardCollectible<Create> {};
+    Card *_choosen = nullptr;
 };
 
 
@@ -993,7 +991,6 @@ struct Kambi : CardCollectible<Kambi>
 struct Olaf : CardCollectible<Olaf>
 {
     Olaf();
-    // FIXME: ability isn't implemented
 };
 
 
