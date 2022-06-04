@@ -256,6 +256,8 @@ std::vector<Card *> allCards(const Patch)
         new Cockatrice(),
         new Siren(),
         new Lamia(),
+        new Nekker(),
+        new NekkerWarrior(),
     };
 }
 
@@ -7460,5 +7462,62 @@ Lamia::Lamia()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, rowEffectUnderUnit(target, enemy) == BloodMoonEffect ? 7 : 4 , ally, enemy, this);
+    };
+}
+
+Nekker::Nekker()
+{
+    id = "132305";
+    name = "Nekker";
+    text = "If in hand, deck, or on board, boost self by 1 whenever you Consume a card. Deathwish: Summon a copy of this unit to the same position.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/nekker_mumble_003.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_attack_004.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_attack_009.mp3",
+    };
+
+    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
+        if(!isIn(this, ally.discard))
+            boost(this, 1, ally, enemy, this);
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        Card *newNekkerKing = random(cardsFiltered(ally, enemy, {isCopy("Nekker")}, AllyDeckShuffled), ally.rng);
+        if (newNekkerKing != nullptr)
+            moveExistedUnitToPos(newNekkerKing, rowAndPos, ally, enemy, this);
+    };
+}
+
+NekkerWarrior::NekkerWarrior()
+{
+    id = "132211";
+    name = "Nekker Warrior";
+    text = "Choose a Bronze ally and add 2 copies of it to the bottom of your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Ogroid };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/nekker_scream_006.mp3",
+        "https://gwent.one/audio/card/ob/en/nekker_scream_004.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *newCard = target->exactCopy();
+        ally.cardsAdded.push_back(newCard);
+        ally.deck.push_back(newCard);
+//        newCard = target->exactCopy();
+//        ally.cardsAdded.push_back(newCard);
+//        ally.deck.push_back(newCard);
     };
 }

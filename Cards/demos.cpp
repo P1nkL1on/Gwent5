@@ -653,28 +653,27 @@ void demoConsume(Field &ally, Field &enemy)
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
-    auto *r = new Ruehin();
     auto *b1 = new Barbegazi();
     auto *b2 = new Barbegazi();
     auto *d1 = new DevanaRunestone();
     auto *d2 = new DevanaRunestone();
     auto *d3 = new DevanaRunestone();
-    auto *f = new Forktail();
     auto *o = new Ozzrel();
-    auto *aq = new ArachasQueen();
     auto *k = new Kayran();
-    auto *m0 = new Mourntart();
-    auto *tp = new ToadPrince();
+    auto *m0 = new Maerolorn();
     auto *s = new SheTrollOfVergen();
     auto *r1 = new Rotfiend();
     auto *a = new Archespore();
-    auto *ab = new ArachasBehemoth();
-    ally.cardsAdded = {g1, m1, m2, m3, r, b1, b2, d1, d2, d3, f, o, aq, k, m0, tp, s, r1, a, ab};
+    auto *n1 = new Nekker();
+    auto *n2 = new Nekker();
+    auto *n3 = new Nekker();
+    auto *nw = new NekkerWarrior();
+    ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw};
 
-    ally.hand = {g1, b1, b2, d1, f, o, aq, k, m0, tp, s, ab};
+    ally.hand = {g1, b1, b2, d1, o, k, m0, s, nw};
     ally.discard = {m1, d2};
-    ally.rowMeele = {m2};
-    ally.deck = {d3, m3, r1, r, a};
+    ally.rowMeele = {m2, n1};
+    ally.deck = {d3, m3, r1, a, n2, n3};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();

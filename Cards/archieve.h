@@ -1763,4 +1763,16 @@ struct Lamia : CardCollectible<Lamia>
 };
 
 
+struct Nekker : CardCollectible<Nekker>
+{
+    Nekker();
+};
+
+
+struct NekkerWarrior : CardCollectible<NekkerWarrior>
+{
+    NekkerWarrior();
+};
+
+
 #endif // CARDS_H
