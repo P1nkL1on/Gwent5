@@ -7291,13 +7291,14 @@ ArachasBehemoth::ArachasBehemoth()
     tags = { Insectoid };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 5);
+        setTimer(this, ally, enemy, 4);
     };
 
     _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if(tick(this, ally, enemy) || !isOnBoard(this, ally))
+        if (!isOnBoard(this, ally))
             return;
-        spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+        if (tick(this, ally, enemy))
+            spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -7313,7 +7314,7 @@ ArachasBehemoth::ArachasHatchling::ArachasHatchling()
     tags = { Insectoid };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy("ArachasDrone")}, AllyDeck))
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy<ArachasDrone>}, AllyDeck))
             moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
@@ -7330,9 +7331,7 @@ Archgriffin::Archgriffin()
     tags = { Beast };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        RowEffect rowEffect = rowEffectUnderUnit(this, ally);
-        if (rowEffect != NoRowEffect && (int(rowEffect) <= 9))
-            applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), NoRowEffect);
+        clearHazardsFromItsRow(this, ally);
     };
 }
 
@@ -7367,6 +7366,7 @@ BridgeTroll::BridgeTroll()
     faction = Monster;
     tags = { Ogroid };
 
+    // TODO: change when weather logic will work with any rows
     _onDeploy = [=](Field &ally, Field &enemy) {
         startChoiceToSelectEnemyRow(ally, this);
     };
@@ -7439,8 +7439,7 @@ Siren::Siren()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy("Moonlight")}, AllyDeckShuffled), ally.rng);
-        if (moonlight != nullptr)
+        if (Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy<Moonlight>}, AllyDeck), ally.rng))
             playExistedCard(moonlight, ally, enemy, this);
     };
 }
@@ -7482,14 +7481,13 @@ Nekker::Nekker()
     };
 
     _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if(!isIn(this, ally.discard))
+        if (!isIn(this, ally.discard))
             boost(this, 1, ally, enemy, this);
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        Card *newNekkerKing = random(cardsFiltered(ally, enemy, {isCopy("Nekker")}, AllyDeckShuffled), ally.rng);
-        if (newNekkerKing != nullptr)
-            moveExistedUnitToPos(newNekkerKing, rowAndPos, ally, enemy, this);
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Nekker>}, AllyDeck), ally.rng))
+            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
     };
 }
 

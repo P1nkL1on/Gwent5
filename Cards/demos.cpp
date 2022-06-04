@@ -807,3 +807,40 @@ void demoNekkerWarrior(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoNekkers(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new Nekker(),
+        new Nekker(),
+        new NekkerWarrior(),
+        new Barbegazi(),
+        new Ghoul(),
+        new Maerolorn(),
+    };
+    ally.hand = ally.cardsAdded;
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoArachasDrones(Field &ally, Field &enemy)
+{
+    auto *c0 = new ArachasDrone();
+    auto *c1 = new ArachasDrone();
+    auto *c2 = new ArachasDrone();
+    auto *c3 = new ArachasBehemoth();
+    auto *c4 = new ArachasBehemoth();
+    auto *c5 = new CelaenoHarpy();
+    auto *c6 = new ArachasDrone();
+    auto *c7 = new ArachasQueen();
+    auto *c8 = new ArachasQueen();
+
+    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8};
+    ally.hand = { c3, c4, c5, c6, c7, c8};
+    ally.deck = { c0, c1, c2 };
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}
