@@ -7,7 +7,9 @@ include($$PWD/../Cards/Cards.pri)
 
 SOURCES += \
      main.cpp \
-     mainwindow.cpp
+     mainwindow.cpp \
+    cardinfo.cpp
 
 HEADERS += \
-     mainwindow.h
+     mainwindow.h \
+    cardinfo.h
