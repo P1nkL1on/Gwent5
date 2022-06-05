@@ -8,6 +8,7 @@
 #include <QSplitter>
 #include <QFileDialog>
 #include <QMenuBar>
+#include <QProgressBar>
 
 #include "../Cards/archieve.h"
 #include "../Cards/io.h"
@@ -39,13 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
         CardView view = cardView(card, id++);
         view.count = card->rarity == Bronze ? 3 : 1;
         _allCardViews.push_back(view);
-
-//        const std::vector<CardView> options = cardOptionViews(card);
-//        if (options.size())
-//            views.insert({id - 1, cardOptionViews(card)});
     }
 
-    auto *_resourceManager = new ResourceManager();
+    _resourceManager = new ResourceManager();
 
     auto *widget = new QWidget;
     widget->setContentsMargins(0, 0, 0, 0);
@@ -66,7 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
     layoutH->addWidget(_checkBoxSkellige = new QCheckBox("Skellige"));
     layoutH->addStretch(1);
     layout->addLayout(layoutH);
-    layout->addWidget(_lineEditSearch = new QLineEdit());
+    auto *layoutH3 = new QHBoxLayout;
+    layoutH3->setContentsMargins(0, 0, 0, 0);
+    layoutH3->addWidget(_lineEditSearch = new QLineEdit(), 1);
+    layout->addLayout(layoutH3);
 
 
     auto *splitterH2 = new QSplitter(Qt::Horizontal);
@@ -76,8 +76,18 @@ MainWindow::MainWindow(QWidget *parent)
     splitterV->insertWidget(0, splitterH2);
     splitterV->insertWidget(1, createScrollArea(_cardsLineView2 = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
     layout->addWidget(splitterV, 5);
-//    layout->addWidget(createScrollArea(_cardsLineViewOptions = new CardsLineView(_resourceManager, {}, {}, Qt::Horizontal, 1)));
+
+    auto *progress = new QProgressBar();
+    progress->setFixedHeight(10);
+    layoutH3->addWidget(progress, 1);
+    progress->setFormat("%v/%m (%p%)");
+    progress->setVisible(false);
+    _timeStampProgressBar = QDateTime::currentDateTime();
     setCentralWidget(widget);
+    auto *progressTimer = new QTimer(this);
+    progressTimer->setInterval(1000);
+    progressTimer->setSingleShot(false);
+    progressTimer->start();
 
     connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
     connect(_checkBoxSilver, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
@@ -93,14 +103,8 @@ MainWindow::MainWindow(QWidget *parent)
         if (id >= 0)
             for (const CardView &view : _allCardViews)
                 if (view.id == id) {
-                    auto it = views.find(id);
-//                    if (it == views.end())
-//                        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
-//                    else
-//                        _cardsLineViewOptions->setCardAndChoiceViews(it->second, {});
                     return _cardSingleView->setCardView(view);
                 }
-//        _cardsLineViewOptions->setCardAndChoiceViews({}, {});
         _cardSingleView->setCardView({});
     };
     connect(_cardsLineView, &CardsLineView::hovered, this, hoverId);
@@ -108,8 +112,24 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_cardsLineView, &CardsLineView::clicked, this, &MainWindow::putCardToDeck);
     connect(_cardsLineView2, &CardsLineView::clicked, this, &MainWindow::putCardBack);
     connect(_resourceManager, &ResourceManager::imageRequestSucceed, this, static_cast<void(QWidget::*)()>(&QWidget::repaint));
+    const auto showProgress = [=]{
+        progress->setRange(0, _resourceManager->nRequests());
+        progress->setValue(_resourceManager->nReplies());
+        progress->setVisible(true);
+        _timeStampProgressBar = QDateTime::currentDateTime().addSecs(2);
+    };
+    connect(_resourceManager, &ResourceManager::imageRequestSucceed, this, showProgress);
+    connect(_resourceManager, &ResourceManager::cardRequestSucceed, this, showProgress);
+    connect(progressTimer, &QTimer::timeout, this, [=]{
+        if (QDateTime::currentDateTime() > _timeStampProgressBar || progress->value() >= progress->maximum())
+            progress->setVisible(false);
+    });
 
     updateCardsList();
+
+    resize(800, 900);
+    splitterV->setSizes({800, 100});
+    splitterH2->setSizes({500, 300});
 }
 
 void MainWindow::updateCardsList()
@@ -144,13 +164,15 @@ void MainWindow::updateCardsList()
             return false;
         if (!skipFactionFilter && !_checkBoxSkellige->isChecked() && view.faction == Skellige)
             return false;
+
+        const CardStringsAndUrls strings = _resourceManager->cardStringsAndUrls(view.idInfo);
         if (!_lineEditSearch->text().isEmpty()
-                && !QString::fromStdString(view.name).contains(_lineEditSearch->text(), Qt::CaseInsensitive)
-                && !QString::fromStdString(view.text).contains(_lineEditSearch->text(), Qt::CaseInsensitive))
+                && !QString::fromStdString(strings.name).contains(_lineEditSearch->text(), Qt::CaseInsensitive)
+                && !QString::fromStdString(strings.text).contains(_lineEditSearch->text(), Qt::CaseInsensitive))
             return false;
         return true;
     });
-    const auto sortCollection = [](const CardView &lhs, const CardView &rhs) {
+    const auto sortCollection = [=](const CardView &lhs, const CardView &rhs) {
         if (isLeader(lhs) != isLeader(rhs))
             return isLeader(lhs);
         if (lhs.faction != rhs.faction)
@@ -159,16 +181,16 @@ void MainWindow::updateCardsList()
             return (lhs.rarity > rhs.rarity);
         if (lhs.powerBase != rhs.powerBase)
             return (lhs.powerBase < rhs.powerBase);
-        return lhs.name < rhs.name;
+        return _resourceManager->cardName(lhs.idInfo) < _resourceManager->cardName(rhs.idInfo);
     };
-    const auto sortDeck = [](const CardView &lhs, const CardView &rhs) {
+    const auto sortDeck = [=](const CardView &lhs, const CardView &rhs) {
         if (isLeader(lhs) != isLeader(rhs))
             return isLeader(lhs);
         if (lhs.rarity != rhs.rarity)
             return (lhs.rarity > rhs.rarity);
         if (lhs.powerBase != rhs.powerBase)
             return (lhs.powerBase < rhs.powerBase);
-        return lhs.name < rhs.name;
+        return _resourceManager->cardName(lhs.idInfo) < _resourceManager->cardName(rhs.idInfo);
     };
 
     std::vector<CardView> views = _filtered({filter}, _allCardViews);
@@ -195,7 +217,7 @@ void MainWindow::openSaveDialog()
 
     Deck2 deck;
     for (auto it = _deckCardViews.begin(); it != _deckCardViews.end(); ++it) {
-        deck.nameToCount.insert({it->name, it->count});
+        deck.nameToCount.insert({_resourceManager->cardName(it->idInfo), it->count});
     }
 
     const bool isOk = write(filename, deck);

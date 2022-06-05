@@ -38,6 +38,7 @@ void CardSingleView::paintEvent(QPaintEvent *e)
     const double width = _rect.width();
     const double height = width / _aspectRatio;
     const QRectF rectCard(0, 0, width, height);
+    const CardStringsAndUrls cardStringsAndUrls = _resourceManager->cardStringsAndUrls(_view.idInfo);
     paintCardLarge(painter, _resourceManager, _view, rectCard);
 
     QString tags;
@@ -45,21 +46,24 @@ void CardSingleView::paintEvent(QPaintEvent *e)
         tags += (tags.isEmpty() ? "" : ", ") + QString::fromStdString(stringTag(tag));
 
     QStringList infos {
-        QString("Name: %1").arg(QString::fromStdString(_view.name)),
+        QString("Name: %1").arg(QString::fromStdString(cardStringsAndUrls.name)),
         QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(_view.faction)))),
         QString("Tags: %1").arg(tags),
         _view.powerBase ? QString("Power = %1").arg(_view.power) : QString("Special"),
-        QString("Text: %1").arg(QString::fromStdString(_view.text)),
+        QString("Text: %1").arg(QString::fromStdString(cardStringsAndUrls.text)),
+        QString("Id: %1").arg(QString::fromStdString(_view.idInfo)),
+        QString("Flavor: %1").arg(QString::fromStdString(cardStringsAndUrls.flavor)),
     };
 
     for (const auto &it : keywordDescriptions())
-        if (_view.text.find(it.first) != std::string::npos)
+        if (cardStringsAndUrls.text.find(it.first) != std::string::npos)
             infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
 
     double offsetVertical = 0;
-    for (const QString &info : infos){
+    for (int lineInd = 0; lineInd < infos.size(); ++lineInd) {
+        const Qt::GlobalColor color = lineInd > 4 ? Qt::gray : Qt::black;
         QRectF rectRes;
-        paintTextInPoint(painter, {}, info, rectCard.bottomLeft() + QPointF(0, offsetVertical), Qt::white, Qt::black, _rect.width(), &rectRes);
+        paintTextInPoint(painter, {}, infos[lineInd], rectCard.bottomLeft() + QPointF(0, offsetVertical), Qt::white, color, _rect.width(), &rectRes);
         offsetVertical += rectRes.height();
     }
 }

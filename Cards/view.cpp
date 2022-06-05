@@ -23,10 +23,7 @@ CardView cardView(const Card *card, const int id)
     view.isImmune = card->isImmune;
     view.isDoomed = card->isDoomed;
     view.isRevealed = card->isRevealed;
-    view.name = card->name;
-    view.text = card->text;
-    view.url = "https://gwent.one/image/card/low/cid/png/" + card->id + ".png";
-    view.urlLarge = "https://gwent.one/image/card/medium/cid/png/" + card->id + ".png";
+    view.idInfo = card->id;
     return view;
 }
 
@@ -130,7 +127,6 @@ FieldView fieldView(
         const int id = view.id;
         view = CardView();
         view.id = id;
-        view.name = "???";
         view.isVisible = false;
     }
 

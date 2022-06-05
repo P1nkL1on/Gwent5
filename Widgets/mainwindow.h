@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QDateTime>
 #include <QMainWindow>
 
 #include "Cards/view.h"
@@ -9,6 +10,7 @@ class QCheckBox;
 class QLineEdit;
 class CardsLineView;
 class CardSingleView;
+class ResourceManager;
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +26,8 @@ private slots:
     void openSaveDialog();
 
 private:
+    QDateTime _timeStampProgressBar;
+    ResourceManager *_resourceManager = nullptr;
     CardsLineView *_cardsLineView = nullptr;
     CardsLineView *_cardsLineView2 = nullptr;
     CardsLineView *_cardsLineViewOptions = nullptr;

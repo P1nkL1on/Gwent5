@@ -27,12 +27,9 @@ struct CardView
     bool isImmune = false;
     bool isDoomed = false;
     bool isRevealed = false;
-
-    std::string name;
-    std::string text;
-    std::string url;
-    std::string urlLarge;
     bool isVisible = true;
+
+    std::string idInfo;
 };
 
 

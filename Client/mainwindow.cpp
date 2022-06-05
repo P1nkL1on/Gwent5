@@ -384,9 +384,10 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         const QSizeF size(rect.width() * wa, rect.height() * ha);
         const QRectF rectImage(topLeft, size);
 
-        if (cardView.url.size() > 0) {
-            requestImageByUrl(cardView.url);
-            const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url));
+        const CardStringsAndUrls &info = requestInfo(cardView.idInfo);
+        if (info.urlImageLow.size() > 0) {
+            requestImageByUrl(info.urlImageLow);
+            const QImage image = _pixMapsLoaded.value(QString::fromStdString(info.urlImageLow));
             painter.drawImage(rectImage, image);
         }
         {
@@ -414,11 +415,12 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             return;
 
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
+        const CardStringsAndUrls &info = requestInfo(cardView.idInfo);
 
         /// draw url image
-        if (cardView.url.size() > 0) {
-            requestImageByUrl(cardView.url);
-            const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url));
+        if (info.urlImageLow.size() > 0) {
+            requestImageByUrl(info.urlImageLow);
+            const QImage image = _pixMapsLoaded.value(QString::fromStdString(info.urlImageLow));
             painter.drawImage(rectBorder, image);
         }
 
@@ -499,7 +501,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
 
         /// draw name
         const QRectF rectNameText(topLeft.x(), topLeft.y() + posHeight - metrics.height(), posWidth, metrics.height());
-        paintTextInRect(QString::fromStdString(cardView.name), rectNameText);
+        paintTextInRect(QString::fromStdString(info.name), rectNameText);
     };
 
     // ___________________
@@ -533,11 +535,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         for (const Tag tag : cardView.tags)
             tags += (tags.isEmpty() ? "" : ", ") + QString::fromStdString(stringTag(tag));
 
+        const CardStringsAndUrls &info = requestInfo(cardView.idInfo);
+
         QStringList infos {
-            QString("Name: %1").arg(QString::fromStdString(cardView.name)),
+            QString("Name: %1").arg(QString::fromStdString(info.name)),
             QString("Faction: %1").arg(QString::fromStdString(stringTag(Tag(cardView.faction)))),
             QString("Tags: %1").arg(tags),
-            QString("Text: %1").arg(QString::fromStdString(cardView.text)),
+            QString("Text: %1").arg(QString::fromStdString(info.text)),
+            QString("Flavor: %1").arg(QString::fromStdString(info.flavor)),
             QString("Power = %1").arg(cardView.power),
             QString("Power Base = %1").arg(cardView.powerBase),
             QString("Armor = %1").arg(cardView.armor),
@@ -549,15 +554,15 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             QString("Revealed? %1").arg(cardView.isRevealed? "True" : "False"),
         };
         for (const auto &it : keywordDescriptions())
-            if (cardView.text.find(it.first) != std::string::npos)
+            if (info.text.find(it.first) != std::string::npos)
                 infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
 
-        for (int i = 0; i < infos.size(); ++i)
+        for (int i = 0; i < infos.size(); ++i) {
             paintTextInPoint(infos[i], topLeft + QPointF(0, 2 * posHeight + i * metrics.height()), Qt::white, Qt::black);
+        }
     }
     // TODO: tmp remove all above
     // __________________________
-
 
 
     for (int j = 0; j < 6; ++j) {        
@@ -741,7 +746,6 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
         QPixmap pixmap;
         pixmap.loadFromData(pngData);
         _pixMapsLoaded.insert(urlString, pixmap.toImage());
-        repaint();
 
     } else {
         Q_ASSERT(false);
@@ -802,6 +806,32 @@ void MainWindow::openLoadDialog()
         drawACard(_ally, _enemy);
     _ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, _ally.hand, 1, false));
     repaintCustom();
+}
+
+const CardStringsAndUrls &MainWindow::requestInfo(const std::string &id)
+{
+    const QString qStringId = QString::fromStdString(id);
+
+    if (_infos.contains(qStringId)) {
+        const CardStringsAndUrls &res = _infos[qStringId];
+        if (res.lang == _lang)
+            return res;
+    }
+
+    if (!id.size()) {
+        CardStringsAndUrls res;
+        res.lang = _lang;
+        res.name = "?";
+        _infos.insert(qStringId, res);
+    } else {
+        CardStringsAndUrls c;
+        if (requestCardInfo(id, _lang, c))
+            _infos.insert(qStringId, c);
+        else
+            Q_ASSERT(false);
+    }
+
+    return _infos[qStringId];
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
@@ -865,7 +895,7 @@ void MainWindow::repaintCustom()
         {
             if (id < 0)
                 return "NONE";
-            return QString("%1 {%2}").arg(QString::fromStdString(snapshot.cardView(id).name), QString::number(id));
+            return QString("%1 {%2}").arg(QString::fromStdString(requestInfo(snapshot.cardView(id).idInfo).name), QString::number(id));
         };
         const QString dst = [=]() -> QString {
             QStringList res;
@@ -1008,7 +1038,6 @@ void MainWindow::repaintCustom()
     } else if (_enemy.cardStack.size()) {
         _snapshot = fieldView(_enemy, _ally);
     }
-    repaint();
 
 //    if (_ally.cardStack.size()) {
 //        for (const FieldView &snapshot : _ally.snapshots) {

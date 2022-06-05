@@ -11,6 +11,7 @@
 
 #include "../Cards/archieve.h"
 #include "../Cards/view.h"
+#include "../Client/cardinfo.h"
 
 struct Layout
 {
@@ -35,6 +36,7 @@ private slots:
     void openLoadDialog();
 
 private:
+    const CardStringsAndUrls &requestInfo(const std::string &id);
     void requestImageByUrl(const std::string &url);
     void requestSoundByUrl(const std::string &url);
     bool eventFilter(QObject*, QEvent* e) override;
@@ -66,11 +68,13 @@ private:
     Field _ally;
     Field _enemy;
     FieldView _snapshot;
+    std::string _lang = "en";
 
     QNetworkAccessManager *_networkAccessManager = nullptr;
     QSet<QString> _pixMapsRequested;
     QMap<QString, QImage> _pixMapsLoaded;
     QMap<QString, QMediaPlayer *> _sounds;
+    QMap<QString, CardStringsAndUrls> _infos;
     QTextEdit *_textAlly = nullptr;
     QTextEdit *_textEnemy = nullptr;
 };

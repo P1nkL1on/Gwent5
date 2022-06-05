@@ -1,15 +1,26 @@
 #include "cardspainting.h"
 
-void paintCard(QPainter &painter, ResourceManager *resourceManager, const Layout &layout, const CardView &cardView, const ChoiceView &choiceView, const QRectF &rect, const bool isStatusVisible)
+void paintCard(
+        QPainter &painter,
+        ResourceManager *resourceManager,
+        const Layout &layout,
+        const CardView &cardView,
+        const ChoiceView &choiceView,
+        const QRectF &rect,
+        const bool isStatusVisible)
 {
     painter.setPen(Qt::black);
     painter.drawRect(rect);
 
     const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(layout.borderCardPx, layout.borderCardPx, layout.borderCardPx, layout.borderCardPx));
 
+    /// get text and urls
+    resourceManager->requestCardStringsAndUrls(cardView.idInfo);
+    const CardStringsAndUrls cardStringsAndUrls = resourceManager->cardStringsAndUrls(cardView.idInfo);
+
     /// draw url image
-    if (cardView.url.size() > 0) {
-        const QString url = QString::fromStdString(cardView.url);
+    if (cardStringsAndUrls.urlImageLow.size() > 0) {
+        const QString url = QString::fromStdString(cardStringsAndUrls.urlImageLow);
         resourceManager->requestImageByUrl(url);
         QImage image = resourceManager->imageByUrl(url);
         if (cardView.count == 0)
@@ -95,7 +106,7 @@ void paintCard(QPainter &painter, ResourceManager *resourceManager, const Layout
 
     /// draw name
     const QRectF rectNameText(topLeft.x(), topLeft.y() + rect.height() - layout.metrics.height(), rect.width(), layout.metrics.height());
-    paintTextInRect(painter, layout, QString::fromStdString(cardView.name), rectNameText);
+    paintTextInRect(painter, layout, QString::fromStdString(cardStringsAndUrls.name), rectNameText);
 }
 
 double paintTextInPoint(QPainter &painter, const Layout &layout, const QString &text, const QPointF &topLeft, const Qt::GlobalColor colorBack, const Qt::GlobalColor colorFore, const int widthMax, QRectF *rectRes)
@@ -133,7 +144,11 @@ void paintTextInRect(QPainter &painter, const Layout &layout, const QString &tex
     painter.drawText(rect.marginsRemoved(QMarginsF(layout.borderNamePx, 0, layout.borderNamePx, 0)), textElided);
 }
 
-void paintCardLarge(QPainter &painter, ResourceManager *resourceManager, const CardView &cardView, const QRectF &rect)
+void paintCardLarge(
+        QPainter &painter,
+        ResourceManager *resourceManager,
+        const CardView &cardView,
+        const QRectF &rect)
 {
     const double wa = 97 / 130.0;
     const double wb = 30 / 130.0;
@@ -165,9 +180,13 @@ void paintCardLarge(QPainter &painter, ResourceManager *resourceManager, const C
         {Skellige, "https://gwent.one/image/card/medium/assets/open-beta/banner-g-sk.png"},
     };
 
-    if (cardView.url.size() > 0) {
-        const QString url = QString::fromStdString(cardView.url);
-        const QString url2 = QString::fromStdString(cardView.urlLarge);
+    /// get text and urls
+    resourceManager->requestCardStringsAndUrls(cardView.idInfo);
+    const CardStringsAndUrls cardStringsAndUrls = resourceManager->cardStringsAndUrls(cardView.idInfo);
+
+    if (cardStringsAndUrls.urlImageLow.size() > 0) {
+        const QString url = QString::fromStdString(cardStringsAndUrls.urlImageLow);
+        const QString url2 = QString::fromStdString(cardStringsAndUrls.urlImageMedium);
         const bool needLarge = rect.width() > 150 || rect.height() > 215;
         resourceManager->requestImageByUrl(url);
         if (resourceManager->hasUrl(url)) {
