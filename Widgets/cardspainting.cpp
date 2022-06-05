@@ -1,5 +1,7 @@
 #include "cardspainting.h"
 
+#include "../Widgets/resourcemanager.h"
+
 void paintCard(
         QPainter &painter,
         ResourceManager *resourceManager,

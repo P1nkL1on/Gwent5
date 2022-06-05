@@ -7,15 +7,19 @@ include($$PWD/../Cards/Cards.pri)
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
     resourcemanager.cpp \
     cardslineview.cpp \
     cardspainting.cpp \
-    cardsingleview.cpp
+    cardsingleview.cpp \
+    cardsfieldview.cpp \
+    formdeckbuilder.cpp \
+    formgame.cpp
 
 HEADERS += \
-    mainwindow.h \
     resourcemanager.h \
     cardslineview.h \
     cardspainting.h \
-    cardsingleview.h
+    cardsingleview.h \
+    cardsfieldview.h \
+    formdeckbuilder.h \
+    formgame.h

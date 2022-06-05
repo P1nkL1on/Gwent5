@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "formdeckbuilder.h"
 
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -12,6 +12,7 @@
 
 #include "../Cards/archieve.h"
 #include "../Cards/io.h"
+#include "resourcemanager.h"
 #include "cardsingleview.h"
 #include "cardslineview.h"
 
@@ -23,11 +24,11 @@ QScrollArea *createScrollArea(QWidget *widget)
     return _scrollArea;
 }
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+FormDeckBuilder::FormDeckBuilder(QWidget *parent) :
+    QMainWindow(parent)
 {
     QAction *saveDeck = new QAction("Save Deck...");
-    connect(saveDeck, &QAction::triggered, this, &MainWindow::openSaveDialog);
+    connect(saveDeck, &QAction::triggered, this, &FormDeckBuilder::openSaveDialog);
     saveDeck->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
 
     QMenuBar *menuBar = new QMenuBar(this);
@@ -89,16 +90,16 @@ MainWindow::MainWindow(QWidget *parent)
     progressTimer->setSingleShot(false);
     progressTimer->start();
 
-    connect(_checkBoxGold, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxSilver, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxBronze, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxNeutral, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxMonster, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxNilfgaard, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxNothernRealms, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxScoiatael, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_checkBoxSkellige, &QCheckBox::clicked, this, &MainWindow::updateCardsList);
-    connect(_lineEditSearch, &QLineEdit::textChanged, this, &MainWindow::updateCardsList);
+    connect(_checkBoxGold, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxSilver, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxBronze, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxNeutral, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxMonster, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxNilfgaard, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxNothernRealms, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxScoiatael, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_checkBoxSkellige, &QCheckBox::clicked, this, &FormDeckBuilder::updateCardsList);
+    connect(_lineEditSearch, &QLineEdit::textChanged, this, &FormDeckBuilder::updateCardsList);
     const auto hoverId = [=](const int id) {
         if (id >= 0)
             for (const CardView &view : _allCardViews)
@@ -109,8 +110,8 @@ MainWindow::MainWindow(QWidget *parent)
     };
     connect(_cardsLineView, &CardsLineView::hovered, this, hoverId);
     connect(_cardsLineView2, &CardsLineView::hovered, this, hoverId);
-    connect(_cardsLineView, &CardsLineView::clicked, this, &MainWindow::putCardToDeck);
-    connect(_cardsLineView2, &CardsLineView::clicked, this, &MainWindow::putCardBack);
+    connect(_cardsLineView, &CardsLineView::clicked, this, &FormDeckBuilder::putCardToDeck);
+    connect(_cardsLineView2, &CardsLineView::clicked, this, &FormDeckBuilder::putCardBack);
     connect(_resourceManager, &ResourceManager::imageRequestSucceed, this, static_cast<void(QWidget::*)()>(&QWidget::repaint));
     const auto showProgress = [=]{
         progress->setRange(0, _resourceManager->nRequests());
@@ -132,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     splitterH2->setSizes({500, 300});
 }
 
-void MainWindow::updateCardsList()
+void FormDeckBuilder::updateCardsList()
 {
     std::function<bool (const CardView &)> filter([=](const CardView &view){
         const bool skipRarityFilter =
@@ -202,7 +203,7 @@ void MainWindow::updateCardsList()
     _cardsLineView2->setCardAndChoiceViews(views2, {});
 }
 
-void MainWindow::openSaveDialog()
+void FormDeckBuilder::openSaveDialog()
 {
     QFileDialog d(this);
     d.setWindowTitle("Save Deck");
@@ -224,7 +225,7 @@ void MainWindow::openSaveDialog()
     qDebug() << "save deck to" << files.first() << isOk;
 }
 
-bool MainWindow::putCardToDeck(const int id)
+bool FormDeckBuilder::putCardToDeck(const int id)
 {
     if (id < 0)
         return false;
@@ -251,7 +252,7 @@ bool MainWindow::putCardToDeck(const int id)
     return true;
 }
 
-bool MainWindow::putCardBack(const int id)
+bool FormDeckBuilder::putCardBack(const int id)
 {
     if (id < 0)
         return false;
@@ -274,7 +275,7 @@ bool MainWindow::putCardBack(const int id)
     return true;
 }
 
-bool MainWindow::isDeckOk(int &nBronze, int &nSilver, int &nGold, QString &err)
+bool FormDeckBuilder::isDeckOk(int &nBronze, int &nSilver, int &nGold, QString &err)
 {
     nBronze = 0;
     nSilver = 0;

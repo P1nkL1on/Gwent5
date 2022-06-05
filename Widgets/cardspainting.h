@@ -3,8 +3,9 @@
 
 #include <qpainter.h>
 
-#include "../Widgets/resourcemanager.h"
 #include "../Cards/view.h"
+
+class ResourceManager;
 
 struct Layout
 {

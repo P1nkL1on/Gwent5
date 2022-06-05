@@ -12,12 +12,12 @@ class CardsLineView;
 class CardSingleView;
 class ResourceManager;
 
-class MainWindow : public QMainWindow
+class FormDeckBuilder : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    FormDeckBuilder(QWidget *parent = nullptr);
 
 private slots:
     bool putCardToDeck(const int id);

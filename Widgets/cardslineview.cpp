@@ -3,6 +3,7 @@
 #include <QPaintEvent>
 #include <QtDebug>
 
+#include "../Widgets/resourcemanager.h"
 #include "../Widgets/cardspainting.h"
 
 CardsLineView::CardsLineView(ResourceManager *resourceManager, const std::vector<CardView> &views, const ChoiceView &choice, const Qt::Orientation orientation, const int nLines, QWidget *parent) :

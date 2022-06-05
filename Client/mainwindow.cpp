@@ -20,11 +20,11 @@
 #include "Cards/io.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
+FormDeckBuilder::FormDeckBuilder(QWidget *parent)
     : QMainWindow(parent)
 {
     _networkAccessManager = new QNetworkAccessManager(this);
-    connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::onImageRequestFinished);
+    connect(_networkAccessManager, &QNetworkAccessManager::finished, this, &FormDeckBuilder::onImageRequestFinished);
 
     auto *w = new QWidget;
     auto *l = new QHBoxLayout;
@@ -84,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     QAction *loadDeck = new QAction("Load Deck...");
-    connect(loadDeck, &QAction::triggered, this, &MainWindow::openLoadDialog);
+    connect(loadDeck, &QAction::triggered, this, &FormDeckBuilder::openLoadDialog);
     loadDeck->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
 
     QMenuBar *menuBar = new QMenuBar(this);
@@ -101,12 +101,12 @@ MainWindow::MainWindow(QWidget *parent)
         actions.last()->trigger();
 }
 
-QMargins MainWindow::margins() const
+QMargins FormDeckBuilder::margins() const
 {
     return QMargins(10, 10, int(width() * 0.4) + 20, 10);
 }
 
-void MainWindow::requestImageByUrl(const std::string &url)
+void FormDeckBuilder::requestImageByUrl(const std::string &url)
 {
     if (url.size() == 0)
         return;
@@ -124,7 +124,7 @@ void MainWindow::requestImageByUrl(const std::string &url)
     _networkAccessManager->get(request);
 }
 
-void MainWindow::requestSoundByUrl(const std::string &url)
+void FormDeckBuilder::requestSoundByUrl(const std::string &url)
 {
     if (url.size() == 0)
         return;
@@ -141,7 +141,7 @@ void MainWindow::requestSoundByUrl(const std::string &url)
     _sounds.value(qString)->play();
 }
 
-void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
+void FormDeckBuilder::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
     const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
@@ -304,7 +304,7 @@ finish_turn:
     repaintCustom();
 }
 
-void MainWindow::paintInRect(const QRect rect, const FieldView &view)
+void FormDeckBuilder::paintInRect(const QRect rect, const FieldView &view)
 {
     if (rect.width() < _layout.spacingPx * 2)
         return;
@@ -733,7 +733,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     paintTextInPoint(stringStatusEnemy, QPointF(0, 35), Qt::black, Qt::red);
 }
 
-void MainWindow::onImageRequestFinished(QNetworkReply *reply)
+void FormDeckBuilder::onImageRequestFinished(QNetworkReply *reply)
 {
     const QString urlString = reply->url().toString();
     if (reply->error() != QNetworkReply::NoError) {
@@ -752,7 +752,7 @@ void MainWindow::onImageRequestFinished(QNetworkReply *reply)
     }
 }
 
-void MainWindow::openLoadDialog()
+void FormDeckBuilder::openLoadDialog()
 {
     QFileDialog d(this);
     d.setWindowTitle("Load Deck");
@@ -808,7 +808,7 @@ void MainWindow::openLoadDialog()
     repaintCustom();
 }
 
-const CardStringsAndUrls &MainWindow::requestInfo(const std::string &id)
+const CardStringsAndUrls &FormDeckBuilder::requestInfo(const std::string &id)
 {
     const QString qStringId = QString::fromStdString(id);
 
@@ -834,7 +834,7 @@ const CardStringsAndUrls &MainWindow::requestInfo(const std::string &id)
     return _infos[qStringId];
 }
 
-bool MainWindow::eventFilter(QObject *o, QEvent *e)
+bool FormDeckBuilder::eventFilter(QObject *o, QEvent *e)
 {
     const QRect rect = this->rect().marginsRemoved(margins());
 
@@ -881,13 +881,13 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return QMainWindow::eventFilter(o, e);
 }
 
-void MainWindow::paintEvent(QPaintEvent *e)
+void FormDeckBuilder::paintEvent(QPaintEvent *e)
 {
     const QRect rect = e->rect().marginsRemoved(margins());
     paintInRect(rect, _snapshot);
 }
 
-void MainWindow::repaintCustom()
+void FormDeckBuilder::repaintCustom()
 {
     const auto processAction = [=](const FieldView &snapshot, QTextStream &stream, const QString &prefix = "", const int msWait = 0)
     {

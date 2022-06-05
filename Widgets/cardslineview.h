@@ -26,7 +26,7 @@ signals:
     void clicked(const int id);
 
 private:
-    bool eventFilter(QObject*, QEvent* e) override;
+    bool eventFilter(QObject *, QEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
     void updateSize(const QSize &size);
 

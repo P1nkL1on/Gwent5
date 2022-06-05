@@ -1,12 +1,13 @@
-#include "mainwindow.h"
-#include <QApplication>
+#include "formdeckbuilder.h"
+#include "formgame.h"
 
-#include "Cards/io.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    // FormDeckBuilder w;
+    FormGame w;
     w.show();
 
     return a.exec();

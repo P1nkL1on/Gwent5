@@ -1,4 +1,5 @@
 #include "cardsingleview.h"
+#include "resourcemanager.h"
 
 #include <QPaintEvent>
 

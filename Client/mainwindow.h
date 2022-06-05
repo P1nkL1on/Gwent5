@@ -24,12 +24,12 @@ struct Layout
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class MainWindow : public QMainWindow
+class FormDeckBuilder : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    FormDeckBuilder(QWidget *parent = nullptr);
 
 private slots:
     void onImageRequestFinished(QNetworkReply *reply);
