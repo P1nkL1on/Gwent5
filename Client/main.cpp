@@ -7,7 +7,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    CardInfo ci;
     const bool isOk = requestCardInfo("200164", "ru");
     qDebug() << isOk;
     return 0;

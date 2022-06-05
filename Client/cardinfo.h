@@ -20,6 +20,7 @@ struct CardStringsAndUrls
 
     std::string name;
     std::string text;
+    std::string flavor;
     std::vector<std::string> textSounds;
 
     std::string urlImageLow;
