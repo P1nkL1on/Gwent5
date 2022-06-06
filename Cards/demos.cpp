@@ -555,7 +555,8 @@ void demoWildHunt(Field &ally, Field &enemy)
 {
     auto *whh1 = new WildHuntHound();
     auto *whh2 = new WildHuntHound();
-    auto *bf = new BitingFrost();
+    auto *bf1 = new BitingFrost();
+    auto *bf2 = new BitingFrost();
     auto *whw1 = new WildHuntWarrior();
     auto *whw2 = new WildHuntWarrior();
     auto *whw3 = new WildHuntWarrior();
@@ -568,7 +569,9 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *e = new EredinBreaccGlas();
     auto *c = new CaranthirArFeiniel();
     auto *d = new WildHuntDrakkar();
-    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i, e, c, d};
+    auto *whr1 = new WildHuntRider();
+    auto *whr2 = new WildHuntRider();
+    ally.cardsAdded = {m, whh1, whh2, bf1, bf2, whw1, whw2, whw3, whn1, whn2, whn3, n, i, e, c, d, whr1, whr2};
 
     auto *b1 = new BrewessRitual();
     auto *m2 = new ImperialManticore();
@@ -578,9 +581,10 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *m6 = new ImperialManticore();
     enemy.cardsAdded = {b1, m2, m3, m4, m5, m6};
 
-    ally.hand = {m, whh1, whw1, whn1, n, i, e, c, d};
-    ally.deck = {bf, whh2, whn2, whw2, whw3};
-    ally.rowSeige = {whn3};
+    ally.hand = {m, whh1,  whh2, whw1, whn1, n, i, e, c, d};
+    ally.deck = {bf1, bf2, whw2, whw3};
+    ally.rowSeige = {whn3, whr1};
+    ally.rowMeele = {whr2};
     ally.canPass = false;
 
     enemy.rowSeige = {b1};

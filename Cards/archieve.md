@@ -479,7 +479,7 @@
 - [x] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
 - [x] Wild Hunt Navigator
-- [ ] Wild Hunt Rider
+- [x] Wild Hunt Rider
 - [x] Wild Hunt Warrior
 - [x] Wyvern _(easy card)_
 - [x] Moonlight

@@ -23,6 +23,7 @@ inline bool isScoiataelFaction(Card *card) { return card->faction == Scoiatael; 
 inline bool isMonsterFaction(Card *card) { return card->faction == Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }
 inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
+inline bool isNotLocked(Card *card) { return !card->isLocked; }
 inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
 inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }

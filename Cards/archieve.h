@@ -1809,4 +1809,10 @@ private:
 };
 
 
+struct WildHuntRider : CardCollectible<WildHuntRider>
+{
+    WildHuntRider();
+};
+
+
 #endif // CARDS_H

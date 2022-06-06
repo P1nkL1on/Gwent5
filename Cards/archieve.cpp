@@ -263,6 +263,7 @@ std::vector<Card *> allCards(const Patch)
         new Harpy(),
         new WildHuntDrakkar(),
         new Geels(),
+        new WildHuntRider(),
     };
 }
 
@@ -7754,4 +7755,21 @@ Geels::Geels()
             putToDeck(_gold, ally, enemy, TopDeck, this);
     };
 
+}
+
+WildHuntRider::WildHuntRider()
+{
+    id = "132310";
+    name = "Wild Hunt Rider";
+    text = "Increase the damage dealt by Biting Frost on the opposite row by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.798.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
+    };
 }
