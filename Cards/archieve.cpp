@@ -264,6 +264,7 @@ std::vector<Card *> allCards(const Patch)
         new WildHuntDrakkar(),
         new Geels(),
         new WildHuntRider(),
+        new VranWarrior(),
     };
 }
 
@@ -7771,5 +7772,28 @@ WildHuntRider::WildHuntRider()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.798.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
+    };
+}
+
+VranWarrior::VranWarrior()
+{
+    id = "132308";
+    name = "Vran Warrior";
+    text = "Consume the unit to the right and boost self by its power. Every 2 turns, repeat its ability on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid, Soldier };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+        if (Card *card = cardNextTo(this, ally, enemy, 1))
+            boost(this, consume(card, ally, enemy, this), ally, enemy, this);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            onDeploy(ally, enemy);
     };
 }

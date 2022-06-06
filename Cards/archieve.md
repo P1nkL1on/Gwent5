@@ -473,7 +473,7 @@
 - [x] Rotfiend
 - [x] Siren
 - [x] Slyzard
-- [ ] Vran Warrior
+- [x] Vran Warrior
 - [x] Werecat
 - [x] Werewolf
 - [x] Wild Hunt Drakkar

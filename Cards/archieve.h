@@ -1815,4 +1815,10 @@ struct WildHuntRider : CardCollectible<WildHuntRider>
 };
 
 
+struct VranWarrior : CardCollectible<VranWarrior>
+{
+    VranWarrior();
+};
+
+
 #endif // CARDS_H

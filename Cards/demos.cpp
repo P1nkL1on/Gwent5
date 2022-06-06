@@ -844,10 +844,11 @@ void demoArachasDrones(Field &ally, Field &enemy)
     auto *c5 = new CelaenoHarpy();
     auto *c6 = new ArachasDrone();
     auto *c7 = new ArachasQueen();
-    auto *c8 = new ArachasQueen();
+    auto *c8 = new Barbegazi();
+    auto *c9 = new VranWarrior();
 
-    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8};
-    ally.hand = { c3, c4, c5, c6, c7, c8};
+    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8, c9};
+    ally.hand = { c3, c4, c5, c6, c7, c8, c9};
     ally.deck = { c0, c1, c2 };
     enemy.passed = true;
     ally.canPass = false;
