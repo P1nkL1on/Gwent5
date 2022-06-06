@@ -393,6 +393,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
+        for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+            other->onOtherAllyAppears(card, ally, enemy);
 
     } else {
         spy(card, ally, enemy, card);
@@ -2078,6 +2080,12 @@ void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyPlayedFromHand && !isLocked)
         return _onOtherAllyPlayedFromHand(card, ally, enemy);
+}
+
+void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherAllyAppears && !isLocked)
+        return _onOtherAllyAppears(card, ally, enemy);
 }
 
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)

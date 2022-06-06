@@ -261,6 +261,7 @@ std::vector<Card *> allCards(const Patch)
         new Slyzard(),
         new Werecat(),
         new Harpy(),
+        new WildHuntDrakkar(),
     };
 }
 
@@ -7698,5 +7699,28 @@ Harpy::Harpy()
             return;
         if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Harpy>}, AllyDeck), ally.rng))
             moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
+    };
+}
+
+WildHuntDrakkar::WildHuntDrakkar()
+{
+    id = "200301";
+    name = "Wild Hunt Drakkar";
+    text = "Boost all Wild Hunt allies by 1. Whenever another Wild Hunt ally appears, boost it by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(WildHunt)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
+    };
+
+    _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        boost(card, 1, ally, enemy, this);
     };
 }

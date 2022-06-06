@@ -87,6 +87,7 @@ struct Card
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
     // TODO: test and find all the cases
@@ -140,6 +141,7 @@ protected:
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
     CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
+    CardAllyEnemy _onOtherAllyAppears = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;

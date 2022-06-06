@@ -1794,4 +1794,10 @@ struct Harpy : CardCollectible<Harpy>
 };
 
 
+struct WildHuntDrakkar : CardCollectible<WildHuntDrakkar>
+{
+    WildHuntDrakkar();
+};
+
+
 #endif // CARDS_H

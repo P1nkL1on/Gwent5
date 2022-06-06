@@ -476,7 +476,7 @@
 - [ ] Vran Warrior
 - [x] Werecat
 - [x] Werewolf
-- [ ] Wild Hunt Drakkar
+- [x] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
 - [x] Wild Hunt Navigator
 - [ ] Wild Hunt Rider
