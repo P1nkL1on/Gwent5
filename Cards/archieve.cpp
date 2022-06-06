@@ -258,6 +258,9 @@ std::vector<Card *> allCards(const Patch)
         new Lamia(),
         new Nekker(),
         new NekkerWarrior(),
+        new Slyzard(),
+        new Werecat(),
+        new Harpy(),
     };
 }
 
@@ -3835,11 +3838,11 @@ DonarAnHindar::DonarAnHindar()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!isIn(target, enemy.discard)) {
-            toggleLock(target, ally, enemt, this);
+            toggleLock(target, ally, enemy, this);
             return;
         }
         // FIXME: will crash
-        putToDiscard(card, ally, enemy, this);
+        putToDiscard(target, ally, enemy, this);
     };
 }
 
@@ -4244,7 +4247,7 @@ DimunSmuggler::DimunSmuggler()
         startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
         /// put in a random place in a deck
         const int ind = int(ally.rng() % (ally.deck.size() + 1));
         ally.deck.insert(ally.deck.begin() + ind, target);
@@ -4293,11 +4296,11 @@ HeymaeyFlaminica::HeymaeyFlaminica()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         clearHazardsFromItsRow(this, ally);
-        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(ally, this)}, AllyBoard, 2);
+        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&ally, this)}, AllyBoard, 2);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        moveExistedUnitToPos(card, rowAndPosLastInTheSameRow(this, ally), ally, enemy, this);
+        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, ally), ally, enemy, this);
     };
 }
 
@@ -4621,7 +4624,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     _onTurnEnd = [=](Field &ally, Field &enemy) {
         if (!moveSelfToRandomRow(this, ally, enemy))
             return;
-        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(ally, this)}, AllyBoard))
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
             damage(card, 1, ally, enemy, this);
     };
 }
@@ -7042,11 +7045,10 @@ Ifrit::Ifrit()
     _onDeploy = [=](Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
         const RowAndPos rowAndPos(row, Pos(ally.row(row).size()));
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
     };
-
 }
 
 Ifrit::IfritLesser::IfritLesser()
@@ -7321,6 +7323,8 @@ Draug::Draug()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: check interaction w/ Cyris
+        assert(isOnBoard(this, ally));
+        const Row row = _findRowAndPos(this, ally).row();
         for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
                 return;
@@ -7411,7 +7415,7 @@ ArachasBehemoth::ArachasBehemoth()
         if (!isOnBoard(this, ally))
             return;
         if (!tick(this, ally, enemy))
-            spawnNewUnitToPosWithDeploy(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+            spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -7630,5 +7634,69 @@ NekkerWarrior::NekkerWarrior()
             addAsNew(ally, card);
             ally.deck.push_back(card);
         }
+    };
+}
+
+Slyzard::Slyzard()
+{
+    id = "200539";
+    name = "Slyzard";
+    text = "Consume a different Bronze unit from your graveyard, then play a copy of it from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        consume(target, ally, enemy, this);
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy(target->name)}, AllyDeck), ally.rng))
+            playExistedCard(copy, ally, enemy, this);
+    };
+}
+
+Werecat::Werecat()
+{
+    id = "201599";
+    name = "Werecat";
+    text = "Deal 5 damage to an enemy, then deal 1 damage to all enemies under Blood Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            if (rowEffectUnderUnit(card, enemy) == BloodMoonEffect)
+                damage(card, 1, ally, enemy, this);
+    };
+}
+
+Harpy::Harpy()
+{
+    id = "132315";
+    name = "Harpy";
+    text = "Whenever you destroy an allied Beast, Summon a copy of this unit to the same position.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onOtherAllyDestroyed = [=](Card *other, Field &ally, Field &enemy, const RowAndPos rowAndPos) {
+        if (!isOnBoard(this, ally) || !hasTag(other, Beast))
+            return;
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Harpy>}, AllyDeck), ally.rng))
+            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
     };
 }

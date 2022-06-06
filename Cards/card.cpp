@@ -441,6 +441,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
             card->onDestroy(*cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
             other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
+            other->onOtherAllyDestroyed(card, *cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
         if (mayPutOnDiscard) {
@@ -2064,6 +2066,12 @@ void Card::onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyDiscarded && !isLocked)
         return _onOtherAllyDiscarded(card, ally, enemy);
+}
+
+void Card::onOtherAllyDestroyed(Card *card, Field &ally, Field &enemy, const RowAndPos &rowAndPos)
+{
+    if (_onOtherAllyDestroyed && !isLocked)
+        return _onOtherAllyDestroyed(card, ally, enemy, rowAndPos);
 }
 
 void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)

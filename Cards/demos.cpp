@@ -668,12 +668,16 @@ void demoConsume(Field &ally, Field &enemy)
     auto *n2 = new Nekker();
     auto *n3 = new Nekker();
     auto *nw = new NekkerWarrior();
-    ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw};
+    auto *h1 = new Harpy();
+    auto *h2 = new Harpy();
+    auto *h3 = new Harpy();
+    ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw, h1, h2, h3};
 
     ally.hand = {g1, b1, b2, d1, o, k, m0, s, nw};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2, n1};
-    ally.deck = {d3, m3, r1, a, n2, n3};
+    ally.rowSeige = {h1, h2};
+    ally.deck = {d3, m3, r1, a, n2, n3, h3};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();
@@ -769,9 +773,10 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *m = new Moonlight();
     auto *l1 = new Lamia();
     auto *l2 = new Lamia();
+    auto *wc = new Werecat();
 
-    ally.cardsAdded = {w, p, j, b, i1, ai, h, ba, bt, c, as, n, s1, s2, m, l1, l2};
-    ally.hand = {p, b, i1, h, ba, n, s1, s2, l1, l2};
+    ally.cardsAdded = {w, p, j, b, i1, ai, h, ba, bt, c, as, n, s1, s2, m, l1, l2, wc};
+    ally.hand = {p, b, i1, h, ba, n, s1, s2, l1, l2, wc};
     ally.deck = {m};
     ally.rowSeige = {ai, w, j, bt, c};
     ally.rowMeele = {as};
@@ -843,4 +848,25 @@ void demoArachasDrones(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 
+}
+
+void demoSlyzards(Field &ally, Field &enemy)
+{
+    auto *c0 = new NekkerWarrior();
+    auto *c1 = new Nekker();
+    auto *c2 = new Nekker();
+    auto *c3 = new Nekker();
+    auto *c4 = new Siren();
+    auto *c5 = new Siren();
+    auto *c6 = new Slyzard();
+    auto *c7 = new Slyzard();
+    auto *c8 = new Slyzard();
+
+    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8};
+    ally.hand = { c0, c1, c6, c7, c8};
+    ally.deck = { c2, c5 };
+    ally.discard = { c3, c4 };
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

@@ -1776,4 +1776,22 @@ struct NekkerWarrior : CardCollectible<NekkerWarrior>
 };
 
 
+struct Slyzard : CardCollectible<Slyzard>
+{
+    Slyzard();
+};
+
+
+struct Werecat : CardCollectible<Werecat>
+{
+    Werecat();
+};
+
+
+struct Harpy : CardCollectible<Harpy>
+{
+    Harpy();
+};
+
+
 #endif // CARDS_H

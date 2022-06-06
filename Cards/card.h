@@ -85,6 +85,7 @@ struct Card
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
@@ -104,6 +105,7 @@ struct Card
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
+    using CardAllyEnemyRowAndPos = std::function<void(Card *, Field &, Field &, const RowAndPos &)>;
     using AllyEnemy = std::function<void(Field &, Field &)>;
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
     using AllyEnemyCardSrc = std::function<void(Field &, Field &, Card *, const Card *)>;
@@ -113,6 +115,7 @@ protected:
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
+    CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
     AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
     AllyEnemy _onDeployFromDiscard = nullptr;

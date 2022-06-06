@@ -436,7 +436,7 @@
 - [x] Monster Nest
 - [x] Morvudd
 - [x] Mourntart
-- [ ] Nekurat _(easy card)_
+- [x] Nekurat _(easy card)_
 - [x] Nithral
 - [x] Ozzrel
 - [x] Parasite
@@ -464,7 +464,7 @@
 - [x] Forktail
 - [x] Ghoul
 - [x] Griffin
-- [ ] Harpy
+- [x] Harpy
 - [x] Ice Giant
 - [x] Ice Troll
 - [x] Lamia
@@ -472,9 +472,9 @@
 - [x] Nekker Warrior
 - [x] Rotfiend
 - [x] Siren
-- [ ] Slyzard
+- [x] Slyzard
 - [ ] Vran Warrior
-- [ ] Werecat
+- [x] Werecat
 - [x] Werewolf
 - [ ] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
