@@ -891,25 +891,34 @@ void MainWindow::repaintCustom()
             stream << prefix << "\n#" << x << " turn started";
             break;
         case PlaySpecial:
-            stream << prefix << dst << " special plays by " << src;
+            stream << prefix << dst << " special played by " << src;
             break;
         case PutOnField:
-            stream << prefix << dst << " enters the board by " << src;
+            stream << prefix << dst << " entered the board by " << src;
             break;
         case MoveFromRowToRow:
-            stream << prefix << dst << " moves from row to row by " << src;
+            stream << prefix << dst << " moved from row to row by " << src;
             break;
         case TimerSet:
-            stream << prefix << src << " timer is set to " << x;
+            stream << prefix << src << " timer seted to " << x;
             break;
         case FlipOver:
-            stream << prefix << src << " flips over";
+            stream << prefix << src << " fliped over";
             break;
         case PutToHand:
-            stream << prefix << dst << " moves to hand by " << src;
+            stream << prefix << dst << " moved to hand by " << src;
             break;
         case PutToDiscard:
-            stream << prefix << dst << " moves to discard by " << src;
+            stream << prefix << dst << " moved to discard by " << src;
+            break;
+        case PutToTopDeck:
+            stream << prefix << dst << " moved to the top of the deck by " << src;
+            break;
+        case PutToBottomDeck:
+            stream << prefix << dst << " moved to the bottom of the deck by " << src;
+            break;
+        case ShuffleToDeck:
+            stream << prefix << dst << " shuffled to deck by " << src;
             break;
         case Destroyed:
             stream << prefix << dst << " destroyed by " << src;
@@ -918,34 +927,34 @@ void MainWindow::repaintCustom()
             stream << prefix << dst << " removed from the game by " << src;
             break;
         case DealDamage:
-            stream << prefix << src << " deals " << x << " damage to " << dst;
+            stream << prefix << src << " dealed " << x << " damage to " << dst;
             break;
         case Boosted:
-            stream << prefix << dst << " gain " << x << " power by " << src;
+            stream << prefix << dst << " gained " << x << " power by " << src;
             break;
         case Damaged:
-            stream << prefix << dst << " takes " << x << " damage by " << src;
+            stream << prefix << dst << " recieved " << x << " damage by " << src;
             break;
         case DamagedInArmor:
-            stream << prefix << dst << " absorbs " << x << " damage by " << src;
+            stream << prefix << dst << " absorbed " << x << " damage by " << src;
             break;
         case GainArmor:
-            stream << prefix << dst << " gains " << x << " armor by " << src;
+            stream << prefix << dst << " gained " << x << " armor by " << src;
             break;
         case GainLock:
-            stream << prefix << dst << " gains LOCK by " << src;
+            stream << prefix << dst << " gained LOCK by " << src;
             break;
         case Transform:
-            stream << prefix << dst << " transforms by " << src;
+            stream << prefix << dst << " transformed by " << src;
             break;
         case GainSpy:
-            stream << prefix << dst << " gains SPY by " << src;
+            stream << prefix << dst << " gained SPY by " << src;
             break;
         case LostLock:
-            stream << prefix << dst << " loses LOCK by " << src;
+            stream << prefix << dst << " lost LOCK by " << src;
             break;
         case LostSpy:
-            stream << prefix << dst << " loses SPY by " << src;
+            stream << prefix << dst << " lost SPY by " << src;
             break;
         case Reveal:
             stream << prefix << dst << " revealed by " << src;
@@ -953,6 +962,8 @@ void MainWindow::repaintCustom()
         case Conceal:
             stream << prefix << dst << " concealed by " << src;
             break;
+        default:
+            Q_ASSERT(false);
         }
 
         requestSoundByUrl(snapshot.actionSound);

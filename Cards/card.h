@@ -296,6 +296,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 /// put any card to discard
 void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 
+void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src);
+
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
@@ -328,7 +330,7 @@ void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool drawACard(Field &ally, Field &enemy);
-void swapACard(Card *card, Field &ally, Field &enemy);
+void swapACard(Card *card, Field &ally, Field &enemy, const Card *src);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns true if wins a duel
 bool duel(Card *first, Card *second, Field &ally, Field &enemy);

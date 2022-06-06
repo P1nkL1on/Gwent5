@@ -1800,4 +1800,13 @@ struct WildHuntDrakkar : CardCollectible<WildHuntDrakkar>
 };
 
 
+struct Geels : CardCollectible<Geels>
+{
+    Geels();
+private:
+    Card *_gold = nullptr;
+    Card *_silver = nullptr;
+};
+
+
 #endif // CARDS_H

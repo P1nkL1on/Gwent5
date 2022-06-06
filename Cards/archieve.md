@@ -411,7 +411,7 @@
 - [x] Dagon
 - [x] Draug
 - [x] Eredin Breacc Glas
-- [ ] Ge'els
+- [x] Ge'els
 - [x] Imlerith
 - [x] Imlerith: Sabbath
 - [x] Kayran

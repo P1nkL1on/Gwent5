@@ -262,6 +262,7 @@ std::vector<Card *> allCards(const Patch)
         new Werecat(),
         new Harpy(),
         new WildHuntDrakkar(),
+        new Geels(),
     };
 }
 
@@ -1198,7 +1199,7 @@ Ves::Ves()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        swapACard(target, ally, enemy);
+        swapACard(target, ally, enemy, this);
     };
 }
 
@@ -4248,10 +4249,8 @@ DimunSmuggler::DimunSmuggler()
         startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
-        /// put in a random place in a deck
-        const int ind = int(ally.rng() % (ally.deck.size() + 1));
-        ally.deck.insert(ally.deck.begin() + ind, target);
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, RandomPlaceDeck, this);
     };
 }
 
@@ -6251,12 +6250,10 @@ VernonRoche::VernonRoche()
         "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
     };
 
-    _onGameStart = [=](Field &ally, Field &) {
+    _onGameStart = [=](Field &ally, Field &enemy) {
         Card *card = new BlueStripeCommando();
         addAsNew(ally, card);
-        /// put in a random place in a deck
-        const int ind = int(ally.rng() % (ally.deck.size() + 1));
-        ally.deck.insert(ally.deck.begin() + ind, card);
+        putToDeck(card, ally, enemy, RandomPlaceDeck, this);
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
@@ -7628,12 +7625,12 @@ NekkerWarrior::NekkerWarrior()
         startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         int n = 2;
         while (n--) {
             Card *card = target->defaultCopy();
             addAsNew(ally, card);
-            ally.deck.push_back(card);
+            putToDeck(card, ally, enemy, BottomDeck, this);
         }
     };
 }
@@ -7723,4 +7720,38 @@ WildHuntDrakkar::WildHuntDrakkar()
             return;
         boost(card, 1, ally, enemy, this);
     };
+}
+
+Geels::Geels()
+{
+    id = "131102";
+    name = "Ge'els";
+    text = "Look at a random Gold and Silver card from your deck, then play 1 and move the other to the top of the deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312005.mp3",
+        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312236.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> variants;
+        if ((_gold = random(cardsFiltered(ally, enemy, {isGold}, AllyDeck), ally.rng)))
+            variants.push_back(_gold);
+        if ((_silver = random(cardsFiltered(ally, enemy, {isSilver}, AllyDeck), ally.rng)))
+            variants.push_back(_silver);
+        startChoiceToTargetCard(ally, enemy, this, variants);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        if (target == _gold && _silver)
+            putToDeck(_silver, ally, enemy, TopDeck, this);
+        else if (target == _silver && _gold)
+            putToDeck(_gold, ally, enemy, TopDeck, this);
+    };
+
 }

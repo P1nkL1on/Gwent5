@@ -703,7 +703,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     assert(choice.choiceType == RoundStartSwap);
 
     if (card != nullptr) {
-        swapACard(card, ally, enemy);
+        swapACard(card, ally, enemy, nullptr);
 
         if (choice.nTargets > 1) {
             ally.cardStack.push_back(Choice(RoundStartSwap, choice.cardSource, ally.hand, choice.nTargets - 1, choice.isOptional));
@@ -999,7 +999,7 @@ bool drawACard(Field &ally, Field &enemy)
     return true;
 }
 
-void swapACard(Card *card, Field &ally, Field &enemy)
+void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     if (ally.deck.size() == 0) {
         card->onSwap(ally, enemy);
@@ -1012,9 +1012,8 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     const Row from = takeCard(card, ally, enemy);
     assert(from == Hand);
 
-    /// move to any place in the deck, but not first
-    const int ind = 1 + int(ally.rng() % ally.deck.size());
-    ally.deck.insert(ally.deck.begin() + ind, card);
+
+    putToDeck(card, ally, enemy, RandomNotFirstPlaceDeck, src);
     card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
 
@@ -2149,4 +2148,34 @@ void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *sr
 int half(const int x)
 {
     return int(std::ceil(x / 2.0));
+}
+
+void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
+{
+    const Row row = takeCard(card, ally, enemy);
+    assert(row != HandLeader);
+    switch (deckPos) {
+    case TopDeck:
+        ally.deck.insert(ally.deck.begin(), card);
+        saveFieldsSnapshot(ally, enemy, PutToTopDeck, src, {card});
+        return;
+    case BottomDeck:
+        ally.deck.push_back(card);
+        saveFieldsSnapshot(ally, enemy, PutToBottomDeck, src, {card});
+        return;
+    case RandomPlaceDeck: {
+        const int ind = int(ally.rng() % (ally.deck.size() + 1));
+        ally.deck.insert(ally.deck.begin() + ind, card);
+        saveFieldsSnapshot(ally, enemy, ShuffleToDeck, src, {card});
+        return;
+    }
+    case RandomNotFirstPlaceDeck: {
+        const int ind = 1 + int(ally.rng() % ally.deck.size());
+        ally.deck.insert(ally.deck.begin() + ind, card);
+        saveFieldsSnapshot(ally, enemy, ShuffleToDeck, src, {card});
+        return;
+    }
+    default:
+        assert(false);
+    }
 }
