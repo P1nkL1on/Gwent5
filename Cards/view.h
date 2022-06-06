@@ -94,10 +94,11 @@ struct FieldView
 
     CardView &cardView(const int id);
     const CardView &cardView(const int id) const;
-    bool idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id = nullptr, int *n = nullptr) const;
+    bool idAtRowAndPos(const int screenRow, const Pos screenPos, int *id = nullptr, int *n = nullptr) const;
     bool rowAndPos(const int id, Row *row = nullptr, Pos *pos = nullptr, bool *isAlly = nullptr) const;
-    RowEffect rowEffect(const Row screenRow) const;
-    int rowPower(const Row screenRow) const;
+    RowEffect rowEffect(const int screenRow) const;
+    int rowPower(const int screenRow) const;
+    int rowCount(const int screenRow) const;
 };
 
 struct Card;

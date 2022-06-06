@@ -43,7 +43,7 @@ FormDeckBuilder::FormDeckBuilder(QWidget *parent) :
         _allCardViews.push_back(view);
     }
 
-    _resourceManager = new ResourceManager();
+    _resourceManager = new ResourceManager("ru");
 
     auto *widget = new QWidget;
     widget->setContentsMargins(0, 0, 0, 0);

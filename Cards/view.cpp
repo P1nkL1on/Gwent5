@@ -235,7 +235,7 @@ const CardView &FieldView::cardView(const int id) const
     assert(false);
 }
 
-bool FieldView::idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id, int *n) const
+bool FieldView::idAtRowAndPos(const int screenRow, const Pos screenPos, int *id, int *n) const
 {
     assert((0 <= screenRow) && (screenRow < 6));
     assert((0 <= screenPos) && (screenPos < 9));
@@ -322,7 +322,7 @@ found:
     return true;
 }
 
-RowEffect FieldView::rowEffect(const Row screenRow) const
+RowEffect FieldView::rowEffect(const int screenRow) const
 {
     assert((0 <= screenRow) && (screenRow < 6));
     switch (screenRow) {
@@ -337,7 +337,7 @@ RowEffect FieldView::rowEffect(const Row screenRow) const
     return NoRowEffect;
 }
 
-int FieldView::rowPower(const Row screenRow) const
+int FieldView::rowPower(const int screenRow) const
 {
     assert((0 <= screenRow) && (screenRow < 6));
     switch (screenRow) {
@@ -347,6 +347,21 @@ int FieldView::rowPower(const Row screenRow) const
     case 3: return nPowerRowAllyMeele;
     case 4: return nPowerRowAllyRange;
     case 5: return nPowerRowAllySeige;
+    default: assert(false);
+    }
+    return 0;
+}
+
+int FieldView::rowCount(const int screenRow) const
+{
+    assert((0 <= screenRow) && (screenRow < 6));
+    switch (screenRow) {
+    case 0: return int(enemyRowSeigeIds.size());
+    case 1: return int(enemyRowRangeIds.size());
+    case 2: return int(enemyRowMeeleIds.size());
+    case 3: return int(allyRowMeeleIds.size());
+    case 4: return int(allyRowRangeIds.size());
+    case 5: return int(allyRowSeigeIds.size());
     default: assert(false);
     }
     return 0;

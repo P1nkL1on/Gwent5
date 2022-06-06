@@ -15,6 +15,33 @@ CardsFieldView::CardsFieldView(
 
 bool CardsFieldView::eventFilter(QObject *o, QEvent *e)
 {
+    if (e->type() == QEvent::Resize) {
+        auto *er = static_cast<QResizeEvent *>(e);
+        updateSize(er->size());
+        return true;
+    }
+
+    const bool isPress = e->type() == QEvent::MouseButtonRelease;
+    const bool isMove = e->type() == QEvent::MouseMove;
+    if (!isPress && !isMove)
+        return QWidget::eventFilter(o, e);
+
+    auto *em = static_cast<QMouseEvent *>(e);
+    const QPoint pos = em->pos();
+    const QRect _rect = parentWidget()->contentsRect();
+
+    const int id = [=]{
+        return -1;
+    }();
+
+    if (isPress)
+        emit clicked(id);
+
+    if (id != _id) {
+        if (isMove)
+            emit hovered(id);
+        _id = id;
+    }
     return QWidget::eventFilter(o, e);
 }
 
@@ -68,4 +95,38 @@ void CardsFieldView::paintEvent(QPaintEvent *e)
     paintRow(topLeftRows + QPointF(0, height * 3 + _spacingRow * 2 + _spacingFields), _view.allyRowMeeleIds);
     paintRow(topLeftRows + QPointF(0, height * 4 + _spacingRow * 3 + _spacingFields), _view.allyRowRangeIds);
     paintRow(topLeftRows + QPointF(0, height * 5 + _spacingRow * 4 + _spacingFields), _view.allyRowSeigeIds);
+}
+
+void CardsFieldView::updateSize(const QSize &size)
+{
+
+}
+
+QRectF CardsFieldView::cardRect(const Row row, const Pos pos, const int nCardsInRow, const bool isAlly) const
+{
+    const double width = (rect().width() - _spacingCard * 8 - _diameterCoin - 2 * _spacingCoin - _spacingPowerRow) / 9.0;
+    const double height = (rect().height() - _spacingFields - _spacingRow * 4) / 6.0;
+    const int multHeight = isAlly ? (3 + int(row)) : (2 - int(row));
+    const int multSpacing = isAlly ? (2 + int(row)) : (2 - int(row));
+    const int multFields = isAlly * 1;
+    const QPointF topLeftRows = rect().topLeft() + QPointF(_diameterCoin + 2 * _spacingCoin + _spacingPowerRow, 0);
+    const QPointF topLeftCard = topLeftRows + QPointF(width * (4.5 + (int(pos) - nCardsInRow / 2.0)) + _spacingCard * (4.5 + int(pos) - int(nCardsInRow) / 2.0), height * multHeight + _spacingRow * multSpacing + _spacingFields * multFields);
+    return QRectF(topLeftCard, QSizeF(width, height));
+}
+
+int CardsFieldView::idOfCard(const QPoint pos) const
+{
+    for (int j = 0; j < 6; ++j) {
+        const bool isAlly = j >= 3;
+        const Row row = Row(j < 3 ? (2 - j) : (j - 3));
+        const int nCardsInRow = _view.rowCount(j);
+        for (int i = 0; i < nCardsInRow; ++i)
+            if (cardRect(row, Pos(i), nCardsInRow, isAlly).contains(pos)) {
+                int id = -1;
+                const bool isOk = _view.idAtRowAndPos(j, i, &id);
+                Q_ASSERT(isOk);
+                return id;
+            }
+    }
+    return -1;
 }

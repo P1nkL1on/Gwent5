@@ -17,13 +17,13 @@ public:
 signals:
     void hovered(const int id);
     void clicked(const int id);
-//    void rowHovered();
-//    void rowClicked();
 
 private:
     bool eventFilter(QObject *o, QEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
     void updateSize(const QSize &size);
+    QRectF cardRect(const Row row, const Pos pos, const int nCardsInRow, const bool isAlly) const;
+    int idOfCard(const QPoint pos) const;
 
     ResourceManager *_resourceManager = nullptr;
     FieldView _view;

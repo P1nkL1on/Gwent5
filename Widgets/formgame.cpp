@@ -34,8 +34,8 @@ FormGame::FormGame(QWidget *parent) :
     ally.rowMeele = { a };
     ally.rowRange = { a2, a3 };
     ally.rowSeige = { a4, a5, a6, a7, a8, a9, a10, a11, a12 };
-    enemy.cardsAdded = { a17, a18, a19 };
-    enemy.rowMeele = { a17 };
+    enemy.cardsAdded = { a16, a17, a18, a19 };
+    enemy.rowMeele = { a16, a17 };
     enemy.rowRange = { a18 };
     enemy.rowSeige = { a19 };
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
@@ -43,9 +43,10 @@ FormGame::FormGame(QWidget *parent) :
     const FieldView view = fieldView(ally, enemy, TurnStart, nullptr, {}, {}, -1, false);
 
 
-
     _resourceManager = new ResourceManager();
     _cardsFieldView = new CardsFieldView(_resourceManager, view);
+    connect(_cardsFieldView, &CardsFieldView::hovered, this, [=](const int id){ qDebug() << "hovered" << id; });
+    connect(_cardsFieldView, &CardsFieldView::clicked, this, [=](const int id){ qDebug() << "clicked" << id; });
 
 
     setCentralWidget(_cardsFieldView);
