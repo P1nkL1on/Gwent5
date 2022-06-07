@@ -7905,9 +7905,9 @@ RaghNarRoog::RaghNarRoog()
     faction = Neutral;
     tags = { Hazard, Spell };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        applyRowEffect(ally, enemy, Meele, RaghNarRoogEffect);
-        applyRowEffect(ally, enemy, Range, RaghNarRoogEffect);
-        applyRowEffect(ally, enemy, Seige, RaghNarRoogEffect);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        applyRowEffect(enemy, ally, Meele, RaghNarRoogEffect);
+        applyRowEffect(enemy, ally, Range, RaghNarRoogEffect);
+        applyRowEffect(enemy, ally, Seige, RaghNarRoogEffect);
     };
 }
