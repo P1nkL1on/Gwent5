@@ -1216,7 +1216,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         return true;
     }
 
-    // TODO: others trigger on weaken
+    card->onWeakened(x, ally, enemy, src);
     return false;
 }
 
@@ -2030,6 +2030,12 @@ void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onDamaged && !isLocked)
         return _onDamaged(x, ally, enemy, src);
+}
+
+void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
+{
+    if (_onWeakened && !isLocked)
+        return _onWeakened(x, ally, enemy, src);
 }
 
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)

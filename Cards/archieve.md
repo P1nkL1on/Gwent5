@@ -196,7 +196,7 @@
 - [x] Eist Tuirseach
 - [x] Ermion
 - [x] Harald the Cripple
-- [x] Hym __(NO ABILITY)__
+- [x] Hym
 - [x] Madman Lugos
 - [x] Ulfhedinn
 - [x] Vabjorn
@@ -210,7 +210,7 @@
 - [x] Holger Blackhand
 - [x] Jutta an Dimun
 - [x] Morkvarg
-- [x] Ornamental Sword __(NO ABILITY)__
+- [x] Ornamental Sword
 - [x] Restore
 - [x] Sigrdrifa
 - [x] Skjall
@@ -218,7 +218,7 @@
 - [x] Svanrige Tuirseach
 - [x] Udalryk
 - [x] Yoana
-- [ ] An Craite Armorsmith
+- [x] An Craite Armorsmith
 - [x] An Craite Blacksmith
 - [x] An Craite Greatsword
 - [x] An Craite Longship
@@ -234,15 +234,15 @@
 - [x] Dimun Pirate Captain
 - [x] Dimun Warship
 - [x] Drummond Queensguard
-- [x] Drummond Shieldmaid __(NO ABILITY)__
+- [x] Drummond Shieldmaid
 - [x] Drummond Warmonger
-- [x] Heymaey Flaminica __(NO ABILITY)__
+- [x] Heymaey Flaminica
 - [x] Heymaey Herbalist
 - [x] Heymaey Protector
-- [x] Heymaey Skald __(NO ABILITY)__
+- [x] Heymaey Skald
 - [x] Heymaey Spearmaiden
 - [x] Priestess of Freya
-- [x] Raging Berserker __(NO ABILITY)__
+- [x] Raging Berserker
 - [x] Savage Bear
 - [x] Tuirseach Archer
 - [x] Tuirseach Axeman
@@ -413,7 +413,7 @@
 - [x] Eredin Breacc Glas
 - [x] Ge'els
 - [x] Imlerith
-- [x] Imlerith: Sabbath
+- [x] Imlerith: Sabbath __CHECK_ABILITY__
 - [x] Kayran
 - [x] Miruna
 - [x] Old Speartip
@@ -436,12 +436,12 @@
 - [x] Monster Nest
 - [x] Morvudd
 - [x] Mourntart
-- [x] Nekurat _(easy card)_
+- [x] Nekurat
 - [x] Nithral
 - [x] Ozzrel
 - [x] Parasite
 - [x] Ruehin
-- [x] She-Troll of Vergen
+- [x] She-Troll of Vergen __FIX_ABILITY_BUG__
 - [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
@@ -455,10 +455,10 @@
 - [x] Bridge Troll
 - [x] Celaeno Harpy
 - [x] Cockatrice
-- [x] Cyclops _(easy card)_
+- [x] Cyclops
 - [x] D'ao
 - [x] Drowner
-- [x] Ekimmara _(easy card)_
+- [x] Ekimmara
 - [x] Fiend
 - [x] Foglet __(NOT EXECT ABILITY)__
 - [x] Forktail
@@ -481,5 +481,5 @@
 - [x] Wild Hunt Navigator
 - [x] Wild Hunt Rider
 - [x] Wild Hunt Warrior
-- [x] Wyvern _(easy card)_
+- [x] Wyvern
 - [x] Moonlight

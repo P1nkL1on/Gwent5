@@ -265,6 +265,7 @@ std::vector<Card *> allCards(const Patch)
         new Geels(),
         new WildHuntRider(),
         new VranWarrior(),
+        new AnCraiteArmorsmith(),
     };
 }
 
@@ -4407,6 +4408,10 @@ RagingBerserker::RagingBerserker()
     _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *) {
         transform(this, RagingBear(), ally, enemy, this);
     };
+
+    _onWeakened = [=](const int x, Field &ally, Field &enemy, const Card *src) {
+        onDamaged(x, ally, enemy, src);
+    };
 }
 
 
@@ -7795,5 +7800,31 @@ VranWarrior::VranWarrior()
     _onTurnStart = [=](Field &ally, Field &enemy) {
         if (tick(this, ally, enemy))
             onDeploy(ally, enemy);
+    };
+}
+
+AnCraiteArmorsmith::AnCraiteArmorsmith()
+{
+    id = "152317";
+    name = "An Craite Armorsmith";
+    text = "Heal 2 allies and give them 3 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanAnCraite, Support };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00422532.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR1_VSET_00550731.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00434397.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        heal(target, ally, enemy);
+        gainArmor(target, 3, ally, enemy, this);
     };
 }

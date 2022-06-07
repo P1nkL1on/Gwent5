@@ -1821,4 +1821,10 @@ struct VranWarrior : CardCollectible<VranWarrior>
 };
 
 
+struct AnCraiteArmorsmith : CardCollectible<AnCraiteArmorsmith>
+{
+    AnCraiteArmorsmith();
+};
+
+
 #endif // CARDS_H

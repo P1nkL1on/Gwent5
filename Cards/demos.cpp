@@ -605,13 +605,15 @@ void demoSummoning(Field &ally, Field &enemy)
     auto *s2 = new DrummondShieldmaid();
     auto *s3 = new DrummondShieldmaid();
     auto *s4 = new DrummondShieldmaid();
+    auto *as = new AnCraiteArmorsmith();
+    auto *t = new TuirseachArcher();
     auto *m = new Maerolorn();
     auto *mn = new MonsterNest();
     auto *r = new Rotfiend();
     auto *d = new Dao();
-    ally.cardsAdded = {a1, a2, a3, a4, s1, s2, s3, s4, m, mn, r, d};
+    ally.cardsAdded = {a1, a2, a3, a4, s1, s2, s3, s4, as, t, m, mn, r, d};
 
-    ally.hand = {a1, a2, s1, s2, m, mn};
+    ally.hand = {a1, a2, s1, s2, m, mn, as, t};
     ally.discard = {a3, s3};
     ally.deck = {a4, s4, r, d};
     ally.canPass = false;

@@ -79,6 +79,7 @@ struct Card
     void onRevealed(Field &ally, Field &enemy, const Card *src);
     void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
+    void onWeakened(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
@@ -136,6 +137,7 @@ protected:
     AllyEnemySrc _onRevealed = nullptr;
     AllyEnemyCardSrc _onOtherRevealed = nullptr;
     IntAllyEnemySrc _onDamaged = nullptr;
+    IntAllyEnemySrc _onWeakened = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
