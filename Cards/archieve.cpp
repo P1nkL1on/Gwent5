@@ -270,6 +270,8 @@ std::vector<Card *> allCards(const Patch)
         new AvalachSage(),
         new Nekurat(),
         new RaghNarRoog(),
+        new GeraltProfessional(),
+        new GeraltAard(),
     };
 }
 
@@ -1664,6 +1666,19 @@ GeraltIgni::GeraltIgni(const Lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        // TODO: select only between rows with 25 or more power
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        if (powerRow(enemy.row(row)) < 25)
+            return;
+
+        for (Card *card : highests(enemy.row(row)))
+            putToDiscard(card, ally, enemy, this);
+    };
 }
 
 
@@ -1683,19 +1698,6 @@ GeraltOfRivia::GeraltOfRivia()
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
-
-    _onDeploy = [=](Field &ally, Field &) {
-        // TODO: select only between rows with 25 or more power
-        startChoiceToSelectEnemyRow(ally, this);
-    };
-
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (powerRow(enemy.row(row)) < 25)
-            return;
-
-        for (Card *card : highests(enemy.row(row)))
-            putToDiscard(card, ally, enemy, this);
-    };
 }
 
 
@@ -7909,5 +7911,115 @@ RaghNarRoog::RaghNarRoog()
         applyRowEffect(enemy, ally, Meele, RaghNarRoogEffect);
         applyRowEffect(enemy, ally, Range, RaghNarRoogEffect);
         applyRowEffect(enemy, ally, Seige, RaghNarRoogEffect);
+    };
+}
+
+GeraltProfessional::GeraltProfessional()
+{
+    id = "201772";
+    name = "Geralt: Professional";
+    text = "Deal 4 damage to an enemy. If it's a Monster faction unit, destroy it instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (target->faction != Monster)
+            damage(target, 4, ally, enemy, this);
+        else
+            putToDiscard(target, ally, enemy, this);
+    };
+}
+
+GeraltAard::GeraltAard()
+{
+    id = "112111";
+    name = "Geralt: Aard";
+    text = "Deal 3 damage to 3 enemies and move them to the row above.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, this)) {
+            const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+            Row row = rowAndPos.row() == Meele ? Range : rowAndPos.row() == Range ? Seige : Meele;
+            if (row == Meele)
+                return;
+//            Row row;
+//            switch (rowAndPos.row()) {
+//            case Meele:
+//                row = Range;
+//                break;
+//            case Range:
+//                row = Seige;
+//                break;
+//            case Seige:
+//            default:
+//                return;
+//            };
+            Pos pos = std::min(int(rowAndPos.pos()), int(enemy.lastPosInARow(row)));
+            moveExistedUnitToPos(target, RowAndPos(row, pos), enemy, ally, this);
+            // TODO: check the position to moving on
+        }
+
+    };
+}
+
+GeraltYrden::GeraltYrden()
+{
+    id = "201523";
+    name = "Geralt: Yrden";
+    text = "Reset all units on a row and remove their statuses.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        // TODO: fix it when row-logic will be remastered
+        startChoiceToSelectEnemyRow(ally, enemy, this, {}, EnemyBoard);
+        //startChoiceToSelectAllyRow(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        for (Card *card : enemy.row(row)) {
+            reset(card, ally, enemy);
+            removeAllStatuses(card, ally, enemy);
+        }
     };
 }

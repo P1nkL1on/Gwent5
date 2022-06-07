@@ -1844,4 +1844,22 @@ struct RaghNarRoog : CardCollectible<RaghNarRoog>
 };
 
 
+struct GeraltProfessional : CardCollectible<GeraltProfessional>
+{
+    GeraltProfessional();
+};
+
+
+struct GeraltAard : CardCollectible<GeraltAard>
+{
+    GeraltAard();
+};
+
+
+struct GeraltYrden : CardCollectible<GeraltYrden>
+{
+    GeraltYrden();
+};
+
+
 #endif // CARDS_H

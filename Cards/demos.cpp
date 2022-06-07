@@ -764,21 +764,22 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
 void demoTemporaryForTests(Field &ally, Field &enemy)
 {
     auto *r = new RaghNarRoog();
+    auto *g1 = new GeraltProfessional();
+    auto *g2 = new GeraltAard();
 
-    ally.cardsAdded = {r};
-    ally.hand = {r};
+    ally.cardsAdded = {r, g1, g2};
+    ally.hand = {r, g1, g2};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
-    auto *b3 = new BitingFrost();
-    auto *s = new SkelligeStorm();
+    auto *d = new DandelionPoet();
 
-    enemy.cardsAdded = {m1, m2, m3, b3, s};
-    enemy.hand = {b3, s};
+    enemy.cardsAdded = {m1, m2, m3, d};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3};
+    enemy.rowSeige = {d};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

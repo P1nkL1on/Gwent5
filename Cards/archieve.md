@@ -6,7 +6,7 @@
 - [ ] Zoltan: Scoundrel
 - [ ] Aguara: True Form
 - [x] Avallac'h _(easy card)_
-- [ ] Geralt: Aard
+- [x] Geralt: Aard
 - [ ] Geralt: Yrden
 - [ ] Hanmarvyn's Dream
 - [ ] Ihuarraquax
@@ -33,7 +33,7 @@
 - [x] Geralt: Igni
 - [x] Shupe's Day Off
 - [ ] Eskel: Pathfinder _(easy card)_
-- [ ] Geralt: Professional _(easy card)_
+- [x] Geralt: Professional _(easy card)_
 - [ ] Black Blood
 - [ ] Rock Barrage
 - [ ] Ciri

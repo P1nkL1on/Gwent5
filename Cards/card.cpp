@@ -1159,6 +1159,13 @@ void reset(Card *card, Field &, Field &)
     card->power = card->powerBase;
 }
 
+void removeAllStatuses(Card *card, Field &ally, Field &enemy)
+{
+    card->isSpy = false;
+    card->isResilient = false;
+    card->isLocked = false;
+}
+
 void putToHand(Card *card, Field &ally, Field &enemy)
 {
     const Row row = takeCard(card, ally, enemy);
@@ -2193,3 +2200,4 @@ void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, con
         assert(false);
     }
 }
+
