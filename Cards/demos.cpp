@@ -763,30 +763,10 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
 
 void demoTemporaryForTests(Field &ally, Field &enemy)
 {
-    auto *w = new Wyvern();
-    auto *p = new Parasite();
-    auto *j = new Jotunn();
-    auto *b = new BitingFrost();
-    auto *i1 = new ImpenetrableFog();
-    auto *ai = new AncientFoglet();
-    auto *h = new CelaenoHarpy();
-    auto *ba = new Barbegazi();
-    auto *bt = new BridgeTroll();
-    auto *c = new Cockatrice();
-    auto *as = new Archespore();
-    auto *n = new Nekurat();
-    auto *s1 = new Siren();
-    auto *s2 = new Siren();
-    auto *m = new Moonlight();
-    auto *l1 = new Lamia();
-    auto *l2 = new Lamia();
-    auto *wc = new Werecat();
+    auto *r = new RaghNarRoog();
 
-    ally.cardsAdded = {w, p, j, b, i1, ai, h, ba, bt, c, as, n, s1, s2, m, l1, l2, wc};
-    ally.hand = {p, b, i1, h, ba, n, s1, s2, l1, l2, wc};
-    ally.deck = {m};
-    ally.rowSeige = {ai, w, j, bt, c};
-    ally.rowMeele = {as};
+    ally.cardsAdded = {r};
+    ally.hand = {r};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

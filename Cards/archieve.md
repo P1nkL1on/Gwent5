@@ -12,7 +12,7 @@
 - [ ] Ihuarraquax
 - [ ] Korathi Heatwave
 - [ ] Phoenix _(easy card)_
-- [ ] Ragh Nar Roog _(easy card)_
+- [x] Ragh Nar Roog _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
 - [ ] Wolfsbane

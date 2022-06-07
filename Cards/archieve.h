@@ -1838,4 +1838,10 @@ struct AvalachSage : CardCollectible<AvalachSage>
 };
 
 
+struct RaghNarRoog : CardCollectible<RaghNarRoog>
+{
+    RaghNarRoog();
+};
+
+
 #endif // CARDS_H

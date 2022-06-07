@@ -269,6 +269,7 @@ std::vector<Card *> allCards(const Patch)
         new Avalach(),
         new AvalachSage(),
         new Nekurat(),
+        new RaghNarRoog(),
     };
 }
 
@@ -7890,5 +7891,23 @@ AvalachSage::AvalachSage()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target->defaultCopy(), ally, enemy, this);
+    };
+}
+
+RaghNarRoog::RaghNarRoog()
+{
+    id = "113101";
+    name = "Ragh Nar Roog";
+    text = "Apply a Hazard to each enemy row that deals 2 damage to the Highest unit on turn start..";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Hazard, Spell };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        applyRowEffect(ally, enemy, Meele, RaghNarRoogEffect);
+        applyRowEffect(ally, enemy, Range, RaghNarRoogEffect);
+        applyRowEffect(ally, enemy, Seige, RaghNarRoogEffect);
     };
 }
