@@ -266,6 +266,9 @@ std::vector<Card *> allCards(const Patch)
         new WildHuntRider(),
         new VranWarrior(),
         new AnCraiteArmorsmith(),
+        new Avalach(),
+        new AvalachSage(),
+        new Nekurat(),
     };
 }
 
@@ -7826,5 +7829,66 @@ AnCraiteArmorsmith::AnCraiteArmorsmith()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         heal(target, ally, enemy);
         gainArmor(target, 3, ally, enemy, this);
+    };
+}
+
+Avalach::Avalach()
+{
+    id = "132105";
+    name = "Avallac'h";
+    text = "Truce: Each player draws 2 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Elf, Mage };
+    isDoomed = true;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        drawACard(ally, enemy);
+        drawACard(ally, enemy);
+        drawACard(enemy, ally);
+        drawACard(enemy, ally);
+    };
+}
+
+AvalachSage::AvalachSage()
+{
+    id = "112112";
+    name = "Avallac'h: Sage";
+    text = "Spawn a default copy of a random Gold or Silver unit from your opponent's starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Elf, Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> variants;
+        if (Card *gold = random(cardsFiltered(ally, enemy, {isGold, isUnit}, EnemyDeckStarting), ally.rng))
+            variants.push_back(gold);
+        if (Card *silver = random(cardsFiltered(ally, enemy, {isSilver, isUnit}, EnemyDeckStarting), ally.rng))
+            variants.push_back(silver);
+        startChoiceToTargetCard(ally, enemy, this, variants);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target->defaultCopy(), ally, enemy, this);
     };
 }

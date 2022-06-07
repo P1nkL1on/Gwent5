@@ -8,7 +8,7 @@ inline bool isUnit(Card *card) { return !card->isSpecial; }
 inline bool isSpecial(Card *card) { return card->isSpecial; }
 inline bool isBronze(Card *card) { return card->rarity == Bronze; }
 inline bool isSilver(Card *card) { return card->rarity == Silver; }
-inline bool isGold(Card *card) { return card->rarity == Silver; }
+inline bool isGold(Card *card) { return card->rarity == Gold; }
 inline bool isLeader(Card *card) { return hasTag(card, Leader); }
 inline bool isNonLeader(Card *card) { return !hasTag(card, Leader); }
 inline bool isBronzeOrSilver(Card *card) { return (card->rarity == Bronze) || (card->rarity == Silver); }

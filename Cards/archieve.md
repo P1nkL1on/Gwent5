@@ -5,7 +5,7 @@
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
 - [ ] Aguara: True Form
-- [ ] Avallac'h _(easy card)_
+- [x] Avallac'h _(easy card)_
 - [ ] Geralt: Aard
 - [ ] Geralt: Yrden
 - [ ] Hanmarvyn's Dream
@@ -50,7 +50,7 @@
 - [ ] Expired Ale
 - [ ] Crow's Eye
 - [ ] Lacerate
-- [ ] Avallac'h: Sage
+- [x] Avallac'h: Sage
 - [ ] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
 - [ ] Garrison

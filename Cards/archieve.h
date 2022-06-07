@@ -1826,5 +1826,16 @@ struct AnCraiteArmorsmith : CardCollectible<AnCraiteArmorsmith>
     AnCraiteArmorsmith();
 };
 
+struct Avalach : CardCollectible<Avalach>
+{
+    Avalach();
+};
+
+
+struct AvalachSage : CardCollectible<AvalachSage>
+{
+    AvalachSage();
+};
+
 
 #endif // CARDS_H

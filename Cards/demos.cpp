@@ -878,3 +878,35 @@ void demoSlyzards(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoAvalach(Field &ally, Field &enemy)
+{
+    auto *a1 = new CiriNova();
+    auto *a2 = new AnCraiteArmorsmith();
+    auto *a3 = new AnCraiteArmorsmith();
+    auto *a4 = new AnCraiteBlacksmith();
+    auto *a5 = new AnCraiteBlacksmith();
+    auto *a6 = new Avalach();
+    auto *a7 = new AvalachSage();
+    ally.cardsAdded = { a1, a2, a3, a4, a5, a6, a7 };
+    ally.deckStarting = { a1, a2, a3, a4, a5, a6, a7 };
+    ally.deck = { a1, a2, a3, a4, a5 };
+    ally.hand = { a6, a7 };
+    ally.canPass = false;
+
+    auto *e0 = new GeraltOfRivia();
+    auto *e1 = new CiriNova();
+    auto *e2 = new Siren();
+    auto *e3 = new Siren();
+    auto *e4 = new Nekurat();
+    auto *e5 = new MonsterNest();
+    auto *e6 = new Lamia();
+    auto *e7 = new Lamia();
+    enemy.cardsAdded = { e0, e1, e2, e3, e4, e5, e6, e7 };
+    enemy.deckStarting = { e0, e1, e2, e3, e4, e5, e6, e7 };
+    enemy.deck = { e0, e1, e2, e3, e5, e6 };
+    enemy.hand = { e4, e7 };
+    enemy.passed = false;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

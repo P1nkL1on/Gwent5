@@ -805,6 +805,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyDeck)
             return enemy.deck;
 
+        if (group == EnemyDeckStarting)
+            return enemy.deckStarting;
+
         // BUG: enemy hand is visible during REVEAL choice
         if (group == EnemyDiscard)
             return enemy.discard;
