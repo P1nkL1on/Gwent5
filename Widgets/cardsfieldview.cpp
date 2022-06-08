@@ -11,6 +11,8 @@ CardsFieldView::CardsFieldView(
     _resourceManager(resourceManager),
     _view(view)
 {
+    installEventFilter(this);
+    setMouseTracking(true);
 }
 
 bool CardsFieldView::eventFilter(QObject *o, QEvent *e)
@@ -27,12 +29,9 @@ bool CardsFieldView::eventFilter(QObject *o, QEvent *e)
         return QWidget::eventFilter(o, e);
 
     auto *em = static_cast<QMouseEvent *>(e);
-    const QPoint pos = em->pos();
-    const QRect _rect = parentWidget()->contentsRect();
+    const int id = idOfCard(em->pos());
 
-    const int id = [=]{
-        return -1;
-    }();
+    // TODO: add pass click
 
     if (isPress)
         emit clicked(id);
