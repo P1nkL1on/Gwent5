@@ -768,14 +768,14 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *g2 = new GeraltAard();
     auto *g3 = new GeraltYrden();
     auto *c = new CiriDash();
-    auto *b1 = new Barbegazi();
-    auto *b2 = new Barbegazi();
-    auto *b3 = new Barbegazi();
+    auto *b = new Barbegazi();
     auto *t1 = new ToadPrince();
     auto *t2 = new ToadPrince();
+    auto *a = new Aguara();
+    auto *at = new AguaraTrueForm();
 
-    ally.cardsAdded = {r, g1, g2, g3, c, b1, b2, b3, t1, t2};
-    ally.hand = {r, g1, g2, g3, c, b1, b2, b3, t1, t2};
+    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at};
+    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

@@ -1868,4 +1868,22 @@ struct CiriDash : CardCollectible<CiriDash>
 };
 
 
+struct Aguara : CardCollectible<Aguara>
+{
+    Aguara();
+private:
+    struct BoostLowest : CardCollectible<BoostLowest> {};
+    struct BoostInHand : CardCollectible<BoostInHand> {};
+    struct DamageHighest : CardCollectible<DamageHighest> {};
+    struct CharmElf : CardCollectible<CharmElf> {};
+    int numOptions = 0;
+};
+
+
+struct AguaraTrueForm : CardCollectible<AguaraTrueForm>
+{
+    AguaraTrueForm();
+};
+
+
 #endif // CARDS_H

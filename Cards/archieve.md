@@ -1,10 +1,10 @@
 # Neutral
 
-- [ ] Aguara
+- [x] Aguara
 - [ ] Lambert: Swordmaster
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
-- [ ] Aguara: True Form
+- [x] Aguara: True Form
 - [x] Avallac'h
 - [x] Geralt: Aard
 - [x] Geralt: Yrden __(NOT EXECT ABILITY)__

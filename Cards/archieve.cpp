@@ -274,6 +274,8 @@ std::vector<Card *> allCards(const Patch)
         new GeraltAard(),
         new GeraltYrden(),
         new CiriDash(),
+        new Aguara(),
+        new AguaraTrueForm(),
     };
 }
 
@@ -7974,18 +7976,6 @@ GeraltAard::GeraltAard()
             Row row = rowAndPos.row() == Meele ? Range : rowAndPos.row() == Range ? Seige : Meele;
             if (row == Meele)
                 return;
-//            Row row;
-//            switch (rowAndPos.row()) {
-//            case Meele:
-//                row = Range;
-//                break;
-//            case Range:
-//                row = Seige;
-//                break;
-//            case Seige:
-//            default:
-//                return;
-//            };
             Pos pos = std::min(int(rowAndPos.pos()), int(enemy.lastPosInARow(row)));
             moveExistedUnitToPos(target, RowAndPos(row, pos), enemy, ally, this);
             // TODO: check the position to moving on
@@ -8050,5 +8040,92 @@ CiriDash::CiriDash()
     _onDiscard = [=](Field &ally, Field &enemy) {
         putToDeck(this, ally, enemy, RandomPlaceDeck, this);
         strengthen(this, 3, ally, enemy);
+    };
+}
+
+Aguara:: Aguara()
+{
+    id = "200062";
+    name = "Aguara";
+    text = "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.156.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.155.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.154.mp3",
+    };
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Relict, Cursed };
+
+    _onDeploy = [=](Field & ally, Field &enemy) {
+        auto *option1 = new Aguara::BoostLowest;
+        copyCardText(this, option1);
+        option1->text = "Boost the Lowest ally by 5.";
+
+        auto *option2 = new Aguara::BoostInHand;
+        copyCardText(this, option2);
+        option2->text = "Boost a random unit in your hand by 5.";
+
+        auto *option3 = new Aguara::DamageHighest;
+        copyCardText(this, option3);
+        option3->text = "Deal 5 damage to the Highest enemy.";
+
+        auto *option4 = new Aguara::CharmElf;
+        copyCardText(this, option4);
+        option4->text = "Charm a random enemy Elf with 5 power or less.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4}, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<Aguara::BoostLowest *>(target)) {
+            if(Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+                boost(card, 5, ally, enemy, this);
+            numOptions++;
+        }
+
+        if (dynamic_cast<Aguara::BoostInHand *>(target)) {
+            if(Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
+                boost(card, 5, ally, enemy, this);
+            numOptions++;
+        }
+
+        if (dynamic_cast<Aguara::DamageHighest *>(target)) {
+            if(Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                damage(card, 5, ally, enemy, this);
+            numOptions++;
+        }
+
+        if (dynamic_cast<Aguara::CharmElf *>(target)) {
+            if(Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+                charm(card, ally, enemy, this);
+            numOptions++;
+        }
+
+        if(numOptions >= 2)
+            acceptOptionAndDeleteOthers(this, target);
+    };
+}
+
+AguaraTrueForm::AguaraTrueForm()
+{
+    id = "200056";
+    name = "Aguara: True Form";
+    text = "Create any Bronze or Silver Spell.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Relict, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Spell)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
     };
 }
