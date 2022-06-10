@@ -766,9 +766,16 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *r = new RaghNarRoog();
     auto *g1 = new GeraltProfessional();
     auto *g2 = new GeraltAard();
+    auto *g3 = new GeraltYrden();
+    auto *c = new CiriDash();
+    auto *b1 = new Barbegazi();
+    auto *b2 = new Barbegazi();
+    auto *b3 = new Barbegazi();
+    auto *t1 = new ToadPrince();
+    auto *t2 = new ToadPrince();
 
-    ally.cardsAdded = {r, g1, g2};
-    ally.hand = {r, g1, g2};
+    ally.cardsAdded = {r, g1, g2, g3, c, b1, b2, b3, t1, t2};
+    ally.hand = {r, g1, g2, g3, c, b1, b2, b3, t1, t2};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

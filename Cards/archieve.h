@@ -1862,4 +1862,10 @@ struct GeraltYrden : CardCollectible<GeraltYrden>
 };
 
 
+struct CiriDash : CardCollectible<CiriDash>
+{
+    CiriDash();
+};
+
+
 #endif // CARDS_H

@@ -272,6 +272,8 @@ std::vector<Card *> allCards(const Patch)
         new RaghNarRoog(),
         new GeraltProfessional(),
         new GeraltAard(),
+        new GeraltYrden(),
+        new CiriDash(),
     };
 }
 
@@ -8012,7 +8014,7 @@ GeraltYrden::GeraltYrden()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: fix it when row-logic will be remastered
-        startChoiceToSelectEnemyRow(ally, enemy, this, {}, EnemyBoard);
+        startChoiceToSelectEnemyRow(ally, this);
         //startChoiceToSelectAllyRow(ally, enemy, this, {}, EnemyBoard);
     };
 
@@ -8021,5 +8023,32 @@ GeraltYrden::GeraltYrden()
             reset(card, ally, enemy);
             removeAllStatuses(card, ally, enemy);
         }
+    };
+}
+
+CiriDash::CiriDash()
+{
+    id = "112110";
+    name = "Ciri: Dash";
+    text = "Whenever this unit is Discarded or destroyed, return it to your deck and Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Cintra, Witcher };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        onDiscard(ally, enemy);
+    };
+
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        putToDeck(this, ally, enemy, RandomPlaceDeck, this);
+        strengthen(this, 3, ally, enemy);
     };
 }

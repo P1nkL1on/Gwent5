@@ -5,9 +5,9 @@
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
 - [ ] Aguara: True Form
-- [x] Avallac'h _(easy card)_
+- [x] Avallac'h
 - [x] Geralt: Aard
-- [ ] Geralt: Yrden
+- [x] Geralt: Yrden __(NOT EXECT ABILITY)__
 - [ ] Hanmarvyn's Dream
 - [ ] Ihuarraquax
 - [ ] Korathi Heatwave
@@ -16,7 +16,7 @@
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
 - [ ] Wolfsbane
-- [ ] Ciri: Dash
+- [x] Ciri: Dash
 - [x] Regis
 - [x] Renew
 - [ ] Sihil
@@ -33,7 +33,7 @@
 - [x] Geralt: Igni
 - [x] Shupe's Day Off
 - [ ] Eskel: Pathfinder _(easy card)_
-- [x] Geralt: Professional _(easy card)_
+- [x] Geralt: Professional
 - [ ] Black Blood
 - [ ] Rock Barrage
 - [ ] Ciri
@@ -460,7 +460,7 @@
 - [x] Drowner
 - [x] Ekimmara
 - [x] Fiend
-- [x] Foglet __(NOT EXECT ABILITY)__
+- [x] Foglet
 - [x] Forktail
 - [x] Ghoul
 - [x] Griffin

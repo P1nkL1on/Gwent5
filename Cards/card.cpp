@@ -234,7 +234,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
-                reset(card, ally, enemy);
+                resetPower(card, ally, enemy);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -246,7 +246,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
-                reset(card, ally, enemy);
+                resetPower(card, ally, enemy);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -436,7 +436,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         std::swap(cardAlly, cardEnemy);
 
     if (!card->isSpecial)
-        reset(card, ally, enemy);
+        resetPower(card, ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -1156,14 +1156,36 @@ void reset(Card *card, Field &, Field &)
 {
     assert(!card->isSpecial);
 
+    // TODO: check if need smt else
+    Card *copy = card->defaultCopy();
+    card->powerBase = copy->powerBase;
+    card->power = copy->power;
+    card->armor = copy->armor;
+
+    card->isLocked = copy->isLocked;
+    card->isSpy = copy->isSpy;
+    card->isResilient = copy->isResilient;
+    card->isImmune = copy->isImmune;
+    card->isDoomed = copy->isDoomed;
+    card->isCrew = copy->isCrew;
+
+    // TODO: check if it produce a correct behevior
+    card->tags = copy->tags;
+    delete(copy);
+}
+
+void resetPower(Card *card, Field &ally, Field &enemy)
+{
     card->power = card->powerBase;
 }
 
 void removeAllStatuses(Card *card, Field &ally, Field &enemy)
 {
+    // TODO: determine all the statuses we may clear and replace them here
     card->isSpy = false;
     card->isResilient = false;
     card->isLocked = false;
+    card->isImmune = false;
 }
 
 void putToHand(Card *card, Field &ally, Field &enemy)
@@ -2200,4 +2222,3 @@ void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, con
         assert(false);
     }
 }
-

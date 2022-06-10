@@ -326,6 +326,7 @@ void heal(Card *card, const int x, Field &ally, Field &enemy);
 /// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
 int half(const int x);
 void reset(Card *card, Field &ally, Field &enemy);
+void resetPower(Card *card, Field &ally, Field &enemy);
 void removeAllStatuses(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
