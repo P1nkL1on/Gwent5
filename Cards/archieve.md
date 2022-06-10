@@ -1,56 +1,58 @@
 # Neutral
 
+- [x] Shupe's Day Off
 - [x] Aguara
-- [ ] Lambert: Swordmaster
+- [x] Aguara: True Form
+- [x] Regis
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
-- [x] Aguara: True Form
 - [x] Avallac'h
+- [x] Avallac'h: Sage
+- [x] Geralt of Rivia
+- [x] Geralt: Igni
 - [x] Geralt: Aard
-- [x] Geralt: Yrden __(NOT EXECT ABILITY)__
+- [x] Geralt: Yrden __{NOT EXECT ABILITY}__
+- [x] Geralt: Professional
+- [ ] Lambert: Swordmaster
+- [ ] Vesemir: Mentor _(easy card)_
+- [ ] Eskel: Pathfinder _(easy card)_
+- [x] Yennefer
+- [ ] Yennefer: Conjurer
+- [ ] Ciri
+- [x] Ciri: Dash
+- [x] Ciri: Nova
+- [ ] Uma's Curse
+- [ ] Triss Merigold _(easy card)_
+- [x] Triss: Butterflies
+- [ ] Triss: Telekinesis
+- [x] Dandelion: Poet
+- [ ] Dandelion: Vainglory
 - [ ] Hanmarvyn's Dream
+- [x] Korathi Heatwave
+- [x] Ragh Nar Roog
 - [ ] Ihuarraquax
-- [ ] Korathi Heatwave
 - [ ] Phoenix _(easy card)_
-- [x] Ragh Nar Roog _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
 - [ ] Wolfsbane
-- [x] Ciri: Dash
-- [x] Regis
+- [ ] Royal Decree _(easy card)_
 - [x] Renew
 - [ ] Sihil
-- [x] Triss: Butterflies
-- [ ] Vesemir: Mentor _(easy card)_
 - [ ] Villentretenmerth
-- [x] Yennefer
 - [x] Muzzle
-- [ ] Royal Decree _(easy card)_
-- [ ] Triss: Telekinesis
-- [ ] Uma's Curse
-- [x] Ciri: Nova
-- [x] Dandelion: Poet
-- [x] Geralt: Igni
-- [x] Shupe's Day Off
-- [ ] Eskel: Pathfinder _(easy card)_
-- [x] Geralt: Professional
 - [ ] Black Blood
 - [ ] Rock Barrage
-- [ ] Ciri
-- [ ] Yennefer: Conjurer
 - [ ] King of Beggars
 - [ ] Mastercrafted Spear
 - [ ] Peasant Militia
 - [ ] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
-- [ ] Ale of the Ancestors
-- [ ] Dandelion: Vainglory
+- [x] Ale of the Ancestors
 - [ ] Cyprian Wiley
 - [ ] Expired Ale
 - [ ] Crow's Eye
 - [ ] Lacerate
-- [x] Avallac'h: Sage
 - [ ] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
 - [ ] Garrison
@@ -58,8 +60,6 @@
 - [ ] Johnny
 - [ ] Stregobor
 - [ ] Doppler _(easy card)_
-- [x] Geralt of Rivia
-- [ ] Triss Merigold _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
 - [ ] Bekker's Dark Mirror
@@ -103,7 +103,7 @@
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
-- [ ] Mahakam Ale _(easy card)_
+- [x] Mahakam Ale _(easy card)_
 - [ ] Mardroeme
 - [ ] Petri's Philter _(easy card)_
 - [x] Reconnaissance
@@ -140,7 +140,7 @@
 - [ ] Lubberkin _(easy card)_
 - [ ] Margarita of Aretuza
 - [ ] Nenneke
-- [ ] Odrin
+- [x] Odrin
 - [ ] Prince Stennis
 - [ ] Princess Pavetta
 - [x] Ronvid the Incessant __(NO ABILITY)__

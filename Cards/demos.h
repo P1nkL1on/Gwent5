@@ -42,5 +42,6 @@ void demoNekkers(Field &ally, Field &enemy);
 void demoArachasDrones(Field &ally, Field &enemy);
 void demoSlyzards(Field &ally, Field &enemy);
 void demoAvalach(Field &ally, Field &enemy);
+void demoBeer(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

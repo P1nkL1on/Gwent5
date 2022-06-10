@@ -891,3 +891,30 @@ void demoAvalach(Field &ally, Field &enemy)
     initField(deckStartingEnemy, new UnseenElder, enemy);
     startNextRound(ally, enemy);
 }
+
+void demoBeer(Field &ally, Field &enemy)
+{
+    auto *h1 = new HeymaeyHerbalist();
+    auto *h2 = new HeymaeyHerbalist();
+    auto *h3 = new HeymaeyHerbalist();
+    auto *b1 = new Bear();
+    auto *b2 = new Bear();
+    auto *th1 = new TuirseachHunter();
+    auto *th2 = new TuirseachHunter();
+    auto *th3 = new TuirseachHunter();
+    auto *o = new Odrin();
+    auto *a = new AleOfTheAncestors();
+    auto *m1 = new MahakamAle();
+    auto *m2 = new MahakamAle();
+    auto *m3 = new MahakamAle();
+    ally.cardsAdded = {h1, h2, h3, b1, b2, th1, th2, th3, o, a, m1, m2, m3};
+
+    ally.canPass = false;
+
+    ally.hand = {th1, o, a, m1, m2, m3};
+    ally.rowRange = {b1, h1, h2, h3, b2};
+    ally.rowMeele = {th2, th3};
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}

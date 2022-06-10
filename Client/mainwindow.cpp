@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Arachas Drones", demoArachasDrones},
         {"Slyzards", demoSlyzards},
         {"Avalach", demoAvalach},
+        {"Bears and Beer", demoBeer},
     };
 
     /// make a choosing menu for it
@@ -607,7 +608,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             painter.fillRect(rowRect, QBrush(Qt::yellow, Qt::FDiagPattern));
             break;
         case SkelligeStormEffect:
-            painter.fillRect(rowRect, QBrush(Qt::blue, Qt::HorPattern));
+            painter.fillRect(rowRect, QBrush(Qt::darkBlue, Qt::HorPattern));
             break;
         case DragonsDreamEffect:
             painter.fillRect(rowRect, QBrush(Qt::darkCyan, Qt::HorPattern));
@@ -616,7 +617,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense5Pattern));
             break;
         case RaghNarRoogEffect:
-            painter.fillRect(rowRect, QBrush(Qt::red, Qt::Dense4Pattern));
+            painter.fillRect(rowRect, QBrush(Qt::darkMagenta, Qt::Dense4Pattern));
             break;
         case FullMoonEffect:
             painter.fillRect(rowRect, QBrush(Qt::blue, Qt::VerPattern));

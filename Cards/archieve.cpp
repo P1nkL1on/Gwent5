@@ -276,6 +276,10 @@ std::vector<Card *> allCards(const Patch)
         new CiriDash(),
         new Aguara(),
         new AguaraTrueForm(),
+        new KorathiHeatwave(),
+        new AleOfTheAncestors(),
+        new MahakamAle(),
+        new Odrin(),
     };
 }
 
@@ -7395,7 +7399,7 @@ CelaenoHarpy::HarpyEgg::HarpyEgg()
         boost(src, 4, ally, enemy, this);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new HarpyHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
@@ -7462,7 +7466,7 @@ Archgriffin::Archgriffin()
     faction = Monster;
     tags = { Beast };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         clearHazardsFromItsRow(this, ally);
     };
 }
@@ -7499,7 +7503,7 @@ BridgeTroll::BridgeTroll()
     tags = { Ogroid };
 
     // FIXME: change when weather logic will work with any rows
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceToSelectEnemyRow(ally, this);
     };
 
@@ -8002,7 +8006,7 @@ GeraltYrden::GeraltYrden()
     faction = Neutral;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         // TODO: fix it when row-logic will be remastered
         startChoiceToSelectEnemyRow(ally, this);
         //startChoiceToSelectAllyRow(ally, enemy, this, {}, EnemyBoard);
@@ -8059,7 +8063,7 @@ Aguara:: Aguara()
     faction = Neutral;
     tags = { Relict, Cursed };
 
-    _onDeploy = [=](Field & ally, Field &enemy) {
+    _onDeploy = [=](Field & ally, Field &) {
         auto *option1 = new Aguara::BoostLowest;
         copyCardText(this, option1);
         option1->text = "Boost the Lowest ally by 5.";
@@ -8120,12 +8124,100 @@ AguaraTrueForm::AguaraTrueForm()
     faction = Neutral;
     tags = { Relict, Cursed };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Spell)});
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+KorathiHeatwave::KorathiHeatwave()
+{
+    id = "200018";
+    name = "Korathi Heatwave";
+    text = "Apply a Hazard to each enemy row that deals 2 damage to the Lowest unit on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Hazard };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        applyRowEffect(enemy, ally, Meele, KorathiHeatwaveEffect);
+        applyRowEffect(enemy, ally, Range, KorathiHeatwaveEffect);
+        applyRowEffect(enemy, ally, Seige, KorathiHeatwaveEffect);
+    };
+
+}
+
+AleOfTheAncestors::AleOfTheAncestors()
+{
+    id = "200532";
+    name = "Ale of the Ancestors";
+    text = "Apply Golden Froth to the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Neutral;
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectAllyRow(ally, this);
+    };
+
+    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, GoldenFrothEffect);
+    };
+}
+
+MahakamAle::MahakamAle()
+{
+    id = "200519";
+    name = "Mahakam Ale";
+    text = "Boost a random ally on each row by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(ally.row(Meele), ally.rng))
+            boost(card, 4, ally, enemy, this);
+        if (Card *card = random(ally.row(Range), ally.rng))
+            boost(card, 4, ally, enemy, this);
+        if (Card *card = random(ally.row(Seige), ally.rng))
+            boost(card, 4, ally, enemy, this);
+    };
+}
+
+Odrin::Odrin()
+{
+    id = "122213";
+    name = "Odrin";
+    text = "Move to a random row and boost all other allies on it by 1 on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200481_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200559_0001.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.rowMeele) && !isIn(this, ally.rowRange) && !isIn(this, ally.rowSeige))
+            return;
+        if (moveSelfToRandomRow(this, ally, enemy)) {
+            Row row = _findRowAndPos(this, ally).row();
+            for(Card *card : ally.row(row))
+                if (card != this)
+                    boost(card, 1, ally, enemy, this);
+        }
     };
 }

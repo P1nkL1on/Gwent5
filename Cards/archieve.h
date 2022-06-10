@@ -1886,4 +1886,28 @@ struct AguaraTrueForm : CardCollectible<AguaraTrueForm>
 };
 
 
+struct KorathiHeatwave : CardCollectible<KorathiHeatwave>
+{
+    KorathiHeatwave();
+};
+
+
+struct AleOfTheAncestors : CardCollectible<AleOfTheAncestors>
+{
+    AleOfTheAncestors();
+};
+
+
+struct MahakamAle : CardCollectible<MahakamAle>
+{
+    MahakamAle();
+};
+
+
+struct Odrin : CardCollectible<Odrin>
+{
+    Odrin();
+};
+
+
 #endif // CARDS_H
