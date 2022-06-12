@@ -974,3 +974,25 @@ void demoSigismundDijkstra(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoWolfsbane(Field &ally, Field &enemy)
+{
+    std::vector<Card *> cards;
+    cards.push_back(new Wolfsbane());
+    for (int i = 0; i < 9; ++i)
+        cards.push_back(new Wolf());
+
+
+    ally.cardsAdded = cards;
+    ally.hand = cards;
+
+    auto *c1 = new ImperialManticore();
+    auto *c2 = new ImperialManticore();
+
+    enemy.cardsAdded = {c1, c2};
+    enemy.rowMeele = {c1, c2};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
