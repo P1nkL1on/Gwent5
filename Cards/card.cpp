@@ -705,19 +705,11 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
     assert(false);
 }
 
-void onChoiceDoneRow(const Row row, const bool isAlly, Field &ally, Field &enemy)
+void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
 {
     const Choice choice = ally.takeChoice();
-
-    Field *allyPtr = &ally;
-    Field *enemyPtr = &enemy;
-    if (!isAlly)
-        std::swap(allyPtr, enemyPtr);
-
-    if (choice.choiceType == SelectRow)
-        return choice.cardSource->onTargetRowChoosen(*allyPtr, *enemyPtr, row);
-
-    assert(false);
+    assert(choice.choiceType == SelectRow);
+    return choice.cardSource->onTargetRowChoosen(ally, enemy, screenRow);
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
@@ -1387,34 +1379,32 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect)
+Row fromScreenRow(const int screenRow, bool &isAlly)
 {
-    assert(row == Meele || row == Range || row == Seige);
+    assert((0 <= screenRow) && (screenRow < 6));
+    if (screenRow < 3) {
+        isAlly = true;
+        return Row(2 - screenRow);
+    }
+    isAlly = false;
+    return Row(screenRow - 3);
+}
 
-    ally.rowEffect(row) = rowEffect;
+void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    Field *fieldTargetPtr = isAlly ? &ally : &enemy;
 
-    // TODO: change it, when the row effects would be
-    // multifield (you actually can play them on both sides)
-    if (rowEffect == ImpenetrableFogEffect
-            || rowEffect == TorrentialRainEffect
-            || rowEffect == BitingFrostEffect
-            || rowEffect == SkelligeStormEffect
-            || rowEffect == DragonsDreamEffect
-            || rowEffect == KorathiHeatwaveEffect
-            || rowEffect == RaghNarRoogEffect
-            || rowEffect == BloodMoonEffect
-            || rowEffect == RaghNarRoogEffect)
-        for (Card *card : cardsFiltered(enemy, ally, {}, AllyAnywhere))
-            card->onAllyAppliedRowEffect(rowEffect, enemy, ally, row);
-    if (rowEffect == GoldenFrothEffect
-            || rowEffect == FullMoonEffect)
-        for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
-            card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+    fieldTargetPtr->rowEffect(row) = rowEffect;
 
-    for (Card *card : ally.row(row))
+    for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+
+    for (Card *card : fieldTargetPtr->row(row))
         if (rowEffect == BloodMoonEffect)
             damage(card, 2, ally, enemy, nullptr);
-        else if (ally.rowEffect(row) == PitTrapEffect)
+        else if (rowEffect == PitTrapEffect)
             damage(card, 3, ally, enemy, nullptr);
 }
 
@@ -2031,10 +2021,10 @@ void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
         return _onTargetChoosen(card, ally, enemy);
 }
 
-void Card::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
+void Card::onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow)
 {
     if (_onTargetRowChoosen && !isLocked)
-        return _onTargetRowChoosen(ally, enemy, row);
+        return _onTargetRowChoosen(ally, enemy, screenRow);
 }
 
 void Card::onDraw(Field &ally, Field &enemy)

@@ -1058,8 +1058,8 @@ ImpenetrableFog::ImpenetrableFog()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, ImpenetrableFogEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, ImpenetrableFogEffect);
     };
 }
 
@@ -1079,8 +1079,8 @@ TorrentialRain::TorrentialRain()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, TorrentialRainEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, TorrentialRainEffect);
     };
 }
 
@@ -1100,8 +1100,8 @@ BitingFrost::BitingFrost()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, BitingFrostEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, BitingFrostEffect);
     };
 }
 
@@ -1121,8 +1121,8 @@ GoldenFroth::GoldenFroth()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, GoldenFrothEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, GoldenFrothEffect);
     };
 }
 
@@ -1142,8 +1142,8 @@ SkelligeStorm::SkelligeStorm()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
 }
 
@@ -1687,12 +1687,13 @@ GeraltIgni::GeraltIgni(const Lang)
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (powerRow(enemy.row(row)) < 25)
-            return;
+    // FIXME: change when weather logic will work with any rows
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int row) {
+//        if (powerRow(enemy.row(row)) < 25)
+//            return;
 
-        for (Card *card : highests(enemy.row(row)))
-            putToDiscard(card, ally, enemy, this);
+//        for (Card *card : highests(enemy.row(row)))
+//            putToDiscard(card, ally, enemy, this);
     };
 }
 
@@ -1981,9 +1982,8 @@ ShupeMage::ShupeMage()
             }
 
             if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-                applyRowEffect(enemy, ally, Meele, randomHazardEffect(ally.rng));
-                applyRowEffect(enemy, ally, Range, randomHazardEffect(ally.rng));
-                applyRowEffect(enemy, ally, Seige, randomHazardEffect(ally.rng));
+                for (int screenRow = 3; screenRow < 6; ++screenRow)
+                    applyRowEffect(ally, enemy, screenRow, randomHazardEffect(ally.rng));
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -2386,12 +2386,8 @@ Moonlight::Moonlight()
         delete target;
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, FullMoonEffect);
-    };
-
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, BloodMoonEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, screenRow < 3 ? FullMoonEffect : BloodMoonEffect);
     };
 }
 
@@ -2796,7 +2792,7 @@ WoodlandSpirit::WoodlandSpirit()
         Pos pos;
         if (!_findRowAndPos(this, ally, row, pos))
             return;
-        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+        applyRowEffect(ally, enemy, 3 + row, ImpenetrableFogEffect);
         for (int n = 0; n < 3; ++n)
             spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
     };
@@ -3699,8 +3695,8 @@ BirnaBran::BirnaBran()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
 }
 
@@ -3749,10 +3745,8 @@ Kambi::Hemdall::Hemdall()
     tags = {};
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
-            ally.rowEffect(row) = NoRowEffect;
-            enemy.rowEffect(row) = NoRowEffect;
-        }
+        for (int screenRow = 0; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
             putToDiscard(card, ally, enemy, this);
     };
@@ -7006,7 +7000,7 @@ CaranthirArFeiniel::CaranthirArFeiniel()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
         if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this))
-            applyRowEffect(enemy, ally, row, BitingFrostEffect);
+            applyRowEffect(ally, enemy, 3 + row, BitingFrostEffect);
     };
 }
 
@@ -7311,7 +7305,7 @@ Foglet::Foglet()
         if (rowEffect != ImpenetrableFogEffect || !isIn(this, ally.deck))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), otherThan(this)}, AllyDeckShuffled)) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Foglet>, otherThan(this)}, AllyDeckShuffled)) {
             Foglet *foglet = static_cast<Foglet *>(card);
             foglet->_rowToCopy.insert({row, this});
         }
@@ -7523,17 +7517,17 @@ BridgeTroll::BridgeTroll()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (movedEffect != NoRowEffect) {
-            applyRowEffect(enemy, ally, row, movedEffect);
-            movedEffect = NoRowEffect;
-            return;
-        }
-        movedEffect = enemy.rowEffect(row);
-        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
-            return;
-        applyRowEffect(enemy, ally, row, NoRowEffect);
-        startChoiceToSelectRow(ally, this);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int row) {
+//        if (movedEffect != NoRowEffect) {
+//            applyRowEffect(enemy, ally, row, movedEffect);
+//            movedEffect = NoRowEffect;
+//            return;
+//        }
+//        movedEffect = enemy.rowEffect(row);
+//        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
+//            return;
+//        applyRowEffect(enemy, ally, row, NoRowEffect);
+//        startChoiceToSelectRow(ally, this);
     };
 }
 
@@ -7936,8 +7930,8 @@ RaghNarRoog::RaghNarRoog()
     tags = { Hazard, Spell };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-            applyRowEffect(enemy, ally, row, RaghNarRoogEffect);
+        for (int screenRow = 3; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, RaghNarRoogEffect);
     };
 }
 
@@ -8025,8 +8019,11 @@ GeraltYrden::GeraltYrden()
         startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        for (Card *card : enemy.row(row)) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        bool isAlly;
+        const Row row = fromScreenRow(screenRow, isAlly);
+        Field *fieldPtr = isAlly ? &ally : &enemy;
+        for (Card *card : fieldPtr->row(row)) {
             reset(card, ally, enemy);
             removeAllStatuses(card, ally, enemy);
         }
@@ -8159,8 +8156,8 @@ KorathiHeatwave::KorathiHeatwave()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-            applyRowEffect(enemy, ally, row, KorathiHeatwaveEffect);
+        for (int screenRow = 3; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, KorathiHeatwaveEffect);
     };
 
 }

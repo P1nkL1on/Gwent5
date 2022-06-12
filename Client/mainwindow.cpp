@@ -201,14 +201,11 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return RowAndPos();
     };
 
-    const auto rowAt = [=](const bool ally, const QPoint &point, Row &row) -> bool {
-        const int iFrom = ally ? 3 : 0;
-        const int iTo = ally ? 6 : 3;
-        for (int i = iFrom; i < iTo; ++i) {
-            const Row _row = Row(i < 3 ? (2 - i) : (i - 3));
+    const auto screenRowAt = [=](const QPoint &point, int &screenRow) -> bool {
+        for (int i = 0; i < 6; ++i) {
             const QRectF rowRect = QRectF(0, _layout.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
             if (rowRect.contains(point)) {
-                row = _row;
+                screenRow = 5 - i;
                 return true;
             }
         }
@@ -277,11 +274,9 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     }
 
     if (ally.choice().choiceType == SelectRow) {
-        Row row;
-        if (rowAt(true, point, row))
-            onChoiceDoneRow(row, true, ally, enemy);
-        if (rowAt(false, point, row))
-            onChoiceDoneRow(row, false, ally, enemy);
+        int screenRow;
+        if (screenRowAt(point, screenRow))
+            onChoiceDoneRow(screenRow, ally, enemy);
         goto finish_turn;
     }
 
