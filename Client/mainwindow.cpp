@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Avalach", demoAvalach},
         {"Bears and Beer", demoBeer},
         {"Crew and Crewed", demoCrewAndCrewed},
-        {"SheTrollOfVergen", demoSheTrollOfVergen},
+        {"She-Troll of Vergen", demoSheTrollOfVergen},
+        {"Sigismund Dijkstra", demoSigismundDijkstra},
     };
 
     /// make a choosing menu for it
@@ -151,7 +152,6 @@ void MainWindow::requestSoundByUrl(const std::string &url)
 
 void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
-    qDebug() << QString::fromStdString(stringChoices(ally.cardStack));
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
     const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 

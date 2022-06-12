@@ -957,3 +957,20 @@ void demoSheTrollOfVergen(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoSigismundDijkstra(Field &ally, Field &enemy)
+{
+    auto *s = new SigismundDijkstra();
+    auto *b1 = new KaedweniKnight();
+    auto *r = new ReaverScout();
+    auto *b2 = new KaedweniKnight();
+    auto *a = new Abaya();
+
+    ally.cardsAdded = {s, b1, b2, r, a};
+    ally.hand = {s};
+    ally.deck = {b1, r, b2, a};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

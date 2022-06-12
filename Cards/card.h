@@ -266,6 +266,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 
 /// may be used as top or most-left
+std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);
 Card *first(const std::vector<Card *> &cards);
 /// may be used as bottom or most-right
 Card *last(const std::vector<Card *> &cards);

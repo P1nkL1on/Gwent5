@@ -1971,4 +1971,10 @@ struct ReinforcedBallista : CardCollectible<ReinforcedBallista>
 };
 
 
+struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
+{
+    SigismundDijkstra();
+};
+
+
 #endif // CARDS_H

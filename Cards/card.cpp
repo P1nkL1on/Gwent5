@@ -2208,6 +2208,14 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
     return NoRowEffect;
 }
 
+std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts)
+{
+    std::vector<Card *> res;
+    for (size_t ind = 0; ind < size_t(nFirsts); ++ind)
+        res.push_back(cards[ind]);
+    return res;
+}
+
 Card *first(const std::vector<Card *> &cards)
 {
     return cards.size() ? cards.front() : nullptr;

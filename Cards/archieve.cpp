@@ -8460,3 +8460,28 @@ ReinforcedBallista::ReinforcedBallista()
         damage(target, 2, ally, enemy, this);
     };
 }
+
+SigismundDijkstra::SigismundDijkstra()
+{
+    id = "122105";
+    name = "Sigismund Dijkstra";
+    text = "Spying. Play the top 2 cards from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00486613.mp3",
+        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00378559.mp3",
+        "https://gwent.one/audio/card/ob/en/DJKS_MQ3035_01067766.mp3",
+        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00417640.mp3",
+    };
+    isLoyal = false;
+    power = powerBase = 4;
+    rarity = Gold;
+    faction = NothernRealms;
+    tags = { Redania };
+    isCrew = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : firsts(ally.deck, 2))
+            playExistedCard(card, ally, enemy, this);
+    };
+}
