@@ -111,8 +111,8 @@ void triggerRowEffects(Field &ally, Field &enemy)
             break;
         case BitingFrostEffect:
             if (Card *target = lowest(rowFiltered, ally.rng)) {
-                const int n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy<WildHuntRider>, isNotLocked}, EnemyBoard).size();
-                damage(target, 2 + n, ally, enemy, nullptr);
+                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy<WildHuntRider>, isNotLocked}, EnemyBoard).size();
+                damage(target, 2 + int(n), ally, enemy, nullptr);
             }
             break;
         case KorathiHeatwaveEffect:
