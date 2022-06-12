@@ -8485,3 +8485,28 @@ SigismundDijkstra::SigismundDijkstra()
             playExistedCard(card, ally, enemy, this);
     };
 }
+
+Wolfsbane::Wolfsbane()
+{
+    id = "200226";
+    name = "Wolfsbane";
+    text = "After 3 turns in the graveyard, deal 6 damage to the Highest enemy and boost the Lowest ally by 6 on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic, Alchemy };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
+        if (this->timer == 0)
+            setTimer(this, ally, enemy, 3);
+        if (tick(this, ally, enemy)) {
+            if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                damage(card, 6, ally, enemy, this);
+            if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+                boost(card, 6, ally, enemy, this);
+        }
+    };
+}

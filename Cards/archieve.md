@@ -34,7 +34,7 @@
 - [ ] Phoenix _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
-- [ ] Wolfsbane
+- [x] Wolfsbane
 - [ ] Royal Decree _(easy card)_
 - [x] Renew
 - [ ] Sihil

@@ -1977,4 +1977,10 @@ struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
 };
 
 
+struct Wolfsbane : CardCollectible<Wolfsbane>
+{
+    Wolfsbane();
+};
+
+
 #endif // CARDS_H
