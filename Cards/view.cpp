@@ -370,7 +370,7 @@ std::string ChoiceView::toString() const
     case SelectEnemyRow:
         return "Choose an enemy row";
     case Target: {
-        std::string res = "Choose an ability option";
+        std::string res = "Choose an ability target";
         if ((nTargets > 1) || isOptional) {
             res += " [";
             if (isOptional)

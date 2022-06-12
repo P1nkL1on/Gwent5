@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Avalach", demoAvalach},
         {"Bears and Beer", demoBeer},
         {"Crew and Crewed", demoCrewAndCrewed},
+        {"SheTrollOfVergen", demoSheTrollOfVergen},
     };
 
     /// make a choosing menu for it
@@ -150,6 +151,7 @@ void MainWindow::requestSoundByUrl(const std::string &url)
 
 void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally, Field &enemy)
 {
+    qDebug() << QString::fromStdString(stringChoices(ally.cardStack));
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
     const double posHeight = (rect.height() - 2 * _layout.spacingPx) / 8.0;
 
@@ -319,7 +321,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     if (rect.height() < _layout.spacingPx * 2)
         return;
 
-    const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.back() : nullptr;
+    const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.front() : nullptr;
 
     const QFontMetricsF metrics(QFont{});
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
@@ -434,21 +436,21 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.drawRect(rectBorder);
 
         /// draw selection border
-        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIds)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIds)) {
             painter.setPen(Qt::green);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw selected border
-        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIdsSelected)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIdsSelected)) {
             painter.setPen(Qt::red);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw source border
-        if (view.choices.size() && (cardView.id == view.choices.back().cardSourceId)) {
+        if (view.choices.size() && (cardView.id == view.choices.front().cardSourceId)) {
             painter.setPen(Qt::cyan);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());

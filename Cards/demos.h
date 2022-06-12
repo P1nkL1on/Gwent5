@@ -44,5 +44,6 @@ void demoSlyzards(Field &ally, Field &enemy);
 void demoAvalach(Field &ally, Field &enemy);
 void demoBeer(Field &ally, Field &enemy);
 void demoCrewAndCrewed(Field &ally, Field &enemy);
+void demoSheTrollOfVergen(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

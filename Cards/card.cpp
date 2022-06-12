@@ -611,11 +611,19 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
 {
+    // BUG: actually filtering existed cards must be performed
+    // when the Choice is at the start of the list. So, its to early
+    // to filter it when it only gets included to the list. So
+    // choices must be stored with original options and be able
+    // to find its options only at the start. Except Choice is created
+    // w/ options already
     ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
 
+    // BUG: actually autoresolving must be done not only when adding a new
+    // Choice, but as well each time it moves to the next one in the queue
     /// clean excess automatic choices
     while (true) {
-        const Choice choice = ally.cardStack.back();
+        const Choice choice = ally.choice();
         if ((choice.choiceType == SelectAllyRow)
                 || (choice.choiceType == SelectEnemyRow)
                 || (choice.choiceType == SelectAllyRowAndPos)
@@ -626,7 +634,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
         if (int(choice.cardOptions.size()) > choice.nTargets)
             break;
 
-        ally.cardStack.pop_back();
+        ally.takeChoice();
         for (Card *card : choice.cardOptions)
             self->onTargetChoosen(card, ally, enemy);
         if (ally.cardStack.size() == 0)
@@ -924,20 +932,20 @@ Card *findCopy(const Card *card, const std::vector<Card *> &cards)
 const Choice &Field::choice() const
 {
     assert(cardStack.size() > 0);
-    return cardStack.back();
+    return cardStack.front();
 }
 
 Choice &Field::choice()
 {
     assert(cardStack.size() > 0);
-    return cardStack.back();
+    return cardStack.front();
 }
 
 Choice Field::takeChoice()
 {
     assert(cardStack.size() > 0);
-    Choice res = cardStack.back();
-    cardStack.pop_back();
+    Choice res = cardStack.front();
+    cardStack.erase(cardStack.begin());
     return res;
 }
 
@@ -1298,7 +1306,7 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
             res += "Choose an enemy row";
             break;
         case Target:
-            res += "Choose an ability option";
+            res += "Choose an ability target";
             break;
         case RoundStartSwap:
             res += "Choose a card to swap [" + std::to_string(choice.nTargets) + " left]";

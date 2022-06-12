@@ -7114,14 +7114,21 @@ SheTrollOfVergen::SheTrollOfVergen()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        _played = false;
         startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        //if(isOnBoard(target, ally))
+        if (!_played) {
+            _played = true;
+            playExistedCard(target, ally, enemy, this);
+            startChoiceToTargetCard(ally, enemy, this, {target});
+
+            std::cout << stringChoices(ally.cardStack) << std::endl;
+            return;
+        }
+
         boost(this, consume(target, ally, enemy, this), ally, enemy, this);
-        // FIXME : the dude is played after it's consumed
     };
 }
 

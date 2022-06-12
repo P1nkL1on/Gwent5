@@ -940,3 +940,20 @@ void demoCrewAndCrewed(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoSheTrollOfVergen(Field &ally, Field &enemy)
+{
+    auto *s1 = new SheTrollOfVergen();
+    auto *s2 = new SheTrollOfVergen();
+    auto *b1 = new Dao();
+    auto *b2 = new Dao();
+    auto *b3 = new Dao();
+
+    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.hand = {s1, s2, b3};
+    ally.deck = {b1, b2};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

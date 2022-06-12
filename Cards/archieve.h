@@ -1630,6 +1630,8 @@ struct Ifrit : CardCollectible<Ifrit>
 struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
 {
     SheTrollOfVergen();
+private:
+    bool _played = false;
 };
 
 
