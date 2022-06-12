@@ -71,6 +71,9 @@ MainWindow::MainWindow(QWidget *parent)
         {"Slyzards", demoSlyzards},
         {"Avalach", demoAvalach},
         {"Bears and Beer", demoBeer},
+        {"Crew and Crewed", demoCrewAndCrewed},
+        {"She-Troll of Vergen", demoSheTrollOfVergen},
+        {"Sigismund Dijkstra", demoSigismundDijkstra},
     };
 
     /// make a choosing menu for it
@@ -318,7 +321,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     if (rect.height() < _layout.spacingPx * 2)
         return;
 
-    const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.back() : nullptr;
+    const ChoiceView *currentChoiceView = view.choices.size() ? &view.choices.front() : nullptr;
 
     const QFontMetricsF metrics(QFont{});
     const double posWidth = (rect.width() - 2 * _layout.spacingPx) / 11.0;
@@ -433,21 +436,21 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.drawRect(rectBorder);
 
         /// draw selection border
-        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIds)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIds)) {
             painter.setPen(Qt::green);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw selected border
-        if (view.choices.size() && isIn(cardView.id, view.choices.back().cardOptionIdsSelected)) {
+        if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIdsSelected)) {
             painter.setPen(Qt::red);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
 
         /// draw source border
-        if (view.choices.size() && (cardView.id == view.choices.back().cardSourceId)) {
+        if (view.choices.size() && (cardView.id == view.choices.front().cardSourceId)) {
             painter.setPen(Qt::cyan);
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
@@ -891,6 +894,30 @@ void MainWindow::repaintCustom()
             break;
         case TurnStart:
             stream << prefix << "\n#" << x << " turn started";
+            break;
+        case PassedAlly:
+            stream << prefix << "YOU PASSED!";
+            break;
+        case PassedEnemy:
+            stream << prefix << "OPPONENT PASSED!";
+            break;
+        case WonRoundAlly:
+            stream << prefix << "YOU WON IN ROUND #" << x << "!";
+            break;
+        case WonRoundEnemy:
+            stream << prefix << "YOU LOST IN ROUND #" << x << "!";
+            break;
+        case WonRoundBoth:
+            stream << prefix << "DRAW IN ROUND #" << x << "!";
+            break;
+        case WonGameAlly:
+            stream << prefix << "YOU WON!";
+            break;
+        case WonGameEnemy:
+            stream << prefix << "YOU LOST!";
+            break;
+        case WonGameBoth:
+            stream << prefix << "DRAW!";
             break;
         case PlaySpecial:
             stream << prefix << dst << " special played by " << src;

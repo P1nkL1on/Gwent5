@@ -1093,6 +1093,12 @@ struct Sentry : CardCollectible<Sentry>
 };
 
 
+struct Ciri : CardCollectible<Ciri>
+{
+    Ciri();
+};
+
+
 struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
 {
     NauzicaaSergeant();
@@ -1624,6 +1630,8 @@ struct Ifrit : CardCollectible<Ifrit>
 struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
 {
     SheTrollOfVergen();
+private:
+    bool _played = false;
 };
 
 
@@ -1909,6 +1917,63 @@ struct MahakamAle : CardCollectible<MahakamAle>
 struct Odrin : CardCollectible<Odrin>
 {
     Odrin();
+};
+
+
+struct Toruviel : CardCollectible<Toruviel>
+{
+    Toruviel();
+};
+
+
+struct Milva : CardCollectible<Milva>
+{
+    Milva();
+};
+
+
+struct PrincessPavetta : CardCollectible<PrincessPavetta>
+{
+    PrincessPavetta();
+};
+
+
+struct TheGuardian : CardCollectible<TheGuardian>
+{
+    struct LesserGuardian : CardCollectible<LesserGuardian>
+    {
+        LesserGuardian();
+    };
+    TheGuardian();
+};
+
+
+struct GaunterODimm : CardCollectible<GaunterODimm>
+{
+    GaunterODimm();
+private:
+    struct Less6 : CardCollectible<Less6> {};
+    struct Equal6 : CardCollectible<Equal6> {};
+    struct More6 : CardCollectible<More6> {};
+    Card *_picked = nullptr;
+};
+
+
+struct KaedweniSergeant : CardCollectible<KaedweniSergeant>
+{
+    KaedweniSergeant();
+};
+
+
+struct ReinforcedBallista : CardCollectible<ReinforcedBallista>
+{
+    ReinforcedBallista();
+};
+
+
+struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
+{
+    SigismundDijkstra();
 };
 
 

@@ -773,9 +773,10 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *t2 = new ToadPrince();
     auto *a = new Aguara();
     auto *at = new AguaraTrueForm();
+    auto *g = new GaunterODimm;
 
-    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at};
-    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at};
+    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
+    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
@@ -917,4 +918,59 @@ void demoBeer(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 
+}
+
+void demoCrewAndCrewed(Field &ally, Field &enemy)
+{
+    auto *s1 = new KaedweniSergeant();
+    auto *s2 = new KaedweniSergeant();
+    auto *b1 = new ReinforcedBallista();
+    auto *b2 = new ReinforcedBallista();
+    auto *b3 = new ReinforcedBallista();
+
+    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.hand = ally.cardsAdded;
+
+    auto *m1 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1};
+    enemy.rowMeele = {m1};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoSheTrollOfVergen(Field &ally, Field &enemy)
+{
+    auto *s1 = new SheTrollOfVergen();
+    auto *s2 = new SheTrollOfVergen();
+    auto *b1 = new Dao();
+    auto *b2 = new Dao();
+    auto *b3 = new Dao();
+
+    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.hand = {s1, s2, b3};
+    ally.deck = {b1, b2};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoSigismundDijkstra(Field &ally, Field &enemy)
+{
+    auto *s = new SigismundDijkstra();
+    auto *b1 = new KaedweniKnight();
+    auto *r = new ReaverScout();
+    auto *b2 = new KaedweniKnight();
+    auto *a = new Abaya();
+
+    ally.cardsAdded = {s, b1, b2, r, a};
+    ally.hand = {s};
+    ally.deck = {b1, r, b2, a};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

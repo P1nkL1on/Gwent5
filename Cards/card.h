@@ -91,11 +91,13 @@ struct Card
     void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+    void onOpponentPass(Field &ally, Field &enemy);
+    void onRoundLose(Field &ally, Field &enemy);
     // TODO: test and find all the cases
     /// check whether self on board, in hand/deck/discard
     void onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row);
-            // TODO: test and find all the cases
-             /// check whether self on board, in hand/deck/discard
+    // TODO: test and find all the cases
+    /// check whether self on board, in hand/deck/discard
     void onConsumed(Field &ally, Field &enemy, Card *src);
     void onAllyConsume(Field &ally, Field &enemy, Card *src);
 
@@ -131,6 +133,8 @@ protected:
     AllyEnemy _onDiscard = nullptr;
     AllyEnemy _onArmorLost = nullptr;
     AllyEnemy _onContactWithFullMoon = nullptr;
+    AllyEnemy _onOpponentPass = nullptr;
+    AllyEnemy _onRoundLose = nullptr;
     AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
     AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
@@ -262,6 +266,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 
 /// may be used as top or most-left
+std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);
 Card *first(const std::vector<Card *> &cards);
 /// may be used as bottom or most-right
 Card *last(const std::vector<Card *> &cards);
@@ -310,6 +315,7 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
+bool summonNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 void addAsNew(Field &field, Card *card);
 
 /// returns true if destroyed a unit
@@ -350,6 +356,9 @@ void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src);
 void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
+/// returns number of ability calls for a crewed units
+int nCrewed(Card *card, Field &ally);
+void pass(Field &ally, Field &enemy);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
 
@@ -366,7 +375,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
-void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType = Invalid, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1);
+void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1, const ActionType actionTypeEnemy = Invalid);
 /// returns false when no choice left (game end)
 bool tryFinishTurn(Field &ally, Field &enemy);
 
