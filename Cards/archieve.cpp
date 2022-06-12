@@ -1055,11 +1055,11 @@ ImpenetrableFog::ImpenetrableFog()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, ImpenetrableFogEffect);
     };
 }
 
@@ -1076,11 +1076,11 @@ TorrentialRain::TorrentialRain()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, TorrentialRainEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, TorrentialRainEffect);
     };
 }
 
@@ -1097,13 +1097,12 @@ BitingFrost::BitingFrost()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, BitingFrostEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, BitingFrostEffect);
     };
-    // BUG: can select any row (not only enemy)
 }
 
 
@@ -1119,10 +1118,10 @@ GoldenFroth::GoldenFroth()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectAllyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(ally, enemy, row, GoldenFrothEffect);
     };
 }
@@ -1140,11 +1139,11 @@ SkelligeStorm::SkelligeStorm()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, SkelligeStormEffect);
     };
 }
 
@@ -1685,10 +1684,10 @@ GeraltIgni::GeraltIgni(const Lang)
 
     _onDeploy = [=](Field &ally, Field &) {
         // TODO: select only between rows with 25 or more power
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         if (powerRow(enemy.row(row)) < 25)
             return;
 
@@ -2376,10 +2375,10 @@ Moonlight::Moonlight()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
         acceptOptionAndDeleteOthers(this, target);
         if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-            startChoiceToSelectAllyRow(ally, this);
+            startChoiceToSelectRow(ally, this);
 
         } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-            startChoiceToSelectEnemyRow(ally, this);
+            startChoiceToSelectRow(ally, this);
 
         } else
             assert(false);
@@ -2387,11 +2386,11 @@ Moonlight::Moonlight()
         delete target;
     };
 
-    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(ally, enemy, row, FullMoonEffect);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         applyRowEffect(enemy, ally, row, BloodMoonEffect);
     };
 }
@@ -3697,11 +3696,11 @@ BirnaBran::BirnaBran()
     tags = { ClanTuirseach, Officer };
 
     _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        applyRowEffect(ally, enemy, row, SkelligeStormEffect);
     };
 }
 
@@ -7521,10 +7520,10 @@ BridgeTroll::BridgeTroll()
 
     // FIXME: change when weather logic will work with any rows
     _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         if (movedEffect != NoRowEffect) {
             applyRowEffect(enemy, ally, row, movedEffect);
             movedEffect = NoRowEffect;
@@ -7534,7 +7533,7 @@ BridgeTroll::BridgeTroll()
         if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
             return;
         applyRowEffect(enemy, ally, row, NoRowEffect);
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 }
 
@@ -8023,10 +8022,10 @@ GeraltYrden::GeraltYrden()
 
     _onDeploy = [=](Field &ally, Field &) {
         // FIXME: fix it when row-logic will be remastered
-        startChoiceToSelectEnemyRow(ally, this);
+        startChoiceToSelectRow(ally, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const Row row) {
         for (Card *card : enemy.row(row)) {
             reset(card, ally, enemy);
             removeAllStatuses(card, ally, enemy);

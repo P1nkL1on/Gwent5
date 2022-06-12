@@ -365,10 +365,8 @@ std::string ChoiceView::toString() const
         return "Choose an allied row and pos";
     case SelectEnemyRowAndPos:
         return "Choose an enemy row and pos";
-    case SelectAllyRow:
-        return "Choose an allied row";
-    case SelectEnemyRow:
-        return "Choose an enemy row";
+    case SelectRow:
+        return "Choose a row";
     case Target: {
         std::string res = "Choose an ability target";
         if ((nTargets > 1) || isOptional) {

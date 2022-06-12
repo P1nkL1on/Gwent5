@@ -68,8 +68,7 @@ struct Card
     void onTurnStart(Field &ally, Field &enemy);
     void onTurnEnd(Field &ally, Field &enemy);
     void onTargetChoosen(Card *card, Field &ally, Field &enemy);
-    void onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row);
-    void onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row);
+    void onTargetRowChoosen(Field &ally, Field &enemy, const Row row);
     void onDraw(Field &ally, Field &enemy);
     void onSwap(Field &ally, Field &enemy);
     void onDiscard(Field &ally, Field &enemy);
@@ -135,8 +134,7 @@ protected:
     AllyEnemy _onContactWithFullMoon = nullptr;
     AllyEnemy _onOpponentPass = nullptr;
     AllyEnemy _onRoundLose = nullptr;
-    AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
-    AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
+    AllyEnemyRow _onTargetRowChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
     AllyEnemySrc _onRevealed = nullptr;
     AllyEnemyCardSrc _onOtherRevealed = nullptr;
@@ -363,8 +361,8 @@ void pass(Field &ally, Field &enemy);
 using Filters = std::vector<std::function<bool(Card *)> >;
 
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
-void startChoiceToSelectAllyRow(Field &field, Card *self);
-void startChoiceToSelectEnemyRow(Field &field, Card *self);
+void startChoiceToSelectRow(Field &field, Card *self);
+void startChoiceToSelectRow(Field &field, Card *self);
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
@@ -373,7 +371,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
-void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
+void onChoiceDoneRow(const Row row, const bool isAlly, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1, const ActionType actionTypeEnemy = Invalid);
 /// returns false when no choice left (game end)

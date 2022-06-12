@@ -105,8 +105,7 @@ enum ChoiceType
     RoundStartPlay,
     SelectAllyRowAndPos,
     SelectEnemyRowAndPos,
-    SelectAllyRow,
-    SelectEnemyRow,
+    SelectRow,
     Target,
     RoundStartSwap,
 };

@@ -624,8 +624,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     /// clean excess automatic choices
     while (true) {
         const Choice choice = ally.choice();
-        if ((choice.choiceType == SelectAllyRow)
-                || (choice.choiceType == SelectEnemyRow)
+        if ((choice.choiceType == SelectRow)
                 || (choice.choiceType == SelectAllyRowAndPos)
                 || (choice.choiceType == SelectEnemyRowAndPos))
             break;
@@ -642,14 +641,9 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     }
 }
 
-void startChoiceToSelectAllyRow(Field &field, Card *self)
+void startChoiceToSelectRow(Field &field, Card *self)
 {
-    field.cardStack.push_back(Choice(SelectAllyRow, self));
-}
-
-void startChoiceToSelectEnemyRow(Field &field, Card *self)
-{
-    field.cardStack.push_back(Choice(SelectEnemyRow, self));
+    field.cardStack.push_back(Choice(SelectRow, self));
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
@@ -711,14 +705,17 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
     assert(false);
 }
 
-void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
+void onChoiceDoneRow(const Row row, const bool isAlly, Field &ally, Field &enemy)
 {
     const Choice choice = ally.takeChoice();
-    if (choice.choiceType == SelectAllyRow)
-        return choice.cardSource->onTargetRowAllyChoosen(ally, enemy, row);
 
-    if (choice.choiceType == SelectEnemyRow)
-        return choice.cardSource->onTargetRowEnemyChoosen(ally, enemy, row);
+    Field *allyPtr = &ally;
+    Field *enemyPtr = &enemy;
+    if (!isAlly)
+        std::swap(allyPtr, enemyPtr);
+
+    if (choice.choiceType == SelectRow)
+        return choice.cardSource->onTargetRowChoosen(*allyPtr, *enemyPtr, row);
 
     assert(false);
 }
@@ -1298,11 +1295,8 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
         case SelectEnemyRowAndPos:
             res += "Choose an enemy row and pos";
             break;
-        case SelectAllyRow:
-            res += "Choose an allied row";
-            break;
-        case SelectEnemyRow:
-            res += "Choose an enemy row";
+        case SelectRow:
+            res += "Choose a row";
             break;
         case Target:
             res += "Choose an ability target";
@@ -2037,16 +2031,10 @@ void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
         return _onTargetChoosen(card, ally, enemy);
 }
 
-void Card::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
+void Card::onTargetRowChoosen(Field &ally, Field &enemy, const Row row)
 {
-    if (_onTargetRowAllyChoosen && !isLocked)
-        return _onTargetRowAllyChoosen(ally, enemy, row);
-}
-
-void Card::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    if (_onTargetRowEnemyChoosen && !isLocked)
-        return _onTargetRowEnemyChoosen(ally, enemy, row);
+    if (_onTargetRowChoosen && !isLocked)
+        return _onTargetRowChoosen(ally, enemy, row);
 }
 
 void Card::onDraw(Field &ally, Field &enemy)

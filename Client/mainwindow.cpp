@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Crew and Crewed", demoCrewAndCrewed},
         {"She-Troll of Vergen", demoSheTrollOfVergen},
         {"Sigismund Dijkstra", demoSigismundDijkstra},
+        {"Rows Selection", demoRowsSelection},
     };
 
     /// make a choosing menu for it
@@ -275,19 +276,12 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == SelectAllyRow) {
+    if (ally.choice().choiceType == SelectRow) {
         Row row;
-        if (!rowAt(true, point, row))
-            return;
-        onChoiceDoneRow(row, ally, enemy);
-        goto finish_turn;
-    }
-
-    if (ally.choice().choiceType == SelectEnemyRow) {
-        Row row;
-        if (!rowAt(false, point, row))
-            return;
-        onChoiceDoneRow(row, ally, enemy);
+        if (rowAt(true, point, row))
+            onChoiceDoneRow(row, true, ally, enemy);
+        if (rowAt(false, point, row))
+            onChoiceDoneRow(row, false, ally, enemy);
         goto finish_turn;
     }
 
@@ -634,7 +628,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
         painter.setBrush(QBrush(Qt::NoBrush));
 
-        const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRow && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRow && j < 3));
+        const bool canBePlaced = currentChoiceView && (currentChoiceView->choiceType == SelectRow);
         if (canBePlaced) {
             painter.setPen(Qt::green);
             painter.drawLine(rowRect.topLeft(), rowRect.bottomRight());

@@ -974,3 +974,31 @@ void demoSigismundDijkstra(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoRowsSelection(Field &ally, Field &enemy)
+{
+    auto *c1 = new BitingFrost();
+    auto *c2 = new GoldenFroth();
+    auto *c3 = new Nekurat();
+    auto *c4 = new ShupeMage();
+    auto *c5 = new WoodlandSpirit();
+    auto *c6 = new BirnaBran();
+    auto *c7 = new CaranthirArFeiniel();
+    auto *c8 = new KorathiHeatwave();
+
+    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8};
+    ally.hand = ally.cardsAdded;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *m4 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2, m3, m4};
+    enemy.rowMeele = {m1, m2};
+    enemy.rowRange = {m3, m4};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
