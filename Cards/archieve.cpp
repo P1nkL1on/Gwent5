@@ -947,7 +947,7 @@ HalfElfHunter::HalfElfHunter()
     _onDeploy = [=](Field &ally, Field &enemy) {
         Card *copy = defaultCopy();
         copy->isDoomed = true;
-        spawnNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        summonNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
     };
 }
 
@@ -4923,7 +4923,7 @@ SlaveInfantry::SlaveInfantry()
             if (_row != row) {
                 Card *copy = defaultCopy();
                 copy->isDoomed = true;
-                spawnNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
+                summonNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
             }
     };
 }
@@ -8317,5 +8317,92 @@ PrincessPavetta::PrincessPavetta()
             putToDeck(card, ally, enemy, DeckPosRandom, this);
         if (Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, EnemyBoard), ally.rng))
             putToDeck(card, enemy, ally, DeckPosRandom, this);
+    };
+}
+
+TheGuardian::TheGuardian()
+{
+    id = "162401";
+    name = "The Guardian";
+    text = "Add a Lesser Guardian to the top of your opponent's deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.386.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.387.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.385.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Silver;
+    faction = Nilfgaard;
+    tags = { Construct };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        auto *guardian = new LesserGuardian();
+        addAsNew(enemy, guardian);
+        putToDeck(guardian, enemy, ally, DeckPosTop, this);
+    };
+}
+
+TheGuardian::LesserGuardian::LesserGuardian()
+{
+    id = "162401";
+    name = "Lesser Guardian";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Nilfgaard;
+    tags = { Construct };
+}
+
+GaunterODimm::GaunterODimm()
+{
+    id = "132215";
+    name = "Gaunter O'Dimm";
+    text = "Gamble with Gaunter: Guess the power of the card he's picked to play it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MRRR_Q602_01116657.mp3",
+        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01108178.mp3",
+        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01132010.mp3",
+        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01108152.mp3",
+        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01110505.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        _picked = random(allCards(patch), ally.rng);
+
+        auto *option1 = new GaunterODimm::Less6;
+        copyCardText(this, option1);
+        option1->text = "Picked card power is less than 6.";
+
+        auto *option2 = new GaunterODimm::Equal6;
+        copyCardText(this, option2);
+        option2->text = "Picked card power is 6.";
+
+        auto *option3 = new GaunterODimm::More6;
+        copyCardText(this, option3);
+        option3->text = "Picked card power is more than 6.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2, option3});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_options.size() > 0);
+        acceptOptionAndDeleteOthers(this, target);
+        const bool guessed =
+                (dynamic_cast<GaunterODimm::Less6 *>(target) && (_picked->power < 6))
+                || (dynamic_cast<GaunterODimm::Equal6 *>(target) && (_picked->power == 6))
+                || (dynamic_cast<GaunterODimm::More6 *>(target) && (_picked->power > 6));
+        delete target;
+        if (!guessed) {
+            _picked = nullptr;
+            return;
+        }
+        spawnNewCard(_picked, ally, enemy, this);
+        _picked = nullptr;
     };
 }

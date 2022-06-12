@@ -1803,6 +1803,11 @@ bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Fiel
     return playCard2(card, ally, enemy, src, true, rowAndPos, true);
 }
 
+bool summonNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src)
+{
+    return playCard2(card, ally, enemy, src, true, rowAndPos, false);
+}
+
 RowAndPos::operator bool() const
 {
     return (0 <= _row && _row < 3) && (0 <= _pos && _pos < posMax);

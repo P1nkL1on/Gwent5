@@ -1936,5 +1936,26 @@ struct PrincessPavetta : CardCollectible<PrincessPavetta>
 };
 
 
+struct TheGuardian : CardCollectible<TheGuardian>
+{
+    struct LesserGuardian : CardCollectible<LesserGuardian>
+    {
+        LesserGuardian();
+    };
+    TheGuardian();
+};
+
+
+struct GaunterODimm : CardCollectible<GaunterODimm>
+{
+    GaunterODimm();
+private:
+    struct Less6 : CardCollectible<Less6> {};
+    struct Equal6 : CardCollectible<Equal6> {};
+    struct More6 : CardCollectible<More6> {};
+    Card *_picked = nullptr;
+};
+
+
 
 #endif // CARDS_H
