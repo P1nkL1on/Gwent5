@@ -12,6 +12,7 @@ inline bool isGold(Card *card) { return card->rarity == Gold; }
 inline bool isLeader(Card *card) { return hasTag(card, Leader); }
 inline bool isNonLeader(Card *card) { return !hasTag(card, Leader); }
 inline bool isBronzeOrSilver(Card *card) { return (card->rarity == Bronze) || (card->rarity == Silver); }
+inline bool isSilverOrGold(Card *card) { return card->rarity == Silver || card->rarity == Gold; }
 inline bool isNonRevealed(Card *card) { return !card->isRevealed; }
 inline bool isRevealed(Card *card) { return card->isRevealed; }
 inline bool hasArmor(Card *card) { return card->armor > 0; }

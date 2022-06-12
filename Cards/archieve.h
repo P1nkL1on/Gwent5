@@ -1791,6 +1791,8 @@ struct Werecat : CardCollectible<Werecat>
 struct Harpy : CardCollectible<Harpy>
 {
     Harpy();
+private:
+    std::map<Card *, Card *> _allyDestroyedToCopy;
 };
 
 
@@ -1876,7 +1878,7 @@ private:
     struct BoostInHand : CardCollectible<BoostInHand> {};
     struct DamageHighest : CardCollectible<DamageHighest> {};
     struct CharmElf : CardCollectible<CharmElf> {};
-    int numOptions = 0;
+    int _nOptionsLeft = 0;
 };
 
 

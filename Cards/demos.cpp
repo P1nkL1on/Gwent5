@@ -683,8 +683,8 @@ void demoConsume(Field &ally, Field &enemy)
     ally.hand = {g1, b1, b2, d1, o, k, m0, s, nw};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2, n1};
-    ally.rowSeige = {h1, h2};
-    ally.deck = {d3, m3, r1, a, n2, n3, h3};
+    ally.rowSeige = {};
+    ally.deck = {d3, m3, r1, a, n2, n3, h1, h2, h3};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();

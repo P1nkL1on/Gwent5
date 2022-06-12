@@ -5421,12 +5421,15 @@ RockBarrage::RockBarrage()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+        const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
 
-        if (rowAndPos.row() == Seige || moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, Row(rowAndPos.row() + 1)), enemy, ally, this)) {
-            damage(target, 7, ally, enemy, this);
+        if (isRowFull(enemy.row(rowAbove))) {
+            putToDiscard(target, ally, enemy, this);
             return;
         }
-        putToDiscard(target, ally, enemy, this);
+
+        if (!damage(target, 7, ally, enemy, this))
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
     };
 }
 
@@ -7713,10 +7716,18 @@ Harpy::Harpy()
     tags = { Beast };
 
     _onOtherAllyDestroyed = [=](Card *other, Field &ally, Field &enemy, const RowAndPos rowAndPos) {
-        if (!isOnBoard(this, ally) || !hasTag(other, Beast))
+        if (!isIn(this, ally.deck) || !hasTag(other, Beast))
             return;
-        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Harpy>}, AllyDeck), ally.rng))
-            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Harpy>, otherThan(this)}, AllyDeckShuffled)) {
+            Harpy *harpy = static_cast<Harpy *>(card);
+            harpy->_allyDestroyedToCopy.insert({other, this});
+        }
+
+        if (_allyDestroyedToCopy.find(other) == _allyDestroyedToCopy.end())
+            moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+
+        _allyDestroyedToCopy.clear();
     };
 }
 
@@ -7737,7 +7748,7 @@ WildHuntDrakkar::WildHuntDrakkar()
     };
 
     _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+        if (!isOnBoard(this, ally) || !hasTag(card, WildHunt))
             return;
         boost(card, 1, ally, enemy, this);
     };
@@ -7792,6 +7803,8 @@ WildHuntRider::WildHuntRider()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
     };
+
+    // NOTE: ability is implemented inside the weather trigger
 }
 
 VranWarrior::VranWarrior()
@@ -7865,9 +7878,11 @@ Avalach::Avalach()
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
-        drawACard(ally, enemy);
+
         drawACard(ally, enemy);
         drawACard(enemy, ally);
+
+        drawACard(ally, enemy);
         drawACard(enemy, ally);
     };
 }
@@ -7891,16 +7906,8 @@ AvalachSage::AvalachSage()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        std::vector<Card *> variants;
-        if (Card *gold = random(cardsFiltered(ally, enemy, {isGold, isUnit}, EnemyDeckStarting), ally.rng))
-            variants.push_back(gold);
-        if (Card *silver = random(cardsFiltered(ally, enemy, {isSilver, isUnit}, EnemyDeckStarting), ally.rng))
-            variants.push_back(silver);
-        startChoiceToTargetCard(ally, enemy, this, variants);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target->defaultCopy(), ally, enemy, this);
+        if (Card *card = random(cardsFiltered(ally, enemy, {isSilverOrGold, isUnit}, EnemyDeckStarting), ally.rng))
+            spawnNewCard(card->defaultCopy(), ally, enemy, this);
     };
 }
 
@@ -7916,9 +7923,8 @@ RaghNarRoog::RaghNarRoog()
     tags = { Hazard, Spell };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        applyRowEffect(enemy, ally, Meele, RaghNarRoogEffect);
-        applyRowEffect(enemy, ally, Range, RaghNarRoogEffect);
-        applyRowEffect(enemy, ally, Seige, RaghNarRoogEffect);
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            applyRowEffect(enemy, ally, row, RaghNarRoogEffect);
     };
 }
 
@@ -7945,10 +7951,10 @@ GeraltProfessional::GeraltProfessional()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (target->faction != Monster)
-            damage(target, 4, ally, enemy, this);
-        else
-            putToDiscard(target, ally, enemy, this);
+        if (target->faction == Monster)
+            return putToDiscard(target, ally, enemy, this);
+
+        damage(target, 4, ally, enemy, this);
     };
 }
 
@@ -7977,14 +7983,9 @@ GeraltAard::GeraltAard()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!damage(target, 3, ally, enemy, this)) {
             const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
-            Row row = rowAndPos.row() == Meele ? Range : rowAndPos.row() == Range ? Seige : Meele;
-            if (row == Meele)
-                return;
-            Pos pos = std::min(int(rowAndPos.pos()), int(enemy.lastPosInARow(row)));
-            moveExistedUnitToPos(target, RowAndPos(row, pos), enemy, ally, this);
-            // TODO: check the position to moving on
+            const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
         }
-
     };
 }
 
@@ -8007,9 +8008,8 @@ GeraltYrden::GeraltYrden()
     tags = { Witcher };
 
     _onDeploy = [=](Field &ally, Field &) {
-        // TODO: fix it when row-logic will be remastered
+        // FIXME: fix it when row-logic will be remastered
         startChoiceToSelectEnemyRow(ally, this);
-        //startChoiceToSelectAllyRow(ally, enemy, this, {}, EnemyBoard);
     };
 
     _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
@@ -8080,35 +8080,35 @@ Aguara:: Aguara()
         copyCardText(this, option4);
         option4->text = "Charm a random enemy Elf with 5 power or less.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4}, 2);
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4}, _nOptionsLeft = 2);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (dynamic_cast<Aguara::BoostLowest *>(target)) {
             if(Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
                 boost(card, 5, ally, enemy, this);
-            numOptions++;
+            --_nOptionsLeft;
         }
 
         if (dynamic_cast<Aguara::BoostInHand *>(target)) {
             if(Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
                 boost(card, 5, ally, enemy, this);
-            numOptions++;
+            --_nOptionsLeft;
         }
 
         if (dynamic_cast<Aguara::DamageHighest *>(target)) {
             if(Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
                 damage(card, 5, ally, enemy, this);
-            numOptions++;
+            --_nOptionsLeft;
         }
 
         if (dynamic_cast<Aguara::CharmElf *>(target)) {
             if(Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
                 charm(card, ally, enemy, this);
-            numOptions++;
+            --_nOptionsLeft;
         }
 
-        if(numOptions >= 2)
+        if(!_nOptionsLeft)
             acceptOptionAndDeleteOthers(this, target);
     };
 }
@@ -8146,9 +8146,8 @@ KorathiHeatwave::KorathiHeatwave()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        applyRowEffect(enemy, ally, Meele, KorathiHeatwaveEffect);
-        applyRowEffect(enemy, ally, Range, KorathiHeatwaveEffect);
-        applyRowEffect(enemy, ally, Seige, KorathiHeatwaveEffect);
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            applyRowEffect(enemy, ally, row, KorathiHeatwaveEffect);
     };
 
 }
@@ -8163,12 +8162,8 @@ AleOfTheAncestors::AleOfTheAncestors()
     rarity = Gold;
     faction = Neutral;
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectAllyRow(ally, this);
-    };
-
-    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, GoldenFrothEffect);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), GoldenFrothEffect);
     };
 }
 
@@ -8184,12 +8179,9 @@ MahakamAle::MahakamAle()
     tags = { Alchemy };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(ally.row(Meele), ally.rng))
-            boost(card, 4, ally, enemy, this);
-        if (Card *card = random(ally.row(Range), ally.rng))
-            boost(card, 4, ally, enemy, this);
-        if (Card *card = random(ally.row(Seige), ally.rng))
-            boost(card, 4, ally, enemy, this);
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = random(ally.row(row), ally.rng))
+                boost(card, 4, ally, enemy, this);
     };
 }
 
@@ -8211,13 +8203,11 @@ Odrin::Odrin()
     tags = { Kaedwen, Soldier };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isIn(this, ally.rowMeele) && !isIn(this, ally.rowRange) && !isIn(this, ally.rowSeige))
+        if (!isOnBoard(this, ally))
             return;
-        if (moveSelfToRandomRow(this, ally, enemy)) {
-            Row row = _findRowAndPos(this, ally).row();
-            for(Card *card : ally.row(row))
-                if (card != this)
-                    boost(card, 1, ally, enemy, this);
-        }
+        if (!moveSelfToRandomRow(this, ally, enemy))
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this), otherThan(this)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
     };
 }
