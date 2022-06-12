@@ -258,6 +258,28 @@ std::vector<Card *> allCards(const Patch)
         new Lamia(),
         new Nekker(),
         new NekkerWarrior(),
+        new Slyzard(),
+        new Werecat(),
+        new Harpy(),
+        new WildHuntDrakkar(),
+        new Geels(),
+        new WildHuntRider(),
+        new VranWarrior(),
+        new AnCraiteArmorsmith(),
+        new Avalach(),
+        new AvalachSage(),
+        new Nekurat(),
+        new RaghNarRoog(),
+        new GeraltProfessional(),
+        new GeraltAard(),
+        new GeraltYrden(),
+        new CiriDash(),
+        new Aguara(),
+        new AguaraTrueForm(),
+        new KorathiHeatwave(),
+        new AleOfTheAncestors(),
+        new MahakamAle(),
+        new Odrin(),
     };
 }
 
@@ -1194,7 +1216,7 @@ Ves::Ves()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        swapACard(target, ally, enemy);
+        swapACard(target, ally, enemy, this);
     };
 }
 
@@ -1652,6 +1674,19 @@ GeraltIgni::GeraltIgni(const Lang)
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        // TODO: select only between rows with 25 or more power
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        if (powerRow(enemy.row(row)) < 25)
+            return;
+
+        for (Card *card : highests(enemy.row(row)))
+            putToDiscard(card, ally, enemy, this);
+    };
 }
 
 
@@ -1671,19 +1706,6 @@ GeraltOfRivia::GeraltOfRivia()
     rarity = Gold;
     faction = Neutral;
     tags = { Witcher };
-
-    _onDeploy = [=](Field &ally, Field &) {
-        // TODO: select only between rows with 25 or more power
-        startChoiceToSelectEnemyRow(ally, this);
-    };
-
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (powerRow(enemy.row(row)) < 25)
-            return;
-
-        for (Card *card : highests(enemy.row(row)))
-            putToDiscard(card, ally, enemy, this);
-    };
 }
 
 
@@ -3827,6 +3849,20 @@ DonarAnHindar::DonarAnHindar()
     faction = Skellige;
     rarity = Silver;
     tags = { ClanHeymaey, Officer };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!isIn(target, enemy.discard)) {
+            toggleLock(target, ally, enemy, this);
+            return;
+        }
+        // FIXME: will crash
+        putToDiscard(target, ally, enemy, this);
+    };
 }
 
 
@@ -4225,6 +4261,14 @@ DimunSmuggler::DimunSmuggler()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanDimun, Soldier };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, RandomPlaceDeck, this);
+    };
 }
 
 
@@ -4244,7 +4288,6 @@ DrummondShieldmaid::DrummondShieldmaid()
     rarity = Bronze;
     tags = { ClanDrummond, Soldier };
 
-    // TODO: test an ability
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
             moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
@@ -4267,6 +4310,15 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(this, ally);
+        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&ally, this)}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, ally), ally, enemy, this);
+    };
 }
 
 
@@ -4334,6 +4386,20 @@ HeymaeySkald::HeymaeySkald()
     faction = Skellige;
     rarity = Bronze;
     tags = { ClanHeymaey, Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (const Tag tag : std::vector<Tag>{ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch}) {
+            if (!hasTag(target, tag))
+                continue;
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(tag), otherThan(this)}, AllyBoard))
+                boost(card, 1, ally, enemy, this);
+            break;
+        }
+    };
 }
 
 
@@ -4355,6 +4421,10 @@ RagingBerserker::RagingBerserker()
 
     _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *) {
         transform(this, RagingBear(), ally, enemy, this);
+    };
+
+    _onWeakened = [=](const int x, Field &ally, Field &enemy, const Card *src) {
+        onDamaged(x, ally, enemy, src);
     };
 }
 
@@ -4382,6 +4452,50 @@ Hym::Hym()
     faction = Skellige;
     rarity = Gold;
     tags = { Cursed };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        auto *option1 = new Hym::Play;
+        copyCardText(this, option1);
+        option1->text = "Play a Bronze or Silver Cursed unit from your deck.";
+
+        auto *option2 = new Hym::Create;
+        copyCardText(this, option2);
+        option2->text = "Create a Silver unit from your opponent's starting deck.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+
+            if (dynamic_cast<Hym::Play *>(_choosen))
+                return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
+
+            if (dynamic_cast<Hym::Create *>(_choosen))
+                return startChoiceCreateOptions(ally, this, {isSilver, isUnit, isNonAgent});
+
+            assert(false);
+        }
+
+        if (dynamic_cast<Hym::Play *>(_choosen)) {
+            playExistedCard(target, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<Hym::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
 }
 
 
@@ -4399,7 +4513,7 @@ Kambi::Kambi()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
-        // BUG: Hemdall doesn't wipe a board!
+        // TODO: Check if Hemdall doesn't wipe a board!
     };
 }
 
@@ -4414,6 +4528,12 @@ Olaf::Olaf()
     faction = Skellige;
     rarity = Gold;
     tags = { Beast, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const int n = cardsFiltered(ally, enemy, {hasTag(Beast)}, AllyAppeared).size();
+        const int x = std::max(0, 10 - 2 * n);
+        damage(this, x, ally, enemy, this);
+    };
 }
 
 
@@ -4522,8 +4642,11 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     rarity = Silver;
     tags = { Cursed };
 
-    _onTurnEnd = [=](Field &, Field &) {
-        // FIXME: ability missing
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!moveSelfToRandomRow(this, ally, enemy))
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
+            damage(card, 1, ally, enemy, this);
     };
 }
 
@@ -5298,12 +5421,15 @@ RockBarrage::RockBarrage()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+        const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
 
-        if (rowAndPos.row() == Seige || moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, Row(rowAndPos.row() + 1)), enemy, ally, this)) {
-            damage(target, 7, ally, enemy, this);
+        if (isRowFull(enemy.row(rowAbove))) {
+            putToDiscard(target, ally, enemy, this);
             return;
         }
-        putToDiscard(target, ally, enemy, this);
+
+        if (!damage(target, 7, ally, enemy, this))
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
     };
 }
 
@@ -6148,12 +6274,10 @@ VernonRoche::VernonRoche()
         "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
     };
 
-    _onGameStart = [=](Field &ally, Field &) {
+    _onGameStart = [=](Field &ally, Field &enemy) {
         Card *card = new BlueStripeCommando();
         addAsNew(ally, card);
-        /// put in a random place in a deck
-        const int ind = int(ally.rng() % (ally.deck.size() + 1));
-        ally.deck.insert(ally.deck.begin() + ind, card);
+        putToDeck(card, ally, enemy, RandomPlaceDeck, this);
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
@@ -6943,11 +7067,10 @@ Ifrit::Ifrit()
     _onDeploy = [=](Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
         const RowAndPos rowAndPos(row, Pos(ally.row(row).size()));
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPosWithDeploy(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
     };
-
 }
 
 Ifrit::IfritLesser::IfritLesser()
@@ -7222,6 +7345,8 @@ Draug::Draug()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: check interaction w/ Cyris
+        assert(isOnBoard(this, ally));
+        const Row row = _findRowAndPos(this, ally).row();
         for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
                 return;
@@ -7277,7 +7402,7 @@ CelaenoHarpy::HarpyEgg::HarpyEgg()
         boost(src, 4, ally, enemy, this);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         spawnNewUnitToPos(new HarpyHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
@@ -7312,7 +7437,7 @@ ArachasBehemoth::ArachasBehemoth()
         if (!isOnBoard(this, ally))
             return;
         if (!tick(this, ally, enemy))
-            spawnNewUnitToPosWithDeploy(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+            spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -7344,7 +7469,7 @@ Archgriffin::Archgriffin()
     faction = Monster;
     tags = { Beast };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         clearHazardsFromItsRow(this, ally);
     };
 }
@@ -7380,8 +7505,8 @@ BridgeTroll::BridgeTroll()
     faction = Monster;
     tags = { Ogroid };
 
-    // TODO: change when weather logic will work with any rows
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    // FIXME: change when weather logic will work with any rows
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceToSelectEnemyRow(ally, this);
     };
 
@@ -7524,12 +7649,565 @@ NekkerWarrior::NekkerWarrior()
         startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         int n = 2;
         while (n--) {
             Card *card = target->defaultCopy();
             addAsNew(ally, card);
-            ally.deck.push_back(card);
+            putToDeck(card, ally, enemy, BottomDeck, this);
         }
+    };
+}
+
+Slyzard::Slyzard()
+{
+    id = "200539";
+    name = "Slyzard";
+    text = "Consume a different Bronze unit from your graveyard, then play a copy of it from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        consume(target, ally, enemy, this);
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy(target->name)}, AllyDeck), ally.rng))
+            playExistedCard(copy, ally, enemy, this);
+    };
+}
+
+Werecat::Werecat()
+{
+    id = "201599";
+    name = "Werecat";
+    text = "Deal 5 damage to an enemy, then deal 1 damage to all enemies under Blood Moon.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            if (rowEffectUnderUnit(card, enemy) == BloodMoonEffect)
+                damage(card, 1, ally, enemy, this);
+    };
+}
+
+Harpy::Harpy()
+{
+    id = "132315";
+    name = "Harpy";
+    text = "Whenever you destroy an allied Beast, Summon a copy of this unit to the same position.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Beast };
+
+    _onOtherAllyDestroyed = [=](Card *other, Field &ally, Field &enemy, const RowAndPos rowAndPos) {
+        if (!isIn(this, ally.deck) || !hasTag(other, Beast))
+            return;
+
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Harpy>, otherThan(this)}, AllyDeckShuffled)) {
+            Harpy *harpy = static_cast<Harpy *>(card);
+            harpy->_allyDestroyedToCopy.insert({other, this});
+        }
+
+        if (_allyDestroyedToCopy.find(other) == _allyDestroyedToCopy.end())
+            moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+
+        _allyDestroyedToCopy.clear();
+    };
+}
+
+WildHuntDrakkar::WildHuntDrakkar()
+{
+    id = "200301";
+    name = "Wild Hunt Drakkar";
+    text = "Boost all Wild Hunt allies by 1. Whenever another Wild Hunt ally appears, boost it by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(WildHunt)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
+    };
+
+    _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally) || !hasTag(card, WildHunt))
+            return;
+        boost(card, 1, ally, enemy, this);
+    };
+}
+
+Geels::Geels()
+{
+    id = "131102";
+    name = "Ge'els";
+    text = "Look at a random Gold and Silver card from your deck, then play 1 and move the other to the top of the deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Gold;
+    faction = Monster;
+    tags = { WildHunt, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312005.mp3",
+        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312236.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> variants;
+        if ((_gold = random(cardsFiltered(ally, enemy, {isGold}, AllyDeck), ally.rng)))
+            variants.push_back(_gold);
+        if ((_silver = random(cardsFiltered(ally, enemy, {isSilver}, AllyDeck), ally.rng)))
+            variants.push_back(_silver);
+        startChoiceToTargetCard(ally, enemy, this, variants);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        if (target == _gold && _silver)
+            putToDeck(_silver, ally, enemy, TopDeck, this);
+        else if (target == _silver && _gold)
+            putToDeck(_gold, ally, enemy, TopDeck, this);
+    };
+
+}
+
+WildHuntRider::WildHuntRider()
+{
+    id = "132310";
+    name = "Wild Hunt Rider";
+    text = "Increase the damage dealt by Biting Frost on the opposite row by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { WildHunt, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.798.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
+    };
+
+    // NOTE: ability is implemented inside the weather trigger
+}
+
+VranWarrior::VranWarrior()
+{
+    id = "132308";
+    name = "Vran Warrior";
+    text = "Consume the unit to the right and boost self by its power. Every 2 turns, repeat its ability on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Bronze;
+    faction = Monster;
+    tags = { Draconid, Soldier };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+        if (Card *card = cardNextTo(this, ally, enemy, 1))
+            boost(this, consume(card, ally, enemy, this), ally, enemy, this);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            onDeploy(ally, enemy);
+    };
+}
+
+AnCraiteArmorsmith::AnCraiteArmorsmith()
+{
+    id = "152317";
+    name = "An Craite Armorsmith";
+    text = "Heal 2 allies and give them 3 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Skellige;
+    tags = { ClanAnCraite, Support };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00422532.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR1_VSET_00550731.mp3",
+        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00434397.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        heal(target, ally, enemy);
+        gainArmor(target, 3, ally, enemy, this);
+    };
+}
+
+Avalach::Avalach()
+{
+    id = "132105";
+    name = "Avallac'h";
+    text = "Truce: Each player draws 2 cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Elf, Mage };
+    isDoomed = true;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+
+        drawACard(ally, enemy);
+        drawACard(enemy, ally);
+
+        drawACard(ally, enemy);
+        drawACard(enemy, ally);
+    };
+}
+
+AvalachSage::AvalachSage()
+{
+    id = "112112";
+    name = "Avallac'h: Sage";
+    text = "Spawn a default copy of a random Gold or Silver unit from your opponent's starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Elf, Mage };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
+        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isSilverOrGold, isUnit}, EnemyDeckStarting), ally.rng))
+            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+    };
+}
+
+RaghNarRoog::RaghNarRoog()
+{
+    id = "113101";
+    name = "Ragh Nar Roog";
+    text = "Apply a Hazard to each enemy row that deals 2 damage to the Highest unit on turn start..";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Hazard, Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            applyRowEffect(enemy, ally, row, RaghNarRoogEffect);
+    };
+}
+
+GeraltProfessional::GeraltProfessional()
+{
+    id = "201772";
+    name = "Geralt: Professional";
+    text = "Deal 4 damage to an enemy. If it's a Monster faction unit, destroy it instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (target->faction == Monster)
+            return putToDiscard(target, ally, enemy, this);
+
+        damage(target, 4, ally, enemy, this);
+    };
+}
+
+GeraltAard::GeraltAard()
+{
+    id = "112111";
+    name = "Geralt: Aard";
+    text = "Deal 3 damage to 3 enemies and move them to the row above.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, this)) {
+            const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+            const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
+        }
+    };
+}
+
+GeraltYrden::GeraltYrden()
+{
+    id = "201523";
+    name = "Geralt: Yrden";
+    text = "Reset all units on a row and remove their statuses.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
+        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        // FIXME: fix it when row-logic will be remastered
+        startChoiceToSelectEnemyRow(ally, this);
+    };
+
+    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
+        for (Card *card : enemy.row(row)) {
+            reset(card, ally, enemy);
+            removeAllStatuses(card, ally, enemy);
+        }
+    };
+}
+
+CiriDash::CiriDash()
+{
+    id = "112110";
+    name = "Ciri: Dash";
+    text = "Whenever this unit is Discarded or destroyed, return it to your deck and Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
+    };
+    power = powerBase = 11;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Cintra, Witcher };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        onDiscard(ally, enemy);
+    };
+
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        putToDeck(this, ally, enemy, RandomPlaceDeck, this);
+        strengthen(this, 3, ally, enemy);
+    };
+}
+
+Aguara:: Aguara()
+{
+    id = "200062";
+    name = "Aguara";
+    text = "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.156.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.155.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.154.mp3",
+    };
+    power = powerBase = 5;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Relict, Cursed };
+
+    _onDeploy = [=](Field & ally, Field &) {
+        auto *option1 = new Aguara::BoostLowest;
+        copyCardText(this, option1);
+        option1->text = "Boost the Lowest ally by 5.";
+
+        auto *option2 = new Aguara::BoostInHand;
+        copyCardText(this, option2);
+        option2->text = "Boost a random unit in your hand by 5.";
+
+        auto *option3 = new Aguara::DamageHighest;
+        copyCardText(this, option3);
+        option3->text = "Deal 5 damage to the Highest enemy.";
+
+        auto *option4 = new Aguara::CharmElf;
+        copyCardText(this, option4);
+        option4->text = "Charm a random enemy Elf with 5 power or less.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4}, _nOptionsLeft = 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<Aguara::BoostLowest *>(target)) {
+            if(Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+                boost(card, 5, ally, enemy, this);
+            --_nOptionsLeft;
+        }
+
+        if (dynamic_cast<Aguara::BoostInHand *>(target)) {
+            if(Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
+                boost(card, 5, ally, enemy, this);
+            --_nOptionsLeft;
+        }
+
+        if (dynamic_cast<Aguara::DamageHighest *>(target)) {
+            if(Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                damage(card, 5, ally, enemy, this);
+            --_nOptionsLeft;
+        }
+
+        if (dynamic_cast<Aguara::CharmElf *>(target)) {
+            if(Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+                charm(card, ally, enemy, this);
+            --_nOptionsLeft;
+        }
+
+        if(!_nOptionsLeft)
+            acceptOptionAndDeleteOthers(this, target);
+    };
+}
+
+AguaraTrueForm::AguaraTrueForm()
+{
+    id = "200056";
+    name = "Aguara: True Form";
+    text = "Create any Bronze or Silver Spell.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Relict, Cursed };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Spell)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+KorathiHeatwave::KorathiHeatwave()
+{
+    id = "200018";
+    name = "Korathi Heatwave";
+    text = "Apply a Hazard to each enemy row that deals 2 damage to the Lowest unit on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Hazard };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            applyRowEffect(enemy, ally, row, KorathiHeatwaveEffect);
+    };
+
+}
+
+AleOfTheAncestors::AleOfTheAncestors()
+{
+    id = "200532";
+    name = "Ale of the Ancestors";
+    text = "Apply Golden Froth to the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    rarity = Gold;
+    faction = Neutral;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), GoldenFrothEffect);
+    };
+}
+
+MahakamAle::MahakamAle()
+{
+    id = "200519";
+    name = "Mahakam Ale";
+    text = "Boost a random ally on each row by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Bronze;
+    faction = Neutral;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = random(ally.row(row), ally.rng))
+                boost(card, 4, ally, enemy, this);
+    };
+}
+
+Odrin::Odrin()
+{
+    id = "122213";
+    name = "Odrin";
+    text = "Move to a random row and boost all other allies on it by 1 on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200481_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_ODRI_200559_0001.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        if (!moveSelfToRandomRow(this, ally, enemy))
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this), otherThan(this)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
     };
 }

@@ -110,6 +110,11 @@ void triggerRowEffects(Field &ally, Field &enemy)
                 damage(card, 1, ally, enemy, nullptr);
             break;
         case BitingFrostEffect:
+            if (Card *target = lowest(rowFiltered, ally.rng)) {
+                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy<WildHuntRider>, isNotLocked}, EnemyBoard).size();
+                damage(target, 2 + int(n), ally, enemy, nullptr);
+            }
+            break;
         case KorathiHeatwaveEffect:
             if (Card *target = lowest(rowFiltered, ally.rng))
                 damage(target, 2, ally, enemy, nullptr);
@@ -229,7 +234,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
-                reset(card, ally, enemy);
+                resetPower(card, ally, enemy);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -241,7 +246,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
-                reset(card, ally, enemy);
+                resetPower(card, ally, enemy);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -393,6 +398,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
+        for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+            other->onOtherAllyAppears(card, ally, enemy);
 
     } else {
         spy(card, ally, enemy, card);
@@ -423,14 +430,13 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
     const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
     const bool mayTriggerDeathwish = card->powerBase > 0;
 
-
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
     if (!isAlly)
         std::swap(cardAlly, cardEnemy);
 
     if (!card->isSpecial)
-        reset(card, ally, enemy);
+        resetPower(card, ally, enemy);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -442,6 +448,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
             card->onDestroy(*cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, EnemyAnywhere))
             other->onOtherEnemyDestroyed(card, *cardEnemy, *cardAlly);
+        for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
+            other->onOtherAllyDestroyed(card, *cardAlly, *cardEnemy, RowAndPos(takenFrom, pos));
 
     } else if (takenFrom == Hand || takenFrom == Deck) {
         if (mayPutOnDiscard) {
@@ -700,7 +708,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     assert(choice.choiceType == RoundStartSwap);
 
     if (card != nullptr) {
-        swapACard(card, ally, enemy);
+        swapACard(card, ally, enemy, nullptr);
 
         if (choice.nTargets > 1) {
             ally.cardStack.push_back(Choice(RoundStartSwap, choice.cardSource, ally.hand, choice.nTargets - 1, choice.isOptional));
@@ -796,6 +804,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
         if (group == EnemyDeck)
             return enemy.deck;
+
+        if (group == EnemyDeckStarting)
+            return enemy.deckStarting;
 
         // BUG: enemy hand is visible during REVEAL choice
         if (group == EnemyDiscard)
@@ -996,7 +1007,7 @@ bool drawACard(Field &ally, Field &enemy)
     return true;
 }
 
-void swapACard(Card *card, Field &ally, Field &enemy)
+void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     if (ally.deck.size() == 0) {
         card->onSwap(ally, enemy);
@@ -1009,9 +1020,8 @@ void swapACard(Card *card, Field &ally, Field &enemy)
     const Row from = takeCard(card, ally, enemy);
     assert(from == Hand);
 
-    /// move to any place in the deck, but not first
-    const int ind = 1 + int(ally.rng() % ally.deck.size());
-    ally.deck.insert(ally.deck.begin() + ind, card);
+
+    putToDeck(card, ally, enemy, RandomNotFirstPlaceDeck, src);
     card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
 
@@ -1146,7 +1156,36 @@ void reset(Card *card, Field &, Field &)
 {
     assert(!card->isSpecial);
 
+    // TODO: check if need smt else
+    Card *copy = card->defaultCopy();
+    card->powerBase = copy->powerBase;
+    card->power = copy->power;
+    card->armor = copy->armor;
+
+    card->isLocked = copy->isLocked;
+    card->isSpy = copy->isSpy;
+    card->isResilient = copy->isResilient;
+    card->isImmune = copy->isImmune;
+    card->isDoomed = copy->isDoomed;
+    card->isCrew = copy->isCrew;
+
+    // TODO: check if it produce a correct behevior
+    card->tags = copy->tags;
+    delete(copy);
+}
+
+void resetPower(Card *card, Field &ally, Field &enemy)
+{
     card->power = card->powerBase;
+}
+
+void removeAllStatuses(Card *card, Field &ally, Field &enemy)
+{
+    // TODO: determine all the statuses we may clear and replace them here
+    card->isSpy = false;
+    card->isResilient = false;
+    card->isLocked = false;
+    card->isImmune = false;
 }
 
 void putToHand(Card *card, Field &ally, Field &enemy)
@@ -1209,7 +1248,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
         return true;
     }
 
-    // TODO: others trigger on weaken
+    card->onWeakened(x, ally, enemy, src);
     return false;
 }
 
@@ -2025,6 +2064,12 @@ void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
         return _onDamaged(x, ally, enemy, src);
 }
 
+void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
+{
+    if (_onWeakened && !isLocked)
+        return _onWeakened(x, ally, enemy, src);
+}
+
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
 {
     if (_onRevealed && !isLocked)
@@ -2067,10 +2112,22 @@ void Card::onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy)
         return _onOtherAllyDiscarded(card, ally, enemy);
 }
 
+void Card::onOtherAllyDestroyed(Card *card, Field &ally, Field &enemy, const RowAndPos &rowAndPos)
+{
+    if (_onOtherAllyDestroyed && !isLocked)
+        return _onOtherAllyDestroyed(card, ally, enemy, rowAndPos);
+}
+
 void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyPlayedFromHand && !isLocked)
         return _onOtherAllyPlayedFromHand(card, ally, enemy);
+}
+
+void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherAllyAppears && !isLocked)
+        return _onOtherAllyAppears(card, ally, enemy);
 }
 
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
@@ -2134,4 +2191,34 @@ void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *sr
 int half(const int x)
 {
     return int(std::ceil(x / 2.0));
+}
+
+void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
+{
+    const Row row = takeCard(card, ally, enemy);
+    assert(row != HandLeader);
+    switch (deckPos) {
+    case TopDeck:
+        ally.deck.insert(ally.deck.begin(), card);
+        saveFieldsSnapshot(ally, enemy, PutToTopDeck, src, {card});
+        return;
+    case BottomDeck:
+        ally.deck.push_back(card);
+        saveFieldsSnapshot(ally, enemy, PutToBottomDeck, src, {card});
+        return;
+    case RandomPlaceDeck: {
+        const int ind = int(ally.rng() % (ally.deck.size() + 1));
+        ally.deck.insert(ally.deck.begin() + ind, card);
+        saveFieldsSnapshot(ally, enemy, ShuffleToDeck, src, {card});
+        return;
+    }
+    case RandomNotFirstPlaceDeck: {
+        const int ind = 1 + int(ally.rng() % ally.deck.size());
+        ally.deck.insert(ally.deck.begin() + ind, card);
+        saveFieldsSnapshot(ally, enemy, ShuffleToDeck, src, {card});
+        return;
+    }
+    default:
+        assert(false);
+    }
 }

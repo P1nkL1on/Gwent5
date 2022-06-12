@@ -129,6 +129,7 @@ enum ChoiceGroup
     EnemyAnywhere,
     EnemyHand,
     EnemyDeck,
+    EnemyDeckStarting,
     AnyHandShuffled,
     EnemyDiscard,
     BothDiscard,
@@ -140,13 +141,26 @@ enum ChoiceGroup
 };
 
 
-enum ActionType {
+enum DeckPos
+{
+    TopDeck,
+    BottomDeck,
+    RandomPlaceDeck,
+    RandomNotFirstPlaceDeck,
+};
+
+
+enum ActionType
+{
     Invalid,
     TurnStart,
     PlaySpecial,
     PutOnField,
     PutToHand,
     PutToDiscard,
+    PutToTopDeck,
+    PutToBottomDeck,
+    ShuffleToDeck,
     Destroyed,
     Banished,
     DealDamage,

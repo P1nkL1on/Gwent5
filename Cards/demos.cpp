@@ -555,7 +555,8 @@ void demoWildHunt(Field &ally, Field &enemy)
 {
     auto *whh1 = new WildHuntHound();
     auto *whh2 = new WildHuntHound();
-    auto *bf = new BitingFrost();
+    auto *bf1 = new BitingFrost();
+    auto *bf2 = new BitingFrost();
     auto *whw1 = new WildHuntWarrior();
     auto *whw2 = new WildHuntWarrior();
     auto *whw3 = new WildHuntWarrior();
@@ -567,7 +568,10 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *m = new Miruna();
     auto *e = new EredinBreaccGlas();
     auto *c = new CaranthirArFeiniel();
-    ally.cardsAdded = {m, whh1, whh2, bf, whw1, whw2, whw3, whn1, whn2, whn3, n, i, e, c};
+    auto *d = new WildHuntDrakkar();
+    auto *whr1 = new WildHuntRider();
+    auto *whr2 = new WildHuntRider();
+    ally.cardsAdded = {m, whh1, whh2, bf1, bf2, whw1, whw2, whw3, whn1, whn2, whn3, n, i, e, c, d, whr1, whr2};
 
     auto *b1 = new BrewessRitual();
     auto *m2 = new ImperialManticore();
@@ -577,9 +581,10 @@ void demoWildHunt(Field &ally, Field &enemy)
     auto *m6 = new ImperialManticore();
     enemy.cardsAdded = {b1, m2, m3, m4, m5, m6};
 
-    ally.hand = {m, whh1, whw1, whn1, n, i, e, c};
-    ally.deck = {bf, whh2, whn2, whw2, whw3};
-    ally.rowSeige = {whn3};
+    ally.hand = {m, whh1,  whh2, whw1, whn1, n, i, e, c, d};
+    ally.deck = {bf1, bf2, whw2, whw3};
+    ally.rowSeige = {whn3, whr1};
+    ally.rowMeele = {whr2};
     ally.canPass = false;
 
     enemy.rowSeige = {b1};
@@ -600,13 +605,15 @@ void demoSummoning(Field &ally, Field &enemy)
     auto *s2 = new DrummondShieldmaid();
     auto *s3 = new DrummondShieldmaid();
     auto *s4 = new DrummondShieldmaid();
+    auto *as = new AnCraiteArmorsmith();
+    auto *t = new TuirseachArcher();
     auto *m = new Maerolorn();
     auto *mn = new MonsterNest();
     auto *r = new Rotfiend();
     auto *d = new Dao();
-    ally.cardsAdded = {a1, a2, a3, a4, s1, s2, s3, s4, m, mn, r, d};
+    ally.cardsAdded = {a1, a2, a3, a4, s1, s2, s3, s4, as, t, m, mn, r, d};
 
-    ally.hand = {a1, a2, s1, s2, m, mn};
+    ally.hand = {a1, a2, s1, s2, m, mn, as, t};
     ally.discard = {a3, s3};
     ally.deck = {a4, s4, r, d};
     ally.canPass = false;
@@ -668,12 +675,16 @@ void demoConsume(Field &ally, Field &enemy)
     auto *n2 = new Nekker();
     auto *n3 = new Nekker();
     auto *nw = new NekkerWarrior();
-    ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw};
+    auto *h1 = new Harpy();
+    auto *h2 = new Harpy();
+    auto *h3 = new Harpy();
+    ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw, h1, h2, h3};
 
     ally.hand = {g1, b1, b2, d1, o, k, m0, s, nw};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2, n1};
-    ally.deck = {d3, m3, r1, a, n2, n3};
+    ally.rowSeige = {};
+    ally.deck = {d3, m3, r1, a, n2, n3, h1, h2, h3};
     ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();
@@ -752,41 +763,30 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
 
 void demoTemporaryForTests(Field &ally, Field &enemy)
 {
-    auto *w = new Wyvern();
-    auto *p = new Parasite();
-    auto *j = new Jotunn();
-    auto *b = new BitingFrost();
-    auto *i1 = new ImpenetrableFog();
-    auto *ai = new AncientFoglet();
-    auto *h = new CelaenoHarpy();
-    auto *ba = new Barbegazi();
-    auto *bt = new BridgeTroll();
-    auto *c = new Cockatrice();
-    auto *as = new Archespore();
-    auto *n = new Nekurat();
-    auto *s1 = new Siren();
-    auto *s2 = new Siren();
-    auto *m = new Moonlight();
-    auto *l1 = new Lamia();
-    auto *l2 = new Lamia();
+    auto *r = new RaghNarRoog();
+    auto *g1 = new GeraltProfessional();
+    auto *g2 = new GeraltAard();
+    auto *g3 = new GeraltYrden();
+    auto *c = new CiriDash();
+    auto *b = new Barbegazi();
+    auto *t1 = new ToadPrince();
+    auto *t2 = new ToadPrince();
+    auto *a = new Aguara();
+    auto *at = new AguaraTrueForm();
 
-    ally.cardsAdded = {w, p, j, b, i1, ai, h, ba, bt, c, as, n, s1, s2, m, l1, l2};
-    ally.hand = {p, b, i1, h, ba, n, s1, s2, l1, l2};
-    ally.deck = {m};
-    ally.rowSeige = {ai, w, j, bt, c};
-    ally.rowMeele = {as};
+    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at};
+    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
-    auto *b3 = new BitingFrost();
-    auto *s = new SkelligeStorm();
+    auto *d = new DandelionPoet();
 
-    enemy.cardsAdded = {m1, m2, m3, b3, s};
-    enemy.hand = {b3, s};
+    enemy.cardsAdded = {m1, m2, m3, d};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3};
+    enemy.rowSeige = {d};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
@@ -834,13 +834,87 @@ void demoArachasDrones(Field &ally, Field &enemy)
     auto *c5 = new CelaenoHarpy();
     auto *c6 = new ArachasDrone();
     auto *c7 = new ArachasQueen();
-    auto *c8 = new ArachasQueen();
+    auto *c8 = new Barbegazi();
+    auto *c9 = new VranWarrior();
 
-    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8};
-    ally.hand = { c3, c4, c5, c6, c7, c8};
+    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8, c9};
+    ally.hand = { c3, c4, c5, c6, c7, c8, c9};
     ally.deck = { c0, c1, c2 };
     enemy.passed = true;
     ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+}
+
+void demoSlyzards(Field &ally, Field &enemy)
+{
+    auto *c0 = new NekkerWarrior();
+    auto *c1 = new Nekker();
+    auto *c2 = new Nekker();
+    auto *c3 = new Nekker();
+    auto *c4 = new Siren();
+    auto *c5 = new Siren();
+    auto *c6 = new Slyzard();
+    auto *c7 = new Slyzard();
+    auto *c8 = new Slyzard();
+
+    ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8};
+    ally.hand = { c0, c1, c6, c7, c8};
+    ally.deck = { c2, c5 };
+    ally.discard = { c3, c4 };
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoAvalach(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deckStartingAlly {
+        new CiriNova(),
+        new AnCraiteArmorsmith(),
+        new AnCraiteArmorsmith(),
+        new Avalach(),
+        new AvalachSage(),
+    };
+
+    const std::vector<Card *> deckStartingEnemy {
+        new GeraltOfRivia(),
+        new CiriNova(),
+        new Siren(),
+        new Siren(),
+        new Nekurat(),
+        new MonsterNest(),
+        new Lamia(),
+        new Lamia(),
+    };
+    initField(deckStartingAlly, new BranTuirseach, ally);
+    initField(deckStartingEnemy, new UnseenElder, enemy);
+    startNextRound(ally, enemy);
+}
+
+void demoBeer(Field &ally, Field &enemy)
+{
+    auto *h1 = new HeymaeyHerbalist();
+    auto *h2 = new HeymaeyHerbalist();
+    auto *h3 = new HeymaeyHerbalist();
+    auto *b1 = new Bear();
+    auto *b2 = new Bear();
+    auto *th1 = new TuirseachHunter();
+    auto *th2 = new TuirseachHunter();
+    auto *th3 = new TuirseachHunter();
+    auto *o = new Odrin();
+    auto *a = new AleOfTheAncestors();
+    auto *m1 = new MahakamAle();
+    auto *m2 = new MahakamAle();
+    auto *m3 = new MahakamAle();
+    ally.cardsAdded = {h1, h2, h3, b1, b2, th1, th2, th3, o, a, m1, m2, m3};
+
+    ally.canPass = false;
+
+    ally.hand = {th1, o, a, m1, m2, m3};
+    ally.rowRange = {b1, h1, h2, h3, b2};
+    ally.rowMeele = {th2, th3};
+
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 
 }

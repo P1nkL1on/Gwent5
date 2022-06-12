@@ -79,13 +79,16 @@ struct Card
     void onRevealed(Field &ally, Field &enemy, const Card *src);
     void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
+    void onWeakened(const int x, Field &ally, Field &enemy, const Card *src);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
     void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
     void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
+    void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
     // TODO: test and find all the cases
@@ -104,6 +107,7 @@ struct Card
 protected:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
+    using CardAllyEnemyRowAndPos = std::function<void(Card *, Field &, Field &, const RowAndPos &)>;
     using AllyEnemy = std::function<void(Field &, Field &)>;
     using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
     using AllyEnemyCardSrc = std::function<void(Field &, Field &, Card *, const Card *)>;
@@ -113,6 +117,7 @@ protected:
     using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
+    CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
     AllyEnemy _onGameStart = nullptr;
     AllyEnemy _onDeploy = nullptr;
     AllyEnemy _onDeployFromDiscard = nullptr;
@@ -132,11 +137,13 @@ protected:
     AllyEnemySrc _onRevealed = nullptr;
     AllyEnemyCardSrc _onOtherRevealed = nullptr;
     IntAllyEnemySrc _onDamaged = nullptr;
+    IntAllyEnemySrc _onWeakened = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
     CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
+    CardAllyEnemy _onOtherAllyAppears = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
@@ -291,6 +298,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
 /// put any card to discard
 void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
 
+void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src);
+
 /// resolve a special card ability, then resolve others' otherPlaySpecial abilities
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
@@ -317,13 +326,15 @@ void heal(Card *card, const int x, Field &ally, Field &enemy);
 /// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
 int half(const int x);
 void reset(Card *card, Field &ally, Field &enemy);
+void resetPower(Card *card, Field &ally, Field &enemy);
+void removeAllStatuses(Card *card, Field &ally, Field &enemy);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool drawACard(Field &ally, Field &enemy);
-void swapACard(Card *card, Field &ally, Field &enemy);
+void swapACard(Card *card, Field &ally, Field &enemy, const Card *src);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns true if wins a duel
 bool duel(Card *first, Card *second, Field &ally, Field &enemy);

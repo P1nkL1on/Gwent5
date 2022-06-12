@@ -811,7 +811,6 @@ struct BlueboyLugos : CardCollectible<BlueboyLugos>
     struct SpectralWhale : CardCollectible<SpectralWhale>
     {
         SpectralWhale();
-
     };
     BlueboyLugos();
 };
@@ -926,21 +925,18 @@ struct DimunPirateCaptain : CardCollectible<DimunPirateCaptain>
 struct DimunSmuggler : CardCollectible<DimunSmuggler>
 {
     DimunSmuggler();
-    // FIXME: ability isn't implemented
 };
 
 
 struct DrummondShieldmaid : CardCollectible<DrummondShieldmaid>
 {
     DrummondShieldmaid();
-    // FIXME: ability isn't implemented
 };
 
 
 struct HeymaeyFlaminica : CardCollectible<HeymaeyFlaminica>
 {
     HeymaeyFlaminica();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -959,7 +955,6 @@ struct HeymaeyProtector : CardCollectible<HeymaeyProtector>
 struct HeymaeySkald : CardCollectible<HeymaeySkald>
 {
     HeymaeySkald();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -976,7 +971,10 @@ struct RagingBerserker : CardCollectible<RagingBerserker>
 struct Hym : CardCollectible<Hym>
 {
     Hym();
-    // FIXME: ability isn't implemented
+private:
+    struct Play : CardCollectible<Play> {};
+    struct Create : CardCollectible<Create> {};
+    Card *_choosen = nullptr;
 };
 
 
@@ -993,7 +991,6 @@ struct Kambi : CardCollectible<Kambi>
 struct Olaf : CardCollectible<Olaf>
 {
     Olaf();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -1776,6 +1773,142 @@ struct Nekker : CardCollectible<Nekker>
 struct NekkerWarrior : CardCollectible<NekkerWarrior>
 {
     NekkerWarrior();
+};
+
+
+struct Slyzard : CardCollectible<Slyzard>
+{
+    Slyzard();
+};
+
+
+struct Werecat : CardCollectible<Werecat>
+{
+    Werecat();
+};
+
+
+struct Harpy : CardCollectible<Harpy>
+{
+    Harpy();
+private:
+    std::map<Card *, Card *> _allyDestroyedToCopy;
+};
+
+
+struct WildHuntDrakkar : CardCollectible<WildHuntDrakkar>
+{
+    WildHuntDrakkar();
+};
+
+
+struct Geels : CardCollectible<Geels>
+{
+    Geels();
+private:
+    Card *_gold = nullptr;
+    Card *_silver = nullptr;
+};
+
+
+struct WildHuntRider : CardCollectible<WildHuntRider>
+{
+    WildHuntRider();
+};
+
+
+struct VranWarrior : CardCollectible<VranWarrior>
+{
+    VranWarrior();
+};
+
+
+struct AnCraiteArmorsmith : CardCollectible<AnCraiteArmorsmith>
+{
+    AnCraiteArmorsmith();
+};
+
+struct Avalach : CardCollectible<Avalach>
+{
+    Avalach();
+};
+
+
+struct AvalachSage : CardCollectible<AvalachSage>
+{
+    AvalachSage();
+};
+
+
+struct RaghNarRoog : CardCollectible<RaghNarRoog>
+{
+    RaghNarRoog();
+};
+
+
+struct GeraltProfessional : CardCollectible<GeraltProfessional>
+{
+    GeraltProfessional();
+};
+
+
+struct GeraltAard : CardCollectible<GeraltAard>
+{
+    GeraltAard();
+};
+
+
+struct GeraltYrden : CardCollectible<GeraltYrden>
+{
+    GeraltYrden();
+};
+
+
+struct CiriDash : CardCollectible<CiriDash>
+{
+    CiriDash();
+};
+
+
+struct Aguara : CardCollectible<Aguara>
+{
+    Aguara();
+private:
+    struct BoostLowest : CardCollectible<BoostLowest> {};
+    struct BoostInHand : CardCollectible<BoostInHand> {};
+    struct DamageHighest : CardCollectible<DamageHighest> {};
+    struct CharmElf : CardCollectible<CharmElf> {};
+    int _nOptionsLeft = 0;
+};
+
+
+struct AguaraTrueForm : CardCollectible<AguaraTrueForm>
+{
+    AguaraTrueForm();
+};
+
+
+struct KorathiHeatwave : CardCollectible<KorathiHeatwave>
+{
+    KorathiHeatwave();
+};
+
+
+struct AleOfTheAncestors : CardCollectible<AleOfTheAncestors>
+{
+    AleOfTheAncestors();
+};
+
+
+struct MahakamAle : CardCollectible<MahakamAle>
+{
+    MahakamAle();
+};
+
+
+struct Odrin : CardCollectible<Odrin>
+{
+    Odrin();
 };
 
 

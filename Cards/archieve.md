@@ -1,56 +1,58 @@
 # Neutral
 
-- [ ] Aguara
-- [ ] Lambert: Swordmaster
+- [x] Shupe's Day Off
+- [x] Aguara
+- [x] Aguara: True Form
+- [x] Regis
 - [ ] Regis: Higher Vampire
 - [ ] Zoltan: Scoundrel
-- [ ] Aguara: True Form
-- [ ] Avallac'h _(easy card)_
-- [ ] Geralt: Aard
-- [ ] Geralt: Yrden
+- [x] Avallac'h
+- [x] Avallac'h: Sage
+- [x] Geralt of Rivia
+- [x] Geralt: Igni
+- [x] Geralt: Aard
+- [x] Geralt: Yrden __{NOT EXECT ABILITY}__
+- [x] Geralt: Professional
+- [ ] Lambert: Swordmaster
+- [ ] Vesemir: Mentor _(easy card)_
+- [ ] Eskel: Pathfinder _(easy card)_
+- [x] Yennefer
+- [ ] Yennefer: Conjurer
+- [ ] Ciri
+- [x] Ciri: Dash
+- [x] Ciri: Nova
+- [ ] Uma's Curse
+- [ ] Triss Merigold _(easy card)_
+- [x] Triss: Butterflies
+- [ ] Triss: Telekinesis
+- [x] Dandelion: Poet
+- [ ] Dandelion: Vainglory
 - [ ] Hanmarvyn's Dream
+- [x] Korathi Heatwave
+- [x] Ragh Nar Roog
 - [ ] Ihuarraquax
-- [ ] Korathi Heatwave
 - [ ] Phoenix _(easy card)_
-- [ ] Ragh Nar Roog _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
 - [ ] Wolfsbane
-- [ ] Ciri: Dash
-- [x] Regis
+- [ ] Royal Decree _(easy card)_
 - [x] Renew
 - [ ] Sihil
-- [x] Triss: Butterflies
-- [ ] Vesemir: Mentor _(easy card)_
 - [ ] Villentretenmerth
-- [x] Yennefer
 - [x] Muzzle
-- [ ] Royal Decree _(easy card)_
-- [ ] Triss: Telekinesis
-- [ ] Uma's Curse
-- [x] Ciri: Nova
-- [x] Dandelion: Poet
-- [x] Geralt: Igni
-- [x] Shupe's Day Off
-- [ ] Eskel: Pathfinder _(easy card)_
-- [ ] Geralt: Professional _(easy card)_
 - [ ] Black Blood
 - [ ] Rock Barrage
-- [ ] Ciri
-- [ ] Yennefer: Conjurer
 - [ ] King of Beggars
 - [ ] Mastercrafted Spear
 - [ ] Peasant Militia
 - [ ] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
-- [ ] Ale of the Ancestors
-- [ ] Dandelion: Vainglory
+- [x] Ale of the Ancestors
 - [ ] Cyprian Wiley
 - [ ] Expired Ale
 - [ ] Crow's Eye
 - [ ] Lacerate
-- [ ] Avallac'h: Sage
 - [ ] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
 - [ ] Garrison
@@ -58,8 +60,6 @@
 - [ ] Johnny
 - [ ] Stregobor
 - [ ] Doppler _(easy card)_
-- [x] Geralt of Rivia
-- [ ] Triss Merigold _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
 - [ ] Bekker's Dark Mirror
@@ -103,7 +103,7 @@
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
-- [ ] Mahakam Ale _(easy card)_
+- [x] Mahakam Ale _(easy card)_
 - [ ] Mardroeme
 - [ ] Petri's Philter _(easy card)_
 - [x] Reconnaissance
@@ -140,7 +140,7 @@
 - [ ] Lubberkin _(easy card)_
 - [ ] Margarita of Aretuza
 - [ ] Nenneke
-- [ ] Odrin
+- [x] Odrin
 - [ ] Prince Stennis
 - [ ] Princess Pavetta
 - [x] Ronvid the Incessant __(NO ABILITY)__
@@ -196,7 +196,7 @@
 - [x] Eist Tuirseach
 - [x] Ermion
 - [x] Harald the Cripple
-- [x] Hym __(NO ABILITY)__
+- [x] Hym
 - [x] Madman Lugos
 - [x] Ulfhedinn
 - [x] Vabjorn
@@ -210,7 +210,7 @@
 - [x] Holger Blackhand
 - [x] Jutta an Dimun
 - [x] Morkvarg
-- [x] Ornamental Sword __(NO ABILITY)__
+- [x] Ornamental Sword
 - [x] Restore
 - [x] Sigrdrifa
 - [x] Skjall
@@ -218,7 +218,7 @@
 - [x] Svanrige Tuirseach
 - [x] Udalryk
 - [x] Yoana
-- [ ] An Craite Armorsmith
+- [x] An Craite Armorsmith
 - [x] An Craite Blacksmith
 - [x] An Craite Greatsword
 - [x] An Craite Longship
@@ -234,15 +234,15 @@
 - [x] Dimun Pirate Captain
 - [x] Dimun Warship
 - [x] Drummond Queensguard
-- [x] Drummond Shieldmaid __(NO ABILITY)__
+- [x] Drummond Shieldmaid
 - [x] Drummond Warmonger
-- [x] Heymaey Flaminica __(NO ABILITY)__
+- [x] Heymaey Flaminica
 - [x] Heymaey Herbalist
 - [x] Heymaey Protector
-- [x] Heymaey Skald __(NO ABILITY)__
+- [x] Heymaey Skald
 - [x] Heymaey Spearmaiden
 - [x] Priestess of Freya
-- [x] Raging Berserker __(NO ABILITY)__
+- [x] Raging Berserker
 - [x] Savage Bear
 - [x] Tuirseach Archer
 - [x] Tuirseach Axeman
@@ -411,9 +411,9 @@
 - [x] Dagon
 - [x] Draug
 - [x] Eredin Breacc Glas
-- [ ] Ge'els
+- [x] Ge'els
 - [x] Imlerith
-- [x] Imlerith: Sabbath
+- [x] Imlerith: Sabbath __CHECK_ABILITY__
 - [x] Kayran
 - [x] Miruna
 - [x] Old Speartip
@@ -436,12 +436,12 @@
 - [x] Monster Nest
 - [x] Morvudd
 - [x] Mourntart
-- [ ] Nekurat _(easy card)_
+- [x] Nekurat
 - [x] Nithral
 - [x] Ozzrel
 - [x] Parasite
 - [x] Ruehin
-- [x] She-Troll of Vergen
+- [x] She-Troll of Vergen __FIX_ABILITY_BUG__
 - [x] Toad Prince
 - [x] Weavess
 - [x] Whispess
@@ -455,16 +455,16 @@
 - [x] Bridge Troll
 - [x] Celaeno Harpy
 - [x] Cockatrice
-- [x] Cyclops _(easy card)_
+- [x] Cyclops
 - [x] D'ao
 - [x] Drowner
-- [x] Ekimmara _(easy card)_
+- [x] Ekimmara
 - [x] Fiend
-- [x] Foglet __(NOT EXECT ABILITY)__
+- [x] Foglet
 - [x] Forktail
 - [x] Ghoul
 - [x] Griffin
-- [ ] Harpy
+- [x] Harpy
 - [x] Ice Giant
 - [x] Ice Troll
 - [x] Lamia
@@ -472,14 +472,14 @@
 - [x] Nekker Warrior
 - [x] Rotfiend
 - [x] Siren
-- [ ] Slyzard
-- [ ] Vran Warrior
-- [ ] Werecat
+- [x] Slyzard
+- [x] Vran Warrior
+- [x] Werecat
 - [x] Werewolf
-- [ ] Wild Hunt Drakkar
+- [x] Wild Hunt Drakkar
 - [x] Wild Hunt Hound
 - [x] Wild Hunt Navigator
-- [ ] Wild Hunt Rider
+- [x] Wild Hunt Rider
 - [x] Wild Hunt Warrior
-- [x] Wyvern _(easy card)_
+- [x] Wyvern
 - [x] Moonlight
