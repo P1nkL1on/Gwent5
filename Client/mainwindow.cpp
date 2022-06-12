@@ -892,6 +892,30 @@ void MainWindow::repaintCustom()
         case TurnStart:
             stream << prefix << "\n#" << x << " turn started";
             break;
+        case PassedAlly:
+            stream << prefix << "YOU PASSED!";
+            break;
+        case PassedEnemy:
+            stream << prefix << "OPPONENT PASSED!";
+            break;
+        case WonRoundAlly:
+            stream << prefix << "YOU WON IN ROUND #" << x << "!";
+            break;
+        case WonRoundEnemy:
+            stream << prefix << "YOU LOST IN ROUND #" << x << "!";
+            break;
+        case WonRoundBoth:
+            stream << prefix << "DRAW IN ROUND #" << x << "!";
+            break;
+        case WonGameAlly:
+            stream << prefix << "YOU WON!";
+            break;
+        case WonGameEnemy:
+            stream << prefix << "YOU LOST!";
+            break;
+        case WonGameBoth:
+            stream << prefix << "DRAW!";
+            break;
         case PlaySpecial:
             stream << prefix << dst << " special played by " << src;
             break;

@@ -143,10 +143,10 @@ enum ChoiceGroup
 
 enum DeckPos
 {
-    TopDeck,
-    BottomDeck,
-    RandomPlaceDeck,
-    RandomNotFirstPlaceDeck,
+    DeckPosTop,
+    DeckPosBottom,
+    DeckPosRandom,
+    DeckPosRandomButNotFirst,
 };
 
 
@@ -154,6 +154,14 @@ enum ActionType
 {
     Invalid,
     TurnStart,
+    PassedAlly,
+    PassedEnemy,
+    WonRoundAlly,
+    WonRoundEnemy,
+    WonRoundBoth,
+    WonGameAlly,
+    WonGameEnemy,
+    WonGameBoth,
     PlaySpecial,
     PutOnField,
     PutToHand,

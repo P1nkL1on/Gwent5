@@ -1093,6 +1093,12 @@ struct Sentry : CardCollectible<Sentry>
 };
 
 
+struct Ciri : CardCollectible<Ciri>
+{
+    Ciri();
+};
+
+
 struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
 {
     NauzicaaSergeant();
@@ -1910,6 +1916,25 @@ struct Odrin : CardCollectible<Odrin>
 {
     Odrin();
 };
+
+
+struct Toruviel : CardCollectible<Toruviel>
+{
+    Toruviel();
+};
+
+
+struct Milva : CardCollectible<Milva>
+{
+    Milva();
+};
+
+
+struct PrincessPavetta : CardCollectible<PrincessPavetta>
+{
+    PrincessPavetta();
+};
+
 
 
 #endif // CARDS_H

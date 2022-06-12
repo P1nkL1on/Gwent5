@@ -280,6 +280,8 @@ std::vector<Card *> allCards(const Patch)
         new AleOfTheAncestors(),
         new MahakamAle(),
         new Odrin(),
+        new Toruviel(),
+        new Ciri(),
     };
 }
 
@@ -4267,7 +4269,7 @@ DimunSmuggler::DimunSmuggler()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, ally, enemy, RandomPlaceDeck, this);
+        putToDeck(target, ally, enemy, DeckPosRandom, this);
     };
 }
 
@@ -4770,11 +4772,14 @@ CommandersHorn::CommandersHorn()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        Card *target1 = cardNextTo(target, ally, enemy, -2);
-        Card *target2 = cardNextTo(target, ally, enemy, -1);
-        Card *target3 = cardNextTo(target, ally, enemy, 1);
-        Card *target4 = cardNextTo(target, ally, enemy, 2);
-        for (Card *card : std::vector<Card *>{target1, target2, target, target3, target4})
+        const std::vector<Card *> cardsToBoost {
+            cardNextTo(target, ally, enemy, -2),
+            cardNextTo(target, ally, enemy, -1),
+            target,
+            cardNextTo(target, ally, enemy, 1),
+            cardNextTo(target, ally, enemy, 2),
+        };
+        for (Card *card : cardsToBoost)
             if (card != nullptr)
                 boost(card, 3, ally, enemy, this);
     };
@@ -6277,7 +6282,7 @@ VernonRoche::VernonRoche()
     _onGameStart = [=](Field &ally, Field &enemy) {
         Card *card = new BlueStripeCommando();
         addAsNew(ally, card);
-        putToDeck(card, ally, enemy, RandomPlaceDeck, this);
+        putToDeck(card, ally, enemy, DeckPosRandom, this);
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
@@ -7654,7 +7659,7 @@ NekkerWarrior::NekkerWarrior()
         while (n--) {
             Card *card = target->defaultCopy();
             addAsNew(ally, card);
-            putToDeck(card, ally, enemy, BottomDeck, this);
+            putToDeck(card, ally, enemy, DeckPosBottom, this);
         }
     };
 }
@@ -7781,9 +7786,9 @@ Geels::Geels()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
         if (target == _gold && _silver)
-            putToDeck(_silver, ally, enemy, TopDeck, this);
+            putToDeck(_silver, ally, enemy, DeckPosTop, this);
         else if (target == _silver && _gold)
-            putToDeck(_gold, ally, enemy, TopDeck, this);
+            putToDeck(_gold, ally, enemy, DeckPosTop, this);
     };
 
 }
@@ -8042,7 +8047,7 @@ CiriDash::CiriDash()
     };
 
     _onDiscard = [=](Field &ally, Field &enemy) {
-        putToDeck(this, ally, enemy, RandomPlaceDeck, this);
+        putToDeck(this, ally, enemy, DeckPosRandom, this);
         strengthen(this, 3, ally, enemy);
     };
 }
@@ -8209,5 +8214,108 @@ Odrin::Odrin()
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this), otherThan(this)}, AllyBoard))
             boost(card, 1, ally, enemy, this);
+    };
+}
+
+Toruviel::Toruviel()
+{
+    id = "142204";
+    name = "Toruviel";
+    text = "Ambush: When your opponent passes, flip over and boost 2 units on each side by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.775.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.777.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.776.mp3",
+    };
+    power = powerBase = 6;
+    isAmbush = true;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Elf, Officer };
+
+    _onOpponentPass = [=](Field &ally, Field &enemy) {
+        flipOver(this, ally, enemy);
+
+        const std::vector<Card *> cardsToBoost {
+            cardNextTo(this, ally, enemy, -2),
+            cardNextTo(this, ally, enemy, -1),
+            cardNextTo(this, ally, enemy, 1),
+            cardNextTo(this, ally, enemy, 2),
+        };
+        for (Card *card : cardsToBoost)
+            if (card != nullptr)
+                boost(card, 2, ally, enemy, this);
+    };
+}
+
+Ciri::Ciri()
+{
+    id = "112101";
+    name = "Ciri";
+    text = "Whenever you lose a round, return this unit to your hand. 2 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
+        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Cintra, Witcher };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 2, ally, enemy, this);
+    };
+}
+
+Milva::Milva()
+{
+    id = "142104";
+    name = "Milva";
+    text = "Return each player's Highest Bronze or Silver unit to their deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.142.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.144.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.143.mp3",
+    };
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Scoiatael;
+    tags = { Soldier };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, AllyBoard), ally.rng))
+            putToDeck(card, ally, enemy, DeckPosRandom, this);
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, EnemyBoard), ally.rng))
+            putToDeck(card, enemy, ally, DeckPosRandom, this);
+    };
+}
+
+PrincessPavetta::PrincessPavetta()
+{
+    id = "122210";
+    name = "Princess Pavetta";
+    text = "Return each player's Lowest Bronze or Silver unit to their deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.38.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.40.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.37.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.39.mp3",
+    };
+    power = powerBase = 3;
+    rarity = Silver;
+    faction = NothernRealms;
+    tags = { Cintra, Mage };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, AllyBoard), ally.rng))
+            putToDeck(card, ally, enemy, DeckPosRandom, this);
+        if (Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, EnemyBoard), ally.rng))
+            putToDeck(card, enemy, ally, DeckPosRandom, this);
     };
 }
