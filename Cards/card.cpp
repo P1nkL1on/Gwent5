@@ -1202,7 +1202,6 @@ void resetPower(Card *card, Field &ally, Field &enemy)
 void removeAllStatuses(Card *card, Field &ally, Field &enemy)
 {
     // TODO: determine all the statuses we may clear and replace them here
-    card->isLocked = false;
     card->isSpy = false;
     card->isResilient = false;
     card->isLocked = false;
