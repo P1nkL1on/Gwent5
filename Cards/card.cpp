@@ -1180,7 +1180,6 @@ void reset(Card *card, Field &, Field &)
     card->isResilient = copy->isResilient;
     card->isImmune = copy->isImmune;
     card->isDoomed = copy->isDoomed;
-    card->isCrew = copy->isCrew;
 
     // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
@@ -2263,4 +2262,17 @@ void pass(Field &ally, Field &enemy)
 
     for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
         card->onOpponentPass(enemy, ally);
+}
+
+int nCrewed(Card *card, Field &ally)
+{
+    Field _;
+    int n = 1;
+    if (Card *left = cardNextTo(card, ally, _, -1))
+        if (isCrew(left))
+            ++n;
+    if (Card *right = cardNextTo(card, ally, _, 1))
+        if (isCrew(right))
+            ++n;
+    return n;
 }

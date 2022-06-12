@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Slyzards", demoSlyzards},
         {"Avalach", demoAvalach},
         {"Bears and Beer", demoBeer},
+        {"Crew and Crewed", demoCrewAndCrewed},
     };
 
     /// make a choosing menu for it

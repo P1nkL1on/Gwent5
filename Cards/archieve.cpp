@@ -282,6 +282,12 @@ std::vector<Card *> allCards(const Patch)
         new Odrin(),
         new Toruviel(),
         new Ciri(),
+        new Milva(),
+        new PrincessPavetta(),
+        new TheGuardian(),
+        new GaunterODimm(),
+        new KaedweniSergeant(),
+        new ReinforcedBallista()
     };
 }
 
@@ -3535,11 +3541,11 @@ KingHenselt::KingHenselt()
     };
     power = powerBase = 3;
     rarity = Gold;
+    isCrew = true;
     faction = NothernRealms;
     tags = { Kaedwen, Leader };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        isCrew = true;
         startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
     };
 
@@ -3617,11 +3623,7 @@ RonvidTheIncessant::RonvidTheIncessant()
     rarity = Silver;
     faction = NothernRealms;
     tags = { Kaedwen, Soldier };
-
-    _onDeploy = [=](Field &, Field &) {
-        // BUG: isCrew isn't fixed by Locking a unit
-        isCrew = true;
-    };
+    isCrew = true;
 
     _onTurnEnd = [=](Field &, Field &) {
         // FIXME: ability is missing
@@ -6302,6 +6304,7 @@ BlueStripeScout::BlueStripeScout()
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Temeria, Soldier };
     power = powerBase = 3;
+    isCrew = true;
     faction = NothernRealms;
     rarity = Bronze;
     sounds = {
@@ -6311,7 +6314,6 @@ BlueStripeScout::BlueStripeScout()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        isCrew = true;
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(Temeria), isNonSpying, hasPowerX(power)}, AllyBoardHandDeck))
             boost(card, 1, ally, enemy, this);
     };
@@ -8404,5 +8406,50 @@ GaunterODimm::GaunterODimm()
         }
         spawnNewCard(_picked, ally, enemy, this);
         _picked = nullptr;
+    };
+}
+
+KaedweniSergeant::KaedweniSergeant()
+{
+    id = "122214";
+    name = "Kaedweni Sergeant";
+    text = "Clear Hazards from its row. 3 Armor. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.46.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.47.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.48.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Kaedwen };
+    isCrew = true;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        gainArmor(this, 3, ally, enemy, this);
+        clearHazardsFromItsRow(this, ally);
+    };
+}
+
+ReinforcedBallista::ReinforcedBallista()
+{
+    id = "122302";
+    name = "Reinforced Ballista";
+    text = "Deal 2 damage to an enemy. Crewed: Repeat its ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Machine };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        int n = nCrewed(this, ally);
+        while (n--)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, this);
     };
 }

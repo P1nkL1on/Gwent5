@@ -355,6 +355,8 @@ void setTimer(Card *card, Field &ally, Field &enemy, const int x);
 void flipOver(Card *card, Field &ally, Field &enemy);
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src);
 void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
+/// returns number of ability calls for a crewed units
+int nCrewed(Card *card, Field &ally);
 void pass(Field &ally, Field &enemy);
 
 using Filters = std::vector<std::function<bool(Card *)> >;

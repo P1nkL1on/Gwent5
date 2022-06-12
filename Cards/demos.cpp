@@ -919,3 +919,24 @@ void demoBeer(Field &ally, Field &enemy)
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 
 }
+
+void demoCrewAndCrewed(Field &ally, Field &enemy)
+{
+    auto *s1 = new KaedweniSergeant();
+    auto *s2 = new KaedweniSergeant();
+    auto *b1 = new ReinforcedBallista();
+    auto *b2 = new ReinforcedBallista();
+    auto *b3 = new ReinforcedBallista();
+
+    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.hand = ally.cardsAdded;
+
+    auto *m1 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1};
+    enemy.rowMeele = {m1};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

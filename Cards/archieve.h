@@ -1957,5 +1957,16 @@ private:
 };
 
 
+struct KaedweniSergeant : CardCollectible<KaedweniSergeant>
+{
+    KaedweniSergeant();
+};
+
+
+struct ReinforcedBallista : CardCollectible<ReinforcedBallista>
+{
+    ReinforcedBallista();
+};
+
 
 #endif // CARDS_H
