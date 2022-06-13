@@ -8476,10 +8476,30 @@ SigismundDijkstra::SigismundDijkstra()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Redania };
-    isCrew = true;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : firsts(ally.deck, 2))
             playExistedCard(card, ally, enemy, this);
+    };
+}
+
+WhiteFrost::WhiteFrost()
+{
+    id = "113206";
+    name = "White Frost";
+    text = "Apply Biting Frost to 2 adjacent enemy rows.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Hazard };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (int _screenRow = std::max(3, screenRow - 1); _screenRow <= screenRow; ++_screenRow)
+            applyRowEffect(ally, enemy, _screenRow, BitingFrostEffect);
     };
 }

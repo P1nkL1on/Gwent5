@@ -92,7 +92,7 @@
 - [ ] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
-- [ ] White Frost
+- [x] White Frost
 - [x] Adrenaline Rush
 - [x] Alzur's Thunder
 - [x] Arachas Venom
