@@ -1054,8 +1054,8 @@ ImpenetrableFog::ImpenetrableFog()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -1075,8 +1075,8 @@ TorrentialRain::TorrentialRain()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -1096,8 +1096,8 @@ BitingFrost::BitingFrost()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -1117,8 +1117,8 @@ GoldenFroth::GoldenFroth()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -1138,8 +1138,8 @@ SkelligeStorm::SkelligeStorm()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -1664,7 +1664,7 @@ ChampionOfHov::ChampionOfHov()
 }
 
 
-GeraltIgni::GeraltIgni(const Lang)
+GeraltIgni::GeraltIgni()
 {
     id = "112102";
     name = "Geralt: Igni";
@@ -1682,18 +1682,17 @@ GeraltIgni::GeraltIgni(const Lang)
     faction = Neutral;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        // TODO: select only between rows with 25 or more power
-        startChoiceToSelectRow(ally, this);
+    const auto isOkRow = [](const std::vector<Card *> &cards) {
+        return powerRow(cards) >= 25;
     };
 
-    // FIXME: change when weather logic will work with any rows
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int row) {
-//        if (powerRow(enemy.row(row)) < 25)
-//            return;
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5}, {isOkRow});
+    };
 
-//        for (Card *card : highests(enemy.row(row)))
-//            putToDiscard(card, ally, enemy, this);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : highests(cardsInRow(ally, enemy, screenRow)))
+            putToDiscard(card, ally, enemy, this);
     };
 }
 
@@ -2372,13 +2371,13 @@ Moonlight::Moonlight()
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-            startChoiceToSelectRow(ally, this);
+            startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
 
         } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-            startChoiceToSelectRow(ally, this);
+            startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
 
         } else
             assert(false);
@@ -3691,8 +3690,8 @@ BirnaBran::BirnaBran()
     rarity = Gold;
     tags = { ClanTuirseach, Officer };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -3857,7 +3856,7 @@ DonarAnHindar::DonarAnHindar()
             toggleLock(target, ally, enemy, this);
             return;
         }
-        // FIXME: will crash
+        // FIXME: discard moving will crash
         putToDiscard(target, ally, enemy, this);
     };
 }
@@ -7512,22 +7511,29 @@ BridgeTroll::BridgeTroll()
     faction = Monster;
     tags = { Ogroid };
 
-    // FIXME: change when weather logic will work with any rows
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<int> rowsWithHazzards;
+        for (int rowInd = 0; rowInd < 3; ++rowInd) {
+            const RowEffect rowEffect = enemy.rowEffect(Row(rowInd));
+            const bool isHazzard = (0 < rowEffect) && (rowEffect <= 9);
+            if (!isHazzard)
+                continue;
+            rowsWithHazzards.push_back(rowInd + 3);
+        }
+        _rowSelected = -1;
+        startChoiceToSelectRow(ally, enemy, this, rowsWithHazzards);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int row) {
-//        if (movedEffect != NoRowEffect) {
-//            applyRowEffect(enemy, ally, row, movedEffect);
-//            movedEffect = NoRowEffect;
-//            return;
-//        }
-//        movedEffect = enemy.rowEffect(row);
-//        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
-//            return;
-//        applyRowEffect(enemy, ally, row, NoRowEffect);
-//        startChoiceToSelectRow(ally, this);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        if (_rowSelected == -1) {
+            _rowSelected = screenRow;
+            std::vector<int> otherRows = {3, 4, 5};
+            otherRows.erase(otherRows.begin() + screenRow - 3);
+            startChoiceToSelectRow(ally, enemy, this, otherRows);
+            return;
+        }
+        applyRowEffect(ally, enemy, screenRow, enemy.rowEffect(Row(_rowSelected - 3)));
+        applyRowEffect(ally, enemy, _rowSelected, NoRowEffect);
     };
 }
 
@@ -8014,16 +8020,12 @@ GeraltYrden::GeraltYrden()
     faction = Neutral;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        // FIXME: fix it when row-logic will be remastered
-        startChoiceToSelectRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
-        bool isAlly;
-        const Row row = fromScreenRow(screenRow, isAlly);
-        Field *fieldPtr = isAlly ? &ally : &enemy;
-        for (Card *card : fieldPtr->row(row)) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             reset(card, ally, enemy);
             removeAllStatuses(card, ally, enemy);
         }
@@ -8173,7 +8175,7 @@ AleOfTheAncestors::AleOfTheAncestors()
     faction = Neutral;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), GoldenFrothEffect);
+        applyRowEffect(ally, enemy, 2 - int(_findRowAndPos(this, ally).row()), GoldenFrothEffect);
     };
 }
 

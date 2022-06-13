@@ -84,6 +84,7 @@ FieldView fieldView(
             view.cardOptionIds.push_back(id(card));
         for (const Card *card : choice.cardOptionsSelected)
             view.cardOptionIdsSelected.push_back(id(card));
+        view.valuesOptions = choice.valuesOptions;
         choiceViews.push_back(view);
     }
 

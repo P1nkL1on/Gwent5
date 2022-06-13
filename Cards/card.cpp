@@ -641,9 +641,31 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     }
 }
 
-void startChoiceToSelectRow(Field &field, Card *self)
+void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
 {
-    field.cardStack.push_back(Choice(SelectRow, self));
+    std::vector<int> screenRowsFiltered;
+
+    for (const int screenRow : screenRowsOptions) {
+        bool isAlly;
+        const Row row = fromScreenRow(screenRow, isAlly);
+        const std::vector<Card *> cardsInRow = (isAlly ? &ally : &enemy)->row(row);
+        bool isOk = true;
+        for (const std::function<bool(const std::vector<Card *> &)> &filter : rowFilters)
+            if (!filter(cardsInRow)) {
+                isOk = false;
+                break;
+            }
+        if (!isOk)
+            continue;
+        screenRowsFiltered.push_back(screenRow);
+    }
+
+    if (screenRowsFiltered.size() == 0)
+        return;
+
+    Choice choice(SelectRow, self);
+    choice.valuesOptions = screenRowsFiltered;
+    ally.cardStack.push_back(choice);
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
@@ -1406,6 +1428,14 @@ void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEff
             damage(card, 2, ally, enemy, nullptr);
         else if (rowEffect == PitTrapEffect)
             damage(card, 3, ally, enemy, nullptr);
+}
+
+std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    Field *fieldTargetPtr = isAlly ? &ally : &enemy;
+    return fieldTargetPtr->row(row);
 }
 
 void charm(Card *card, Field &ally, Field &enemy, const Card *src)

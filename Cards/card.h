@@ -189,6 +189,7 @@ struct Choice
     Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
     std::vector<Card *> cardOptionsSelected;
+    std::vector<int> valuesOptions;
     int nTargets = 1;
     bool isOptional = false;
 };
@@ -309,7 +310,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
-// FIXME: doesn't work with the same row (move from row X to itself)
+// BUG: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
@@ -323,6 +324,7 @@ void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *sr
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 int consume(Card *target, Field &ally, Field &enemy, Card *src);
 void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect);
+std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
@@ -360,10 +362,10 @@ int nCrewed(Card *card, Field &ally);
 void pass(Field &ally, Field &enemy);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
+using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
 
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
-void startChoiceToSelectRow(Field &field, Card *self);
-void startChoiceToSelectRow(Field &field, Card *self);
+void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions = {0, 1, 2, 3, 4, 5}, const RowFilters &rowFilters = {});
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);

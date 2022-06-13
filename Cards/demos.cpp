@@ -980,13 +980,15 @@ void demoRowsSelection(Field &ally, Field &enemy)
     auto *c1 = new BitingFrost();
     auto *c2 = new GoldenFroth();
     auto *c3 = new Nekurat();
-    auto *c4 = new ShupeMage();
+    auto *c4 = new AleOfTheAncestors();
     auto *c5 = new WoodlandSpirit();
     auto *c6 = new BirnaBran();
     auto *c7 = new CaranthirArFeiniel();
     auto *c8 = new KorathiHeatwave();
+    auto *c9 = new GeraltIgni();
+    auto *c10 = new BridgeTroll();
 
-    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8};
+    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
     ally.hand = ally.cardsAdded;
 
     auto *m1 = new ImperialManticore();

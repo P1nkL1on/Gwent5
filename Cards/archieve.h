@@ -646,7 +646,7 @@ struct AnCraiteLongship : CardCollectible<AnCraiteLongship>
 
 struct GeraltIgni : CardCollectible<GeraltIgni>
 {
-    GeraltIgni(const Lang lang = En);
+    GeraltIgni();
 };
 
 
@@ -1744,7 +1744,7 @@ struct BridgeTroll : CardCollectible<BridgeTroll>
 {
     BridgeTroll();
 private:
-    RowEffect movedEffect = NoRowEffect;
+    int _rowSelected = -1;
 };
 
 
