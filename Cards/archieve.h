@@ -646,7 +646,7 @@ struct AnCraiteLongship : CardCollectible<AnCraiteLongship>
 
 struct GeraltIgni : CardCollectible<GeraltIgni>
 {
-    GeraltIgni(const Lang lang = En);
+    GeraltIgni();
 };
 
 
@@ -1744,7 +1744,7 @@ struct BridgeTroll : CardCollectible<BridgeTroll>
 {
     BridgeTroll();
 private:
-    RowEffect movedEffect = NoRowEffect;
+    int _rowSelected = -1;
 };
 
 
@@ -1975,6 +1975,31 @@ struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
 {
     SigismundDijkstra();
 };
+
+
+struct WhiteFrost : CardCollectible<WhiteFrost>
+{
+    WhiteFrost();  
+};
+
+
+struct Wolfsbane : CardCollectible<Wolfsbane>
+{
+    Wolfsbane();
+};
+
+
+struct DunBanner : CardCollectible<DunBanner>
+{
+    DunBanner();
+};
+
+
+struct Aelirenn : CardCollectible<Aelirenn>
+{
+    Aelirenn();
+};
+
 
 
 #endif // CARDS_H

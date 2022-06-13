@@ -74,6 +74,9 @@ MainWindow::MainWindow(QWidget *parent)
         {"Crew and Crewed", demoCrewAndCrewed},
         {"She-Troll of Vergen", demoSheTrollOfVergen},
         {"Sigismund Dijkstra", demoSigismundDijkstra},
+        {"Rows Selection", demoRowsSelection},
+        {"Wolfsbane", demoWolfsbane},
+        {"Deck Summon", demoDeckSummon},
     };
 
     /// make a choosing menu for it
@@ -200,14 +203,11 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return RowAndPos();
     };
 
-    const auto rowAt = [=](const bool ally, const QPoint &point, Row &row) -> bool {
-        const int iFrom = ally ? 3 : 0;
-        const int iTo = ally ? 6 : 3;
-        for (int i = iFrom; i < iTo; ++i) {
-            const Row _row = Row(i < 3 ? (2 - i) : (i - 3));
-            const QRectF rowRect = QRectF(0, _layout.spacingPx + (i + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
+    const auto screenRowAt = [=](const QPoint &point, int &screenRow) -> bool {
+        for (int rowInd = 0; rowInd < 6; ++rowInd) {
+            const QRectF rowRect = QRectF(0, _layout.spacingPx + (rowInd + 1) * posHeight, posWidth * 9, posHeight).translated(rect.topLeft());
             if (rowRect.contains(point)) {
-                row = _row;
+                screenRow = 5 - rowInd;
                 return true;
             }
         }
@@ -275,19 +275,10 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == SelectAllyRow) {
-        Row row;
-        if (!rowAt(true, point, row))
-            return;
-        onChoiceDoneRow(row, ally, enemy);
-        goto finish_turn;
-    }
-
-    if (ally.choice().choiceType == SelectEnemyRow) {
-        Row row;
-        if (!rowAt(false, point, row))
-            return;
-        onChoiceDoneRow(row, ally, enemy);
+    if (ally.choice().choiceType == SelectRow) {
+        int screenRow;
+        if (screenRowAt(point, screenRow) && std::find(ally.choice().valuesOptions.begin(), ally.choice().valuesOptions.end(), screenRow) != ally.choice().valuesOptions.end())
+            onChoiceDoneRow(screenRow, ally, enemy);
         goto finish_turn;
     }
 
@@ -418,22 +409,20 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
-        if (!cardView.isVisible)
-            /// TODO: draw a card back
-            return;
-
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
 
         /// draw url image
-        if (cardView.url.size() > 0) {
+        if (cardView.isVisible && (cardView.url.size() > 0)) {
             requestImageByUrl(cardView.url);
             const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url));
             painter.drawImage(rectBorder, image);
         }
 
         /// draw rarity
-        painter.setPen(cardView.rarity == Bronze ? Qt::darkRed : cardView.rarity == Silver ? Qt::gray : Qt::yellow);
-        painter.drawRect(rectBorder);
+        if (cardView.isVisible) {
+            painter.setPen(cardView.rarity == Bronze ? Qt::darkRed : cardView.rarity == Silver ? Qt::gray : Qt::yellow);
+            painter.drawRect(rectBorder);
+        }
 
         /// draw selection border
         if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIds)) {
@@ -455,6 +444,10 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
+
+        if (!cardView.isVisible)
+            /// TODO: draw a card back
+            return;
 
         /// draw power
         double width = 0;
@@ -569,14 +562,14 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
 
 
 
-    for (int j = 0; j < 6; ++j) {        
-        for (size_t i = 0; i < 9; ++i) {
-            const QPointF topLeft = rect.topLeft() + QPointF(i * posWidth, _layout.spacingPx + (j + 1) * posHeight);
+    for (int rowInd = 0; rowInd < 6; ++rowInd) {
+        for (size_t posInd = 0; posInd < 9; ++posInd) {
+            const QPointF topLeft = rect.topLeft() + QPointF(posInd * posWidth, _layout.spacingPx + (rowInd + 1) * posHeight);
             int id;
             int n;
-            if (!view.idAtRowAndPos(Row(j), Pos(i), &id, &n)) {
+            if (!view.idAtRowAndPos(Row(rowInd), Pos(posInd), &id, &n)) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
-                const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRowAndPos && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRowAndPos && j < 3)) && (i <= n);
+                const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRowAndPos && rowInd >= 3) || (currentChoiceView->choiceType == SelectEnemyRowAndPos && rowInd < 3)) && (posInd <= n);
                 painter.setPen(Qt::gray);
                 painter.drawRect(rect);
                 if (canBePlaced) {
@@ -591,11 +584,11 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
 
         // TODO: return showing a power
-        paintTextInPoint(QString::number(view.rowPower(Row(j))), rect.topLeft() + QPointF(9 * posWidth, _layout.spacingPx + (j + 1) * posHeight));
+        paintTextInPoint(QString::number(view.rowPower(Row(rowInd))), rect.topLeft() + QPointF(9 * posWidth, _layout.spacingPx + (rowInd + 1) * posHeight));
 
         /// draw a row back
-        const QRectF rowRect = QRectF(0, _layout.spacingPx + (j + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
-        switch (view.rowEffect(Row(j))) {
+        const QRectF rowRect = QRectF(0, _layout.spacingPx + (rowInd + 1) * posHeight + metrics.height(), posWidth * 9, posHeight - 2 *  metrics.height()).translated(rect.topLeft());
+        switch (view.rowEffect(Row(rowInd))) {
         case NoRowEffect:
             break;
         case TorrentialRainEffect:
@@ -634,7 +627,9 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         }
         painter.setBrush(QBrush(Qt::NoBrush));
 
-        const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRow && j >= 3) || (currentChoiceView->choiceType == SelectEnemyRow && j < 3));
+        const bool canBePlaced = currentChoiceView
+                && (currentChoiceView->choiceType == SelectRow)
+                && (std::find(currentChoiceView->valuesOptions.begin(), currentChoiceView->valuesOptions.end(), 5 - rowInd) != currentChoiceView->valuesOptions.end());
         if (canBePlaced) {
             painter.setPen(Qt::green);
             painter.drawLine(rowRect.topLeft(), rowRect.bottomRight());

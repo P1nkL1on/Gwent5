@@ -18,7 +18,7 @@
 - [ ] Eskel: Pathfinder _(easy card)_
 - [x] Yennefer
 - [ ] Yennefer: Conjurer
-- [ ] Ciri
+- [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
 - [ ] Uma's Curse
@@ -34,7 +34,7 @@
 - [ ] Phoenix _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [ ] Trial of the Grasses
-- [ ] Wolfsbane
+- [x] Wolfsbane
 - [ ] Royal Decree _(easy card)_
 - [x] Renew
 - [ ] Sihil
@@ -53,7 +53,7 @@
 - [ ] Expired Ale
 - [ ] Crow's Eye
 - [ ] Lacerate
-- [ ] Gaunter O'Dimm
+- [x] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
 - [ ] Garrison
 - [ ] Iris' Companions
@@ -92,7 +92,7 @@
 - [ ] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
-- [ ] White Frost
+- [x] White Frost
 - [x] Adrenaline Rush
 - [x] Alzur's Thunder
 - [x] Arachas Venom
@@ -142,7 +142,7 @@
 - [ ] Nenneke
 - [x] Odrin
 - [ ] Prince Stennis
-- [ ] Princess Pavetta
+- [x] Princess Pavetta
 - [x] Ronvid the Incessant __(NO ABILITY)__
 - [ ] Sabrina Glevissig
 - [ ] Sabrina's Specter
@@ -163,19 +163,19 @@
 - [ ] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
-- [ ] Dun Banner
+- [x] Dun Banner
 - [ ] Field Medic _(easy card)_
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
 - [ ] Kaedweni Revenant
-- [ ] Kaedweni Sergeant
+- [x] Kaedweni Sergeant
 - [x] Poor F'ing Infantry
 - [ ] Reaver Hunter
 - [x] Reaver Scout
 - [x] Redanian Elite
 - [x] Redanian Knight
 - [x] Redanian Knight-Elect
-- [ ] Reinforced Ballista
+- [x] Reinforced Ballista
 - [ ] Reinforced Trebuchet
 - [ ] Siege Master
 - [ ] Siege Support
@@ -263,14 +263,14 @@
 - [ ] Isengrim Faoiltiarna
 - [ ] Isengrim: Outlaw
 - [ ] Ithlinne Aegli
-- [ ] Milva
+- [x] Milva
 - [ ] Morenn: Forest Child
 - [ ] Saesenthessis
 - [ ] Saskia
 - [ ] Schirru
 - [ ] Xavier Moran
 - [ ] Zoltan Chivay
-- [ ] Aelirenn
+- [x] Aelirenn
 - [ ] Barclay Els
 - [ ] Braenn
 - [ ] Ciaran aep Easnillen
@@ -288,7 +288,7 @@
 - [ ] Pavko Gale
 - [x] Pit Trap
 - [ ] Sheldon Skaggs
-- [ ] Toruviel
+- [x] Toruviel
 - [ ] Yaevinn
 - [ ] Yarpen Zigrin
 - [ ] Blue Mountain Elite
@@ -362,7 +362,7 @@
 - [ ] Peter Saar Gwynleve _(easy card)_
 - [ ] Serrit
 - [ ] Sweers
-- [ ] The Guardian
+- [x] The Guardian
 - [ ] Treason
 - [ ] Vanhemar
 - [x] Vreemde __(NO ABILITY)__

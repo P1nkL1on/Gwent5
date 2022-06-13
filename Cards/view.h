@@ -43,6 +43,7 @@ struct ChoiceView
     int cardSourceId = -1;
     std::vector<int> cardOptionIds;
     std::vector<int> cardOptionIdsSelected;
+    std::vector<int> valuesOptions;
     int nTargets = 1;
     bool isOptional = false;
 

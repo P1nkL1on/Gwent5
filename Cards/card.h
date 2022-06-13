@@ -68,8 +68,7 @@ struct Card
     void onTurnStart(Field &ally, Field &enemy);
     void onTurnEnd(Field &ally, Field &enemy);
     void onTargetChoosen(Card *card, Field &ally, Field &enemy);
-    void onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row);
-    void onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row);
+    void onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow);
     void onDraw(Field &ally, Field &enemy);
     void onSwap(Field &ally, Field &enemy);
     void onDiscard(Field &ally, Field &enemy);
@@ -116,7 +115,7 @@ protected:
     using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
     using AllyEnemySrcChangable = std::function<void(Field &, Field &, Card *)>;
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
-    using AllyEnemyRow = std::function<void(Field &, Field &, const Row)>;
+    using AllyEnemyInt = std::function<void(Field &, Field &, const int)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
@@ -135,8 +134,7 @@ protected:
     AllyEnemy _onContactWithFullMoon = nullptr;
     AllyEnemy _onOpponentPass = nullptr;
     AllyEnemy _onRoundLose = nullptr;
-    AllyEnemyRow _onTargetRowAllyChoosen = nullptr;
-    AllyEnemyRow _onTargetRowEnemyChoosen = nullptr;
+    AllyEnemyInt _onTargetRowChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;
     AllyEnemySrc _onRevealed = nullptr;
     AllyEnemyCardSrc _onOtherRevealed = nullptr;
@@ -191,6 +189,7 @@ struct Choice
     Card *cardSource = nullptr;
     std::vector<Card *> cardOptions;
     std::vector<Card *> cardOptionsSelected;
+    std::vector<int> valuesOptions;
     int nTargets = 1;
     bool isOptional = false;
 };
@@ -264,6 +263,7 @@ RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, con
 RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
+Row fromScreenRow(const int screenRow, bool &isAlly);
 
 /// may be used as top or most-left
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);
@@ -310,7 +310,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src);
 
 void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
-// FIXME: doesn't work with the same row (move from row X to itself)
+// BUG: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
@@ -323,7 +323,8 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 void setPower(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self);
 int consume(Card *target, Field &ally, Field &enemy, Card *src);
-void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect);
+void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect);
+std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
@@ -361,10 +362,10 @@ int nCrewed(Card *card, Field &ally);
 void pass(Field &ally, Field &enemy);
 
 using Filters = std::vector<std::function<bool(Card *)> >;
+using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
 
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
-void startChoiceToSelectAllyRow(Field &field, Card *self);
-void startChoiceToSelectEnemyRow(Field &field, Card *self);
+void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions = {0, 1, 2, 3, 4, 5}, const RowFilters &rowFilters = {});
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
@@ -373,7 +374,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filter
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
-void onChoiceDoneRow(const Row row, Field &ally, Field &enemy);
+void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1, const ActionType actionTypeEnemy = Invalid);
 /// returns false when no choice left (game end)

@@ -287,7 +287,12 @@ std::vector<Card *> allCards(const Patch)
         new TheGuardian(),
         new GaunterODimm(),
         new KaedweniSergeant(),
-        new ReinforcedBallista()
+        new ReinforcedBallista(),
+        new SigismundDijkstra(),
+        new WhiteFrost(),
+        new Wolfsbane(),
+        new DunBanner(),
+        new Aelirenn(),
     };
 }
 
@@ -619,7 +624,7 @@ AnCraiteGreatsword::AnCraiteGreatsword()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy, 2))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy, 2))
             return;
 
         if (power >= powerBase)
@@ -1054,12 +1059,12 @@ ImpenetrableFog::ImpenetrableFog()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, ImpenetrableFogEffect);
     };
 }
 
@@ -1075,12 +1080,12 @@ TorrentialRain::TorrentialRain()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, TorrentialRainEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, TorrentialRainEffect);
     };
 }
 
@@ -1096,14 +1101,13 @@ BitingFrost::BitingFrost()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, BitingFrostEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, BitingFrostEffect);
     };
-    // BUG: can select any row (not only enemy)
 }
 
 
@@ -1118,12 +1122,12 @@ GoldenFroth::GoldenFroth()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectAllyRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
     };
 
-    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, GoldenFrothEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, GoldenFrothEffect);
     };
 }
 
@@ -1139,12 +1143,12 @@ SkelligeStorm::SkelligeStorm()
     faction = Neutral;
     tags = { Hazard };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
 }
 
@@ -1489,7 +1493,7 @@ VriheddSappers::VriheddSappers()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || tick(this, ally, enemy))
             flipOver(this, ally, enemy);
     };
 }
@@ -1665,7 +1669,7 @@ ChampionOfHov::ChampionOfHov()
 }
 
 
-GeraltIgni::GeraltIgni(const Lang)
+GeraltIgni::GeraltIgni()
 {
     id = "112102";
     name = "Geralt: Igni";
@@ -1683,16 +1687,16 @@ GeraltIgni::GeraltIgni(const Lang)
     faction = Neutral;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        // TODO: select only between rows with 25 or more power
-        startChoiceToSelectEnemyRow(ally, this);
+    const auto isOkRow = [](const std::vector<Card *> &cards) {
+        return powerRow(cards) >= 25;
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (powerRow(enemy.row(row)) < 25)
-            return;
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5}, {isOkRow});
+    };
 
-        for (Card *card : highests(enemy.row(row)))
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : highests(cardsInRow(ally, enemy, screenRow)))
             putToDiscard(card, ally, enemy, this);
     };
 }
@@ -1982,9 +1986,8 @@ ShupeMage::ShupeMage()
             }
 
             if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-                applyRowEffect(enemy, ally, Meele, randomHazardEffect(ally.rng));
-                applyRowEffect(enemy, ally, Range, randomHazardEffect(ally.rng));
-                applyRowEffect(enemy, ally, Seige, randomHazardEffect(ally.rng));
+                for (int screenRow = 3; screenRow < 6; ++screenRow)
+                    applyRowEffect(ally, enemy, screenRow, randomHazardEffect(ally.rng));
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -2373,13 +2376,13 @@ Moonlight::Moonlight()
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &) {
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-            startChoiceToSelectAllyRow(ally, this);
+            startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
 
         } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-            startChoiceToSelectEnemyRow(ally, this);
+            startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
 
         } else
             assert(false);
@@ -2387,12 +2390,8 @@ Moonlight::Moonlight()
         delete target;
     };
 
-    _onTargetRowAllyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(ally, enemy, row, FullMoonEffect);
-    };
-
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, BloodMoonEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, screenRow < 3 ? FullMoonEffect : BloodMoonEffect);
     };
 }
 
@@ -2797,7 +2796,7 @@ WoodlandSpirit::WoodlandSpirit()
         Pos pos;
         if (!_findRowAndPos(this, ally, row, pos))
             return;
-        applyRowEffect(enemy, ally, row, ImpenetrableFogEffect);
+        applyRowEffect(ally, enemy, 3 + row, ImpenetrableFogEffect);
         for (int n = 0; n < 3; ++n)
             spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
     };
@@ -3625,8 +3624,12 @@ RonvidTheIncessant::RonvidTheIncessant()
     tags = { Kaedwen, Soldier };
     isCrew = true;
 
-    _onTurnEnd = [=](Field &, Field &) {
-        // FIXME: ability is missing
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (powerBase > 1)
+            weaken(this, powerBase - 1, ally, enemy, this);
     };
 }
 
@@ -3696,12 +3699,12 @@ BirnaBran::BirnaBran()
     rarity = Gold;
     tags = { ClanTuirseach, Officer };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        applyRowEffect(enemy, ally, row, SkelligeStormEffect);
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
 }
 
@@ -3750,10 +3753,8 @@ Kambi::Hemdall::Hemdall()
     tags = {};
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
-            ally.rowEffect(row) = NoRowEffect;
-            enemy.rowEffect(row) = NoRowEffect;
-        }
+        for (int screenRow = 0; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
             putToDiscard(card, ally, enemy, this);
     };
@@ -3864,7 +3865,7 @@ DonarAnHindar::DonarAnHindar()
             toggleLock(target, ally, enemy, this);
             return;
         }
-        // FIXME: will crash
+        // FIXME: discard moving will crash
         putToDiscard(target, ally, enemy, this);
     };
 }
@@ -4647,7 +4648,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     tags = { Cursed };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!moveSelfToRandomRow(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !moveSelfToRandomRow(this, ally, enemy))
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
             damage(card, 1, ally, enemy, this);
@@ -4699,6 +4700,8 @@ TrissButterflies::TrissButterflies()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
             boost(card, 1, ally, enemy, this);
     };
@@ -5239,6 +5242,8 @@ VriheddDragoon::VriheddDragoon()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
             boost(card, 1, ally, enemy, this);
     };
@@ -5267,7 +5272,7 @@ Malena::Malena()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
         flipOver(this, ally, enemy);
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
@@ -6127,22 +6132,11 @@ VenendalElite::VenendalElite()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        // TODO: replace with setPower
         const int powerTarget = target->power;
-        if (powerTarget > power) {
-            // TODO: check if triggered onDamaged and onDamaged of other units,
-            // because it shouldn't
-            const int x = powerTarget - power;
-            damage(target, x, ally, enemy, this);
-            boost(this, x, ally, enemy, this);
-            return;
-        }
-        if (powerTarget < power) {
-            const int x = power - powerTarget;
-            damage(this, x, ally, enemy, this);
-            boost(target, x, ally, enemy, this);
-            return;
-        }
+        // TODO: check if triggered onDamaged and onDamaged of other units,
+        // because it shouldn't
+        setPower(target, power, ally, enemy, this);
+        setPower(this, powerTarget, ally, enemy, this);
     };
 }
 
@@ -6451,7 +6445,7 @@ Miruna::Miruna()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
         if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
             charm(card, ally, enemy, this);
@@ -6830,7 +6824,7 @@ Archespore::Archespore()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (moveSelfToRandomRow(this, ally, enemy))
+        if (isOnBoard(this, ally) && moveSelfToRandomRow(this, ally, enemy))
             damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
                    1, ally, enemy, this);
     };
@@ -7007,7 +7001,7 @@ CaranthirArFeiniel::CaranthirArFeiniel()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const Row row = _findRowAndPos(this, ally).row();
         if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this))
-            applyRowEffect(enemy, ally, row, BitingFrostEffect);
+            applyRowEffect(ally, enemy, 3 + row, BitingFrostEffect);
     };
 }
 
@@ -7032,6 +7026,8 @@ ImlerithSabbath::ImlerithSabbath()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
             heal(this, 2, ally, enemy);
             gainArmor(this, 2, ally, enemy, this);
@@ -7312,7 +7308,7 @@ Foglet::Foglet()
         if (rowEffect != ImpenetrableFogEffect || !isIn(this, ally.deck))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy("Foglet"), otherThan(this)}, AllyDeckShuffled)) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Foglet>, otherThan(this)}, AllyDeckShuffled)) {
             Foglet *foglet = static_cast<Foglet *>(card);
             foglet->_rowToCopy.insert({row, this});
         }
@@ -7336,6 +7332,8 @@ AncientFoglet::AncientFoglet()
     tags = { Necrophage };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (enemy.rowEffect(Meele) == ImpenetrableFogEffect
                 || enemy.rowEffect(Range) == ImpenetrableFogEffect
                 || enemy.rowEffect(Seige) == ImpenetrableFogEffect
@@ -7519,22 +7517,29 @@ BridgeTroll::BridgeTroll()
     faction = Monster;
     tags = { Ogroid };
 
-    // FIXME: change when weather logic will work with any rows
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectEnemyRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<int> rowsWithHazzards;
+        for (int rowInd = 0; rowInd < 3; ++rowInd) {
+            const RowEffect rowEffect = enemy.rowEffect(Row(rowInd));
+            const bool isHazzard = (0 < rowEffect) && (rowEffect <= 9);
+            if (!isHazzard)
+                continue;
+            rowsWithHazzards.push_back(rowInd + 3);
+        }
+        _rowSelected = -1;
+        startChoiceToSelectRow(ally, enemy, this, rowsWithHazzards);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        if (movedEffect != NoRowEffect) {
-            applyRowEffect(enemy, ally, row, movedEffect);
-            movedEffect = NoRowEffect;
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        if (_rowSelected == -1) {
+            _rowSelected = screenRow;
+            std::vector<int> otherRows = {3, 4, 5};
+            otherRows.erase(otherRows.begin() + screenRow - 3);
+            startChoiceToSelectRow(ally, enemy, this, otherRows);
             return;
         }
-        movedEffect = enemy.rowEffect(row);
-        if(movedEffect == NoRowEffect || int(movedEffect) > 9 )
-            return;
-        applyRowEffect(enemy, ally, row, NoRowEffect);
-        startChoiceToSelectEnemyRow(ally, this);
+        applyRowEffect(ally, enemy, screenRow, enemy.rowEffect(Row(_rowSelected - 3)));
+        applyRowEffect(ally, enemy, _rowSelected, NoRowEffect);
     };
 }
 
@@ -7839,7 +7844,7 @@ VranWarrior::VranWarrior()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
+        if (isOnBoard(this, ally) && tick(this, ally, enemy))
             onDeploy(ally, enemy);
     };
 }
@@ -7937,8 +7942,8 @@ RaghNarRoog::RaghNarRoog()
     tags = { Hazard, Spell };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-            applyRowEffect(enemy, ally, row, RaghNarRoogEffect);
+        for (int screenRow = 3; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, RaghNarRoogEffect);
     };
 }
 
@@ -8021,13 +8026,12 @@ GeraltYrden::GeraltYrden()
     faction = Neutral;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        // FIXME: fix it when row-logic will be remastered
-        startChoiceToSelectEnemyRow(ally, this);
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
     };
 
-    _onTargetRowEnemyChoosen = [=](Field &ally, Field &enemy, const Row row) {
-        for (Card *card : enemy.row(row)) {
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             reset(card, ally, enemy);
             removeAllStatuses(card, ally, enemy);
         }
@@ -8160,8 +8164,8 @@ KorathiHeatwave::KorathiHeatwave()
     tags = { Hazard };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-            applyRowEffect(enemy, ally, row, KorathiHeatwaveEffect);
+        for (int screenRow = 3; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, KorathiHeatwaveEffect);
     };
 
 }
@@ -8177,7 +8181,7 @@ AleOfTheAncestors::AleOfTheAncestors()
     faction = Neutral;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        applyRowEffect(ally, enemy, _findRowAndPos(this, ally).row(), GoldenFrothEffect);
+        applyRowEffect(ally, enemy, 2 - int(_findRowAndPos(this, ally).row()), GoldenFrothEffect);
     };
 }
 
@@ -8478,10 +8482,111 @@ SigismundDijkstra::SigismundDijkstra()
     rarity = Gold;
     faction = NothernRealms;
     tags = { Redania };
-    isCrew = true;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : firsts(ally.deck, 2))
             playExistedCard(card, ally, enemy, this);
+    };
+}
+
+WhiteFrost::WhiteFrost()
+{
+    id = "113206";
+    name = "White Frost";
+    text = "Apply Biting Frost to 2 adjacent enemy rows.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Hazard };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (int _screenRow = std::max(3, screenRow - 1); _screenRow <= screenRow; ++_screenRow)
+            applyRowEffect(ally, enemy, _screenRow, BitingFrostEffect);
+    };
+}
+
+
+Wolfsbane::Wolfsbane()
+{
+    id = "200226";
+    name = "Wolfsbane";
+    text = "After 3 turns in the graveyard, deal 6 damage to the Highest enemy and boost the Lowest ally by 6 on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic, Alchemy };
+
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 3);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
+        if (!tick(this, ally, enemy))
+            return;
+        if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+            damage(card, 6, ally, enemy, this);
+        if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+            boost(card, 6, ally, enemy, this);
+    };
+}
+
+DunBanner::DunBanner()
+{
+    id = "122313";
+    name = "Dun Banner";
+    text = "If you are losing by more than 25 on turn start, Summon this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0012.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG06_200420_0005.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0005.mp3",
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.deck))
+            return;
+        const int scoreDiff = powerField(enemy) - powerField(ally);
+        if (scoreDiff <= 25)
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DunBanner>}, AllyDeck))
+           moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+Aelirenn::Aelirenn()
+{
+    id = "142211";
+    name = "Aelirenn";
+    text = "If 5 Elf allies are on the board on any turn end, Summon this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Elf, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.183.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.184.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.185.mp3",
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.deck))
+            return;
+        const int nElfs = int(cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size());
+        if (nElfs < 5)
+            return;
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 }

@@ -84,6 +84,7 @@ FieldView fieldView(
             view.cardOptionIds.push_back(id(card));
         for (const Card *card : choice.cardOptionsSelected)
             view.cardOptionIdsSelected.push_back(id(card));
+        view.valuesOptions = choice.valuesOptions;
         choiceViews.push_back(view);
     }
 
@@ -105,9 +106,10 @@ FieldView fieldView(
     for (const Card *card : enemy.deck)
         cardToView[card].isVisible = isInChoice(cardToView[card].id);
 
-    /// in a hand -> check if revealed and is ally option choice
+    /// in a hand -> check if revealed (if in choice, shouldn't reveal,
+    /// its no card, which allows you to see opp's hand before reveal)
     for (const Card *card : enemy.hand)
-        cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
+        cardToView[card].isVisible = card->isRevealed;
 
     /// in a field -> check if ambush
     for (auto it = cardToView.begin(); it != cardToView.end(); ++it){
@@ -365,10 +367,8 @@ std::string ChoiceView::toString() const
         return "Choose an allied row and pos";
     case SelectEnemyRowAndPos:
         return "Choose an enemy row and pos";
-    case SelectAllyRow:
-        return "Choose an allied row";
-    case SelectEnemyRow:
-        return "Choose an enemy row";
+    case SelectRow:
+        return "Choose a row";
     case Target: {
         std::string res = "Choose an ability target";
         if ((nTargets > 1) || isOptional) {

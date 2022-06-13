@@ -927,8 +927,10 @@ void demoCrewAndCrewed(Field &ally, Field &enemy)
     auto *b1 = new ReinforcedBallista();
     auto *b2 = new ReinforcedBallista();
     auto *b3 = new ReinforcedBallista();
+    auto *s3 = new RonvidTheIncessant();
+    auto *s = new Scorch();
 
-    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.cardsAdded = {s1, s2, b1, b2, b3, s3, s};
     ally.hand = ally.cardsAdded;
 
     auto *m1 = new ImperialManticore();
@@ -970,6 +972,85 @@ void demoSigismundDijkstra(Field &ally, Field &enemy)
     ally.hand = {s};
     ally.deck = {b1, r, b2, a};
 
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoRowsSelection(Field &ally, Field &enemy)
+{
+    auto *c1 = new BitingFrost();
+    auto *c2 = new GoldenFroth();
+    auto *c3 = new Nekurat();
+    auto *c4 = new AleOfTheAncestors();
+    auto *c5 = new WoodlandSpirit();
+    auto *c6 = new BirnaBran();
+    auto *c7 = new CaranthirArFeiniel();
+    auto *c8 = new KorathiHeatwave();
+    auto *c9 = new GeraltIgni();
+    auto *c10 = new BridgeTroll();
+    auto *c11 = new WhiteFrost();
+
+    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11};
+    ally.hand = ally.cardsAdded;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    auto *m3 = new ImperialManticore();
+    auto *m4 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2, m3, m4};
+    enemy.rowMeele = {m1, m2};
+    enemy.rowRange = {m3, m4};
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoWolfsbane(Field &ally, Field &enemy)
+{
+    std::vector<Card *> cards;
+    cards.push_back(new Wolfsbane());
+    for (int i = 0; i < 9; ++i)
+        cards.push_back(new Wolf());
+
+    ally.cardsAdded = cards;
+    ally.hand = cards;
+
+    auto *c1 = new ImperialManticore();
+    auto *c2 = new ImperialManticore();
+
+    enemy.cardsAdded = {c1, c2};
+    enemy.rowMeele = {c1, c2};
+
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoDeckSummon(Field &ally, Field &enemy)
+{
+    auto *c1 = new Aelirenn();
+    auto *c2 = new DunBanner();
+    auto *c3 = new DunBanner();
+    auto *c4 = new DunBanner();
+    auto *c5 = new Swallow();
+    auto *c6 = new HalfElfHunter();
+    auto *c7 = new HalfElfHunter();
+    auto *c8 = new HalfElfHunter();
+    auto *c9 = new GeraltIgni();
+    auto *c10 = new Roach();
+
+    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
+    ally.hand = {c5, c6, c7, c8, c9};
+    ally.deck = {c1, c2, c3, c4, c10};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    m2->power -= 2;
+
+    enemy.cardsAdded = {m1, m2};
+    enemy.rowMeele = {m1, m2};
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

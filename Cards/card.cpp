@@ -469,8 +469,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
             cardAlly->discard.push_back(card);
             saveFieldsSnapshot(ally, enemy, PutToDiscard, src, {card});
         }
-        if (!card->isSpecial)
-            card->onDiscard(*cardAlly, *cardEnemy);
+        // NOTE: special for Wolfsbane
+        card->onDiscard(*cardAlly, *cardEnemy);
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
@@ -624,8 +624,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     /// clean excess automatic choices
     while (true) {
         const Choice choice = ally.choice();
-        if ((choice.choiceType == SelectAllyRow)
-                || (choice.choiceType == SelectEnemyRow)
+        if ((choice.choiceType == SelectRow)
                 || (choice.choiceType == SelectAllyRowAndPos)
                 || (choice.choiceType == SelectEnemyRowAndPos))
             break;
@@ -642,14 +641,31 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::v
     }
 }
 
-void startChoiceToSelectAllyRow(Field &field, Card *self)
+void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
 {
-    field.cardStack.push_back(Choice(SelectAllyRow, self));
-}
+    std::vector<int> screenRowsFiltered;
 
-void startChoiceToSelectEnemyRow(Field &field, Card *self)
-{
-    field.cardStack.push_back(Choice(SelectEnemyRow, self));
+    for (const int screenRow : screenRowsOptions) {
+        bool isAlly;
+        const Row row = fromScreenRow(screenRow, isAlly);
+        const std::vector<Card *> cardsInRow = (isAlly ? &ally : &enemy)->row(row);
+        bool isOk = true;
+        for (const std::function<bool(const std::vector<Card *> &)> &filter : rowFilters)
+            if (!filter(cardsInRow)) {
+                isOk = false;
+                break;
+            }
+        if (!isOk)
+            continue;
+        screenRowsFiltered.push_back(screenRow);
+    }
+
+    if (screenRowsFiltered.size() == 0)
+        return;
+
+    Choice choice(SelectRow, self);
+    choice.valuesOptions = screenRowsFiltered;
+    ally.cardStack.push_back(choice);
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
@@ -711,16 +727,11 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
     assert(false);
 }
 
-void onChoiceDoneRow(const Row row, Field &ally, Field &enemy)
+void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
 {
     const Choice choice = ally.takeChoice();
-    if (choice.choiceType == SelectAllyRow)
-        return choice.cardSource->onTargetRowAllyChoosen(ally, enemy, row);
-
-    if (choice.choiceType == SelectEnemyRow)
-        return choice.cardSource->onTargetRowEnemyChoosen(ally, enemy, row);
-
-    assert(false);
+    assert(choice.choiceType == SelectRow);
+    return choice.cardSource->onTargetRowChoosen(ally, enemy, screenRow);
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
@@ -1298,11 +1309,8 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
         case SelectEnemyRowAndPos:
             res += "Choose an enemy row and pos";
             break;
-        case SelectAllyRow:
-            res += "Choose an allied row";
-            break;
-        case SelectEnemyRow:
-            res += "Choose an enemy row";
+        case SelectRow:
+            res += "Choose a row";
             break;
         case Target:
             res += "Choose an ability target";
@@ -1344,7 +1352,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     /// finish turn if noone passed
     // BUG: Ronvid on turn end in discard
-    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.deck, ally.discard}))
         _card->onTurnEnd(ally, enemy);
 
     ally.nTurns++;
@@ -1353,7 +1361,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     // enemy turn
     triggerRowEffects(enemy, ally);
 
-    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.deck, enemy.discard}))
         _card->onTurnStart(enemy, ally);
 
     /// finish turn if only enemy passed
@@ -1393,35 +1401,41 @@ int powerRow(const std::vector<Card *> &vector)
     return res;
 }
 
-void applyRowEffect(Field &ally, Field &enemy, const Row row, const RowEffect rowEffect)
+Row fromScreenRow(const int screenRow, bool &isAlly)
 {
-    assert(row == Meele || row == Range || row == Seige);
+    assert((0 <= screenRow) && (screenRow < 6));
+    if (screenRow < 3) {
+        isAlly = true;
+        return Row(2 - screenRow);
+    }
+    isAlly = false;
+    return Row(screenRow - 3);
+}
 
-    ally.rowEffect(row) = rowEffect;
+void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    Field *fieldTargetPtr = isAlly ? &ally : &enemy;
 
-    // TODO: change it, when the row effects would be
-    // multifield (you actually can play them on both sides)
-    if (rowEffect == ImpenetrableFogEffect
-            || rowEffect == TorrentialRainEffect
-            || rowEffect == BitingFrostEffect
-            || rowEffect == SkelligeStormEffect
-            || rowEffect == DragonsDreamEffect
-            || rowEffect == KorathiHeatwaveEffect
-            || rowEffect == RaghNarRoogEffect
-            || rowEffect == BloodMoonEffect
-            || rowEffect == RaghNarRoogEffect)
-        for (Card *card : cardsFiltered(enemy, ally, {}, AllyAnywhere))
-            card->onAllyAppliedRowEffect(rowEffect, enemy, ally, row);
-    if (rowEffect == GoldenFrothEffect
-            || rowEffect == FullMoonEffect)
-        for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
-            card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+    fieldTargetPtr->rowEffect(row) = rowEffect;
 
-    for (Card *card : ally.row(row))
+    for (Card *card : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        card->onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+
+    for (Card *card : fieldTargetPtr->row(row))
         if (rowEffect == BloodMoonEffect)
             damage(card, 2, ally, enemy, nullptr);
-        else if (ally.rowEffect(row) == PitTrapEffect)
+        else if (rowEffect == PitTrapEffect)
             damage(card, 3, ally, enemy, nullptr);
+}
+
+std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    Field *fieldTargetPtr = isAlly ? &ally : &enemy;
+    return fieldTargetPtr->row(row);
 }
 
 void charm(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -2037,16 +2051,10 @@ void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
         return _onTargetChoosen(card, ally, enemy);
 }
 
-void Card::onTargetRowAllyChoosen(Field &ally, Field &enemy, const Row row)
+void Card::onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow)
 {
-    if (_onTargetRowAllyChoosen && !isLocked)
-        return _onTargetRowAllyChoosen(ally, enemy, row);
-}
-
-void Card::onTargetRowEnemyChoosen(Field &ally, Field &enemy, const Row row)
-{
-    if (_onTargetRowEnemyChoosen && !isLocked)
-        return _onTargetRowEnemyChoosen(ally, enemy, row);
+    if (_onTargetRowChoosen && !isLocked)
+        return _onTargetRowChoosen(ally, enemy, screenRow);
 }
 
 void Card::onDraw(Field &ally, Field &enemy)
