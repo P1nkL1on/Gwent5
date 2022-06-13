@@ -469,8 +469,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
             cardAlly->discard.push_back(card);
             saveFieldsSnapshot(ally, enemy, PutToDiscard, src, {card});
         }
-        if (!card->isSpecial)
-            card->onDiscard(*cardAlly, *cardEnemy);
+        // NOTE: special for Wolfsbane
+        card->onDiscard(*cardAlly, *cardEnemy);
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
@@ -1352,7 +1352,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     /// finish turn if noone passed
     // BUG: Ronvid on turn end in discard
-    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige}))
+    for (Card *_card : _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.deck, ally.discard}))
         _card->onTurnEnd(ally, enemy);
 
     ally.nTurns++;
@@ -1361,7 +1361,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     // enemy turn
     triggerRowEffects(enemy, ally);
 
-    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige}))
+    for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.deck, enemy.discard}))
         _card->onTurnStart(enemy, ally);
 
     /// finish turn if only enemy passed

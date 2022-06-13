@@ -1979,7 +1979,13 @@ struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
 
 struct WhiteFrost : CardCollectible<WhiteFrost>
 {
-    WhiteFrost();
+    WhiteFrost();  
+};
+
+
+struct Wolfsbane : CardCollectible<Wolfsbane>
+{
+    Wolfsbane();
 };
 
 

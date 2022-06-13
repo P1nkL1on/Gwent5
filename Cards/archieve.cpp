@@ -619,7 +619,7 @@ AnCraiteGreatsword::AnCraiteGreatsword()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy, 2))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy, 2))
             return;
 
         if (power >= powerBase)
@@ -1488,7 +1488,7 @@ VriheddSappers::VriheddSappers()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || tick(this, ally, enemy))
             flipOver(this, ally, enemy);
     };
 }
@@ -3623,6 +3623,8 @@ RonvidTheIncessant::RonvidTheIncessant()
         if (!isIn(this, ally.discard))
             return;
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (powerBase > 1)
+            weaken(this, powerBase - 1, ally, enemy, this);
     };
 }
 
@@ -4641,7 +4643,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     tags = { Cursed };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!moveSelfToRandomRow(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !moveSelfToRandomRow(this, ally, enemy))
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
             damage(card, 1, ally, enemy, this);
@@ -4693,6 +4695,8 @@ TrissButterflies::TrissButterflies()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
             boost(card, 1, ally, enemy, this);
     };
@@ -5233,6 +5237,8 @@ VriheddDragoon::VriheddDragoon()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
             boost(card, 1, ally, enemy, this);
     };
@@ -5261,7 +5267,7 @@ Malena::Malena()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
         flipOver(this, ally, enemy);
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
@@ -6434,7 +6440,7 @@ Miruna::Miruna()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
         if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
             charm(card, ally, enemy, this);
@@ -6813,7 +6819,7 @@ Archespore::Archespore()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (moveSelfToRandomRow(this, ally, enemy))
+        if (isOnBoard(this, ally) && moveSelfToRandomRow(this, ally, enemy))
             damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
                    1, ally, enemy, this);
     };
@@ -7015,6 +7021,8 @@ ImlerithSabbath::ImlerithSabbath()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
             heal(this, 2, ally, enemy);
             gainArmor(this, 2, ally, enemy, this);
@@ -7319,6 +7327,8 @@ AncientFoglet::AncientFoglet()
     tags = { Necrophage };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (enemy.rowEffect(Meele) == ImpenetrableFogEffect
                 || enemy.rowEffect(Range) == ImpenetrableFogEffect
                 || enemy.rowEffect(Seige) == ImpenetrableFogEffect
@@ -7829,7 +7839,7 @@ VranWarrior::VranWarrior()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
+        if (isOnBoard(this, ally) && tick(this, ally, enemy))
             onDeploy(ally, enemy);
     };
 }
@@ -8492,5 +8502,33 @@ WhiteFrost::WhiteFrost()
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (int _screenRow = std::max(3, screenRow - 1); _screenRow <= screenRow; ++_screenRow)
             applyRowEffect(ally, enemy, _screenRow, BitingFrostEffect);
+    };
+}
+
+
+Wolfsbane::Wolfsbane()
+{
+    id = "200226";
+    name = "Wolfsbane";
+    text = "After 3 turns in the graveyard, deal 6 damage to the Highest enemy and boost the Lowest ally by 6 on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic, Alchemy };
+
+    _onDiscard = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 3);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
+        if (!tick(this, ally, enemy))
+            return;
+        if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+            damage(card, 6, ally, enemy, this);
+        if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+            boost(card, 6, ally, enemy, this);
     };
 }

@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"She-Troll of Vergen", demoSheTrollOfVergen},
         {"Sigismund Dijkstra", demoSigismundDijkstra},
         {"Rows Selection", demoRowsSelection},
+        {"Wolfsbane", demoWolfsbane},
     };
 
     /// make a choosing menu for it
