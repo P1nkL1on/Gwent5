@@ -287,7 +287,12 @@ std::vector<Card *> allCards(const Patch)
         new TheGuardian(),
         new GaunterODimm(),
         new KaedweniSergeant(),
-        new ReinforcedBallista()
+        new ReinforcedBallista(),
+        new SigismundDijkstra(),
+        new WhiteFrost(),
+        new Wolfsbane(),
+        new DunBanner(),
+        new Aelirenn(),
     };
 }
 
@@ -8530,5 +8535,58 @@ Wolfsbane::Wolfsbane()
             damage(card, 6, ally, enemy, this);
         if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
             boost(card, 6, ally, enemy, this);
+    };
+}
+
+DunBanner::DunBanner()
+{
+    id = "122313";
+    name = "Dun Banner";
+    text = "If you are losing by more than 25 on turn start, Summon this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    rarity = Bronze;
+    faction = NothernRealms;
+    tags = { Kaedwen, Soldier };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0012.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG06_200420_0005.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0005.mp3",
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.deck))
+            return;
+        const int scoreDiff = powerField(enemy) - powerField(ally);
+        if (scoreDiff <= 25)
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DunBanner>}, AllyDeck))
+           moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+Aelirenn::Aelirenn()
+{
+    id = "142211";
+    name = "Aelirenn";
+    text = "If 5 Elf allies are on the board on any turn end, Summon this unit to a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Silver;
+    faction = Scoiatael;
+    tags = { Elf, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.183.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.184.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.185.mp3",
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.deck))
+            return;
+        const int nElfs = int(cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size());
+        if (nElfs < 5)
+            return;
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 }

@@ -48,5 +48,6 @@ void demoSheTrollOfVergen(Field &ally, Field &enemy);
 void demoSigismundDijkstra(Field &ally, Field &enemy);
 void demoRowsSelection(Field &ally, Field &enemy);
 void demoWolfsbane(Field &ally, Field &enemy);
+void demoDeckSummon(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

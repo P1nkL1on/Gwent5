@@ -1014,7 +1014,6 @@ void demoWolfsbane(Field &ally, Field &enemy)
     for (int i = 0; i < 9; ++i)
         cards.push_back(new Wolf());
 
-
     ally.cardsAdded = cards;
     ally.hand = cards;
 
@@ -1024,6 +1023,34 @@ void demoWolfsbane(Field &ally, Field &enemy)
     enemy.cardsAdded = {c1, c2};
     enemy.rowMeele = {c1, c2};
 
+    enemy.passed = true;
+    ally.canPass = false;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoDeckSummon(Field &ally, Field &enemy)
+{
+    auto *c1 = new Aelirenn();
+    auto *c2 = new DunBanner();
+    auto *c3 = new DunBanner();
+    auto *c4 = new DunBanner();
+    auto *c5 = new Swallow();
+    auto *c6 = new HalfElfHunter();
+    auto *c7 = new HalfElfHunter();
+    auto *c8 = new HalfElfHunter();
+    auto *c9 = new GeraltIgni();
+    auto *c10 = new Roach();
+
+    ally.cardsAdded = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
+    ally.hand = {c5, c6, c7, c8, c9};
+    ally.deck = {c1, c2, c3, c4, c10};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+    m2->power -= 2;
+
+    enemy.cardsAdded = {m1, m2};
+    enemy.rowMeele = {m1, m2};
     enemy.passed = true;
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

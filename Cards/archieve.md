@@ -163,7 +163,7 @@
 - [ ] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
-- [ ] Dun Banner
+- [x] Dun Banner
 - [ ] Field Medic _(easy card)_
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
@@ -270,7 +270,7 @@
 - [ ] Schirru
 - [ ] Xavier Moran
 - [ ] Zoltan Chivay
-- [ ] Aelirenn
+- [x] Aelirenn
 - [ ] Barclay Els
 - [ ] Braenn
 - [ ] Ciaran aep Easnillen

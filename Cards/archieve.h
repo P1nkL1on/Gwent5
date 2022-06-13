@@ -1989,4 +1989,17 @@ struct Wolfsbane : CardCollectible<Wolfsbane>
 };
 
 
+struct DunBanner : CardCollectible<DunBanner>
+{
+    DunBanner();
+};
+
+
+struct Aelirenn : CardCollectible<Aelirenn>
+{
+    Aelirenn();
+};
+
+
+
 #endif // CARDS_H
