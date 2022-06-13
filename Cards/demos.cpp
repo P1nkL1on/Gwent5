@@ -7,9 +7,7 @@ void demoHjalmarAnCraite(Field &ally, Field &enemy)
         new TuirseachHunter(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoHalfElfHunter(Field &ally, Field &enemy)
@@ -19,9 +17,7 @@ void demoHalfElfHunter(Field &ally, Field &enemy)
         new Decoy(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSlaveInfantry(Field &ally, Field &enemy)
@@ -33,9 +29,7 @@ void demoSlaveInfantry(Field &ally, Field &enemy)
         new Decoy(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 
@@ -52,9 +46,7 @@ void demoHaraldHoundsnout(Field &ally, Field &enemy)
     ally.hand = {h, d};
     ally.rowRange = {s};
     enemy.rowRange = {t};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoNilfgaardSoldiersDeck(Field &ally, Field &enemy)
@@ -90,9 +82,7 @@ void demoGiantBoar(Field &ally, Field &enemy)
         new DimunPirateCaptain(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoTransforms(Field &ally, Field &enemy)
@@ -105,9 +95,7 @@ void demoTransforms(Field &ally, Field &enemy)
 
     ally.hand = ally.cardsAdded;
     enemy.rowRange = {s, d};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSkelligeVeteransPrimeDeck(Field &ally, Field &enemy)
@@ -145,9 +133,7 @@ void demoMorkvarg(Field &ally, Field &enemy)
     ally.cardsAdded = { m, a1, a2, a3, s };
     ally.deck = { a1 };
     ally.hand = { m, a2, a3, s };
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoVsSkelligeDiscardVsNothernRealmsArmor(Field &ally, Field &enemy)
@@ -192,10 +178,7 @@ void demoInstantEffects(Field &ally, Field &enemy)
     enemy.rowRange = { d2 };
     enemy.rowMeele = { d3, d4 };
     d4->onDeploy(enemy, ally);
-
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSpawnAndSummon(Field &ally, Field &enemy)
@@ -209,9 +192,7 @@ void demoSpawnAndSummon(Field &ally, Field &enemy)
         new VriheddSappers(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSingleUseFrightener(Field &ally, Field &enemy)
@@ -227,9 +208,7 @@ void demoSingleUseFrightener(Field &ally, Field &enemy)
     ally.deck = { d1, d2 };
     enemy.cardsAdded = { d3, d4, s };
     enemy.hand = { s, d3, d4 };
-    ally.canPass = false;
-    enemy.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy, false, true);
 }
 
 void demoAmbushes(Field &ally, Field &enemy)
@@ -257,7 +236,7 @@ void demoAmbushes(Field &ally, Field &enemy)
         new AnCraiteGreatsword(),
     };
     enemy.hand = enemy.cardsAdded;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoMalena(Field &ally, Field &enemy)
@@ -278,9 +257,7 @@ void demoMalena(Field &ally, Field &enemy)
     ally.hand = {m, d, t3};
     enemy.rowRange = {t1, t2, mo, v};
     enemy.hand = {t4, t5};
-    enemy.passed = false;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoCharm(Field &ally, Field &enemy)
@@ -297,9 +274,7 @@ void demoCharm(Field &ally, Field &enemy)
         new TemerianDrummer(),
     };
     enemy.rowRange = enemy.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoRockBarrage(Field &ally, Field &enemy)
@@ -323,7 +298,7 @@ void demoRockBarrage(Field &ally, Field &enemy)
         new RockBarrage(),
     };
     enemy.hand = enemy.cardsAdded;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy, false, true);
 }
 
 void demoMoving(Field &ally, Field &enemy)
@@ -340,7 +315,7 @@ void demoMoving(Field &ally, Field &enemy)
         new Nivellen(),
     };
     enemy.hand = enemy.cardsAdded;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy, false, true);
 }
 
 void demoUnseenElder(Field &ally, Field &enemy)
@@ -364,9 +339,7 @@ void demoUnseenElder(Field &ally, Field &enemy)
     enemy.rowMeele = {w1, w2};
     enemy.rowRange = {mo};
     enemy.hand = {t1, t2};
-    enemy.passed = false;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoRunestones(Field &ally, Field &enemy)
@@ -385,9 +358,7 @@ void demoRunestones(Field &ally, Field &enemy)
 
     ally.hand = {r1, r2, r3, r4, r5};
     enemy.rowMeele = {w1, w2, w3};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoMonsterLeaders(Field &ally, Field &enemy)
@@ -412,9 +383,7 @@ void demoMonsterLeaders(Field &ally, Field &enemy)
     enemy.rowMeele = {w1, w2};
     enemy.rowRange = {mo};
     enemy.hand = {t1, t2};
-    enemy.passed = false;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoLeoBonhart(Field &ally, Field &enemy)
@@ -432,7 +401,7 @@ void demoLeoBonhart(Field &ally, Field &enemy)
     enemy.rowRange = enemy.cardsAdded;
     enemy.passed = true;
     ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    ally.cardStack.push_back(Choice(CardRoundStartPlay, nullptr, ally.hand, 1, false));
 }
 
 void demoMonsterSisters(Field &ally, Field &enemy)
@@ -461,9 +430,7 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     ally.hand = {w1, gw1, gb1, gb2, gwh, t};
     ally.deck = {w2, w3, gw2, o1, o2, o3, o4, o5};
     ally.discard = {gb3, d1, d2, k};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoLockingDeathwish(Field &ally, Field &enemy)
@@ -482,9 +449,7 @@ void demoLockingDeathwish(Field &ally, Field &enemy)
         new Dao(),
     };
     enemy.rowRange = enemy.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoNilfgaardReveal(Field &ally, Field &enemy)
@@ -526,9 +491,7 @@ void demoLastPlayed(Field &ally, Field &enemy)
         new Frightener(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoBlueStripes(Field &ally, Field &enemy)
@@ -548,7 +511,7 @@ void demoBlueStripes(Field &ally, Field &enemy)
     ally.canPass = false;
     for (int i = 0; i < 4; ++i)
         drawACard(ally, enemy);
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoWildHunt(Field &ally, Field &enemy)
@@ -585,14 +548,12 @@ void demoWildHunt(Field &ally, Field &enemy)
     ally.deck = {bf1, bf2, whw2, whw3};
     ally.rowSeige = {whn3, whr1};
     ally.rowMeele = {whr2};
-    ally.canPass = false;
 
     enemy.rowSeige = {b1};
     enemy.rowRange = {m2, m3};
     enemy.rowMeele = {m4, m5, m6};
-    enemy.passed = true;
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSummoning(Field &ally, Field &enemy)
@@ -616,10 +577,8 @@ void demoSummoning(Field &ally, Field &enemy)
     ally.hand = {a1, a2, s1, s2, m, mn, as, t};
     ally.discard = {a3, s3};
     ally.deck = {a4, s4, r, d};
-    ally.canPass = false;
 
-    enemy.passed = true;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoBigOgrs(Field &ally, Field &enemy)
@@ -630,6 +589,7 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *m = new Morvudd();
     auto *d = new Dagon();
     ally.cardsAdded = {osa, os, g, m, d};
+    ally.hand = {osa, os, g, m, d};
 
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -642,16 +602,11 @@ void demoBigOgrs(Field &ally, Field &enemy)
     auto *th2 = new TuirseachHunter();
     auto *th3 = new TuirseachHunter();
     enemy.cardsAdded = {h1, h2, h3, b1, b2, a1, a2, th1, th2, th3};
-
-    ally.hand = {osa, os, g, m, d};
-    ally.canPass = false;
-
     enemy.hand = {a1, a2, th1};
     enemy.rowRange = {b1, h1, h2, h3, b2};
     enemy.rowMeele = {th2, th3};
-    enemy.passed = false;
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoConsume(Field &ally, Field &enemy)
@@ -679,26 +634,22 @@ void demoConsume(Field &ally, Field &enemy)
     auto *h2 = new Harpy();
     auto *h3 = new Harpy();
     ally.cardsAdded = {g1, m1, m2, m3, b1, b2, d1, d2, d3, o, k, m0, s, r1, a, n1, n2, n3, nw, h1, h2, h3};
-
     ally.hand = {g1, b1, b2, d1, o, k, m0, s, nw};
     ally.discard = {m1, d2};
     ally.rowMeele = {m2, n1};
     ally.rowSeige = {};
     ally.deck = {d3, m3, r1, a, n2, n3, h1, h2, h3};
-    ally.canPass = false;
 
     auto *t1 = new TuirseachAxeman();
     auto *t2 = new TuirseachAxeman();
     auto *t3 = new TuirseachAxeman();
     auto *am = new AnCraiteMarauder();
     auto *m = new Morkvarg();
-
     enemy.cardsAdded = {t1, t2, t3, m, am};
     enemy.rowRange = {t3, m, am};
     enemy.discard = {t1, t2};
 
-    enemy.passed = true;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoArchesporeJumping(Field &ally, Field &enemy)
@@ -720,7 +671,6 @@ void demoArchesporeJumping(Field &ally, Field &enemy)
     ally.hand = {a1, a2, f6, f7, f8, f9, i};
     ally.rowMeele = {f1, f2, f3, f4, f5};
     ally.rowRange = {a3};
-    ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
@@ -729,14 +679,12 @@ void demoArchesporeJumping(Field &ally, Field &enemy)
     auto *t1 = new TuirseachHunter();
     auto *t2 = new TuirseachHunter();
     auto *t3 = new TuirseachHunter();
-
     enemy.cardsAdded = {m1, m2, m3, c1, t1, t2, t3};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3};
     enemy.hand = {c1, t1, t2, t3};
-    enemy.passed = false;
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoImlerithSabbath(Field &ally, Field &enemy)
@@ -747,7 +695,6 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
     auto *f = new Frightener();
     ally.cardsAdded = {i, m1, m2, f};
     ally.hand = {i, m1, m2, f};
-    ally.canPass = false;
 
     auto *d = new Derran();
     auto *h = new HaraldHoundsnout();
@@ -756,9 +703,8 @@ void demoImlerithSabbath(Field &ally, Field &enemy)
     enemy.cardsAdded = {d, h, j, s};
     enemy.hand = {h, j};
     enemy.rowRange = {d, s};
-    enemy.passed = false;
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoTemporaryForTests(Field &ally, Field &enemy)
@@ -777,20 +723,17 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
 
     ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
     ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
-    ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
     auto *m3 = new ImperialManticore();
     auto *d = new DandelionPoet();
-
     enemy.cardsAdded = {m1, m2, m3, d};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3};
     enemy.rowSeige = {d};
-    enemy.passed = true;
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy, false, false);
 }
 
 void demoNekkerWarrior(Field &ally, Field &enemy)
@@ -804,9 +747,7 @@ void demoNekkerWarrior(Field &ally, Field &enemy)
     ally.cardsAdded = { c0, c1, c2, c3, c4 };
     ally.hand = { c0, c1, c2, c3 };
     ally.deck = { c4 };
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoNekkers(Field &ally, Field &enemy)
@@ -820,9 +761,7 @@ void demoNekkers(Field &ally, Field &enemy)
         new Maerolorn(),
     };
     ally.hand = ally.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoArachasDrones(Field &ally, Field &enemy)
@@ -841,9 +780,7 @@ void demoArachasDrones(Field &ally, Field &enemy)
     ally.cardsAdded = { c0, c1, c2, c3, c4, c5, c6, c7, c8, c9};
     ally.hand = { c3, c4, c5, c6, c7, c8, c9};
     ally.deck = { c0, c1, c2 };
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 
 }
 
@@ -863,9 +800,7 @@ void demoSlyzards(Field &ally, Field &enemy)
     ally.hand = { c0, c1, c6, c7, c8};
     ally.deck = { c2, c5 };
     ally.discard = { c3, c4 };
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoAvalach(Field &ally, Field &enemy)
@@ -909,14 +844,11 @@ void demoBeer(Field &ally, Field &enemy)
     auto *m2 = new MahakamAle();
     auto *m3 = new MahakamAle();
     ally.cardsAdded = {h1, h2, h3, b1, b2, th1, th2, th3, o, a, m1, m2, m3};
-
-    ally.canPass = false;
-
     ally.hand = {th1, o, a, m1, m2, m3};
     ally.rowRange = {b1, h1, h2, h3, b2};
     ally.rowMeele = {th2, th3};
 
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 
 }
 
@@ -938,9 +870,7 @@ void demoCrewAndCrewed(Field &ally, Field &enemy)
     enemy.cardsAdded = {m1};
     enemy.rowMeele = {m1};
 
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSheTrollOfVergen(Field &ally, Field &enemy)
@@ -955,9 +885,7 @@ void demoSheTrollOfVergen(Field &ally, Field &enemy)
     ally.hand = {s1, s2, b3};
     ally.deck = {b1, b2};
 
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoSigismundDijkstra(Field &ally, Field &enemy)
@@ -972,9 +900,7 @@ void demoSigismundDijkstra(Field &ally, Field &enemy)
     ally.hand = {s};
     ally.deck = {b1, r, b2, a};
 
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoRowsSelection(Field &ally, Field &enemy)
@@ -1002,9 +928,8 @@ void demoRowsSelection(Field &ally, Field &enemy)
     enemy.cardsAdded = {m1, m2, m3, m4};
     enemy.rowMeele = {m1, m2};
     enemy.rowRange = {m3, m4};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+    startDemo(ally, enemy);
 }
 
 void demoWolfsbane(Field &ally, Field &enemy)
@@ -1023,9 +948,7 @@ void demoWolfsbane(Field &ally, Field &enemy)
     enemy.cardsAdded = {c1, c2};
     enemy.rowMeele = {c1, c2};
 
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoDeckSummon(Field &ally, Field &enemy)
@@ -1051,7 +974,23 @@ void demoDeckSummon(Field &ally, Field &enemy)
 
     enemy.cardsAdded = {m1, m2};
     enemy.rowMeele = {m1, m2};
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+    startDemo(ally, enemy);
+}
+
+void demoTriggersOrder(Field &ally, Field &enemy)
+{
+    auto *c1 = new DolBlathannaArcher();
+    auto *c2 = new DolBlathannaArcher();
+    auto *c3 = new TuirseachArcher();
+
+    ally.cardsAdded = {c1, c2, c3};
+    ally.hand = {c1, c2, c3};
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2};
+    enemy.rowMeele = {m1, m2};
+    startDemo(ally, enemy);
 }

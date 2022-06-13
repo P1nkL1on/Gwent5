@@ -7119,8 +7119,6 @@ SheTrollOfVergen::SheTrollOfVergen()
             _played = true;
             playExistedCard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {target});
-
-            std::cout << stringChoices(ally.cardStack) << std::endl;
             return;
         }
 

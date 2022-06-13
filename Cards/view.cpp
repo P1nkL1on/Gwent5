@@ -40,6 +40,8 @@ FieldView fieldView(
         const int actionValue,
         const bool computeOptionScoreGaps)
 {
+    ally.cardStack2.trace();
+
     std::map<const Card *, CardView> cardToView;
 
     int cardViewId = 0;
@@ -58,8 +60,8 @@ FieldView fieldView(
         cardToView.insert({card, cardView(card, cardViewId++)});
 
     /// add extra crads that are just options)
-    for (const Choice &choice : ally.cardStack)
-        for (const Card *card : choice.cardOptions)
+    if (!ally.cardStack2.isEmpty())
+        for (const Card *card : ally.cardStack2.peekChoice().options)
             cardToView.insert({card, cardView(card, cardViewId++)});
 
     const auto id = [cardToView](const Card *card) -> int {
@@ -70,21 +72,24 @@ FieldView fieldView(
         return cardToView.at(card).id;
     };
 
+    // TODO: remove a vector, because its a max 1 choice
     std::vector<ChoiceView> choiceViews;
 
     int choiceViewId = 0;
-    for (const Choice &choice : ally.cardStack) {
+
+    if (!ally.cardStack2.isEmpty()) {
+        const Choice2 &choice = ally.cardStack2.peekChoice();
         ChoiceView view;
         view.id = choiceViewId++;
-        view.choiceType = choice.choiceType;
-        view.cardSourceId = id(choice.cardSource);
+        view.choiceType = choice.type;
+        view.cardSourceId = id(choice.src);
         view.nTargets = choice.nTargets;
         view.isOptional = choice.isOptional;
-        for (const Card *card : choice.cardOptions)
+        for (const Card *card : choice.options)
             view.cardOptionIds.push_back(id(card));
-        for (const Card *card : choice.cardOptionsSelected)
+        for (const Card *card : choice.optionsSelected)
             view.cardOptionIdsSelected.push_back(id(card));
-        view.valuesOptions = choice.valuesOptions;
+        view.valuesOptions = choice.screenRows;
         choiceViews.push_back(view);
     }
 
@@ -203,7 +208,7 @@ FieldView fieldView(
     res.actionSound = sound;
 
     /// value computation for hand cards
-    if (computeOptionScoreGaps && ally.cardStack.size() && ally.choice().choiceType == RoundStartPlay) {
+    if (computeOptionScoreGaps && !ally.cardStack2.isEmpty() && ally.cardStack2.peekChoice().type == CardRoundStartPlay) {
         const std::map<const Card *, int> options = optionToGap(ally, enemy);
         std::cout << std::endl << "HAND OPTIONS (" << options.size() << ")" << std::endl;
         for (const auto &it : options) {
@@ -361,15 +366,15 @@ int FieldView::rowPower(const Row screenRow) const
 std::string ChoiceView::toString() const
 {
     switch (choiceType) {
-    case RoundStartPlay:
+    case CardRoundStartPlay:
         return "Choose a card to play";
-    case SelectAllyRowAndPos:
+    case RowAndPosAlly:
         return "Choose an allied row and pos";
-    case SelectEnemyRowAndPos:
+    case RowAndPosEnemy:
         return "Choose an enemy row and pos";
-    case SelectRow:
+    case RowSelect:
         return "Choose a row";
-    case Target: {
+    case CardTarget: {
         std::string res = "Choose an ability target";
         if ((nTargets > 1) || isOptional) {
             res += " [";
@@ -384,7 +389,7 @@ std::string ChoiceView::toString() const
         }
         return res;
     }
-    case RoundStartSwap:
+    case CardRoundStartSwap:
         return "Choose a card to swap [" + std::to_string(nTargets) + " left]";
     }
     assert(false);
@@ -468,6 +473,8 @@ bool isLeader(const CardView &view)
 
 std::vector<CardView> cardOptionViews(const Card *card)
 {
+    // TODO: fix or remove, choices changed
+    assert(false);
     std::vector<CardView> res;
     /// add any usable previews
     Card *copy = card->defaultCopy();

@@ -194,6 +194,50 @@ struct Choice
     bool isOptional = false;
 };
 
+/// The Choice:
+///     1) rows, rowFilters, adjacent = 0|1
+///     2) options, nTargets, nWindow (Shupe), isOptional
+///     3) create, filters, isOptional
+///     4) variants (spawnOptions), which are card play variants. same as create btw, but not 3 options
+///     5) target, filters, group, nTargets, isOptional
+///     6) target, filters, options, nTargets, isOptional
+
+
+using Filters = std::vector<std::function<bool(Card *)> >;
+using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
+
+
+struct Choice2
+{
+    ChoiceType type = CardTarget;
+    Card *src = nullptr;
+    std::vector<Card *> options;
+    std::vector<Card *> optionsSelected;
+    Field *fieldPtrAlly = nullptr;
+    Field *fieldPtrEnemy = nullptr;
+    ChoiceGroup group = AnyBoard;
+    Filters filters;
+    int nTargets = 1;
+    int nWindow = -1;
+    bool isOptional = false;
+    std::vector<int> screenRows;
+    RowFilters rowFilters;
+};
+
+class CardStack
+{
+public:
+    Choice2 peekChoice() const;
+    bool isEmpty() const;
+    void pushChoice(const Choice2 &peekChoice);
+    void popChoice();
+    void trace() const;
+private:
+    /// returns true if removed a first choice
+    bool tryAutoResolveChoices();
+    std::vector<Choice2> _queue;
+};
+
 
 using Rng = std::default_random_engine;
 
@@ -219,6 +263,7 @@ struct Field
     std::vector<Card *> cardsAdded;
     /// current choices player should resolve
     std::vector<Choice> cardStack;
+    CardStack cardStack2;
     /// cards played in order for history
     /// and retrograde effects
     std::vector<Card *> cardsAppearedBoth;
@@ -234,9 +279,6 @@ struct Field
 
     std::vector<FieldView> snapshots;
 
-    const Choice &choice() const;
-    Choice &choice();
-    Choice takeChoice();
     RowAndPos lastPosInARow(const Row _row) const;
     const std::vector<Card *> &row(const Row _row) const;
     std::vector<Card *> &row(const Row _row);
@@ -281,6 +323,7 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos = nullptr, bo
 void triggerRowEffects(Field &ally, Field &enemy);
 void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &field);
 void startNextRound(Field &ally, Field &enemy);
+void startDemo(Field &ally, Field &enemy, const bool hasEnemyPassed = true, const bool canAllyPass = false);
 void shuffle(std::vector<Card *> &cards, Rng &rng);
 std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng);
 Card *random(const std::vector<Card *> &cards, Rng &rng);
@@ -361,17 +404,15 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
 int nCrewed(Card *card, Field &ally);
 void pass(Field &ally, Field &enemy);
 
-using Filters = std::vector<std::function<bool(Card *)> >;
-using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
-
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions = {0, 1, 2, 3, 4, 5}, const RowFilters &rowFilters = {});
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
-void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
+void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
 void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
-void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
-void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
+
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
 void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy);

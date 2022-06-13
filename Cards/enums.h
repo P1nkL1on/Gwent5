@@ -102,12 +102,13 @@ enum RowEffect
 
 enum ChoiceType
 {
-    RoundStartPlay,
-    SelectAllyRowAndPos,
-    SelectEnemyRowAndPos,
-    SelectRow,
-    Target,
-    RoundStartSwap,
+    CardRoundStartPlay,
+    CardRoundStartSwap,
+    CardTarget,
+    CardOption,
+    RowAndPosAlly,
+    RowAndPosEnemy,
+    RowSelect,
 };
 
 
@@ -137,6 +138,7 @@ enum ChoiceGroup
     AllyBoardAndHandRevealed,
     AllyAppeared,
     BothAppeared,
+    AnyCard,
 };
 
 

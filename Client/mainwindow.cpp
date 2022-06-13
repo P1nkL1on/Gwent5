@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Rows Selection", demoRowsSelection},
         {"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
+        {"Trigger Order", demoTriggersOrder},
     };
 
     /// make a choosing menu for it
@@ -179,11 +180,11 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
             }
         }
 
-        if (ally.cardStack.size() > 0) {
-            for (size_t i = 0; i < ally.choice().cardOptions.size(); ++i) {
+        if (!ally.cardStack2.isEmpty()) {
+            for (size_t i = 0; i < ally.cardStack2.peekChoice().options.size(); ++i) {
                 const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
-                    return ally.choice().cardOptions[i];
+                    return ally.cardStack2.peekChoice().options[i];
             }
         }
         return nullptr;
@@ -216,7 +217,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
 
     const auto isFinishChoiceButton = [=](const QPoint &point) {
         const QFontMetricsF metrics(QFont{});
-        const QString string = QString("Turn %1: %2").arg(1 + ally.nTurns).arg(QString::fromStdString(stringChoices(ally.cardStack)));
+        const QString string = QString("Turn %1").arg(1 + ally.nTurns)/*.arg(QString::fromStdString(stringChoices(ally.cardStack)))*/;
         const QPointF topLeft(metrics.width(string) + _layout.borderTextPx, 2 * _layout.spacingPx + 7 * posHeight - metrics.height());
         const QRectF rectRes = QRectF(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height())).translated(rect.topLeft());
         return rectRes.contains(point);
@@ -232,34 +233,34 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         return rect.topLeft() + QPointF(_layout.spacingPx + 9 * posWidth, _layout.spacingPx + 4 * posHeight);
     };
 
-    if (ally.cardStack.size() == 0)
+    if (ally.cardStack2.isEmpty())
         return;
 
-    if (ally.choice().choiceType == RoundStartPlay) {
-        if (ally.choice().isOptional && isFinishChoiceButton(point)) {
+    if (ally.cardStack2.peekChoice().type == CardRoundStartPlay) {
+        if (ally.cardStack2.peekChoice().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
             goto finish_turn;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.choice().cardOptions))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
             return;
         onChoiceDoneCard(card, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == Target) {
-        if (ally.choice().isOptional && isFinishChoiceButton(point)) {
+    if (ally.cardStack2.peekChoice().type == CardTarget) {
+        if (ally.cardStack2.peekChoice().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
             goto finish_turn;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.choice().cardOptions))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
             return;
         onChoiceDoneCard(card, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == SelectAllyRowAndPos) {
+    if (ally.cardStack2.peekChoice().type == RowAndPosAlly) {
         const RowAndPos rowAndPos = rowAndPostAt(true, point);
         if (!isOkRowAndPos(rowAndPos, ally))
             return;
@@ -267,7 +268,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == SelectEnemyRowAndPos) {
+    if (ally.cardStack2.peekChoice().type == RowAndPosEnemy) {
         const RowAndPos rowAndPos = rowAndPostAt(false, point);
         if (!isOkRowAndPos(rowAndPos, ally))
             return;
@@ -275,21 +276,21 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == SelectRow) {
+    if (ally.cardStack2.peekChoice().type == RowSelect) {
         int screenRow;
-        if (screenRowAt(point, screenRow) && std::find(ally.choice().valuesOptions.begin(), ally.choice().valuesOptions.end(), screenRow) != ally.choice().valuesOptions.end())
+        if (screenRowAt(point, screenRow) && std::find(ally.cardStack2.peekChoice().screenRows.begin(), ally.cardStack2.peekChoice().screenRows.end(), screenRow) != ally.cardStack2.peekChoice().screenRows.end())
             onChoiceDoneRow(screenRow, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.choice().choiceType == RoundStartSwap) {
+    if (ally.cardStack2.peekChoice().type == CardRoundStartSwap) {
         if (isFinishChoiceButton(point)) {
             onChoiceDoneRoundStartSwap(nullptr, ally, enemy);
             repaintCustom();
             return;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.choice().cardOptions))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
             return;
         onChoiceDoneRoundStartSwap(card, ally, enemy);
         repaintCustom();
@@ -569,7 +570,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             int n;
             if (!view.idAtRowAndPos(Row(rowInd), Pos(posInd), &id, &n)) {
                 const QRectF rect = QRectF(topLeft, QSizeF(posWidth, posHeight)).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
-                const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == SelectAllyRowAndPos && rowInd >= 3) || (currentChoiceView->choiceType == SelectEnemyRowAndPos && rowInd < 3)) && (posInd <= n);
+                const bool canBePlaced = currentChoiceView && ((currentChoiceView->choiceType == RowAndPosAlly && rowInd >= 3) || (currentChoiceView->choiceType == RowAndPosEnemy && rowInd < 3)) && (posInd <= n);
                 painter.setPen(Qt::gray);
                 painter.drawRect(rect);
                 if (canBePlaced) {
@@ -628,7 +629,7 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.setBrush(QBrush(Qt::NoBrush));
 
         const bool canBePlaced = currentChoiceView
-                && (currentChoiceView->choiceType == SelectRow)
+                && (currentChoiceView->choiceType == RowSelect)
                 && (std::find(currentChoiceView->valuesOptions.begin(), currentChoiceView->valuesOptions.end(), 5 - rowInd) != currentChoiceView->valuesOptions.end());
         if (canBePlaced) {
             painter.setPen(Qt::green);
@@ -804,8 +805,10 @@ void MainWindow::openLoadDialog()
 
     for (int i = 0; i < 10; ++i)
         drawACard(_ally, _enemy);
-    _ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, _ally.hand, 1, false));
-    repaintCustom();
+    // TODO: check because changed choices
+    Q_ASSERT(false);
+    // _ally.cardStack.push_back(Choice(CardRoundStartPlay, nullptr, _ally.hand, 1, false));
+    // repaintCustom();
 }
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
@@ -814,18 +817,18 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
     if (e->type() == QEvent::MouseButtonPress) {
         auto *em = static_cast<QMouseEvent *>(e);
-        if (_ally.cardStack.size())
+        if (!_ally.cardStack2.isEmpty())
             mouseClick(rect, em->pos(), _ally, _enemy);
-        else if (_enemy.cardStack.size())
+        else if (!_enemy.cardStack2.isEmpty())
             mouseClick(rect, em->pos(), _enemy, _ally);
     }
 
     if (e->type() == QEvent::MouseMove) {
         auto *em = static_cast<QMouseEvent *>(e);
-        if (_ally.cardStack.size() && _ally.choice().cardSource != nullptr) {
+        if (!_ally.cardStack2.isEmpty() && _ally.cardStack2.peekChoice().src != nullptr) {
             _pos = em->pos();
             repaint();
-        } else if (_enemy.cardStack.size() && _enemy.choice().cardSource != nullptr) {
+        } else if (!_enemy.cardStack2.isEmpty() && _enemy.cardStack2.peekChoice().src != nullptr) {
             _pos = em->pos();
             repaint();
         } else {
@@ -1042,9 +1045,9 @@ void MainWindow::repaintCustom()
             processAction(snapshot, ss);
         _enemy.snapshots.clear();
     }
-    if (_ally.cardStack.size()) {
+    if (!_ally.cardStack2.isEmpty()) {
         _snapshot = fieldView(_ally, _enemy);
-    } else if (_enemy.cardStack.size()) {
+    } else if (!_enemy.cardStack2.isEmpty()) {
         _snapshot = fieldView(_enemy, _ally);
     }
     repaint();
