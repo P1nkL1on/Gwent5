@@ -106,9 +106,10 @@ FieldView fieldView(
     for (const Card *card : enemy.deck)
         cardToView[card].isVisible = isInChoice(cardToView[card].id);
 
-    /// in a hand -> check if revealed and is ally option choice
+    /// in a hand -> check if revealed (if in choice, shouldn't reveal,
+    /// its no card, which allows you to see opp's hand before reveal)
     for (const Card *card : enemy.hand)
-        cardToView[card].isVisible = isInChoice(cardToView[card].id) || card->isRevealed;
+        cardToView[card].isVisible = card->isRevealed;
 
     /// in a field -> check if ambush
     for (auto it = cardToView.begin(); it != cardToView.end(); ++it){

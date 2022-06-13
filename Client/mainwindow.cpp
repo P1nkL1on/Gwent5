@@ -409,22 +409,20 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
         painter.setPen(Qt::black);
         painter.drawRect(rect);
 
-        if (!cardView.isVisible)
-            /// TODO: draw a card back
-            return;
-
         const QRectF rectBorder = QRectF(rect).marginsRemoved(QMarginsF(_layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx, _layout.borderCardPx));
 
         /// draw url image
-        if (cardView.url.size() > 0) {
+        if (cardView.isVisible && (cardView.url.size() > 0)) {
             requestImageByUrl(cardView.url);
             const QImage image = _pixMapsLoaded.value(QString::fromStdString(cardView.url));
             painter.drawImage(rectBorder, image);
         }
 
         /// draw rarity
-        painter.setPen(cardView.rarity == Bronze ? Qt::darkRed : cardView.rarity == Silver ? Qt::gray : Qt::yellow);
-        painter.drawRect(rectBorder);
+        if (cardView.isVisible) {
+            painter.setPen(cardView.rarity == Bronze ? Qt::darkRed : cardView.rarity == Silver ? Qt::gray : Qt::yellow);
+            painter.drawRect(rectBorder);
+        }
 
         /// draw selection border
         if (view.choices.size() && isIn(cardView.id, view.choices.front().cardOptionIds)) {
@@ -446,6 +444,10 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             painter.drawLine(rect.topLeft(), rect.bottomRight());
             painter.drawLine(rect.topRight(), rect.bottomLeft());
         }
+
+        if (!cardView.isVisible)
+            /// TODO: draw a card back
+            return;
 
         /// draw power
         double width = 0;
