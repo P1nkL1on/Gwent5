@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Rows Selection", demoRowsSelection},
         {"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
+        {"Neutral Specials", demoNeutralSpecial},
     };
 
     /// make a choosing menu for it

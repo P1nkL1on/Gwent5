@@ -177,6 +177,8 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
     field.hand = std::vector<Card *>();
     field.deck = std::vector<Card *>();
     field.discard = std::vector<Card *>();
+    field.cardsAppeared = std::vector<Card *>();
+    field.cardsAppearedBoth = std::vector<Card *>();
     field.leader = nullptr;
 
     field.cardStack = std::vector<Choice>();

@@ -1055,3 +1055,28 @@ void demoDeckSummon(Field &ally, Field &enemy)
     ally.canPass = false;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoNeutralSpecial(Field &ally, Field &enemy)
+{
+    auto *h = new HanmarvynsDream();
+    auto *b = new BlackBlood();
+    auto *a1 = new Abaya();
+
+    ally.cardsAdded = {h, b, a1};
+    ally.hand = {h, b, a1};
+
+
+    auto *a2 = new Abaya();
+    auto *e = new Ekimmara();
+    auto *n = new Nekker();
+    auto *u = new UnseenElder();
+    auto *w = new WoodlandSpirit();
+    auto *h1 = new HanmarvynsDream();
+
+    enemy.cardsAdded = {a2, e, n, u, w, h1};
+    enemy.rowRange = {a2, e, n};
+    enemy.discard = {u, w, h1};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

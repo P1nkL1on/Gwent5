@@ -293,6 +293,8 @@ std::vector<Card *> allCards(const Patch)
         new Wolfsbane(),
         new DunBanner(),
         new Aelirenn(),
+        new HanmarvynsDream(),
+        new BlackBlood(),
     };
 }
 
@@ -8588,5 +8590,87 @@ Aelirenn::Aelirenn()
         if (nElfs < 5)
             return;
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+HanmarvynsDream::HanmarvynsDream()
+{
+    id = "200079";
+    name = "HanmarvynsDream";
+    text = "Spawn a default copy of a non-Leader Gold unit from your opponent's graveyard and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit, hasNoTag(Leader)}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        spawnNewCard(copy, ally, enemy, this);
+        boost(copy, 2, ally, enemy, this);
+    };
+}
+
+BlackBlood::BlackBlood()
+{
+    id = "201697";
+    name = "BlackBlood";
+    text = "Choose One: Create a Bronze Necrophage or Vampire and boost it by 2; or Destroy a Bronze or Silver Necrophage or Vampire.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new BlackBlood::Create;
+        copyCardText(this, option1);
+        option1->text = "Create a Bronze Necrophage or Vampire and boost it by 2";
+
+        auto *option2 = new BlackBlood::Destroy;
+        copyCardText(this, option2);
+        option2->text = "Destroy a Bronze or Silver Necrophage or Vampire.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            if (dynamic_cast<BlackBlood::Create *>(target)) {
+                startChoiceCreateOptions(ally, this, {isBronze, hasAnyOfTags({Necrophage, Vampire})});
+                return;
+            }
+            if (dynamic_cast<BlackBlood::Destroy *>(target)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Necrophage, Vampire})}, AnyBoard);
+                return;
+            }
+            assert(false);
+        }
+
+        if (dynamic_cast<BlackBlood::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+            boost(target, 2, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<BlackBlood::Destroy *>(_choosen)) {
+            putToDiscard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
     };
 }

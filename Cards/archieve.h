@@ -2001,5 +2001,21 @@ struct Aelirenn : CardCollectible<Aelirenn>
 };
 
 
+struct HanmarvynsDream : CardCollectible<HanmarvynsDream>
+{
+    HanmarvynsDream();
+};
+
+
+struct BlackBlood : CardCollectible<BlackBlood>
+{
+    BlackBlood();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Destroy : CardCollectible<Destroy> {};
+    Card *_choosen = nullptr;
+};
+
+
 
 #endif // CARDS_H

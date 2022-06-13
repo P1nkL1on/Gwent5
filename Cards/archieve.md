@@ -27,7 +27,7 @@
 - [ ] Triss: Telekinesis
 - [x] Dandelion: Poet
 - [ ] Dandelion: Vainglory
-- [ ] Hanmarvyn's Dream
+- [x] Hanmarvyn's Dream
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
 - [ ] Ihuarraquax
@@ -40,7 +40,7 @@
 - [ ] Sihil
 - [ ] Villentretenmerth
 - [x] Muzzle
-- [ ] Black Blood
+- [x] Black Blood
 - [ ] Rock Barrage
 - [ ] King of Beggars
 - [ ] Mastercrafted Spear
@@ -88,7 +88,7 @@
 - [ ] Sarah
 - [x] Scorch
 - [x] Skellige Storm
-- [ ] Summoning Circle
+- [x] Summoning Circle
 - [ ] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
