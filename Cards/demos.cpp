@@ -927,8 +927,10 @@ void demoCrewAndCrewed(Field &ally, Field &enemy)
     auto *b1 = new ReinforcedBallista();
     auto *b2 = new ReinforcedBallista();
     auto *b3 = new ReinforcedBallista();
+    auto *s3 = new RonvidTheIncessant();
+    auto *s = new Scorch();
 
-    ally.cardsAdded = {s1, s2, b1, b2, b3};
+    ally.cardsAdded = {s1, s2, b1, b2, b3, s3, s};
     ally.hand = ally.cardsAdded;
 
     auto *m1 = new ImperialManticore();

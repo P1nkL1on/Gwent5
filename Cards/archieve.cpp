@@ -3619,8 +3619,10 @@ RonvidTheIncessant::RonvidTheIncessant()
     tags = { Kaedwen, Soldier };
     isCrew = true;
 
-    _onTurnEnd = [=](Field &, Field &) {
-        // FIXME: ability is missing
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isIn(this, ally.discard))
+            return;
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 }
 
@@ -6119,22 +6121,11 @@ VenendalElite::VenendalElite()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        // TODO: replace with setPower
         const int powerTarget = target->power;
-        if (powerTarget > power) {
-            // TODO: check if triggered onDamaged and onDamaged of other units,
-            // because it shouldn't
-            const int x = powerTarget - power;
-            damage(target, x, ally, enemy, this);
-            boost(this, x, ally, enemy, this);
-            return;
-        }
-        if (powerTarget < power) {
-            const int x = power - powerTarget;
-            damage(this, x, ally, enemy, this);
-            boost(target, x, ally, enemy, this);
-            return;
-        }
+        // TODO: check if triggered onDamaged and onDamaged of other units,
+        // because it shouldn't
+        setPower(target, power, ally, enemy, this);
+        setPower(this, powerTarget, ally, enemy, this);
     };
 }
 
