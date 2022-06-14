@@ -41,7 +41,7 @@
 - [ ] Villentretenmerth
 - [x] Muzzle
 - [x] Black Blood
-- [ ] Rock Barrage
+- [x] Rock Barrage
 - [ ] King of Beggars
 - [ ] Mastercrafted Spear
 - [ ] Peasant Militia
@@ -50,7 +50,7 @@
 - [x] Cleaver
 - [x] Ale of the Ancestors
 - [ ] Cyprian Wiley
-- [ ] Expired Ale
+- [x] Expired Ale
 - [ ] Crow's Eye
 - [ ] Lacerate
 - [x] Gaunter O'Dimm
@@ -108,7 +108,7 @@
 - [ ] Petri's Philter _(easy card)_
 - [x] Reconnaissance
 - [ ] Shrike _(easy card)_
-- [ ] Stammelford's Tremor
+- [x] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain

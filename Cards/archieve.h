@@ -2043,5 +2043,16 @@ private:
 };
 
 
+struct StammelfordsTremor : CardCollectible<StammelfordsTremor>
+{
+    StammelfordsTremor();
+};
+
+
+struct ExpiredAle : CardCollectible<ExpiredAle>
+{
+    ExpiredAle();
+};
+
 
 #endif // CARDS_H

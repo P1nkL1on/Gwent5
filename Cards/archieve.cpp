@@ -299,6 +299,8 @@ std::vector<Card *> allCards(const Patch)
         new BekkersDarkMirror(),
         new MerigoldsHailstorm(),
         new Necromancy(),
+        new StammelfordsTremor(),
+        new ExpiredAle(),
     };
 }
 
@@ -2083,7 +2085,7 @@ Mandrake::Mandrake()
         }
 
         if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-            reset(target, ally, enemy);
+            reset(target);
             weaken(target, 6, ally, enemy, this);
 
             delete _choosen;
@@ -7566,7 +7568,7 @@ Cockatrice::Cockatrice()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target, ally, enemy);
+        reset(target);
     };
 }
 
@@ -8038,7 +8040,7 @@ GeraltYrden::GeraltYrden()
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
-            reset(card, ally, enemy);
+            reset(card);
             removeAllStatuses(card);
         }
     };
@@ -8762,5 +8764,40 @@ Necromancy::Necromancy()
         transPower = target->power;
         banish(target, ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+}
+
+StammelfordsTremor::StammelfordsTremor()
+{
+    id = "113204";
+    name = "Stammelford's Tremor";
+    text = "Deal 1 damage to all enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+ExpiredAle::ExpiredAle()
+{
+    id = "200530";
+    name = "Expired Ale";
+    text = "Deal 6 damage to the Highest enemy on each row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 6, ally, enemy, this);
     };
 }
