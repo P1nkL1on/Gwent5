@@ -2055,4 +2055,10 @@ struct ExpiredAle : CardCollectible<ExpiredAle>
 };
 
 
+struct TrialOfTheGrasses : CardCollectible<TrialOfTheGrasses>
+{
+    TrialOfTheGrasses();
+};
+
+
 #endif // CARDS_H

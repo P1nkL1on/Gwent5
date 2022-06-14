@@ -772,11 +772,11 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *t1 = new ToadPrince();
     auto *t2 = new ToadPrince();
     auto *a = new Aguara();
-    auto *at = new AguaraTrueForm();
     auto *g = new GaunterODimm;
+    auto *t = new TrialOfTheGrasses();
 
-    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
-    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
+    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, g, t};
+    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, g, t};
     ally.canPass = false;
 
     auto *m1 = new ImperialManticore();

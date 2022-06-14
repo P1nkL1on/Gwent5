@@ -33,7 +33,7 @@
 - [ ] Ihuarraquax
 - [ ] Phoenix _(easy card)_
 - [ ] Saesenthessis: Blaze
-- [ ] Trial of the Grasses
+- [x] Trial of the Grasses
 - [x] Wolfsbane
 - [ ] Royal Decree _(easy card)_
 - [x] Renew

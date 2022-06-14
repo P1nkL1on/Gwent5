@@ -301,6 +301,7 @@ std::vector<Card *> allCards(const Patch)
         new Necromancy(),
         new StammelfordsTremor(),
         new ExpiredAle(),
+        new TrialOfTheGrasses(),
     };
 }
 
@@ -8799,5 +8800,26 @@ ExpiredAle::ExpiredAle()
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = highest(enemy.row(row), enemy.rng))
                 damage(card, 6, ally, enemy, this);
+    };
+}
+
+TrialOfTheGrasses::TrialOfTheGrasses()
+{
+    id = "200078";
+    name = "Trial of the Grasses";
+    text = "Boost a Witcher to 25 power; or Deal 10 damage to a non-Witcher unit. If it survives, boost it to 25 power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this))
+            boost(target, 25, ally, enemy, this);
     };
 }
