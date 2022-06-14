@@ -2073,4 +2073,10 @@ struct Garrison : CardCollectible<Garrison>
 };
 
 
+struct TheLastWish : CardCollectible<TheLastWish>
+{
+    TheLastWish();
+};
+
+
 #endif // CARDS_H

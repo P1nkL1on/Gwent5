@@ -89,7 +89,7 @@
 - [x] Scorch
 - [x] Skellige Storm
 - [x] Summoning Circle
-- [ ] The Last Wish
+- [x] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
 - [x] White Frost

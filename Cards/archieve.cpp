@@ -302,6 +302,9 @@ std::vector<Card *> allCards(const Patch)
         new StammelfordsTremor(),
         new ExpiredAle(),
         new TrialOfTheGrasses(),
+        new DimeritiumBomb(),
+        new Garrison(),
+        new TheLastWish(),
     };
 }
 
@@ -8861,5 +8864,25 @@ Garrison::Garrison()
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
         // TODO: implenemt an ability
         //startChoiceCreateOptions(ally, this);
+    };
+}
+
+TheLastWish::TheLastWish()
+{
+    id = "113102";
+    name = "The Last Wish";
+    text = "Look at 2 random cards from your deck, then play 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

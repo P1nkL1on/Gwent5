@@ -1067,12 +1067,12 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *mh = new MerigoldsHailstorm();
     auto *nm = new Necromancy();
     auto *s = new StammelfordsTremor();
-    auto *ea = new ExpiredAle();
     auto *d = new DimeritiumBomb();
+    auto *lw = new TheLastWish();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, ea, d};
-    ally.hand = {h, b, br, bm, bf, g, mh, nm, s, ea, d};
-
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw};
+    ally.hand = {bf, g, mh, nm, s, d, lw};
+    ally.deck = {h, b, br, bm};
 
     auto *a2 = new Abaya();
     auto *e = new Ekimmara();
