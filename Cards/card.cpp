@@ -249,7 +249,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
-                resetPower(card, ally, enemy);
+                resetPower(card);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -261,7 +261,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
-                resetPower(card, ally, enemy);
+                resetPower(card);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -451,7 +451,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         std::swap(cardAlly, cardEnemy);
 
     if (!card->isSpecial)
-        resetPower(card, ally, enemy);
+        resetPower(card);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -1083,14 +1083,6 @@ bool duel(Card *first, Card *second, Field &ally, Field &enemy)
     }
 }
 
-bool duelDealDoubleDamage(Card *first, Card *second, Field &ally, Field &enemy)
-{
-    assert(!first->isSpecial);
-    assert(!second->isSpecial);
-
-
-}
-
 bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
@@ -1186,7 +1178,7 @@ void heal(Card *card, const int x, Field &, Field &)
     }
 }
 
-void reset(Card *card, Field &, Field &)
+void reset(Card *card)
 {
     assert(!card->isSpecial);
 
@@ -1207,12 +1199,12 @@ void reset(Card *card, Field &, Field &)
     delete(copy);
 }
 
-void resetPower(Card *card, Field &ally, Field &enemy)
+void resetPower(Card *card)
 {
     card->power = card->powerBase;
 }
 
-void removeAllStatuses(Card *card, Field &ally, Field &enemy)
+void removeAllStatuses(Card *card)
 {
     // TODO: determine all the statuses we may clear and replace them here
     card->isSpy = false;

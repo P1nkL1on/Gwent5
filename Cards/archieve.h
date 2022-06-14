@@ -2029,5 +2029,19 @@ struct BekkersDarkMirror : CardCollectible<BekkersDarkMirror>
 };
 
 
+struct MerigoldsHailstorm: CardCollectible<MerigoldsHailstorm>
+{
+    MerigoldsHailstorm();
+};
+
+
+struct Necromancy: CardCollectible<Necromancy>
+{
+    Necromancy();
+private:
+    int transPower = 0;
+};
+
+
 
 #endif // CARDS_H

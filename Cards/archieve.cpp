@@ -297,6 +297,8 @@ std::vector<Card *> allCards(const Patch)
         new BlackBlood(),
         new BekkersRockslide(),
         new BekkersDarkMirror(),
+        new MerigoldsHailstorm(),
+        new Necromancy(),
     };
 }
 
@@ -6770,7 +6772,7 @@ Morvudd::Morvudd()
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         toggleLock(target, ally, enemy, this);
         if (isOnBoard(target, enemy))
-            setPower(target, half(target->power), ally, enemy, this);
+            setPower(target, target->power - half(target->power), ally, enemy, this);
     };
 }
 
@@ -8037,7 +8039,7 @@ GeraltYrden::GeraltYrden()
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             reset(card, ally, enemy);
-            removeAllStatuses(card, ally, enemy);
+            removeAllStatuses(card);
         }
     };
 }
@@ -8711,5 +8713,54 @@ BekkersDarkMirror::BekkersDarkMirror()
         int transPower = std::min(10, high->power - low->power);
         setPower(high, high->power - transPower, ally, enemy, this);
         setPower(low, low->power + transPower, ally, enemy, this);
+    };
+}
+
+MerigoldsHailstorm::MerigoldsHailstorm()
+{
+    id = "113202";
+    name = "Merigold's Hailstorm";
+    text = "Halve the power of all Bronze and Silver units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBronzeOrSilver(card))
+                setPower(card, card->power - half(card->power), ally, enemy, this);
+        }
+    };
+}
+
+Necromancy::Necromancy()
+{
+    id = "200020";
+    name = "Necromancy";
+    text = "Banish a Bronze or Silver unit from either graveyard, then boost an ally by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, BothDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if(isOnBoard(target, ally)) {
+            boost(target, transPower, ally, enemy, this);
+            return;
+        }
+        transPower = target->power;
+        banish(target, ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
     };
 }

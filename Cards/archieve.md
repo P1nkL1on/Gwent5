@@ -76,9 +76,9 @@
 - [x] Mandrake
 - [x] Manticore Venom
 - [x] Marching Orders
-- [ ] Merigold's Hailstorm
+- [x] Merigold's Hailstorm
 - [ ] Myrgtabrakke
-- [ ] Necromancy
+- [x] Necromancy
 - [ ] Nivellen
 - [ ] Ocvist
 - [ ] Olgierd von Everec
