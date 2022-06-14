@@ -2061,4 +2061,16 @@ struct TrialOfTheGrasses : CardCollectible<TrialOfTheGrasses>
 };
 
 
+struct DimeritiumBomb : CardCollectible<DimeritiumBomb>
+{
+    DimeritiumBomb();
+};
+
+
+struct Garrison : CardCollectible<Garrison>
+{
+    Garrison();
+};
+
+
 #endif // CARDS_H

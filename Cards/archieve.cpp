@@ -8809,7 +8809,7 @@ TrialOfTheGrasses::TrialOfTheGrasses()
     name = "Trial of the Grasses";
     text = "Boost a Witcher to 25 power; or Deal 10 damage to a non-Witcher unit. If it survives, boost it to 25 power.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
+    rarity = Gold;
     faction = Neutral;
     isSpecial = true;
     tags = { Alchemy };
@@ -8821,5 +8821,45 @@ TrialOfTheGrasses::TrialOfTheGrasses()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this))
             boost(target, 25, ally, enemy, this);
+    };
+}
+
+DimeritiumBomb::DimeritiumBomb()
+{
+    id = "113205";
+    name = "Dimeritium Bomb";
+    text = "Reset all boosted units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBoosted(card))
+                reset(card);
+        }
+    };
+}
+
+Garrison::Garrison()
+{
+    id = "201639";
+    name = "Garrison";
+    text = "Create a Bronze or Silver unit from your opponent's starting deck and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Tactics };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        // TODO: implenemt an ability
+        //startChoiceCreateOptions(ally, this);
     };
 }

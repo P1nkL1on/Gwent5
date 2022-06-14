@@ -1060,7 +1060,6 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
 {
     auto *h = new HanmarvynsDream();
     auto *b = new BlackBlood();
-    auto *a1 = new Abaya();
     auto *br = new BekkersRockslide();
     auto *bm = new BekkersDarkMirror();
     auto *bf = new BitingFrost();
@@ -1069,9 +1068,10 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *nm = new Necromancy();
     auto *s = new StammelfordsTremor();
     auto *ea = new ExpiredAle();
+    auto *d = new DimeritiumBomb();
 
-    ally.cardsAdded = {h, b, a1, br, bm, bf, g, mh, nm, s, ea};
-    ally.hand = {h, b, a1, br, bm, bf, g, mh, nm, s, ea};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, ea, d};
+    ally.hand = {h, b, br, bm, bf, g, mh, nm, s, ea, d};
 
 
     auto *a2 = new Abaya();

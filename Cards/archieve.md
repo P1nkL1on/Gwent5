@@ -55,7 +55,7 @@
 - [ ] Lacerate
 - [x] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
-- [ ] Garrison
+- [x] Garrison
 - [ ] Iris' Companions
 - [ ] Johnny
 - [ ] Stregobor
@@ -66,7 +66,7 @@
 - [x] Bekker's Rockslide
 - [x] Commander's Horn
 - [x] Decoy
-- [ ] Dimeritium Bomb
+- [x] Dimeritium Bomb
 - [ ] Dragon's Dream
 - [ ] Dudu
 - [x] Eskel
