@@ -1679,7 +1679,7 @@ void spy(Card *card, Field &ally, Field &enemy, const Card *src)
 
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo)
 {
-    if (card->timer != 0 && card->timer >= 0) {
+    if (card->timer > 0) {
         card->timer--;
     }
 

@@ -62,8 +62,8 @@
 - [ ] Doppler _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
-- [ ] Bekker's Dark Mirror
-- [ ] Bekker's Rockslide
+- [x] Bekker's Dark Mirror
+- [x] Bekker's Rockslide
 - [x] Commander's Horn
 - [x] Decoy
 - [ ] Dimeritium Bomb

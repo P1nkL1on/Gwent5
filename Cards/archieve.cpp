@@ -295,6 +295,8 @@ std::vector<Card *> allCards(const Patch)
         new Aelirenn(),
         new HanmarvynsDream(),
         new BlackBlood(),
+        new BekkersRockslide(),
+        new BekkersDarkMirror(),
     };
 }
 
@@ -8618,7 +8620,7 @@ HanmarvynsDream::HanmarvynsDream()
 BlackBlood::BlackBlood()
 {
     id = "201697";
-    name = "BlackBlood";
+    name = "Black Blood";
     text = "Choose One: Create a Bronze Necrophage or Vampire and boost it by 2; or Destroy a Bronze or Silver Necrophage or Vampire.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     rarity = Silver;
@@ -8662,7 +8664,6 @@ BlackBlood::BlackBlood()
             _choosen = nullptr;
             return;
         }
-
         if (dynamic_cast<BlackBlood::Destroy *>(_choosen)) {
             putToDiscard(target, ally, enemy, this);
 
@@ -8670,7 +8671,45 @@ BlackBlood::BlackBlood()
             _choosen = nullptr;
             return;
         }
-
         assert(false);
+    };
+}
+
+BekkersRockslide::BekkersRockslide()
+{
+    id = "201634";
+    name = "Bekker's Rockslide";
+    text = "Deal 2 damage to 10 random enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card * card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 10, ally.rng))
+             damage(card, 2, ally, enemy, this);
+    };
+}
+
+BekkersDarkMirror::BekkersDarkMirror()
+{
+    id = "113315";
+    name = "Bekker's Dark Mirror";
+    text = "Transfer up to 10 power between the Highest and Lowest unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        Card *high = highest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
+        Card *low = lowest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
+        if (/*highest == nullptr ||*/ high == low)
+            return;
+        int transPower = std::min(10, high->power - low->power);
+        setPower(high, high->power - transPower, ally, enemy, this);
+        setPower(low, low->power + transPower, ally, enemy, this);
     };
 }

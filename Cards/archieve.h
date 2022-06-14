@@ -2017,5 +2017,17 @@ private:
 };
 
 
+struct BekkersRockslide : CardCollectible<BekkersRockslide>
+{
+    BekkersRockslide();
+};
+
+
+struct BekkersDarkMirror : CardCollectible<BekkersDarkMirror>
+{
+    BekkersDarkMirror();
+};
+
+
 
 #endif // CARDS_H

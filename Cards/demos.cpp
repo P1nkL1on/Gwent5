@@ -1061,9 +1061,13 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *h = new HanmarvynsDream();
     auto *b = new BlackBlood();
     auto *a1 = new Abaya();
+    auto *br = new BekkersRockslide();
+    auto *bm = new BekkersDarkMirror();
+    auto *bf = new BitingFrost();
+    auto *g = new GoldenFroth();
 
-    ally.cardsAdded = {h, b, a1};
-    ally.hand = {h, b, a1};
+    ally.cardsAdded = {h, b, a1, br, bm, bf, g};
+    ally.hand = {h, b, a1, br, bm, bf, g};
 
 
     auto *a2 = new Abaya();
