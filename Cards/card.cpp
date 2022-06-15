@@ -249,7 +249,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
-                resetPower(card);
+                resetPower(card, ally, enemy, nullptr);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -261,7 +261,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
-                resetPower(card);
+                resetPower(card, ally, enemy, nullptr);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -451,7 +451,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         std::swap(cardAlly, cardEnemy);
 
     if (!card->isSpecial)
-        resetPower(card);
+        resetPower(card, ally, enemy, nullptr);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -1178,7 +1178,7 @@ void heal(Card *card, const int x, Field &, Field &)
     }
 }
 
-void reset(Card *card)
+void reset(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
@@ -1197,20 +1197,23 @@ void reset(Card *card)
     // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
     delete(copy);
+    saveFieldsSnapshot(ally, enemy, ResetAsInDeckBuilder, src, {card});
 }
 
-void resetPower(Card *card)
+void resetPower(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     card->power = card->powerBase;
+    saveFieldsSnapshot(ally, enemy, ResetInPower, src, {card});
 }
 
-void removeAllStatuses(Card *card)
+void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     // TODO: determine all the statuses we may clear and replace them here
     card->isSpy = false;
     card->isResilient = false;
     card->isLocked = false;
     card->isImmune = false;
+    saveFieldsSnapshot(ally, enemy, StrippedOfAllStatuses, src, {card});
 }
 
 void putToHand(Card *card, Field &ally, Field &enemy)

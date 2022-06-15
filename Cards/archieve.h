@@ -2084,6 +2084,7 @@ struct DimeritiumShackles : CardCollectible<DimeritiumShackles>
     DimeritiumShackles();
 };
 
+
 struct WyvernScaleShield : CardCollectible<WyvernScaleShield>
 {
     WyvernScaleShield();

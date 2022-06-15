@@ -2091,7 +2091,7 @@ Mandrake::Mandrake()
         }
 
         if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-            reset(target);
+            reset(target, ally, enemy, this);
             weaken(target, 6, ally, enemy, this);
 
             delete _choosen;
@@ -2239,7 +2239,8 @@ ShupeKnight::ShupeKnight()
         }
 
         if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
-            target->power = target->powerBase;
+            //target->power = target->powerBase;
+            resetPower(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -7574,7 +7575,7 @@ Cockatrice::Cockatrice()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target);
+        reset(target, ally, enemy, this);
     };
 }
 
@@ -8016,8 +8017,9 @@ GeraltAard::GeraltAard()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!damage(target, 3, ally, enemy, this)) {
             const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
-            const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
+            const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
+            if (rowAbove != rowAndPos.row())
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
         }
     };
 }
@@ -8046,8 +8048,8 @@ GeraltYrden::GeraltYrden()
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
-            reset(card);
-            removeAllStatuses(card);
+            reset(card, ally, enemy, this);
+            removeAllStatuses(card, ally, enemy, this);
         }
     };
 }
@@ -8847,7 +8849,7 @@ DimeritiumBomb::DimeritiumBomb()
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             if (isBoosted(card))
-                reset(card);
+                reset(card, ally, enemy, this);
         }
     };
 }
@@ -8935,5 +8937,6 @@ WyvernScaleShield::WyvernScaleShield()
             return;
         }
         boost(target, boostAmount, ally, enemy, this);
+        boostAmount = 0;
     };
 }

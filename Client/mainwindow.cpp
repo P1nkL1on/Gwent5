@@ -963,6 +963,15 @@ void MainWindow::repaintCustom()
         case DamagedInArmor:
             stream << prefix << dst << " absorbed " << x << " damage by " << src;
             break;
+        case ResetAsInDeckBuilder:
+            stream << prefix << dst << " fully reset by " << src;
+            break;
+        case ResetInPower:
+            stream << prefix << dst << " gained power equal base power by " << src;
+            break;
+        case StrippedOfAllStatuses:
+            stream << prefix << dst << " lost all of statuses by " << src;
+            break;
         case GainArmor:
             stream << prefix << dst << " gained " << x << " armor by " << src;
             break;
