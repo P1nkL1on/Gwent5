@@ -98,7 +98,7 @@
 - [x] Arachas Venom
 - [x] Biting Frost
 - [x] Bloodcurdling Roar
-- [ ] Dimeritium Shackles _(easy card)_
+- [x] Dimeritium Shackles _(easy card)_
 - [x] Epidemic
 - [x] First Light
 - [x] Golden Froth
@@ -112,7 +112,7 @@
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain
-- [ ] Wyvern Scale Shield _(easy card)_
+- [x] Wyvern Scale Shield _(easy card)_
 
 # Nothern Realms
 

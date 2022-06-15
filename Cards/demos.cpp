@@ -1069,10 +1069,13 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *s = new StammelfordsTremor();
     auto *d = new DimeritiumBomb();
     auto *lw = new TheLastWish();
+    auto *ds = new DimeritiumShackles();
+    auto *ws = new WyvernScaleShield();
+    auto *ud = new JuttaAnDimun();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw};
-    ally.hand = {bf, g, mh, nm, s, d, lw};
-    ally.deck = {h, b, br, bm};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ud};
+    ally.hand = {bf, g, lw, ds, ws, ud};
+    ally.deck = {h, b, br, bm, mh, nm, s, d};
 
     auto *a2 = new Abaya();
     auto *e = new Ekimmara();

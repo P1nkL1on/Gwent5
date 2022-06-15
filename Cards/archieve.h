@@ -2079,4 +2079,17 @@ struct TheLastWish : CardCollectible<TheLastWish>
 };
 
 
+struct DimeritiumShackles : CardCollectible<DimeritiumShackles>
+{
+    DimeritiumShackles();
+};
+
+struct WyvernScaleShield : CardCollectible<WyvernScaleShield>
+{
+    WyvernScaleShield();
+private:
+    int boostAmount = 0;
+};
+
+
 #endif // CARDS_H

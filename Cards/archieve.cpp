@@ -305,6 +305,8 @@ std::vector<Card *> allCards(const Patch)
         new DimeritiumBomb(),
         new Garrison(),
         new TheLastWish(),
+        new DimeritiumShackles(),
+        new WyvernScaleShield(),
     };
 }
 
@@ -8822,8 +8824,8 @@ TrialOfTheGrasses::TrialOfTheGrasses()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this))
-            boost(target, 25, ally, enemy, this);
+        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this)) && target->power < 25)
+            setPower(target, 25, ally, enemy, this);
     };
 }
 
@@ -8884,5 +8886,54 @@ TheLastWish::TheLastWish()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+DimeritiumShackles::DimeritiumShackles()
+{
+    id = "113319";
+    name = "Dimeritium Shackles";
+    text = "Toggle a unit's Lock status. If an enemy, deal 4 damage to it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, 4, ally, enemy, this);
+    };
+}
+
+WyvernScaleShield::WyvernScaleShield()
+{
+    id = "133301";
+    name = "Wyvern Scale Shield";
+    text = "Boost a unit by the base power of a Bronze or Silver unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, AllyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (boostAmount <= 0) {
+            boostAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+        boost(target, boostAmount, ally, enemy, this);
     };
 }
