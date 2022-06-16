@@ -2093,4 +2093,12 @@ private:
 };
 
 
+struct MastercraftedSpear : CardCollectible<MastercraftedSpear>
+{
+    MastercraftedSpear();
+private:
+    int damageAmount = 0;
+};
+
+
 #endif // CARDS_H

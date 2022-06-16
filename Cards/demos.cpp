@@ -1071,10 +1071,11 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *lw = new TheLastWish();
     auto *ds = new DimeritiumShackles();
     auto *ws = new WyvernScaleShield();
+    auto *ms = new MastercraftedSpear();
     auto *ud = new JuttaAnDimun();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ud};
-    ally.hand = {bf, g, lw, ds, ws, ud};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud};
+    ally.hand = {bf, g, lw, ds, ws, ms, ud};
     ally.deck = {h, b, br, bm, mh, nm, s, d};
 
     auto *a2 = new Abaya();

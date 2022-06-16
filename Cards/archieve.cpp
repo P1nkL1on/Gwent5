@@ -307,6 +307,7 @@ std::vector<Card *> allCards(const Patch)
         new TheLastWish(),
         new DimeritiumShackles(),
         new WyvernScaleShield(),
+        new MastercraftedSpear(),
     };
 }
 
@@ -8938,5 +8939,33 @@ WyvernScaleShield::WyvernScaleShield()
         }
         boost(target, boostAmount, ally, enemy, this);
         boostAmount = 0;
+    };
+}
+
+MastercraftedSpear::MastercraftedSpear()
+{
+    id = "201656";
+    name = "Mastercrafted Spear";
+    text = "Deal damage equal to the base power of a Bronze or Silver unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, EnemyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (damageAmount <= 0) {
+            damageAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+        damage(target, damageAmount, ally, enemy, this);
+        damageAmount = 0;
     };
 }

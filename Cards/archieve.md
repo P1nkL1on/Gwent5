@@ -43,7 +43,7 @@
 - [x] Black Blood
 - [x] Rock Barrage
 - [ ] King of Beggars
-- [ ] Mastercrafted Spear
+- [x] Mastercrafted Spear
 - [ ] Peasant Militia
 - [ ] Spores
 - [x] Glorious Hunt
