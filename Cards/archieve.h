@@ -2125,4 +2125,22 @@ struct UmasCurse : CardCollectible<UmasCurse>
 };
 
 
+struct Lacerate : CardCollectible<Lacerate>
+{
+    Lacerate();
+};
+
+
+struct CrowsEye : CardCollectible<CrowsEye>
+{
+    CrowsEye();
+};
+
+
+struct Doppler : CardCollectible<Doppler>
+{
+    Doppler();
+};
+
+
 #endif // CARDS_H

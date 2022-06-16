@@ -51,15 +51,15 @@
 - [x] Ale of the Ancestors
 - [ ] Cyprian Wiley
 - [x] Expired Ale
-- [ ] Crow's Eye
-- [ ] Lacerate
+- [x] Crow's Eye
+- [x] Lacerate
 - [x] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
 - [x] Garrison
 - [ ] Iris' Companions
 - [ ] Johnny
 - [ ] Stregobor
-- [ ] Doppler _(easy card)_
+- [x] Doppler _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
 - [x] Bekker's Dark Mirror

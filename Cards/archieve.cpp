@@ -312,6 +312,9 @@ std::vector<Card *> allCards(const Patch)
         new Shrike(),
         new RoyalDecree(),
         new UmasCurse(),
+        new Lacerate(),
+        new CrowsEye(),
+        new Doppler(),
     };
 }
 
@@ -9047,5 +9050,64 @@ UmasCurse::UmasCurse()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Lacerate::Lacerate()
+{
+    id = "153301";
+    name = "Lacerate";
+    text = "Deal 3 damage to all units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            damage(card, 3, ally, enemy, this);
+        }
+    };
+}
+
+CrowsEye::CrowsEye()
+{
+    id = "200224";
+    name = "Crow's Eye";
+    text = "Deal 4 damage to the Highest enemy on each row. Deal 1 extra damage for each copy of this card in your graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        int extraDamage = cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size();
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 4 + extraDamage, ally, enemy, this);
+    };
+}
+
+Doppler::Doppler()
+{
+    id = "201631";
+    name = "Doppler";
+    text = "Spawn a random Bronze unit from your faction.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
+        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, allCards(this->patch)), ally.rng)->defaultCopy();
+        spawnNewCard(card, ally, enemy, this);
     };
 }

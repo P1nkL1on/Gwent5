@@ -36,6 +36,12 @@ template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(
 
 using Filter = std::function<bool(Card *)>;
 
+inline Filter isFaction(const int faction)
+{
+    return [faction](Card *card) {
+        return card->faction == faction;
+    };
+}
 inline Filter hasAnyOfTags(const std::vector<Tag> &tags)
 {
     return [tags](Card *card) {
