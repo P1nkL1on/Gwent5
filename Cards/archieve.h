@@ -2101,4 +2101,16 @@ private:
 };
 
 
+struct PetrisPhilter : CardCollectible<PetrisPhilter>
+{
+    PetrisPhilter();
+};
+
+
+struct Shrike : CardCollectible<Shrike>
+{
+    Shrike();
+};
+
+
 #endif // CARDS_H

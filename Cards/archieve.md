@@ -105,9 +105,9 @@
 - [x] Impenetrable Fog
 - [x] Mahakam Ale _(easy card)_
 - [ ] Mardroeme
-- [ ] Petri's Philter _(easy card)_
+- [x] Petri's Philter _(easy card)_
 - [x] Reconnaissance
-- [ ] Shrike _(easy card)_
+- [x] Shrike _(easy card)_
 - [x] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt

@@ -308,6 +308,8 @@ std::vector<Card *> allCards(const Patch)
         new DimeritiumShackles(),
         new WyvernScaleShield(),
         new MastercraftedSpear(),
+        new PetrisPhilter(),
+        new Shrike(),
     };
 }
 
@@ -8967,5 +8969,39 @@ MastercraftedSpear::MastercraftedSpear()
         }
         damage(target, damageAmount, ally, enemy, this);
         damageAmount = 0;
+    };
+}
+
+PetrisPhilter::PetrisPhilter()
+{
+    id = "200008";
+    name = "Petri's Philter";
+    text = "Boost 6 random allies by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng)
+            boost(card, 2, ally, enemy, this);
+    };
+}
+
+Shrike::Shrike()
+{
+    id = "200009";
+    name = "Shrike";
+    text = "Deal 2 damage to 6 random enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng)
+            damage(card, 2, ally, enemy, this);
     };
 }
