@@ -310,6 +310,8 @@ std::vector<Card *> allCards(const Patch)
         new MastercraftedSpear(),
         new PetrisPhilter(),
         new Shrike(),
+        new RoyalDecree(),
+        new UmasCurse(),
     };
 }
 
@@ -8984,7 +8986,7 @@ PetrisPhilter::PetrisPhilter()
     tags = { Alchemy, Item };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng)
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng))
             boost(card, 2, ally, enemy, this);
     };
 }
@@ -9001,7 +9003,49 @@ Shrike::Shrike()
     tags = { Alchemy, Item };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng)
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng))
             damage(card, 2, ally, enemy, this);
+    };
+}
+
+RoyalDecree::RoyalDecree()
+{
+    id = "200154";
+    name = "Royal Decree";
+    text = "Play a Gold unit from your deck and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Tactics };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit}, AllyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        boost(target, 2, ally, enemy, this);
+    };
+}
+
+UmasCurse::UmasCurse()
+{
+    id = "200058";
+    name = "Uma's Curse";
+    text = "Create any non-Leader Gold unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, this, {isGold, isUnit, hasNoTag(Leader)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
     };
 }

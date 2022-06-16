@@ -2113,4 +2113,16 @@ struct Shrike : CardCollectible<Shrike>
 };
 
 
+struct RoyalDecree : CardCollectible<RoyalDecree>
+{
+    RoyalDecree();
+};
+
+
+struct UmasCurse : CardCollectible<UmasCurse>
+{
+    UmasCurse();
+};
+
+
 #endif // CARDS_H

@@ -1073,10 +1073,14 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *ws = new WyvernScaleShield();
     auto *ms = new MastercraftedSpear();
     auto *ud = new JuttaAnDimun();
+    auto *rd = new RoyalDecree();
+    auto *uc = new UmasCurse();
+    auto *tb = new TrissButterflies();
+    auto *ye = new YenneferEnchantress();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud};
-    ally.hand = {bf, g, lw, ds, ws, ms, ud};
-    ally.deck = {h, b, br, bm, mh, nm, s, d};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud, tb, ye};
+    ally.hand = {bf, g, lw, ds, ws, ms, ud, rd, uc};
+    ally.deck = {h, b, br, bm, mh, nm, s, d, tb, ye};
 
     auto *a2 = new Abaya();
     auto *e = new Ekimmara();

@@ -21,7 +21,7 @@
 - [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
-- [ ] Uma's Curse
+- [x] Uma's Curse
 - [ ] Triss Merigold _(easy card)_
 - [x] Triss: Butterflies
 - [ ] Triss: Telekinesis
@@ -35,7 +35,7 @@
 - [ ] Saesenthessis: Blaze
 - [x] Trial of the Grasses
 - [x] Wolfsbane
-- [ ] Royal Decree _(easy card)_
+- [x] Royal Decree _(easy card)_
 - [x] Renew
 - [ ] Sihil
 - [ ] Villentretenmerth
