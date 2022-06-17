@@ -37,7 +37,7 @@
 - [x] Wolfsbane
 - [x] Royal Decree _(easy card)_
 - [x] Renew
-- [ ] Sihil
+- [x] Sihil
 - [ ] Villentretenmerth
 - [x] Muzzle
 - [x] Black Blood
@@ -45,7 +45,7 @@
 - [ ] King of Beggars
 - [x] Mastercrafted Spear
 - [ ] Peasant Militia
-- [ ] Spores
+- [x] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
 - [x] Ale of the Ancestors
@@ -104,7 +104,7 @@
 - [x] Golden Froth
 - [x] Impenetrable Fog
 - [x] Mahakam Ale _(easy card)_
-- [ ] Mardroeme
+- [x] Mardroeme
 - [x] Petri's Philter _(easy card)_
 - [x] Reconnaissance
 - [x] Shrike _(easy card)_

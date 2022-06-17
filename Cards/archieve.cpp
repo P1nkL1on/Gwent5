@@ -9236,3 +9236,23 @@ Sihil::Sihil()
         assert(false);
     };
 }
+
+DragonsDream::DragonsDream()
+{
+    id = "201637";
+    name = "Dragon's Dream";
+    text = "Apply a Hazard to an enemy row that will explode and deal 4 damage to all units when a different special card is played.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
+    };
+}

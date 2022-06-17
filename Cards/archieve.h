@@ -2170,4 +2170,10 @@ private:
 };
 
 
+struct DragonsDream : CardCollectible<DragonsDream>
+{
+    DragonsDream();
+};
+
+
 #endif // CARDS_H

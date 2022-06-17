@@ -1080,12 +1080,13 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *dop = new Doppler();
     auto *md = new Mardroeme();
     auto *s = new Sihil();
+    auto *dd = new DragonsDream();
 
     auto *lead = new BranTuirseach();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, st, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md, s};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, st, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md, s, dd};
     ally.leader = lead;
-    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, s};
+    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, s, dd};
     ally.deck = {h, b, br, bm, mh, nm, st, d, ws, ms, tb, ye, md};
 
     auto *a2 = new Abaya();

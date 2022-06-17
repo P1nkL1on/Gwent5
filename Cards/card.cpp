@@ -345,6 +345,17 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
+
+    // DragonsDreamEffect works here
+    for (int screenRow = 0; screenRow < 6; screenRow++) {
+        RowEffect effect = rowEffectInSreenRow(ally, enemy, screenRow);
+        if (effect != DragonsDreamEffect)
+            continue;
+        const std::vector<Card *> rowFiltered = cardsInRow(ally, enemy, screenRow);
+        for (Card *card : rowFiltered)
+            damage(card, 4, ally, enemy, nullptr);
+        applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+    }
 }
 
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
