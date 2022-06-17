@@ -2212,6 +2212,14 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
     return NoRowEffect;
 }
 
+
+RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    return isAlly ? ally.rowEffect(row) : enemy.rowEffect(row);
+}
+
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts)
 {
     std::vector<Card *> res;
@@ -2296,3 +2304,4 @@ int nCrewed(Card *card, Field &ally)
             ++n;
     return n;
 }
+

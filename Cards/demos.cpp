@@ -1078,13 +1078,14 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *tb = new TrissButterflies();
     auto *ye = new YenneferEnchantress();
     auto *dop = new Doppler();
+    auto *md = new Mardroeme();
 
     auto *lead = new BranTuirseach();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud, tb, ye, dop, lead};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md};
     ally.leader = lead;
-    ally.hand = {bf, g, lw, ds, ws, ms, ud, rd, uc, dop};
-    ally.deck = {h, b, br, bm, mh, nm, s, d, tb, ye};
+    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, md};
+    ally.deck = {h, b, br, bm, mh, nm, s, d, ws, ms, tb, ye};
 
     auto *a2 = new Abaya();
     auto *e = new Ekimmara();

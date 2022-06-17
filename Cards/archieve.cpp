@@ -315,6 +315,8 @@ std::vector<Card *> allCards(const Patch)
         new Lacerate(),
         new CrowsEye(),
         new Doppler(),
+        new Spores(),
+        new Mardroeme(),
     };
 }
 
@@ -8933,19 +8935,20 @@ WyvernScaleShield::WyvernScaleShield()
     tags = { Item };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        if (cardsFiltered(ally, enemy, {}, AllyBoard).size() == 0)
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
             return;
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+        _boostAmount = 0;
     };
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        if (boostAmount <= 0) {
-            boostAmount = target->powerBase;
+        if (_boostAmount <= 0) {
+            _boostAmount = target->powerBase;
             startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
             return;
         }
-        boost(target, boostAmount, ally, enemy, this);
-        boostAmount = 0;
+        boost(target, _boostAmount, ally, enemy, this);
+        _boostAmount = 0;
     };
 }
 
@@ -8961,19 +8964,20 @@ MastercraftedSpear::MastercraftedSpear()
     tags = { Item };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        if (cardsFiltered(ally, enemy, {}, EnemyBoard).size() == 0)
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
             return;
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+        _damageAmount = 0;
     };
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        if (damageAmount <= 0) {
-            damageAmount = target->powerBase;
+        if (_damageAmount <= 0) {
+            _damageAmount = target->powerBase;
             startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
             return;
         }
-        damage(target, damageAmount, ally, enemy, this);
-        damageAmount = 0;
+        damage(target, _damageAmount, ally, enemy, this);
+        _damageAmount = 0;
     };
 }
 
@@ -9027,8 +9031,8 @@ RoyalDecree::RoyalDecree()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
         boost(target, 2, ally, enemy, this);
+        playExistedCard(target, ally, enemy, this);
     };
 }
 
@@ -9069,9 +9073,8 @@ Lacerate::Lacerate()
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
-        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
             damage(card, 3, ally, enemy, this);
-        }
     };
 }
 
@@ -9087,7 +9090,7 @@ CrowsEye::CrowsEye()
     tags = { Alchemy, Organic };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        int extraDamage = cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size();
+        const int extraDamage = cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size();
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = highest(enemy.row(row), enemy.rng))
                 damage(card, 4 + extraDamage, ally, enemy, this);
@@ -9109,5 +9112,69 @@ Doppler::Doppler()
         const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
         Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, allCards(this->patch)), ally.rng)->defaultCopy();
         spawnNewCard(card, ally, enemy, this);
+    };
+}
+
+Spores::Spores()
+{
+    id = "201744";
+    name = "Spores";
+    text = "Deal 2 damage to all units on a row and clear a Boon from it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
+            damage(card, 2, ally, enemy, this);
+        if (rowEffectInSreenRow(ally, enemy, screenRow) > 9)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+    };
+}
+
+Mardroeme::Mardroeme()
+{
+    id = "113320";
+    name = "Mardroeme";
+    text = "Choose One: Reset a unit and Strengthen it by 3; or Reset a unit and Weaken it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new Mardroeme::Strengthen;
+        copyCardText(this, option1);
+        option1->text = "Reset a unit and Strengthen it by 3.";
+
+        auto *option2 = new Mardroeme::Weaken;
+        copyCardText(this, option2);
+        option2->text = "Reset a unit and Weaken it by 3.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+
+        reset(target, ally, enemy, this);
+        if (dynamic_cast<Mardroeme::Strengthen *>(_choosen))
+            strengthen(target, 3, ally, enemy);
+        if (dynamic_cast<Mardroeme::Weaken *>(_choosen))
+            weaken(target, 3, ally, enemy, this);
+        delete _choosen;
+        _choosen = nullptr;
     };
 }

@@ -2089,7 +2089,7 @@ struct WyvernScaleShield : CardCollectible<WyvernScaleShield>
 {
     WyvernScaleShield();
 private:
-    int boostAmount = 0;
+    int _boostAmount = 0;
 };
 
 
@@ -2097,7 +2097,7 @@ struct MastercraftedSpear : CardCollectible<MastercraftedSpear>
 {
     MastercraftedSpear();
 private:
-    int damageAmount = 0;
+    int _damageAmount = 0;
 };
 
 
@@ -2140,6 +2140,22 @@ struct CrowsEye : CardCollectible<CrowsEye>
 struct Doppler : CardCollectible<Doppler>
 {
     Doppler();
+};
+
+
+struct Spores : CardCollectible<Spores>
+{
+    Spores();
+};
+
+
+struct Mardroeme : CardCollectible<Mardroeme>
+{
+    Mardroeme();
+private:
+    struct Strengthen : CardCollectible<Strengthen> {};
+    struct Weaken : CardCollectible<Weaken> {};
+    Card *_choosen = nullptr;
 };
 
 

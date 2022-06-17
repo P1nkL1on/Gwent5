@@ -291,6 +291,7 @@ RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
+RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
 // TODO: remove old function
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
