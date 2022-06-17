@@ -31,6 +31,8 @@ inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }
 inline bool isDeathwish(Card *card) { return card->hasDeathwish(); }
 inline bool isCrew(Card *card) { return card->isCrew && !card->isLocked; }
 inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(); }
+inline bool hasOddPower(Card *card) { return card->power % 2 != 0; }
+inline bool hasEvenPower(Card *card) { return card->power % 2 == 0; }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
 
 

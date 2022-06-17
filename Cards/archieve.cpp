@@ -317,6 +317,7 @@ std::vector<Card *> allCards(const Patch)
         new Doppler(),
         new Spores(),
         new Mardroeme(),
+        new Sihil(),
     };
 }
 
@@ -9176,5 +9177,62 @@ Mardroeme::Mardroeme()
             weaken(target, 3, ally, enemy, this);
         delete _choosen;
         _choosen = nullptr;
+    };
+}
+
+Sihil::Sihil()
+{
+    id = "201632";
+    name = "Sihil";
+    text = "Choose One: Deal 3 damage to all enemies with odd power; or Deal 3 damage to all enemies with even power; or Play a random Bronze or Silver unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new Sihil::DamageOdd;
+        copyCardText(this, option1);
+        option1->text = "Deal 3 damage to all enemies with odd power.";
+
+        auto *option2 = new Sihil::DamageEven;
+        copyCardText(this, option2);
+        option2->text = "Deal 3 damage to all enemies with even power.";
+
+        auto *option3 = new Sihil::PlayFromDeck;
+        copyCardText(this, option3);
+        option3->text = "Play a random Bronze or Silver unit from your deck.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2, option3});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen == nullptr);
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<Sihil::DamageOdd *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
+                damage(card, 3, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<Sihil::DamageEven *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
+                damage(card, 3, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<Sihil::PlayFromDeck *>(_choosen)) {
+            if (Card *card = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
+                playExistedCard(card, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        assert(false);
     };
 }

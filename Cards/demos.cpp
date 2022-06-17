@@ -1066,7 +1066,7 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *g = new GoldenFroth();
     auto *mh = new MerigoldsHailstorm();
     auto *nm = new Necromancy();
-    auto *s = new StammelfordsTremor();
+    auto *st = new StammelfordsTremor();
     auto *d = new DimeritiumBomb();
     auto *lw = new TheLastWish();
     auto *ds = new DimeritiumShackles();
@@ -1079,13 +1079,14 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
     auto *ye = new YenneferEnchantress();
     auto *dop = new Doppler();
     auto *md = new Mardroeme();
+    auto *s = new Sihil();
 
     auto *lead = new BranTuirseach();
 
-    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, s, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md};
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, st, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md, s};
     ally.leader = lead;
-    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, md};
-    ally.deck = {h, b, br, bm, mh, nm, s, d, ws, ms, tb, ye};
+    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, s};
+    ally.deck = {h, b, br, bm, mh, nm, st, d, ws, ms, tb, ye, md};
 
     auto *a2 = new Abaya();
     auto *e = new Ekimmara();

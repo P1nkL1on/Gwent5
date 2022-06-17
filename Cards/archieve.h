@@ -2159,4 +2159,15 @@ private:
 };
 
 
+struct Sihil : CardCollectible<Sihil>
+{
+    Sihil();
+private:
+    struct DamageOdd : CardCollectible<DamageOdd> {};
+    struct DamageEven : CardCollectible<DamageEven> {};
+    struct PlayFromDeck : CardCollectible<PlayFromDeck> {};
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H
