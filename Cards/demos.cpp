@@ -1103,3 +1103,35 @@ void demoNeutralSpecial(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoGoldWitchers(Field &ally, Field &enemy)
+{
+    auto *e = new EskelPathfinder();
+    auto *l = new LambertSwordmaster();
+    auto *v = new VesemirMentor();
+    auto *dd = new DragonsDream();
+    auto *g = new GoldenFroth();
+    auto *c = new CrowsEye();
+
+
+    ally.cardsAdded = {e, l, v, dd, g, c};
+    ally.hand = {e, l, v, dd};
+    ally.deck = {g, c};
+
+
+    auto *a1 = new Abaya();
+    auto *a2 = new Abaya();
+    auto *a3 = new Abaya();
+    auto *a4 = new Abaya();
+    auto *n = new Nekker();
+    auto *u = new UnseenElder();
+    auto *w = new WoodlandSpirit();
+    auto *h1 = new HanmarvynsDream();
+
+    enemy.cardsAdded = {a1, a2, a3, a4, n, u, w, h1};
+    enemy.rowRange = {a1, a2, a3, a4, n};
+    enemy.discard = {u, w, h1};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

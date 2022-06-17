@@ -318,6 +318,9 @@ std::vector<Card *> allCards(const Patch)
         new Spores(),
         new Mardroeme(),
         new Sihil(),
+        new EskelPathfinder(),
+        new VesemirMentor(),
+        new LambertSwordmaster(),
     };
 }
 
@@ -9254,5 +9257,85 @@ DragonsDream::DragonsDream()
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
+    };
+}
+
+EskelPathfinder::EskelPathfinder()
+{
+    id = "200236";
+    name = "Eskel: Pathfinder";
+    text = "Destroy a Bronze or Silver enemy that is not boosted.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
+        "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3"
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+    };
+}
+
+VesemirMentor::VesemirMentor()
+{
+    id = "200237";
+    name = "Vesemir: Mentor";
+    text = "Play a Bronze or Silver Alchemy card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+LambertSwordmaster::LambertSwordmaster()
+{
+    id = "200235";
+    name = "Lambert";
+    text = "Deal 4 damage to all copies of an enemy unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00572964.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(card, 4, ally, enemy, this);
     };
 }

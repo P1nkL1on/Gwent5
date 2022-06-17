@@ -2176,4 +2176,22 @@ struct DragonsDream : CardCollectible<DragonsDream>
 };
 
 
+struct EskelPathfinder : CardCollectible<EskelPathfinder>
+{
+    EskelPathfinder();
+};
+
+
+struct VesemirMentor : CardCollectible<VesemirMentor>
+{
+    VesemirMentor();
+};
+
+
+struct LambertSwordmaster : CardCollectible<LambertSwordmaster>
+{
+    LambertSwordmaster();
+};
+
+
 #endif // CARDS_H

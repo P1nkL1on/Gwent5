@@ -13,9 +13,9 @@
 - [x] Geralt: Aard
 - [x] Geralt: Yrden __{NOT EXECT ABILITY}__
 - [x] Geralt: Professional
-- [ ] Lambert: Swordmaster
-- [ ] Vesemir: Mentor _(easy card)_
-- [ ] Eskel: Pathfinder _(easy card)_
+- [x] Lambert: Swordmaster
+- [x] Vesemir: Mentor _(easy card)_
+- [x] Eskel: Pathfinder _(easy card)_
 - [x] Yennefer
 - [ ] Yennefer: Conjurer
 - [x] Ciri
