@@ -2246,4 +2246,16 @@ struct DandelionVainglory : CardCollectible<DandelionVainglory>
 };
 
 
+struct CyprianWiley : CardCollectible<CyprianWiley>
+{
+    CyprianWiley();
+};
+
+
+struct Dudu : CardCollectible<Dudu>
+{
+    Dudu();
+};
+
+
 #endif // CARDS_H

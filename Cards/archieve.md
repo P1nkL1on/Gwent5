@@ -49,7 +49,7 @@
 - [x] Glorious Hunt
 - [x] Cleaver
 - [x] Ale of the Ancestors
-- [ ] Cyprian Wiley
+- [x] Cyprian Wiley
 - [x] Expired Ale
 - [x] Crow's Eye
 - [x] Lacerate
@@ -68,7 +68,7 @@
 - [x] Decoy
 - [x] Dimeritium Bomb
 - [ ] Dragon's Dream
-- [ ] Dudu
+- [x] Dudu
 - [x] Eskel
 - [x] Germain Piquant
 - [ ] Iris von Everec

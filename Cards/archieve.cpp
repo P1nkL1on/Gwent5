@@ -328,6 +328,8 @@ std::vector<Card *> allCards(const Patch)
         new TrissTelekinesis(),
         new DorregarayOfVole(),
         new DandelionVainglory(),
+        new CyprianWiley(),
+        new Dudu(),
     };
 }
 
@@ -9553,5 +9555,55 @@ DandelionVainglory::DandelionVainglory()
         if (boostNumber <= 0)
             return;
         boost(this, boostNumber * 3, ally, enemy, this);
+    };
+}
+
+CyprianWiley::CyprianWiley()
+{
+    id = "112214";
+    name = "Cyprian Wiley";
+    text = "Weaken a unit by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Redania };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        weaken(target, 4, ally, enemy, this);
+    };
+}
+
+Dudu::Dudu()
+{
+    id = "112201";
+    name = "Dudu";
+    text = "Copy the power of an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
+    };
+    power = powerBase = 1;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        setPower(this, target->power, ally, enemy, this);
     };
 }
