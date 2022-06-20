@@ -323,6 +323,11 @@ std::vector<Card *> allCards(const Patch)
         new LambertSwordmaster(),
         new RegisHigherVampire(),
         new ZoltanScoundrel(),
+        new YenneferConjurer(),
+        new TrissMerigold(),
+        new TrissTelekinesis(),
+        new DorregarayOfVole(),
+        new DandelionVainglory(),
     };
 }
 
@@ -8858,6 +8863,7 @@ Garrison::Garrison()
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
         // TODO: implenemt an ability
+        // NOTE: the same ability in TrissTelekinesis
         //startChoiceCreateOptions(ally, this);
     };
 }
@@ -9409,5 +9415,143 @@ ZoltanScoundrel::DudaAgitator::DudaAgitator()
             if (Card *card = cardNextTo(this, ally, enemy, i))
                 damage(card, 2, ally, enemy, this);
         };
+    };
+}
+
+YenneferConjurer::YenneferConjurer()
+{
+    id = "112113";
+    name = "Yennefer: Conjurer";
+    text = "Deal 1 damage to the Highest enemies on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Aedirn };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        for (Card *card : highests(cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+TrissMerigold::TrissMerigold()
+{
+    id = "112106";
+    name = "Triss Merigold";
+    text = "Deal 5 damage.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Temeria };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+}
+
+TrissTelekinesis::TrissTelekinesis()
+{
+    id = "201773";
+    name = "Triss: Telekinesis";
+    text = "Create a Bronze special card from either player's starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Temeria };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        // TODO: implenemt an ability
+        // NOTE: the same ability in Garrison
+        //startChoiceCreateOptions(ally, this);
+    };
+}
+
+DorregarayOfVole::DorregarayOfVole()
+{
+    id = "200087";
+    name = "Dorregaray of Vole";
+    text = "Create any Bronze or Silver Beast or Draconid.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage };
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+DandelionVainglory::DandelionVainglory()
+{
+    id = "201774";
+    name = "Dandelion: Vainglory";
+    text = "Boost self by 3 for each Geralt, Yennefer, Triss and Zoltan card in your starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<std::string> fellows = {"Geralt", "Yennefer", "Triss", "Zoltan"};
+        int boostNumber = 0;
+        for (std::string fellow : fellows)
+            boostNumber += cardsFiltered(ally, enemy, {hasStrInName(fellow)}, AllyDeckStarting).size();
+        if (boostNumber <= 0)
+            return;
+        boost(this, boostNumber * 3, ally, enemy, this);
     };
 }

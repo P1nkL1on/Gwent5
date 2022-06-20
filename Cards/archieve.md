@@ -17,16 +17,16 @@
 - [x] Vesemir: Mentor _(easy card)_
 - [x] Eskel: Pathfinder _(easy card)_
 - [x] Yennefer
-- [ ] Yennefer: Conjurer
+- [x] Yennefer: Conjurer
 - [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
 - [x] Uma's Curse
-- [ ] Triss Merigold _(easy card)_
+- [x] Triss Merigold _(easy card)_
 - [x] Triss: Butterflies
-- [ ] Triss: Telekinesis
+- [x] Triss: Telekinesis __{NO ABILITY}__
 - [x] Dandelion: Poet
-- [ ] Dandelion: Vainglory
+- [x] Dandelion: Vainglory
 - [x] Hanmarvyn's Dream
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog

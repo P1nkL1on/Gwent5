@@ -84,6 +84,12 @@ inline Filter hasNoTag(const Tag tag)
         return !hasTag(card, tag);
     };
 }
+inline Filter hasStrInName(const std::string &str)
+{
+    return [str](Card *card) {
+        return card->name.find(str) != std::string::npos;
+    };
+}
 inline Filter otherThan(const std::string &name)
 {
     return [name](Card *card) {

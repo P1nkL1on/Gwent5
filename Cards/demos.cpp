@@ -872,10 +872,12 @@ void demoAvalach(Field &ally, Field &enemy)
 {
     const std::vector<Card *> deckStartingAlly {
         new CiriNova(),
-        new AnCraiteArmorsmith(),
-        new AnCraiteArmorsmith(),
         new Avalach(),
         new AvalachSage(),
+        new DandelionVainglory(),
+        new TrissButterflies(),
+        new Yennefer(),
+        new YenneferConjurer(),
     };
 
     const std::vector<Card *> deckStartingEnemy {
@@ -1145,9 +1147,10 @@ void demoNeutralDudes(Field &ally, Field &enemy)
     auto *o5 = new Olaf();
     auto *r = new RegisHigherVampire();
     auto *z = new ZoltanScoundrel();
+    auto *y = new YenneferConjurer();
 
-    ally.cardsAdded = {o1, o2, o3, o4, o5, r, z};
-    ally.hand = {r, z};
+    ally.cardsAdded = {o1, o2, o3, o4, o5, r, z, y};
+    ally.hand = {r, z, y};
     ally.rowMeele = {o1, o2, o3, o4, o5};
 
     auto *e1 = new AncientFoglet();
@@ -1160,7 +1163,8 @@ void demoNeutralDudes(Field &ally, Field &enemy)
     auto *e8 = new WildHuntDrakkar();
 
     enemy.cardsAdded = {e1, e2, e3, e4, e5, e6, e7, e8};
-    enemy.deck = {e1, e2, e3, e4, e5, e6, e7, e8};
+    enemy.deck = {e1, e2, e3};
+    enemy.rowMeele = {e4, e5, e6, e7, e8};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

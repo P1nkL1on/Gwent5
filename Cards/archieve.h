@@ -2217,4 +2217,33 @@ struct ZoltanScoundrel : CardCollectible<ZoltanScoundrel>
 };
 
 
+struct YenneferConjurer : CardCollectible<YenneferConjurer>
+{
+    YenneferConjurer();
+};
+
+
+struct TrissMerigold : CardCollectible<TrissMerigold>
+{
+    TrissMerigold();
+};
+
+struct TrissTelekinesis : CardCollectible<TrissTelekinesis>
+{
+    TrissTelekinesis();
+};
+
+
+struct DorregarayOfVole : CardCollectible<DorregarayOfVole>
+{
+    DorregarayOfVole();
+};
+
+
+struct DandelionVainglory : CardCollectible<DandelionVainglory>
+{
+    DandelionVainglory();
+};
+
+
 #endif // CARDS_H
