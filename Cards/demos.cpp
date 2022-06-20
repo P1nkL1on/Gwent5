@@ -1135,3 +1135,33 @@ void demoGoldWitchers(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoNeutralDudes(Field &ally, Field &enemy)
+{
+    auto *o1 = new Olaf();
+    auto *o2 = new Olaf();
+    auto *o3 = new Olaf();
+    auto *o4 = new Olaf();
+    auto *o5 = new Olaf();
+    auto *r = new RegisHigherVampire();
+    auto *z = new ZoltanScoundrel();
+
+    ally.cardsAdded = {o1, o2, o3, o4, o5, r, z};
+    ally.hand = {r, z};
+    ally.rowMeele = {o1, o2, o3, o4, o5};
+
+    auto *e1 = new AncientFoglet();
+    auto *e2 = new Abaya();
+    auto *e3 = new Cockatrice();
+    auto *e4 = new CaranthirArFeiniel();
+    auto *e5 = new Nithral();
+    auto *e6 = new Geels();
+    auto *e7 = new WoodlandSpirit();
+    auto *e8 = new WildHuntDrakkar();
+
+    enemy.cardsAdded = {e1, e2, e3, e4, e5, e6, e7, e8};
+    enemy.deck = {e1, e2, e3, e4, e5, e6, e7, e8};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Deck Summon", demoDeckSummon},
         {"Neutral Specials", demoNeutralSpecial},
         {"Gold Witchers", demoGoldWitchers},
+        {"Regis", demoNeutralDudes},
     };
 
     /// make a choosing menu for it

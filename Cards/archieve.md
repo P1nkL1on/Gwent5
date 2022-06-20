@@ -4,8 +4,8 @@
 - [x] Aguara
 - [x] Aguara: True Form
 - [x] Regis
-- [ ] Regis: Higher Vampire
-- [ ] Zoltan: Scoundrel
+- [x] Regis: Higher Vampire
+- [x] Zoltan: Scoundrel
 - [x] Avallac'h
 - [x] Avallac'h: Sage
 - [x] Geralt of Rivia

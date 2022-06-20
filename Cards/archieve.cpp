@@ -321,6 +321,8 @@ std::vector<Card *> allCards(const Patch)
         new EskelPathfinder(),
         new VesemirMentor(),
         new LambertSwordmaster(),
+        new RegisHigherVampire(),
+        new ZoltanScoundrel(),
     };
 }
 
@@ -4175,7 +4177,6 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     };
 }
 
-
 AnCraiteWarcrier::AnCraiteWarcrier()
 {
     id = "113313";
@@ -4203,7 +4204,6 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     };
 }
 
-
 AnCraiteWarrior::AnCraiteWarrior()
 {
     id = "152303";
@@ -4224,7 +4224,6 @@ AnCraiteWarrior::AnCraiteWarrior()
         damage(this, 1, ally, enemy, this);
     };
 }
-
 
 BerserkerMarauder::BerserkerMarauder()
 {
@@ -4252,7 +4251,6 @@ BerserkerMarauder::BerserkerMarauder()
     };
 }
 
-
 DimunPirateCaptain::DimunPirateCaptain()
 {
     id = "152306";
@@ -4279,7 +4277,6 @@ DimunPirateCaptain::DimunPirateCaptain()
     };
 }
 
-
 DimunSmuggler::DimunSmuggler()
 {
     id = "200146";
@@ -4305,7 +4302,6 @@ DimunSmuggler::DimunSmuggler()
     };
 }
 
-
 DrummondShieldmaid::DrummondShieldmaid()
 {
     id = "152318";
@@ -4327,7 +4323,6 @@ DrummondShieldmaid::DrummondShieldmaid()
             moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
     };
 }
-
 
 HeymaeyFlaminica::HeymaeyFlaminica()
 {
@@ -4355,7 +4350,6 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     };
 }
 
-
 HeymaeyHerbalist::HeymaeyHerbalist()
 {
     id = "200081";
@@ -4377,7 +4371,6 @@ HeymaeyHerbalist::HeymaeyHerbalist()
             playExistedCard(target, ally, enemy, this);
     };
 }
-
 
 HeymaeyProtector::HeymaeyProtector()
 {
@@ -4403,7 +4396,6 @@ HeymaeyProtector::HeymaeyProtector()
         playExistedCard(target, ally, enemy, this);
     };
 }
-
 
 HeymaeySkald::HeymaeySkald()
 {
@@ -4436,7 +4428,6 @@ HeymaeySkald::HeymaeySkald()
     };
 }
 
-
 RagingBerserker::RagingBerserker()
 {
     id = "152301";
@@ -4462,7 +4453,6 @@ RagingBerserker::RagingBerserker()
     };
 }
 
-
 RagingBerserker::RagingBear::RagingBear()
 {
     id = "152405";
@@ -4474,7 +4464,6 @@ RagingBerserker::RagingBear::RagingBear()
     rarity = Bronze;
     tags = { Cursed, Beast, Cultist };
 }
-
 
 Hym::Hym()
 {
@@ -4532,7 +4521,6 @@ Hym::Hym()
     };
 }
 
-
 Kambi::Kambi()
 {
     id = "152104";
@@ -4551,7 +4539,6 @@ Kambi::Kambi()
     };
 }
 
-
 Olaf::Olaf()
 {
     id = "200103";
@@ -4569,7 +4556,6 @@ Olaf::Olaf()
         damage(this, x, ally, enemy, this);
     };
 }
-
 
 Ulfhedinn::Ulfhedinn()
 {
@@ -4591,7 +4577,6 @@ Ulfhedinn::Ulfhedinn()
             damage(card, 2, ally, enemy, this);
     };
 }
-
 
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
@@ -4620,7 +4605,6 @@ WildBoarOfTheSea::WildBoarOfTheSea()
     };
 }
 
-
 GiantBoar::GiantBoar()
 {
     id = "201623";
@@ -4639,7 +4623,6 @@ GiantBoar::GiantBoar()
         }
     };
 }
-
 
 OrnamentalSword::OrnamentalSword()
 {
@@ -4663,7 +4646,6 @@ OrnamentalSword::OrnamentalSword()
     };
 }
 
-
 BlueboyLugos::SpectralWhale::SpectralWhale()
 {
     id = "152403";
@@ -4683,7 +4665,6 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
             damage(card, 1, ally, enemy, this);
     };
 }
-
 
 DimunWarship::DimunWarship()
 {
@@ -4707,7 +4688,6 @@ DimunWarship::DimunWarship()
                 break;
     };
 }
-
 
 TrissButterflies::TrissButterflies()
 {
@@ -4736,7 +4716,6 @@ TrissButterflies::TrissButterflies()
     };
 }
 
-
 Yennefer::Yennefer()
 {
     id = "112108";
@@ -4763,6 +4742,42 @@ Yennefer::Yennefer()
     };
 }
 
+Yennefer::Chironex::Chironex()
+{
+    id = "112402";
+    name = "Chironex";
+    text = "Deal 2 damage to all other units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    isDoomed = true;
+    power = powerBase = 4;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            damage(card, 2, ally, enemy, this);
+    };
+}
+
+
+Yennefer::Unicorn::Unicorn()
+{
+    id = "112401";
+    name = "Unicorn";
+    text = "Boost all other units by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            boost(card, 2, ally, enemy, this);
+    };
+}
 
 GermainPiquant::GermainPiquant()
 {
@@ -5072,45 +5087,6 @@ Vreemde::Vreemde()
         spawnNewCard(target, ally, enemy, this);
     };
 }
-
-
-Yennefer::Chironex::Chironex()
-{
-    id = "112402";
-    name = "Chironex";
-    text = "Deal 2 damage to all other units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    isDoomed = true;
-    power = powerBase = 4;
-    faction = Neutral;
-    rarity = Silver;
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            damage(card, 2, ally, enemy, this);
-    };
-}
-
-
-Yennefer::Unicorn::Unicorn()
-{
-    id = "112401";
-    name = "Unicorn";
-    text = "Boost all other units by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Silver;
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            boost(card, 2, ally, enemy, this);
-    };
-}
-
 
 GermainPiquant::Cow::Cow()
 {
@@ -8338,6 +8314,7 @@ Milva::Milva()
     };
 }
 
+
 PrincessPavetta::PrincessPavetta()
 {
     id = "122210";
@@ -9337,5 +9314,100 @@ LambertSwordmaster::LambertSwordmaster()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         for (Card *card : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
             damage(card, 4, ally, enemy, this);
+    };
+}
+
+RegisHigherVampire::RegisHigherVampire()
+{
+    id = "112105";
+    name = "Regis: Higher Vampire";
+    text = "Look at 3 Bronze units from your opponent's deck. Consume 1, then boost self by its base power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/katakan_taunt_short_003.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+ZoltanScoundrel::ZoltanScoundrel()
+{
+    id = "112109";
+    name = "Zoltan: Scoundrel";
+    text = "Choose One: Spawn a Duda: Companion that boosts 2 units on each side of it by 2; or Spawn a Duda: Agitator that deals 2 damage to 2 units on each side of it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Dwarf };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q403_00575678.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040657.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new DudaCompanion(), new DudaAgitator()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+ZoltanScoundrel::DudaCompanion::DudaCompanion()
+{
+    id = "112403";
+    name = "Duda: Companion";
+    text = "Boost 2 units on each side of this unit by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (int i = -2; i <= 2; i++) {
+            if (i== 0)
+                continue;
+            if (Card *card = cardNextTo(this, ally, enemy, i))
+                boost(card, 2, ally, enemy, this);
+        };
+    };
+}
+
+ZoltanScoundrel::DudaAgitator::DudaAgitator()
+{
+    id = "112404";
+    name = "Duda: Agitator";
+    text = "Deal 2 damage to 2 units on each side of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (int i = -2; i <= 2; i++) {
+            if (i== 0)
+                continue;
+            if (Card *card = cardNextTo(this, ally, enemy, i))
+                damage(card, 2, ally, enemy, this);
+        };
     };
 }

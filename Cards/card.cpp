@@ -348,8 +348,7 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
 
     // DragonsDreamEffect works here
     for (int screenRow = 0; screenRow < 6; screenRow++) {
-        RowEffect effect = rowEffectInSreenRow(ally, enemy, screenRow);
-        if (effect != DragonsDreamEffect)
+        if (rowEffectInSreenRow(ally, enemy, screenRow) != DragonsDreamEffect)
             continue;
         const std::vector<Card *> rowFiltered = cardsInRow(ally, enemy, screenRow);
         for (Card *card : rowFiltered)

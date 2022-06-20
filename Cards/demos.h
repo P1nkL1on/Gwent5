@@ -51,5 +51,6 @@ void demoWolfsbane(Field &ally, Field &enemy);
 void demoDeckSummon(Field &ally, Field &enemy);
 void demoNeutralSpecial(Field &ally, Field &enemy);
 void demoGoldWitchers(Field &ally, Field &enemy);
+void demoNeutralDudes(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

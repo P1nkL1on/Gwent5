@@ -2194,4 +2194,27 @@ struct LambertSwordmaster : CardCollectible<LambertSwordmaster>
 };
 
 
+struct RegisHigherVampire : CardCollectible<RegisHigherVampire>
+{
+    RegisHigherVampire();
+};
+
+
+struct ZoltanScoundrel : CardCollectible<ZoltanScoundrel>
+{
+
+    struct DudaCompanion : CardCollectible<DudaCompanion>
+    {
+        DudaCompanion();
+
+    };
+    struct DudaAgitator : CardCollectible<DudaAgitator>
+    {
+        DudaAgitator();
+
+    };
+    ZoltanScoundrel();
+};
+
+
 #endif // CARDS_H
