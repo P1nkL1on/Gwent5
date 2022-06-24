@@ -149,6 +149,14 @@ enum DeckPos
 };
 
 
+enum PowerChangeType
+{
+    Damage,
+    Reset,
+    Boost
+};
+
+
 enum ActionType
 {
     Invalid,
@@ -173,10 +181,14 @@ enum ActionType
     DealDamage,
     Damaged,
     DamagedInArmor,
+    Weakened,
     ResetAsInDeckBuilder,
     ResetInPower,
     StrippedOfAllStatuses,
     Boosted,
+    Strengthened,
+    Healed,
+    HealedBy,
     GainArmor,
     MoveFromRowToRow,
     TimerSet,

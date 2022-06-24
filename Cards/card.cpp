@@ -1124,6 +1124,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy, src);
+        card->onPowerChanged(ally, enemy, src, Damage);
         return false;
     }
 
@@ -1140,9 +1141,12 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     const int powerDrained =  std::min(target->power, x);
     target->power -= powerDrained;
     self->power += powerDrained;
+    saveFieldsSnapshot(ally, enemy, Damaged, self, {target}, "", powerDrained);
+    saveFieldsSnapshot(ally, enemy, Boosted, self, {self}, "", powerDrained);
     // TODO: trigger other on boosted
     if (target->power > 0) {
         target->onDamaged(powerDrained, ally, enemy, self);
+        target->onPowerChanged(ally, enemy, self, Damage);
         // TODO: trigger other on damaged
         return;
     }
@@ -1167,21 +1171,27 @@ int consume(Card *target, Field &ally, Field &enemy, Card *src)
     return powerConsumed;
 }
 
-void heal(Card *card, Field &, Field &)
+void heal(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
-    if (card->power < card->powerBase)
+    if (card->power < card->powerBase) {
         card->power = card->powerBase;
+        saveFieldsSnapshot(ally, enemy, Healed, src, {card});
+        card->onPowerChanged(ally, enemy, src, Boost);
+    }
 }
 
-void heal(Card *card, const int x, Field &, Field &)
+void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
     if (card->power < card->powerBase) {
         const int boost = std::min(x, card->powerBase - card->power);
         card->power += boost;
+        saveFieldsSnapshot(ally, enemy, HealedBy, src, {card}, "", x);
+        card->onPowerChanged(ally, enemy, src, Boost);
+
         // TODO: check if heal is actually a boost
         // in case of triggers and other stuff.
         // probably, its correct to call `boost` here instead
@@ -1207,11 +1217,13 @@ void reset(Card *card, Field &ally, Field &enemy, const Card *src)
     // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
     delete(copy);
+    card->onPowerChanged(ally, enemy, src, Reset);
     saveFieldsSnapshot(ally, enemy, ResetAsInDeckBuilder, src, {card});
 }
 
 void resetPower(Card *card, Field &ally, Field &enemy, const Card *src)
 {
+    // NOTE: only for non-card resetings of power - between-rounds and in-game put on discard cases
     card->power = card->powerBase;
     saveFieldsSnapshot(ally, enemy, ResetInPower, src, {card});
 }
@@ -1255,16 +1267,21 @@ void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     card->power += x;
     saveFieldsSnapshot(ally, enemy, Boosted, src, {card}, "", x);
 
+    card->onBoost(x, ally, enemy);
+    card->onPowerChanged(ally, enemy, src, Boost);
+
     // TODO: others trigger on boosted
 }
 
-void strengthen(Card *card, const int x, Field &ally, Field &enemy)
+void strengthen(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
 
     card->power += x;
     card->powerBase += x;
+    saveFieldsSnapshot(ally, enemy, Strengthened, src, {card}, "", x);
+    card->onPowerChanged(ally, enemy, src, Boost);
 
 //    ally.snapshots.push_back(new Animation("", Animation::StrengthenText, card));
 
@@ -1279,6 +1296,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     card->power -= x;
     card->powerBase -= x;
 
+    saveFieldsSnapshot(ally, enemy, Weakened, src, {card}, "", x);
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase <= 0) {
@@ -1287,6 +1305,8 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     }
 
     card->onWeakened(x, ally, enemy, src);
+    card->onPowerChanged(ally, enemy, src, Damage);
+
     return false;
 }
 
@@ -2110,6 +2130,12 @@ void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onWeakened && !isLocked)
         return _onWeakened(x, ally, enemy, src);
+}
+
+void Card::onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type)
+{
+    if (_onPowerChanged && !isLocked)
+        return _onPowerChanged(ally, enemy, src, type);
 }
 
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)

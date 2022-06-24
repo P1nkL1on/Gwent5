@@ -330,6 +330,8 @@ std::vector<Card *> allCards(const Patch)
         new DandelionVainglory(),
         new CyprianWiley(),
         new Dudu(),
+        new Ihuarraquax(),
+        new MahakamMarauder(),
     };
 }
 
@@ -667,8 +669,8 @@ AnCraiteGreatsword::AnCraiteGreatsword()
         if (power >= powerBase)
             return;
 
-        heal(this, ally, enemy);
-        strengthen(this, 2, ally, enemy);
+        heal(this, ally, enemy, this);
+        strengthen(this, 2, ally, enemy, this);
     };
 }
 
@@ -2105,8 +2107,8 @@ Mandrake::Mandrake()
         }
 
         if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
-            heal(target, ally, enemy);
-            strengthen(target, 6, ally, enemy);
+            heal(target, ally, enemy, this);
+            strengthen(target, 6, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2174,8 +2176,8 @@ BoneTalisman::BoneTalisman()
             return;
         }
         if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
-            heal(target, ally, enemy);
-            strengthen(target, 3, ally, enemy);
+            heal(target, ally, enemy, this);
+            strengthen(target, 3, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2245,7 +2247,7 @@ ShupeKnight::ShupeKnight()
             }
 
             if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
-                strengthen(this, 25 - powerBase, ally, enemy);
+                strengthen(this, 25 - powerBase, ally, enemy, this);
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -2263,7 +2265,7 @@ ShupeKnight::ShupeKnight()
 
         if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
             //target->power = target->powerBase;
-            resetPower(target, ally, enemy, this);
+            reset(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -2456,7 +2458,7 @@ CiriNova::CiriNova()
         if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
             return;
 
-        strengthen(this, 22 - powerBase, ally, enemy);
+        strengthen(this, 22 - powerBase, ally, enemy, this);
     };
 }
 
@@ -2614,7 +2616,7 @@ BranTuirseach::BranTuirseach()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDiscard(target, ally, enemy, this);
         if (!target->isSpecial)
-            strengthen(target, 1, ally, enemy);
+            strengthen(target, 1, ally, enemy, this);
     };
 }
 
@@ -3128,7 +3130,7 @@ TuirseachVeteran::TuirseachVeteran()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -3391,7 +3393,7 @@ TuirseachSkirmisher::TuirseachSkirmisher()
     tags = { ClanTuirseach, Soldier };
 
     _onDeployFromDiscard = [=](Field &ally, Field &enemy) {
-        strengthen(this, 3, ally, enemy);
+        strengthen(this, 3, ally, enemy, this);
     };
 }
 
@@ -3714,7 +3716,7 @@ CrachAnCraite::CrachAnCraite()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
-            strengthen(card, 2, ally, enemy);
+            strengthen(card, 2, ally, enemy, this);
             playExistedCard(card, ally, enemy, this);
         }
     };
@@ -3872,7 +3874,7 @@ DjengeFrett::DjengeFrett()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 1, ally, enemy, this);
-        strengthen(this, 2, ally, enemy);
+        strengthen(this, 2, ally, enemy, this);
     };
 }
 
@@ -3929,7 +3931,7 @@ DraigBonDhu::DraigBonDhu()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 3, ally, enemy);
+        strengthen(target, 3, ally, enemy, this);
     };
 }
 
@@ -3957,7 +3959,7 @@ HolgerBlackhand::HolgerBlackhand()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (damage(target, 6, ally, enemy, this))
             if (Card *card = highest(ally.discard, ally.rng))
-                strengthen(card, 3, ally, enemy);
+                strengthen(card, 3, ally, enemy, this);
     };
 }
 
@@ -4108,7 +4110,7 @@ HaraldHoundsnout::Wilhelm::Wilhelm()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-            strengthen(card, 3, ally, enemy);
+            strengthen(card, 3, ally, enemy, this);
     };
 }
 
@@ -4152,7 +4154,7 @@ Yoana::Yoana()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const int x = target->powerBase - target->power;
-        heal(target, ally, enemy);
+        heal(target, ally, enemy, this);
         boost(target, x, ally, enemy, this);
     };
 }
@@ -4179,7 +4181,7 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 2, ally, enemy);
+        strengthen(target, 2, ally, enemy, this);
         gainArmor(target, 2, ally, enemy, this);
     };
 }
@@ -4606,7 +4608,7 @@ WildBoarOfTheSea::WildBoarOfTheSea()
         if (!_findRowAndPos(this, ally, row, pos))
             return;
         if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
-            strengthen(left, 1, ally, enemy);
+            strengthen(left, 1, ally, enemy, this);
         if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
             damage(right, 1, ally, enemy, this);
     };
@@ -4648,7 +4650,7 @@ OrnamentalSword::OrnamentalSword()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
-        strengthen(target, 3, ally, enemy);
+        strengthen(target, 3, ally, enemy, this);
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5599,7 +5601,7 @@ WeavessIncantation::WeavessIncantation()
             acceptOptionAndDeleteOthers(this, target);
             if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
                 for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
-                    strengthen(card, 2, ally, enemy);
+                    strengthen(card, 2, ally, enemy, this);
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -5612,7 +5614,7 @@ WeavessIncantation::WeavessIncantation()
             }
             assert(false);
         }
-        strengthen(target, 2, ally, enemy);
+        strengthen(target, 2, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
 }
@@ -6523,7 +6525,7 @@ Ruehin::Ruehin()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -6540,7 +6542,7 @@ OldSpeartipAsleep::OldSpeartipAsleep()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -7041,7 +7043,7 @@ ImlerithSabbath::ImlerithSabbath()
         if (!isOnBoard(this, ally))
             return;
         if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
-            heal(this, 2, ally, enemy);
+            heal(this, 2, ally, enemy, this);
             gainArmor(this, 2, ally, enemy, this);
         }
     };
@@ -7882,7 +7884,7 @@ AnCraiteArmorsmith::AnCraiteArmorsmith()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        heal(target, ally, enemy);
+        heal(target, ally, enemy, this);
         gainArmor(target, 3, ally, enemy, this);
     };
 }
@@ -8074,7 +8076,7 @@ CiriDash::CiriDash()
 
     _onDiscard = [=](Field &ally, Field &enemy) {
         putToDeck(this, ally, enemy, DeckPosRandom, this);
-        strengthen(this, 3, ally, enemy);
+        strengthen(this, 3, ally, enemy, this);
     };
 }
 
@@ -9160,7 +9162,7 @@ Mardroeme::Mardroeme()
 
         reset(target, ally, enemy, this);
         if (dynamic_cast<Mardroeme::Strengthen *>(_choosen))
-            strengthen(target, 3, ally, enemy);
+            strengthen(target, 3, ally, enemy, this);
         if (dynamic_cast<Mardroeme::Weaken *>(_choosen))
             weaken(target, 3, ally, enemy, this);
         delete _choosen;
@@ -9590,9 +9592,9 @@ Dudu::Dudu()
     text = "Copy the power of an enemy.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     sounds = {
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.816.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.818.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.817.mp3",
     };
     power = powerBase = 1;
     rarity = Silver;
@@ -9605,5 +9607,58 @@ Dudu::Dudu()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         setPower(this, target->power, ally, enemy, this);
+    };
+}
+
+Ihuarraquax::Ihuarraquax()
+{
+    id = "201817";
+    name = "Ihuarraquax";
+    text = "Deal 5 damage to self. The next time this unit's current power equals its base power, deal 7 damage to 3 random enemies on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    power = powerBase = 7;
+    faction = Neutral;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        nextTimePowerIsEqual = 0;
+        damage(this, 5, ally, enemy, this);
+    };
+
+    _onPowerChanged = [=](Field &, Field &, const Card *, const PowerChangeType) {
+        if (nextTimePowerIsEqual == 0 && this->power == this->powerBase)
+            nextTimePowerIsEqual = 1;
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if(!isOnBoard(this, ally) || nextTimePowerIsEqual != 1)
+            return;
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
+            damage(card, 7, ally, enemy, this);
+        nextTimePowerIsEqual = -1;
+    };
+}
+
+MahakamMarauder::MahakamMarauder()
+{
+    id = "200042";
+    name = "Mahakam Marauder";
+    text = "Whenever this unit's power changes, except when Reset, boost self by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.41.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.39.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.40.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Scoiatael;
+    tags = { Dwarf, Soldier };
+
+    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
+        if(!isOnBoard(this, ally) || type == Reset || src == this)
+            return;
+        boost(this, 2, ally, enemy, this);
     };
 }

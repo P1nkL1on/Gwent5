@@ -2258,4 +2258,18 @@ struct Dudu : CardCollectible<Dudu>
 };
 
 
+struct Ihuarraquax : CardCollectible<Ihuarraquax>
+{
+    Ihuarraquax();
+private:
+    int nextTimePowerIsEqual = 0;
+};
+
+
+struct MahakamMarauder : CardCollectible<MahakamMarauder>
+{
+    MahakamMarauder();
+};
+
+
 #endif // CARDS_H

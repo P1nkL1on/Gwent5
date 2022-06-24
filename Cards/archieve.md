@@ -30,7 +30,7 @@
 - [x] Hanmarvyn's Dream
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
-- [ ] Ihuarraquax
+- [x] Ihuarraquax
 - [ ] Phoenix _(easy card)_
 - [ ] Saesenthessis: Blaze
 - [x] Trial of the Grasses
@@ -311,7 +311,7 @@
 - [ ] Hawker Support
 - [ ] Mahakam Defender _(easy card)_
 - [ ] Mahakam Guard _(easy card)_
-- [ ] Mahakam Marauder
+- [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
 - [ ] Panther
 - [ ] Pyrotechnician _(easy card)_

@@ -1169,3 +1169,29 @@ void demoNeutralDudes(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoPowerChanged(Field &ally, Field &enemy)
+{
+    auto *i = new Ihuarraquax();
+    auto *mm1 = new MahakamMarauder();
+    auto *mm2 = new MahakamMarauder();
+    auto *m1 = new Mandrake();
+    auto *m2 = new Mandrake();
+    auto *m3 = new Mandrake();
+    auto *t = new TuirseachArcher();
+    auto *g = new GeraltYrden();
+
+    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g};
+    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g};
+
+    auto *e1 = new Olaf();
+    auto *e2 = new Olaf();
+    auto *e3 = new Olaf();
+    auto *e4 = new Olaf();
+
+    enemy.cardsAdded = {e1, e2, e3, e4};
+    enemy.rowMeele = {e1, e2, e3, e4};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

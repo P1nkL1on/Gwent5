@@ -79,6 +79,7 @@ struct Card
     void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onWeakened(const int x, Field &ally, Field &enemy, const Card *src);
+    void onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
@@ -117,6 +118,7 @@ protected:
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyInt = std::function<void(Field &, Field &, const int)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
+    using AllyEnemySrcPowerChangeType = std::function<void(Field &, Field &, const Card *src, const PowerChangeType)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
     AllyEnemy _onGameStart = nullptr;
@@ -151,6 +153,7 @@ protected:
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
     AllyEnemySrcChangable _onConsumed = nullptr;
     AllyEnemySrcChangable _onAllyConsume = nullptr;
+    AllyEnemySrcPowerChangeType _onPowerChanged = nullptr;
 };
 
 template <class T>
@@ -329,16 +332,17 @@ std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
-void heal(Card *card, Field &ally, Field &enemy);
-void heal(Card *card, const int x, Field &ally, Field &enemy);
+void heal(Card *card, Field &ally, Field &enemy, const Card *src);
+void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 /// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
 int half(const int x);
 void reset(Card *card, Field &ally, Field &enemy, const Card *src);
+///// NOTE: only for non-card resetings
 void resetPower(Card *card, Field &ally, Field &enemy, const Card *src);
 void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
-void strengthen(Card *card, const int x, Field &ally, Field &enemy);
+void strengthen(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool drawACard(Field &ally, Field &enemy);
