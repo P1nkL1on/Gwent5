@@ -269,7 +269,7 @@
 - [ ] Saskia
 - [ ] Schirru
 - [ ] Xavier Moran
-- [ ] Zoltan Chivay
+- [x] Zoltan Chivay
 - [x] Aelirenn
 - [ ] Barclay Els
 - [ ] Braenn
@@ -343,8 +343,8 @@
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
 - [ ] Xarthisius
-- [ ] Yennefer: Enchantress
-- [ ] Yennefer: Necromancer
+- [x] Yennefer: Enchantress
+- [x] Yennefer: Necromancer
 - [ ] Albrich
 - [ ] Assire var Anahid
 - [x] Auckes

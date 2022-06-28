@@ -2272,4 +2272,16 @@ struct MahakamMarauder : CardCollectible<MahakamMarauder>
 };
 
 
+struct ZoltanChivay : CardCollectible<ZoltanChivay>
+{
+    ZoltanChivay();
+};
+
+
+struct YenneferNecromancer : CardCollectible<YenneferNecromancer>
+{
+    YenneferNecromancer();
+};
+
+
 #endif // CARDS_H

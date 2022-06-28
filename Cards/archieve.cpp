@@ -332,6 +332,8 @@ std::vector<Card *> allCards(const Patch)
         new Dudu(),
         new Ihuarraquax(),
         new MahakamMarauder(),
+        new ZoltanChivay(),
+        new YenneferNecromancer(),
     };
 }
 
@@ -9566,11 +9568,11 @@ DandelionVainglory::DandelionVainglory()
                     || isCopy<Yennefer>(card)
                     || isCopy<YenneferConjurer>(card)
                     || isCopy<YenneferEnchantress>(card)
-                    //|| isCopy<YenneferNecromancer>(card)
+                    || isCopy<YenneferNecromancer>(card)
                     || isCopy<TrissMerigold>(card)
                     || isCopy<TrissButterflies>(card)
                     || isCopy<TrissTelekinesis>(card)
-                    //|| isCopy<ZoltanChivay>(card)
+                    || isCopy<ZoltanChivay>(card)
                     || isCopy<ZoltanScoundrel>(card);
         };
 
@@ -9682,5 +9684,68 @@ MahakamMarauder::MahakamMarauder()
         if((!isOnBoard(this, ally)) || (type == Reset) || (src == this))
             return;
         boost(this, 2, ally, enemy, this);
+    };
+}
+
+ZoltanChivay::ZoltanChivay()
+{
+    id = "142105";
+    name = "Zoltan Chivay";
+    text = "Choose 3 units. Strengthen allies by 2 and move them to this row. Deal 2 damage to enemies and move them to the row opposite this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Dwarf };
+    power = powerBase = 8;
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q403_00575678.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040657.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(this, ally).row();
+        if (isOnBoard(target, ally)) {
+            strengthen(target, 2, ally, enemy, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            return;
+        }
+        if (isOnBoard(target, enemy)) {
+            damage(target, 2, ally, enemy, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            return;
+        }
+        assert(false);
+    };
+}
+
+YenneferNecromancer::YenneferNecromancer()
+{
+    id = "201780";
+    name = "Yennefer: Necromancer";
+    text = "Resurrect a Bronze or Silver Soldier from your opponent's graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Aedirn };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Soldier)}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

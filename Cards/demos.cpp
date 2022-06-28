@@ -1180,9 +1180,10 @@ void demoPowerChanged(Field &ally, Field &enemy)
     auto *m3 = new Mandrake();
     auto *t = new TuirseachArcher();
     auto *g = new GeraltYrden();
+    auto *z = new ZoltanChivay();
 
-    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g};
-    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g};
+    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g, z};
+    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g, z};
 
     auto *e1 = new Olaf();
     auto *e2 = new Olaf();
