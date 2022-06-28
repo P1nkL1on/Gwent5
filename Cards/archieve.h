@@ -2302,4 +2302,18 @@ struct Villentretenmerth : CardCollectible<Villentretenmerth>
 };
 
 
+struct Ocvist : CardCollectible<Ocvist>
+{
+    Ocvist();
+private:
+    bool singleUseCheck = false;
+};
+
+
+struct Myrgtabrakke : CardCollectible<Myrgtabrakke>
+{
+    Myrgtabrakke();
+};
+
+
 #endif // CARDS_H

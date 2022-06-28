@@ -54,7 +54,7 @@
 - [x] Crow's Eye
 - [x] Lacerate
 - [x] Gaunter O'Dimm
-- [ ] Dorregaray of Vole
+- [x] Dorregaray of Vole
 - [x] Garrison
 - [ ] Iris' Companions
 - [ ] Johnny
@@ -67,7 +67,7 @@
 - [x] Commander's Horn
 - [x] Decoy
 - [x] Dimeritium Bomb
-- [ ] Dragon's Dream
+- [x] Dragon's Dream
 - [x] Dudu
 - [x] Eskel
 - [x] Germain Piquant
@@ -77,10 +77,10 @@
 - [x] Manticore Venom
 - [x] Marching Orders
 - [x] Merigold's Hailstorm
-- [ ] Myrgtabrakke
+- [x] Myrgtabrakke
 - [x] Necromancy
 - [ ] Nivellen
-- [ ] Ocvist
+- [x] Ocvist
 - [ ] Olgierd von Everec
 - [x] Operator
 - [ ] Prize-Winning Cow

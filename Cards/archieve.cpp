@@ -337,6 +337,8 @@ std::vector<Card *> allCards(const Patch)
         new Phoenix(),
         new SaesenthessisBlaze(),
         new Villentretenmerth(),
+        new Ocvist(),
+        new Myrgtabrakke(),
     };
 }
 
@@ -9814,5 +9816,60 @@ Villentretenmerth::Villentretenmerth()
             return;
         for (Card *card : highests(cardsFiltered(ally, enemy, {otherThan(this)}, AnyBoard)))
             putToDiscard(card, ally, enemy, this);
+    };
+}
+
+Ocvist::Ocvist()
+{
+    id = "112107";
+    name = "Ocvist";
+    text = "Single-Use: After 4 turns, deal 1 damage to all enemies, then return to your hand on turn start.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Draconid };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009.mp3",
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010.mp3",
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 4);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if ((!tick(this, ally, enemy)) || (!singleUseCheck))
+            return;
+        singleUseCheck = true;
+    };
+}
+
+Myrgtabrakke::Myrgtabrakke()
+{
+    id = "112205";
+    name = "Myrgtabrakke";
+    text = "Deal 2 damage. Repeat 2 times.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Draconid };
+    power = powerBase = 7;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009_OB.mp3",
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010_OB.mp3",
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008_OB.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 3);
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, this);
+        if (!tick(this, ally, enemy))
+             startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
     };
 }

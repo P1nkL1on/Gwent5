@@ -1205,11 +1205,17 @@ void demoAedirnDragon(Field &ally, Field &enemy)
     auto *m3 = new Mandrake();
     auto *b1 = new BoneTalisman();
     auto *b2 = new BoneTalisman();
+    auto *b3 = new BoneTalisman();
     auto *s = new SaesenthessisBlaze();
+    auto *m = new Myrgtabrakke();
 
-    ally.cardsAdded = {m1, m2, m3, b1, b2, s};
-    ally.hand = {b1, b2, s};
-    ally.deck = {m1, m2, m3};
+    ally.cardsAdded = {m1, m2, m3, b1, b2, s, m};
+    ally.hand = {b1, b2, b3, s};
+    ally.deck = {m, m1, m2, m3};
+
+    auto *o = new Olaf();
+    enemy.cardsAdded = {o};
+    enemy.rowMeele = {o};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
