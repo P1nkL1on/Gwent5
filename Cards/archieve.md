@@ -4,8 +4,8 @@
 - [x] Aguara
 - [x] Aguara: True Form
 - [x] Regis
-- [ ] Regis: Higher Vampire
-- [ ] Zoltan: Scoundrel
+- [x] Regis: Higher Vampire
+- [x] Zoltan: Scoundrel
 - [x] Avallac'h
 - [x] Avallac'h: Sage
 - [x] Geralt of Rivia
@@ -13,62 +13,62 @@
 - [x] Geralt: Aard
 - [x] Geralt: Yrden __{NOT EXECT ABILITY}__
 - [x] Geralt: Professional
-- [ ] Lambert: Swordmaster
-- [ ] Vesemir: Mentor _(easy card)_
-- [ ] Eskel: Pathfinder _(easy card)_
+- [x] Lambert: Swordmaster
+- [x] Vesemir: Mentor _(easy card)_
+- [x] Eskel: Pathfinder _(easy card)_
 - [x] Yennefer
-- [ ] Yennefer: Conjurer
+- [x] Yennefer: Conjurer
 - [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
-- [ ] Uma's Curse
-- [ ] Triss Merigold _(easy card)_
+- [x] Uma's Curse
+- [x] Triss Merigold _(easy card)_
 - [x] Triss: Butterflies
-- [ ] Triss: Telekinesis
+- [x] Triss: Telekinesis __{NO ABILITY}__
 - [x] Dandelion: Poet
-- [ ] Dandelion: Vainglory
-- [ ] Hanmarvyn's Dream
+- [x] Dandelion: Vainglory
+- [x] Hanmarvyn's Dream
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
-- [ ] Ihuarraquax
+- [x] Ihuarraquax
 - [ ] Phoenix _(easy card)_
 - [ ] Saesenthessis: Blaze
-- [ ] Trial of the Grasses
+- [x] Trial of the Grasses
 - [x] Wolfsbane
-- [ ] Royal Decree _(easy card)_
+- [x] Royal Decree _(easy card)_
 - [x] Renew
-- [ ] Sihil
+- [x] Sihil
 - [ ] Villentretenmerth
 - [x] Muzzle
-- [ ] Black Blood
-- [ ] Rock Barrage
+- [x] Black Blood
+- [x] Rock Barrage
 - [ ] King of Beggars
-- [ ] Mastercrafted Spear
+- [x] Mastercrafted Spear
 - [ ] Peasant Militia
-- [ ] Spores
+- [x] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
 - [x] Ale of the Ancestors
-- [ ] Cyprian Wiley
-- [ ] Expired Ale
-- [ ] Crow's Eye
-- [ ] Lacerate
+- [x] Cyprian Wiley
+- [x] Expired Ale
+- [x] Crow's Eye
+- [x] Lacerate
 - [x] Gaunter O'Dimm
 - [ ] Dorregaray of Vole
-- [ ] Garrison
+- [x] Garrison
 - [ ] Iris' Companions
 - [ ] Johnny
 - [ ] Stregobor
-- [ ] Doppler _(easy card)_
+- [x] Doppler _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
-- [ ] Bekker's Dark Mirror
-- [ ] Bekker's Rockslide
+- [x] Bekker's Dark Mirror
+- [x] Bekker's Rockslide
 - [x] Commander's Horn
 - [x] Decoy
-- [ ] Dimeritium Bomb
+- [x] Dimeritium Bomb
 - [ ] Dragon's Dream
-- [ ] Dudu
+- [x] Dudu
 - [x] Eskel
 - [x] Germain Piquant
 - [ ] Iris von Everec
@@ -76,9 +76,9 @@
 - [x] Mandrake
 - [x] Manticore Venom
 - [x] Marching Orders
-- [ ] Merigold's Hailstorm
+- [x] Merigold's Hailstorm
 - [ ] Myrgtabrakke
-- [ ] Necromancy
+- [x] Necromancy
 - [ ] Nivellen
 - [ ] Ocvist
 - [ ] Olgierd von Everec
@@ -88,8 +88,8 @@
 - [ ] Sarah
 - [x] Scorch
 - [x] Skellige Storm
-- [ ] Summoning Circle
-- [ ] The Last Wish
+- [x] Summoning Circle
+- [x] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
 - [x] White Frost
@@ -98,21 +98,21 @@
 - [x] Arachas Venom
 - [x] Biting Frost
 - [x] Bloodcurdling Roar
-- [ ] Dimeritium Shackles _(easy card)_
+- [x] Dimeritium Shackles _(easy card)_
 - [x] Epidemic
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
 - [x] Mahakam Ale _(easy card)_
-- [ ] Mardroeme
-- [ ] Petri's Philter _(easy card)_
+- [x] Mardroeme
+- [x] Petri's Philter _(easy card)_
 - [x] Reconnaissance
-- [ ] Shrike _(easy card)_
-- [ ] Stammelford's Tremor
+- [x] Shrike _(easy card)_
+- [x] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain
-- [ ] Wyvern Scale Shield _(easy card)_
+- [x] Wyvern Scale Shield _(easy card)_
 
 # Nothern Realms
 
@@ -311,7 +311,7 @@
 - [ ] Hawker Support
 - [ ] Mahakam Defender _(easy card)_
 - [ ] Mahakam Guard _(easy card)_
-- [ ] Mahakam Marauder
+- [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
 - [ ] Panther
 - [ ] Pyrotechnician _(easy card)_

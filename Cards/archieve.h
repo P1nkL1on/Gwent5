@@ -2001,5 +2001,275 @@ struct Aelirenn : CardCollectible<Aelirenn>
 };
 
 
+struct HanmarvynsDream : CardCollectible<HanmarvynsDream>
+{
+    HanmarvynsDream();
+};
+
+
+struct BlackBlood : CardCollectible<BlackBlood>
+{
+    BlackBlood();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Destroy : CardCollectible<Destroy> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct BekkersRockslide : CardCollectible<BekkersRockslide>
+{
+    BekkersRockslide();
+};
+
+
+struct BekkersDarkMirror : CardCollectible<BekkersDarkMirror>
+{
+    BekkersDarkMirror();
+};
+
+
+struct MerigoldsHailstorm: CardCollectible<MerigoldsHailstorm>
+{
+    MerigoldsHailstorm();
+};
+
+
+struct Necromancy: CardCollectible<Necromancy>
+{
+    Necromancy();
+private:
+    int transPower = 0;
+};
+
+
+struct StammelfordsTremor : CardCollectible<StammelfordsTremor>
+{
+    StammelfordsTremor();
+};
+
+
+struct ExpiredAle : CardCollectible<ExpiredAle>
+{
+    ExpiredAle();
+};
+
+
+struct TrialOfTheGrasses : CardCollectible<TrialOfTheGrasses>
+{
+    TrialOfTheGrasses();
+};
+
+
+struct DimeritiumBomb : CardCollectible<DimeritiumBomb>
+{
+    DimeritiumBomb();
+};
+
+
+struct Garrison : CardCollectible<Garrison>
+{
+    Garrison();
+};
+
+
+struct TheLastWish : CardCollectible<TheLastWish>
+{
+    TheLastWish();
+};
+
+
+struct DimeritiumShackles : CardCollectible<DimeritiumShackles>
+{
+    DimeritiumShackles();
+};
+
+
+struct WyvernScaleShield : CardCollectible<WyvernScaleShield>
+{
+    WyvernScaleShield();
+private:
+    int _boostAmount = 0;
+};
+
+
+struct MastercraftedSpear : CardCollectible<MastercraftedSpear>
+{
+    MastercraftedSpear();
+private:
+    int _damageAmount = 0;
+};
+
+
+struct PetrisPhilter : CardCollectible<PetrisPhilter>
+{
+    PetrisPhilter();
+};
+
+
+struct Shrike : CardCollectible<Shrike>
+{
+    Shrike();
+};
+
+
+struct RoyalDecree : CardCollectible<RoyalDecree>
+{
+    RoyalDecree();
+};
+
+
+struct UmasCurse : CardCollectible<UmasCurse>
+{
+    UmasCurse();
+};
+
+
+struct Lacerate : CardCollectible<Lacerate>
+{
+    Lacerate();
+};
+
+
+struct CrowsEye : CardCollectible<CrowsEye>
+{
+    CrowsEye();
+};
+
+
+struct Doppler : CardCollectible<Doppler>
+{
+    Doppler();
+};
+
+
+struct Spores : CardCollectible<Spores>
+{
+    Spores();
+};
+
+
+struct Mardroeme : CardCollectible<Mardroeme>
+{
+    Mardroeme();
+private:
+    struct Strengthen : CardCollectible<Strengthen> {};
+    struct Weaken : CardCollectible<Weaken> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct Sihil : CardCollectible<Sihil>
+{
+    Sihil();
+private:
+    struct DamageOdd : CardCollectible<DamageOdd> {};
+    struct DamageEven : CardCollectible<DamageEven> {};
+    struct PlayFromDeck : CardCollectible<PlayFromDeck> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct DragonsDream : CardCollectible<DragonsDream>
+{
+    DragonsDream();
+};
+
+
+struct EskelPathfinder : CardCollectible<EskelPathfinder>
+{
+    EskelPathfinder();
+};
+
+
+struct VesemirMentor : CardCollectible<VesemirMentor>
+{
+    VesemirMentor();
+};
+
+
+struct LambertSwordmaster : CardCollectible<LambertSwordmaster>
+{
+    LambertSwordmaster();
+};
+
+
+struct RegisHigherVampire : CardCollectible<RegisHigherVampire>
+{
+    RegisHigherVampire();
+};
+
+
+struct ZoltanScoundrel : CardCollectible<ZoltanScoundrel>
+{
+
+    struct DudaCompanion : CardCollectible<DudaCompanion>
+    {
+        DudaCompanion();
+
+    };
+    struct DudaAgitator : CardCollectible<DudaAgitator>
+    {
+        DudaAgitator();
+
+    };
+    ZoltanScoundrel();
+};
+
+
+struct YenneferConjurer : CardCollectible<YenneferConjurer>
+{
+    YenneferConjurer();
+};
+
+
+struct TrissMerigold : CardCollectible<TrissMerigold>
+{
+    TrissMerigold();
+};
+
+struct TrissTelekinesis : CardCollectible<TrissTelekinesis>
+{
+    TrissTelekinesis();
+};
+
+
+struct DorregarayOfVole : CardCollectible<DorregarayOfVole>
+{
+    DorregarayOfVole();
+};
+
+
+struct DandelionVainglory : CardCollectible<DandelionVainglory>
+{
+    DandelionVainglory();
+};
+
+
+struct CyprianWiley : CardCollectible<CyprianWiley>
+{
+    CyprianWiley();
+};
+
+
+struct Dudu : CardCollectible<Dudu>
+{
+    Dudu();
+};
+
+
+struct Ihuarraquax : CardCollectible<Ihuarraquax>
+{
+    Ihuarraquax();
+private:
+    bool damageDone = false;
+};
+
+
+struct MahakamMarauder : CardCollectible<MahakamMarauder>
+{
+    MahakamMarauder();
+};
+
 
 #endif // CARDS_H

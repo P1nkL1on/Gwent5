@@ -293,6 +293,45 @@ std::vector<Card *> allCards(const Patch)
         new Wolfsbane(),
         new DunBanner(),
         new Aelirenn(),
+        new HanmarvynsDream(),
+        new BlackBlood(),
+        new BekkersRockslide(),
+        new BekkersDarkMirror(),
+        new MerigoldsHailstorm(),
+        new Necromancy(),
+        new StammelfordsTremor(),
+        new ExpiredAle(),
+        new TrialOfTheGrasses(),
+        new DimeritiumBomb(),
+        new Garrison(),
+        new TheLastWish(),
+        new DimeritiumShackles(),
+        new WyvernScaleShield(),
+        new MastercraftedSpear(),
+        new PetrisPhilter(),
+        new Shrike(),
+        new RoyalDecree(),
+        new UmasCurse(),
+        new Lacerate(),
+        new CrowsEye(),
+        new Doppler(),
+        new Spores(),
+        new Mardroeme(),
+        new Sihil(),
+        new EskelPathfinder(),
+        new VesemirMentor(),
+        new LambertSwordmaster(),
+        new RegisHigherVampire(),
+        new ZoltanScoundrel(),
+        new YenneferConjurer(),
+        new TrissMerigold(),
+        new TrissTelekinesis(),
+        new DorregarayOfVole(),
+        new DandelionVainglory(),
+        new CyprianWiley(),
+        new Dudu(),
+        new Ihuarraquax(),
+        new MahakamMarauder(),
     };
 }
 
@@ -630,8 +669,8 @@ AnCraiteGreatsword::AnCraiteGreatsword()
         if (power >= powerBase)
             return;
 
-        heal(this, ally, enemy);
-        strengthen(this, 2, ally, enemy);
+        heal(this, ally, enemy, this);
+        strengthen(this, 2, ally, enemy, this);
     };
 }
 
@@ -2068,8 +2107,8 @@ Mandrake::Mandrake()
         }
 
         if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
-            heal(target, ally, enemy);
-            strengthen(target, 6, ally, enemy);
+            heal(target, ally, enemy, this);
+            strengthen(target, 6, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2077,7 +2116,7 @@ Mandrake::Mandrake()
         }
 
         if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-            reset(target, ally, enemy);
+            reset(target, ally, enemy, this);
             weaken(target, 6, ally, enemy, this);
 
             delete _choosen;
@@ -2137,8 +2176,8 @@ BoneTalisman::BoneTalisman()
             return;
         }
         if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
-            heal(target, ally, enemy);
-            strengthen(target, 3, ally, enemy);
+            heal(target, ally, enemy, this);
+            strengthen(target, 3, ally, enemy, this);
 
             delete _choosen;
             _choosen = nullptr;
@@ -2208,7 +2247,7 @@ ShupeKnight::ShupeKnight()
             }
 
             if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
-                strengthen(this, 25 - powerBase, ally, enemy);
+                strengthen(this, 25 - powerBase, ally, enemy, this);
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -2225,7 +2264,8 @@ ShupeKnight::ShupeKnight()
         }
 
         if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
-            target->power = target->powerBase;
+            //target->power = target->powerBase;
+            reset(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
             return;
@@ -2418,7 +2458,7 @@ CiriNova::CiriNova()
         if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
             return;
 
-        strengthen(this, 22 - powerBase, ally, enemy);
+        strengthen(this, 22 - powerBase, ally, enemy, this);
     };
 }
 
@@ -2576,7 +2616,7 @@ BranTuirseach::BranTuirseach()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDiscard(target, ally, enemy, this);
         if (!target->isSpecial)
-            strengthen(target, 1, ally, enemy);
+            strengthen(target, 1, ally, enemy, this);
     };
 }
 
@@ -3090,7 +3130,7 @@ TuirseachVeteran::TuirseachVeteran()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -3353,7 +3393,7 @@ TuirseachSkirmisher::TuirseachSkirmisher()
     tags = { ClanTuirseach, Soldier };
 
     _onDeployFromDiscard = [=](Field &ally, Field &enemy) {
-        strengthen(this, 3, ally, enemy);
+        strengthen(this, 3, ally, enemy, this);
     };
 }
 
@@ -3676,7 +3716,7 @@ CrachAnCraite::CrachAnCraite()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
-            strengthen(card, 2, ally, enemy);
+            strengthen(card, 2, ally, enemy, this);
             playExistedCard(card, ally, enemy, this);
         }
     };
@@ -3834,7 +3874,7 @@ DjengeFrett::DjengeFrett()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 1, ally, enemy, this);
-        strengthen(this, 2, ally, enemy);
+        strengthen(this, 2, ally, enemy, this);
     };
 }
 
@@ -3891,7 +3931,7 @@ DraigBonDhu::DraigBonDhu()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 3, ally, enemy);
+        strengthen(target, 3, ally, enemy, this);
     };
 }
 
@@ -3919,7 +3959,7 @@ HolgerBlackhand::HolgerBlackhand()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (damage(target, 6, ally, enemy, this))
             if (Card *card = highest(ally.discard, ally.rng))
-                strengthen(card, 3, ally, enemy);
+                strengthen(card, 3, ally, enemy, this);
     };
 }
 
@@ -4070,7 +4110,7 @@ HaraldHoundsnout::Wilhelm::Wilhelm()
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-            strengthen(card, 3, ally, enemy);
+            strengthen(card, 3, ally, enemy, this);
     };
 }
 
@@ -4114,7 +4154,7 @@ Yoana::Yoana()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const int x = target->powerBase - target->power;
-        heal(target, ally, enemy);
+        heal(target, ally, enemy, this);
         boost(target, x, ally, enemy, this);
     };
 }
@@ -4141,11 +4181,10 @@ AnCraiteBlacksmith::AnCraiteBlacksmith()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 2, ally, enemy);
+        strengthen(target, 2, ally, enemy, this);
         gainArmor(target, 2, ally, enemy, this);
     };
 }
-
 
 AnCraiteWarcrier::AnCraiteWarcrier()
 {
@@ -4174,7 +4213,6 @@ AnCraiteWarcrier::AnCraiteWarcrier()
     };
 }
 
-
 AnCraiteWarrior::AnCraiteWarrior()
 {
     id = "152303";
@@ -4195,7 +4233,6 @@ AnCraiteWarrior::AnCraiteWarrior()
         damage(this, 1, ally, enemy, this);
     };
 }
-
 
 BerserkerMarauder::BerserkerMarauder()
 {
@@ -4223,7 +4260,6 @@ BerserkerMarauder::BerserkerMarauder()
     };
 }
 
-
 DimunPirateCaptain::DimunPirateCaptain()
 {
     id = "152306";
@@ -4250,7 +4286,6 @@ DimunPirateCaptain::DimunPirateCaptain()
     };
 }
 
-
 DimunSmuggler::DimunSmuggler()
 {
     id = "200146";
@@ -4276,7 +4311,6 @@ DimunSmuggler::DimunSmuggler()
     };
 }
 
-
 DrummondShieldmaid::DrummondShieldmaid()
 {
     id = "152318";
@@ -4298,7 +4332,6 @@ DrummondShieldmaid::DrummondShieldmaid()
             moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
     };
 }
-
 
 HeymaeyFlaminica::HeymaeyFlaminica()
 {
@@ -4326,7 +4359,6 @@ HeymaeyFlaminica::HeymaeyFlaminica()
     };
 }
 
-
 HeymaeyHerbalist::HeymaeyHerbalist()
 {
     id = "200081";
@@ -4348,7 +4380,6 @@ HeymaeyHerbalist::HeymaeyHerbalist()
             playExistedCard(target, ally, enemy, this);
     };
 }
-
 
 HeymaeyProtector::HeymaeyProtector()
 {
@@ -4374,7 +4405,6 @@ HeymaeyProtector::HeymaeyProtector()
         playExistedCard(target, ally, enemy, this);
     };
 }
-
 
 HeymaeySkald::HeymaeySkald()
 {
@@ -4407,7 +4437,6 @@ HeymaeySkald::HeymaeySkald()
     };
 }
 
-
 RagingBerserker::RagingBerserker()
 {
     id = "152301";
@@ -4433,7 +4462,6 @@ RagingBerserker::RagingBerserker()
     };
 }
 
-
 RagingBerserker::RagingBear::RagingBear()
 {
     id = "152405";
@@ -4445,7 +4473,6 @@ RagingBerserker::RagingBear::RagingBear()
     rarity = Bronze;
     tags = { Cursed, Beast, Cultist };
 }
-
 
 Hym::Hym()
 {
@@ -4503,7 +4530,6 @@ Hym::Hym()
     };
 }
 
-
 Kambi::Kambi()
 {
     id = "152104";
@@ -4522,7 +4548,6 @@ Kambi::Kambi()
     };
 }
 
-
 Olaf::Olaf()
 {
     id = "200103";
@@ -4540,7 +4565,6 @@ Olaf::Olaf()
         damage(this, x, ally, enemy, this);
     };
 }
-
 
 Ulfhedinn::Ulfhedinn()
 {
@@ -4563,7 +4587,6 @@ Ulfhedinn::Ulfhedinn()
     };
 }
 
-
 WildBoarOfTheSea::WildBoarOfTheSea()
 {
     id = "152109";
@@ -4585,12 +4608,11 @@ WildBoarOfTheSea::WildBoarOfTheSea()
         if (!_findRowAndPos(this, ally, row, pos))
             return;
         if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
-            strengthen(left, 1, ally, enemy);
+            strengthen(left, 1, ally, enemy, this);
         if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
             damage(right, 1, ally, enemy, this);
     };
 }
-
 
 GiantBoar::GiantBoar()
 {
@@ -4611,7 +4633,6 @@ GiantBoar::GiantBoar()
     };
 }
 
-
 OrnamentalSword::OrnamentalSword()
 {
     id = "201642";
@@ -4629,11 +4650,10 @@ OrnamentalSword::OrnamentalSword()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
-        strengthen(target, 3, ally, enemy);
+        strengthen(target, 3, ally, enemy, this);
         spawnNewCard(target, ally, enemy, this);
     };
 }
-
 
 BlueboyLugos::SpectralWhale::SpectralWhale()
 {
@@ -4654,7 +4674,6 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
             damage(card, 1, ally, enemy, this);
     };
 }
-
 
 DimunWarship::DimunWarship()
 {
@@ -4678,7 +4697,6 @@ DimunWarship::DimunWarship()
                 break;
     };
 }
-
 
 TrissButterflies::TrissButterflies()
 {
@@ -4707,7 +4725,6 @@ TrissButterflies::TrissButterflies()
     };
 }
 
-
 Yennefer::Yennefer()
 {
     id = "112108";
@@ -4734,6 +4751,42 @@ Yennefer::Yennefer()
     };
 }
 
+Yennefer::Chironex::Chironex()
+{
+    id = "112402";
+    name = "Chironex";
+    text = "Deal 2 damage to all other units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    isDoomed = true;
+    power = powerBase = 4;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            damage(card, 2, ally, enemy, this);
+    };
+}
+
+
+Yennefer::Unicorn::Unicorn()
+{
+    id = "112401";
+    name = "Unicorn";
+    text = "Boost all other units by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            boost(card, 2, ally, enemy, this);
+    };
+}
 
 GermainPiquant::GermainPiquant()
 {
@@ -5043,45 +5096,6 @@ Vreemde::Vreemde()
         spawnNewCard(target, ally, enemy, this);
     };
 }
-
-
-Yennefer::Chironex::Chironex()
-{
-    id = "112402";
-    name = "Chironex";
-    text = "Deal 2 damage to all other units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    isDoomed = true;
-    power = powerBase = 4;
-    faction = Neutral;
-    rarity = Silver;
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            damage(card, 2, ally, enemy, this);
-    };
-}
-
-
-Yennefer::Unicorn::Unicorn()
-{
-    id = "112401";
-    name = "Unicorn";
-    text = "Boost all other units by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Silver;
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            boost(card, 2, ally, enemy, this);
-    };
-}
-
 
 GermainPiquant::Cow::Cow()
 {
@@ -5587,7 +5601,7 @@ WeavessIncantation::WeavessIncantation()
             acceptOptionAndDeleteOthers(this, target);
             if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
                 for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
-                    strengthen(card, 2, ally, enemy);
+                    strengthen(card, 2, ally, enemy, this);
                 delete _choosen;
                 _choosen = nullptr;
                 return;
@@ -5600,7 +5614,7 @@ WeavessIncantation::WeavessIncantation()
             }
             assert(false);
         }
-        strengthen(target, 2, ally, enemy);
+        strengthen(target, 2, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
 }
@@ -6511,7 +6525,7 @@ Ruehin::Ruehin()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -6528,7 +6542,7 @@ OldSpeartipAsleep::OldSpeartipAsleep()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy);
+            strengthen(card, 1, ally, enemy, this);
     };
 }
 
@@ -6766,7 +6780,7 @@ Morvudd::Morvudd()
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         toggleLock(target, ally, enemy, this);
         if (isOnBoard(target, enemy))
-            setPower(target, half(target->power), ally, enemy, this);
+            setPower(target, target->power - half(target->power), ally, enemy, this);
     };
 }
 
@@ -7029,7 +7043,7 @@ ImlerithSabbath::ImlerithSabbath()
         if (!isOnBoard(this, ally))
             return;
         if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
-            heal(this, 2, ally, enemy);
+            heal(this, 2, ally, enemy, this);
             gainArmor(this, 2, ally, enemy, this);
         }
     };
@@ -7560,7 +7574,7 @@ Cockatrice::Cockatrice()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target, ally, enemy);
+        reset(target, ally, enemy, this);
     };
 }
 
@@ -7870,7 +7884,7 @@ AnCraiteArmorsmith::AnCraiteArmorsmith()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        heal(target, ally, enemy);
+        heal(target, ally, enemy, this);
         gainArmor(target, 3, ally, enemy, this);
     };
 }
@@ -8002,8 +8016,9 @@ GeraltAard::GeraltAard()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!damage(target, 3, ally, enemy, this)) {
             const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
-            const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
+            const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
+            if (rowAbove != rowAndPos.row())
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
         }
     };
 }
@@ -8032,8 +8047,8 @@ GeraltYrden::GeraltYrden()
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
-            reset(card, ally, enemy);
-            removeAllStatuses(card, ally, enemy);
+            reset(card, ally, enemy, this);
+            removeAllStatuses(card, ally, enemy, this);
         }
     };
 }
@@ -8061,7 +8076,7 @@ CiriDash::CiriDash()
 
     _onDiscard = [=](Field &ally, Field &enemy) {
         putToDeck(this, ally, enemy, DeckPosRandom, this);
-        strengthen(this, 3, ally, enemy);
+        strengthen(this, 3, ally, enemy, this);
     };
 }
 
@@ -8307,6 +8322,7 @@ Milva::Milva()
             putToDeck(card, enemy, ally, DeckPosRandom, this);
     };
 }
+
 
 PrincessPavetta::PrincessPavetta()
 {
@@ -8588,5 +8604,1083 @@ Aelirenn::Aelirenn()
         if (nElfs < 5)
             return;
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+HanmarvynsDream::HanmarvynsDream()
+{
+    id = "200079";
+    name = "HanmarvynsDream";
+    text = "Spawn a default copy of a non-Leader Gold unit from your opponent's graveyard and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit, hasNoTag(Leader)}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        spawnNewCard(copy, ally, enemy, this);
+        boost(copy, 2, ally, enemy, this);
+    };
+}
+
+BlackBlood::BlackBlood()
+{
+    id = "201697";
+    name = "Black Blood";
+    text = "Choose One: Create a Bronze Necrophage or Vampire and boost it by 2; or Destroy a Bronze or Silver Necrophage or Vampire.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new BlackBlood::Create;
+        copyCardText(this, option1);
+        option1->text = "Create a Bronze Necrophage or Vampire and boost it by 2";
+
+        auto *option2 = new BlackBlood::Destroy;
+        copyCardText(this, option2);
+        option2->text = "Destroy a Bronze or Silver Necrophage or Vampire.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            if (dynamic_cast<BlackBlood::Create *>(target)) {
+                startChoiceCreateOptions(ally, this, {isBronze, hasAnyOfTags({Necrophage, Vampire})});
+                return;
+            }
+            if (dynamic_cast<BlackBlood::Destroy *>(target)) {
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Necrophage, Vampire})}, AnyBoard);
+                return;
+            }
+            assert(false);
+        }
+
+        if (dynamic_cast<BlackBlood::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+            boost(target, 2, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<BlackBlood::Destroy *>(_choosen)) {
+            putToDiscard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        assert(false);
+    };
+}
+
+BekkersRockslide::BekkersRockslide()
+{
+    id = "201634";
+    name = "Bekker's Rockslide";
+    text = "Deal 2 damage to 10 random enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card * card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 10, ally.rng))
+             damage(card, 2, ally, enemy, this);
+    };
+}
+
+BekkersDarkMirror::BekkersDarkMirror()
+{
+    id = "113315";
+    name = "Bekker's Dark Mirror";
+    text = "Transfer up to 10 power between the Highest and Lowest unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        Card *high = highest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
+        Card *low = lowest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
+        if (/*highest == nullptr ||*/ high == low)
+            return;
+        int transPower = std::min(10, high->power - low->power);
+        setPower(high, high->power - transPower, ally, enemy, this);
+        setPower(low, low->power + transPower, ally, enemy, this);
+    };
+}
+
+MerigoldsHailstorm::MerigoldsHailstorm()
+{
+    id = "113202";
+    name = "Merigold's Hailstorm";
+    text = "Halve the power of all Bronze and Silver units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBronzeOrSilver(card))
+                setPower(card, card->power - half(card->power), ally, enemy, this);
+        }
+    };
+}
+
+Necromancy::Necromancy()
+{
+    id = "200020";
+    name = "Necromancy";
+    text = "Banish a Bronze or Silver unit from either graveyard, then boost an ally by its power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, BothDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if(isOnBoard(target, ally)) {
+            boost(target, transPower, ally, enemy, this);
+            return;
+        }
+        transPower = target->power;
+        banish(target, ally, enemy, this);
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+}
+
+StammelfordsTremor::StammelfordsTremor()
+{
+    id = "113204";
+    name = "Stammelford's Tremor";
+    text = "Deal 1 damage to all enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+ExpiredAle::ExpiredAle()
+{
+    id = "200530";
+    name = "Expired Ale";
+    text = "Deal 6 damage to the Highest enemy on each row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 6, ally, enemy, this);
+    };
+}
+
+TrialOfTheGrasses::TrialOfTheGrasses()
+{
+    id = "200078";
+    name = "Trial of the Grasses";
+    text = "Boost a Witcher to 25 power; or Deal 10 damage to a non-Witcher unit. If it survives, boost it to 25 power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this)) && target->power < 25)
+            setPower(target, 25, ally, enemy, this);
+    };
+}
+
+DimeritiumBomb::DimeritiumBomb()
+{
+    id = "113205";
+    name = "Dimeritium Bomb";
+    text = "Reset all boosted units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBoosted(card))
+                reset(card, ally, enemy, this);
+        }
+    };
+}
+
+Garrison::Garrison()
+{
+    id = "201639";
+    name = "Garrison";
+    text = "Create a Bronze or Silver unit from your opponent's starting deck and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Tactics };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        // TODO: implenemt an ability
+        // NOTE: the same ability in TrissTelekinesis
+        //startChoiceCreateOptions(ally, this);
+    };
+}
+
+TheLastWish::TheLastWish()
+{
+    id = "113102";
+    name = "The Last Wish";
+    text = "Look at 2 random cards from your deck, then play 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+DimeritiumShackles::DimeritiumShackles()
+{
+    id = "113319";
+    name = "Dimeritium Shackles";
+    text = "Toggle a unit's Lock status. If an enemy, deal 4 damage to it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, 4, ally, enemy, this);
+    };
+}
+
+WyvernScaleShield::WyvernScaleShield()
+{
+    id = "133301";
+    name = "Wyvern Scale Shield";
+    text = "Boost a unit by the base power of a Bronze or Silver unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+        _boostAmount = 0;
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (_boostAmount <= 0) {
+            _boostAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+        boost(target, _boostAmount, ally, enemy, this);
+        _boostAmount = 0;
+    };
+}
+
+MastercraftedSpear::MastercraftedSpear()
+{
+    id = "201656";
+    name = "Mastercrafted Spear";
+    text = "Deal damage equal to the base power of a Bronze or Silver unit in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
+        _damageAmount = 0;
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (_damageAmount <= 0) {
+            _damageAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+        damage(target, _damageAmount, ally, enemy, this);
+        _damageAmount = 0;
+    };
+}
+
+PetrisPhilter::PetrisPhilter()
+{
+    id = "200008";
+    name = "Petri's Philter";
+    text = "Boost 6 random allies by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng))
+            boost(card, 2, ally, enemy, this);
+    };
+}
+
+Shrike::Shrike()
+{
+    id = "200009";
+    name = "Shrike";
+    text = "Deal 2 damage to 6 random enemies.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng))
+            damage(card, 2, ally, enemy, this);
+    };
+}
+
+RoyalDecree::RoyalDecree()
+{
+    id = "200154";
+    name = "Royal Decree";
+    text = "Play a Gold unit from your deck and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Tactics };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit}, AllyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, this);
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+UmasCurse::UmasCurse()
+{
+    id = "200058";
+    name = "Uma's Curse";
+    text = "Create any non-Leader Gold unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Spell };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isGold, isUnit, hasNoTag(Leader)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Lacerate::Lacerate()
+{
+    id = "153301";
+    name = "Lacerate";
+    text = "Deal 3 damage to all units on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
+            damage(card, 3, ally, enemy, this);
+    };
+}
+
+CrowsEye::CrowsEye()
+{
+    id = "200224";
+    name = "Crow's Eye";
+    text = "Deal 4 damage to the Highest enemy on each row. Deal 1 extra damage for each copy of this card in your graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        const int extraDamage = cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size();
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 4 + extraDamage, ally, enemy, this);
+    };
+}
+
+Doppler::Doppler()
+{
+    id = "201631";
+    name = "Doppler";
+    text = "Spawn a random Bronze unit from your faction.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
+        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, allCards(this->patch)), ally.rng)->defaultCopy();
+        spawnNewCard(card, ally, enemy, this);
+    };
+}
+
+Spores::Spores()
+{
+    id = "201744";
+    name = "Spores";
+    text = "Deal 2 damage to all units on a row and clear a Boon from it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
+            damage(card, 2, ally, enemy, this);
+        if (rowEffectInSreenRow(ally, enemy, screenRow) > 9)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+    };
+}
+
+Mardroeme::Mardroeme()
+{
+    id = "113320";
+    name = "Mardroeme";
+    text = "Choose One: Reset a unit and Strengthen it by 3; or Reset a unit and Weaken it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Bronze;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Organic };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new Mardroeme::Strengthen;
+        copyCardText(this, option1);
+        option1->text = "Reset a unit and Strengthen it by 3.";
+
+        auto *option2 = new Mardroeme::Weaken;
+        copyCardText(this, option2);
+        option2->text = "Reset a unit and Weaken it by 3.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_options.size() > 0) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            return;
+        }
+
+        reset(target, ally, enemy, this);
+        if (dynamic_cast<Mardroeme::Strengthen *>(_choosen))
+            strengthen(target, 3, ally, enemy, this);
+        if (dynamic_cast<Mardroeme::Weaken *>(_choosen))
+            weaken(target, 3, ally, enemy, this);
+        delete _choosen;
+        _choosen = nullptr;
+    };
+}
+
+Sihil::Sihil()
+{
+    id = "201632";
+    name = "Sihil";
+    text = "Choose One: Deal 3 damage to all enemies with odd power; or Deal 3 damage to all enemies with even power; or Play a random Bronze or Silver unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Gold;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        auto *option1 = new Sihil::DamageOdd;
+        copyCardText(this, option1);
+        option1->text = "Deal 3 damage to all enemies with odd power.";
+
+        auto *option2 = new Sihil::DamageEven;
+        copyCardText(this, option2);
+        option2->text = "Deal 3 damage to all enemies with even power.";
+
+        auto *option3 = new Sihil::PlayFromDeck;
+        copyCardText(this, option3);
+        option3->text = "Play a random Bronze or Silver unit from your deck.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2, option3});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen == nullptr);
+        _choosen = target;
+        acceptOptionAndDeleteOthers(this, target);
+
+        if (dynamic_cast<Sihil::DamageOdd *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
+                damage(card, 3, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<Sihil::DamageEven *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
+                damage(card, 3, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<Sihil::PlayFromDeck *>(_choosen)) {
+            if (Card *card = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
+                playExistedCard(card, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        assert(false);
+    };
+}
+
+DragonsDream::DragonsDream()
+{
+    id = "201637";
+    name = "Dragon's Dream";
+    text = "Apply a Hazard to an enemy row that will explode and deal 4 damage to all units when a different special card is played.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    rarity = Silver;
+    faction = Neutral;
+    isSpecial = true;
+    tags = { Alchemy, Item };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
+    };
+}
+
+EskelPathfinder::EskelPathfinder()
+{
+    id = "200236";
+    name = "Eskel: Pathfinder";
+    text = "Destroy a Bronze or Silver enemy that is not boosted.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Witcher };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
+        "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3"
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, this);
+    };
+}
+
+VesemirMentor::VesemirMentor()
+{
+    id = "200237";
+    name = "Vesemir: Mentor";
+    text = "Play a Bronze or Silver Alchemy card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
+        "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+LambertSwordmaster::LambertSwordmaster()
+{
+    id = "200235";
+    name = "Lambert";
+    text = "Deal 4 damage to all copies of an enemy unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00572964.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
+        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(card, 4, ally, enemy, this);
+    };
+}
+
+RegisHigherVampire::RegisHigherVampire()
+{
+    id = "112105";
+    name = "Regis: Higher Vampire";
+    text = "Look at 3 Bronze units from your opponent's deck. Consume 1, then boost self by its base power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/katakan_taunt_short_003.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    };
+}
+
+ZoltanScoundrel::ZoltanScoundrel()
+{
+    id = "112109";
+    name = "Zoltan: Scoundrel";
+    text = "Choose One: Spawn a Duda: Companion that boosts 2 units on each side of it by 2; or Spawn a Duda: Agitator that deals 2 damage to 2 units on each side of it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Dwarf };
+    power = powerBase = 8;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_Q403_00575678.mp3",
+        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040657.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new DudaCompanion(), new DudaAgitator()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+ZoltanScoundrel::DudaCompanion::DudaCompanion()
+{
+    id = "112403";
+    name = "Duda: Companion";
+    text = "Boost 2 units on each side of this unit by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const std::vector<Card *> cardsToBoost {
+            cardNextTo(this, ally, enemy, -2),
+            cardNextTo(this, ally, enemy, -1),
+            cardNextTo(this, ally, enemy, 1),
+            cardNextTo(this, ally, enemy, 2),
+        };
+        for (Card *card : cardsToBoost)
+            if (card != nullptr)
+                boost(card, 2, ally, enemy, this);
+    };
+}
+
+ZoltanScoundrel::DudaAgitator::DudaAgitator()
+{
+    id = "112404";
+    name = "Duda: Agitator";
+    text = "Deal 2 damage to 2 units on each side of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    isDoomed = true;
+    isLoyal = false;
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const std::vector<Card *> cardsToDamage {
+            cardNextTo(this, ally, enemy, -2),
+            cardNextTo(this, ally, enemy, -1),
+            cardNextTo(this, ally, enemy, 1),
+            cardNextTo(this, ally, enemy, 2),
+        };
+        for (Card *card : cardsToDamage)
+            if (card != nullptr)
+                damage(card, 2, ally, enemy, this);
+    };
+}
+
+YenneferConjurer::YenneferConjurer()
+{
+    id = "112113";
+    name = "Yennefer: Conjurer";
+    text = "Deal 1 damage to the Highest enemies on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Aedirn };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
+        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        for (Card *card : highests(cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+TrissMerigold::TrissMerigold()
+{
+    id = "112106";
+    name = "Triss Merigold";
+    text = "Deal 5 damage.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Temeria };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+    };
+}
+
+TrissTelekinesis::TrissTelekinesis()
+{
+    id = "201773";
+    name = "Triss: Telekinesis";
+    text = "Create a Bronze special card from either player's starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Temeria };
+    power = powerBase = 6;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        // TODO: implenemt an ability
+        // NOTE: the same ability in Garrison
+        //startChoiceCreateOptions(ally, this);
+    };
+}
+
+DorregarayOfVole::DorregarayOfVole()
+{
+    id = "200087";
+    name = "Dorregaray of Vole";
+    text = "Create any Bronze or Silver Beast or Draconid.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage };
+    power = powerBase = 1;
+    faction = Neutral;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
+        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+DandelionVainglory::DandelionVainglory()
+{
+    id = "201774";
+    name = "Dandelion: Vainglory";
+    text = "Boost self by 3 for each Geralt, Yennefer, Triss and Zoltan card in your starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+    };
+    power = powerBase = 9;
+    rarity = Gold;
+    faction = Neutral;
+    tags = { Support };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const auto isFellow = [](Card *card) {
+            return isCopy<GeraltAard>(card)
+                    || isCopy<GeraltIgni>(card)
+                    || isCopy<GeraltYrden>(card)
+                    || isCopy<GeraltOfRivia>(card)
+                    || isCopy<GeraltProfessional>(card)
+                    || isCopy<Yennefer>(card)
+                    || isCopy<YenneferConjurer>(card)
+                    || isCopy<YenneferEnchantress>(card)
+                    //|| isCopy<YenneferNecromancer>(card)
+                    || isCopy<TrissMerigold>(card)
+                    || isCopy<TrissButterflies>(card)
+                    || isCopy<TrissTelekinesis>(card)
+                    //|| isCopy<ZoltanChivay>(card)
+                    || isCopy<ZoltanScoundrel>(card);
+        };
+
+        int boostNumber = cardsFiltered(ally, enemy, {isFellow}, AllyDeckStarting).size();
+        if (boostNumber <= 0)
+            return;
+        boost(this, boostNumber * 3, ally, enemy, this);
+    };
+}
+
+CyprianWiley::CyprianWiley()
+{
+    id = "112214";
+    name = "Cyprian Wiley";
+    text = "Weaken a unit by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
+        "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
+    };
+    power = powerBase = 8;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Redania };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        weaken(target, 4, ally, enemy, this);
+    };
+}
+
+Dudu::Dudu()
+{
+    id = "112201";
+    name = "Dudu";
+    text = "Copy the power of an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.816.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.818.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.817.mp3",
+    };
+    power = powerBase = 1;
+    rarity = Silver;
+    faction = Neutral;
+    tags = { Relict };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        setPower(this, target->power, ally, enemy, this);
+    };
+}
+
+Ihuarraquax::Ihuarraquax()
+{
+    id = "201817";
+    name = "Ihuarraquax";
+    text = "Deal 5 damage to self. The next time this unit's current power equals its base power, deal 7 damage to 3 random enemies on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Beast };
+    power = powerBase = 7;
+    faction = Neutral;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        damageDone = false;
+        setTimer(this, ally, enemy, 1);
+        damage(this, 5, ally, enemy, this);
+    };
+
+    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *, const PowerChangeType) {
+        if ((timer > 0) && (power == powerBase))
+            tick(this, ally, enemy);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if((timer != -1) || (damageDone) || (!isOnBoard(this, ally)))
+            return;
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
+            damage(card, 7, ally, enemy, this);
+        damageDone = true;
+    };
+}
+
+MahakamMarauder::MahakamMarauder()
+{
+    id = "200042";
+    name = "Mahakam Marauder";
+    text = "Whenever this unit's power changes, except when Reset, boost self by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.41.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.39.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.40.mp3",
+    };
+    power = powerBase = 7;
+    rarity = Bronze;
+    faction = Scoiatael;
+    tags = { Dwarf, Soldier };
+
+    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
+        if((!isOnBoard(this, ally)) || (type == Reset) || (src == this))
+            return;
+        boost(this, 2, ally, enemy, this);
     };
 }

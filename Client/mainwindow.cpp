@@ -77,6 +77,10 @@ MainWindow::MainWindow(QWidget *parent)
         {"Rows Selection", demoRowsSelection},
         {"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
+        {"Neutral Specials", demoNeutralSpecial},
+        {"Gold Witchers", demoGoldWitchers},
+        {"Regis", demoNeutralDudes},
+        {"PowerChanged demo", demoPowerChanged},
     };
 
     /// make a choosing menu for it
@@ -953,14 +957,35 @@ void MainWindow::repaintCustom()
         case DealDamage:
             stream << prefix << src << " dealed " << x << " damage to " << dst;
             break;
+        case Weakened:
+            stream << prefix << src << " weakened " << dst << " by " << x << " power";
+            break;
         case Boosted:
             stream << prefix << dst << " gained " << x << " power by " << src;
+            break;
+        case Strengthened:
+            stream << prefix << src << " strengthened " << dst << " by " << x << " power";
+            break;
+        case Healed:
+            stream << prefix << src << " fully healed " << dst;
+            break;
+        case HealedBy:
+            stream << prefix << src << " healed " << dst << " by " << x << " power";
             break;
         case Damaged:
             stream << prefix << dst << " recieved " << x << " damage by " << src;
             break;
         case DamagedInArmor:
             stream << prefix << dst << " absorbed " << x << " damage by " << src;
+            break;
+        case ResetAsInDeckBuilder:
+            stream << prefix << src << " fully reset " << dst;
+            break;
+        case ResetInPower:
+            stream << prefix << dst << " gained power equal base power by " << src;
+            break;
+        case StrippedOfAllStatuses:
+            stream << prefix << dst << " lost all of statuses by " << src;
             break;
         case GainArmor:
             stream << prefix << dst << " gained " << x << " armor by " << src;

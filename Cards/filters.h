@@ -23,7 +23,8 @@ inline bool isNilfgaardFaction(Card *card) { return card->faction == Nilfgaard; 
 inline bool isScoiataelFaction(Card *card) { return card->faction == Scoiatael; }
 inline bool isMonsterFaction(Card *card) { return card->faction == Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }
-inline bool isBoosted(Card *card) { return card->power > card->powerBase; }
+inline bool isBoosted(Card *card) { return card->power <= card->powerBase; }
+inline bool isNotBoosted(Card *card) { return card->power > card->powerBase; }
 inline bool isNotLocked(Card *card) { return !card->isLocked; }
 inline bool isUndamaged(Card *card) { return card->power >= card->powerBase; }
 inline bool isDamaged(Card *card) { return card->power < card->powerBase; }
@@ -31,11 +32,19 @@ inline bool isNonAgent(Card *card) { return !hasTag(card, Agent); }
 inline bool isDeathwish(Card *card) { return card->hasDeathwish(); }
 inline bool isCrew(Card *card) { return card->isCrew && !card->isLocked; }
 inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(); }
+inline bool hasOddPower(Card *card) { return card->power % 2 != 0; }
+inline bool hasEvenPower(Card *card) { return card->power % 2 == 0; }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
 
 
 using Filter = std::function<bool(Card *)>;
 
+inline Filter isFaction(const int faction)
+{
+    return [faction](Card *card) {
+        return card->faction == faction;
+    };
+}
 inline Filter hasAnyOfTags(const std::vector<Tag> &tags)
 {
     return [tags](Card *card) {
@@ -73,6 +82,12 @@ inline Filter hasNoTag(const Tag tag)
 {
     return  [tag](Card *card) {
         return !hasTag(card, tag);
+    };
+}
+inline Filter hasStrInName(const std::string &str)
+{
+    return [str](Card *card) {
+        return card->name.find(str) != std::string::npos;
     };
 }
 inline Filter otherThan(const std::string &name)
