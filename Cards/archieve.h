@@ -2262,7 +2262,7 @@ struct Ihuarraquax : CardCollectible<Ihuarraquax>
 {
     Ihuarraquax();
 private:
-    int nextTimePowerIsEqual = 0;
+    bool damageDone = false;
 };
 
 

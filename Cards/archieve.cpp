@@ -9038,7 +9038,7 @@ UmasCurse::UmasCurse()
     isSpecial = true;
     tags = { Spell };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    _onPlaySpecial = [=](Field &ally, Field &) {
         startChoiceCreateOptions(ally, this, {isGold, isUnit, hasNoTag(Leader)});
     };
 
@@ -9140,7 +9140,7 @@ Mardroeme::Mardroeme()
     isSpecial = true;
     tags = { Alchemy, Organic };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    _onPlaySpecial = [=](Field &ally, Field &) {
         auto *option1 = new Mardroeme::Strengthen;
         copyCardText(this, option1);
         option1->text = "Reset a unit and Strengthen it by 3.";
@@ -9181,7 +9181,7 @@ Sihil::Sihil()
     isSpecial = true;
     tags = { Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    _onPlaySpecial = [=](Field &ally, Field &) {
         auto *option1 = new Sihil::DamageOdd;
         copyCardText(this, option1);
         option1->text = "Deal 3 damage to all enemies with odd power.";
@@ -9391,12 +9391,15 @@ ZoltanScoundrel::DudaCompanion::DudaCompanion()
     rarity = Silver;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (int i = -2; i <= 2; i++) {
-            if (i== 0)
-                continue;
-            if (Card *card = cardNextTo(this, ally, enemy, i))
-                boost(card, 2, ally, enemy, this);
+        const std::vector<Card *> cardsToBoost {
+            cardNextTo(this, ally, enemy, -2),
+            cardNextTo(this, ally, enemy, -1),
+            cardNextTo(this, ally, enemy, 1),
+            cardNextTo(this, ally, enemy, 2),
         };
+        for (Card *card : cardsToBoost)
+            if (card != nullptr)
+                boost(card, 2, ally, enemy, this);
     };
 }
 
@@ -9408,17 +9411,21 @@ ZoltanScoundrel::DudaAgitator::DudaAgitator()
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Beast };
     isDoomed = true;
+    isLoyal = false;
     power = powerBase = 1;
     faction = Neutral;
     rarity = Silver;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        for (int i = -2; i <= 2; i++) {
-            if (i== 0)
-                continue;
-            if (Card *card = cardNextTo(this, ally, enemy, i))
-                damage(card, 2, ally, enemy, this);
+        const std::vector<Card *> cardsToDamage {
+            cardNextTo(this, ally, enemy, -2),
+            cardNextTo(this, ally, enemy, -1),
+            cardNextTo(this, ally, enemy, 1),
+            cardNextTo(this, ally, enemy, 2),
         };
+        for (Card *card : cardsToDamage)
+            if (card != nullptr)
+                damage(card, 2, ally, enemy, this);
     };
 }
 
@@ -9550,10 +9557,24 @@ DandelionVainglory::DandelionVainglory()
     tags = { Support };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        std::vector<std::string> fellows = {"Geralt", "Yennefer", "Triss", "Zoltan"};
-        int boostNumber = 0;
-        for (std::string fellow : fellows)
-            boostNumber += cardsFiltered(ally, enemy, {hasStrInName(fellow)}, AllyDeckStarting).size();
+        const auto isFellow = [](Card *card) {
+            return isCopy<GeraltAard>(card)
+                    || isCopy<GeraltIgni>(card)
+                    || isCopy<GeraltYrden>(card)
+                    || isCopy<GeraltOfRivia>(card)
+                    || isCopy<GeraltProfessional>(card)
+                    || isCopy<Yennefer>(card)
+                    || isCopy<YenneferConjurer>(card)
+                    || isCopy<YenneferEnchantress>(card)
+                    //|| isCopy<YenneferNecromancer>(card)
+                    || isCopy<TrissMerigold>(card)
+                    || isCopy<TrissButterflies>(card)
+                    || isCopy<TrissTelekinesis>(card)
+                    //|| isCopy<ZoltanChivay>(card)
+                    || isCopy<ZoltanScoundrel>(card);
+        };
+
+        int boostNumber = cardsFiltered(ally, enemy, {isFellow}, AllyDeckStarting).size();
         if (boostNumber <= 0)
             return;
         boost(this, boostNumber * 3, ally, enemy, this);
@@ -9622,21 +9643,22 @@ Ihuarraquax::Ihuarraquax()
     rarity = Gold;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        nextTimePowerIsEqual = 0;
+        damageDone = false;
+        setTimer(this, ally, enemy, 1);
         damage(this, 5, ally, enemy, this);
     };
 
-    _onPowerChanged = [=](Field &, Field &, const Card *, const PowerChangeType) {
-        if (nextTimePowerIsEqual == 0 && this->power == this->powerBase)
-            nextTimePowerIsEqual = 1;
+    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *, const PowerChangeType) {
+        if ((timer > 0) && (power == powerBase))
+            tick(this, ally, enemy);
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if(!isOnBoard(this, ally) || nextTimePowerIsEqual != 1)
+        if((timer != -1) || (damageDone) || (!isOnBoard(this, ally)))
             return;
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
             damage(card, 7, ally, enemy, this);
-        nextTimePowerIsEqual = -1;
+        damageDone = true;
     };
 }
 
@@ -9657,7 +9679,7 @@ MahakamMarauder::MahakamMarauder()
     tags = { Dwarf, Soldier };
 
     _onPowerChanged = [=](Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
-        if(!isOnBoard(this, ally) || type == Reset || src == this)
+        if((!isOnBoard(this, ally)) || (type == Reset) || (src == this))
             return;
         boost(this, 2, ally, enemy, this);
     };
