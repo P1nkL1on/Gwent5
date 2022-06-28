@@ -2284,4 +2284,22 @@ struct YenneferNecromancer : CardCollectible<YenneferNecromancer>
 };
 
 
+struct Phoenix : CardCollectible<Phoenix>
+{
+    Phoenix();
+};
+
+
+struct SaesenthessisBlaze : CardCollectible<SaesenthessisBlaze>
+{
+    SaesenthessisBlaze();
+};
+
+
+struct Villentretenmerth : CardCollectible<Villentretenmerth>
+{
+    Villentretenmerth();
+};
+
+
 #endif // CARDS_H

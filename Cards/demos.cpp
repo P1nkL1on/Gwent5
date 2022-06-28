@@ -1181,9 +1181,10 @@ void demoPowerChanged(Field &ally, Field &enemy)
     auto *t = new TuirseachArcher();
     auto *g = new GeraltYrden();
     auto *z = new ZoltanChivay();
+    auto *v = new Villentretenmerth();
 
-    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g, z};
-    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g, z};
+    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g, z, v};
+    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g, z, v};
 
     auto *e1 = new Olaf();
     auto *e2 = new Olaf();
@@ -1192,6 +1193,23 @@ void demoPowerChanged(Field &ally, Field &enemy)
 
     enemy.cardsAdded = {e1, e2, e3, e4};
     enemy.rowMeele = {e1, e2, e3, e4};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoAedirnDragon(Field &ally, Field &enemy)
+{
+    auto *m1 = new Mandrake();
+    auto *m2 = new Mandrake();
+    auto *m3 = new Mandrake();
+    auto *b1 = new BoneTalisman();
+    auto *b2 = new BoneTalisman();
+    auto *s = new SaesenthessisBlaze();
+
+    ally.cardsAdded = {m1, m2, m3, b1, b2, s};
+    ally.hand = {b1, b2, s};
+    ally.deck = {m1, m2, m3};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

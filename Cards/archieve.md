@@ -31,14 +31,14 @@
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
 - [x] Ihuarraquax
-- [ ] Phoenix _(easy card)_
-- [ ] Saesenthessis: Blaze
+- [x] Phoenix _(easy card)_
+- [x] Saesenthessis: Blaze
 - [x] Trial of the Grasses
 - [x] Wolfsbane
 - [x] Royal Decree _(easy card)_
 - [x] Renew
 - [x] Sihil
-- [ ] Villentretenmerth
+- [x] Villentretenmerth
 - [x] Muzzle
 - [x] Black Blood
 - [x] Rock Barrage

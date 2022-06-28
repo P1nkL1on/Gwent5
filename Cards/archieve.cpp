@@ -334,6 +334,9 @@ std::vector<Card *> allCards(const Patch)
         new MahakamMarauder(),
         new ZoltanChivay(),
         new YenneferNecromancer(),
+        new Phoenix(),
+        new SaesenthessisBlaze(),
+        new Villentretenmerth(),
     };
 }
 
@@ -9747,5 +9750,69 @@ YenneferNecromancer::YenneferNecromancer()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Phoenix::Phoenix()
+{
+    id = "201579";
+    name = "Phoenix";
+    text = "Resurrect a Bronze or Silver Draconid.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Draconid };
+    isDoomed = true;
+    power = powerBase = 5;
+    faction = Neutral;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Draconid)}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+SaesenthessisBlaze::SaesenthessisBlaze()
+{
+    id = "201613";
+    name = "Saesenthessis: Blaze";
+    text = "Banish your hand and draw that many cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Aedirn, Draconid };
+    power = powerBase = 11;
+    faction = Neutral;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> hand = cardsFiltered(ally, enemy, {}, AllyHand);
+        for (Card *card : hand) {
+            banish(card, ally, enemy, this);
+            drawACard(ally, enemy);
+        }
+    };
+}
+
+Villentretenmerth::Villentretenmerth()
+{
+    id = "112107";
+    name = "Villentretenmerth";
+    text = "After 3 turns, destroy all the other Highest units on turn start. 3 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Draconid };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 3);
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        for (Card *card : highests(cardsFiltered(ally, enemy, {otherThan(this)}, AnyBoard)))
+            putToDiscard(card, ally, enemy, this);
     };
 }
