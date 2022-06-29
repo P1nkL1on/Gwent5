@@ -56,9 +56,9 @@
 - [x] Gaunter O'Dimm
 - [x] Dorregaray of Vole
 - [x] Garrison
-- [ ] Iris' Companions
-- [ ] Johnny
-- [ ] Stregobor
+- [x] Iris' Companions
+- [x] Johnny
+- [x] Stregobor
 - [x] Doppler _(easy card)_
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression

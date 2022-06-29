@@ -2331,4 +2331,24 @@ struct IrisVonEverec : CardCollectible<IrisVonEverec>
 };
 
 
+struct IrisCompanions : CardCollectible<IrisCompanions>
+{
+    IrisCompanions();
+};
+
+
+struct Johnny : CardCollectible<Johnny>
+{
+    Johnny();
+private:
+    bool picked = false;
+};
+
+
+struct Stregobor : CardCollectible<Stregobor>
+{
+    Stregobor();
+};
+
+
 #endif // CARDS_H

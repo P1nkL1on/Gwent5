@@ -878,15 +878,26 @@ void demoAvalach(Field &ally, Field &enemy)
         new TrissButterflies(),
         new Yennefer(),
         new YenneferConjurer(),
-    };
+        new Johnny(),
+        new Stregobor(),
+        new Mandrake(),
+        new MahakamMarauder(),
+        new Ihuarraquax(),
+};
 
     const std::vector<Card *> deckStartingEnemy {
         new GeraltOfRivia(),
         new CiriNova(),
         new Siren(),
         new Siren(),
+        new Siren(),
         new Nekurat(),
         new MonsterNest(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
         new Lamia(),
         new Lamia(),
     };

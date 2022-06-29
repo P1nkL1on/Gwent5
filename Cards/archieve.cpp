@@ -343,6 +343,9 @@ std::vector<Card *> allCards(const Patch)
         new KingOfBeggars(),
         new OlgierdVonEverec(),
         new IrisVonEverec(),
+        new IrisCompanions(),
+        new Johnny(),
+        new Stregobor(),
     };
 }
 
@@ -9954,4 +9957,102 @@ IrisVonEverec::IrisVonEverec()
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 5, ally.rng))
             boost(card, 5, ally, enemy, this);
     };
+}
+
+IrisCompanions::IrisCompanions()
+{
+    id = "200083";
+    name = "Iris' Companions";
+    text = "Move a card from your deck to your hand, then Discard a random card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Relict };
+    power = powerBase = 11;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.268.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.265.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.264.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.267.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy);
+        putToDiscard(random(ally.hand, ally.rng), ally, enemy, this);
+    };
+}
+
+Johnny::Johnny()
+{
+    id = "112211";
+    name = "Johnny";
+    text = "Discard a card. Then make a default copy of a card of the same color from your opponent's starting deck in your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Relict };
+    power = powerBase = 9;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00420525.mp3",
+        "https://gwent.one/audio/card/ob/en/GJHN_Q111_01011367.mp3",
+        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00417768.mp3",
+        "https://gwent.one/audio/card/ob/en/GJHN_GODLING_01059659.mp3",
+        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00373361.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        picked = false;
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!picked) {
+            picked = true;
+            putToDiscard(target, ally, enemy, this);
+            startChoiceToTargetCard(ally, enemy, this, {isColor(target->rarity)}, EnemyDeckStarting);
+            return;
+        }
+        picked = false;
+        Card *card = target->defaultCopy();
+        addAsNew(ally, card);
+        putToHand(card, ally, enemy);
+    };
+
+
+}
+
+Stregobor::Stregobor()
+{
+    id = "200091";
+    name = "Stregobor";
+    text = "Truce: Each player draws a unit and sets its power to 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Relict };
+    power = powerBase = 10;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.165.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.162.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.163.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.164.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+            putToHand(unit, ally, enemy);
+            setPower(unit, 1, ally, enemy, this);
+        }
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
+            putToHand(unit, enemy, ally);
+            setPower(unit, 1, ally, enemy, this);
+        }
+    };
+
 }
