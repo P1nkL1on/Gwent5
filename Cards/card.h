@@ -316,7 +316,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
 // BUG: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
-bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
+bool moveToRandomRow(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool summonNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);

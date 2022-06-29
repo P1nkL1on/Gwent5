@@ -1250,7 +1250,6 @@ struct RockBarrage : CardCollectible<RockBarrage>
 struct Nivellen : CardCollectible<Nivellen>
 {
     Nivellen();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -2305,8 +2304,6 @@ struct Villentretenmerth : CardCollectible<Villentretenmerth>
 struct Ocvist : CardCollectible<Ocvist>
 {
     Ocvist();
-private:
-    bool singleUseCheck = false;
 };
 
 

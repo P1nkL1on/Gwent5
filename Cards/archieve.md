@@ -79,7 +79,7 @@
 - [x] Merigold's Hailstorm
 - [x] Myrgtabrakke
 - [x] Necromancy
-- [ ] Nivellen
+- [x] Nivellen
 - [x] Ocvist
 - [ ] Olgierd von Everec
 - [x] Operator

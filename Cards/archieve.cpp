@@ -186,6 +186,7 @@ std::vector<Card *> allCards(const Patch)
         new WeavessIncantation(),
         new BrewessRitual(),
         new WhispessTribute(),
+        new Nivellen(),
         new LeoBonhart(),
         new MorvranVoorhis(),
         new Cynthia(),
@@ -4675,7 +4676,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     tags = { Cursed };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !moveSelfToRandomRow(this, ally, enemy))
+        if (!isOnBoard(this, ally) || !moveToRandomRow(this, ally, enemy, this))
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
             damage(card, 1, ally, enemy, this);
@@ -5454,14 +5455,16 @@ RockBarrage::RockBarrage()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
-        const Row rowAbove = std::max(Row(rowAndPos.row() + 1), Seige);
+        const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
 
-        if (isRowFull(enemy.row(rowAbove))) {
+        const bool shouldDestroy = isRowFull(enemy.row(rowAbove));
+        std::cout << "A " << shouldDestroy << std::endl;
+        if (shouldDestroy) {
             putToDiscard(target, ally, enemy, this);
             return;
         }
 
-        if (!damage(target, 7, ally, enemy, this))
+        if (!damage(target, 7, ally, enemy, this) && (rowAndPos.row() != Seige))
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
     };
 }
@@ -5695,6 +5698,20 @@ Nivellen::Nivellen()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.167.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isOnBoard(card, ally)) {
+                moveToRandomRow(card, ally, enemy, this);
+            } else {
+                moveToRandomRow(card, enemy, ally, this);
+            }
+        }
     };
 }
 
@@ -6845,7 +6862,7 @@ Archespore::Archespore()
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally) && moveSelfToRandomRow(this, ally, enemy))
+        if (isOnBoard(this, ally) && moveToRandomRow(this, ally, enemy, this))
             damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
                    1, ally, enemy, this);
     };
@@ -8245,7 +8262,7 @@ Odrin::Odrin()
     _onTurnStart = [=](Field &ally, Field &enemy) {
         if (!isOnBoard(this, ally))
             return;
-        if (!moveSelfToRandomRow(this, ally, enemy))
+        if (!moveToRandomRow(this, ally, enemy, this))
             return;
         for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this), otherThan(this)}, AllyBoard))
             boost(card, 1, ally, enemy, this);
@@ -9788,11 +9805,12 @@ SaesenthessisBlaze::SaesenthessisBlaze()
     rarity = Gold;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        std::vector<Card *> hand = cardsFiltered(ally, enemy, {}, AllyHand);
-        for (Card *card : hand) {
+        const std::vector<Card *> hand = ally.hand;
+        const int64_t nCards = hand.size();
+        for (Card *card : hand)
             banish(card, ally, enemy, this);
+        for (int cardInd = 0; cardInd < nCards; ++cardInd)
             drawACard(ally, enemy);
-        }
     };
 }
 
@@ -9829,20 +9847,19 @@ Ocvist::Ocvist()
     power = powerBase = 8;
     faction = Neutral;
     rarity = Silver;
+    timer = 4;
     sounds = {
+        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008.mp3",
         "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009.mp3",
         "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010.mp3",
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008.mp3",
-    };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 4);
     };
 
     _onTurnStart = [=](Field &ally, Field &enemy) {
-        if ((!tick(this, ally, enemy)) || (!singleUseCheck))
+        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
-        singleUseCheck = true;
+        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+            damage(card, 1, ally, enemy, this);
+        putToHand(this, ally, enemy);
     };
 }
 
@@ -9863,13 +9880,11 @@ Myrgtabrakke::Myrgtabrakke()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 3);
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+        for (int n = 0; n < 3; ++n)
+            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 2, ally, enemy, this);
-        if (!tick(this, ally, enemy))
-             startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
     };
 }
