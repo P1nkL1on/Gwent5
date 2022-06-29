@@ -1173,18 +1173,18 @@ void demoNeutralDudes(Field &ally, Field &enemy)
 void demoPowerChanged(Field &ally, Field &enemy)
 {
     auto *i = new Ihuarraquax();
-    auto *mm1 = new MahakamMarauder();
-    auto *mm2 = new MahakamMarauder();
+    auto *mm = new MahakamMarauder();
     auto *m1 = new Mandrake();
     auto *m2 = new Mandrake();
-    auto *m3 = new Mandrake();
-    auto *t = new TuirseachArcher();
     auto *g = new GeraltYrden();
     auto *z = new ZoltanChivay();
     auto *v = new Villentretenmerth();
+    auto *k = new KingOfBeggars();
+    auto *iris = new IrisVonEverec();
+    auto *i2 = new Infiltrator();
 
-    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g, z, v};
-    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g, z, v};
+    ally.cardsAdded = {i, mm, m1, m2, g, z, v, k, iris, i2};
+    ally.hand = {i, mm, m1, m2, g, z, v, k, iris, i2};
 
     auto *e1 = new Olaf();
     auto *e2 = new Olaf();

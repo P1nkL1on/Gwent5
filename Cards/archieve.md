@@ -42,7 +42,7 @@
 - [x] Muzzle
 - [x] Black Blood
 - [x] Rock Barrage
-- [ ] King of Beggars
+- [x] King of Beggars
 - [x] Mastercrafted Spear
 - [ ] Peasant Militia
 - [x] Spores
@@ -71,7 +71,7 @@
 - [x] Dudu
 - [x] Eskel
 - [x] Germain Piquant
-- [ ] Iris von Everec
+- [x] Iris von Everec
 - [x] Lambert
 - [x] Mandrake
 - [x] Manticore Venom
@@ -81,7 +81,7 @@
 - [x] Necromancy
 - [x] Nivellen
 - [x] Ocvist
-- [ ] Olgierd von Everec
+- [x] Olgierd von Everec
 - [x] Operator
 - [ ] Prize-Winning Cow
 - [x] Roach

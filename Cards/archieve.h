@@ -2313,4 +2313,22 @@ struct Myrgtabrakke : CardCollectible<Myrgtabrakke>
 };
 
 
+struct KingOfBeggars : CardCollectible<KingOfBeggars>
+{
+    KingOfBeggars();
+};
+
+
+struct OlgierdVonEverec : CardCollectible<OlgierdVonEverec>
+{
+    OlgierdVonEverec();
+};
+
+
+struct IrisVonEverec : CardCollectible<IrisVonEverec>
+{
+    IrisVonEverec();
+};
+
+
 #endif // CARDS_H

@@ -340,6 +340,9 @@ std::vector<Card *> allCards(const Patch)
         new Villentretenmerth(),
         new Ocvist(),
         new Myrgtabrakke(),
+        new KingOfBeggars(),
+        new OlgierdVonEverec(),
+        new IrisVonEverec(),
     };
 }
 
@@ -2952,17 +2955,13 @@ Morkvarg::Morkvarg()
     tags = { Beast, Cursed };
 
     _onDiscard = [=](Field &ally, Field &enemy) {
-        if (weaken(this, half(powerBase), ally, enemy, this))
-            return;
-
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (!weaken(this, half(powerBase), ally, enemy, this))
+            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (weaken(this, half(powerBase), ally, enemy, this))
-            return;
-
-        moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+        if (!weaken(this, half(powerBase), ally, enemy, this))
+            moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
     };
 }
 
@@ -9886,5 +9885,73 @@ Myrgtabrakke::Myrgtabrakke()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 2, ally, enemy, this);
+    };
+}
+
+KingOfBeggars::KingOfBeggars()
+{
+    id = "112213";
+    name = "King of Beggars";
+    text = "If losing, Strengthen self up to a maximum of 15 until scores are tied.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Support };
+    power = powerBase = 5;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/KGBG_Q302_00487960.mp3",
+        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00486502.mp3",
+        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00499725.mp3",
+        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00487409.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const int boost = std::min(powerField(enemy) - powerField(ally), 10);
+        if (boost > 0)
+            strengthen(this, boost, ally, enemy, this);
+    };
+}
+
+OlgierdVonEverec::OlgierdVonEverec()
+{
+    id = "112207";
+    name = "Olgierd von Everec";
+    text = "Deathwish: Resurrect this unit on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Redania, Cursed };
+    power = powerBase = 5;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101145.mp3",
+        "https://gwent.one/audio/card/ob/en/OLGD_Q604_01137773.mp3",
+        "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101591.mp3",
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+IrisVonEverec::IrisVonEverec()
+{
+    id = "112215";
+    name = "Iris von Everec";
+    text = "Spying. Deathwish: Boost 5 random units on the opposite side by 5.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Redania, Cursed };
+    isLoyal = false;
+    power = powerBase = 3;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106159.mp3",
+        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106875.mp3",
+        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106944.mp3",
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 5, ally.rng))
+            boost(card, 5, ally, enemy, this);
     };
 }
