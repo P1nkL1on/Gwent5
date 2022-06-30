@@ -346,6 +346,9 @@ std::vector<Card *> allCards(const Patch)
         new IrisCompanions(),
         new Johnny(),
         new Stregobor(),
+        new Sarah(),
+        new PeasantMilitia(),
+        new PrizeWinningCow(),
     };
 }
 
@@ -10021,8 +10024,6 @@ Johnny::Johnny()
         addAsNew(ally, card);
         putToHand(card, ally, enemy);
     };
-
-
 }
 
 Stregobor::Stregobor()
@@ -10031,7 +10032,7 @@ Stregobor::Stregobor()
     name = "Stregobor";
     text = "Truce: Each player draws a unit and sets its power to 1.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Relict };
+    tags = { Mage };
     power = powerBase = 10;
     faction = Neutral;
     rarity = Silver;
@@ -10055,4 +10056,121 @@ Stregobor::Stregobor()
         }
     };
 
+}
+
+Sarah::Sarah()
+{
+    id = "112212";
+    name = "Sarah";
+    text = "Swap a card for one of the same color.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Relict };
+    power = powerBase = 11;
+    faction = Neutral;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/GSAR_Q301_00493632.mp3",
+        "https://gwent.one/audio/card/ob/en/GSAR_Q301_00484178.mp3",
+        "https://gwent.one/audio/card/ob/en/GSAR_GODLING_01059640.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck).size() <= 0)
+            return;
+        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
+        Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck));
+        if (card != nullptr)
+            putToHand(card, ally, enemy);
+    };
+}
+
+PeasantMilitia::PeasantMilitia()
+{
+    id = "201753";
+    name = "Peasant Militia";
+    text = "Spawn 3 Peasants on a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Tactics };
+    isSpecial = true;
+    faction = Neutral;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.86.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.87.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.84.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.85.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.83.mp3",
+    };
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        for(int i = 0; i < 3; i++) {
+            if (isRowFull(cardsInRow(ally, enemy, screenRow)))
+                return;
+            Card *card = new Peasant();
+            addAsNew(ally, card);
+            moveExistedUnitToPos(card, rowAndPosLastInExactRow(screenRow, ally, enemy), ally, enemy, this);
+        }
+    };
+}
+
+PeasantMilitia::Peasant::Peasant()
+{
+    id = "201753";
+    name = "Peasant Militia";
+    text = "No ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { };
+    isDoomed = true;
+    faction = Neutral;
+    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.86.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.87.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.84.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.85.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.83.mp3",
+//    };
+}
+
+PrizeWinningCow::PrizeWinningCow()
+{
+    //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
+    id = "112209";
+    name = "Prize-Winning Cow";
+    text = "Deathwish: Spawn a Chort on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Beast };
+    faction = Neutral;
+    rarity = Silver;
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        Card *card = new Chort();
+        addAsNew(ally, card);
+        moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+PrizeWinningCow::Chort::Chort()
+{
+    // FIXME: check all the details
+    id = "112209";
+    name = "Chort";
+    text = "No ability.";
+    // TODO: place this picture somehow
+    //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Relict };
+    faction = Neutral;
+    rarity = Gold;
 }

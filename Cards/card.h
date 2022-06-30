@@ -262,6 +262,7 @@ RowAndPos _findRowAndPos(const Card *card, const Field &field);
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
+RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);

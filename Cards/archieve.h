@@ -825,7 +825,6 @@ struct DjengeFrett : CardCollectible<DjengeFrett>
 struct DonarAnHindar : CardCollectible<DonarAnHindar>
 {
     DonarAnHindar();
-    // FIXME: no ability
 };
 
 
@@ -870,17 +869,14 @@ struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
     struct Wilfred : CardCollectible<Wilfred>
     {
         Wilfred();
-
     };
     struct Wilhelm : CardCollectible<Wilhelm>
     {
         Wilhelm();
-
     };
     struct Wilmar : CardCollectible<Wilmar>
     {
         Wilmar();
-
     };
     HaraldHoundsnout();
 };
@@ -2348,6 +2344,34 @@ private:
 struct Stregobor : CardCollectible<Stregobor>
 {
     Stregobor();
+};
+
+
+struct Sarah : CardCollectible<Sarah>
+{
+    Sarah();
+};
+
+
+struct PeasantMilitia : CardCollectible<PeasantMilitia>
+{
+    PeasantMilitia();
+private:
+    struct Peasant : CardCollectible<Peasant>
+    {
+        Peasant();
+    };
+};
+
+
+struct PrizeWinningCow : CardCollectible<PrizeWinningCow>
+{
+    PrizeWinningCow();
+private:
+    struct Chort : CardCollectible<Chort>
+    {
+        Chort();
+    };
 };
 
 

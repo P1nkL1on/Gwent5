@@ -11,18 +11,18 @@
 - [x] Geralt of Rivia
 - [x] Geralt: Igni
 - [x] Geralt: Aard
-- [x] Geralt: Yrden __{NOT EXECT ABILITY}__
+- [x] Geralt: Yrden
 - [x] Geralt: Professional
 - [x] Lambert: Swordmaster
-- [x] Vesemir: Mentor _(easy card)_
-- [x] Eskel: Pathfinder _(easy card)_
+- [x] Vesemir: Mentor
+- [x] Eskel: Pathfinder
 - [x] Yennefer
 - [x] Yennefer: Conjurer
 - [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
 - [x] Uma's Curse
-- [x] Triss Merigold _(easy card)_
+- [x] Triss Merigold
 - [x] Triss: Butterflies
 - [x] Triss: Telekinesis __{NO ABILITY}__
 - [x] Dandelion: Poet
@@ -31,11 +31,11 @@
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
 - [x] Ihuarraquax
-- [x] Phoenix _(easy card)_
+- [x] Phoenix
 - [x] Saesenthessis: Blaze
 - [x] Trial of the Grasses
 - [x] Wolfsbane
-- [x] Royal Decree _(easy card)_
+- [x] Royal Decree
 - [x] Renew
 - [x] Sihil
 - [x] Villentretenmerth
@@ -44,7 +44,7 @@
 - [x] Rock Barrage
 - [x] King of Beggars
 - [x] Mastercrafted Spear
-- [ ] Peasant Militia
+- [x] Peasant Militia
 - [x] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
@@ -55,11 +55,11 @@
 - [x] Lacerate
 - [x] Gaunter O'Dimm
 - [x] Dorregaray of Vole
-- [x] Garrison
+- [x] Garrison  __{NO ABILITY}__
 - [x] Iris' Companions
 - [x] Johnny
 - [x] Stregobor
-- [x] Doppler _(easy card)_
+- [x] Doppler
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
 - [x] Bekker's Dark Mirror
@@ -83,9 +83,9 @@
 - [x] Ocvist
 - [x] Olgierd von Everec
 - [x] Operator
-- [ ] Prize-Winning Cow
+- [x] Prize-Winning Cow  __{MAYBE NOT EXACT TOKEN}__
 - [x] Roach
-- [ ] Sarah
+- [x] Sarah
 - [x] Scorch
 - [x] Skellige Storm
 - [x] Summoning Circle
@@ -98,21 +98,21 @@
 - [x] Arachas Venom
 - [x] Biting Frost
 - [x] Bloodcurdling Roar
-- [x] Dimeritium Shackles _(easy card)_
+- [x] Dimeritium Shackles
 - [x] Epidemic
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
-- [x] Mahakam Ale _(easy card)_
+- [x] Mahakam Ale
 - [x] Mardroeme
-- [x] Petri's Philter _(easy card)_
+- [x] Petri's Philter
 - [x] Reconnaissance
-- [x] Shrike _(easy card)_
+- [x] Shrike
 - [x] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain
-- [x] Wyvern Scale Shield _(easy card)_
+- [x] Wyvern Scale Shield
 
 # Nothern Realms
 

@@ -871,18 +871,21 @@ void demoSlyzards(Field &ally, Field &enemy)
 void demoAvalach(Field &ally, Field &enemy)
 {
     const std::vector<Card *> deckStartingAlly {
-        new CiriNova(),
         new Avalach(),
         new AvalachSage(),
-        new DandelionVainglory(),
-        new TrissButterflies(),
-        new Yennefer(),
         new YenneferConjurer(),
         new Johnny(),
         new Stregobor(),
+        new WyvernScaleShield(),
+        new MastercraftedSpear(),
         new Mandrake(),
         new MahakamMarauder(),
+        new TuirseachArcher(),
+        new TuirseachArcher(),
+        new TemerianDrummer(),
+        new AlbaArmoredCavalry(),
         new Ihuarraquax(),
+        new Sarah(),
 };
 
     const std::vector<Card *> deckStartingEnemy {
@@ -1211,8 +1214,8 @@ void demoPowerChanged(Field &ally, Field &enemy)
 
 void demoAedirnDragon(Field &ally, Field &enemy)
 {
-    auto *m1 = new Mandrake();
-    auto *m2 = new Mandrake();
+    auto *m1 = new PeasantMilitia();
+    auto *m2 = new PrizeWinningCow();
     auto *m3 = new Mandrake();
     auto *b1 = new BoneTalisman();
     auto *b2 = new BoneTalisman();
