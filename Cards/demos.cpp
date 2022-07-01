@@ -871,22 +871,36 @@ void demoSlyzards(Field &ally, Field &enemy)
 void demoAvalach(Field &ally, Field &enemy)
 {
     const std::vector<Card *> deckStartingAlly {
-        new CiriNova(),
         new Avalach(),
         new AvalachSage(),
-        new DandelionVainglory(),
-        new TrissButterflies(),
-        new Yennefer(),
         new YenneferConjurer(),
-    };
+        new Johnny(),
+        new Stregobor(),
+        new WyvernScaleShield(),
+        new MastercraftedSpear(),
+        new Mandrake(),
+        new MahakamMarauder(),
+        new TuirseachArcher(),
+        new TuirseachArcher(),
+        new TemerianDrummer(),
+        new AlbaArmoredCavalry(),
+        new Ihuarraquax(),
+        new Sarah(),
+};
 
     const std::vector<Card *> deckStartingEnemy {
         new GeraltOfRivia(),
         new CiriNova(),
         new Siren(),
         new Siren(),
+        new Siren(),
         new Nekurat(),
         new MonsterNest(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
         new Lamia(),
         new Lamia(),
     };
@@ -1173,16 +1187,18 @@ void demoNeutralDudes(Field &ally, Field &enemy)
 void demoPowerChanged(Field &ally, Field &enemy)
 {
     auto *i = new Ihuarraquax();
-    auto *mm1 = new MahakamMarauder();
-    auto *mm2 = new MahakamMarauder();
+    auto *mm = new MahakamMarauder();
     auto *m1 = new Mandrake();
     auto *m2 = new Mandrake();
-    auto *m3 = new Mandrake();
-    auto *t = new TuirseachArcher();
     auto *g = new GeraltYrden();
+    auto *z = new ZoltanChivay();
+    auto *v = new Villentretenmerth();
+    auto *k = new KingOfBeggars();
+    auto *iris = new IrisVonEverec();
+    auto *i2 = new Infiltrator();
 
-    ally.cardsAdded = {i, mm1, mm2, m1, m2, m3, t, g};
-    ally.hand = {i, mm1, mm2, m1, m2, m3, t, g};
+    ally.cardsAdded = {i, mm, m1, m2, g, z, v, k, iris, i2};
+    ally.hand = {i, mm, m1, m2, g, z, v, k, iris, i2};
 
     auto *e1 = new Olaf();
     auto *e2 = new Olaf();
@@ -1191,6 +1207,29 @@ void demoPowerChanged(Field &ally, Field &enemy)
 
     enemy.cardsAdded = {e1, e2, e3, e4};
     enemy.rowMeele = {e1, e2, e3, e4};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoAedirnDragon(Field &ally, Field &enemy)
+{
+    auto *m1 = new PeasantMilitia();
+    auto *m2 = new PrizeWinningCow();
+    auto *m3 = new Mandrake();
+    auto *b1 = new BoneTalisman();
+    auto *b2 = new BoneTalisman();
+    auto *b3 = new BoneTalisman();
+    auto *s = new SaesenthessisBlaze();
+    auto *m = new Myrgtabrakke();
+
+    ally.cardsAdded = {m1, m2, m3, b1, b2, s, m};
+    ally.hand = {b1, b2, b3, s};
+    ally.deck = {m, m1, m2, m3};
+
+    auto *o = new Olaf();
+    enemy.cardsAdded = {o};
+    enemy.rowMeele = {o};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

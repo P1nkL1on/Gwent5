@@ -541,6 +541,15 @@ RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
     return field.lastPosInARow(row);
 }
 
+RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy)
+{
+    bool isAlly;
+    Row row = fromScreenRow(screenRow, isAlly);
+    if (isAlly)
+        return ally.lastPosInARow(row);
+    return enemy.lastPosInARow(row);
+}
+
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy)
 {
     if (const RowAndPos p = _findRowAndPos(card, ally))
@@ -1820,7 +1829,7 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
     return playCard2(card, ally, enemy, src, false, rowAndPos, false);
 }
 
-bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
+bool moveToRandomRow(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     std::vector<Row> possibleRows;
     const Row rowCurrent = _findRowAndPos(card, ally).row();
@@ -1836,7 +1845,7 @@ bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
 
     const Row rowNext = possibleRows[ally.rng() % possibleRows.size()];
     const RowAndPos rowAndPosNext(rowNext, Pos(ally.row(rowNext).size()));
-    return moveExistedUnitToPos(card, rowAndPosNext, ally, enemy, card);
+    return moveExistedUnitToPos(card, rowAndPosNext, ally, enemy, src);
 }
 
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)

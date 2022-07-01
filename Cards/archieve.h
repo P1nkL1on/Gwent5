@@ -825,7 +825,6 @@ struct DjengeFrett : CardCollectible<DjengeFrett>
 struct DonarAnHindar : CardCollectible<DonarAnHindar>
 {
     DonarAnHindar();
-    // FIXME: no ability
 };
 
 
@@ -870,17 +869,14 @@ struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
     struct Wilfred : CardCollectible<Wilfred>
     {
         Wilfred();
-
     };
     struct Wilhelm : CardCollectible<Wilhelm>
     {
         Wilhelm();
-
     };
     struct Wilmar : CardCollectible<Wilmar>
     {
         Wilmar();
-
     };
     HaraldHoundsnout();
 };
@@ -1250,7 +1246,6 @@ struct RockBarrage : CardCollectible<RockBarrage>
 struct Nivellen : CardCollectible<Nivellen>
 {
     Nivellen();
-    // FIXME: ability isn't implemented
 };
 
 
@@ -2269,6 +2264,112 @@ private:
 struct MahakamMarauder : CardCollectible<MahakamMarauder>
 {
     MahakamMarauder();
+};
+
+
+struct ZoltanChivay : CardCollectible<ZoltanChivay>
+{
+    ZoltanChivay();
+};
+
+
+struct YenneferNecromancer : CardCollectible<YenneferNecromancer>
+{
+    YenneferNecromancer();
+};
+
+
+struct Phoenix : CardCollectible<Phoenix>
+{
+    Phoenix();
+};
+
+
+struct SaesenthessisBlaze : CardCollectible<SaesenthessisBlaze>
+{
+    SaesenthessisBlaze();
+};
+
+
+struct Villentretenmerth : CardCollectible<Villentretenmerth>
+{
+    Villentretenmerth();
+};
+
+
+struct Ocvist : CardCollectible<Ocvist>
+{
+    Ocvist();
+};
+
+
+struct Myrgtabrakke : CardCollectible<Myrgtabrakke>
+{
+    Myrgtabrakke();
+};
+
+
+struct KingOfBeggars : CardCollectible<KingOfBeggars>
+{
+    KingOfBeggars();
+};
+
+
+struct OlgierdVonEverec : CardCollectible<OlgierdVonEverec>
+{
+    OlgierdVonEverec();
+};
+
+
+struct IrisVonEverec : CardCollectible<IrisVonEverec>
+{
+    IrisVonEverec();
+};
+
+
+struct IrisCompanions : CardCollectible<IrisCompanions>
+{
+    IrisCompanions();
+};
+
+
+struct Johnny : CardCollectible<Johnny>
+{
+    Johnny();
+};
+
+
+struct Stregobor : CardCollectible<Stregobor>
+{
+    Stregobor();
+};
+
+
+struct Sarah : CardCollectible<Sarah>
+{
+    Sarah();
+};
+
+
+struct PeasantMilitia : CardCollectible<PeasantMilitia>
+{
+    PeasantMilitia();
+private:
+    struct Peasant : CardCollectible<Peasant>
+    {
+        Peasant();
+    };
+};
+
+
+struct PrizeWinningCow : CardCollectible<PrizeWinningCow>
+{
+    PrizeWinningCow();
+private:
+    struct Chort : CardCollectible<Chort>
+    {
+        Chort();
+    };
 };
 
 

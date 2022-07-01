@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Gold Witchers", demoGoldWitchers},
         {"Regis", demoNeutralDudes},
         {"PowerChanged demo", demoPowerChanged},
+        {"Saskia", demoAedirnDragon},
     };
 
     /// make a choosing menu for it

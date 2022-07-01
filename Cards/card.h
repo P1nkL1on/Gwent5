@@ -262,6 +262,7 @@ RowAndPos _findRowAndPos(const Card *card, const Field &field);
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
+RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
@@ -316,7 +317,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
 // BUG: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
-bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
+bool moveToRandomRow(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool summonNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);

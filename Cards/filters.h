@@ -39,6 +39,13 @@ template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(
 
 using Filter = std::function<bool(Card *)>;
 
+inline Filter isColor(const int color)
+{
+    return [color](Card *card) {
+        return card->rarity == color;
+    };
+}
+
 inline Filter isFaction(const int faction)
 {
     return [faction](Card *card) {
