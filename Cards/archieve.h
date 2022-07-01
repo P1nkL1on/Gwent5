@@ -2336,8 +2336,6 @@ struct IrisCompanions : CardCollectible<IrisCompanions>
 struct Johnny : CardCollectible<Johnny>
 {
     Johnny();
-private:
-    bool picked = false;
 };
 
 

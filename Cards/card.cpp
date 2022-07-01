@@ -543,20 +543,11 @@ RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
 
 RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy)
 {
-    Row row = (screenRow == 0) || (screenRow == 5) ? Seige : (screenRow == 1) || (screenRow == 4) ? Range : Meele;
-
-    switch (screenRow) {
-    case 0:
-    case 1:
-    case 2:
+    bool isAlly;
+    Row row = fromScreenRow(screenRow, isAlly);
+    if (isAlly)
         return ally.lastPosInARow(row);
-    case 3:
-    case 4:
-    case 5:
-        return enemy.lastPosInARow(row);
-    default:
-        assert(false);
-    }
+    return enemy.lastPosInARow(row);
 }
 
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy)

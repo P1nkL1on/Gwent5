@@ -10008,21 +10008,16 @@ Johnny::Johnny()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        picked = false;
         startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!picked) {
-            picked = true;
-            putToDiscard(target, ally, enemy, this);
-            startChoiceToTargetCard(ally, enemy, this, {isColor(target->rarity)}, EnemyDeckStarting);
-            return;
+        putToDiscard(target, ally, enemy, this);
+        if(Card *card = random(cardsFiltered(ally, enemy, {isColor(target->rarity)}, EnemyDeckStarting), ally.rng)) {
+            Card *cardCopy = card->defaultCopy();
+            addAsNew(ally, cardCopy);
+            putToHand(cardCopy, ally, enemy);
         }
-        picked = false;
-        Card *card = target->defaultCopy();
-        addAsNew(ally, card);
-        putToHand(card, ally, enemy);
     };
 }
 
@@ -10079,12 +10074,11 @@ Sarah::Sarah()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck).size() <= 0)
-            return;
-        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
-        Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck));
-        if (card != nullptr)
+        if (Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck)) {
+            putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
             putToHand(card, ally, enemy);
+            // TODO: check if here we need to trigger onSwap or etc.
+        }
     };
 }
 
@@ -10169,8 +10163,8 @@ PrizeWinningCow::Chort::Chort()
     // TODO: place this picture somehow
     //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
+    power = powerBase = 15;
     tags = { Relict };
     faction = Neutral;
-    rarity = Gold;
+    rarity = Bronze;
 }
