@@ -54,5 +54,6 @@ void demoGoldWitchers(Field &ally, Field &enemy);
 void demoNeutralDudes(Field &ally, Field &enemy);
 void demoPowerChanged(Field &ally, Field &enemy);
 void demoAedirnDragon(Field &ally, Field &enemy);
+void demoLeaders(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

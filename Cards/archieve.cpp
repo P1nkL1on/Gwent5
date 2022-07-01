@@ -349,6 +349,9 @@ std::vector<Card *> allCards(const Patch)
         new Sarah(),
         new PeasantMilitia(),
         new PrizeWinningCow(),
+        new PrincessAdda(),
+        new KingFoltest(),
+        new KingRadovidV(),
     };
 }
 
@@ -9844,7 +9847,7 @@ Villentretenmerth::Villentretenmerth()
 
 Ocvist::Ocvist()
 {
-    id = "112107";
+    id = "112206";
     name = "Ocvist";
     text = "Single-Use: After 4 turns, deal 1 damage to all enemies, then return to your hand on turn start.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -10074,7 +10077,7 @@ Sarah::Sarah()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck)) {
+        if (Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
             putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
             putToHand(card, ally, enemy);
             // TODO: check if here we need to trigger onSwap or etc.
@@ -10167,4 +10170,91 @@ PrizeWinningCow::Chort::Chort()
     tags = { Relict };
     faction = Neutral;
     rarity = Bronze;
+}
+
+PrincessAdda::PrincessAdda()
+{
+    id = "201595";
+    name = "Princess Adda";
+    text = "Create a Bronze or Silver Cursed unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Leader, Cursed };
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.194.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.195.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.193.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+KingFoltest::KingFoltest()
+{
+    id = "200168";
+    name = "King Foltest";
+    text = "Boost all other allies and your non-Spying units in hand and deck by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Leader, Temeria };
+    isCrew = true;
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0002.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0004.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0012.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLTS_000006_0068.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> cards = cardsFiltered(ally, enemy, {}, AllyBoard);
+        std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyDeck);
+        std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyHand);
+        cards.insert(cards.end(), cardsDeck.begin(), cardsDeck.end());
+        cards.insert(cards.end(), cardsHand.begin(), cardsHand.end());
+        for (Card *card : cards)
+            boost(card, 1, ally, enemy, this);
+    };
+}
+
+KingRadovidV::KingRadovidV()
+{
+    id = "200169";
+    name = "King Radovid V";
+    text = "Toggle 2 units' Lock statuses. If enemies, deal 4 damage to them. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    rarity = Gold;
+    faction = Monster;
+    tags = { Leader, Redania };
+    isCrew = true;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/RADV_SQ302_00302977.mp3",
+        "https://gwent.one/audio/card/ob/en/RADV_Q302_00512777.mp3",
+        "https://gwent.one/audio/card/ob/en/RADV_RADOVID_01040720.mp3",
+        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064783.mp3",
+        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064777.mp3",
+        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064716.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, 4, ally, enemy, this);
+    };
 }

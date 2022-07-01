@@ -1234,3 +1234,29 @@ void demoAedirnDragon(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoLeaders(Field &ally, Field &enemy)
+{
+    auto *a = new PrincessAdda();
+    auto *f = new KingFoltest();
+    auto *m = new Mandrake();
+    auto *o1 = new Ocvist();
+    auto *o2 = new Ocvist();
+    auto *o3 = new Ocvist();
+    auto *o4 = new Ocvist();
+    auto *i = new IrisVonEverec();
+    auto *r = new KingRadovidV();
+
+    ally.cardsAdded = {a, f, m, o1, o2, o3, o4, i, r};
+    ally.hand = {a, f, m, o1, i, r};
+    ally.deck = {o2};
+    ally.rowMeele = {o3};
+    ally.discard = {o4};
+
+    auto *o = new Olaf();
+    enemy.cardsAdded = {o};
+    enemy.rowMeele = {o};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

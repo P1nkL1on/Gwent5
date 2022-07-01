@@ -2373,4 +2373,22 @@ private:
 };
 
 
+struct PrincessAdda : CardCollectible<PrincessAdda>
+{
+    PrincessAdda();
+};
+
+
+struct KingFoltest : CardCollectible<KingFoltest>
+{
+    KingFoltest();
+};
+
+
+struct KingRadovidV : CardCollectible<KingRadovidV>
+{
+    KingRadovidV();
+};
+
+
 #endif // CARDS_H

@@ -120,12 +120,12 @@
 - [ ] Dandelion
 - [x] John Natalis
 - [x] Keira Metz
-- [ ] King Foltest
+- [x] King Foltest
 - [x] King Henselt
-- [ ] King Radovid V
+- [x] King Radovid V
 - [ ] Kiyan
 - [ ] Philippa Eilhart
-- [ ] Princess Adda
+- [x] Princess Adda
 - [x] Priscilla
 - [ ] Roche: Merciless
 - [x] Seltkirk of Gulet
@@ -330,7 +330,7 @@
 - [x] Cahir Dyffryn
 - [ ] Emhyr var Emreis
 - [x] Jan Calveit
-- [ ] Leo Bonhart
+- [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
 - [ ] Menno Coehoorn _(easy card)_
