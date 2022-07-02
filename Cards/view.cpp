@@ -409,8 +409,14 @@ std::string stringTag(const Tag tag)
     case Relict: return "Relict";
     case Vampire: return "Vampire";
     case Construct: return "Construct";
+    case Ogroid: return "Ogroid";
+    case Insectoid: return "Insectoid";
+    case Necrophage: return "Necrophage";
+    case Draconid: return "Draconid";
+    case Vodyanoi: return "Vodyanoi";
     case Elf: return "Elf";
     case Dwarf: return "Dwarf";
+    case Dryad: return "Dryad";
     case Aedirn: return "Aedirn";
     case Temeria: return "Temeria";
     case Redania: return "Redania";
@@ -423,11 +429,6 @@ std::string stringTag(const Tag tag)
     case ClanTordarroch: return "Clan Tordarroch";
     case ClanTuirseach: return "Clan Tuirseach";
     case ClanDrummond: return "Clan Drummond";
-    case Ogroid: return "Ogroid";
-    case Insectoid: return "Insectoid";
-    case Necrophage: return "Necrophage";
-    case Draconid: return "Draconid";
-    case Vodyanoi: return "Vodyanoi";
     case Cursed: return "Cursed";
     case Support: return "Support";
     case Officer: return "Officer";

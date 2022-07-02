@@ -354,6 +354,10 @@ std::vector<Card *> allCards(const Patch)
         new KingRadovidV(),
         new EmhyrVarEmreis(),
         new Usurper(),
+        new BrouverHoog(),
+        new Eithne(),
+        new Filavandrel(),
+        new FrancescaFindabair(),
     };
 }
 
@@ -10189,7 +10193,7 @@ PrincessAdda::PrincessAdda()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.193.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
     };
 
@@ -10219,7 +10223,7 @@ KingFoltest::KingFoltest()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        std::vector<Card *> cards = cardsFiltered(ally, enemy, {}, AllyBoard);
+        std::vector<Card *> cards = cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard);
         std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyDeck);
         std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyHand);
         cards.insert(cards.end(), cardsDeck.begin(), cardsDeck.end());
@@ -10315,5 +10319,118 @@ Usurper::Usurper()
         acceptOptionAndDeleteOthers(this, target);
         boost(target, 2, ally, enemy, this);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+BrouverHoog::BrouverHoog()
+{
+    id = "200167";
+    name = "Brouver Hoog";
+    text = "Play a non-Spying Silver unit or a Bronze Dwarf from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Leader, Dwarf };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.136.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.137.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.138.mp3",
+    };
+
+    const auto isOk = [=](Card *card) {
+        return isUnit(card) && ((isNonSpying(card) && isSilver(card)) || (hasTag(card, Dwarf) && isBronze(card)));
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isOk}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Eithne::Eithne()
+{
+    id = "200166";
+    name = "Eithné";
+    text = "Resurrect a Bronze or Silver special card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Leader, Dryad };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.133.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.135.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.134.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Filavandrel::Filavandrel()
+{
+    id = "201589";
+    name = "Filavandrel";
+    text = "Create a Silver special card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Leader, Elf };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.279.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.278.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.280.mp3",
+    };
+
+    _onPlaySpecial = [=](Field &ally, Field &) {
+        startChoiceCreateOptions(ally, this, {isSilver, ::isSpecial});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+FrancescaFindabair::FrancescaFindabair()
+{
+    id = "200167";
+    name = "Francesca Findabair";
+    text = "Swap a card with one of your choice and boost it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    tags = { Leader, Mage, Elf };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.130.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.131.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.132.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        _cardToSwap = nullptr;
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_cardToSwap == nullptr) {
+            _cardToSwap = target;
+            startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled);
+            return;
+        }
+        putToDeck(_cardToSwap, ally, enemy, DeckPosRandom, this);
+        putToHand(target, ally, enemy);
+        boost(target, 3, ally, enemy, this);
     };
 }

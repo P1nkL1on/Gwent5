@@ -2403,4 +2403,30 @@ struct Usurper : CardCollectible<Usurper>
 };
 
 
+struct BrouverHoog : CardCollectible<BrouverHoog>
+{
+    BrouverHoog();
+};
+
+
+struct Eithne : CardCollectible<Eithne>
+{
+    Eithne();
+};
+
+
+struct Filavandrel : CardCollectible<Filavandrel>
+{
+    Filavandrel();
+};
+
+
+struct FrancescaFindabair : CardCollectible<FrancescaFindabair>
+{
+    FrancescaFindabair();
+private:
+    Card *_cardToSwap = nullptr;
+};
+
+
 #endif // CARDS_H

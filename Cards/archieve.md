@@ -254,10 +254,10 @@
 # Scoia'tael
 
 - [ ] Aglais
-- [ ] Brouver Hoog
-- [ ] Eithne
-- [ ] Filavandrel
-- [ ] Francesca Findabair
+- [x] Brouver Hoog
+- [x] Eithne
+- [x] Filavandrel
+- [x] Francesca Findabair
 - [ ] Iorveth
 - [ ] Iorveth: Meditation
 - [ ] Isengrim Faoiltiarna
