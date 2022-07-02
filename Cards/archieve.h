@@ -2391,4 +2391,16 @@ struct KingRadovidV : CardCollectible<KingRadovidV>
 };
 
 
+struct EmhyrVarEmreis : CardCollectible<EmhyrVarEmreis>
+{
+    EmhyrVarEmreis();
+};
+
+
+struct Usurper : CardCollectible<Usurper>
+{
+    Usurper();
+};
+
+
 #endif // CARDS_H

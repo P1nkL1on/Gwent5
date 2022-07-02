@@ -328,18 +328,18 @@
 
 - [ ] Assassination _(easy card)_
 - [x] Cahir Dyffryn
-- [ ] Emhyr var Emreis
+- [x] Emhyr var Emreis
 - [x] Jan Calveit
 - [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
 - [ ] Menno Coehoorn _(easy card)_
-- [ ] Morvran Voorhis
+- [x] Morvran Voorhis
 - [ ] Rainfarn of Attre
 - [ ] Shilard
 - [ ] Stefan Skellen
 - [ ] Tibor Eggebracht
-- [ ] Usurper
+- [x] Usurper
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
 - [ ] Xarthisius

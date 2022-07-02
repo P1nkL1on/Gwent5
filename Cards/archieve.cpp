@@ -352,6 +352,8 @@ std::vector<Card *> allCards(const Patch)
         new PrincessAdda(),
         new KingFoltest(),
         new KingRadovidV(),
+        new EmhyrVarEmreis(),
+        new Usurper(),
     };
 }
 
@@ -2505,9 +2507,8 @@ HaraldTheCripple::HaraldTheCripple()
         if (!_findRowAndPos(this, ally, row, pos))
             return;
         for (int n = 0; n < 9; ++n)
-            if (Card *card = random(enemy.row(row), ally.rng)) {
+            if (Card *card = random(enemy.row(row), ally.rng))
                 damage(card, 1, ally, enemy, this);
-            }
     };
 }
 
@@ -4884,7 +4885,7 @@ MarchingOrders::MarchingOrders()
 AlzursDoubleCross::AlzursDoubleCross()
 {
     id = "113209";
-    name = "Alzur's Double–Cross";
+    name = "Alzur's Double???Cross";
     text = "Boost the Highest Bronze or Silver unit in your deck by 2, then play it.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Spell };
@@ -6999,7 +7000,7 @@ Werewolf::Werewolf()
 EredinBreaccGlas::EredinBreaccGlas()
 {
     id = "131101";
-    name = "Eredin Bréacc Glas";
+    name = "Eredin Br??acc Glas";
     text = "Spawn a Bronze Wild Hunt unit.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 5;
@@ -9865,7 +9866,7 @@ Ocvist::Ocvist()
     _onTurnStart = [=](Field &ally, Field &enemy) {
         if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
             return;
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
             damage(card, 1, ally, enemy, this);
         putToHand(this, ally, enemy);
     };
@@ -10236,7 +10237,7 @@ KingRadovidV::KingRadovidV()
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 6;
     rarity = Gold;
-    faction = Monster;
+    faction = NothernRealms;
     tags = { Leader, Redania };
     isCrew = true;
     sounds = {
@@ -10256,5 +10257,63 @@ KingRadovidV::KingRadovidV()
         toggleLock(target, ally, enemy, this);
         if (isOnBoard(target, enemy))
             damage(target, 4, ally, enemy, this);
+    };
+}
+
+EmhyrVarEmreis::EmhyrVarEmreis()
+{
+    id = "200162";
+    name = "Emhyr var Emreis";
+    text = "Play a card, then return a Bronze or Silver ally to your hand.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Leader, Officer };
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.236.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.238.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.237.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.hand)) {
+            playExistedCard(target, ally, enemy, this);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyBoard);
+            return;
+        }
+        putToHand(target, ally, enemy);
+    };
+}
+
+Usurper::Usurper()
+{
+    id = "201580";
+    name = "Usurper";
+    text = "Spying. Create any Leader and boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    rarity = Gold;
+    faction = Nilfgaard;
+    tags = { Leader, Officer };
+    isLoyal = false;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.433.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.432.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.434.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, this, {hasTag(Leader)});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        boost(target, 2, ally, enemy, this);
+        spawnNewCard(target, ally, enemy, this);
     };
 }

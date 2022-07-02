@@ -1246,9 +1246,11 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *o4 = new Ocvist();
     auto *i = new IrisVonEverec();
     auto *r = new KingRadovidV();
+    auto *e = new EmhyrVarEmreis();
+    auto *u = new Usurper();
 
-    ally.cardsAdded = {a, f, m, o1, o2, o3, o4, i, r};
-    ally.hand = {a, f, m, o1, i, r};
+    ally.cardsAdded = {a, f, m, o1, o2, o3, o4, i, r, e, u};
+    ally.hand = {a, f, m, o1, i, r, e, u};
     ally.deck = {o2};
     ally.rowMeele = {o3};
     ally.discard = {o4};
