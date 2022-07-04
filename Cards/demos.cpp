@@ -399,9 +399,7 @@ void demoLeoBonhart(Field &ally, Field &enemy)
         new DjengeFrett()
     };
     enemy.rowRange = enemy.cardsAdded;
-    enemy.passed = true;
-    ally.canPass = false;
-    ally.cardStack.push_back(Choice(CardRoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy);
 }
 
 void demoMonsterSisters(Field &ally, Field &enemy)
