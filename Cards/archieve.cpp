@@ -10357,7 +10357,7 @@ BrouverHoog::BrouverHoog()
 Eithne::Eithne()
 {
     id = "200166";
-    name = "Eithn$)A(&";
+    name = "Eithne";
     text = "Resurrect a Bronze or Silver special card.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 5;
@@ -10375,8 +10375,6 @@ Eithne::Eithne()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        // FIXME: a debatable move
-        putToHand(target, ally, enemy);
         playExistedCard(target, ally, enemy, this);
     };
 }
@@ -10443,7 +10441,7 @@ FrancescaFindabair::FrancescaFindabair()
 Aglais::Aglais()
 {
     id = "142106";
-    name = "Agla?s";
+    name = "Aglais";
     text = "Resurrect a Bronze or Silver special card from your opponent's graveyard, then Banish it.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 8;
@@ -10461,8 +10459,6 @@ Aglais::Aglais()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        // FIXME: a debatable move
-        putToHand(target, ally, enemy);
         playExistedCard(target, ally, enemy, this);
         banish(target, ally, enemy, this);
     };

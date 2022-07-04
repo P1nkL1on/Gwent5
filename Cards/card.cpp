@@ -486,8 +486,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
-        // TODO: check if its even a case
-        assert(takenFrom == AlreadyCreated);
+        // NOTE: Eithne ability: Discard -> Discard
+        assert(takenFrom == AlreadyCreated || takenFrom == Discard);
         if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
         }
