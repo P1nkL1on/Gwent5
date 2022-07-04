@@ -1237,27 +1237,26 @@ void demoAedirnDragon(Field &ally, Field &enemy)
 
 void demoLeaders(Field &ally, Field &enemy)
 {
-    auto *a = new PrincessAdda();
-    auto *f = new KingFoltest();
-    auto *m = new Mandrake();
-    auto *o1 = new Ocvist();
-    auto *o2 = new Ocvist();
-    auto *o3 = new Ocvist();
-    auto *o4 = new Ocvist();
-    auto *i = new IrisVonEverec();
-    auto *r = new KingRadovidV();
-    auto *e = new EmhyrVarEmreis();
+    auto *m1 = new Mandrake();
+    auto *m2 = new Mandrake();
+    auto *mv = new ManticoreVenom();
     auto *u = new Usurper();
+    auto *i1 = new Iorveth();
+    auto *i2 = new Iorveth();
+    auto *i3 = new Iorveth();
+    auto *i4 = new Iorveth();
+    auto *i5 = new IorvethMeditation();
 
-    ally.cardsAdded = {a, f, m, o1, o2, o3, o4, i, r, e, u};
-    ally.hand = {a, f, m, o1, i, r, e, u};
-    ally.deck = {o2};
-    ally.rowMeele = {o3};
-    ally.discard = {o4};
+    ally.cardsAdded = {m1, m2, mv, u, i1, i2, i3, i4, i5};
+    ally.hand = {m1, u, i1, i2, i3, i4, i5};
+    ally.discard = {m2, mv};
 
     auto *o = new Olaf();
-    enemy.cardsAdded = {o};
+    auto *em1 = new Mandrake();
+    auto *emv = new ManticoreVenom();
+    enemy.cardsAdded = {o, em1, emv};
     enemy.rowMeele = {o};
+    enemy.discard = {em1, emv};
     enemy.passed = true;
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));

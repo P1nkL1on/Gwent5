@@ -522,6 +522,17 @@ RowAndPos _findRowAndPos(const Card *card, const Field &field)
     return RowAndPos();
 }
 
+int _findScreenRow(const Card *card, const Field &ally, const Field &enemy)
+{
+    if (isOnBoard(card, ally))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, ally))
+            return (toScreenRow(rowAndPos.row(), true));
+    if (isOnBoard(card, enemy))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, enemy))
+            return (toScreenRow(rowAndPos.row(), false));
+    assert(false);
+}
+
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
 {
     assert(offset > 0);
@@ -1448,6 +1459,20 @@ Row fromScreenRow(const int screenRow, bool &isAlly)
     return Row(screenRow - 3);
 }
 
+int toScreenRow(const Row row, const bool &isAlly)
+{
+    switch (row) {
+    case Meele:
+        return isAlly ? 2 : 3;
+    case Range:
+        return isAlly ? 1 : 4;
+    case Seige:
+        return isAlly ? 0 : 5;
+    default:
+        assert(false);
+    }
+}
+
 void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect)
 {
     bool isAlly;
@@ -2348,4 +2373,3 @@ int nCrewed(Card *card, Field &ally)
             ++n;
     return n;
 }
-

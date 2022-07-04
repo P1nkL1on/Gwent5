@@ -253,13 +253,13 @@
 
 # Scoia'tael
 
-- [ ] Aglais
+- [x] Aglais
 - [x] Brouver Hoog
 - [x] Eithne
 - [x] Filavandrel
 - [x] Francesca Findabair
-- [ ] Iorveth
-- [ ] Iorveth: Meditation
+- [x] Iorveth
+- [x] Iorveth: Meditation
 - [ ] Isengrim Faoiltiarna
 - [ ] Isengrim: Outlaw
 - [ ] Ithlinne Aegli

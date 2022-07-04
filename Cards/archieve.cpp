@@ -358,6 +358,9 @@ std::vector<Card *> allCards(const Patch)
         new Eithne(),
         new Filavandrel(),
         new FrancescaFindabair(),
+        new Aglais(),
+        new Iorveth(),
+        new IorvethMeditation(),
     };
 }
 
@@ -9789,7 +9792,7 @@ Phoenix::Phoenix()
 {
     id = "201579";
     name = "Phoenix";
-    text = "Resurrect a Bronze or Silver Draconid.";
+    text = "                                                                          a Bronze or Silver Draconid.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Draconid };
     isDoomed = true;
@@ -10354,7 +10357,7 @@ BrouverHoog::BrouverHoog()
 Eithne::Eithne()
 {
     id = "200166";
-    name = "Eithné";
+    name = "Eithn$)A(&";
     text = "Resurrect a Bronze or Silver special card.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 5;
@@ -10372,6 +10375,8 @@ Eithne::Eithne()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // FIXME: a debatable move
+        putToHand(target, ally, enemy);
         playExistedCard(target, ally, enemy, this);
     };
 }
@@ -10432,5 +10437,105 @@ FrancescaFindabair::FrancescaFindabair()
         putToDeck(_cardToSwap, ally, enemy, DeckPosRandom, this);
         putToHand(target, ally, enemy);
         boost(target, 3, ally, enemy, this);
+    };
+}
+
+Aglais::Aglais()
+{
+    id = "142106";
+    name = "Agla?s";
+    text = "Resurrect a Bronze or Silver special card from your opponent's graveyard, then Banish it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Dryad };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.154.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.153.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.152.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // FIXME: a debatable move
+        putToHand(target, ally, enemy);
+        playExistedCard(target, ally, enemy, this);
+        banish(target, ally, enemy, this);
+    };
+}
+
+Iorveth::Iorveth()
+{
+    id = "142103";
+    name = "Iorveth";
+    text = "Deal 8 damage to an enemy. If the unit was destroyed, boost all Elves in your hand by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Elf, Officer };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_100241_4474.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 8, ally, enemy, this))
+            for (Card *card : cardsFiltered(ally, enemy, {isUnit, hasTag(Elf)}, AllyHand))
+            boost(card, 1, ally, enemy, this);
+    };
+}
+
+IorvethMeditation::IorvethMeditation()
+{
+    id = "201611";
+    name = "Iorveth: Meditation";
+    text = "Force 2 enemies on the same row to Duel each other.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    tags = { Elf, Officer };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_IORW_100241_4474.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        std::vector<Card *>cards;
+        for (const int _screenRow : std::vector<int>{3, 4, 5}) {
+            std::vector<Card *> rowCards = cardsInRow(ally, enemy, _screenRow);
+             if (rowCards.size() >= 2)
+                cards.insert(cards.end(), rowCards.begin(), rowCards.end());
+        }
+        if (cards.size() <= 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, this, cards);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            const int screenRow = _findScreenRow(target, ally, enemy);
+            std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
+            for (int i = 0; i < cards.size(); i++)
+                if (cards[i] == _choosen)
+                    cards.erase(cards.begin() + i);
+            startChoiceToTargetCard(ally, enemy, this, cards);
+            return;
+        }
+        duel(_choosen, target, ally, enemy);
     };
 }

@@ -259,6 +259,7 @@ bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 RowAndPos _findRowAndPos(const Card *card, const Field &field);
+int _findScreenRow(const Card *card, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
@@ -268,6 +269,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 Row fromScreenRow(const int screenRow, bool &isAlly);
+int toScreenRow(const Row row, const bool &isAlly);
 
 /// may be used as top or most-left
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);

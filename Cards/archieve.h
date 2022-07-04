@@ -2429,4 +2429,24 @@ private:
 };
 
 
+struct Aglais : CardCollectible<Aglais>
+{
+    Aglais();
+};
+
+
+struct Iorveth : CardCollectible<Iorveth>
+{
+    Iorveth();
+};
+
+
+struct IorvethMeditation : CardCollectible<IorvethMeditation>
+{
+    IorvethMeditation();
+private:
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H
