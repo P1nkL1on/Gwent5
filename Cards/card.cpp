@@ -81,11 +81,15 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
 
 /// return filter: `can be manually selected`
 /// pass self (card source), if any
-Filters canBeSelected(Card *self)
+Filters canBeSelected(Card *self, const Field &ally, const Field &enemy)
 {
     return Filters{
-        [self](Card *card) {
-            return !card->isImmune && !card->isAmbush && (card != self);
+        [&](Card *card) {
+            if (card == self)
+                return false;
+            const bool _isOnBoard = isOnBoard(card, ally) || isOnBoard(card, enemy);
+            const bool _canBeSelectedOnBoard = !card->isImmune && !card->isAmbush;
+            return !_isOnBoard || _canBeSelectedOnBoard;
         },
     };
 }
@@ -486,8 +490,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
-        // TODO: check if its even a case
-        assert(takenFrom == AlreadyCreated);
+        // NOTE: Eithne ability: Discard -> Discard
+        assert(takenFrom == AlreadyCreated || takenFrom == Discard);
         if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
         }
@@ -637,7 +641,7 @@ void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, con
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
-    const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
+    const std::vector<Card *> cards = _filtered(canBeSelected(self, ally, enemy), cardsFiltered(ally, enemy, filters, group));
     return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
 }
 
