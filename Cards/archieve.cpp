@@ -10488,7 +10488,7 @@ Iorveth::Iorveth()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (damage(target, 8, ally, enemy, this))
             for (Card *card : cardsFiltered(ally, enemy, {isUnit, hasTag(Elf)}, AllyHand))
-            boost(card, 1, ally, enemy, this);
+                boost(card, 1, ally, enemy, this);
     };
 }
 
