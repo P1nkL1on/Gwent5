@@ -1244,11 +1244,17 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *i1 = new Iorveth();
     auto *i2 = new Iorveth();
     auto *i3 = new Iorveth();
-    auto *i4 = new Iorveth();
+    auto *i4 = new IsengrimFaoiltiarna();
     auto *i5 = new IorvethMeditation();
+    auto *t = new Toruviel();
+    auto *m = new Malena();
+    auto *v = new VriheddDragoon();
+    auto *v2 = new Vreemde();
+    auto *d = new MahakamMarauder();
 
-    ally.cardsAdded = {m1, m2, mv, u, i1, i2, i3, i4, i5};
+    ally.cardsAdded = {m1, m2, mv, u, i1, i2, i3, i4, i5, t, m, v, v2, d};
     ally.hand = {m1, u, i1, i2, i3, i4, i5};
+    ally.deck = {t, m, v, v2, d};
     ally.discard = {m2, mv};
 
     auto *o = new Olaf();

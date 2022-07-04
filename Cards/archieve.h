@@ -2449,4 +2449,10 @@ private:
 };
 
 
+struct IsengrimFaoiltiarna : CardCollectible<IsengrimFaoiltiarna>
+{
+    IsengrimFaoiltiarna();
+};
+
+
 #endif // CARDS_H

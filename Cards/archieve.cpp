@@ -361,6 +361,7 @@ std::vector<Card *> allCards(const Patch)
         new Aglais(),
         new Iorveth(),
         new IorvethMeditation(),
+        new IsengrimFaoiltiarna(),
     };
 }
 
@@ -10537,5 +10538,35 @@ IorvethMeditation::IorvethMeditation()
             return;
         }
         duel(_choosen, target, ally, enemy);
+    };
+}
+
+IsengrimFaoiltiarna::IsengrimFaoiltiarna()
+{
+    id = "142102";
+    name = "Isengrim Faoiltiarna";
+    text = "Play a Bronze or Silver Ambush from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    tags = { Elf, Officer };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
+    };
+
+    const auto isCardAmbush = [=](Card *card) {
+        return card->defaultCopy()->isAmbush;
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        // FIXME: list is empty
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

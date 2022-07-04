@@ -260,7 +260,7 @@
 - [x] Francesca Findabair
 - [x] Iorveth
 - [x] Iorveth: Meditation
-- [ ] Isengrim Faoiltiarna
+- [x] Isengrim Faoiltiarna
 - [ ] Isengrim: Outlaw
 - [ ] Ithlinne Aegli
 - [x] Milva
