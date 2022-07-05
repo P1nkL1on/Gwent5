@@ -261,8 +261,8 @@
 - [x] Iorveth
 - [x] Iorveth: Meditation
 - [x] Isengrim Faoiltiarna
-- [ ] Isengrim: Outlaw
-- [ ] Ithlinne Aegli
+- [x] Isengrim: Outlaw
+- [x] Ithlinne Aegli
 - [x] Milva
 - [ ] Morenn: Forest Child
 - [ ] Saesenthessis

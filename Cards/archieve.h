@@ -2455,4 +2455,20 @@ struct IsengrimFaoiltiarna : CardCollectible<IsengrimFaoiltiarna>
 };
 
 
+struct IsengrimOutlaw : CardCollectible<IsengrimOutlaw>
+{
+    IsengrimOutlaw();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Play : CardCollectible<Play> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct IthlinneAegli : CardCollectible<IthlinneAegli>
+{
+    IthlinneAegli();
+};
+
+
 #endif // CARDS_H

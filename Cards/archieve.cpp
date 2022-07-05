@@ -362,6 +362,7 @@ std::vector<Card *> allCards(const Patch)
         new Iorveth(),
         new IorvethMeditation(),
         new IsengrimFaoiltiarna(),
+        new IsengrimOutlaw(),
     };
 }
 
@@ -1189,7 +1190,7 @@ GoldenFroth::GoldenFroth()
     isSpecial = true;
     rarity = Bronze;
     faction = Neutral;
-    tags = { Hazard };
+    tags = { Boon };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
         startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
@@ -1558,6 +1559,7 @@ VriheddSappers::VriheddSappers()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        isAmbush = true;
         setTimer(this, ally, enemy, 2);
     };
 
@@ -5307,6 +5309,7 @@ Malena::Malena()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        isAmbush = true;
         setTimer(this, ally, enemy, 2);
     };
 
@@ -8303,6 +8306,10 @@ Toruviel::Toruviel()
     faction = Scoiatael;
     tags = { Elf, Officer };
 
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isAmbush = true;
+    };
+
     _onOpponentPass = [=](Field &ally, Field &enemy) {
         flipOver(this, ally, enemy);
 
@@ -10396,7 +10403,7 @@ Filavandrel::Filavandrel()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.280.mp3",
     };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceCreateOptions(ally, this, {isSilver, ::isSpecial});
     };
 
@@ -10408,7 +10415,7 @@ Filavandrel::Filavandrel()
 
 FrancescaFindabair::FrancescaFindabair()
 {
-    id = "200167";
+    id = "200165";
     name = "Francesca Findabair";
     text = "Swap a card with one of your choice and boost it by 3.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -10558,11 +10565,87 @@ IsengrimFaoiltiarna::IsengrimFaoiltiarna()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        // FIXME: list is empty
         startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+IsengrimOutlaw::IsengrimOutlaw()
+{
+    id = "201615";
+    name = "Isengrim: Outlaw";
+    text = "Choose One: Play a Bronze or Silver special card from your deck; or Create a Silver Elf.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    tags = { Elf, Officer };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        auto *option1 = new IsengrimOutlaw::Create;
+        copyCardText(this, option1);
+        option1->text = "Create a Silver Elf.";
+
+        auto *option2 = new IsengrimOutlaw::Play;
+        copyCardText(this, option2);
+        option2->text = "Play a Bronze or Silver special card from your deck.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            if (dynamic_cast<IsengrimOutlaw::Create *>(target))
+                startChoiceCreateOptions(ally, this, {isSilver, hasTag(Elf)});
+            else if (dynamic_cast<IsengrimOutlaw::Play *>(target))
+                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+            return;
+        }
+
+        if (dynamic_cast<IsengrimOutlaw::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+        }
+        if (dynamic_cast<IsengrimOutlaw::Play *>(_choosen))
+            playExistedCard(target, ally, enemy, this);
+
+        delete _choosen;
+        _choosen = nullptr;
+        return;
+    };
+}
+
+IthlinneAegli::IthlinneAegli()
+{
+    id = "142107";
+    name = "Ithlinne Aegli";
+    text = "Play a Bronze Spell, Boon or Hazard from your deck twice.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    tags = { Elf, Mage };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.170.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.172.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.171.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Boon, Hazard, Spell})}, AllyDeckShuffled);
+    };
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
 }
