@@ -363,6 +363,9 @@ std::vector<Card *> allCards(const Patch)
         new IorvethMeditation(),
         new IsengrimFaoiltiarna(),
         new IsengrimOutlaw(),
+        new Schirru(),
+        new Saesenthessis(),
+        new Saskia(),
     };
 }
 
@@ -10647,5 +10650,88 @@ IthlinneAegli::IthlinneAegli()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Schirru::Schirru()
+{
+    id = "142108";
+    name = "Schirr$)A(2";
+    text = "Spawn Scorch or Epidemic.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.187.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.186.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.188.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new Scorch(), new Epidemic()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+
+}
+
+Saesenthessis::Saesenthessis()
+{
+    id = "142108";
+    name = "Saesenthessis";
+    text = "Boost self by 1 for each Dwarf ally and deal 1 damage to an enemy for each Elf ally.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Aedirn, Draconid };
+    faction = Scoiatael;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (const int dwarfsCount = cardsFiltered(ally, enemy, {hasTag(Dwarf)}, AllyBoard).size() > 0)
+            boost(this, dwarfsCount, ally, enemy, this);
+        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
+            damage(target, elfsCount, ally, enemy, this);
+    };
+}
+
+Saskia::Saskia()
+{
+    id = "200209";
+    name = "Saskia";
+    text = "Swap up to 2 cards for Bronze cards.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    tags = { Aedirn, Draconid };
+    faction = Scoiatael;
+    rarity = Gold;
+
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0023.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TARM_200154_0192.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0011.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TARM_200991_0019.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0024.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyHand, 2, true);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *newBronze;
+        if (!(newBronze = first(cardsFiltered(ally, enemy, {isBronze}, AllyDeck))))
+            return;
+        putToHand(newBronze, ally, enemy);
+        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
     };
 }

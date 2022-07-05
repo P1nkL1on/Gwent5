@@ -264,10 +264,10 @@
 - [x] Isengrim: Outlaw
 - [x] Ithlinne Aegli
 - [x] Milva
-- [ ] Morenn: Forest Child
-- [ ] Saesenthessis
-- [ ] Saskia
-- [ ] Schirru
+- [ ] Morenn: Forest Child __(WTF??)__
+- [x] Saesenthessis
+- [x] Saskia
+- [x] Schirru
 - [ ] Xavier Moran
 - [x] Zoltan Chivay
 - [x] Aelirenn

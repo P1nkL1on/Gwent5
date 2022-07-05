@@ -2471,4 +2471,22 @@ struct IthlinneAegli : CardCollectible<IthlinneAegli>
 };
 
 
+struct Schirru : CardCollectible<Schirru>
+{
+    Schirru();
+};
+
+
+struct Saesenthessis : CardCollectible<Saesenthessis>
+{
+    Saesenthessis();
+};
+
+
+struct Saskia : CardCollectible<Saskia>
+{
+    Saskia();
+};
+
+
 #endif // CARDS_H
