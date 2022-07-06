@@ -275,12 +275,12 @@
 - [ ] Braenn
 - [x] Ciaran aep Easnillen
 - [x] Dennis Cranmer
-- [ ] Eibhear Hattori
+- [x] Eibhear Hattori
 - [x] Ele'yas
 - [x] Ida Emean aep Sivney
 - [ ] Mahakam Horn
 - [x] Malena
-- [ ] Milaen
+- [x] Milaen
 - [x] Morana Runestone
 - [ ] Morenn
 - [ ] Nature's Gift

@@ -374,6 +374,8 @@ std::vector<Card *> allCards(const Patch)
         new IdaEmeanAepSivney(),
         new PavkoGale(),
         new CiaranAepEasnillen(),
+        new EibhearHattori(),
+        new Milaen(),
     };
 }
 
@@ -1460,6 +1462,7 @@ Eleyas::Eleyas()
     faction = Scoiatael;
     tags = { Elf, Soldier };
 
+    // NOTE: when Eleyas goes to deck, it loses all the boosts - so it doesn't work properly
     _onDraw = [=](Field &ally, Field &enemy) {
         boost(this, 2, ally, enemy, this);
     };
@@ -10810,11 +10813,10 @@ SheldonSkaggs::SheldonSkaggs()
         int boostAmount = 0;
         const int screenRow = _findScreenRow(this, ally, enemy);
         std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
-        for (Card *card : cards) {
-            if (card == this)
+        for (Card *card : cards)
+            if (card != this)
                 if (moveToRandomRow(card, ally, enemy, this))
                     boostAmount++;
-        }
         if (boostAmount > 0)
             boost(this, boostAmount, ally, enemy, this);
     };
@@ -10975,4 +10977,61 @@ CiaranAepEasnillen::CiaranAepEasnillen()
         }
         assert(false);
     };
+}
+
+EibhearHattori::EibhearHattori()
+{
+    id = "200520";
+    name = "Eibhear Hattori";
+    text = "Resurrect a lower or equal Bronze or Silver Scoia'tael unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { Elf, Support };
+    isDoomed = true;
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_00507925.mp3",
+        "https://gwent.one/audio/card/ob/en/HTRI_SQ304_00539954.mp3",
+        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_01032235.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isFaction(Scoiatael), hasPowerXorLess(power)}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+
+Milaen::Milaen()
+{
+    id = "200030";
+    name = "Milaen";
+    text = "Deal 6 damage to the units at the end of a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Elf };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_00507925.mp3",
+        "https://gwent.one/audio/card/ob/en/HTRI_SQ304_00539954.mp3",
+        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_01032235.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
+        if (cards.size() <= 0)
+            return;
+        damage(cards[0], 6, ally, enemy, this);
+        damage(cards[cards.size()], 6, ally, enemy, this);
+    };
+
 }

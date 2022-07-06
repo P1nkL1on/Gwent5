@@ -1256,7 +1256,7 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *s = new SheldonSkaggs();
     auto *e = new Eleyas();
 
-    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, t, m, v1, f, r, s1, s2, s, e};
+    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, t, m, v1, v2, f, r, s1, s2, s, e};
     ally.hand = {m1, u, i1, i2, i3, v2, f, s};
     ally.deck = {e, m3, t, m, v1, r, s1, s2};
     ally.discard = {m2, mv};

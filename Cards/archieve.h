@@ -2539,4 +2539,16 @@ struct CiaranAepEasnillen : CardCollectible<CiaranAepEasnillen>
 };
 
 
+struct EibhearHattori : CardCollectible<EibhearHattori>
+{
+    EibhearHattori();
+};
+
+
+struct Milaen : CardCollectible<Milaen>
+{
+    Milaen();
+};
+
+
 #endif // CARDS_H
