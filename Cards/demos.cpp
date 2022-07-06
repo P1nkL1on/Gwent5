@@ -1245,8 +1245,6 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *i1 = new Iorveth();
     auto *i2 = new Iorveth();
     auto *i3 = new Iorveth();
-    auto *i4 = new IthlinneAegli();
-    auto *i5 = new IsengrimOutlaw();
     auto *t = new Toruviel();
     auto *m = new Malena();
     auto *v1 = new VriheddDragoon();
@@ -1255,11 +1253,13 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *r = new MoranaRunestone();
     auto *s1 = new TorrentialRain();
     auto *s2 = new GoldenFroth();
-    auto *y = new Yaevinn();
+    auto *y1 = new Yaevinn();
+    auto *y2 = new Yaevinn();
+    auto *e = new Eleyas();
 
-    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, i4, i5, t, m, v1, f, r, s1, s2, y};
-    ally.hand = {m1, u, i1, i2, i3, i4, i5, v2, f, y};
-    ally.deck = {m3, t, m, v1, r, s1, s2};
+    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, t, m, v1, f, r, s1, s2, y1, y2, e};
+    ally.hand = {m1, u, i1, i2, i3, v2, f, y1, y2};
+    ally.deck = {e, m3, t, m, v1, r, s1, s2};
     ally.discard = {m2, mv};
 
     auto *o = new Olaf();

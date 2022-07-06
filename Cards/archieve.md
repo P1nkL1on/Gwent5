@@ -285,7 +285,7 @@
 - [ ] Morenn
 - [ ] Nature's Gift
 - [ ] Paulie Dahlberg
-- [ ] Pavko Gale
+- [x] Pavko Gale
 - [x] Pit Trap
 - [x] Sheldon Skaggs
 - [x] Toruviel

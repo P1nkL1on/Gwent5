@@ -2527,4 +2527,10 @@ struct IdaEmeanAepSivney : CardCollectible<IdaEmeanAepSivney>
 };
 
 
+struct PavkoGale : CardCollectible<PavkoGale>
+{
+    PavkoGale();
+};
+
+
 #endif // CARDS_H

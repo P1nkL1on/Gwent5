@@ -370,6 +370,9 @@ std::vector<Card *> allCards(const Patch)
         new DennisCranmer(),
         new SheldonSkaggs(),
         new YarpenZigrin(),
+        new Yaevinn(),
+        new IdaEmeanAepSivney(),
+        new PavkoGale(),
     };
 }
 
@@ -10908,5 +10911,32 @@ IdaEmeanAepSivney::IdaEmeanAepSivney()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         acceptOptionAndDeleteOthers(this, target);
         spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+PavkoGale::PavkoGale()
+{
+    id = "142202";
+    name = "Pavko Gale";
+    text = "Play a Bronze or Silver Item from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Soldier };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.32.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.31.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.34.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.35.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.33.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }
