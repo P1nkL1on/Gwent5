@@ -373,6 +373,7 @@ std::vector<Card *> allCards(const Patch)
         new Yaevinn(),
         new IdaEmeanAepSivney(),
         new PavkoGale(),
+        new CiaranAepEasnillen(),
     };
 }
 
@@ -10916,7 +10917,7 @@ IdaEmeanAepSivney::IdaEmeanAepSivney()
 
 PavkoGale::PavkoGale()
 {
-    id = "142202";
+    id = "201676";
     name = "Pavko Gale";
     text = "Play a Bronze or Silver Item from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -10938,5 +10939,40 @@ PavkoGale::PavkoGale()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+CiaranAepEasnillen::CiaranAepEasnillen()
+{
+    id = "142206";
+    name = "Ciaran aep Easnillen";
+    text = "Toggle a unit's Lock status and move it to this row on its side.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.159.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.160.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.158.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, this);
+        const Row row = _findRowAndPos(this, ally).row();
+        if (isOnBoard(target, ally)) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            return;
+        }
+        if (isOnBoard(target, enemy)) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            return;
+        }
+        assert(false);
     };
 }

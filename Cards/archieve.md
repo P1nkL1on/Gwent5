@@ -273,7 +273,7 @@
 - [x] Aelirenn
 - [x] Barclay Els
 - [ ] Braenn
-- [ ] Ciaran aep Easnillen
+- [x] Ciaran aep Easnillen
 - [x] Dennis Cranmer
 - [ ] Eibhear Hattori
 - [x] Ele'yas

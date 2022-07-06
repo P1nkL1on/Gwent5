@@ -2533,4 +2533,10 @@ struct PavkoGale : CardCollectible<PavkoGale>
 };
 
 
+struct CiaranAepEasnillen : CardCollectible<CiaranAepEasnillen>
+{
+    CiaranAepEasnillen();
+};
+
+
 #endif // CARDS_H
