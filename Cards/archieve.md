@@ -268,13 +268,13 @@
 - [x] Saesenthessis
 - [x] Saskia
 - [x] Schirru
-- [ ] Xavier Moran
+- [x] Xavier Moran
 - [x] Zoltan Chivay
 - [x] Aelirenn
-- [ ] Barclay Els
+- [x] Barclay Els
 - [ ] Braenn
 - [ ] Ciaran aep Easnillen
-- [ ] Dennis Cranmer
+- [x] Dennis Cranmer
 - [ ] Eibhear Hattori
 - [x] Ele'yas
 - [ ] Ida Emean aep Sivney
@@ -287,10 +287,10 @@
 - [ ] Paulie Dahlberg
 - [ ] Pavko Gale
 - [x] Pit Trap
-- [ ] Sheldon Skaggs
+- [x] Sheldon Skaggs
 - [x] Toruviel
 - [ ] Yaevinn
-- [ ] Yarpen Zigrin
+- [x] Yarpen Zigrin
 - [ ] Blue Mountain Elite
 - [ ] Crushing Trap
 - [x] Dol Blathanna Archer

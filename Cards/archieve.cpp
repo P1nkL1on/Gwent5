@@ -366,6 +366,10 @@ std::vector<Card *> allCards(const Patch)
         new Schirru(),
         new Saesenthessis(),
         new Saskia(),
+        new BarclayEls(),
+        new DennisCranmer(),
+        new SheldonSkaggs(),
+        new YarpenZigrin(),
     };
 }
 
@@ -10733,5 +10737,108 @@ Saskia::Saskia()
             return;
         putToHand(newBronze, ally, enemy);
         putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
+    };
+}
+
+BarclayEls::BarclayEls()
+{
+    id = "142207";
+    name = "Barclay Els";
+    text = "Play a random Bronze or Silver Dwarf from your deck and Strengthen it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    tags = { Dwarf, Officer };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.162.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.163.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.161.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit, hasTag(Dwarf)}, AllyDeck), ally.rng)) {
+            strengthen(card, 3, ally, enemy, this);
+            playExistedCard(card, ally, enemy, this);
+        }
+    };
+}
+
+DennisCranmer::DennisCranmer()
+{
+    id = "142211";
+    name = "Dennis Cranmer";
+    text = "Strengthen all your other Dwarves in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Dwarf, Officer };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.157.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.156.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.155.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(this), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, this);
+    };
+}
+
+SheldonSkaggs::SheldonSkaggs()
+{
+    id = "142212";
+    name = "Sheldon Skaggs";
+    text = "Move all allies on this row to random rows and boost self by 1 for each.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    tags = { Dwarf, Officer };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.33.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.34.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.35.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        int boostAmount = 0;
+        const int screenRow = _findScreenRow(this, ally, enemy);
+        std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
+        for (Card *card : cards) {
+            if (card == this)
+                if (moveToRandomRow(card, ally, enemy, this))
+                    boostAmount++;
+        }
+        if (boostAmount > 0)
+            boost(this, boostAmount, ally, enemy, this);
+    };
+}
+
+YarpenZigrin::YarpenZigrin()
+{
+    id = "142213";
+    name = "Yarpen Zigrin";
+    text = "Resilience. Whenever a Dwarf ally appears, boost self by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isResilient = true;
+    };
+
+    _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally) || !hasTag(card, Dwarf))
+            return;
+        boost(card, 1, ally, enemy, this);
     };
 }

@@ -2489,4 +2489,28 @@ struct Saskia : CardCollectible<Saskia>
 };
 
 
+struct BarclayEls : CardCollectible<BarclayEls>
+{
+    BarclayEls();
+};
+
+
+struct DennisCranmer : CardCollectible<DennisCranmer>
+{
+    DennisCranmer();
+};
+
+
+struct SheldonSkaggs : CardCollectible<SheldonSkaggs>
+{
+    SheldonSkaggs();
+};
+
+
+struct YarpenZigrin : CardCollectible<YarpenZigrin>
+{
+    YarpenZigrin();
+};
+
+
 #endif // CARDS_H
