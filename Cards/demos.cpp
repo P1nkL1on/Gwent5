@@ -1255,10 +1255,10 @@ void demoLeaders(Field &ally, Field &enemy)
     auto *r = new MoranaRunestone();
     auto *s1 = new TorrentialRain();
     auto *s2 = new GoldenFroth();
-    auto *s = new Saskia();
+    auto *y = new Yaevinn();
 
-    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, i4, i5, t, m, v1, f, r, s1, s2, s};
-    ally.hand = {m1, u, i1, i2, i3, i4, i5, v2, f, s};
+    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, i4, i5, t, m, v1, f, r, s1, s2, y};
+    ally.hand = {m1, u, i1, i2, i3, i4, i5, v2, f, y};
     ally.deck = {m3, t, m, v1, r, s1, s2};
     ally.discard = {m2, mv};
 

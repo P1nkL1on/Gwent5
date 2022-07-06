@@ -277,7 +277,7 @@
 - [x] Dennis Cranmer
 - [ ] Eibhear Hattori
 - [x] Ele'yas
-- [ ] Ida Emean aep Sivney
+- [x] Ida Emean aep Sivney
 - [ ] Mahakam Horn
 - [x] Malena
 - [ ] Milaen
@@ -289,7 +289,7 @@
 - [x] Pit Trap
 - [x] Sheldon Skaggs
 - [x] Toruviel
-- [ ] Yaevinn
+- [x] Yaevinn
 - [x] Yarpen Zigrin
 - [ ] Blue Mountain Elite
 - [ ] Crushing Trap

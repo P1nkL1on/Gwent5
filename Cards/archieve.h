@@ -2513,4 +2513,18 @@ struct YarpenZigrin : CardCollectible<YarpenZigrin>
 };
 
 
+struct Yaevinn : CardCollectible<Yaevinn>
+{
+    Yaevinn();
+private:
+    std::vector<Card *>_drawn;
+};
+
+
+struct IdaEmeanAepSivney : CardCollectible<IdaEmeanAepSivney>
+{
+    IdaEmeanAepSivney();
+};
+
+
 #endif // CARDS_H

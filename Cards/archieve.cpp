@@ -10842,3 +10842,71 @@ YarpenZigrin::YarpenZigrin()
         boost(card, 1, ally, enemy, this);
     };
 }
+
+Yaevinn::Yaevinn()
+{
+    id = "142203";
+    name = "Yaevinn";
+    text = "Spying. Single-Use: Draw a special card and a unit. Keep one and return the other to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 13;
+    tags = { Elf };
+    isLoyal = false;
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy)) {
+            Card *unit = nullptr;
+            Card *special = nullptr;
+            if (unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+                putToHand(unit, ally, enemy);
+            }
+            if (special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck))) {
+                putToHand(special, ally, enemy);
+            }
+            if (!unit || !special)
+                return;
+            _drawn.push_back(unit);
+            _drawn.push_back(special);
+            startChoiceToTargetCard(ally, enemy, this, _drawn);
+        }
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : _drawn)
+            if (card != target)
+                putToDeck(card, ally, enemy, DeckPosRandom, this);
+        _drawn.clear();
+    };
+}
+
+IdaEmeanAepSivney::IdaEmeanAepSivney()
+{
+    id = "142202";
+    name = "Ida Emean aep Sivney";
+    text = "Spawn Impenetrable Fog, Clear Skies or Alzur's Thunder.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Elf, Mage };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/IDEM_Q401_00532088.mp3",
+        "https://gwent.one/audio/card/ob/en/IDEM_Q401_00517579.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &) {
+        startChoiceToSelectOption(ally, this, {new ImpenetrableFog(), new ClearSkies(), new AlzursThunder()});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        acceptOptionAndDeleteOthers(this, target);
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
