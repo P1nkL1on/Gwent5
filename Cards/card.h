@@ -89,6 +89,8 @@ struct Card
     void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
+    void onOtherEnemyAppears(Card *card, Field &ally, Field &enemy);
+    void onOtherSpyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
     void onOpponentPass(Field &ally, Field &enemy);
@@ -148,6 +150,8 @@ protected:
     CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
     CardAllyEnemy _onOtherAllyAppears = nullptr;
+    CardAllyEnemy _onOtherEnemyAppears = nullptr;
+    CardAllyEnemy _onOtherSpyAppears = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;

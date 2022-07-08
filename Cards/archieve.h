@@ -2551,4 +2551,16 @@ struct Milaen : CardCollectible<Milaen>
 };
 
 
+struct Braenn : CardCollectible<Braenn>
+{
+    Braenn();
+};
+
+
+struct Morenn : CardCollectible<Morenn>
+{
+    Morenn();
+};
+
+
 #endif // CARDS_H

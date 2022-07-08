@@ -427,8 +427,10 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
-        for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherAllyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherEnemyAppears(card, ally, enemy);
 
     } else {
         spy(card, ally, enemy, card);
@@ -438,13 +440,17 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
         } else if (takenFrom == Discard) {
             if (triggerDeploy)
                 card->onDeployFromDiscard(enemy, ally);
-            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere)) // NOTE: maybe should use ..{otherThan(card)}.. when talking about Other Ally/Enemy ?
                 other->onOtherAllyResurrecteded(card, enemy, ally);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             if (triggerDeploy)
                 card->onDeploy(enemy, ally);
         } else
             assert(false);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+            other->onOtherSpyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherSpyAppears(card, enemy, ally);
     }
 
     // TODO: others trigger enter
@@ -2232,6 +2238,18 @@ void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyAppears && !isLocked)
         return _onOtherAllyAppears(card, ally, enemy);
+}
+
+void Card::onOtherEnemyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyAppears && !isLocked)
+        return _onOtherEnemyAppears(card, ally, enemy);
+}
+
+void Card::onOtherSpyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherSpyAppears && !isLocked)
+        return _onOtherSpyAppears(card, ally, enemy);
 }
 
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)

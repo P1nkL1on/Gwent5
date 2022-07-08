@@ -272,7 +272,7 @@
 - [x] Zoltan Chivay
 - [x] Aelirenn
 - [x] Barclay Els
-- [ ] Braenn
+- [x] Braenn
 - [x] Ciaran aep Easnillen
 - [x] Dennis Cranmer
 - [x] Eibhear Hattori
@@ -282,7 +282,7 @@
 - [x] Malena
 - [x] Milaen
 - [x] Morana Runestone
-- [ ] Morenn
+- [x] Morenn
 - [ ] Nature's Gift
 - [ ] Paulie Dahlberg
 - [x] Pavko Gale

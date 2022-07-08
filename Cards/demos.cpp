@@ -1237,29 +1237,26 @@ void demoAedirnDragon(Field &ally, Field &enemy)
 
 void demoLeaders(Field &ally, Field &enemy)
 {
-    auto *m1 = new CrowsEye();
-    auto *m2 = new Mardroeme();
-    auto *m3 = new Mardroeme();
+    auto *sc1 = new CrowsEye();
+    auto *sc2 = new Mardroeme();
+    auto *sc3 = new Mardroeme();
     auto *mv = new ManticoreVenom();
     auto *u = new Usurper();
-    auto *i1 = new Iorveth();
-    auto *i2 = new Iorveth();
-    auto *i3 = new Iorveth();
-    auto *t = new Toruviel();
-    auto *m = new Malena();
-    auto *v1 = new VriheddDragoon();
-    auto *v2 = new VriheddDragoon();
+    auto *y = new Yaevinn();
+    auto *b = new Braenn();
+    auto *m1 = new Malena();
+    auto *m2 = new Morenn();
     auto *f = new Filavandrel();
     auto *r = new MoranaRunestone();
     auto *s1 = new TorrentialRain();
     auto *s2 = new GoldenFroth();
     auto *s = new SheldonSkaggs();
-    auto *e = new Eleyas();
+    auto *e = new Eithne();
 
-    ally.cardsAdded = {m1, m2, m3, mv, u, i1, i2, i3, t, m, v1, v2, f, r, s1, s2, s, e};
-    ally.hand = {m1, u, i1, i2, i3, v2, f, s};
-    ally.deck = {e, m3, t, m, v1, r, s1, s2};
-    ally.discard = {m2, mv};
+    ally.cardsAdded = {sc1, sc2, sc3, mv, u, y, b, m1, m2, f, r, s1, s2, s, e};
+    ally.hand = {sc1, u, y, b, f, s, e, m1, m2};
+    ally.deck = {sc3, s1, s2};
+    ally.discard = {sc2, mv, r};
 
     auto *o = new Olaf();
     auto *em1 = new Mandrake();

@@ -376,6 +376,8 @@ std::vector<Card *> allCards(const Patch)
         new CiaranAepEasnillen(),
         new EibhearHattori(),
         new Milaen(),
+        new Braenn(),
+        new Morenn(),
     };
 }
 
@@ -10725,7 +10727,6 @@ Saskia::Saskia()
     tags = { Aedirn, Draconid };
     faction = Scoiatael;
     rarity = Gold;
-
     sounds = {
         "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0023.mp3",
         "https://gwent.one/audio/card/ob/en/VO_TARM_200154_0192.mp3",
@@ -11017,9 +11018,9 @@ Milaen::Milaen()
     faction = Scoiatael;
     rarity = Silver;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_00507925.mp3",
-        "https://gwent.one/audio/card/ob/en/HTRI_SQ304_00539954.mp3",
-        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_01032235.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.220.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.222.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.221.mp3",
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
@@ -11030,8 +11031,77 @@ Milaen::Milaen()
         std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
         if (cards.size() <= 0)
             return;
-        damage(cards[0], 6, ally, enemy, this);
-        damage(cards[cards.size()], 6, ally, enemy, this);
+        Card *first;
+        damage(first = cards[0], 6, ally, enemy, this);
+        if (cards[cards.size()] != first)
+            damage(cards[cards.size()], 6, ally, enemy, this);
+    };
+}
+
+Braenn::Braenn()
+{
+    id = "142209";
+    name = "Braenn";
+    text = "Deal damage equal to this unit's power. If a unit was destroyed, boost all your other Dryads and Ambush units in hand, deck, and on board by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Dryad };
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.168.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.169.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.167.mp3",
     };
 
+    const auto isCardOk = [=](Card *card) {
+            return hasTag(card, Dryad) || card->defaultCopy()->isAmbush;
+             // || (card->defaultCopy()->isAmbush && !isOnBoard(card, ally)); // don't know how to get '&ally' here
+             // TODO: check how does the Braenn buff allies in Ambush on board
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (damage(target, power, ally, enemy, this))
+            for (Card *card : cardsFiltered(ally, enemy, {isCardOk}, AllyBoardHandDeck))
+                boost(card, 1, ally, enemy, this);
+    };
+}
+
+Morenn::Morenn()
+{
+    id = "142208";
+    name = "Morenn";
+    text = "Ambush: When a unit is played on your opponent's side, flip over and deal 7 damage to it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Dryad };
+    isAmbush = true;
+    faction = Scoiatael;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.165.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.164.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.166.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        isAmbush = true;
+    };
+
+    _onOtherEnemyAppears = [=](Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally) || !isAmbush)
+            return;
+        flipOver(this, ally, enemy);
+        damage (target, 7, ally, enemy, this);
+    };
+
+    _onOtherSpyAppears = [=](Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(target, enemy))
+            return;
+        onOtherEnemyAppears(target, ally, enemy);
+    };
 }
