@@ -278,13 +278,13 @@
 - [x] Eibhear Hattori
 - [x] Ele'yas
 - [x] Ida Emean aep Sivney
-- [ ] Mahakam Horn
+- [x] Mahakam Horn
 - [x] Malena
 - [x] Milaen
 - [x] Morana Runestone
 - [x] Morenn
-- [ ] Nature's Gift
-- [ ] Paulie Dahlberg
+- [x] Nature's Gift
+- [x] Paulie Dahlberg
 - [x] Pavko Gale
 - [x] Pit Trap
 - [x] Sheldon Skaggs
@@ -292,7 +292,7 @@
 - [x] Yaevinn
 - [x] Yarpen Zigrin
 - [ ] Blue Mountain Elite
-- [ ] Crushing Trap
+- [x] Crushing Trap
 - [x] Dol Blathanna Archer
 - [ ] Dol Blathanna Bomber
 - [ ] Dol Blathanna Bowman
@@ -300,7 +300,7 @@
 - [ ] Dwarven Agitator
 - [ ] Dwarven Mercenary
 - [ ] Dwarven Skirmisher
-- [ ] Elven Blade _(easy card)_
+- [x] Elven Blade
 - [x] Elven Mercenary
 - [ ] Elven Scout
 - [ ] Elven Swordmaster
@@ -313,6 +313,7 @@
 - [ ] Mahakam Guard _(easy card)_
 - [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
+- [x] Incinerating Trap
 - [ ] Panther
 - [ ] Pyrotechnician _(easy card)_
 - [x] Sage

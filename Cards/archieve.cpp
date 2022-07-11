@@ -378,6 +378,13 @@ std::vector<Card *> allCards(const Patch)
         new Milaen(),
         new Braenn(),
         new Morenn(),
+        new PaulieDahlberg(),
+        new MahakamHorn(),
+        new NaturesGift(),
+        new PitTrap(),
+        new CrushingTrap(),
+        new ElvenBlade(),
+        new IncineratingTrap(),
     };
 }
 
@@ -11088,11 +11095,13 @@ Morenn::Morenn()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.166.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &, Field &) {
         isAmbush = true;
     };
 
     _onOtherEnemyAppears = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: check how should it works with cases like resurrect, spawn, summon
+        // maybe have to replace onOtherEnemyAppears call
         if (!isOnBoard(this, ally) || !isAmbush)
             return;
         flipOver(this, ally, enemy);
@@ -11103,5 +11112,192 @@ Morenn::Morenn()
         if (!isOnBoard(target, enemy))
             return;
         onOtherEnemyAppears(target, ally, enemy);
+    };
+}
+
+PaulieDahlberg::PaulieDahlberg()
+{
+    id = "201696";
+    name = "Paulie Dahlberg";
+    text = "Resurrect a non-Support Bronze Dwarf.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { Dwarf, Support };
+    isDoomed = true;
+    faction = Scoiatael;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasTag(Dwarf), hasNoTag(Support)}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card * target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);`
+    };
+}
+
+MahakamHorn::MahakamHorn()
+{
+    id = "201653";
+    name = "Mahakam Horn";
+    text = "Choose One: Create a Bronze or Silver Dwarf; or Strengthen a unit by 7.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Item };
+    faction = Scoiatael;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new MahakamHorn::Create;
+        copyCardText(this, option1);
+        option1->text = "Create a Bronze or Silver Dwarf.";
+
+        auto *option2 = new MahakamHorn::Strengthen;
+        copyCardText(this, option2);
+        option2->text = "Strengthen a unit by 7.";
+
+        startChoiceToSelectOption(ally, this, {option1, option2});
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            acceptOptionAndDeleteOthers(this, target);
+            if (dynamic_cast<MahakamHorn::Create *>(target)) {
+                startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Dwarf)});
+                return;
+            }
+            if (dynamic_cast<MahakamHorn::Strengthen *>(target)) {
+                startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+                return;
+            }
+            assert(false);
+        }
+
+        if (dynamic_cast<MahakamHorn::Create *>(_choosen)) {
+            acceptOptionAndDeleteOthers(this, target);
+            spawnNewCard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        if (dynamic_cast<MahakamHorn::Strengthen *>(_choosen)) {
+            strengthen(target, 7, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+        assert(false);
+    };
+}
+
+NaturesGift::NaturesGift()
+{
+    id = "143201";
+    name = "Nature's Gift";
+    text = "Play a Bronze or Silver special card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Spell };
+    faction = Scoiatael;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+PitTrap::PitTrap()
+{
+    id = "200228";
+    name = "Pit Trap";
+    text = "Apply a Hazard to an enemy row that deals 3 damage to units on contact.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Item };
+    faction = Scoiatael;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this, { 3, 4, 5 });
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, PitTrapEffect);
+    };
+}
+
+CrushingTrap::CrushingTrap()
+{
+    id = "201645";
+    name = "Crushing Trap";
+    text = "Deal 6 damage to the units at the end of an enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Item };
+    faction = Scoiatael;
+    rarity = Bronze;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, this);
+    };
+
+    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
+        if (cards.size() <= 0)
+            return;
+        Card *first;
+        damage(first = cards[0], 6, ally, enemy, this);
+        if (cards[cards.size()] != first)
+            damage(cards[cards.size()], 6, ally, enemy, this);
+    };
+}
+
+ElvenBlade::ElvenBlade()
+{
+    id = "201643";
+    name = "Elven Blade";
+    text = "Deal 10 damage to a non-Elf unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Item };
+    faction = Scoiatael;
+    rarity = Bronze;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasNoTag(Elf)}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 10, ally, enemy, this);
+    };
+}
+
+IncineratingTrap::IncineratingTrap()
+{
+    id = "143301";
+    name = "Incinerating Trap";
+    text = "Spying. Damage all other units on its row by 2 and Banish self on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Machine };
+    isDoomed = true;
+    isLoyal = false;
+    faction = Scoiatael;
+    rarity = Bronze;
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, enemy))
+            return;
+        for (Card *card : cardsInRow(ally, enemy, _findScreenRow(this, ally, enemy)))
+            if (card != this)
+                damage(card, 2, ally, enemy, this);
+        banish(this, ally, enemy, this);
     };
 }

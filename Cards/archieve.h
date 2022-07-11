@@ -2563,4 +2563,50 @@ struct Morenn : CardCollectible<Morenn>
 };
 
 
+struct PaulieDahlberg : CardCollectible<PaulieDahlberg>
+{
+    PaulieDahlberg();
+};
+
+
+struct MahakamHorn : CardCollectible<MahakamHorn>
+{
+    MahakamHorn();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Strengthen : CardCollectible<Strengthen> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct NaturesGift : CardCollectible<NaturesGift>
+{
+    NaturesGift();
+};
+
+
+struct PitTrap : CardCollectible<PitTrap>
+{
+    PitTrap();
+};
+
+
+struct CrushingTrap : CardCollectible<CrushingTrap>
+{
+    CrushingTrap();
+};
+
+
+struct ElvenBlade : CardCollectible<ElvenBlade>
+{
+    ElvenBlade();
+};
+
+
+struct IncineratingTrap : CardCollectible<IncineratingTrap>
+{
+    IncineratingTrap();
+};
+
+
 #endif // CARDS_H
