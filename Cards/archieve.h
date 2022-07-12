@@ -2633,4 +2633,16 @@ struct DolBlathannaSentry : CardCollectible<DolBlathannaSentry>
 };
 
 
+struct ElvenScout : CardCollectible<ElvenScout>
+{
+    ElvenScout();
+};
+
+
+struct ElvenSwordmaster : CardCollectible<ElvenSwordmaster>
+{
+    ElvenSwordmaster();
+};
+
+
 #endif // CARDS_H

@@ -302,8 +302,8 @@
 - [ ] Dwarven Skirmisher
 - [x] Elven Blade
 - [x] Elven Mercenary
-- [ ] Elven Scout
-- [ ] Elven Swordmaster
+- [x] Elven Scout
+- [x] Elven Swordmaster
 - [ ] Farseer
 - [x] Half-Elf Hunter
 - [ ] Hawker Healer

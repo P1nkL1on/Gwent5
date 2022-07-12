@@ -389,6 +389,8 @@ std::vector<Card *> allCards(const Patch)
         new DolBlathannaBomber(),
         new DolBlathannaBowman(),
         new DolBlathannaSentry(),
+        new ElvenScout(),
+        new ElvenSwordmaster(),
     };
 }
 
@@ -11405,13 +11407,63 @@ DolBlathannaSentry::DolBlathannaSentry()
     };
 
     _onSpecialPlayed = [=](Card *target, Field &ally, Field &enemy) {
-        if(!isOnBoard(ally, this) && !isIn(this, ally.deck) && !isIn(this, ally.hand))
+        if(!isOnBoard(this, ally) && !isIn(this, ally.deck) && !isIn(this, ally.hand))
             return;
         if (!target->isSpecial || !(isIn(target, ally.discard) || isIn(target, ally.hand)))
         //(target != ally.cardsAppeared.end()) ??
             return;
         boost(this, 1, ally, enemy, this);
     };
+}
 
+ElvenScout::ElvenScout()
+{
+    id = "201638";
+    name = "Elven Scout";
+    text = "Swap a card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.92.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.91.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.89.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.90.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.88.mp3",
+    };
 
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        swapACard(target, ally, enemy, this);
+    };
+}
+
+ElvenSwordmaster::ElvenSwordmaster()
+{
+    id = "200535";
+    name = "Elven Swordmaster";
+    text = "Deal damage equal to this unit's power to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.398.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.400.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.399.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, power, ally, enemy, this);
+    };
 }
