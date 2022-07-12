@@ -291,12 +291,12 @@
 - [x] Toruviel
 - [x] Yaevinn
 - [x] Yarpen Zigrin
-- [ ] Blue Mountain Elite
+- [x] Blue Mountain Elite
 - [x] Crushing Trap
 - [x] Dol Blathanna Archer
-- [ ] Dol Blathanna Bomber
-- [ ] Dol Blathanna Bowman
-- [ ] Dol Blathanna Sentry
+- [x] Dol Blathanna Bomber
+- [x] Dol Blathanna Bowman
+- [x] Dol Blathanna Sentry
 - [ ] Dwarven Agitator
 - [ ] Dwarven Mercenary
 - [ ] Dwarven Skirmisher

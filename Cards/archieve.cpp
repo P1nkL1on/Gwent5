@@ -385,6 +385,10 @@ std::vector<Card *> allCards(const Patch)
         new CrushingTrap(),
         new ElvenBlade(),
         new IncineratingTrap(),
+        new BlueMountainElite(),
+        new DolBlathannaBomber(),
+        new DolBlathannaBowman(),
+        new DolBlathannaSentry(),
     };
 }
 
@@ -11132,7 +11136,7 @@ PaulieDahlberg::PaulieDahlberg()
     };
 
     _onTargetChoosen = [=](Card * target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);`
+        playExistedCard(target, ally, enemy, this);
     };
 }
 
@@ -11300,4 +11304,114 @@ IncineratingTrap::IncineratingTrap()
                 damage(card, 2, ally, enemy, this);
         banish(this, ally, enemy, this);
     };
+}
+
+BlueMountainElite::BlueMountainElite()
+{
+    id = "142316";
+    name = "Blue Mountain Elite";
+    text = "Summon all copies of this unit to this row. Whenever this unit moves, boost it by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0006.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0004.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0007.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    };
+
+    _onMoveFromRowToRow = [=](Field &ally, Field &enemy) {
+        boost(this, 2, ally, enemy, this);
+    };
+}
+
+DolBlathannaBomber::DolBlathannaBomber()
+{
+    id = "142316";
+    name = "Dol Blathanna Bomber";
+    text = "Spawn an Incinerating Trap on an enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SWF1_107697_0003.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWF1_100532_0009.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWF1_109383_0001.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new IncineratingTrap(), ally, enemy, this);
+    };
+}
+
+DolBlathannaBowman::DolBlathannaBowman()
+{
+    id = "142314";
+    name = "Dol Blathanna Bowman";
+    text = "Deal 2 damage to an enemy. Whenever an enemy moves, deal 2 damage to it. Whenever this unit moves, deal 2 damage to a random enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0006.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0007.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0012.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, this);
+    };
+
+    _onMoveFromRowToRow = [=](Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 2, ally, enemy, this);
+    };
+
+    _onEnemyMoved = [=](Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        damage(target, 2, ally, enemy, this);
+    };
+}
+
+DolBlathannaSentry::DolBlathannaSentry()
+{
+    id = "200039";
+    name = "Dol Blathanna Bowman";
+    text = "If in hand, deck or on board, boost self by 1 whenever you play a special card.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 2;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.310.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.312.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.311.mp3",
+    };
+
+    _onSpecialPlayed = [=](Card *target, Field &ally, Field &enemy) {
+        if(!isOnBoard(ally, this) && !isIn(this, ally.deck) && !isIn(this, ally.hand))
+            return;
+        if (!target->isSpecial || !(isIn(target, ally.discard) || isIn(target, ally.hand)))
+        //(target != ally.cardsAppeared.end()) ??
+            return;
+        boost(this, 1, ally, enemy, this);
+    };
+
+
 }

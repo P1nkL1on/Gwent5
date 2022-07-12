@@ -349,6 +349,10 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+        other->onSpecialPlayed(card, ally, enemy);
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+        other->onSpecialPlayed(card, enemy, ally);
 
     // DragonsDreamEffect works here
     for (int screenRow = 0; screenRow < 6; screenRow++) {
@@ -404,6 +408,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
         card->onMoveFromRowToRow(ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
+            other->onEnemyMoved(card, enemy, ally);
         return true;
     }
 
@@ -2262,6 +2268,18 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
+{
+    if (_onSpecialPlayed && !isLocked)
+        return _onSpecialPlayed(card, ally, enemy);
+}
+
+void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)
+{
+    if (_onEnemyMoved && !isLocked)
+        return _onEnemyMoved(card, ally, enemy);
 }
 
 void Card::onOpponentPass(Field &ally, Field &enemy)

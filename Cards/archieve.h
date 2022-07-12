@@ -2609,4 +2609,28 @@ struct IncineratingTrap : CardCollectible<IncineratingTrap>
 };
 
 
+struct BlueMountainElite : CardCollectible<BlueMountainElite>
+{
+    BlueMountainElite();
+};
+
+
+struct DolBlathannaBomber : CardCollectible<DolBlathannaBomber>
+{
+    DolBlathannaBomber();
+};
+
+
+struct DolBlathannaBowman : CardCollectible<DolBlathannaBowman>
+{
+    DolBlathannaBowman();
+};
+
+
+struct DolBlathannaSentry : CardCollectible<DolBlathannaSentry>
+{
+    DolBlathannaSentry();
+};
+
+
 #endif // CARDS_H

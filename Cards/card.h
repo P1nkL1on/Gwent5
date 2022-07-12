@@ -93,6 +93,8 @@ struct Card
     void onOtherSpyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+    void onSpecialPlayed(Card *card, Field &ally, Field &enemy);
+    void onEnemyMoved(Card *card, Field &ally, Field &enemy);
     void onOpponentPass(Field &ally, Field &enemy);
     void onRoundLose(Field &ally, Field &enemy);
     // TODO: test and find all the cases
@@ -154,6 +156,8 @@ protected:
     CardAllyEnemy _onOtherSpyAppears = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+    CardAllyEnemy _onSpecialPlayed = nullptr;
+    CardAllyEnemy _onEnemyMoved = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
     AllyEnemySrcChangable _onConsumed = nullptr;
     AllyEnemySrcChangable _onAllyConsume = nullptr;
