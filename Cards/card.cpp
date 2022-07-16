@@ -561,7 +561,7 @@ void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *>
 {
     // TODO: agreagate to function choice
     Choice2 choice;
-    choice.type = CardOption;
+    choice.type = CardTarget;
     choice.options = options;
     choice.src = src;
     choice.nTargets = nTargets;
@@ -602,7 +602,7 @@ void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, co
 {
     // TODO: agreagate to function choice
     Choice2 choice;
-    choice.type = CardOption;
+    choice.type = CardTarget;
     choice.src = src;
     choice.group = AnyCard;
     choice.filters = filters;
@@ -630,7 +630,7 @@ void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, con
 {
     // TODO: agreagate to function choice
     Choice2 choice;
-    choice.type = CardOption;
+    choice.type = CardTarget;
     choice.src = src;
     choice.group = AnyCard;
     choice.filters = filters;
@@ -691,7 +691,7 @@ void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::ve
     Choice2 choice;
     choice.type = RowSelect;
     choice.screenRows = screenRowsOptions;
-    choice.rowFilters = rowFilters;
+    choice.screenRowFilters = rowFilters;
     choice.fieldPtrAlly = &ally;
     choice.fieldPtrEnemy = &enemy;
     choice.src = self;
@@ -2391,7 +2391,6 @@ void CardStack::trace() const
         case CardRoundStartPlay: std::cout << "Round Start Play"; break;
         case CardRoundStartSwap: std::cout << "Round Start Swap"; break;
         case CardTarget:         std::cout << "Card Target"; break;
-        case CardOption:         std::cout << "Card Option"; break;
         case RowAndPosAlly:      std::cout << "Row And Pos Ally"; break;
         case RowAndPosEnemy:     std::cout << "Row And Pos Enemy"; break;
         case RowSelect:          std::cout << "Row"; break;
@@ -2409,8 +2408,8 @@ void CardStack::trace() const
             std::cout << "|    Filters: " << _queue[i].filters.size() << std::endl;
         if (_queue[i].screenRows.size())
             std::cout << "|    Options Rows: " << _queue[i].screenRows.size() << std::endl;
-        if (_queue[i].rowFilters.size())
-            std::cout << "|    Filters Rows: " << _queue[i].rowFilters.size() << std::endl;
+        if (_queue[i].screenRowFilters.size())
+            std::cout << "|    Filters Rows: " << _queue[i].screenRowFilters.size() << std::endl;
     }
     if (_queue.size())
         std::cout << "^ LAST" << std::endl;
@@ -2424,25 +2423,44 @@ bool CardStack::tryAutoResolveChoices()
     Choice2 &choice = _queue.front();
 
     if (choice.type == RowSelect) {
-        // FIXME: filter here!!
+        /// filter existed rows
+        std::vector<int> screenRowsRes;
+        for (const int screenRow : choice.screenRows) {
+            bool isAlly;
+            const Row row = fromScreenRow(screenRow, isAlly);
+            const std::vector<Card *> cardsInRow = (isAlly ? choice.fieldPtrAlly : choice.fieldPtrEnemy)->row(row);
 
-        //    for (const int screenRow : screenRowsOptions) {
-        //        bool isAlly;
-        //        const Row row = fromScreenRow(screenRow, isAlly);
-        //        const std::vector<Card *> cardsInRow = (isAlly ? &ally : &enemy)->row(row);
-        //        bool isOk = true;
-        //        for (const std::function<bool(const std::vector<Card *> &)> &filter : rowFilters)
-        //            if (!filter(cardsInRow)) {
-        //                isOk = false;
-        //                break;
-        //            }
-        //        if (!isOk)
-        //            continue;
-        //        screenRowsFiltered.push_back(screenRow);
-        //    }
+            bool isOk = true;
+            for (const std::function<bool(const std::vector<Card *> &)> &filter : choice.screenRowFilters)
+                if (!filter(cardsInRow)) {
+                    isOk = false;
+                    break;
+                }
 
-        assert(false);
-        return false;
+            if (isOk)
+                screenRowsRes.push_back(screenRow);
+        }
+        choice.screenRows = screenRowsRes;
+
+        /// check if can be auto choosen
+        if (choice.screenRows.size() > 1)
+            return false;
+
+        if (choice.screenRows.size() == 0) {
+            _queue.erase(_queue.begin());
+            return true;
+        }
+
+        /// erase a choice (auto solved) and store its data to exec
+        assert(choice.screenRows.size() == 1);
+        Card *src = choice.src;
+        Field *fieldPtrAlly = choice.fieldPtrAlly;
+        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+        const int screenRow = choice.screenRows.at(0);
+        _queue.erase(_queue.begin());
+
+        src->onTargetRowChoosen(*fieldPtrAlly, *fieldPtrEnemy, screenRow);
+        return true;
     }
 
     /// never automate card playing at the round start or mulligan, except no options

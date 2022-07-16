@@ -105,7 +105,6 @@ enum ChoiceType
     CardRoundStartPlay,
     CardRoundStartSwap,
     CardTarget,
-    CardOption,
     RowAndPosAlly,
     RowAndPosEnemy,
     RowSelect,

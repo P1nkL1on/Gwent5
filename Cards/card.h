@@ -221,7 +221,7 @@ struct Choice2
     int nWindow = -1;
     bool isOptional = false;
     std::vector<int> screenRows;
-    RowFilters rowFilters;
+    RowFilters screenRowFilters;
 };
 
 class CardStack
