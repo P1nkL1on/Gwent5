@@ -2358,7 +2358,11 @@ void CardStack::popChoice()
 {
     assert(_queue.size());
     _queue.erase(_queue.begin());
-    while (tryAutoResolveChoices());
+    while (tryAutoResolveChoices()) {
+        std::cout << std::endl << std::endl << "CardStack::popChoice" << std::endl;
+        trace();
+        std::cout << std::endl;
+    }
 }
 
 bool CardStack::isEmpty() const
@@ -2369,7 +2373,11 @@ bool CardStack::isEmpty() const
 void CardStack::pushChoice(const Choice2 &choice)
 {
     _queue.push_back(choice);
-    while (tryAutoResolveChoices());
+    while (tryAutoResolveChoices()) {
+        std::cout << std::endl << std::endl << "CardStack::pushChoice" << std::endl;
+        trace();
+        std::cout << std::endl;
+    }
 }
 
 void CardStack::trace() const
@@ -2389,14 +2397,20 @@ void CardStack::trace() const
         case RowSelect:          std::cout << "Row"; break;
         }
         std::cout << std::endl;
+        if (_queue[i].src)
+            std::cout << "|    Source:  " << _queue[i].src->name << std::endl;
+        if (_queue[i].nTargets > 0)
+            std::cout << "|    Targets: " << _queue[i].nTargets << std::endl;
+        if (_queue[i].optionsSelected.size())
+            std::cout << "|    Selected: " << _queue[i].nTargets << std::endl;
         if (_queue[i].options.size())
-            std::cout << "     Options: " << _queue[i].options.size() << std::endl;
+            std::cout << "|    Options: " << _queue[i].options.size() << std::endl;
         if (_queue[i].filters.size())
-            std::cout << "     Filters: " << _queue[i].filters.size() << std::endl;
+            std::cout << "|    Filters: " << _queue[i].filters.size() << std::endl;
         if (_queue[i].screenRows.size())
-            std::cout << "     Options Rows: " << _queue[i].screenRows.size() << std::endl;
+            std::cout << "|    Options Rows: " << _queue[i].screenRows.size() << std::endl;
         if (_queue[i].rowFilters.size())
-            std::cout << "     Filters Rows: " << _queue[i].rowFilters.size() << std::endl;
+            std::cout << "|    Filters Rows: " << _queue[i].rowFilters.size() << std::endl;
     }
     if (_queue.size())
         std::cout << "^ LAST" << std::endl;
@@ -2459,21 +2473,28 @@ bool CardStack::tryAutoResolveChoices()
         /// we can autoresolve the existed choice and remove it.
     }
 
-
     /// can't resolve, because there are some options
     /// and as well it can be totally cancelled
     if (choice.isOptional && choice.options.size())
         return false;
 
     /// ambigious choice must be done by player
-    if (int(choice.options.size()) > choice.nTargets)
+    /// NOTE: fixed optimizing bug on in the middle of selecting multiple targets
+    if (int(choice.options.size() + choice.optionsSelected.size()) > choice.nTargets)
         return false;
 
-    /// choice can be done automaticly
-    for (Card *card : choice.options)
-        choice.src->onTargetChoosen(card, *choice.fieldPtrAlly, *choice.fieldPtrEnemy);
-
+    /// store data of choice, because erasing invalidates a reference
+    /// remove from queue before resolving it, to not try  autosolve
+    /// same choice again, if onTargetChoosen brings new choices to CardStack.
+    Card *src = choice.src;
+    Field *fieldPtrAlly = choice.fieldPtrAlly;
+    Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+    const std::vector<Card *> options = choice.options;
     _queue.erase(_queue.begin());
+
+    /// choice can be done automaticly
+    for (Card *card : options)
+        src->onTargetChoosen(card, *fieldPtrAlly, *fieldPtrEnemy);
     return true;
 }
 

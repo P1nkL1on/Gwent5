@@ -5622,12 +5622,10 @@ BrewessRitual::BrewessRitual()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isDeathwish}, AllyDiscard, 2);
+        startChoiceToTargetCard(ally, enemy, this, {isDeathwish, isBronze, isUnit}, AllyDiscard, 2);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        // TODO: play order is inverted
-        // look demoMonsterSisters
         playExistedCard(target, ally, enemy, this);
     };
 }
