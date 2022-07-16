@@ -987,6 +987,8 @@ void demoTriggersOrder(Field &ally, Field &enemy)
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
+    m1->power = 3;
+    m2->power = 3;
 
     enemy.cardsAdded = {m1, m2};
     enemy.rowMeele = {m1, m2};
