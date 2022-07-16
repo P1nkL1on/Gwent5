@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
         {"Trigger Order", demoTriggersOrder},
+        {"Turn and Round Finishing", demoTurnFinishingAndRoundFinishing},
     };
 
     /// make a choosing menu for it

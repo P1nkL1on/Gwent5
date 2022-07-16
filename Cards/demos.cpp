@@ -422,12 +422,13 @@ void demoMonsterSisters(Field &ally, Field &enemy)
     auto *d1 = new Dao();
     auto *d2 = new Dao();
     auto *k = new Kambi();
-    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, gwh, d1, d2, k, t, o1, o2, o3, o4, o5};
+    auto *n = new Nekker();
+    ally.cardsAdded = {w1, w2, w3, gw1, gw2, gb1, gb2, gb3, gwh, d1, d2, k, t, o1, o2, o3, o4, o5, n};
 
 
     ally.hand = {w1, gw1, gb1, gb2, gwh, t};
     ally.deck = {w2, w3, gw2, o1, o2, o3, o4, o5};
-    ally.discard = {gb3, d1, d2, k};
+    ally.discard = {gb3, d1, d2, k, n};
     startDemo(ally, enemy);
 }
 
@@ -993,4 +994,50 @@ void demoTriggersOrder(Field &ally, Field &enemy)
     enemy.cardsAdded = {m1, m2};
     enemy.rowMeele = {m1, m2};
     startDemo(ally, enemy);
+}
+
+void demoTurnFinishingAndRoundFinishing(Field &ally, Field &enemy)
+{
+    const std::vector<Card *> deck1 {
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+        new GermainPiquant::Cow(),
+    };
+
+    const std::vector<Card *> deck2 {
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+        new Wolf(),
+    };
+
+    initField(deck1, nullptr, ally);
+    initField(deck2, nullptr, enemy);
+    // startDemo(ally, enemy, false, true);
+    startNextRound(ally, enemy);
 }

@@ -50,5 +50,6 @@ void demoRowsSelection(Field &ally, Field &enemy);
 void demoWolfsbane(Field &ally, Field &enemy);
 void demoDeckSummon(Field &ally, Field &enemy);
 void demoTriggersOrder(Field &ally, Field &enemy);
+void demoTurnFinishingAndRoundFinishing(Field &ally, Field &enemy);
 
 #endif // DEMOS_H

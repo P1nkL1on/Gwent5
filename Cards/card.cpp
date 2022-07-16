@@ -203,7 +203,12 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
 
 void startNextRound(Field &ally, Field &enemy)
 {
-    /// if prev round wasn't first, and no winner already, check winners
+    /// BUG: Incorrect autosolving muligan choice and card play choice
+    /// in first case the game should continue, in the second player should
+    /// pass automaticly. In either case now nothing happens
+    ///
+    /// check winners:
+    /// if prev round wasn't first, and no winner already, then check it
     if (ally.nWins == 2 || enemy.nWins == 2)
         return;
     if (ally.nRounds) {
@@ -302,6 +307,7 @@ void startNextRound(Field &ally, Field &enemy)
     enemy.nSwaps = nSwap;
 
     // TODO: flip a coin to determine first player
+    // TODO: agreagate to function: mulligan choice
     Choice2 choice;
     choice.type = CardRoundStartSwap;
     choice.options = ally.hand;
@@ -553,6 +559,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field)
 
 void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardOption;
     choice.options = options;
@@ -593,6 +600,7 @@ void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *>
 
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardOption;
     choice.src = src;
@@ -620,6 +628,7 @@ void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, co
 
 void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardOption;
     choice.src = src;
@@ -643,6 +652,7 @@ void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, con
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardTarget;
     choice.src = src;
@@ -662,6 +672,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardTarget;
     choice.src = src;
@@ -671,38 +682,12 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::ve
 
     ally.cardStack2.pushChoice(choice);
 
-    // BUG: actually filtering existed cards must be performed
-    // when the Choice is at the start of the list. So, its to early
-    // to filter it when it only gets included to the list. So
-    // choices must be stored with original options and be able
-    // to find its options only at the start. Except Choice is created
-    // w/ options already
     ally.cardStack.push_back(Choice(CardTarget, src, options, nTargets, isOptional));
-
-    // BUG: actually autoresolving must be done not only when adding a new
-    // Choice, but as well each time it moves to the next one in the queue
-    /// clean excess automatic choices
-//    while (true) {
-//        const Choice choice = ally.choice();
-//        if ((choice.choiceType == RowSelect)
-//                || (choice.choiceType == RowAndPosAlly)
-//                || (choice.choiceType == RowAndPosEnemy))
-//            break;
-//        if (choice.isOptional && choice.cardOptions.size() > 0)
-//            break;
-//        if (int(choice.cardOptions.size()) > choice.nTargets)
-//            break;
-
-//        ally.takeChoice();
-//        for (Card *card : choice.cardOptions)
-//            src->onTargetChoosen(card, ally, enemy);
-//        if (ally.cardStack.size() == 0)
-//            break;
-//    }
 }
 
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
 {
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = RowSelect;
     choice.screenRows = screenRowsOptions;
@@ -798,6 +783,14 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
         swapACard(card, ally, enemy, nullptr);
 
         if (choicePopped.nTargets > 1) {
+            // TODO: agregate muligan choice
+            Choice2 choice;
+            choice.type = CardRoundStartSwap;
+            choice.options = ally.hand;
+            choice.nTargets = choicePopped.nTargets - 1;
+            choice.isOptional = true;
+            ally.cardStack2.pushChoice(choice);
+
             ally.cardStack.push_back(Choice(CardRoundStartSwap, choicePopped.src, ally.hand, choicePopped.nTargets - 1, choicePopped.isOptional));
             return;
         }
@@ -810,6 +803,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     if (ally.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
 
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardRoundStartPlay;
     choice.options = cardsToPlay;
@@ -1407,6 +1401,14 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     // TODO: remove later, only for a hot-seat
     if (enemy.nTurns == 0 && enemy.nSwaps != 0){
+        // TODO: agregate muligan choice
+        Choice2 choice;
+        choice.type = CardRoundStartSwap;
+        choice.options = enemy.hand;
+        choice.nTargets = enemy.nSwaps;
+        choice.isOptional = true;
+        enemy.cardStack2.pushChoice(choice);
+
         enemy.cardStack.push_back(Choice(CardRoundStartSwap, nullptr, enemy.hand, enemy.nSwaps, true));
         return true;
     }
@@ -1417,6 +1419,7 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     if (enemy.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
 
+    // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardRoundStartPlay;
     choice.options = cardsToPlay;
