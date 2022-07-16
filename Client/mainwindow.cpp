@@ -806,7 +806,7 @@ void MainWindow::openLoadDialog()
 
     for (int i = 0; i < 10; ++i)
         drawACard(_ally, _enemy);
-    // TODO: check because changed choices
+    // FIXME: check because changed choices
     Q_ASSERT(false);
     // _ally.cardStack.push_back(Choice(CardRoundStartPlay, nullptr, _ally.hand, 1, false));
     // repaintCustom();

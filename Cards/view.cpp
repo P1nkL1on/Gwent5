@@ -470,31 +470,3 @@ bool isLeader(const CardView &view)
             return true;
     return false;
 }
-
-std::vector<CardView> cardOptionViews(const Card *card)
-{
-    // TODO: fix or remove, choices changed
-    assert(false);
-    std::vector<CardView> res;
-    /// add any usable previews
-    Card *copy = card->defaultCopy();
-    Field a, e;
-    if (!card->isSpecial)
-        copy->onDeploy(a, e);
-    else
-        copy->onPlaySpecial(a, e);
-
-    int previewId = 0;
-    for (const Choice &choice : a.cardStack){
-        if (choice.cardSource != copy && choice.cardSource != nullptr) {
-            res.push_back(cardView(choice.cardSource, previewId));
-            ++previewId;
-        }
-        for (const Card *card : choice.cardOptions) {
-            res.push_back(cardView(card, previewId));
-            ++previewId;
-        }
-    }
-
-    return res;
-}
