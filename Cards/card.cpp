@@ -563,6 +563,7 @@ void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *>
     choice.type = CardOption;
     choice.options = options;
     choice.src = src;
+    choice.fieldPtrAlly = &ally;
     choice.nTargets = nTargets;
     choice.nWindow = nWindow;
     choice.isOptional = isOptional;
@@ -576,6 +577,7 @@ void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, co
     Choice2 choice;
     choice.type = CardOption;
     choice.src = src;
+    choice.fieldPtrAlly = &ally;
     choice.group = AnyCard;
     choice.filters = filters;
     choice.nTargets = 1;
@@ -2427,7 +2429,7 @@ bool CardStack::tryAutoResolveChoices()
     if (choice.type == RowAndPosAlly || choice.type == RowAndPosEnemy)
         return false;
 
-    /// When no options given (meant a choice must be done in place)
+    /// when no options given (meant a choice must be done in place)
     /// we must assert all the stuff needed to filter existed cards
     /// by `groups`, `filters`, `ally and enemy` and rest
     if (choice.options.size() == 0) {
@@ -2440,6 +2442,13 @@ bool CardStack::tryAutoResolveChoices()
         /// at this stage, it can left no viable options, anyway.
         /// in this case, or in case number of options match `nTargets`
         /// we can autoresolve the existed choice and remove it.
+    }
+
+    /// if `nWindow` given, then apply it
+    if (choice.nWindow >= 0 && choice.nWindow < int(choice.options.size())) {
+        assert(choice.fieldPtrAlly != nullptr);
+        shuffle(choice.options, choice.fieldPtrAlly->rng);
+        choice.options = firsts(choice.options, choice.nWindow);
     }
 
     /// can't resolve, because there are some options
