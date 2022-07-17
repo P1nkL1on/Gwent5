@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Deck Summon", demoDeckSummon},
         {"Trigger Order", demoTriggersOrder},
         {"Turn and Round Finishing", demoTurnFinishingAndRoundFinishing},
+        {"Every Choice Types", demoAllTypedChoices},
     };
 
     /// make a choosing menu for it
@@ -249,7 +250,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == CardTarget) {
+    if (ally.cardStack2.peekChoice().type == CardTarget || ally.cardStack2.peekChoice().type == CardOption) {
         if (ally.cardStack2.peekChoice().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
             goto finish_turn;

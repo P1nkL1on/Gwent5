@@ -906,8 +906,7 @@ KeiraMetz::KeiraMetz()
         startChoiceToSelectOption(ally, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -1248,8 +1247,7 @@ Vaedermakar::Vaedermakar()
         startChoiceToSelectOption(ally, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -1818,8 +1816,7 @@ ShupesDayOff::ShupesDayOff()
         startChoiceToSelectOption(ally, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -1857,50 +1854,49 @@ ShupeHunter::ShupeHunter()
         copyCardText(this, option5);
         option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<ShupeHunter::Play *>(target)) {
             _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-
-            if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
-                return;
-            }
-
-            if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this);
-                return;
-            }
-
-            if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
-                return;
-            }
-
-            if (dynamic_cast<ShupeHunter::Clear *>(_choosen)) {
-                for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
-                    boost(card, 1, ally, enemy, this);
-                clearAllHazards(ally);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeHunter::Barrage *>(_choosen)) {
-                for (int n = 0; n < 8; ++n)
-                    if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
-                        damage(card, 2, ally, enemy, this);
-                    }
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            assert(false);
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
+            return;
         }
+
+        if (dynamic_cast<ShupeHunter::Shot *>(target)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Clear *>(target)) {
+            for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
+                boost(card, 1, ally, enemy, this);
+            clearAllHazards(ally);
+            return;
+        }
+
+        if (dynamic_cast<ShupeHunter::Barrage *>(target)) {
+            for (int n = 0; n < 8; ++n)
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
+                    damage(card, 2, ally, enemy, this);
+                }
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
 
         if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
             playExistedCard(target, ally, enemy, this);
@@ -1962,49 +1958,45 @@ ShupeMage::ShupeMage()
         copyCardText(this, option5);
         option5->text = "Play a Bronze or Silver special card from your deck.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-
-            if (dynamic_cast<ShupeMage::Draw *>(_choosen)) {
-                drawACard(ally, enemy);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeMage::Charm *>(_choosen)) {
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-                    charm(card, ally, enemy, this);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeMage::Hazards *>(_choosen)) {
-                for (int screenRow = 3; screenRow < 6; ++screenRow)
-                    applyRowEffect(ally, enemy, screenRow, randomHazardEffect(ally.rng));
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-                return;
-            }
-
-            if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
-                return;
-            }
-
-            assert(false);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<ShupeMage::Draw *>(target)) {
+            drawACard(ally, enemy);
+            return;
         }
+
+        if (dynamic_cast<ShupeMage::Charm *>(target)) {
+            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                charm(card, ally, enemy, this);
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Hazards *>(target)) {
+            for (int screenRow = 3; screenRow < 6; ++screenRow)
+                applyRowEffect(ally, enemy, screenRow, randomHazardEffect(ally.rng));
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Meteor *>(target)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+
+        if (dynamic_cast<ShupeMage::Play *>(target)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
 
         if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
             Card *left = cardNextTo(target, ally, enemy, -1);
@@ -2056,16 +2048,18 @@ Mandrake::Mandrake()
         copyCardText(this, option2);
         option2->text = "Reset a unit and Weaken it by 6.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        _choosen = target;
+        startChoiceToTargetCard(ally, enemy, this);
+        return;
+    };
+
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-            startChoiceToTargetCard(ally, enemy, this);
-            return;
-        }
+        assert(_choosen);
 
         if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
             heal(target, ally, enemy);
@@ -2110,24 +2104,24 @@ BoneTalisman::BoneTalisman()
         copyCardText(this, option2);
         option2->text = "Heal an ally and Strengthen it by 3.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        _choosen = target;
 
-            if (dynamic_cast<BoneTalisman::Resurrect *>(target)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
-                return;
-            }
-            if (dynamic_cast<BoneTalisman::Buff *>(target)) {
-                startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-                return;
-            }
-            assert(false);
-        }
+        if (dynamic_cast<BoneTalisman::Resurrect *>(target))
+            return startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+
+        if (dynamic_cast<BoneTalisman::Buff *>(target))
+            return startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
 
         if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
             playExistedCard(target, ally, enemy, this);
@@ -2136,6 +2130,7 @@ BoneTalisman::BoneTalisman()
             _choosen = nullptr;
             return;
         }
+
         if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
             heal(target, ally, enemy);
             strengthen(target, 3, ally, enemy);
@@ -2144,6 +2139,7 @@ BoneTalisman::BoneTalisman()
             _choosen = nullptr;
             return;
         }
+
         assert(false);
     };
 }
@@ -2181,48 +2177,44 @@ ShupeKnight::ShupeKnight()
         copyCardText(this, option5);
         option5->text = "Resilent.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-
-            if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
-                for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
-                    putToDiscard(card, ally, enemy, this);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this);
-                return;
-            }
-
-            if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-                return;
-            }
-
-            if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
-                strengthen(this, 25 - powerBase, ally, enemy);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            if (dynamic_cast<ShupeKnight::Resilient *>(_choosen)) {
-                isResilient = true;
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-
-            assert(false);
+        if (dynamic_cast<ShupeKnight::Destroy *>(_choosen)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
+                putToDiscard(card, ally, enemy, this);
+            return;
         }
+
+        if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this);
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Strengthen *>(_choosen)) {
+            strengthen(this, 25 - powerBase, ally, enemy);
+            return;
+        }
+
+        if (dynamic_cast<ShupeKnight::Resilient *>(_choosen)) {
+            isResilient = true;
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
 
         if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
             target->power = target->powerBase;
@@ -2289,9 +2281,7 @@ FirstLight::FirstLight()
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
-
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (dynamic_cast<FirstLight::Clear *>(target)) {
             std::vector<Card *> damagedUnitsUnderHazards;
             clearAllHazards(ally, &damagedUnitsUnderHazards);
@@ -2376,18 +2366,20 @@ Moonlight::Moonlight()
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (dynamic_cast<Moonlight::FullMoon *>(target)) {
             startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
+            delete target;
+            return;
+        }
 
-        } else if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
+        if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
             startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+            delete target;
+            return;
+        }
 
-        } else
-            assert(false);
-
-        delete target;
+        assert(false);
     };
 
     _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
@@ -2499,8 +2491,7 @@ CeallachDyffryn::CeallachDyffryn()
         startChoiceToSelectOption(ally, this, {new Ambassador(), new Assassin(), new Emissary()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -3193,8 +3184,7 @@ Gremist::Gremist()
         startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -3250,8 +3240,7 @@ ZoriaRunestone::ZoriaRunestone()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNothernRealmsFaction});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -3298,8 +3287,7 @@ EistTuirseach::EistTuirseach()
         startChoiceToSelectOption(ally, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -3484,26 +3472,24 @@ LethoKingslayer::LethoKingslayer()
         copyCardText(this, option2);
         option2->text = "Play a Bronze or Silver Tactic from your deck.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        _choosen = target;
+
+        if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen))
+            return startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
+
+        if (dynamic_cast<LethoKingslayer::Play *>(_choosen))
+            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
+
+        assert(false);
+    };
+
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-
-            if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
-                return;
-            }
-
-            if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
-                return;
-            }
-
-            assert(false);
-        }
+        assert(_choosen);
 
         if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
             putToDiscard(target, ally, enemy, this);
@@ -3600,8 +3586,7 @@ Dethmold::Dethmold()
         startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -4467,32 +4452,23 @@ Hym::Hym()
         copyCardText(this, option2);
         option2->text = "Create a Silver unit from your opponent's starting deck.";
 
+        _choosen = nullptr;
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+
+        if (!_choosen && dynamic_cast<Hym::Play *>(target)) {
             _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-
-            if (dynamic_cast<Hym::Play *>(_choosen))
-                return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
-
-            if (dynamic_cast<Hym::Create *>(_choosen))
-                return startChoiceCreateOptions(ally, this, {isSilver, isUnit, isNonAgent});
-
-            assert(false);
+            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
         }
 
-        if (dynamic_cast<Hym::Play *>(_choosen)) {
-            playExistedCard(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
-            return;
+        if (!_choosen && dynamic_cast<Hym::Create *>(target)) {
+            _choosen = target;
+            return startChoiceCreateOptions(ally, this, {isSilver, isUnit, isNonAgent});
         }
 
         if (dynamic_cast<Hym::Create *>(_choosen)) {
-            acceptOptionAndDeleteOthers(this, target);
             spawnNewCard(target, ally, enemy, this);
             delete _choosen;
             _choosen = nullptr;
@@ -4500,6 +4476,14 @@ Hym::Hym()
         }
 
         assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(dynamic_cast<Hym::Play *>(_choosen));
+
+        playExistedCard(target, ally, enemy, this);
+        delete _choosen;
+        _choosen = nullptr;
     };
 }
 
@@ -4627,8 +4611,7 @@ OrnamentalSword::OrnamentalSword()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         strengthen(target, 3, ally, enemy);
         spawnNewCard(target, ally, enemy, this);
     };
@@ -4728,8 +4711,7 @@ Yennefer::Yennefer()
         startChoiceToSelectOption(ally, this, {new Unicorn(), new Chironex()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5038,8 +5020,7 @@ Vreemde::Vreemde()
         startChoiceCreateOptions(ally, this, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5322,8 +5303,7 @@ DevanaRunestone::DevanaRunestone()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5344,8 +5324,7 @@ DazhbogRunestone::DazhbogRunestone()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5366,8 +5345,7 @@ MoranaRunestone::MoranaRunestone()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5388,8 +5366,7 @@ StribogRunestone::StribogRunestone()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5468,8 +5445,7 @@ WhisperingHillock::WhisperingHillock()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Organic)});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -5581,25 +5557,22 @@ WeavessIncantation::WeavessIncantation()
         startChoiceToSelectOption(ally, this, {option1, option2});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_options.size() > 0) {
-            _choosen = target;
-            acceptOptionAndDeleteOthers(this, target);
-            if (dynamic_cast<WeavessIncantation::StrengthenAll *>(_choosen)) {
-                for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
-                    strengthen(card, 2, ally, enemy);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-            if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(_choosen)) {
-                startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
-                delete _choosen;
-                _choosen = nullptr;
-                return;
-            }
-            assert(false);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<WeavessIncantation::StrengthenAll *>(target)) {
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
+                strengthen(card, 2, ally, enemy);
+            return;
         }
+
+        if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(target)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         strengthen(target, 2, ally, enemy);
         playExistedCard(target, ally, enemy, this);
     };
@@ -6886,14 +6859,13 @@ MonsterNest::MonsterNest()
     faction = Monster;
     tags = { Organic };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceSpawnOptions(ally, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceSpawnOptions(ally, enemy, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
-        spawnNewCard(target, ally, enemy, this);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 1, ally, enemy, this);
+        spawnNewCard(target, ally, enemy, this);
     };
 }
 
@@ -6966,12 +6938,11 @@ EredinBreaccGlas::EredinBreaccGlas()
         "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040754.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceSpawnOptions(ally, this, {isBronze, hasTag(WildHunt)});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceSpawnOptions(ally, enemy, this, {isBronze, hasTag(WildHunt)});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -7048,8 +7019,7 @@ Dagon::Dagon()
         startChoiceToSelectOption(ally, this, {new ImpenetrableFog(), new TorrentialRain()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -7159,8 +7129,7 @@ Abaya::Abaya()
         startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -8063,6 +8032,7 @@ CiriDash::CiriDash()
 
 Aguara:: Aguara()
 {
+    // FIXME: is broken w/ new Choicere factoring
     id = "200062";
     name = "Aguara";
     text = "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.";
@@ -8122,8 +8092,8 @@ Aguara:: Aguara()
             --_nOptionsLeft;
         }
 
-        if(!_nOptionsLeft)
-            acceptOptionAndDeleteOthers(this, target);
+//        if (!_nOptionsLeft)
+//            acceptOptionAndDeleteOthers(this, target);
     };
 }
 
@@ -8142,8 +8112,7 @@ AguaraTrueForm::AguaraTrueForm()
         startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Spell)});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         spawnNewCard(target, ally, enemy, this);
     };
 }
@@ -8399,9 +8368,7 @@ GaunterODimm::GaunterODimm()
         startChoiceToSelectOption(ally, this, {option1, option2, option3});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_options.size() > 0);
-        acceptOptionAndDeleteOthers(this, target);
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         const bool guessed =
                 (dynamic_cast<GaunterODimm::Less6 *>(target) && (_picked->power < 6))
                 || (dynamic_cast<GaunterODimm::Equal6 *>(target) && (_picked->power == 6))

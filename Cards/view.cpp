@@ -374,6 +374,8 @@ std::string ChoiceView::toString() const
         return "Choose an enemy row and pos";
     case RowSelect:
         return "Choose a row";
+    case CardOption:
+        return "Choose an option";
     case CardTarget: {
         std::string res = "Choose an ability target";
         if ((nTargets > 1) || isOptional) {

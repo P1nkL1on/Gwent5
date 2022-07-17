@@ -1225,7 +1225,6 @@ struct WeavessIncantation : CardCollectible<WeavessIncantation>
 private:
     struct StrengthenAll : CardCollectible<StrengthenAll> {};
     struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
-    Card *_choosen = nullptr;
 };
 
 

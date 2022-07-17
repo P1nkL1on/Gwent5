@@ -68,6 +68,7 @@ struct Card
     void onTurnStart(Field &ally, Field &enemy);
     void onTurnEnd(Field &ally, Field &enemy);
     void onTargetChoosen(Card *card, Field &ally, Field &enemy);
+    void onOptionChoosen(Card *card, Field &ally, Field &enemy);
     void onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow);
     void onDraw(Field &ally, Field &enemy);
     void onSwap(Field &ally, Field &enemy);
@@ -142,6 +143,7 @@ protected:
     IntAllyEnemySrc _onWeakened = nullptr;
     CardAllyEnemy _onOtherEnemyDamaged = nullptr;
     CardAllyEnemy _onTargetChoosen = nullptr;
+    CardAllyEnemy _onOptionChoosen = nullptr;
     CardAllyEnemy _onOtherEnemyDestroyed = nullptr;
     CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
@@ -232,6 +234,12 @@ public:
     void pushChoice(const Choice2 &peekChoice);
     void popChoice();
     void trace() const;
+//    using ConstIt = std::vector<Choice2>::const_iterator;
+//    ConstIt begin() const { return _queue.begin(); }
+//    ConstIt end() const { return _queue.end(); }
+//    using It = std::vector<Choice2>::iterator;
+//    It begin() { return _queue.begin(); }
+//    It end() { return _queue.end(); }
 private:
     /// returns true if removed a first choice
     bool tryAutoResolveChoices();
@@ -262,7 +270,6 @@ struct Field
     /// with `spawn`, `create`, etc
     std::vector<Card *> cardsAdded;
     /// current choices player should resolve
-    std::vector<Choice> cardStack;
     CardStack cardStack2;
     /// cards played in order for history
     /// and retrograde effects
@@ -328,7 +335,6 @@ void shuffle(std::vector<Card *> &cards, Rng &rng);
 std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng);
 Card *random(const std::vector<Card *> &cards, Rng &rng);
 void copyCardText(const Card *card, Card *dst);
-void acceptOptionAndDeleteOthers(Card *card, const Card *option);
 std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
@@ -409,7 +415,7 @@ void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::ve
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
 void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
 void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
-void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
+void startChoiceSpawnOptions(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 
