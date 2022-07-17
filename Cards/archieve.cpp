@@ -902,8 +902,8 @@ KeiraMetz::KeiraMetz()
     faction = NothernRealms;
     tags = { Temeria, Mage };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -1243,8 +1243,8 @@ Vaedermakar::Vaedermakar()
     faction = Neutral;
     tags = { Mage };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -1809,11 +1809,11 @@ ShupesDayOff::ShupesDayOff()
     faction = Neutral;
     tags = { Organic };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         if (!hasNoDuplicates(ally.deckStarting))
             return;
 
-        startChoiceToSelectOption(ally, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
+        startChoiceToSelectOption(ally, enemy, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -1833,7 +1833,7 @@ ShupeHunter::ShupeHunter()
     faction = Neutral;
     tags = { Ogroid };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new ShupeHunter::Play;
         copyCardText(this, option1);
         option1->text = "Play a Bronze or Silver unit from Deck.";
@@ -1855,7 +1855,7 @@ ShupeHunter::ShupeHunter()
         option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -1937,7 +1937,7 @@ ShupeMage::ShupeMage()
     faction = Neutral;
     tags = { Ogroid };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new ShupeMage::Draw;
         copyCardText(this, option1);
         option1->text = "Draw a card.";
@@ -1959,7 +1959,7 @@ ShupeMage::ShupeMage()
         option5->text = "Play a Bronze or Silver special card from your deck.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2039,7 +2039,7 @@ Mandrake::Mandrake()
     faction = Neutral;
     tags = { Alchemy, Organic };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         auto *option1 = new Mandrake::Buff;
         copyCardText(this, option1);
         option1->text = "Heal a unit and and Strengthen it by 6.";
@@ -2049,7 +2049,7 @@ Mandrake::Mandrake()
         option2->text = "Reset a unit and Weaken it by 6.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2095,7 +2095,7 @@ BoneTalisman::BoneTalisman()
     faction = Skellige;
     tags = { Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         auto *option1 = new BoneTalisman::Resurrect;
         copyCardText(this, option1);
         option1->text = "Resurrect a Bronze Beast or Cultist.";
@@ -2105,7 +2105,7 @@ BoneTalisman::BoneTalisman()
         option2->text = "Heal an ally and Strengthen it by 3.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2156,7 +2156,7 @@ ShupeKnight::ShupeKnight()
     faction = Neutral;
     tags = { Ogroid };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new ShupeKnight::Destroy;
         copyCardText(this, option1);
         option1->text = "Destroy enemies with 4 or less power.";
@@ -2178,7 +2178,7 @@ ShupeKnight::ShupeKnight()
         option5->text = "Resilent.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4, option5}, 1, 3);
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2269,7 +2269,7 @@ FirstLight::FirstLight()
     faction = Neutral;
     tags = { Tactics };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         auto *option1 = new FirstLight::Clear;
         copyCardText(this, option1);
         option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
@@ -2278,7 +2278,7 @@ FirstLight::FirstLight()
         copyCardText(this, option2);
         option2->text = "Play a random Bronze unit from your deck.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2352,7 +2352,7 @@ Moonlight::Moonlight()
     faction = Monster;
     tags = { Hazard, Boon };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         auto *option1 = new Moonlight::FullMoon;
         copyCardText(this, option1);
         option1->name = "Full Moon";
@@ -2363,7 +2363,7 @@ Moonlight::Moonlight()
         option2->name = "Blood Moon";
         option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -2487,8 +2487,8 @@ CeallachDyffryn::CeallachDyffryn()
     faction = Nilfgaard;
     tags = { Officer };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new Ambassador(), new Assassin(), new Emissary()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new Ambassador(), new Assassin(), new Emissary()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3180,8 +3180,8 @@ Gremist::Gremist()
     faction = Skellige;
     tags = { Support };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3236,8 +3236,8 @@ ZoriaRunestone::ZoriaRunestone()
     faction = NothernRealms;
     tags = { Alchemy, Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNothernRealmsFaction});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isNothernRealmsFaction});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3257,8 +3257,8 @@ Renew::Renew()
     faction = Neutral;
     tags = { Spell };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isGold, isNonLeader}, AllyDiscard);
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isGold, isNonLeader}, AllyDiscard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3283,8 +3283,8 @@ EistTuirseach::EistTuirseach()
     faction = Skellige;
     tags = { ClanTuirseach, Leader };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3463,7 +3463,7 @@ LethoKingslayer::LethoKingslayer()
     faction = Nilfgaard;
     tags = { Witcher };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new LethoKingslayer::Destroy;
         copyCardText(this, option1);
         option1->text = "Destroy an enemy Leader, then boost self by 5.";
@@ -3473,7 +3473,7 @@ LethoKingslayer::LethoKingslayer()
         option2->text = "Play a Bronze or Silver Tactic from your deck.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -3582,8 +3582,8 @@ Dethmold::Dethmold()
     faction = NothernRealms;
     tags = { Kaedwen, Mage };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -4443,7 +4443,7 @@ Hym::Hym()
     rarity = Gold;
     tags = { Cursed };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new Hym::Play;
         copyCardText(this, option1);
         option1->text = "Play a Bronze or Silver Cursed unit from your deck.";
@@ -4453,7 +4453,7 @@ Hym::Hym()
         option2->text = "Create a Silver unit from your opponent's starting deck.";
 
         _choosen = nullptr;
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -4465,7 +4465,7 @@ Hym::Hym()
 
         if (!_choosen && dynamic_cast<Hym::Create *>(target)) {
             _choosen = target;
-            return startChoiceCreateOptions(ally, this, {isSilver, isUnit, isNonAgent});
+            return startChoiceCreateOptions(ally, enemy, this, {isSilver, isUnit, isNonAgent}, EnemyDeckStarting);
         }
 
         if (dynamic_cast<Hym::Create *>(_choosen)) {
@@ -4607,8 +4607,8 @@ OrnamentalSword::OrnamentalSword()
     rarity = Silver;
     tags = { Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -4707,8 +4707,8 @@ Yennefer::Yennefer()
         "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new Unicorn(), new Chironex()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new Unicorn(), new Chironex()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5016,8 +5016,8 @@ Vreemde::Vreemde()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
     };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5299,8 +5299,8 @@ DevanaRunestone::DevanaRunestone()
     faction = Monster;
     tags = { Alchemy, Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isMonsterFaction});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isMonsterFaction});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5320,8 +5320,8 @@ DazhbogRunestone::DazhbogRunestone()
     faction = Nilfgaard;
     tags = { Alchemy, Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isNilfgaardFaction});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isNilfgaardFaction});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5341,8 +5341,8 @@ MoranaRunestone::MoranaRunestone()
     faction = Scoiatael;
     tags = { Alchemy, Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isScoiataelFaction});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isScoiataelFaction});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5362,8 +5362,8 @@ StribogRunestone::StribogRunestone()
     faction = Skellige;
     tags = { Alchemy, Item };
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, isSkelligeFaction});
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isSkelligeFaction});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5441,8 +5441,8 @@ WhisperingHillock::WhisperingHillock()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.1.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Organic)});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Organic)});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -5545,7 +5545,7 @@ WeavessIncantation::WeavessIncantation()
         "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new WeavessIncantation::StrengthenAll;
         copyCardText(this, option1);
         option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
@@ -5554,7 +5554,7 @@ WeavessIncantation::WeavessIncantation()
         copyCardText(this, option2);
         option2->text = "Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -6860,7 +6860,7 @@ MonsterNest::MonsterNest()
     tags = { Organic };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceSpawnOptions(ally, enemy, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})});
+        startChoiceCreateOptions(ally, enemy, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})}, AnyCard, -1);
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -6939,7 +6939,7 @@ EredinBreaccGlas::EredinBreaccGlas()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceSpawnOptions(ally, enemy, this, {isBronze, hasTag(WildHunt)});
+        startChoiceCreateOptions(ally, enemy, this, {isBronze, hasTag(WildHunt)}, AnyCard, -1);
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -7015,8 +7015,8 @@ Dagon::Dagon()
     faction = Monster;
     tags = { Leader, Vodyanoi };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new ImpenetrableFog(), new TorrentialRain()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new ImpenetrableFog(), new TorrentialRain()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -7125,8 +7125,8 @@ Abaya::Abaya()
     faction = Monster;
     tags = { Necrophage };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceToSelectOption(ally, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -7446,7 +7446,7 @@ Archgriffin::Archgriffin()
     faction = Monster;
     tags = { Beast };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         clearHazardsFromItsRow(this, ally);
     };
 }
@@ -8030,9 +8030,8 @@ CiriDash::CiriDash()
     };
 }
 
-Aguara:: Aguara()
+Aguara::Aguara()
 {
-    // FIXME: is broken w/ new Choicere factoring
     id = "200062";
     name = "Aguara";
     text = "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.";
@@ -8047,7 +8046,7 @@ Aguara:: Aguara()
     faction = Neutral;
     tags = { Relict, Cursed };
 
-    _onDeploy = [=](Field & ally, Field &) {
+    _onDeploy = [=](Field & ally, Field &enemy) {
         auto *option1 = new Aguara::BoostLowest;
         copyCardText(this, option1);
         option1->text = "Boost the Lowest ally by 5.";
@@ -8064,36 +8063,35 @@ Aguara:: Aguara()
         copyCardText(this, option4);
         option4->text = "Charm a random enemy Elf with 5 power or less.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2, option3, option4}, _nOptionsLeft = 2);
+        _optionsSelected.clear();
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4}, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<Aguara::BoostLowest *>(target)) {
-            if(Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (dynamic_cast<Aguara::BoostLowest *>(target))
+            if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
                 boost(card, 5, ally, enemy, this);
-            --_nOptionsLeft;
-        }
 
-        if (dynamic_cast<Aguara::BoostInHand *>(target)) {
-            if(Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
+        if (dynamic_cast<Aguara::BoostInHand *>(target))
+            if (Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
                 boost(card, 5, ally, enemy, this);
-            --_nOptionsLeft;
-        }
 
-        if (dynamic_cast<Aguara::DamageHighest *>(target)) {
-            if(Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+        if (dynamic_cast<Aguara::DamageHighest *>(target))
+            if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
                 damage(card, 5, ally, enemy, this);
-            --_nOptionsLeft;
-        }
 
-        if (dynamic_cast<Aguara::CharmElf *>(target)) {
-            if(Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+        if (dynamic_cast<Aguara::CharmElf *>(target))
+            if (Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
                 charm(card, ally, enemy, this);
-            --_nOptionsLeft;
-        }
 
-//        if (!_nOptionsLeft)
-//            acceptOptionAndDeleteOthers(this, target);
+        _optionsSelected.push_back(target);
+
+        /// after 2 choices done, delete selected options
+        if (_optionsSelected.size() == 2) {
+            delete _optionsSelected[0];
+            delete _optionsSelected[1];
+            _optionsSelected.clear();
+        }
     };
 }
 
@@ -8108,8 +8106,8 @@ AguaraTrueForm::AguaraTrueForm()
     faction = Neutral;
     tags = { Relict, Cursed };
 
-    _onDeploy = [=](Field &ally, Field &) {
-        startChoiceCreateOptions(ally, this, {isBronzeOrSilver, hasTag(Spell)});
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Spell)});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -8350,7 +8348,7 @@ GaunterODimm::GaunterODimm()
     faction = Neutral;
     tags = { Relict };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         _picked = random(allCards(patch), ally.rng);
 
         auto *option1 = new GaunterODimm::Less6;
@@ -8365,7 +8363,7 @@ GaunterODimm::GaunterODimm()
         copyCardText(this, option3);
         option3->text = "Picked card power is more than 6.";
 
-        startChoiceToSelectOption(ally, this, {option1, option2, option3});
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3});
     };
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {

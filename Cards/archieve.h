@@ -1885,7 +1885,7 @@ private:
     struct BoostInHand : CardCollectible<BoostInHand> {};
     struct DamageHighest : CardCollectible<DamageHighest> {};
     struct CharmElf : CardCollectible<CharmElf> {};
-    int _nOptionsLeft = 0;
+    std::vector<Card *> _optionsSelected;
 };
 
 

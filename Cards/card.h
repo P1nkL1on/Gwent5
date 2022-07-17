@@ -413,9 +413,8 @@ void pass(Field &ally, Field &enemy);
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions = {0, 1, 2, 3, 4, 5}, const RowFilters &rowFilters = {});
 /// if nWindow > 0, then its a random shuffled options out of all givne options. Mainly for create / Shupe abilities
-void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
-void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters = {}, const bool isOptional = false);
-void startChoiceSpawnOptions(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const bool isOptional = false);
+void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const int nWindow = -1, const bool isOptional = false);
+void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyCard, const int nWindow = 3, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
 

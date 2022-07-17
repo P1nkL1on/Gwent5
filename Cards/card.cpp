@@ -556,7 +556,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field)
     return RowAndPos();
 }
 
-void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
+void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
 {
     // TODO: agreagate to function choice
     Choice2 choice;
@@ -564,6 +564,7 @@ void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *>
     choice.options = options;
     choice.src = src;
     choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
     choice.nTargets = nTargets;
     choice.nWindow = nWindow;
     choice.isOptional = isOptional;
@@ -571,23 +572,7 @@ void startChoiceToSelectOption(Field &ally, Card *src, const std::vector<Card *>
     ally.cardStack2.pushChoice(choice);
 }
 
-void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
-{
-    // TODO: agreagate to function choice
-    Choice2 choice;
-    choice.type = CardOption;
-    choice.src = src;
-    choice.fieldPtrAlly = &ally;
-    choice.group = AnyCard;
-    choice.filters = filters;
-    choice.nTargets = 1;
-    choice.nWindow = 3;
-    choice.isOptional = isOptional;
-
-    ally.cardStack2.pushChoice(choice);
-}
-
-void startChoiceSpawnOptions(Field &ally, Field &enemy, Card *src, const Filters &filters, const bool isOptional)
+void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nWindow, const bool isOptional)
 {
     // TODO: agreagate to function choice
     Choice2 choice;
@@ -595,9 +580,10 @@ void startChoiceSpawnOptions(Field &ally, Field &enemy, Card *src, const Filters
     choice.src = src;
     choice.fieldPtrAlly = &ally;
     choice.fieldPtrEnemy = &enemy;
-    choice.group = AnyCard;
+    choice.group = group;
     choice.filters = filters;
     choice.nTargets = 1;
+    choice.nWindow = nWindow;
     choice.isOptional = isOptional;
 
     ally.cardStack2.pushChoice(choice);
@@ -660,7 +646,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
         playExistedCard(card, ally, enemy, nullptr);
         return;
     }
-    if (choice.type == CardTarget) {
+    if (choice.type == CardTarget || choice.type == CardOption) {
         Choice2 choiceNext = choice;
         if (card != nullptr) {
             /// remove a previously selected card
@@ -680,22 +666,21 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             assert(choice.isOptional);
         }
 
-        for (Card *card : choiceNext.optionsSelected)
-            choice.src->onTargetChoosen(card, ally, enemy);
-        return;
-    }
-    if (choice.type == CardOption) {
-        assert(choice.src != nullptr);
-        assert(choice.nTargets == 1);
+        if (choice.type == CardTarget) {
+            for (Card *card : choiceNext.optionsSelected)
+                choice.src->onTargetChoosen(card, ally, enemy);
+            return;
+        }
 
-        /// delete other options
-        for (Card *otherOption : choice.options)
-            if (otherOption != card)
-                delete otherOption;
+        if (choice.type == CardOption) {
+            for (Card *card : choiceNext.optionsSelected)
+                choice.src->onOptionChoosen(card, ally, enemy);
 
-        if (card != nullptr)
-            choice.src->onOptionChoosen(card, ally, enemy);
-        return;
+            /// delete other options
+            for (Card *card : choiceNext.options)
+                delete card;
+            return;
+        }
     }
     assert(false);
 }
