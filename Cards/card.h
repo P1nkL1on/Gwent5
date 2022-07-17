@@ -234,12 +234,9 @@ public:
     void pushChoice(const Choice2 &peekChoice);
     void popChoice();
     void trace() const;
-//    using ConstIt = std::vector<Choice2>::const_iterator;
-//    ConstIt begin() const { return _queue.begin(); }
-//    ConstIt end() const { return _queue.end(); }
-//    using It = std::vector<Choice2>::iterator;
-//    It begin() { return _queue.begin(); }
-//    It end() { return _queue.end(); }
+    using Iterator = std::vector<Choice2>::iterator;
+    Iterator begin() { return _queue.begin(); }
+    Iterator end() { return _queue.end(); }
 private:
     /// returns true if removed a first choice
     bool tryAutoResolveChoices();

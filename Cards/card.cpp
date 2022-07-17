@@ -1864,12 +1864,11 @@ void _copyFields(
     allyCopy.deckStarting = copyCards(ally.deckStarting);
     allyCopy.cardsAdded = copyCards(ally.cardsAdded);
     allyCopy.rowMeele = copyCards(ally.rowMeele);
-    // FIXME: uncomment and fix after Choice2 refactoring
-//    for (Choice2 &choice : allyCopy.cardStack2) {
-//        choice.cardSource = copyCard(choice.cardSource);
-//        choice.cardOptions = copyCards(choice.cardOptions);
-//        choice.cardOptionsSelected = copyCards(choice.cardOptionsSelected);
-//    }
+    for (Choice2 &choice : allyCopy.cardStack2) {
+        choice.src = copyCard(choice.src);
+        choice.options = copyCards(choice.options);
+        choice.optionsSelected = copyCards(choice.optionsSelected);
+    }
     enemyCopy = Field(enemy);
     enemyCopy.rowMeele = copyCards(enemy.rowMeele);
     enemyCopy.rowRange = copyCards(enemy.rowRange);

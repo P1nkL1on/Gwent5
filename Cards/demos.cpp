@@ -1041,3 +1041,37 @@ void demoTurnFinishingAndRoundFinishing(Field &ally, Field &enemy)
     // startDemo(ally, enemy, false, true);
     startNextRound(ally, enemy);
 }
+
+void demoAllTypedChoices(Field &ally, Field &enemy)
+{
+    ally.cardsAdded = {
+        new AdrenalineRush(),   // target exist
+        new MonsterNest(),      // spawn from all
+        new ZoriaRunestone(),   // create from all
+        new KeiraMetz(),        // outer option
+        new Mandrake(),         // inner option
+        new ImpenetrableFog(),  // row
+        new Aguara(),           // complex one
+
+        new OrnamentalSword(),
+        new Vreemde(),
+        new ShupesDayOff(),
+        new EredinBreaccGlas(),
+        new Vaedermakar(),
+        new GaunterODimm(),
+        new WeavessIncantation(),
+        new Hym(),
+        new LethoKingslayer(),
+        new EistTuirseach(),
+        new Moonlight(),
+
+    };
+    ally.hand = ally.cardsAdded;
+
+    auto *m1 = new ImperialManticore();
+    auto *m2 = new ImperialManticore();
+
+    enemy.cardsAdded = {m1, m2};
+    enemy.rowMeele = {m1, m2};
+    startDemo(ally, enemy);
+}
