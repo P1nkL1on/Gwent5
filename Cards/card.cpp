@@ -81,11 +81,15 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
 
 /// return filter: `can be manually selected`
 /// pass self (card source), if any
-Filters canBeSelected(Card *self)
+Filters canBeSelected(Card *self, const Field &ally, const Field &enemy)
 {
     return Filters{
-        [self](Card *card) {
-            return !card->isImmune && !card->isAmbush && (card != self);
+        [&](Card *card) {
+            if (card == self)
+                return false;
+            const bool _isOnBoard = isOnBoard(card, ally) || isOnBoard(card, enemy);
+            const bool _canBeSelectedOnBoard = !card->isImmune && !card->isAmbush;
+            return !_isOnBoard || _canBeSelectedOnBoard;
         },
     };
 }
@@ -345,6 +349,10 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+        other->onSpecialPlayed(card, ally, enemy);
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+        other->onSpecialPlayed(card, enemy, ally);
 
     // DragonsDreamEffect works here
     for (int screenRow = 0; screenRow < 6; screenRow++) {
@@ -400,6 +408,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
         card->onMoveFromRowToRow(ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
+            other->onEnemyMoved(card, enemy, ally);
         return true;
     }
 
@@ -423,8 +433,10 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
-        for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherAllyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherEnemyAppears(card, ally, enemy);
 
     } else {
         spy(card, ally, enemy, card);
@@ -434,13 +446,17 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
         } else if (takenFrom == Discard) {
             if (triggerDeploy)
                 card->onDeployFromDiscard(enemy, ally);
-            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere)) // NOTE: maybe should use ..{otherThan(card)}.. when talking about Other Ally/Enemy ?
                 other->onOtherAllyResurrecteded(card, enemy, ally);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             if (triggerDeploy)
                 card->onDeploy(enemy, ally);
         } else
             assert(false);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+            other->onOtherSpyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherSpyAppears(card, enemy, ally);
     }
 
     // TODO: others trigger enter
@@ -486,8 +502,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
-        // TODO: check if its even a case
-        assert(takenFrom == AlreadyCreated);
+        // NOTE: Eithne ability: Discard -> Discard
+        assert(takenFrom == AlreadyCreated || takenFrom == Discard);
         if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
         }
@@ -520,6 +536,17 @@ RowAndPos _findRowAndPos(const Card *card, const Field &field)
                 return RowAndPos(_row, Pos(index));
     }
     return RowAndPos();
+}
+
+int _findScreenRow(const Card *card, const Field &ally, const Field &enemy)
+{
+    if (isOnBoard(card, ally))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, ally))
+            return (toScreenRow(rowAndPos.row(), true));
+    if (isOnBoard(card, enemy))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, enemy))
+            return (toScreenRow(rowAndPos.row(), false));
+    assert(false);
 }
 
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
@@ -626,7 +653,7 @@ void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, con
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
-    const std::vector<Card *> cards = _filtered(canBeSelected(self), cardsFiltered(ally, enemy, filters, group));
+    const std::vector<Card *> cards = _filtered(canBeSelected(self, ally, enemy), cardsFiltered(ally, enemy, filters, group));
     return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
 }
 
@@ -1073,9 +1100,8 @@ void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row from = takeCard(card, ally, enemy);
     assert(from == Hand);
 
-
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
-    card->onSwap(ally, enemy);
+    // this trigger in putToDeck //card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
 
     const bool drawn = drawACard(ally, enemy);
@@ -1446,6 +1472,20 @@ Row fromScreenRow(const int screenRow, bool &isAlly)
     }
     isAlly = false;
     return Row(screenRow - 3);
+}
+
+int toScreenRow(const Row row, const bool &isAlly)
+{
+    switch (row) {
+    case Meele:
+        return isAlly ? 2 : 3;
+    case Range:
+        return isAlly ? 1 : 4;
+    case Seige:
+        return isAlly ? 0 : 5;
+    default:
+        assert(false);
+    }
 }
 
 void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect)
@@ -2206,6 +2246,18 @@ void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
         return _onOtherAllyAppears(card, ally, enemy);
 }
 
+void Card::onOtherEnemyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyAppears && !isLocked)
+        return _onOtherEnemyAppears(card, ally, enemy);
+}
+
+void Card::onOtherSpyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherSpyAppears && !isLocked)
+        return _onOtherSpyAppears(card, ally, enemy);
+}
+
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyPlayedFromHand && !isLocked)
@@ -2216,6 +2268,18 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
+{
+    if (_onSpecialPlayed && !isLocked)
+        return _onSpecialPlayed(card, ally, enemy);
+}
+
+void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)
+{
+    if (_onEnemyMoved && !isLocked)
+        return _onEnemyMoved(card, ally, enemy);
 }
 
 void Card::onOpponentPass(Field &ally, Field &enemy)
@@ -2300,6 +2364,8 @@ int half(const int x)
 void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
+    if (row == Hand)
+        card->onSwap(ally, enemy);
     assert(row != HandLeader);
     switch (deckPos) {
     case DeckPosTop:
@@ -2348,4 +2414,3 @@ int nCrewed(Card *card, Field &ally)
             ++n;
     return n;
 }
-

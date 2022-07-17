@@ -120,12 +120,12 @@
 - [ ] Dandelion
 - [x] John Natalis
 - [x] Keira Metz
-- [ ] King Foltest
+- [x] King Foltest
 - [x] King Henselt
-- [ ] King Radovid V
+- [x] King Radovid V
 - [ ] Kiyan
 - [ ] Philippa Eilhart
-- [ ] Princess Adda
+- [x] Princess Adda
 - [x] Priscilla
 - [ ] Roche: Merciless
 - [x] Seltkirk of Gulet
@@ -253,57 +253,57 @@
 
 # Scoia'tael
 
-- [ ] Aglais
-- [ ] Brouver Hoog
-- [ ] Eithne
-- [ ] Filavandrel
-- [ ] Francesca Findabair
-- [ ] Iorveth
-- [ ] Iorveth: Meditation
-- [ ] Isengrim Faoiltiarna
-- [ ] Isengrim: Outlaw
-- [ ] Ithlinne Aegli
+- [x] Aglais
+- [x] Brouver Hoog
+- [x] Eithne
+- [x] Filavandrel
+- [x] Francesca Findabair
+- [x] Iorveth
+- [x] Iorveth: Meditation
+- [x] Isengrim Faoiltiarna
+- [x] Isengrim: Outlaw
+- [x] Ithlinne Aegli
 - [x] Milva
-- [ ] Morenn: Forest Child
-- [ ] Saesenthessis
-- [ ] Saskia
-- [ ] Schirru
-- [ ] Xavier Moran
+- [ ] Morenn: Forest Child __(WTF??)__
+- [x] Saesenthessis
+- [x] Saskia
+- [x] Schirru
+- [x] Xavier Moran
 - [x] Zoltan Chivay
 - [x] Aelirenn
-- [ ] Barclay Els
-- [ ] Braenn
-- [ ] Ciaran aep Easnillen
-- [ ] Dennis Cranmer
-- [ ] Eibhear Hattori
+- [x] Barclay Els
+- [x] Braenn
+- [x] Ciaran aep Easnillen
+- [x] Dennis Cranmer
+- [x] Eibhear Hattori
 - [x] Ele'yas
-- [ ] Ida Emean aep Sivney
-- [ ] Mahakam Horn
+- [x] Ida Emean aep Sivney
+- [x] Mahakam Horn
 - [x] Malena
-- [ ] Milaen
+- [x] Milaen
 - [x] Morana Runestone
-- [ ] Morenn
-- [ ] Nature's Gift
-- [ ] Paulie Dahlberg
-- [ ] Pavko Gale
+- [x] Morenn
+- [x] Nature's Gift
+- [x] Paulie Dahlberg
+- [x] Pavko Gale
 - [x] Pit Trap
-- [ ] Sheldon Skaggs
+- [x] Sheldon Skaggs
 - [x] Toruviel
-- [ ] Yaevinn
-- [ ] Yarpen Zigrin
-- [ ] Blue Mountain Elite
-- [ ] Crushing Trap
+- [x] Yaevinn
+- [x] Yarpen Zigrin
+- [x] Blue Mountain Elite
+- [x] Crushing Trap
 - [x] Dol Blathanna Archer
-- [ ] Dol Blathanna Bomber
-- [ ] Dol Blathanna Bowman
-- [ ] Dol Blathanna Sentry
+- [x] Dol Blathanna Bomber
+- [x] Dol Blathanna Bowman
+- [x] Dol Blathanna Sentry
 - [ ] Dwarven Agitator
 - [ ] Dwarven Mercenary
 - [ ] Dwarven Skirmisher
-- [ ] Elven Blade _(easy card)_
+- [x] Elven Blade
 - [x] Elven Mercenary
-- [ ] Elven Scout
-- [ ] Elven Swordmaster
+- [x] Elven Scout
+- [x] Elven Swordmaster
 - [ ] Farseer
 - [x] Half-Elf Hunter
 - [ ] Hawker Healer
@@ -313,6 +313,7 @@
 - [ ] Mahakam Guard _(easy card)_
 - [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
+- [x] Incinerating Trap
 - [ ] Panther
 - [ ] Pyrotechnician _(easy card)_
 - [x] Sage
@@ -328,18 +329,18 @@
 
 - [ ] Assassination _(easy card)_
 - [x] Cahir Dyffryn
-- [ ] Emhyr var Emreis
+- [x] Emhyr var Emreis
 - [x] Jan Calveit
-- [ ] Leo Bonhart
+- [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
 - [ ] Menno Coehoorn _(easy card)_
-- [ ] Morvran Voorhis
+- [x] Morvran Voorhis
 - [ ] Rainfarn of Attre
 - [ ] Shilard
 - [ ] Stefan Skellen
 - [ ] Tibor Eggebracht
-- [ ] Usurper
+- [x] Usurper
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
 - [ ] Xarthisius

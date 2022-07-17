@@ -1234,3 +1234,37 @@ void demoAedirnDragon(Field &ally, Field &enemy)
 
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoLeaders(Field &ally, Field &enemy)
+{
+    auto *sc1 = new CrowsEye();
+    auto *sc2 = new Mardroeme();
+    auto *sc3 = new Mardroeme();
+    auto *mv = new ManticoreVenom();
+    auto *u = new Usurper();
+    auto *y = new Yaevinn();
+    auto *b = new Braenn();
+    auto *m1 = new Malena();
+    auto *m2 = new Morenn();
+    auto *f = new Filavandrel();
+    auto *r = new MoranaRunestone();
+    auto *s1 = new TorrentialRain();
+    auto *s2 = new GoldenFroth();
+    auto *s = new SheldonSkaggs();
+    auto *e = new Eithne();
+
+    ally.cardsAdded = {sc1, sc2, sc3, mv, u, y, b, m1, m2, f, r, s1, s2, s, e};
+    ally.hand = {sc1, u, y, b, f, s, e, m1, m2};
+    ally.deck = {sc3, s1, s2};
+    ally.discard = {sc2, mv, r};
+
+    auto *o = new Olaf();
+    auto *em1 = new Mandrake();
+    auto *emv = new ManticoreVenom();
+    enemy.cardsAdded = {o, em1, emv};
+    enemy.rowMeele = {o};
+    enemy.discard = {em1, emv};
+    enemy.passed = true;
+
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

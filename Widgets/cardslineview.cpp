@@ -1,5 +1,7 @@
 #include "cardslineview.h"
 
+#include <cmath>
+
 #include <QPaintEvent>
 #include <QtDebug>
 

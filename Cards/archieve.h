@@ -2373,4 +2373,276 @@ private:
 };
 
 
+struct PrincessAdda : CardCollectible<PrincessAdda>
+{
+    PrincessAdda();
+};
+
+
+struct KingFoltest : CardCollectible<KingFoltest>
+{
+    KingFoltest();
+};
+
+
+struct KingRadovidV : CardCollectible<KingRadovidV>
+{
+    KingRadovidV();
+};
+
+
+struct EmhyrVarEmreis : CardCollectible<EmhyrVarEmreis>
+{
+    EmhyrVarEmreis();
+};
+
+
+struct Usurper : CardCollectible<Usurper>
+{
+    Usurper();
+};
+
+
+struct BrouverHoog : CardCollectible<BrouverHoog>
+{
+    BrouverHoog();
+};
+
+
+struct Eithne : CardCollectible<Eithne>
+{
+    Eithne();
+};
+
+
+struct Filavandrel : CardCollectible<Filavandrel>
+{
+    Filavandrel();
+};
+
+
+struct FrancescaFindabair : CardCollectible<FrancescaFindabair>
+{
+    FrancescaFindabair();
+private:
+    Card *_cardToSwap = nullptr;
+};
+
+
+struct Aglais : CardCollectible<Aglais>
+{
+    Aglais();
+};
+
+
+struct Iorveth : CardCollectible<Iorveth>
+{
+    Iorveth();
+};
+
+
+struct IorvethMeditation : CardCollectible<IorvethMeditation>
+{
+    IorvethMeditation();
+private:
+    Card *_choosen = nullptr;
+};
+
+
+struct IsengrimFaoiltiarna : CardCollectible<IsengrimFaoiltiarna>
+{
+    IsengrimFaoiltiarna();
+};
+
+
+struct IsengrimOutlaw : CardCollectible<IsengrimOutlaw>
+{
+    IsengrimOutlaw();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Play : CardCollectible<Play> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct IthlinneAegli : CardCollectible<IthlinneAegli>
+{
+    IthlinneAegli();
+};
+
+
+struct Schirru : CardCollectible<Schirru>
+{
+    Schirru();
+};
+
+
+struct Saesenthessis : CardCollectible<Saesenthessis>
+{
+    Saesenthessis();
+};
+
+
+struct Saskia : CardCollectible<Saskia>
+{
+    Saskia();
+};
+
+
+struct BarclayEls : CardCollectible<BarclayEls>
+{
+    BarclayEls();
+};
+
+
+struct DennisCranmer : CardCollectible<DennisCranmer>
+{
+    DennisCranmer();
+};
+
+
+struct SheldonSkaggs : CardCollectible<SheldonSkaggs>
+{
+    SheldonSkaggs();
+};
+
+
+struct YarpenZigrin : CardCollectible<YarpenZigrin>
+{
+    YarpenZigrin();
+};
+
+
+struct Yaevinn : CardCollectible<Yaevinn>
+{
+    Yaevinn();
+private:
+    std::vector<Card *>_drawn;
+};
+
+
+struct IdaEmeanAepSivney : CardCollectible<IdaEmeanAepSivney>
+{
+    IdaEmeanAepSivney();
+};
+
+
+struct PavkoGale : CardCollectible<PavkoGale>
+{
+    PavkoGale();
+};
+
+
+struct CiaranAepEasnillen : CardCollectible<CiaranAepEasnillen>
+{
+    CiaranAepEasnillen();
+};
+
+
+struct EibhearHattori : CardCollectible<EibhearHattori>
+{
+    EibhearHattori();
+};
+
+
+struct Milaen : CardCollectible<Milaen>
+{
+    Milaen();
+};
+
+
+struct Braenn : CardCollectible<Braenn>
+{
+    Braenn();
+};
+
+
+struct Morenn : CardCollectible<Morenn>
+{
+    Morenn();
+};
+
+
+struct PaulieDahlberg : CardCollectible<PaulieDahlberg>
+{
+    PaulieDahlberg();
+};
+
+
+struct MahakamHorn : CardCollectible<MahakamHorn>
+{
+    MahakamHorn();
+private:
+    struct Create : CardCollectible<Create> {};
+    struct Strengthen : CardCollectible<Strengthen> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct NaturesGift : CardCollectible<NaturesGift>
+{
+    NaturesGift();
+};
+
+
+struct PitTrap : CardCollectible<PitTrap>
+{
+    PitTrap();
+};
+
+
+struct CrushingTrap : CardCollectible<CrushingTrap>
+{
+    CrushingTrap();
+};
+
+
+struct ElvenBlade : CardCollectible<ElvenBlade>
+{
+    ElvenBlade();
+};
+
+
+struct IncineratingTrap : CardCollectible<IncineratingTrap>
+{
+    IncineratingTrap();
+};
+
+
+struct BlueMountainElite : CardCollectible<BlueMountainElite>
+{
+    BlueMountainElite();
+};
+
+
+struct DolBlathannaBomber : CardCollectible<DolBlathannaBomber>
+{
+    DolBlathannaBomber();
+};
+
+
+struct DolBlathannaBowman : CardCollectible<DolBlathannaBowman>
+{
+    DolBlathannaBowman();
+};
+
+
+struct DolBlathannaSentry : CardCollectible<DolBlathannaSentry>
+{
+    DolBlathannaSentry();
+};
+
+
+struct ElvenScout : CardCollectible<ElvenScout>
+{
+    ElvenScout();
+};
+
+
+struct ElvenSwordmaster : CardCollectible<ElvenSwordmaster>
+{
+    ElvenSwordmaster();
+};
+
+
 #endif // CARDS_H
