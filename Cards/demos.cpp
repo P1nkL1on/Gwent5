@@ -717,11 +717,12 @@ void demoTemporaryForTests(Field &ally, Field &enemy)
     auto *t1 = new ToadPrince();
     auto *t2 = new ToadPrince();
     auto *a = new Aguara();
-    auto *at = new AguaraTrueForm();
     auto *g = new GaunterODimm;
+    auto *t = new TrialOfTheGrasses();
 
-    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
-    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, at, g};
+    ally.cardsAdded = {r, g1, g2, g3, c, b, t1, t2, a, g, t};
+    ally.hand = {r, g1, g2, g3, c, b, t1, t2, a, g, t};
+    ally.canPass = false;
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
@@ -805,20 +806,36 @@ void demoSlyzards(Field &ally, Field &enemy)
 void demoAvalach(Field &ally, Field &enemy)
 {
     const std::vector<Card *> deckStartingAlly {
-        new CiriNova(),
-        new AnCraiteArmorsmith(),
-        new AnCraiteArmorsmith(),
         new Avalach(),
         new AvalachSage(),
-    };
+        new YenneferConjurer(),
+        new Johnny(),
+        new Stregobor(),
+        new WyvernScaleShield(),
+        new MastercraftedSpear(),
+        new Mandrake(),
+        new MahakamMarauder(),
+        new TuirseachArcher(),
+        new TuirseachArcher(),
+        new TemerianDrummer(),
+        new AlbaArmoredCavalry(),
+        new Ihuarraquax(),
+        new Sarah(),
+};
 
     const std::vector<Card *> deckStartingEnemy {
         new GeraltOfRivia(),
         new CiriNova(),
         new Siren(),
         new Siren(),
+        new Siren(),
         new Nekurat(),
         new MonsterNest(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
+        new Lamia(),
         new Lamia(),
         new Lamia(),
     };
@@ -1073,5 +1090,202 @@ void demoAllTypedChoices(Field &ally, Field &enemy)
 
     enemy.cardsAdded = {m1, m2};
     enemy.rowMeele = {m1, m2};
+    startDemo(ally, enemy);
+}
+
+void demoNeutralSpecial(Field &ally, Field &enemy)
+{
+    auto *h = new HanmarvynsDream();
+    auto *b = new BlackBlood();
+    auto *br = new BekkersRockslide();
+    auto *bm = new BekkersDarkMirror();
+    auto *bf = new BitingFrost();
+    auto *g = new GoldenFroth();
+    auto *mh = new MerigoldsHailstorm();
+    auto *nm = new Necromancy();
+    auto *st = new StammelfordsTremor();
+    auto *d = new DimeritiumBomb();
+    auto *lw = new TheLastWish();
+    auto *ds = new DimeritiumShackles();
+    auto *ws = new WyvernScaleShield();
+    auto *ms = new MastercraftedSpear();
+    auto *ud = new JuttaAnDimun();
+    auto *rd = new RoyalDecree();
+    auto *uc = new UmasCurse();
+    auto *tb = new TrissButterflies();
+    auto *ye = new YenneferEnchantress();
+    auto *dop = new Doppler();
+    auto *md = new Mardroeme();
+    auto *s = new Sihil();
+    auto *dd = new DragonsDream();
+
+    auto *lead = new BranTuirseach();
+
+    ally.cardsAdded = {h, b, br, bm, bf, g, mh, nm, st, d, lw, ds, ws, ms, ud, tb, ye, dop, lead, md, s, dd};
+    ally.leader = lead;
+    ally.hand = {bf, g, lw, ds, ud, rd, uc, dop, s, dd};
+    ally.deck = {h, b, br, bm, mh, nm, st, d, ws, ms, tb, ye, md};
+
+    auto *a2 = new Abaya();
+    auto *e = new Ekimmara();
+    auto *n = new Nekker();
+    auto *u = new UnseenElder();
+    auto *w = new WoodlandSpirit();
+    auto *h1 = new HanmarvynsDream();
+
+    enemy.cardsAdded = {a2, e, n, u, w, h1};
+    enemy.rowRange = {a2, e, n};
+    enemy.discard = {u, w, h1};
+    enemy.passed = true;
+
+    startDemo(ally, enemy);
+}
+
+void demoGoldWitchers(Field &ally, Field &enemy)
+{
+    auto *e = new EskelPathfinder();
+    auto *l = new LambertSwordmaster();
+    auto *v = new VesemirMentor();
+    auto *dd = new DragonsDream();
+    auto *g = new GoldenFroth();
+    auto *c = new CrowsEye();
+
+
+    ally.cardsAdded = {e, l, v, dd, g, c};
+    ally.hand = {e, l, v, dd};
+    ally.deck = {g, c};
+
+
+    auto *a1 = new Abaya();
+    auto *a2 = new Abaya();
+    auto *a3 = new Abaya();
+    auto *a4 = new Abaya();
+    auto *n = new Nekker();
+    auto *u = new UnseenElder();
+    auto *w = new WoodlandSpirit();
+    auto *h1 = new HanmarvynsDream();
+
+    enemy.cardsAdded = {a1, a2, a3, a4, n, u, w, h1};
+    enemy.rowRange = {a1, a2, a3, a4, n};
+    enemy.discard = {u, w, h1};
+    enemy.passed = true;
+
+    startDemo(ally, enemy);
+}
+
+void demoNeutralDudes(Field &ally, Field &enemy)
+{
+    auto *o1 = new Olaf();
+    auto *o2 = new Olaf();
+    auto *o3 = new Olaf();
+    auto *o4 = new Olaf();
+    auto *o5 = new Olaf();
+    auto *r = new RegisHigherVampire();
+    auto *z = new ZoltanScoundrel();
+    auto *y = new YenneferConjurer();
+
+    ally.cardsAdded = {o1, o2, o3, o4, o5, r, z, y};
+    ally.hand = {r, z, y};
+    ally.rowMeele = {o1, o2, o3, o4, o5};
+
+    auto *e1 = new AncientFoglet();
+    auto *e2 = new Abaya();
+    auto *e3 = new Cockatrice();
+    auto *e4 = new CaranthirArFeiniel();
+    auto *e5 = new Nithral();
+    auto *e6 = new Geels();
+    auto *e7 = new WoodlandSpirit();
+    auto *e8 = new WildHuntDrakkar();
+
+    enemy.cardsAdded = {e1, e2, e3, e4, e5, e6, e7, e8};
+    enemy.deck = {e1, e2, e3};
+    enemy.rowMeele = {e4, e5, e6, e7, e8};
+    enemy.passed = true;
+
+    startDemo(ally, enemy);
+}
+
+void demoPowerChanged(Field &ally, Field &enemy)
+{
+    auto *i = new Ihuarraquax();
+    auto *mm = new MahakamMarauder();
+    auto *m1 = new Mandrake();
+    auto *m2 = new Mandrake();
+    auto *g = new GeraltYrden();
+    auto *z = new ZoltanChivay();
+    auto *v = new Villentretenmerth();
+    auto *k = new KingOfBeggars();
+    auto *iris = new IrisVonEverec();
+    auto *i2 = new Infiltrator();
+
+    ally.cardsAdded = {i, mm, m1, m2, g, z, v, k, iris, i2};
+    ally.hand = {i, mm, m1, m2, g, z, v, k, iris, i2};
+
+    auto *e1 = new Olaf();
+    auto *e2 = new Olaf();
+    auto *e3 = new Olaf();
+    auto *e4 = new Olaf();
+
+    enemy.cardsAdded = {e1, e2, e3, e4};
+    enemy.rowMeele = {e1, e2, e3, e4};
+    enemy.passed = true;
+
+    startDemo(ally, enemy);
+}
+
+void demoAedirnDragon(Field &ally, Field &enemy)
+{
+    auto *m1 = new PeasantMilitia();
+    auto *m2 = new PrizeWinningCow();
+    auto *m3 = new Mandrake();
+    auto *b1 = new BoneTalisman();
+    auto *b2 = new BoneTalisman();
+    auto *b3 = new BoneTalisman();
+    auto *s = new SaesenthessisBlaze();
+    auto *m = new Myrgtabrakke();
+
+    ally.cardsAdded = {m1, m2, m3, b1, b2, s, m};
+    ally.hand = {b1, b2, b3, s};
+    ally.deck = {m, m1, m2, m3};
+
+    auto *o = new Olaf();
+    enemy.cardsAdded = {o};
+    enemy.rowMeele = {o};
+    enemy.passed = true;
+
+    startDemo(ally, enemy);
+}
+
+void demoLeaders(Field &ally, Field &enemy)
+{
+    auto *sc1 = new CrowsEye();
+    auto *sc2 = new Mardroeme();
+    auto *sc3 = new Mardroeme();
+    auto *mv = new ManticoreVenom();
+    auto *u = new Usurper();
+    auto *y = new Yaevinn();
+    auto *b = new Braenn();
+    auto *m1 = new Malena();
+    auto *m2 = new Morenn();
+    auto *f = new Filavandrel();
+    auto *r = new MoranaRunestone();
+    auto *s1 = new TorrentialRain();
+    auto *s2 = new GoldenFroth();
+    auto *s = new SheldonSkaggs();
+    auto *e = new Eithne();
+
+    ally.cardsAdded = {sc1, sc2, sc3, mv, u, y, b, m1, m2, f, r, s1, s2, s, e};
+    ally.hand = {sc1, u, y, b, f, s, e, m1, m2};
+    ally.deck = {sc3, s1, s2};
+    ally.discard = {sc2, mv, r};
+
+    auto *o = new Olaf();
+    auto *em1 = new Mandrake();
+    auto *emv = new ManticoreVenom();
+    enemy.cardsAdded = {o, em1, emv};
+    enemy.rowMeele = {o};
+    enemy.discard = {em1, emv};
+    enemy.passed = true;
+
     startDemo(ally, enemy);
 }

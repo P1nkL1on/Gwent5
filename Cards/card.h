@@ -80,6 +80,7 @@ struct Card
     void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
     void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
     void onWeakened(const int x, Field &ally, Field &enemy, const Card *src);
+    void onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type);
     void onArmorLost(Field &ally, Field &enemy);
     void onContactWithFullMoon(Field &ally, Field &enemy);
     /// check whether self on board, in hand/deck/discard
@@ -89,8 +90,12 @@ struct Card
     void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
     void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
+    void onOtherEnemyAppears(Card *card, Field &ally, Field &enemy);
+    void onOtherSpyAppears(Card *card, Field &ally, Field &enemy);
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
+    void onSpecialPlayed(Card *card, Field &ally, Field &enemy);
+    void onEnemyMoved(Card *card, Field &ally, Field &enemy);
     void onOpponentPass(Field &ally, Field &enemy);
     void onRoundLose(Field &ally, Field &enemy);
     // TODO: test and find all the cases
@@ -118,6 +123,7 @@ protected:
     using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
     using AllyEnemyInt = std::function<void(Field &, Field &, const int)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
+    using AllyEnemySrcPowerChangeType = std::function<void(Field &, Field &, const Card *src, const PowerChangeType)>;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
     AllyEnemy _onGameStart = nullptr;
@@ -148,11 +154,16 @@ protected:
     CardAllyEnemy _onOtherAllyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyDiscarded = nullptr;
     CardAllyEnemy _onOtherAllyAppears = nullptr;
+    CardAllyEnemy _onOtherEnemyAppears = nullptr;
+    CardAllyEnemy _onOtherSpyAppears = nullptr;
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
+    CardAllyEnemy _onSpecialPlayed = nullptr;
+    CardAllyEnemy _onEnemyMoved = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
     AllyEnemySrcChangable _onConsumed = nullptr;
     AllyEnemySrcChangable _onAllyConsume = nullptr;
+    AllyEnemySrcPowerChangeType _onPowerChanged = nullptr;
 };
 
 template <class T>
@@ -302,14 +313,17 @@ bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field);
 Card *cardAtRowAndPos(const Row row, const Pos pos, const Field &field);
 Card *cardNextTo(const Card *card, const Field &ally, const Field &enemy, const int offset);
 RowAndPos _findRowAndPos(const Card *card, const Field &field);
+int _findScreenRow(const Card *card, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int offset);
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row);
+RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy);
 RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 Row fromScreenRow(const int screenRow, bool &isAlly);
+int toScreenRow(const Row row, const bool &isAlly);
 
 /// may be used as top or most-left
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);
@@ -337,6 +351,7 @@ RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
+RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
 // TODO: remove old function
 bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
@@ -358,7 +373,7 @@ void playExistedCard(Card *card, Field &ally, Field &enemy, const Card *src);
 /// spawn in a place or move from row to row
 // BUG: doesn't work with the same row (move from row X to itself)
 bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
-bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy);
+bool moveToRandomRow(Card *card, Field &ally, Field &enemy, const Card *src);
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src);
 bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
 bool summonNewUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const Card *src);
@@ -374,16 +389,17 @@ std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
-void heal(Card *card, Field &ally, Field &enemy);
-void heal(Card *card, const int x, Field &ally, Field &enemy);
+void heal(Card *card, Field &ally, Field &enemy, const Card *src);
+void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 /// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
 int half(const int x);
-void reset(Card *card, Field &ally, Field &enemy);
-void resetPower(Card *card, Field &ally, Field &enemy);
-void removeAllStatuses(Card *card, Field &ally, Field &enemy);
+void reset(Card *card, Field &ally, Field &enemy, const Card *src);
+///// NOTE: only for non-card resetings
+void resetPower(Card *card, Field &ally, Field &enemy, const Card *src);
+void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src);
 void putToHand(Card *card, Field &ally, Field &enemy);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
-void strengthen(Card *card, const int x, Field &ally, Field &enemy);
+void strengthen(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool drawACard(Field &ally, Field &enemy);

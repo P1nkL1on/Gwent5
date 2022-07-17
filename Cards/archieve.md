@@ -4,92 +4,92 @@
 - [x] Aguara
 - [x] Aguara: True Form
 - [x] Regis
-- [ ] Regis: Higher Vampire
-- [ ] Zoltan: Scoundrel
+- [x] Regis: Higher Vampire
+- [x] Zoltan: Scoundrel
 - [x] Avallac'h
 - [x] Avallac'h: Sage
 - [x] Geralt of Rivia
 - [x] Geralt: Igni
 - [x] Geralt: Aard
-- [x] Geralt: Yrden __{NOT EXECT ABILITY}__
+- [x] Geralt: Yrden
 - [x] Geralt: Professional
-- [ ] Lambert: Swordmaster
-- [ ] Vesemir: Mentor _(easy card)_
-- [ ] Eskel: Pathfinder _(easy card)_
+- [x] Lambert: Swordmaster
+- [x] Vesemir: Mentor
+- [x] Eskel: Pathfinder
 - [x] Yennefer
-- [ ] Yennefer: Conjurer
+- [x] Yennefer: Conjurer
 - [x] Ciri
 - [x] Ciri: Dash
 - [x] Ciri: Nova
-- [ ] Uma's Curse
-- [ ] Triss Merigold _(easy card)_
+- [x] Uma's Curse
+- [x] Triss Merigold
 - [x] Triss: Butterflies
-- [ ] Triss: Telekinesis
+- [x] Triss: Telekinesis __{NO ABILITY}__
 - [x] Dandelion: Poet
-- [ ] Dandelion: Vainglory
-- [ ] Hanmarvyn's Dream
+- [x] Dandelion: Vainglory
+- [x] Hanmarvyn's Dream
 - [x] Korathi Heatwave
 - [x] Ragh Nar Roog
-- [ ] Ihuarraquax
-- [ ] Phoenix _(easy card)_
-- [ ] Saesenthessis: Blaze
-- [ ] Trial of the Grasses
+- [x] Ihuarraquax
+- [x] Phoenix
+- [x] Saesenthessis: Blaze
+- [x] Trial of the Grasses
 - [x] Wolfsbane
-- [ ] Royal Decree _(easy card)_
+- [x] Royal Decree
 - [x] Renew
-- [ ] Sihil
-- [ ] Villentretenmerth
+- [x] Sihil
+- [x] Villentretenmerth
 - [x] Muzzle
-- [ ] Black Blood
-- [ ] Rock Barrage
-- [ ] King of Beggars
-- [ ] Mastercrafted Spear
-- [ ] Peasant Militia
-- [ ] Spores
+- [x] Black Blood
+- [x] Rock Barrage
+- [x] King of Beggars
+- [x] Mastercrafted Spear
+- [x] Peasant Militia
+- [x] Spores
 - [x] Glorious Hunt
 - [x] Cleaver
 - [x] Ale of the Ancestors
-- [ ] Cyprian Wiley
-- [ ] Expired Ale
-- [ ] Crow's Eye
-- [ ] Lacerate
+- [x] Cyprian Wiley
+- [x] Expired Ale
+- [x] Crow's Eye
+- [x] Lacerate
 - [x] Gaunter O'Dimm
-- [ ] Dorregaray of Vole
-- [ ] Garrison
-- [ ] Iris' Companions
-- [ ] Johnny
-- [ ] Stregobor
-- [ ] Doppler _(easy card)_
+- [x] Dorregaray of Vole
+- [x] Garrison  __{NO ABILITY}__
+- [x] Iris' Companions
+- [x] Johnny
+- [x] Stregobor
+- [x] Doppler
 - [x] Alzur's Double–Cross
 - [x] Artefact Compression
-- [ ] Bekker's Dark Mirror
-- [ ] Bekker's Rockslide
+- [x] Bekker's Dark Mirror
+- [x] Bekker's Rockslide
 - [x] Commander's Horn
 - [x] Decoy
-- [ ] Dimeritium Bomb
-- [ ] Dragon's Dream
-- [ ] Dudu
+- [x] Dimeritium Bomb
+- [x] Dragon's Dream
+- [x] Dudu
 - [x] Eskel
 - [x] Germain Piquant
-- [ ] Iris von Everec
+- [x] Iris von Everec
 - [x] Lambert
 - [x] Mandrake
 - [x] Manticore Venom
 - [x] Marching Orders
-- [ ] Merigold's Hailstorm
-- [ ] Myrgtabrakke
-- [ ] Necromancy
-- [ ] Nivellen
-- [ ] Ocvist
-- [ ] Olgierd von Everec
+- [x] Merigold's Hailstorm
+- [x] Myrgtabrakke
+- [x] Necromancy
+- [x] Nivellen
+- [x] Ocvist
+- [x] Olgierd von Everec
 - [x] Operator
-- [ ] Prize-Winning Cow
+- [x] Prize-Winning Cow  __{MAYBE NOT EXACT TOKEN}__
 - [x] Roach
-- [ ] Sarah
+- [x] Sarah
 - [x] Scorch
 - [x] Skellige Storm
-- [ ] Summoning Circle
-- [ ] The Last Wish
+- [x] Summoning Circle
+- [x] The Last Wish
 - [x] Vaedermakar
 - [x] Vesemir
 - [x] White Frost
@@ -98,21 +98,21 @@
 - [x] Arachas Venom
 - [x] Biting Frost
 - [x] Bloodcurdling Roar
-- [ ] Dimeritium Shackles _(easy card)_
+- [x] Dimeritium Shackles
 - [x] Epidemic
 - [x] First Light
 - [x] Golden Froth
 - [x] Impenetrable Fog
-- [x] Mahakam Ale _(easy card)_
-- [ ] Mardroeme
-- [ ] Petri's Philter _(easy card)_
+- [x] Mahakam Ale
+- [x] Mardroeme
+- [x] Petri's Philter
 - [x] Reconnaissance
-- [ ] Shrike _(easy card)_
-- [ ] Stammelford's Tremor
+- [x] Shrike
+- [x] Stammelford's Tremor
 - [x] Swallow
 - [x] Thunderbolt
 - [x] Torrential Rain
-- [ ] Wyvern Scale Shield _(easy card)_
+- [x] Wyvern Scale Shield
 
 # Nothern Realms
 
@@ -120,12 +120,12 @@
 - [ ] Dandelion
 - [x] John Natalis
 - [x] Keira Metz
-- [ ] King Foltest
+- [x] King Foltest
 - [x] King Henselt
-- [ ] King Radovid V
+- [x] King Radovid V
 - [ ] Kiyan
 - [ ] Philippa Eilhart
-- [ ] Princess Adda
+- [x] Princess Adda
 - [x] Priscilla
 - [ ] Roche: Merciless
 - [x] Seltkirk of Gulet
@@ -253,57 +253,57 @@
 
 # Scoia'tael
 
-- [ ] Aglais
-- [ ] Brouver Hoog
-- [ ] Eithne
-- [ ] Filavandrel
-- [ ] Francesca Findabair
-- [ ] Iorveth
-- [ ] Iorveth: Meditation
-- [ ] Isengrim Faoiltiarna
-- [ ] Isengrim: Outlaw
-- [ ] Ithlinne Aegli
+- [x] Aglais
+- [x] Brouver Hoog
+- [x] Eithne
+- [x] Filavandrel
+- [x] Francesca Findabair
+- [x] Iorveth
+- [x] Iorveth: Meditation
+- [x] Isengrim Faoiltiarna
+- [x] Isengrim: Outlaw
+- [x] Ithlinne Aegli
 - [x] Milva
-- [ ] Morenn: Forest Child
-- [ ] Saesenthessis
-- [ ] Saskia
-- [ ] Schirru
-- [ ] Xavier Moran
-- [ ] Zoltan Chivay
+- [ ] Morenn: Forest Child __(WTF??)__
+- [x] Saesenthessis
+- [x] Saskia
+- [x] Schirru
+- [x] Xavier Moran
+- [x] Zoltan Chivay
 - [x] Aelirenn
-- [ ] Barclay Els
-- [ ] Braenn
-- [ ] Ciaran aep Easnillen
-- [ ] Dennis Cranmer
-- [ ] Eibhear Hattori
+- [x] Barclay Els
+- [x] Braenn
+- [x] Ciaran aep Easnillen
+- [x] Dennis Cranmer
+- [x] Eibhear Hattori
 - [x] Ele'yas
-- [ ] Ida Emean aep Sivney
-- [ ] Mahakam Horn
+- [x] Ida Emean aep Sivney
+- [x] Mahakam Horn
 - [x] Malena
-- [ ] Milaen
+- [x] Milaen
 - [x] Morana Runestone
-- [ ] Morenn
-- [ ] Nature's Gift
-- [ ] Paulie Dahlberg
-- [ ] Pavko Gale
+- [x] Morenn
+- [x] Nature's Gift
+- [x] Paulie Dahlberg
+- [x] Pavko Gale
 - [x] Pit Trap
-- [ ] Sheldon Skaggs
+- [x] Sheldon Skaggs
 - [x] Toruviel
-- [ ] Yaevinn
-- [ ] Yarpen Zigrin
-- [ ] Blue Mountain Elite
-- [ ] Crushing Trap
+- [x] Yaevinn
+- [x] Yarpen Zigrin
+- [x] Blue Mountain Elite
+- [x] Crushing Trap
 - [x] Dol Blathanna Archer
-- [ ] Dol Blathanna Bomber
-- [ ] Dol Blathanna Bowman
-- [ ] Dol Blathanna Sentry
+- [x] Dol Blathanna Bomber
+- [x] Dol Blathanna Bowman
+- [x] Dol Blathanna Sentry
 - [ ] Dwarven Agitator
 - [ ] Dwarven Mercenary
 - [ ] Dwarven Skirmisher
-- [ ] Elven Blade _(easy card)_
+- [x] Elven Blade
 - [x] Elven Mercenary
-- [ ] Elven Scout
-- [ ] Elven Swordmaster
+- [x] Elven Scout
+- [x] Elven Swordmaster
 - [ ] Farseer
 - [x] Half-Elf Hunter
 - [ ] Hawker Healer
@@ -311,8 +311,9 @@
 - [ ] Hawker Support
 - [ ] Mahakam Defender _(easy card)_
 - [ ] Mahakam Guard _(easy card)_
-- [ ] Mahakam Marauder
+- [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
+- [x] Incinerating Trap
 - [ ] Panther
 - [ ] Pyrotechnician _(easy card)_
 - [x] Sage
@@ -328,23 +329,23 @@
 
 - [ ] Assassination _(easy card)_
 - [x] Cahir Dyffryn
-- [ ] Emhyr var Emreis
+- [x] Emhyr var Emreis
 - [x] Jan Calveit
-- [ ] Leo Bonhart
+- [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
 - [ ] Menno Coehoorn _(easy card)_
-- [ ] Morvran Voorhis
+- [x] Morvran Voorhis
 - [ ] Rainfarn of Attre
 - [ ] Shilard
 - [ ] Stefan Skellen
 - [ ] Tibor Eggebracht
-- [ ] Usurper
+- [x] Usurper
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
 - [ ] Xarthisius
-- [ ] Yennefer: Enchantress
-- [ ] Yennefer: Necromancer
+- [x] Yennefer: Enchantress
+- [x] Yennefer: Necromancer
 - [ ] Albrich
 - [ ] Assire var Anahid
 - [x] Auckes

@@ -32,8 +32,14 @@ enum Tag
     Relict,
     Vampire,
     Construct,
+    Ogroid,
+    Insectoid,
+    Necrophage,
+    Draconid,
+    Vodyanoi,
     Elf,
     Dwarf,
+    Dryad,
     Aedirn,
     Temeria,
     Redania,
@@ -46,11 +52,6 @@ enum Tag
     ClanTordarroch,
     ClanTuirseach,
     ClanDrummond,
-    Ogroid,
-    Insectoid,
-    Necrophage,
-    Draconid,
-    Vodyanoi,
 
     Cursed,
     Support,
@@ -151,6 +152,14 @@ enum DeckPos
 };
 
 
+enum PowerChangeType
+{
+    Damage,
+    Reset,
+    Boost
+};
+
+
 enum ActionType
 {
     Invalid,
@@ -175,7 +184,14 @@ enum ActionType
     DealDamage,
     Damaged,
     DamagedInArmor,
+    Weakened,
+    ResetAsInDeckBuilder,
+    ResetInPower,
+    StrippedOfAllStatuses,
     Boosted,
+    Strengthened,
+    Healed,
+    HealedBy,
     GainArmor,
     MoveFromRowToRow,
     TimerSet,

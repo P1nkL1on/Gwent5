@@ -81,11 +81,15 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
 
 /// return filter: `can be manually selected`
 /// pass self (card source), if any
-Filters canBeSelected(Card *self)
+Filters canBeSelected(Card *self, const Field &ally, const Field &enemy)
 {
     return Filters{
-        [self](Card *card) {
-            return !card->isImmune && !card->isAmbush && (card != self);
+        [&](Card *card) {
+            if (card == self)
+                return false;
+            const bool _isOnBoard = isOnBoard(card, ally) || isOnBoard(card, enemy);
+            const bool _canBeSelectedOnBoard = !card->isImmune && !card->isAmbush;
+            return !_isOnBoard || _canBeSelectedOnBoard;
         },
     };
 }
@@ -177,6 +181,8 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
     field.hand = std::vector<Card *>();
     field.deck = std::vector<Card *>();
     field.discard = std::vector<Card *>();
+    field.cardsAppeared = std::vector<Card *>();
+    field.cardsAppearedBoth = std::vector<Card *>();
     field.leader = nullptr;
 
     field.cardStack2 = CardStack();
@@ -252,7 +258,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowAlly)
             if (!card->isResilient) {
                 takeCard(card, ally, enemy);
-                resetPower(card, ally, enemy);
+                resetPower(card, ally, enemy, nullptr);
                 ally.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -264,7 +270,7 @@ void startNextRound(Field &ally, Field &enemy)
         for (Card *card : rowEnemy)
             if (!card->isResilient) {
                 takeCard(card, enemy, enemy);
-                resetPower(card, ally, enemy);
+                resetPower(card, ally, enemy, nullptr);
                 enemy.discard.push_back(card);
             } else {
                 card->isResilient = false;
@@ -354,6 +360,20 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+        other->onSpecialPlayed(card, ally, enemy);
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+        other->onSpecialPlayed(card, enemy, ally);
+
+    // DragonsDreamEffect works here
+    for (int screenRow = 0; screenRow < 6; screenRow++) {
+        if (rowEffectInSreenRow(ally, enemy, screenRow) != DragonsDreamEffect)
+            continue;
+        const std::vector<Card *> rowFiltered = cardsInRow(ally, enemy, screenRow);
+        for (Card *card : rowFiltered)
+            damage(card, 4, ally, enemy, nullptr);
+        applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+    }
 }
 
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src)
@@ -399,6 +419,8 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         saveFieldsSnapshot(ally, enemy, MoveFromRowToRow, src, {card}, randomSound(card, ally.rng));
         card->onMoveFromRowToRow(ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
+            other->onEnemyMoved(card, enemy, ally);
         return true;
     }
 
@@ -422,8 +444,10 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
             assert(false);
-        for (Card *other : cardsFiltered(ally, enemy, {}, AllyAnywhere))
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherAllyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherEnemyAppears(card, ally, enemy);
 
     } else {
         spy(card, ally, enemy, card);
@@ -433,13 +457,17 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
         } else if (takenFrom == Discard) {
             if (triggerDeploy)
                 card->onDeployFromDiscard(enemy, ally);
-            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere))
+            for (Card *other : cardsFiltered(enemy, ally, {}, AllyAnywhere)) // NOTE: maybe should use ..{otherThan(card)}.. when talking about Other Ally/Enemy ?
                 other->onOtherAllyResurrecteded(card, enemy, ally);
         } else if (takenFrom == Hand || takenFrom == AlreadyCreated || takenFrom == HandLeader) {
             if (triggerDeploy)
                 card->onDeploy(enemy, ally);
         } else
             assert(false);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+            other->onOtherSpyAppears(card, ally, enemy);
+        for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
+            other->onOtherSpyAppears(card, enemy, ally);
     }
 
     // TODO: others trigger enter
@@ -460,7 +488,7 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         std::swap(cardAlly, cardEnemy);
 
     if (!card->isSpecial)
-        resetPower(card, ally, enemy);
+        resetPower(card, ally, enemy, nullptr);
 
     if (takenFrom == Meele || takenFrom == Range || takenFrom == Seige) {
         assert(!card->isSpecial);
@@ -485,8 +513,8 @@ void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
         for (Card *other : cardsFiltered(*cardAlly, *cardEnemy, {}, AllyAnywhere))
             other->onOtherAllyDiscarded(card, *cardAlly, *cardEnemy);
     } else {
-        // TODO: check if its even a case
-        assert(takenFrom == AlreadyCreated);
+        // NOTE: Eithne ability: Discard -> Discard
+        assert(takenFrom == AlreadyCreated || takenFrom == Discard);
         if (mayPutOnDiscard) {
             cardAlly->discard.push_back(card);
         }
@@ -521,6 +549,17 @@ RowAndPos _findRowAndPos(const Card *card, const Field &field)
     return RowAndPos();
 }
 
+int _findScreenRow(const Card *card, const Field &ally, const Field &enemy)
+{
+    if (isOnBoard(card, ally))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, ally))
+            return (toScreenRow(rowAndPos.row(), true));
+    if (isOnBoard(card, enemy))
+        if (RowAndPos rowAndPos = _findRowAndPos(card, enemy))
+            return (toScreenRow(rowAndPos.row(), false));
+    assert(false);
+}
+
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
 {
     assert(offset > 0);
@@ -538,6 +577,15 @@ RowAndPos rowAndPosToTheLeft(const Card *card, const Field &field, const int off
 RowAndPos rowAndPosLastInExactRow(const Field &field, const Row row)
 {
     return field.lastPosInARow(row);
+}
+
+RowAndPos rowAndPosLastInExactRow(const int screenRow, const Field &ally, const Field &enemy)
+{
+    bool isAlly;
+    Row row = fromScreenRow(screenRow, isAlly);
+    if (isAlly)
+        return ally.lastPosInARow(row);
+    return enemy.lastPosInARow(row);
 }
 
 RowAndPos rowAndPosLastInTheOppositeRow(const Card *card, const Field &ally, const Field &enemy)
@@ -1031,9 +1079,8 @@ void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row from = takeCard(card, ally, enemy);
     assert(from == Hand);
 
-
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
-    card->onSwap(ally, enemy);
+    // this trigger in putToDeck //card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
 
     const bool drawn = drawACard(ally, enemy);
@@ -1091,6 +1138,7 @@ bool damage(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 
     if (card->power > 0) {
         card->onDamaged(dmgInPower, ally, enemy, src);
+        card->onPowerChanged(ally, enemy, src, Damage);
         return false;
     }
 
@@ -1107,9 +1155,12 @@ void drain(Card *target, const int x, Field &ally, Field &enemy, Card *self)
     const int powerDrained =  std::min(target->power, x);
     target->power -= powerDrained;
     self->power += powerDrained;
+    saveFieldsSnapshot(ally, enemy, Damaged, self, {target}, "", powerDrained);
+    saveFieldsSnapshot(ally, enemy, Boosted, self, {self}, "", powerDrained);
     // TODO: trigger other on boosted
     if (target->power > 0) {
         target->onDamaged(powerDrained, ally, enemy, self);
+        target->onPowerChanged(ally, enemy, self, Damage);
         // TODO: trigger other on damaged
         return;
     }
@@ -1134,28 +1185,34 @@ int consume(Card *target, Field &ally, Field &enemy, Card *src)
     return powerConsumed;
 }
 
-void heal(Card *card, Field &, Field &)
+void heal(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
-    if (card->power < card->powerBase)
+    if (card->power < card->powerBase) {
         card->power = card->powerBase;
+        saveFieldsSnapshot(ally, enemy, Healed, src, {card});
+        card->onPowerChanged(ally, enemy, src, Boost);
+    }
 }
 
-void heal(Card *card, const int x, Field &, Field &)
+void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
     if (card->power < card->powerBase) {
         const int boost = std::min(x, card->powerBase - card->power);
         card->power += boost;
+        saveFieldsSnapshot(ally, enemy, HealedBy, src, {card}, "", x);
+        card->onPowerChanged(ally, enemy, src, Boost);
+
         // TODO: check if heal is actually a boost
         // in case of triggers and other stuff.
         // probably, its correct to call `boost` here instead
     }
 }
 
-void reset(Card *card, Field &, Field &)
+void reset(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
@@ -1174,20 +1231,25 @@ void reset(Card *card, Field &, Field &)
     // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
     delete(copy);
+    card->onPowerChanged(ally, enemy, src, Reset);
+    saveFieldsSnapshot(ally, enemy, ResetAsInDeckBuilder, src, {card});
 }
 
-void resetPower(Card *card, Field &ally, Field &enemy)
+void resetPower(Card *card, Field &ally, Field &enemy, const Card *src)
 {
+    // NOTE: only for non-card resetings of power - between-rounds and in-game put on discard cases
     card->power = card->powerBase;
+    saveFieldsSnapshot(ally, enemy, ResetInPower, src, {card});
 }
 
-void removeAllStatuses(Card *card, Field &ally, Field &enemy)
+void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     // TODO: determine all the statuses we may clear and replace them here
     card->isSpy = false;
     card->isResilient = false;
     card->isLocked = false;
     card->isImmune = false;
+    saveFieldsSnapshot(ally, enemy, StrippedOfAllStatuses, src, {card});
 }
 
 void putToHand(Card *card, Field &ally, Field &enemy)
@@ -1219,16 +1281,21 @@ void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     card->power += x;
     saveFieldsSnapshot(ally, enemy, Boosted, src, {card}, "", x);
 
+    card->onBoost(x, ally, enemy);
+    card->onPowerChanged(ally, enemy, src, Boost);
+
     // TODO: others trigger on boosted
 }
 
-void strengthen(Card *card, const int x, Field &ally, Field &enemy)
+void strengthen(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 {
     assert(x > 0);
     assert(!card->isSpecial);
 
     card->power += x;
     card->powerBase += x;
+    saveFieldsSnapshot(ally, enemy, Strengthened, src, {card}, "", x);
+    card->onPowerChanged(ally, enemy, src, Boost);
 
 //    ally.snapshots.push_back(new Animation("", Animation::StrengthenText, card));
 
@@ -1243,6 +1310,7 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     card->power -= x;
     card->powerBase -= x;
 
+    saveFieldsSnapshot(ally, enemy, Weakened, src, {card}, "", x);
 //    ally.snapshots.push_back(new Animation("", Animation::WeakenText, card));
 
     if (card->powerBase <= 0) {
@@ -1251,6 +1319,8 @@ bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
     }
 
     card->onWeakened(x, ally, enemy, src);
+    card->onPowerChanged(ally, enemy, src, Damage);
+
     return false;
 }
 
@@ -1398,6 +1468,20 @@ Row fromScreenRow(const int screenRow, bool &isAlly)
     }
     isAlly = false;
     return Row(screenRow - 3);
+}
+
+int toScreenRow(const Row row, const bool &isAlly)
+{
+    switch (row) {
+    case Meele:
+        return isAlly ? 2 : 3;
+    case Range:
+        return isAlly ? 1 : 4;
+    case Seige:
+        return isAlly ? 0 : 5;
+    default:
+        assert(false);
+    }
 }
 
 void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEffect rowEffect)
@@ -1654,9 +1738,8 @@ void spy(Card *card, Field &ally, Field &enemy, const Card *src)
 
 bool tick(Card *card, Field &ally, Field &enemy, const int resetTo)
 {
-    if (card->timer != 0 && card->timer >= 0) {
+    if (card->timer > 0)
         card->timer--;
-    }
 
     if (card->timer == -1)
         return false;
@@ -1774,7 +1857,7 @@ bool moveExistedUnitToPos(Card *card, const RowAndPos &rowAndPos, Field &ally, F
     return playCard2(card, ally, enemy, src, false, rowAndPos, false);
 }
 
-bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
+bool moveToRandomRow(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     std::vector<Row> possibleRows;
     const Row rowCurrent = _findRowAndPos(card, ally).row();
@@ -1790,7 +1873,7 @@ bool moveSelfToRandomRow(Card *card, Field &ally, Field &enemy)
 
     const Row rowNext = possibleRows[ally.rng() % possibleRows.size()];
     const RowAndPos rowAndPosNext(rowNext, Pos(ally.row(rowNext).size()));
-    return moveExistedUnitToPos(card, rowAndPosNext, ally, enemy, card);
+    return moveExistedUnitToPos(card, rowAndPosNext, ally, enemy, src);
 }
 
 void spawnNewCard(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -2089,6 +2172,12 @@ void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
         return _onWeakened(x, ally, enemy, src);
 }
 
+void Card::onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type)
+{
+    if (_onPowerChanged && !isLocked)
+        return _onPowerChanged(ally, enemy, src, type);
+}
+
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
 {
     if (_onRevealed && !isLocked)
@@ -2149,6 +2238,18 @@ void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
         return _onOtherAllyAppears(card, ally, enemy);
 }
 
+void Card::onOtherEnemyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherEnemyAppears && !isLocked)
+        return _onOtherEnemyAppears(card, ally, enemy);
+}
+
+void Card::onOtherSpyAppears(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOtherSpyAppears && !isLocked)
+        return _onOtherSpyAppears(card, ally, enemy);
+}
+
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyPlayedFromHand && !isLocked)
@@ -2159,6 +2260,18 @@ void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
         return _onOtherAllyResurrecteded(card, ally, enemy);
+}
+
+void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
+{
+    if (_onSpecialPlayed && !isLocked)
+        return _onSpecialPlayed(card, ally, enemy);
+}
+
+void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)
+{
+    if (_onEnemyMoved && !isLocked)
+        return _onEnemyMoved(card, ally, enemy);
 }
 
 void Card::onOpponentPass(Field &ally, Field &enemy)
@@ -2199,6 +2312,14 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
     return NoRowEffect;
 }
 
+
+RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow)
+{
+    bool isAlly;
+    const Row row = fromScreenRow(screenRow, isAlly);
+    return isAlly ? ally.rowEffect(row) : enemy.rowEffect(row);
+}
+
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts)
 {
     std::vector<Card *> res;
@@ -2235,6 +2356,8 @@ int half(const int x)
 void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
+    if (row == Hand)
+        card->onSwap(ally, enemy);
     assert(row != HandLeader);
     switch (deckPos) {
     case DeckPosTop:
@@ -2421,7 +2544,7 @@ bool CardStack::tryAutoResolveChoices()
         assert(choice.fieldPtrEnemy != nullptr);
         assert(choice.src != nullptr);
         const std::vector<Card *> filtered = cardsFiltered(*choice.fieldPtrAlly, *choice.fieldPtrEnemy, choice.filters, choice.group);
-        choice.options = _filtered(canBeSelected(choice.src), filtered);
+        choice.options = _filtered(canBeSelected(choice.src, *choice.fieldPtrAlly, *choice.fieldPtrEnemy), filtered);
 
         /// at this stage, it can left no viable options, anyway.
         /// in this case, or in case number of options match `nTargets`
