@@ -185,7 +185,7 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
     field.cardsAppearedBoth = std::vector<Card *>();
     field.leader = nullptr;
 
-    field.cardStack = std::vector<Choice>();
+    field.cardStack2 = CardStack();
     field.snapshots = std::vector<FieldView>();
     field.nTurns = 0;
     field.nRounds = 0;
@@ -208,7 +208,12 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
 
 void startNextRound(Field &ally, Field &enemy)
 {
-    /// if prev round wasn't first, and no winner already, check winners
+    /// BUG: Incorrect autosolving muligan choice and card play choice
+    /// in first case the game should continue, in the second player should
+    /// pass automaticly. In either case now nothing happens
+    ///
+    /// check winners:
+    /// if prev round wasn't first, and no winner already, then check it
     if (ally.nWins == 2 || enemy.nWins == 2)
         return;
     if (ally.nRounds) {
@@ -307,7 +312,13 @@ void startNextRound(Field &ally, Field &enemy)
     enemy.nSwaps = nSwap;
 
     // TODO: flip a coin to determine first player
-    ally.cardStack.push_back(Choice(RoundStartSwap, nullptr, ally.hand, ally.nSwaps, true));
+    // TODO: agreagate to function: mulligan choice
+    Choice2 choice;
+    choice.type = CardRoundStartSwap;
+    choice.options = ally.hand;
+    choice.nTargets = nSwap;
+    choice.isOptional = true;
+    ally.cardStack2.pushChoice(choice);
 }
 
 void shuffle(std::vector<Card *> &cards, Rng &rng)
@@ -593,165 +604,131 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field)
     return RowAndPos();
 }
 
-void startChoiceToSelectOption(Field &ally, Card *self, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
+void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const int nWindow, const bool isOptional)
 {
-    assert(self != nullptr);
-    assert(self->_options.size() == 0);
-    assert(options.size() != 0);
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardOption;
+    choice.options = options;
+    choice.src = src;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.nTargets = nTargets;
+    choice.nWindow = nWindow;
+    choice.isOptional = isOptional;
 
-    const int nOptions = int(options.size());
-
-    /// if no window given -> show all options
-    /// if window is to wide, then show all options as well
-    if ((nWindow < 0) || (nOptions <= nWindow)) {
-        self->_options = options;
-        ally.cardStack.push_back(Choice(Target, self, options, nTargets, true));
-        return;
-    }
-
-    assert(nWindow > 1);
-    std::vector<Card *> optionsShuffled = options;
-    shuffle(optionsShuffled, ally.rng);
-
-    /// remove last nTargets - nWindow
-    for (int i = nWindow; i < nOptions; ++i)
-        delete optionsShuffled.at(size_t(i));
-    optionsShuffled.resize(size_t(nWindow));
-
-    self->_options = optionsShuffled;
-    ally.cardStack.push_back(Choice(Target, self, optionsShuffled, nTargets, isOptional));
+    ally.cardStack2.pushChoice(choice);
 }
 
-void startChoiceCreateOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
+void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nWindow, const bool isOptional)
 {
-    // TODO: empty allCards, so not implemented
-    assert(src != nullptr);
-    assert(src->_options.size() == 0);
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardOption;
+    choice.src = src;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.group = group;
+    choice.filters = filters;
+    choice.nTargets = 1;
+    choice.nWindow = nWindow;
+    choice.isOptional = isOptional;
 
-    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
-    shuffle(options, ally.rng);
-
-    for (size_t i = 3; i < options.size(); ++i)
-        delete options.at(size_t(i));
-    options.resize(3);
-
-    src->_options = options;
-    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
+    ally.cardStack2.pushChoice(choice);
 }
 
-void startChoiceSpawnOptions(Field &ally, Card *src, const Filters &filters, const bool isOptional)
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
 {
-    assert(src != nullptr);
-    assert(src->_options.size() == 0);
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardTarget;
+    choice.src = src;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.group = group;
+    choice.filters = filters;
+    choice.nTargets = nTargets;
+    choice.isOptional = isOptional;
 
-    std::vector<Card *> options = _filtered(filters, allCards(src->patch));
-    shuffle(options, ally.rng);
-
-    src->_options = options;
-    ally.cardStack.push_back(Choice(Target, src, options, 1, isOptional));
+    ally.cardStack2.pushChoice(choice);
 }
 
-void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
+void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
 {
-    const std::vector<Card *> cards = _filtered(canBeSelected(self, ally, enemy), cardsFiltered(ally, enemy, filters, group));
-    return startChoiceToTargetCard(ally, enemy, self, cards, nTargets, isOptional);
-}
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardTarget;
+    choice.src = src;
+    choice.options = options;
+    choice.nTargets = nTargets;
+    choice.isOptional = isOptional;
 
-void startChoiceToTargetCard(Field &ally, Field &enemy, Card *self, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
-{
-    // BUG: actually filtering existed cards must be performed
-    // when the Choice is at the start of the list. So, its to early
-    // to filter it when it only gets included to the list. So
-    // choices must be stored with original options and be able
-    // to find its options only at the start. Except Choice is created
-    // w/ options already
-    ally.cardStack.push_back(Choice(Target, self, options, nTargets, isOptional));
-
-    // BUG: actually autoresolving must be done not only when adding a new
-    // Choice, but as well each time it moves to the next one in the queue
-    /// clean excess automatic choices
-    while (true) {
-        const Choice choice = ally.choice();
-        if ((choice.choiceType == SelectRow)
-                || (choice.choiceType == SelectAllyRowAndPos)
-                || (choice.choiceType == SelectEnemyRowAndPos))
-            break;
-        if (choice.isOptional && choice.cardOptions.size() > 0)
-            break;
-        if (int(choice.cardOptions.size()) > choice.nTargets)
-            break;
-
-        ally.takeChoice();
-        for (Card *card : choice.cardOptions)
-            self->onTargetChoosen(card, ally, enemy);
-        if (ally.cardStack.size() == 0)
-            break;
-    }
+    ally.cardStack2.pushChoice(choice);
 }
 
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
 {
-    std::vector<int> screenRowsFiltered;
-
-    for (const int screenRow : screenRowsOptions) {
-        bool isAlly;
-        const Row row = fromScreenRow(screenRow, isAlly);
-        const std::vector<Card *> cardsInRow = (isAlly ? &ally : &enemy)->row(row);
-        bool isOk = true;
-        for (const std::function<bool(const std::vector<Card *> &)> &filter : rowFilters)
-            if (!filter(cardsInRow)) {
-                isOk = false;
-                break;
-            }
-        if (!isOk)
-            continue;
-        screenRowsFiltered.push_back(screenRow);
-    }
-
-    if (screenRowsFiltered.size() == 0)
-        return;
-
-    Choice choice(SelectRow, self);
-    choice.valuesOptions = screenRowsFiltered;
-    ally.cardStack.push_back(choice);
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = RowSelect;
+    choice.screenRows = screenRowsOptions;
+    choice.screenRowFilters = rowFilters;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.src = self;
+    ally.cardStack2.pushChoice(choice);
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
-    const Choice choice = ally.takeChoice();
+    const Choice2 choice = ally.cardStack2.peekChoice();
+    ally.cardStack2.popChoice();
 
-    if (choice.choiceType == RoundStartPlay) {
+    if (choice.type == CardRoundStartPlay) {
         /// passed
         if (card == nullptr) {
             pass(ally, enemy);
             return;
         }
         assert(choice.nTargets == 1);
-        return playExistedCard(card, ally, enemy, nullptr);
+        playExistedCard(card, ally, enemy, nullptr);
+        return;
     }
-    if (choice.choiceType == Target) {
-        Choice choiceNext = choice;
+    if (choice.type == CardTarget || choice.type == CardOption) {
+        Choice2 choiceNext = choice;
         if (card != nullptr) {
             /// remove a previously selected card
-            for (size_t j = 0; j < choiceNext.cardOptions.size(); ++j)
-                if (choiceNext.cardOptions.at(j) == card) {
-                    choiceNext.cardOptions.erase(choiceNext.cardOptions.begin() + int(j));
+            for (size_t j = 0; j < choiceNext.options.size(); ++j)
+                if (choiceNext.options.at(j) == card) {
+                    choiceNext.options.erase(choiceNext.options.begin() + int(j));
                     break;
                 }
             /// add it to selected cards
-            choiceNext.cardOptionsSelected.push_back(card);
+            choiceNext.optionsSelected.push_back(card);
 
-            if ((int(choiceNext.cardOptionsSelected.size()) < choiceNext.nTargets) && (choiceNext.cardOptions.size() > 0)) {
-                ally.cardStack.push_back(choiceNext);
+            if ((int(choiceNext.optionsSelected.size()) < choiceNext.nTargets) && (choiceNext.options.size() > 0)) {
+                ally.cardStack2.pushChoice(choiceNext);
                 return;
             }
         } else {
             assert(choice.isOptional);
         }
 
-        for (Card *card : choiceNext.cardOptionsSelected)
-            choice.cardSource->onTargetChoosen(card, ally, enemy);
-        return;
+        if (choice.type == CardTarget) {
+            for (Card *card : choiceNext.optionsSelected)
+                choice.src->onTargetChoosen(card, ally, enemy);
+            return;
+        }
+
+        if (choice.type == CardOption) {
+            for (Card *card : choiceNext.optionsSelected)
+                choice.src->onOptionChoosen(card, ally, enemy);
+
+            /// delete other options
+            for (Card *card : choiceNext.options)
+                delete card;
+            return;
+        }
     }
     assert(false);
 }
@@ -761,14 +738,17 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
     // TODO: moved a card to be placed to the options instead of
     // src. and move src to player/
 
-    const Choice Choice = ally.takeChoice();
-    if (Choice.choiceType == SelectAllyRowAndPos) {
-        _putOnField(Choice.cardSource, rowAndPos, ally, enemy, true, nullptr);
+    const Choice2 choice = ally.cardStack2.peekChoice();
+
+    if (choice.type == RowAndPosAlly) {
+        _putOnField(choice.src, rowAndPos, ally, enemy, true, nullptr);
+        ally.cardStack2.popChoice();
         return;
     }
 
-    if (Choice.choiceType == SelectEnemyRowAndPos) {
-        _putOnField(Choice.cardSource, rowAndPos, enemy, ally, true, nullptr);
+    if (choice.type == RowAndPosEnemy) {
+        _putOnField(choice.src, rowAndPos, enemy, ally, true, nullptr);
+        ally.cardStack2.popChoice();
         return;
     }
 
@@ -777,21 +757,29 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
 
 void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
 {
-    const Choice choice = ally.takeChoice();
-    assert(choice.choiceType == SelectRow);
-    return choice.cardSource->onTargetRowChoosen(ally, enemy, screenRow);
+    const Choice2 choice = ally.cardStack2.peekChoice();
+    assert(choice.type == RowSelect);
+    choice.src->onTargetRowChoosen(ally, enemy, screenRow);
+    ally.cardStack2.popChoice();
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 {
-    const Choice choice = ally.takeChoice();
-    assert(choice.choiceType == RoundStartSwap);
+    const Choice2 choicePopped = ally.cardStack2.peekChoice();
+    ally.cardStack2.popChoice();
+    assert(choicePopped.type == CardRoundStartSwap);
 
     if (card != nullptr) {
         swapACard(card, ally, enemy, nullptr);
 
-        if (choice.nTargets > 1) {
-            ally.cardStack.push_back(Choice(RoundStartSwap, choice.cardSource, ally.hand, choice.nTargets - 1, choice.isOptional));
+        if (choicePopped.nTargets > 1) {
+            // TODO: agregate muligan choice
+            Choice2 choice;
+            choice.type = CardRoundStartSwap;
+            choice.options = ally.hand;
+            choice.nTargets = choicePopped.nTargets - 1;
+            choice.isOptional = true;
+            ally.cardStack2.pushChoice(choice);
             return;
         }
     }
@@ -802,7 +790,15 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
     std::vector<Card *> cardsToPlay = ally.hand;
     if (ally.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, ally.canPass));
+
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardRoundStartPlay;
+    choice.options = cardsToPlay;
+    choice.nTargets = 1;
+    choice.isOptional = ally.canPass;
+    ally.cardStack2.pushChoice(choice);
+
     saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
 }
 
@@ -916,6 +912,9 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == BothAppeared)
             return ally.cardsAppearedBoth;
 
+        if (group == AnyCard)
+            return allCards(PublicBeta_0_9_24_3_432);
+
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
     }();
@@ -986,26 +985,6 @@ Card *findCopy(const Card *card, const std::vector<Card *> &cards)
         return nullptr;
 
     return res[0];
-}
-
-const Choice &Field::choice() const
-{
-    assert(cardStack.size() > 0);
-    return cardStack.front();
-}
-
-Choice &Field::choice()
-{
-    assert(cardStack.size() > 0);
-    return cardStack.front();
-}
-
-Choice Field::takeChoice()
-{
-    assert(cardStack.size() > 0);
-    Choice res = cardStack.front();
-    cardStack.erase(cardStack.begin());
-    return res;
 }
 
 RowAndPos Field::lastPosInARow(const Row _row) const
@@ -1362,29 +1341,32 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
         if (res.size() > 0)
             res += " -> ";
         switch (choice.choiceType) {
-        case RoundStartPlay:
+        case CardRoundStartPlay:
             res += "Choose a card to play";
             break;
-        case SelectAllyRowAndPos:
+        case RowAndPosAlly:
             res += "Choose an allied row and pos";
             break;
-        case SelectEnemyRowAndPos:
+        case RowAndPosEnemy:
             res += "Choose an enemy row and pos";
             break;
-        case SelectRow:
+        case RowSelect:
             res += "Choose a row";
             break;
-        case Target:
+        case CardTarget:
             res += "Choose an ability target";
             break;
-        case RoundStartSwap:
+        case CardOption:
+            res += "Choose an option";
+            break;
+        case CardRoundStartSwap:
             res += "Choose a card to swap [" + std::to_string(choice.nTargets) + " left]";
             break;
         }
         if (choice.cardSource != nullptr)
             res += " (Source: " + choice.cardSource->name + ")";
 
-        if ((choice.choiceType == Target) && ((choice.nTargets > 1) || (choice.isOptional))) {
+        if ((choice.choiceType == CardTarget) && ((choice.nTargets > 1) || (choice.isOptional))) {
             res += " [";
             if (choice.isOptional)
                 res += "optional";
@@ -1403,7 +1385,7 @@ std::string stringChoices(const std::vector<Choice> &cardStack)
 
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
-    if (ally.cardStack.size() > 0)
+    if (!ally.cardStack2.isEmpty() > 0)
         return false;
 
     /// finish turn if neither of player has been passed
@@ -1432,7 +1414,13 @@ bool tryFinishTurn(Field &ally, Field &enemy)
 
     // TODO: remove later, only for a hot-seat
     if (enemy.nTurns == 0 && enemy.nSwaps != 0){
-        enemy.cardStack.push_back(Choice(RoundStartSwap, nullptr, enemy.hand, enemy.nSwaps, true));
+        // TODO: agregate muligan choice
+        Choice2 choice;
+        choice.type = CardRoundStartSwap;
+        choice.options = enemy.hand;
+        choice.nTargets = enemy.nSwaps;
+        choice.isOptional = true;
+        enemy.cardStack2.pushChoice(choice);
         return true;
     }
 
@@ -1441,7 +1429,15 @@ bool tryFinishTurn(Field &ally, Field &enemy)
     std::vector<Card *> cardsToPlay = enemy.hand;
     if (enemy.leader != nullptr)
         cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
-    enemy.cardStack.push_back(Choice(RoundStartPlay, nullptr, cardsToPlay, 1, enemy.canPass));
+
+    // TODO: agreagate to function choice
+    Choice2 choice;
+    choice.type = CardRoundStartPlay;
+    choice.options = cardsToPlay;
+    choice.nTargets = 1;
+    choice.isOptional = enemy.canPass;
+    enemy.cardStack2.pushChoice(choice);
+
     saveFieldsSnapshot(enemy, ally, TurnStart, nullptr, {}, "", enemy.nTurns + 1);
     return true;
 }
@@ -1543,17 +1539,6 @@ void copyCardText(const Card *card, Card *dst)
     dst->url = card->url;
     dst->id = card->id;
     dst->sounds = card->sounds;
-}
-void acceptOptionAndDeleteOthers(Card *card, const Card *option)
-{
-    assert(card != nullptr);
-    assert(card->_options.size() > 0);
-
-    for (Card *_option : card->_options)
-        if (_option != option)
-            delete _option;
-
-    card->_options.clear();
 }
 
 std::string randomSound(const Card *card, Rng &rng)
@@ -1851,7 +1836,10 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
 
     if (rowAndPos.row() < 0 && rowAndPos.pos() < 0) {
         /// if no row and pos given, then start rowAndPos selection
-        ally.cardStack.push_back(Choice(card->isLoyal ? SelectAllyRowAndPos : SelectEnemyRowAndPos, card));
+        Choice2 choice;
+        choice.type = card->isLoyal ? RowAndPosAlly : RowAndPosEnemy;
+        choice.src = card;
+        ally.cardStack2.pushChoice(choice);
         return true;
     }
 
@@ -1959,10 +1947,10 @@ void _copyFields(
     allyCopy.deckStarting = copyCards(ally.deckStarting);
     allyCopy.cardsAdded = copyCards(ally.cardsAdded);
     allyCopy.rowMeele = copyCards(ally.rowMeele);
-    for (Choice &choice : allyCopy.cardStack) {
-        choice.cardSource = copyCard(choice.cardSource);
-        choice.cardOptions = copyCards(choice.cardOptions);
-        choice.cardOptionsSelected = copyCards(choice.cardOptionsSelected);
+    for (Choice2 &choice : allyCopy.cardStack2) {
+        choice.src = copyCard(choice.src);
+        choice.options = copyCards(choice.options);
+        choice.optionsSelected = copyCards(choice.optionsSelected);
     }
     enemyCopy = Field(enemy);
     enemyCopy.rowMeele = copyCards(enemy.rowMeele);
@@ -1980,78 +1968,76 @@ void _copyFields(
 
 std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy)
 {
-    assert(ally.cardStack.size());
-
-    /// okey for `Target` and `RoundStartPlay`
-    if (ally.choice().choiceType == RoundStartPlay || ally.choice().choiceType == Target) {
-        std::map<const Card *, int> res;
-        for (const Card *_option : ally.choice().cardOptions) {
-            /// copy all the fields to work w/ consts
-            Field allyCopy;
-            Field enemyCopy;
-            std::map<const Card *, Card *> origCardToCopyMap;
-            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
-
-            /// run an option in new proxy copy
-            Card *option = origCardToCopyMap[_option];
-            onChoiceDoneCard(option, allyCopy, enemyCopy);
-
-            if (allyCopy.cardStack.size() == 0) {
-                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
-                res.insert({_option, gapNew});
-                continue;
-            }
-            /// if new choice found, then restart in recursion
-            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
-            int gapBest = INT_MIN;
-            for (const auto &it : optionToValue)
-                gapBest = std::max(gapBest, it.second);
-
-            res.insert({_option, gapBest});
-        }
-        return res;
-    }
-
-    if (ally.choice().choiceType == SelectAllyRowAndPos || ally.choice().choiceType == SelectEnemyRowAndPos) {
-        std::map<RowAndPos, int> res;
-        for (int i = 0; i < 27; ++i) {
-            const RowAndPos rowAndPos(Row(i / 9), Pos(i % 9));
-            if (ally.choice().choiceType == SelectAllyRowAndPos && !isOkRowAndPos(rowAndPos, ally))
-                continue;
-            if (ally.choice().choiceType == SelectEnemyRowAndPos && !isOkRowAndPos(rowAndPos, enemy))
-                continue;
-
-            Field allyCopy;
-            Field enemyCopy;
-            std::map<const Card *, Card *> origCardToCopyMap;
-            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
-            onChoiceDoneRowAndPlace(rowAndPos, allyCopy, enemyCopy);
-
-            if (allyCopy.cardStack.size() == 0) {
-                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
-                res.insert({rowAndPos, gapNew});
-                continue;
-            }
-            /// if new choice found, then restart in recursion
-            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
-            int gapBest = INT_MIN;
-            for (const auto &it : optionToValue)
-                gapBest = std::max(gapBest, it.second);
-
-            res.insert({rowAndPos, gapBest});
-        }
-        /// find better pos, return it (but w/ itself)
-        int gapBest = 0;
-        for (const auto &it : res)
-            gapBest = std::max(gapBest, it.second);
-        return {{ally.choice().cardSource, gapBest}};
-    }
-
+    assert(false);
     return {};
+//    assert(ally.cardStack.size());
 
-    //    SelectAllyRow,
-    //    SelectEnemyRow,
-    //    RoundStartSwap,
+//    /// okey for `Target` and `RoundStartPlay`
+//    if (ally.choice().choiceType == CardRoundStartPlay || ally.choice().choiceType == CardTarget) {
+//        std::map<const Card *, int> res;
+//        for (const Card *_option : ally.choice().cardOptions) {
+//            /// copy all the fields to work w/ consts
+//            Field allyCopy;
+//            Field enemyCopy;
+//            std::map<const Card *, Card *> origCardToCopyMap;
+//            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
+
+//            /// run an option in new proxy copy
+//            Card *option = origCardToCopyMap[_option];
+//            onChoiceDoneCard(option, allyCopy, enemyCopy);
+
+//            if (allyCopy.cardStack.size() == 0) {
+//                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
+//                res.insert({_option, gapNew});
+//                continue;
+//            }
+//            /// if new choice found, then restart in recursion
+//            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
+//            int gapBest = INT_MIN;
+//            for (const auto &it : optionToValue)
+//                gapBest = std::max(gapBest, it.second);
+
+//            res.insert({_option, gapBest});
+//        }
+//        return res;
+//    }
+
+//    if (ally.choice().choiceType == RowAndPosAlly || ally.choice().choiceType == RowAndPosEnemy) {
+//        std::map<RowAndPos, int> res;
+//        for (int i = 0; i < 27; ++i) {
+//            const RowAndPos rowAndPos(Row(i / 9), Pos(i % 9));
+//            if (ally.choice().choiceType == RowAndPosAlly && !isOkRowAndPos(rowAndPos, ally))
+//                continue;
+//            if (ally.choice().choiceType == RowAndPosEnemy && !isOkRowAndPos(rowAndPos, enemy))
+//                continue;
+
+//            Field allyCopy;
+//            Field enemyCopy;
+//            std::map<const Card *, Card *> origCardToCopyMap;
+//            _copyFields(ally, enemy, allyCopy, enemyCopy, origCardToCopyMap);
+//            onChoiceDoneRowAndPlace(rowAndPos, allyCopy, enemyCopy);
+
+//            if (allyCopy.cardStack.size() == 0) {
+//                const int gapNew = powerField(allyCopy) - powerField(enemyCopy);
+//                res.insert({rowAndPos, gapNew});
+//                continue;
+//            }
+//            /// if new choice found, then restart in recursion
+//            const std::map<const Card *, int> optionToValue = optionToGap(allyCopy, enemyCopy);
+//            int gapBest = INT_MIN;
+//            for (const auto &it : optionToValue)
+//                gapBest = std::max(gapBest, it.second);
+
+//            res.insert({rowAndPos, gapBest});
+//        }
+//        /// find better pos, return it (but w/ itself)
+//        int gapBest = 0;
+//        for (const auto &it : res)
+//            gapBest = std::max(gapBest, it.second);
+//        return {{ally.choice().cardSource, gapBest}};
+//    }
+
+//    return {};
 }
 
 void reveal(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -2124,6 +2110,12 @@ void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 {
     if (_onTargetChoosen && !isLocked)
         return _onTargetChoosen(card, ally, enemy);
+}
+
+void Card::onOptionChoosen(Card *card, Field &ally, Field &enemy)
+{
+    if (_onOptionChoosen)
+        return _onOptionChoosen(card, ally, enemy);
 }
 
 void Card::onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow)
@@ -2413,4 +2405,194 @@ int nCrewed(Card *card, Field &ally)
         if (isCrew(right))
             ++n;
     return n;
+}
+
+Choice2 CardStack::peekChoice() const
+{
+    assert(_queue.size());
+    return _queue.front();
+}
+
+void CardStack::popChoice()
+{
+    assert(_queue.size());
+    _queue.erase(_queue.begin());
+    while (tryAutoResolveChoices()) {
+        std::cout << std::endl << std::endl << "CardStack::popChoice" << std::endl;
+        trace();
+        std::cout << std::endl;
+    }
+}
+
+bool CardStack::isEmpty() const
+{
+    return !_queue.size();
+}
+
+void CardStack::pushChoice(const Choice2 &choice)
+{
+    _queue.push_back(choice);
+    while (tryAutoResolveChoices()) {
+        std::cout << std::endl << std::endl << "CardStack::pushChoice" << std::endl;
+        trace();
+        std::cout << std::endl;
+    }
+}
+
+void CardStack::trace() const
+{
+    std::cout << std::endl << "Choice Queue (" << _queue.size() << ")" << std::endl;
+    if (_queue.size())
+        std::cout << "^ FIRST TO TRIGGER" << std::endl;
+    for (size_t i = 0; i < _queue.size(); ++i) {
+        std::cout << "| " << i << ". ";
+        switch (_queue[i].type) {
+        case CardRoundStartPlay: std::cout << "Round Start Play"; break;
+        case CardRoundStartSwap: std::cout << "Round Start Swap"; break;
+        case CardTarget:         std::cout << "Card Target"; break;
+        case CardOption:         std::cout << "Card Option"; break;
+        case RowAndPosAlly:      std::cout << "Row And Pos Ally"; break;
+        case RowAndPosEnemy:     std::cout << "Row And Pos Enemy"; break;
+        case RowSelect:          std::cout << "Row"; break;
+        }
+        std::cout << std::endl;
+        if (_queue[i].src)
+            std::cout << "|    Source:  " << _queue[i].src->name << std::endl;
+        if (_queue[i].nTargets > 0)
+            std::cout << "|    Targets: " << _queue[i].nTargets << std::endl;
+        if (_queue[i].optionsSelected.size())
+            std::cout << "|    Selected: " << _queue[i].nTargets << std::endl;
+        if (_queue[i].options.size())
+            std::cout << "|    Options: " << _queue[i].options.size() << std::endl;
+        if (_queue[i].filters.size())
+            std::cout << "|    Filters: " << _queue[i].filters.size() << std::endl;
+        if (_queue[i].screenRows.size())
+            std::cout << "|    Options Rows: " << _queue[i].screenRows.size() << std::endl;
+        if (_queue[i].screenRowFilters.size())
+            std::cout << "|    Filters Rows: " << _queue[i].screenRowFilters.size() << std::endl;
+    }
+    if (_queue.size())
+        std::cout << "^ LAST" << std::endl;
+}
+
+bool CardStack::tryAutoResolveChoices()
+{
+    if (!_queue.size())
+        return false;
+
+    Choice2 &choice = _queue.front();
+
+    if (choice.type == RowSelect) {
+        /// filter existed rows
+        std::vector<int> screenRowsRes;
+        for (const int screenRow : choice.screenRows) {
+            bool isAlly;
+            const Row row = fromScreenRow(screenRow, isAlly);
+            const std::vector<Card *> cardsInRow = (isAlly ? choice.fieldPtrAlly : choice.fieldPtrEnemy)->row(row);
+
+            bool isOk = true;
+            for (const std::function<bool(const std::vector<Card *> &)> &filter : choice.screenRowFilters)
+                if (!filter(cardsInRow)) {
+                    isOk = false;
+                    break;
+                }
+
+            if (isOk)
+                screenRowsRes.push_back(screenRow);
+        }
+        choice.screenRows = screenRowsRes;
+
+        /// check if can be auto choosen
+        if (choice.screenRows.size() > 1)
+            return false;
+
+        if (choice.screenRows.size() == 0) {
+            _queue.erase(_queue.begin());
+            return true;
+        }
+
+        /// erase a choice (auto solved) and store its data to exec
+        assert(choice.screenRows.size() == 1);
+        Card *src = choice.src;
+        Field *fieldPtrAlly = choice.fieldPtrAlly;
+        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+        const int screenRow = choice.screenRows.at(0);
+        _queue.erase(_queue.begin());
+
+        src->onTargetRowChoosen(*fieldPtrAlly, *fieldPtrEnemy, screenRow);
+        return true;
+    }
+
+    /// never automate card playing at the round start or mulligan, except no options
+    if (choice.type == CardRoundStartPlay || choice.type == CardRoundStartSwap) {
+        if (choice.options.size() == 0) {
+            _queue.erase(_queue.begin());
+            return true;
+        }
+        return false;
+    }
+
+    // TODO: optimizing row selection
+    if (choice.type == RowAndPosAlly || choice.type == RowAndPosEnemy)
+        return false;
+
+    /// when no options given (meant a choice must be done in place)
+    /// we must assert all the stuff needed to filter existed cards
+    /// by `groups`, `filters`, `ally and enemy` and rest
+    if (choice.options.size() == 0) {
+        assert(choice.fieldPtrAlly != nullptr);
+        assert(choice.fieldPtrEnemy != nullptr);
+        assert(choice.src != nullptr);
+        const std::vector<Card *> filtered = cardsFiltered(*choice.fieldPtrAlly, *choice.fieldPtrEnemy, choice.filters, choice.group);
+        choice.options = _filtered(canBeSelected(choice.src, *choice.fieldPtrAlly, *choice.fieldPtrEnemy), filtered);
+
+        /// at this stage, it can left no viable options, anyway.
+        /// in this case, or in case number of options match `nTargets`
+        /// we can autoresolve the existed choice and remove it.
+    }
+
+    /// if `nWindow` given, then apply it
+    if (choice.nWindow >= 0 && choice.nWindow < int(choice.options.size())) {
+        assert(choice.fieldPtrAlly != nullptr);
+        shuffle(choice.options, choice.fieldPtrAlly->rng);
+        choice.options = firsts(choice.options, choice.nWindow);
+    }
+
+    /// can't resolve, because there are some options
+    /// and as well it can be totally cancelled
+    if (choice.isOptional && choice.options.size())
+        return false;
+
+    /// ambigious choice must be done by player
+    /// NOTE: fixed optimizing bug on in the middle of selecting multiple targets
+    if (int(choice.options.size() + choice.optionsSelected.size()) > choice.nTargets)
+        return false;
+
+    /// store data of choice, because erasing invalidates a reference
+    /// remove from queue before resolving it, to not try  autosolve
+    /// same choice again, if onTargetChoosen brings new choices to CardStack.
+    Card *src = choice.src;
+    Field *fieldPtrAlly = choice.fieldPtrAlly;
+    Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+    const std::vector<Card *> options = choice.options;
+    _queue.erase(_queue.begin());
+
+    /// choice can be done automaticly
+    for (Card *card : options)
+        src->onTargetChoosen(card, *fieldPtrAlly, *fieldPtrEnemy);
+
+    // FIXME: probably, should check if its an option and call onOptionChoosen
+    return true;
+}
+
+void startDemo(Field &ally, Field &enemy, const bool hasEnemyPassed, const bool canAllyPass)
+{
+    enemy.passed = hasEnemyPassed;
+    ally.canPass = canAllyPass;
+    Choice2 choice;
+    choice.type = CardRoundStartPlay;
+    choice.options = ally.hand;
+    choice.nTargets = true;
+    choice.isOptional = false;
+    ally.cardStack2.pushChoice(choice);
 }
