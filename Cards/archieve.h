@@ -2663,4 +2663,15 @@ struct DwarvenSkirmisher : CardCollectible<DwarvenSkirmisher>
 };
 
 
+struct HawkerHealer : CardCollectible<HawkerHealer>
+{
+    HawkerHealer();
+};
+
+
+struct HawkerSupport : CardCollectible<HawkerSupport>
+{
+    HawkerSupport();
+};
+
 #endif // CARDS_H

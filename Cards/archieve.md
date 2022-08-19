@@ -306,8 +306,8 @@
 - [x] Elven Swordmaster
 - [ ] Farseer
 - [x] Half-Elf Hunter
-- [ ] Hawker Healer
-- [ ] Hawker Smuggler
+- [x] Hawker Healer
+- [x] Hawker Smuggler
 - [ ] Hawker Support
 - [ ] Mahakam Defender _(easy card)_
 - [ ] Mahakam Guard _(easy card)_

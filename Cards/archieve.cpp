@@ -394,6 +394,8 @@ std::vector<Card *> allCards(const Patch)
         new DwarvenAgitator(),
         new DwarvenMercenary(),
         new DwarvenSkirmisher(),
+        new HawkerHealer(),
+        new HawkerSupport(),
     };
 }
 
@@ -11551,9 +11553,58 @@ DwarvenSkirmisher::DwarvenSkirmisher()
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
 
-
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!damage(target, 3, ally, enemy, this))
             boost(this, 3, ally, enemy, this);
+    };
+}
+
+HawkerHealer::HawkerHealer()
+{
+    id = "142301";
+    name = "Hawker Healer";
+    text = "Boost 2 allies by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Elf, Support };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523670.mp3",
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523680.mp3",
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523672.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, this);
+    };
+}
+
+HawkerSupport::HawkerSupport()
+{
+    id = "142312";
+    name = "Hawker Support";
+    text = "Boost a unit in your hand by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    tags = { Elf, Support };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523670.mp3",
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523680.mp3",
+        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523672.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, this);
     };
 }
