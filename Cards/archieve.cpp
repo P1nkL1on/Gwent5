@@ -396,6 +396,8 @@ std::vector<Card *> allCards(const Patch)
         new DwarvenSkirmisher(),
         new HawkerHealer(),
         new HawkerSupport(),
+        new MahakamDefender(),
+        new MahakamGuard(),
     };
 }
 
@@ -11595,9 +11597,9 @@ HawkerSupport::HawkerSupport()
     faction = Scoiatael;
     rarity = Bronze;
     sounds = {
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523670.mp3",
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523680.mp3",
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523672.mp3",
+        "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00358151.mp3",
+        "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00357973.mp3",
+        "https://gwent.one/audio/card/ob/en/VBAN1_VSET_00592242.mp3",
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
@@ -11606,5 +11608,51 @@ HawkerSupport::HawkerSupport()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 3, ally, enemy, this);
+    };
+}
+
+MahakamDefender::MahakamDefender()
+{
+    id = "142306";
+    name = "Mahakam Defender";
+    text = "Resilience.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525429.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525431.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525279.mp3",
+    };
+
+    _onDeploy = [=](Field &, Field &) {
+        isResilient = true;
+    };
+}
+
+MahakamGuard::MahakamGuard()
+{
+    id = "142317";
+    name = "Mahakam Guard";
+    text = "Boost an ally by 7.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013381.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013385.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013371.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 7, ally, enemy, this);
     };
 }

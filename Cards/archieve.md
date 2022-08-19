@@ -307,10 +307,10 @@
 - [ ] Farseer
 - [x] Half-Elf Hunter
 - [x] Hawker Healer
-- [x] Hawker Smuggler
-- [ ] Hawker Support
-- [ ] Mahakam Defender _(easy card)_
-- [ ] Mahakam Guard _(easy card)_
+- [ ] Hawker Smuggler
+- [x] Hawker Support
+- [x] Mahakam Defender
+- [x] Mahakam Guard
 - [x] Mahakam Marauder
 - [ ] Mahakam Volunteers
 - [x] Incinerating Trap

@@ -2674,4 +2674,17 @@ struct HawkerSupport : CardCollectible<HawkerSupport>
     HawkerSupport();
 };
 
+
+struct MahakamDefender : CardCollectible<MahakamDefender>
+{
+    MahakamDefender();
+};
+
+
+struct MahakamGuard : CardCollectible<MahakamGuard>
+{
+    MahakamGuard();
+};
+
+
 #endif // CARDS_H

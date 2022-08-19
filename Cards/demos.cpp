@@ -909,7 +909,7 @@ void demoAvalach(Field &ally, Field &enemy)
     startNextRound(ally, enemy);
 }
 
-void demoBeer(Field &ally, Field &enemy)
+void demoBeer(Field &ally, Field &)
 {
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -1276,11 +1276,12 @@ void demoDwarws(Field &ally, Field &enemy)
     auto *da3 = new DwarvenAgitator();
     auto *ds1 = new DwarvenSkirmisher();
     auto *dm1 = new DwarvenMercenary();
-    auto *c1 = new CiaranAepEasnillen();
+    auto *h1 = new HawkerSupport();
+    auto *mg1 = new MahakamGuard();
     auto *e = new ElvenScout();
 
-    ally.cardsAdded = {da1, da2, da3, ds1, dm1, c1, e};
-    ally.hand = {da1, da2, ds1, c1};
+    ally.cardsAdded = {da1, da2, da3, ds1, dm1, h1, mg1, e};
+    ally.hand = {da1, da2, ds1, h1, mg1};
     ally.deck = {da3, dm1, e};
 
     enemy.cardsAdded = {new Olaf(), new DwarvenAgitator()};
