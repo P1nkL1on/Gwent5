@@ -2717,4 +2717,16 @@ struct VriheddOfficer : CardCollectible<VriheddOfficer>
 };
 
 
+struct VriheddNeophyte : CardCollectible<VriheddNeophyte>
+{
+    VriheddNeophyte();
+};
+
+
+struct VriheddBrigade : CardCollectible<VriheddBrigade>
+{
+    VriheddBrigade();
+};
+
+
 #endif // CARDS_H

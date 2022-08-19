@@ -403,6 +403,8 @@ std::vector<Card *> allCards(const Patch)
         new Wardancer(),
         new VriheddVanguard(),
         new VriheddOfficer(),
+        new VriheddNeophyte(),
+        new VriheddBrigade(),
     };
 }
 
@@ -11779,5 +11781,62 @@ VriheddOfficer::VriheddOfficer()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(this, target->powerBase, ally, enemy, this);
         swapACard(target, ally, enemy, this);
+    };
+}
+
+VriheddNeophyte::VriheddNeophyte()
+{
+    id = "142301";
+    name = "Vrihedd Neophyte";
+    text = "Boost 2 random units in your hand by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.788.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.789.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.790.mp3",
+    };
+
+    _onDeploy = [=](Filed &ally, Field & enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyHand), 2, ally.rng))
+            boost(card, 1, ally, enemy, this);
+    };
+}
+
+VriheddBrigade::VriheddBrigade()
+{
+    id = "142302";
+    name = "Vrihedd Brigade";
+    text = "Clear Hazards from its row and move a unit to this row on its side.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SF01_102780_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0035.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0038.mp3",
+    };
+
+    _onDeploy = [=](Filed &ally, Field & enemy) {
+        clearHazardsFromItsRow(this, ally);
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen and DwarvenMecenary has the same)
+        const Row row = _findRowAndPos(this, ally).row();
+        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            return;
+        }
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            return;
+        }
     };
 }

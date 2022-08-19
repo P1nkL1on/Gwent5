@@ -317,9 +317,9 @@
 - [ ] Panther
 - [x] Pyrotechnician
 - [x] Sage
-- [ ] Vrihedd Brigade
+- [x] Vrihedd Brigade
 - [x] Vrihedd Dragoon
-- [ ] Vrihedd Neophyte
+- [x] Vrihedd Neophyte
 - [x] Vrihedd Officer
 - [x] Vrihedd Sappers
 - [x] Vrihedd Vanguard
