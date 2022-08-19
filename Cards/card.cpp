@@ -1090,9 +1090,7 @@ bool drawACard(Field &ally, Field &enemy)
 void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     if (ally.deck.size() == 0) {
-        card->onSwap(ally, enemy);
         // TODO: trigger all others onSwap abilities
-        card->onDraw(ally, enemy);
         // TODO: trigger all others onDrawn abilities
         return;
     }
@@ -1100,12 +1098,15 @@ void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row from = takeCard(card, ally, enemy);
     assert(from == Hand);
 
+    // if (from != )
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
+    card->onSwap(ally, enemy);
     // this trigger in putToDeck //card->onSwap(ally, enemy);
     // TODO: trigger all others onSwap abilities
 
     const bool drawn = drawACard(ally, enemy);
     assert(drawn);
+    card->onDraw(ally, enemy);
 }
 
 void banish(Card *card, Field &ally, Field &enemy, const Card *src)

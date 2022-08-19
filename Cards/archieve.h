@@ -2699,4 +2699,10 @@ struct Pyrotechnician : CardCollectible<Pyrotechnician>
 };
 
 
+struct Wardancer : CardCollectible<Wardancer>
+{
+    Wardancer();
+};
+
+
 #endif // CARDS_H

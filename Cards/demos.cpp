@@ -1289,3 +1289,19 @@ void demoDwarws(Field &ally, Field &enemy)
     enemy.passed = true;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }
+
+void demoSwapElves(Field &ally, Field &enemy)
+{
+    auto *es1 = new ElvenScout();
+    auto *es2 = new ElvenScout();
+    auto *es3 = new ElvenScout();
+    auto *w1 = new Wardancer();
+    auto *w2 = new Wardancer();
+
+    ally.cardsAdded = {es1, es2, es3, w1, w2};
+    ally.hand = {es1, w1, w2};
+    ally.deck = {es2, es3};
+
+    enemy.passed = true;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}

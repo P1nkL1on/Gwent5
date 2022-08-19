@@ -400,6 +400,7 @@ std::vector<Card *> allCards(const Patch)
         new MahakamGuard(),
         new MahakamVolunteers(),
         new Pyrotechnician(),
+        new Wardancer(),
     };
 }
 
@@ -11705,4 +11706,25 @@ Pyrotechnician::Pyrotechnician()
                 damage(card, 3, ally, enemy, this);
     };
 
+}
+
+Wardancer::Wardancer()
+{
+    id = "142313";
+    name = "Wardancer";
+    text = "Whenever you Swap this unit, play it automatically on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.4.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.3.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.2.mp3",
+    };
+
+    _onSwap = [=](Field &ally, Field &enemy) {
+        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
 }
