@@ -2711,4 +2711,10 @@ struct VriheddVanguard : CardCollectible<VriheddVanguard>
 };
 
 
+struct VriheddOfficer : CardCollectible<VriheddOfficer>
+{
+    VriheddOfficer();
+};
+
+
 #endif // CARDS_H

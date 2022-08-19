@@ -320,7 +320,7 @@
 - [ ] Vrihedd Brigade
 - [x] Vrihedd Dragoon
 - [ ] Vrihedd Neophyte
-- [ ] Vrihedd Officer
+- [x] Vrihedd Officer
 - [x] Vrihedd Sappers
 - [x] Vrihedd Vanguard
 - [x] Wardancer

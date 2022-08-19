@@ -402,6 +402,7 @@ std::vector<Card *> allCards(const Patch)
         new Pyrotechnician(),
         new Wardancer(),
         new VriheddVanguard(),
+        new VriheddOfficer(),
     };
 }
 
@@ -11753,5 +11754,30 @@ VriheddVanguard::VriheddVanguard()
 
     _onSwap = [=](Field &ally, Field &enemy) {
         onDeploy(ally, enemy);
+    };
+}
+
+VriheddOfficer::VriheddOfficer()
+{
+    id = "142303";
+    name = "Vrihedd Officer";
+    text = "Swap a card and boost self by its base power.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Elf, Officer };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SF02_108969_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF02_101662_0066.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(this, target->powerBase, ally, enemy, this);
+        swapACard(target, ally, enemy, this);
     };
 }
