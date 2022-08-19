@@ -2657,4 +2657,10 @@ struct DwarvenMercenary : CardCollectible<DwarvenMercenary>
 };
 
 
+struct DwarvenSkirmisher : CardCollectible<DwarvenSkirmisher>
+{
+    DwarvenSkirmisher();
+};
+
+
 #endif // CARDS_H

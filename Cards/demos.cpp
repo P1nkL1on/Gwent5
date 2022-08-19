@@ -1274,14 +1274,17 @@ void demoDwarws(Field &ally, Field &enemy)
     auto *da1 = new DwarvenAgitator();
     auto *da2 = new DwarvenAgitator();
     auto *da3 = new DwarvenAgitator();
+    auto *ds1 = new DwarvenSkirmisher();
     auto *dm1 = new DwarvenMercenary();
     auto *c1 = new CiaranAepEasnillen();
     auto *e = new ElvenScout();
 
-    ally.cardsAdded = {da1, da2, da3, dm1, c1, e};
-    ally.hand = {da1, da2, c1};
+    ally.cardsAdded = {da1, da2, da3, ds1, dm1, c1, e};
+    ally.hand = {da1, da2, ds1, c1};
     ally.deck = {da3, dm1, e};
 
+    enemy.cardsAdded = {new Olaf(), new DwarvenAgitator()};
+    enemy.rowMeele = enemy.cardsAdded;
     enemy.passed = true;
     ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

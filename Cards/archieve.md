@@ -299,7 +299,7 @@
 - [x] Dol Blathanna Sentry
 - [x] Dwarven Agitator
 - [x] Dwarven Mercenary
-- [ ] Dwarven Skirmisher
+- [x] Dwarven Skirmisher
 - [x] Elven Blade
 - [x] Elven Mercenary
 - [x] Elven Scout

@@ -393,6 +393,7 @@ std::vector<Card *> allCards(const Patch)
         new ElvenSwordmaster(),
         new DwarvenAgitator(),
         new DwarvenMercenary(),
+        new DwarvenSkirmisher(),
     };
 }
 
@@ -8337,7 +8338,7 @@ Toruviel::Toruviel()
     faction = Scoiatael;
     tags = { Elf, Officer };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &, Field &) {
         isAmbush = true;
     };
 
@@ -10197,7 +10198,7 @@ PrizeWinningCow::PrizeWinningCow()
     faction = Neutral;
     rarity = Silver;
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
         Card *card = new Chort();
         addAsNew(ally, card);
         moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
@@ -10353,7 +10354,7 @@ Usurper::Usurper()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.434.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         startChoiceCreateOptions(ally, this, {hasTag(Leader)});
     };
 
@@ -10565,7 +10566,7 @@ IorvethMeditation::IorvethMeditation()
             _choosen = target;
             const int screenRow = _findScreenRow(target, ally, enemy);
             std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
-            for (int i = 0; i < cards.size(); i++)
+            for (int i = 0; i < int(cards.size()); i++)
                 if (cards[i] == _choosen)
                     cards.erase(cards.begin() + i);
             startChoiceToTargetCard(ally, enemy, this, cards);
@@ -10620,7 +10621,7 @@ IsengrimOutlaw::IsengrimOutlaw()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         auto *option1 = new IsengrimOutlaw::Create;
         copyCardText(this, option1);
         option1->text = "Create a Silver Elf.";
@@ -10854,7 +10855,7 @@ YarpenZigrin::YarpenZigrin()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &, Field &) {
         isResilient = true;
     };
 
@@ -10884,12 +10885,12 @@ Yaevinn::Yaevinn()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (tick(this, ally, enemy)) {
-            Card *unit = nullptr;
-            Card *special = nullptr;
-            if (unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+            Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
+            Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
+            if (unit) {
                 putToHand(unit, ally, enemy);
             }
-            if (special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck))) {
+            if (special) {
                 putToHand(special, ally, enemy);
             }
             if (!unit || !special)
@@ -11155,7 +11156,7 @@ MahakamHorn::MahakamHorn()
     faction = Scoiatael;
     rarity = Silver;
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    _onPlaySpecial = [=](Field &ally, Field &) {
         auto *option1 = new MahakamHorn::Create;
         copyCardText(this, option1);
         option1->text = "Create a Bronze or Silver Dwarf.";
@@ -11527,5 +11528,32 @@ DwarvenMercenary::DwarvenMercenary()
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
             return;
         }
+    };
+}
+
+DwarvenSkirmisher::DwarvenSkirmisher()
+{
+    id = "142305";
+    name = "Dwarven Skirmisher";
+    text = "Deal 3 damage to an enemy. If the unit was not destroyed, boost self by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525271.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525421.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525423.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, this))
+            boost(this, 3, ally, enemy, this);
     };
 }
