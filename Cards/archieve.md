@@ -312,10 +312,10 @@
 - [x] Mahakam Defender
 - [x] Mahakam Guard
 - [x] Mahakam Marauder
-- [ ] Mahakam Volunteers
+- [x] Mahakam Volunteers
 - [x] Incinerating Trap
 - [ ] Panther
-- [ ] Pyrotechnician _(easy card)_
+- [x] Pyrotechnician
 - [x] Sage
 - [ ] Vrihedd Brigade
 - [x] Vrihedd Dragoon

@@ -2687,4 +2687,16 @@ struct MahakamGuard : CardCollectible<MahakamGuard>
 };
 
 
+struct MahakamVolunteers : CardCollectible<MahakamVolunteers>
+{
+    MahakamVolunteers();
+};
+
+
+struct Pyrotechnician : CardCollectible<Pyrotechnician>
+{
+    Pyrotechnician();
+};
+
+
 #endif // CARDS_H

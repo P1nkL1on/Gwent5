@@ -398,6 +398,8 @@ std::vector<Card *> allCards(const Patch)
         new HawkerSupport(),
         new MahakamDefender(),
         new MahakamGuard(),
+        new MahakamVolunteers(),
+        new Pyrotechnician(),
     };
 }
 
@@ -11655,4 +11657,52 @@ MahakamGuard::MahakamGuard()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 7, ally, enemy, this);
     };
+}
+
+MahakamVolunteers::MahakamVolunteers()
+{
+    id = "201559";
+    name = "Mahakam Volunteers";
+    text = "Summon all copies of this unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 3;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.101.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.99.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.102.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.100.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.98.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    };
+}
+
+Pyrotechnician::Pyrotechnician()
+{
+    id = "200135";
+    name = "Pyrotechnician";
+    text = "Deal 3 damage to a random enemy on each row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.318.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.320.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.319.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = random(enemy.row(row), enemy.rng))
+                damage(card, 3, ally, enemy, this);
+    };
+
 }
