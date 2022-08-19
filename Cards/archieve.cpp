@@ -401,6 +401,7 @@ std::vector<Card *> allCards(const Patch)
         new MahakamVolunteers(),
         new Pyrotechnician(),
         new Wardancer(),
+        new VriheddVanguard(),
     };
 }
 
@@ -11726,5 +11727,31 @@ Wardancer::Wardancer()
 
     _onSwap = [=](Field &ally, Field &enemy) {
         moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    };
+}
+
+VriheddVanguard::VriheddVanguard()
+{
+    id = "142309";
+    name = "Vrihedd Vanguard";
+    text = "Boost Elf allies by 1. Whenever you Swap this card, trigger its ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 6;
+    tags = { Elf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SF01_107685_0001.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0042.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0054.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field & enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
+    };
+
+    _onSwap = [=](Field &ally, Field &enemy) {
+        onDeploy(ally, enemy);
     };
 }

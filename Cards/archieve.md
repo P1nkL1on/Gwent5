@@ -322,7 +322,7 @@
 - [ ] Vrihedd Neophyte
 - [ ] Vrihedd Officer
 - [x] Vrihedd Sappers
-- [ ] Vrihedd Vanguard
+- [x] Vrihedd Vanguard
 - [x] Wardancer
 
 # Nilfgaard

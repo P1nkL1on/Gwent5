@@ -2705,4 +2705,10 @@ struct Wardancer : CardCollectible<Wardancer>
 };
 
 
+struct VriheddVanguard : CardCollectible<VriheddVanguard>
+{
+    VriheddVanguard();
+};
+
+
 #endif // CARDS_H

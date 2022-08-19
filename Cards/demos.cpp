@@ -1297,9 +1297,10 @@ void demoSwapElves(Field &ally, Field &enemy)
     auto *es3 = new ElvenScout();
     auto *w1 = new Wardancer();
     auto *w2 = new Wardancer();
+    auto *v1 = new VriheddVanguard();
 
-    ally.cardsAdded = {es1, es2, es3, w1, w2};
-    ally.hand = {es1, w1, w2};
+    ally.cardsAdded = {es1, es2, es3, w1, w2, v1};
+    ally.hand = {es1, w1, w2, v1};
     ally.deck = {es2, es3};
 
     enemy.passed = true;
