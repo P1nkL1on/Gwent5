@@ -405,6 +405,7 @@ std::vector<Card *> allCards(const Patch)
         new VriheddOfficer(),
         new VriheddNeophyte(),
         new VriheddBrigade(),
+        new HawkerSmuggler(),
     };
 }
 
@@ -11839,4 +11840,30 @@ VriheddBrigade::VriheddBrigade()
             return;
         }
     };
+}
+
+HawkerSmuggler::HawkerSmuggler()
+{
+    id = "142315";
+    name = "Hawker Smuggler";
+    text = "Whenever an enemy appears, boost self by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 7;
+    tags = { Elf, Support };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.7.mp3",
+    };
+
+
+    _onOtherEnemyAppears = [=](Card *, Field &ally, Field &enemy) {
+            // TODO: check how should it works with cases like resurrect, spawn, summon
+            // maybe have to replace onOtherEnemyAppears call
+            if (!isOnBoard(this, ally))
+                return;
+            boost(this, 1, ally, enemy, this);
+        };
 }

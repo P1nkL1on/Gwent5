@@ -2729,4 +2729,10 @@ struct VriheddBrigade : CardCollectible<VriheddBrigade>
 };
 
 
+struct HawkerSmuggler : CardCollectible<HawkerSmuggler>
+{
+    HawkerSmuggler();
+};
+
+
 #endif // CARDS_H

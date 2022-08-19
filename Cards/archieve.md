@@ -307,7 +307,7 @@
 - [ ] Farseer
 - [x] Half-Elf Hunter
 - [x] Hawker Healer
-- [ ] Hawker Smuggler
+- [x] Hawker Smuggler
 - [x] Hawker Support
 - [x] Mahakam Defender
 - [x] Mahakam Guard
