@@ -391,6 +391,8 @@ std::vector<Card *> allCards(const Patch)
         new DolBlathannaSentry(),
         new ElvenScout(),
         new ElvenSwordmaster(),
+        new DwarvenAgitator(),
+        new DwarvenMercenary(),
     };
 }
 
@@ -10975,21 +10977,21 @@ CiaranAepEasnillen::CiaranAepEasnillen()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+        startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (DwarvenMercenary has the same)
         toggleLock(target, ally, enemy, this);
         const Row row = _findRowAndPos(this, ally).row();
-        if (isOnBoard(target, ally)) {
+        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
             return;
         }
-        if (isOnBoard(target, enemy)) {
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
             return;
         }
-        assert(false);
     };
 }
 
@@ -11465,5 +11467,65 @@ ElvenSwordmaster::ElvenSwordmaster()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, power, ally, enemy, this);
+    };
+}
+
+DwarvenAgitator::DwarvenAgitator()
+{
+    id = "200293";
+    name = "Dwarven Agitator";
+    text = "Spawn a default copy of a random different Bronze Dwarf from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Dwarf, Support };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.96.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.94.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.97.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.95.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.93.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy(this)}, AllyDeck), ally.rng))
+            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+    };
+}
+
+DwarvenMercenary::DwarvenMercenary()
+{
+    id = "142311";
+    name = "Dwarven Mercenary";
+    text = "Move a unit to this row on its side. If it's an ally, boost it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Dwarf, Soldier };
+    faction = Scoiatael;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526104.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526102.mp3",
+        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525272.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen has the same)
+        const Row row = _findRowAndPos(this, ally).row();
+        if (isOnBoard(target, ally)) {
+            boost(target, 3, ally, enemy, this);
+            if (_findRowAndPos(target, ally).row() != row)
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            return;
+        }
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            return;
+        }
     };
 }

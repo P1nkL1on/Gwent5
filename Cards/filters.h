@@ -115,6 +115,12 @@ inline Filter isCopy(const std::string &name)
         return card->name == name;
     };
 }
+inline Filter isNotCopy(const Card *card)
+{
+    return [card](Card *_card) {
+        return _card->name != card->name;
+    };
+}
 inline Filter hasPowerXorLess(const int x)
 {
     return [x](Card *card) {

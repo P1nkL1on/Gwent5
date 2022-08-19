@@ -297,8 +297,8 @@
 - [x] Dol Blathanna Bomber
 - [x] Dol Blathanna Bowman
 - [x] Dol Blathanna Sentry
-- [ ] Dwarven Agitator
-- [ ] Dwarven Mercenary
+- [x] Dwarven Agitator
+- [x] Dwarven Mercenary
 - [ ] Dwarven Skirmisher
 - [x] Elven Blade
 - [x] Elven Mercenary

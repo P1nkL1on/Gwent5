@@ -2645,4 +2645,16 @@ struct ElvenSwordmaster : CardCollectible<ElvenSwordmaster>
 };
 
 
+struct DwarvenAgitator : CardCollectible<DwarvenAgitator>
+{
+    DwarvenAgitator();
+};
+
+
+struct DwarvenMercenary : CardCollectible<DwarvenMercenary>
+{
+    DwarvenMercenary();
+};
+
+
 #endif // CARDS_H
