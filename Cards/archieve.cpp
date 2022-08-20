@@ -11502,7 +11502,7 @@ DwarvenAgitator::DwarvenAgitator()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy(this)}, AllyDeck), ally.rng))
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy<DwarvenAgitator>}, AllyDeck), ally.rng))
             spawnNewCard(card->defaultCopy(), ally, enemy, this);
     };
 }
@@ -11524,6 +11524,7 @@ DwarvenMercenary::DwarvenMercenary()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        // NOTE: check if otherThan(this) required
         startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
     };
 
@@ -11532,6 +11533,7 @@ DwarvenMercenary::DwarvenMercenary()
         const Row row = _findRowAndPos(this, ally).row();
         if (isOnBoard(target, ally)) {
             boost(target, 3, ally, enemy, this);
+            // TODO: check if it's check really needed, and can `moveExistedUnitToPos` work with both fields?
             if (_findRowAndPos(target, ally).row() != row)
                 moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
             return;
@@ -11801,7 +11803,7 @@ VriheddNeophyte::VriheddNeophyte()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.790.mp3",
     };
 
-    _onDeploy = [=](Filed &ally, Field & enemy) {
+    _onDeploy = [=](Field &ally, Field & enemy) {
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyHand), 2, ally.rng))
             boost(card, 1, ally, enemy, this);
     };
@@ -11823,7 +11825,7 @@ VriheddBrigade::VriheddBrigade()
         "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0038.mp3",
     };
 
-    _onDeploy = [=](Filed &ally, Field & enemy) {
+    _onDeploy = [=](Field &ally, Field & enemy) {
         clearHazardsFromItsRow(this, ally);
         startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
     };
@@ -11858,12 +11860,11 @@ HawkerSmuggler::HawkerSmuggler()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.7.mp3",
     };
 
-
     _onOtherEnemyAppears = [=](Card *, Field &ally, Field &enemy) {
-            // TODO: check how should it works with cases like resurrect, spawn, summon
-            // maybe have to replace onOtherEnemyAppears call
-            if (!isOnBoard(this, ally))
-                return;
-            boost(this, 1, ally, enemy, this);
-        };
+        // TODO: check how should it works with cases like resurrect, spawn, summon
+        // maybe have to replace onOtherEnemyAppears call
+        if (!isOnBoard(this, ally))
+            return;
+        boost(this, 1, ally, enemy, this);
+    };
 }

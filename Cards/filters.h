@@ -35,6 +35,7 @@ inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(
 inline bool hasOddPower(Card *card) { return card->power % 2 != 0; }
 inline bool hasEvenPower(Card *card) { return card->power % 2 == 0; }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
+template <typename T> inline bool isNotCopy(Card *card) { return dynamic_cast<T *>(card) == nullptr; }
 
 
 using Filter = std::function<bool(Card *)>;
