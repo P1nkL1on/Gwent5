@@ -18,7 +18,6 @@ int main()
     ally.rowMeele = {neophyte};
 
     Testcase testcase;
-    testcase.add(1, 2, "Test");
     testcase.add(neophyte->power, 10);
     testcase.add(scout->power, 10);
 
