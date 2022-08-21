@@ -1089,20 +1089,18 @@ bool drawACard(Field &ally, Field &enemy)
 
 void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
+    // assert is in hand
+    assert(isIn(card, ally.hand) || isIn(card, enemy.hand));
+
     if (ally.deck.size() == 0) {
+        card->onSwap(ally, enemy);
+        card->onDraw(ally, enemy);
         // TODO: trigger all others onSwap abilities
         // TODO: trigger all others onDrawn abilities
         return;
     }
 
-    const Row from = takeCard(card, ally, enemy);
-    assert(from == Hand);
-
-    // if (from != )
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
-    card->onSwap(ally, enemy);
-    // this trigger in putToDeck //card->onSwap(ally, enemy);
-    // TODO: trigger all others onSwap abilities
 
     const bool drawn = drawACard(ally, enemy);
     assert(drawn);
@@ -2365,7 +2363,9 @@ int half(const int x)
 void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
+    std::cout << int(row) << std::endl;
     if (row == Hand)
+        // TODO: trigger all others onSwap abilities
         card->onSwap(ally, enemy);
     assert(row != HandLeader);
     switch (deckPos) {
