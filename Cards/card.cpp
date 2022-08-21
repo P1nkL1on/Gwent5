@@ -1089,23 +1089,22 @@ bool drawACard(Field &ally, Field &enemy)
 
 void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 {
+    // assert is in hand
+    assert(isIn(card, ally.hand) || isIn(card, enemy.hand));
+
     if (ally.deck.size() == 0) {
         card->onSwap(ally, enemy);
-        // TODO: trigger all others onSwap abilities
         card->onDraw(ally, enemy);
+        // TODO: trigger all others onSwap abilities
         // TODO: trigger all others onDrawn abilities
         return;
     }
 
-    const Row from = takeCard(card, ally, enemy);
-    assert(from == Hand);
-
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
-    // this trigger in putToDeck //card->onSwap(ally, enemy);
-    // TODO: trigger all others onSwap abilities
 
     const bool drawn = drawACard(ally, enemy);
     assert(drawn);
+    card->onDraw(ally, enemy);
 }
 
 void banish(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -2365,6 +2364,7 @@ void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, con
 {
     const Row row = takeCard(card, ally, enemy);
     if (row == Hand)
+        // TODO: trigger all others onSwap abilities
         card->onSwap(ally, enemy);
     assert(row != HandLeader);
     switch (deckPos) {
