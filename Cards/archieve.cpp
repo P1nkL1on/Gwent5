@@ -406,6 +406,8 @@ std::vector<Card *> allCards(const Patch)
         new VriheddNeophyte(),
         new VriheddBrigade(),
         new HawkerSmuggler(),
+        new MennoCoehoorn(),
+        new RainfarnOfAttre(),
     };
 }
 
@@ -11866,5 +11868,57 @@ HawkerSmuggler::HawkerSmuggler()
         if (!isOnBoard(this, ally))
             return;
         boost(this, 1, ally, enemy, this);
+    };
+}
+
+MennoCoehoorn::MennoCoehoorn()
+{
+    id = "162102";
+    name = "Menno Coehoorn";
+    text = "Deal 4 damage to an enemy. If it's Spying, destroy it instead.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.59.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.58.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.60.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (target->isLoyal == False)
+            return putToDiscard(target, ally, enemy, this);
+        damage(target, 4, ally, enemy, this);
+    };
+}
+
+RainfarnOfAttre::RainfarnOfAttre()
+{
+    id = "200032";
+    name = "Rainfarn of Attre";
+    text = "Play a Bronze or Silver Spying unit from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 5;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.91.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.93.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.92.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

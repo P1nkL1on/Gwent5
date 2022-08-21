@@ -2735,4 +2735,16 @@ struct HawkerSmuggler : CardCollectible<HawkerSmuggler>
 };
 
 
+struct MennoCoehoorn : CardCollectible<MennoCoehoorn>
+{
+    MennoCoehoorn();
+};
+
+
+struct RainfarnOfAttre : CardCollectible<RainfarnOfAttre>
+{
+    RainfarnOfAttre();
+};
+
+
 #endif // CARDS_H

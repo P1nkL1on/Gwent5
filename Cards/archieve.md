@@ -334,9 +334,9 @@
 - [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
-- [ ] Menno Coehoorn _(easy card)_
+- [x] Menno Coehoorn _(easy card)_
 - [x] Morvran Voorhis
-- [ ] Rainfarn of Attre
+- [x] Rainfarn of Attre
 - [ ] Shilard
 - [ ] Stefan Skellen
 - [ ] Tibor Eggebracht
