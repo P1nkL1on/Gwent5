@@ -5,6 +5,7 @@ build-*
 *~
 *.autosave
 *.a
+*.user
 *.core
 *.moc
 *.o
