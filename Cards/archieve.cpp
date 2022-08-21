@@ -11891,7 +11891,7 @@ MennoCoehoorn::MennoCoehoorn()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (target->isLoyal == false)
+        if (target->isSpy == false)
             return putToDiscard(target, ally, enemy, this);
         damage(target, 4, ally, enemy, this);
     };
