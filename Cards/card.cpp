@@ -2363,7 +2363,6 @@ int half(const int x)
 void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
-    std::cout << int(row) << std::endl;
     if (row == Hand)
         // TODO: trigger all others onSwap abilities
         card->onSwap(ally, enemy);

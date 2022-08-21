@@ -5524,7 +5524,6 @@ RockBarrage::RockBarrage()
         const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
 
         const bool shouldDestroy = isRowFull(enemy.row(rowAbove));
-        std::cout << "A " << shouldDestroy << std::endl;
         if (shouldDestroy) {
             putToDiscard(target, ally, enemy, this);
             return;
