@@ -3,5 +3,5 @@
 int main()
 {
     Card c;
-    return 1;
+    return 0;
 }
