@@ -5,14 +5,13 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-#file(GLOB INCLUDES_CPP ${PROJECT_SOURCE_DIR}/Cards/*.cpp EXCLUDE ${PROJECT_SOURCE_DIR}/Cards/main.cpp)
-#message("All included files: ${INCLUDES_CPP}")
 set (SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/Cards/archieve.cpp
     ${PROJECT_SOURCE_DIR}/Cards/card.cpp
-    ${PROJECT_SOURCE_DIR}/Cards/view.cpp)
+    ${PROJECT_SOURCE_DIR}/Cards/view.cpp
+    ${PROJECT_SOURCE_DIR}/Cards/testcase.cpp)
 
-add_library(cards_lib  ${SOURCE_FILES})
+add_library(cards_lib ${SOURCE_FILES})
 
 file(GLOB TEST_CASE_SOURCES ${PROJECT_SOURCE_DIR}/Tests/Cases/*.cpp)
 foreach (test_case_source ${TEST_CASE_SOURCES})
