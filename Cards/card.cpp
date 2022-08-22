@@ -133,9 +133,9 @@ void triggerRowEffects(Field &ally, Field &enemy)
                 boost(target, 1, ally, enemy, nullptr);
             break;
         case SkelligeStormEffect: {
-            Card *targetFirst=   (row.size() >= 1) && (!row[0]->isAmbush) ? row[0] : nullptr;
+            Card *targetFirst  = (row.size() >= 1) && (!row[0]->isAmbush) ? row[0] : nullptr;
             Card *targetSecond = (row.size() >= 2) && (!row[1]->isAmbush) ? row[1] : nullptr;
-            Card *targetThird =  (row.size() >= 3) && (!row[2]->isAmbush) ? row[2] : nullptr;
+            Card *targetThird  = (row.size() >= 3) && (!row[2]->isAmbush) ? row[2] : nullptr;
             if (targetFirst != nullptr)
                 damage(targetFirst, 2, ally, enemy, nullptr);
             if (targetSecond != nullptr)
@@ -333,8 +333,7 @@ std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms
 
 Card *random(const std::vector<Card *> &cards, Rng &rng)
 {
-    const std::vector<Card *> _cards = randoms(cards, 1, rng);
-    return _cards.size() == 0 ? nullptr : _cards[0];
+    return first(randoms(cards, 1, rng));
 }
 
 void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
@@ -981,11 +980,7 @@ std::vector<Card *> findCopies(const Card *card, const std::vector<Card *> &card
 
 Card *findCopy(const Card *card, const std::vector<Card *> &cards)
 {
-    std::vector<Card *> res = findCopies(card, cards);
-    if (res.size() == 0)
-        return nullptr;
-
-    return res[0];
+    return first(findCopies(card, cards));
 }
 
 const Choice &Field::choice() const
@@ -2331,7 +2326,7 @@ RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int s
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts)
 {
     std::vector<Card *> res;
-    for (size_t ind = 0; ind < size_t(nFirsts); ++ind)
+    for (size_t ind = 0; ind < std::min(cards.size(), size_t(nFirsts)); ++ind)
         res.push_back(cards[ind]);
     return res;
 }
