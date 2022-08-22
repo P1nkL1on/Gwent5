@@ -297,33 +297,33 @@
 - [x] Dol Blathanna Bomber
 - [x] Dol Blathanna Bowman
 - [x] Dol Blathanna Sentry
-- [ ] Dwarven Agitator
-- [ ] Dwarven Mercenary
-- [ ] Dwarven Skirmisher
+- [x] Dwarven Agitator
+- [x] Dwarven Mercenary
+- [x] Dwarven Skirmisher
 - [x] Elven Blade
 - [x] Elven Mercenary
 - [x] Elven Scout
 - [x] Elven Swordmaster
 - [ ] Farseer
 - [x] Half-Elf Hunter
-- [ ] Hawker Healer
-- [ ] Hawker Smuggler
-- [ ] Hawker Support
-- [ ] Mahakam Defender _(easy card)_
-- [ ] Mahakam Guard _(easy card)_
+- [x] Hawker Healer
+- [x] Hawker Smuggler
+- [x] Hawker Support
+- [x] Mahakam Defender
+- [x] Mahakam Guard
 - [x] Mahakam Marauder
-- [ ] Mahakam Volunteers
+- [x] Mahakam Volunteers
 - [x] Incinerating Trap
 - [ ] Panther
-- [ ] Pyrotechnician _(easy card)_
+- [x] Pyrotechnician
 - [x] Sage
-- [ ] Vrihedd Brigade
+- [x] Vrihedd Brigade
 - [x] Vrihedd Dragoon
-- [ ] Vrihedd Neophyte
-- [ ] Vrihedd Officer
+- [x] Vrihedd Neophyte
+- [x] Vrihedd Officer
 - [x] Vrihedd Sappers
-- [ ] Vrihedd Vanguard
-- [ ] Wardancer
+- [x] Vrihedd Vanguard
+- [x] Wardancer
 
 # Nilfgaard
 
@@ -334,9 +334,9 @@
 - [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
-- [ ] Menno Coehoorn _(easy card)_
+- [x] Menno Coehoorn _(easy card)_
 - [x] Morvran Voorhis
-- [ ] Rainfarn of Attre
+- [x] Rainfarn of Attre
 - [ ] Shilard
 - [ ] Stefan Skellen
 - [ ] Tibor Eggebracht

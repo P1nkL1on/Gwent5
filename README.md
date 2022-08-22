@@ -1,5 +1,7 @@
 # Gwent5
 
+[![CMake](https://github.com/P1nkL1on/Gwent5/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/P1nkL1on/Gwent5/actions/workflows/cmake.yml)
+
 C++ procedural Fan Gwent OBT (based on patch PublicBeta_0.9.24.3.432) card game with Qt forms.
 
 # Fan Content
