@@ -22,4 +22,13 @@ private:
     std::vector<std::string> _descriptions;
 };
 
+#define ADD_TESTCASE_IMPL(TESTCASE, RES, EXPECTED) \
+    (TESTCASE).add((RES), (EXPECTED), (std::string(#RES) + " is " + std::string(#EXPECTED)))
+
+#define ADD_TESTCASE(TESTCASE, RES, ...) CHOOSE_IMPL(,##__VA_ARGS__, \
+    ADD_TESTCASE_IMPL(TESTCASE, RES, (__VA_ARGS__)), \
+    ADD_TESTCASE_IMPL(TESTCASE, RES, 1))
+
+#define CHOOSE_IMPL(_, __, FUNC, ...) (FUNC)
+
 #endif // TESTCASE_H

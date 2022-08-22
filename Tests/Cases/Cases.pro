@@ -6,4 +6,4 @@ CONFIG -= app_bundle console
 include($$PWD/../../Cards/Cards.pri)
 
 SOURCES += \
-    banish.cpp
+    tools.cpp

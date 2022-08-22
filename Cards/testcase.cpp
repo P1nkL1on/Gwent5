@@ -7,17 +7,20 @@ int compareArrays(
 {
     if (res == expected)
         return 0;
-    const size_t align = 8;
+    const size_t align = 10;
     const size_t l = std::max(res.size(), expected.size());
-    std::cout << std::setw(align) << "Result" << std::setw(align + 2) << "Expected" << "\n";
+    std::cout << std::setw(align) << "Result"
+              << std::setw(align) << "Expected"
+              << std::setw(align) << "Compare"
+              << "  Description\n";
     for (size_t ind = 0; ind < l; ++ind) {
         const bool hasRes = ind < res.size();
         const bool hasExp = ind < expected.size();
         const bool isEq   = hasRes && hasExp && (res[ind] == expected[ind]);
         std::cout << std::setw(align) << (hasRes ? std::to_string(res[ind])      : "*")
-                  << (isEq ? "==" : "!=")
                   << std::setw(align) << (hasExp ? std::to_string(expected[ind]) : "*")
-                  << " " << (descriptions ? descriptions->at(ind) : "") << std::endl;
+                  << std::setw(align) << (isEq ? "OK" : "FAIL")
+                  << "  " << (descriptions ? descriptions->at(ind) : "") << std::endl;
     }
     return 1;
 }
