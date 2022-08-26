@@ -1,5 +1,7 @@
 # Gwent5
 
+[![CMake](https://github.com/P1nkL1on/Gwent5/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/P1nkL1on/Gwent5/actions/workflows/cmake.yml)
+
 C++ procedural Fan Gwent OBT (based on patch PublicBeta_0.9.24.3.432) card game with Qt forms.
 
 # Fan Content
@@ -7,6 +9,24 @@ Please note that this project is in no way associated or affiliated with CD PROJ
 All art and audio is property of their respective artists and/or CD PROJEKT RED.
 
 [Fan Content Guidelines](https://cdprojektred.com/en/fan-content)
+
+# Road Map
+
+- [x] Basic card mechanics (damage, boost, death, ressurect, etc)
+- [x] Some cards to test it
+- [x] Hotseat game version
+- [x] Demos w/ various card setups for manual testing
+- [x] Advanced Card Mechanics (create, options, ambush, statuses, etc)
+- [ ] All Faction Cards (~300 cards alread done)
+- [x] Sample client app w/ visuals
+- [x] Sample gallery app w/ visuals
+- [x] Deck buiding in gallery app
+- [ ] Advanced app w/ Qt widgets
+- [ ] Advanced Client-Server w/ Qt Network
+- [ ] Card Mechanic Unit Tests
+- [ ] CMake + Qt Test tests
+- [ ] Github CMake CI for Various Tests
+- [ ] ...
 
 ## Client
 
