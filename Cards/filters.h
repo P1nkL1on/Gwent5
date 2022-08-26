@@ -23,6 +23,7 @@ inline bool isNilfgaardFaction(Card *card) { return card->faction == Nilfgaard; 
 inline bool isScoiataelFaction(Card *card) { return card->faction == Scoiatael; }
 inline bool isMonsterFaction(Card *card) { return card->faction == Monster; }
 inline bool isNonSpying(Card *card) { return card->isLoyal; }
+inline bool isSpying(Card *card) { return !card->isLoyal; }
 inline bool isBoosted(Card *card) { return card->power <= card->powerBase; }
 inline bool isNotBoosted(Card *card) { return card->power > card->powerBase; }
 inline bool isNotLocked(Card *card) { return !card->isLocked; }
@@ -35,6 +36,7 @@ inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(
 inline bool hasOddPower(Card *card) { return card->power % 2 != 0; }
 inline bool hasEvenPower(Card *card) { return card->power % 2 == 0; }
 template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
+template <typename T> inline bool isNotCopy(Card *card) { return dynamic_cast<T *>(card) == nullptr; }
 
 
 using Filter = std::function<bool(Card *)>;
@@ -113,6 +115,12 @@ inline Filter isCopy(const std::string &name)
 {
     return [name](Card *card) {
         return card->name == name;
+    };
+}
+inline Filter isNotCopy(const Card *card)
+{
+    return [card](Card *_card) {
+        return _card->name != card->name;
     };
 }
 inline Filter hasPowerXorLess(const int x)

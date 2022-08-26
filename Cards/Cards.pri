@@ -12,14 +12,16 @@ HEADERS += \
     $$PWD/enums.h \
     $$PWD/filters.h \
     $$PWD/demos.h \
-    $$PWD/io.h
+    $$PWD/io.h \
+    $$PWD/testcase.h
 
 SOURCES += \
     $$PWD/card.cpp \
     $$PWD/archieve.cpp \
     $$PWD/view.cpp \
     $$PWD/demos.cpp \
-    $$PWD/io.cpp
+    $$PWD/io.cpp \
+    $$PWD/testcase.cpp
 
 DISTFILES += \
     $$PWD/archieve.md

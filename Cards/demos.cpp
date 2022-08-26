@@ -844,7 +844,7 @@ void demoAvalach(Field &ally, Field &enemy)
     startNextRound(ally, enemy);
 }
 
-void demoBeer(Field &ally, Field &enemy)
+void demoBeer(Field &ally, Field &)
 {
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -1288,4 +1288,42 @@ void demoLeaders(Field &ally, Field &enemy)
     enemy.passed = true;
 
     startDemo(ally, enemy);
+}
+
+void demoDwarws(Field &ally, Field &enemy)
+{
+    auto *da1 = new DwarvenAgitator();
+    auto *da2 = new DwarvenAgitator();
+    auto *da3 = new DwarvenAgitator();
+    auto *ds1 = new DwarvenSkirmisher();
+    auto *dm1 = new DwarvenMercenary();
+    auto *h1 = new HawkerSupport();
+    auto *mg1 = new MahakamGuard();
+    auto *e = new ElvenScout();
+
+    ally.cardsAdded = {da1, da2, da3, ds1, dm1, h1, mg1, e};
+    ally.hand = {da1, da2, ds1, h1, mg1};
+    ally.deck = {da3, dm1, e};
+
+    enemy.cardsAdded = {new Olaf(), new DwarvenAgitator()};
+    enemy.rowMeele = enemy.cardsAdded;
+    enemy.passed = true;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+}
+
+void demoSwapElves(Field &ally, Field &enemy)
+{
+    auto *es1 = new ElvenScout();
+    auto *es2 = new ElvenScout();
+    auto *es3 = new ElvenScout();
+    auto *w1 = new Wardancer();
+    auto *w2 = new Wardancer();
+    auto *v1 = new VriheddVanguard();
+
+    ally.cardsAdded = {es1, es2, es3, w1, w2, v1};
+    ally.hand = {es1, w1, w2, v1};
+    ally.deck = {es2, es3};
+
+    enemy.passed = true;
+    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
 }

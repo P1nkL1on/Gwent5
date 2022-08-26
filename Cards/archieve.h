@@ -2643,4 +2643,106 @@ struct ElvenSwordmaster : CardCollectible<ElvenSwordmaster>
 };
 
 
+struct DwarvenAgitator : CardCollectible<DwarvenAgitator>
+{
+    DwarvenAgitator();
+};
+
+
+struct DwarvenMercenary : CardCollectible<DwarvenMercenary>
+{
+    DwarvenMercenary();
+};
+
+
+struct DwarvenSkirmisher : CardCollectible<DwarvenSkirmisher>
+{
+    DwarvenSkirmisher();
+};
+
+
+struct HawkerHealer : CardCollectible<HawkerHealer>
+{
+    HawkerHealer();
+};
+
+
+struct HawkerSupport : CardCollectible<HawkerSupport>
+{
+    HawkerSupport();
+};
+
+
+struct MahakamDefender : CardCollectible<MahakamDefender>
+{
+    MahakamDefender();
+};
+
+
+struct MahakamGuard : CardCollectible<MahakamGuard>
+{
+    MahakamGuard();
+};
+
+
+struct MahakamVolunteers : CardCollectible<MahakamVolunteers>
+{
+    MahakamVolunteers();
+};
+
+
+struct Pyrotechnician : CardCollectible<Pyrotechnician>
+{
+    Pyrotechnician();
+};
+
+
+struct Wardancer : CardCollectible<Wardancer>
+{
+    Wardancer();
+};
+
+
+struct VriheddVanguard : CardCollectible<VriheddVanguard>
+{
+    VriheddVanguard();
+};
+
+
+struct VriheddOfficer : CardCollectible<VriheddOfficer>
+{
+    VriheddOfficer();
+};
+
+
+struct VriheddNeophyte : CardCollectible<VriheddNeophyte>
+{
+    VriheddNeophyte();
+};
+
+
+struct VriheddBrigade : CardCollectible<VriheddBrigade>
+{
+    VriheddBrigade();
+};
+
+
+struct HawkerSmuggler : CardCollectible<HawkerSmuggler>
+{
+    HawkerSmuggler();
+};
+
+
+struct MennoCoehoorn : CardCollectible<MennoCoehoorn>
+{
+    MennoCoehoorn();
+};
+
+
+struct RainfarnOfAttre : CardCollectible<RainfarnOfAttre>
+{
+    RainfarnOfAttre();
+};
+
+
 #endif // CARDS_H
