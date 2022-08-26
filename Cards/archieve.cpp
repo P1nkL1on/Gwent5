@@ -10586,7 +10586,7 @@ IsengrimOutlaw::IsengrimOutlaw()
         "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &) {
+    _onDeploy = [=](Field &ally, Field &enemy) {
         auto *option1 = new IsengrimOutlaw::Create;
         copyCardText(this, option1);
         option1->text = "Create a Silver Elf.";
@@ -11124,7 +11124,7 @@ MahakamHorn::MahakamHorn()
     faction = Scoiatael;
     rarity = Silver;
 
-    _onPlaySpecial = [=](Field &ally, Field &) {
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
         auto *option1 = new MahakamHorn::Create;
         copyCardText(this, option1);
         option1->text = "Create a Bronze or Silver Dwarf.";
