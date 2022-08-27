@@ -844,7 +844,7 @@ void demoAvalach(Field &ally, Field &enemy)
     startNextRound(ally, enemy);
 }
 
-void demoBeer(Field &ally, Field &)
+void demoBeer(Field &ally, Field &enemy)
 {
     auto *h1 = new HeymaeyHerbalist();
     auto *h2 = new HeymaeyHerbalist();
@@ -865,7 +865,6 @@ void demoBeer(Field &ally, Field &)
     ally.rowMeele = {th2, th3};
 
     startDemo(ally, enemy);
-
 }
 
 void demoCrewAndCrewed(Field &ally, Field &enemy)
@@ -1307,8 +1306,8 @@ void demoDwarws(Field &ally, Field &enemy)
 
     enemy.cardsAdded = {new Olaf(), new DwarvenAgitator()};
     enemy.rowMeele = enemy.cardsAdded;
-    enemy.passed = true;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+
+    startDemo(ally, enemy, true, false);
 }
 
 void demoSwapElves(Field &ally, Field &enemy)
@@ -1324,6 +1323,24 @@ void demoSwapElves(Field &ally, Field &enemy)
     ally.hand = {es1, w1, w2, v1};
     ally.deck = {es2, es3};
 
-    enemy.passed = true;
-    ally.cardStack.push_back(Choice(RoundStartPlay, nullptr, ally.hand, 1, false));
+    startDemo(ally, enemy, true, false);
+}
+
+void demoWithOpion1(Field &ally, Field &enemy)
+{
+    auto *h = new Hym();
+    auto *p = new PrinceStennis();
+
+    initField({h}, nullptr, ally);
+    initField({p}, nullptr, enemy);
+    drawACard(ally, enemy);
+    startDemo(ally, enemy);
+}
+
+void demoWithWindow5(Field &ally, Field &enemy)
+{
+    auto *h = new ShupesDayOff();
+    initField({h}, nullptr, ally);
+    drawACard(ally, enemy);
+    startDemo(ally, enemy);
 }

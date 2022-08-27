@@ -6,4 +6,4 @@ CONFIG -= app_bundle console
 include($$PWD/../../Cards/Cards.pri)
 
 SOURCES += \
-    tools.cpp
+    test_choice.cpp

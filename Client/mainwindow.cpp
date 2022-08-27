@@ -88,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Leaders test", demoLeaders},
         {"Dwarfs pack of dudes", demoDwarws},
         {"Pack of smoothy elves", demoSwapElves},
+        {"Option 1 bug case", demoWithOpion1},
+        {"Window 3/3 of 5", demoWithWindow5},
     };
 
     /// make a choosing menu for it
@@ -149,6 +151,9 @@ void MainWindow::requestImageByUrl(const std::string &url)
 
 void MainWindow::requestSoundByUrl(const std::string &url)
 {
+    // NOTE: tmp disabled sound requests
+    return;
+
     if (url.size() == 0)
         return;
 

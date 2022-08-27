@@ -188,25 +188,6 @@ struct CardCollectible : Card
 };
 
 
-struct Choice
-{
-    inline Choice(const ChoiceType choiceType, Card *cardSource = nullptr, const std::vector<Card *> &cardOptions = {}, const int nTargets = 1, const bool isOptional = false) :
-        choiceType(choiceType),
-        cardSource(cardSource),
-        cardOptions(cardOptions),
-        nTargets(nTargets),
-        isOptional(isOptional)
-    {
-    }
-    ChoiceType choiceType;
-    Card *cardSource = nullptr;
-    std::vector<Card *> cardOptions;
-    std::vector<Card *> cardOptionsSelected;
-    std::vector<int> valuesOptions;
-    int nTargets = 1;
-    bool isOptional = false;
-};
-
 /// The Choice:
 ///     1) rows, rowFilters, adjacent = 0|1
 ///     2) options, nTargets, nWindow (Shupe), isOptional
@@ -245,9 +226,12 @@ public:
     void pushChoice(const Choice2 &peekChoice);
     void popChoice();
     void trace() const;
+    /// friend for tests
+    const std::vector<Choice2> &queue() const { return _queue; }
     using Iterator = std::vector<Choice2>::iterator;
     Iterator begin() { return _queue.begin(); }
     Iterator end() { return _queue.end(); }
+    bool isRemovingExpandedChoice = true;
 private:
     /// returns true if removed a first choice
     bool tryAutoResolveChoices();
@@ -304,7 +288,6 @@ struct Field
 
 int powerField(const Field &field);
 int powerRow(const std::vector<Card *> &vector);
-std::string stringChoices(const std::vector<Choice> &cardStack);
 bool isIn(const Card *card, const std::vector<Card *> &vector);
 bool isOnBoard(const Card *card, const Field &field);
 bool hasTag(const Card *card, const Tag tag);
@@ -352,8 +335,6 @@ bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
 RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
-// TODO: remove old function
-bool randomRowAndPos(Field &field, Row &row, Pos &pos);
 
 /// find a place of a card in the field. returns false if non found
 bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);

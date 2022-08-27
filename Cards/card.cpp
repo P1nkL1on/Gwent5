@@ -654,6 +654,8 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
 {
+    // WARNING: this function may contain a buggy behaviour, because
+    // it expands before it's time in a choice queue, which is agains #37
     // TODO: agreagate to function choice
     Choice2 choice;
     choice.type = CardTarget;
@@ -1328,55 +1330,6 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *s
     saveFieldsSnapshot(ally, enemy, GainArmor, src, {card}, "", x);
 }
 
-std::string stringChoices(const std::vector<Choice> &cardStack)
-{
-    std::string res;
-    for (const Choice &choice : cardStack) {
-        if (res.size() > 0)
-            res += " -> ";
-        switch (choice.choiceType) {
-        case CardRoundStartPlay:
-            res += "Choose a card to play";
-            break;
-        case RowAndPosAlly:
-            res += "Choose an allied row and pos";
-            break;
-        case RowAndPosEnemy:
-            res += "Choose an enemy row and pos";
-            break;
-        case RowSelect:
-            res += "Choose a row";
-            break;
-        case CardTarget:
-            res += "Choose an ability target";
-            break;
-        case CardOption:
-            res += "Choose an option";
-            break;
-        case CardRoundStartSwap:
-            res += "Choose a card to swap [" + std::to_string(choice.nTargets) + " left]";
-            break;
-        }
-        if (choice.cardSource != nullptr)
-            res += " (Source: " + choice.cardSource->name + ")";
-
-        if ((choice.choiceType == CardTarget) && ((choice.nTargets > 1) || (choice.isOptional))) {
-            res += " [";
-            if (choice.isOptional)
-                res += "optional";
-            if (choice.nTargets > 1) {
-                if (choice.isOptional)
-                    res += " ";
-                res += std::to_string(choice.cardOptionsSelected.size()) + "/" + std::to_string(choice.nTargets);
-            }
-            res += "]";
-        }
-    }
-    if (res.size() == 0)
-        return "Card stack is empty...";
-    return res;
-}
-
 bool tryFinishTurn(Field &ally, Field &enemy)
 {
     if (!ally.cardStack2.isEmpty() > 0)
@@ -1677,22 +1630,6 @@ void saveFieldsSnapshot(
             || viewEnemy.actionType == PutToDiscard;
     if (canShowActionToEnemy || showEvenHidden)
         pushSnapshot(enemy, viewEnemy);
-}
-
-bool randomRowAndPos(Field &field, Row &row, Pos &pos)
-{
-    std::vector<Row> hasFreeSpace;
-    for (const Row _row : std::vector<Row>{Meele, Range, Seige}) {
-        if (isRowFull(field.row(_row)))
-            continue;
-        hasFreeSpace.push_back(_row);
-    }
-    if (hasFreeSpace.size() == 0)
-        return false;
-
-    row = hasFreeSpace[field.rng() % hasFreeSpace.size()];
-    pos = Pos(field.row(row).size());
-    return true;
 }
 
 bool isOnBoard(const Card *card, const Field &field)
@@ -2413,9 +2350,7 @@ void CardStack::popChoice()
     assert(_queue.size());
     _queue.erase(_queue.begin());
     while (tryAutoResolveChoices()) {
-        std::cout << std::endl << std::endl << "CardStack::popChoice" << std::endl;
         trace();
-        std::cout << std::endl;
     }
 }
 
@@ -2428,9 +2363,7 @@ void CardStack::pushChoice(const Choice2 &choice)
 {
     _queue.push_back(choice);
     while (tryAutoResolveChoices()) {
-        std::cout << std::endl << std::endl << "CardStack::pushChoice" << std::endl;
         trace();
-        std::cout << std::endl;
     }
 }
 
@@ -2478,7 +2411,7 @@ bool CardStack::tryAutoResolveChoices()
     Choice2 &choice = _queue.front();
 
     if (choice.type == RowSelect) {
-        /// filter existed rows
+        /// expand a choice (filter existed rows)
         std::vector<int> screenRowsRes;
         for (const int screenRow : choice.screenRows) {
             bool isAlly;
@@ -2505,6 +2438,9 @@ bool CardStack::tryAutoResolveChoices()
             _queue.erase(_queue.begin());
             return true;
         }
+
+        if (!isRemovingExpandedChoice)
+            return false;
 
         /// erase a choice (auto solved) and store its data to exec
         assert(choice.screenRows.size() == 1);
@@ -2563,6 +2499,10 @@ bool CardStack::tryAutoResolveChoices()
     if (int(choice.options.size() + choice.optionsSelected.size()) > choice.nTargets)
         return false;
 
+    /// don't remove it after expand, if player prefer so
+    if (!isRemovingExpandedChoice)
+        return false;
+
     /// store data of choice, because erasing invalidates a reference
     /// remove from queue before resolving it, to not try  autosolve
     /// same choice again, if onTargetChoosen brings new choices to CardStack.
@@ -2573,10 +2513,13 @@ bool CardStack::tryAutoResolveChoices()
     _queue.erase(_queue.begin());
 
     /// choice can be done automaticly
-    for (Card *card : options)
-        src->onTargetChoosen(card, *fieldPtrAlly, *fieldPtrEnemy);
-
-    // FIXME: probably, should check if its an option and call onOptionChoosen
+    assert(choice.type == CardTarget || choice.type == CardOption);
+    for (Card *card : options) {
+        if (choice.type == CardTarget)
+            src->onTargetChoosen(card, *fieldPtrAlly, *fieldPtrEnemy);
+        if (choice.type == CardOption)
+            src->onOptionChoosen(card, *fieldPtrAlly, *fieldPtrEnemy);
+    }
     return true;
 }
 
