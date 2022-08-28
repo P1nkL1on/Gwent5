@@ -66,6 +66,7 @@ private:
     Field _ally;
     Field _enemy;
     FieldView _snapshot;
+    bool _isLastSnapshotShownAlly = true;
 
     QNetworkAccessManager *_networkAccessManager = nullptr;
     QSet<QString> _pixMapsRequested;

@@ -1342,5 +1342,5 @@ void demoWithWindow5(Field &ally, Field &enemy)
     auto *h = new ShupesDayOff();
     initField({h}, nullptr, ally);
     drawACard(ally, enemy);
-    startDemo(ally, enemy);
+    startDemo(ally, enemy, false, true);
 }

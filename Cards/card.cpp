@@ -315,6 +315,8 @@ void startNextRound(Field &ally, Field &enemy)
     // TODO: agreagate to function: mulligan choice
     Choice2 choice;
     choice.type = CardRoundStartSwap;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
     choice.options = ally.hand;
     choice.nTargets = nSwap;
     choice.isOptional = true;
@@ -775,11 +777,8 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
         if (choicePopped.nTargets > 1) {
             // TODO: agregate muligan choice
-            Choice2 choice;
-            choice.type = CardRoundStartSwap;
-            choice.options = ally.hand;
+            Choice2 choice = choicePopped;
             choice.nTargets = choicePopped.nTargets - 1;
-            choice.isOptional = true;
             ally.cardStack2.pushChoice(choice);
             return;
         }
@@ -787,20 +786,7 @@ void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 
     /// start a game after start swap
     ally.nSwaps = 0;
-    // TODO: add leader to hand, move to separate function
-    std::vector<Card *> cardsToPlay = ally.hand;
-    if (ally.leader != nullptr)
-        cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
-
-    // TODO: agreagate to function choice
-    Choice2 choice;
-    choice.type = CardRoundStartPlay;
-    choice.options = cardsToPlay;
-    choice.nTargets = 1;
-    choice.isOptional = ally.canPass;
-    ally.cardStack2.pushChoice(choice);
-
-    saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
+    startChoiceRoundStartPlay(ally, enemy);
 }
 
 bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field)
@@ -1330,15 +1316,15 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *s
     saveFieldsSnapshot(ally, enemy, GainArmor, src, {card}, "", x);
 }
 
-bool tryFinishTurn(Field &ally, Field &enemy)
+void tryFinishTurn(Field &ally, Field &enemy)
 {
-    if (!ally.cardStack2.isEmpty() > 0)
-        return false;
+    if (!ally.cardStack2.isEmpty())
+        return;
 
     /// finish turn if neither of player has been passed
     if (ally.passed && enemy.passed) {
         startNextRound(ally, enemy);
-        return true;
+        return;
     }
 
     /// finish turn if noone passed
@@ -1364,29 +1350,17 @@ bool tryFinishTurn(Field &ally, Field &enemy)
         // TODO: agregate muligan choice
         Choice2 choice;
         choice.type = CardRoundStartSwap;
+        choice.fieldPtrAlly = &enemy;
+        choice.fieldPtrEnemy = &ally;
         choice.options = enemy.hand;
         choice.nTargets = enemy.nSwaps;
         choice.isOptional = true;
         enemy.cardStack2.pushChoice(choice);
-        return true;
+        return;
     }
 
     /// give a choice to enemy
-    // TODO: add leader to hand, move to separate function
-    std::vector<Card *> cardsToPlay = enemy.hand;
-    if (enemy.leader != nullptr)
-        cardsToPlay.insert(cardsToPlay.begin(), enemy.leader);
-
-    // TODO: agreagate to function choice
-    Choice2 choice;
-    choice.type = CardRoundStartPlay;
-    choice.options = cardsToPlay;
-    choice.nTargets = 1;
-    choice.isOptional = enemy.canPass;
-    enemy.cardStack2.pushChoice(choice);
-
-    saveFieldsSnapshot(enemy, ally, TurnStart, nullptr, {}, "", enemy.nTurns + 1);
-    return true;
+    startChoiceRoundStartPlay(enemy, ally);
 }
 
 int powerField(const Field &field)
@@ -2454,13 +2428,32 @@ bool CardStack::tryAutoResolveChoices()
         return true;
     }
 
-    /// never automate card playing at the round start or mulligan, except no options
-    if (choice.type == CardRoundStartPlay || choice.type == CardRoundStartSwap) {
-        if (choice.options.size() == 0) {
-            _queue.erase(_queue.begin());
-            return true;
-        }
-        return false;
+    /// if no options in play, then auto pass
+    if (choice.type == CardRoundStartPlay) {
+        if (choice.options.size() > 0)
+            return false;
+
+        Field *fieldPtrAlly = choice.fieldPtrAlly;
+        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+        _queue.erase(_queue.begin());
+        pass(*fieldPtrAlly, *fieldPtrEnemy);
+        return true;
+    }
+
+    /// if no options in mulligan, then auto finish it
+    if (choice.type == CardRoundStartSwap) {
+        if (choice.options.size() > 0)
+            return false;
+
+        // TODO: mk a function startSwap which both would be called here
+        // and inside a onChoiceDoneRounrStartSwap
+        Field *fieldPtrAlly = choice.fieldPtrAlly;
+        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
+        _queue.erase(_queue.begin());
+
+        fieldPtrAlly->nSwaps = 0;
+        startChoiceRoundStartPlay(*fieldPtrAlly, *fieldPtrEnemy);
+        return true;
     }
 
     // TODO: optimizing row selection
@@ -2527,10 +2520,33 @@ void startDemo(Field &ally, Field &enemy, const bool hasEnemyPassed, const bool 
 {
     enemy.passed = hasEnemyPassed;
     ally.canPass = canAllyPass;
+    return startChoiceRoundStartPlay(ally, enemy);
+}
+
+void startChoiceRoundStartPlay(Field &ally, Field &enemy)
+{
+    // assert mulligan finished and didn't pass and no choices left
+    assert(ally.nSwaps == 0);
+    assert(!ally.passed);
+    assert(ally.cardStack2.isEmpty());
+
+    // NOTE: may resolve in ally pass
+    // TODO: add leader to hand, move to separate function
+    std::vector<Card *> cardsToPlay = ally.hand;
+    if (ally.leader != nullptr)
+        cardsToPlay.insert(cardsToPlay.begin(), ally.leader);
+
     Choice2 choice;
     choice.type = CardRoundStartPlay;
-    choice.options = ally.hand;
-    choice.nTargets = true;
-    choice.isOptional = false;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.options = cardsToPlay;
+    choice.nTargets = 1;
+    choice.isOptional = ally.canPass;
     ally.cardStack2.pushChoice(choice);
+
+    if (ally.cardStack2.isEmpty())
+        return;
+    // if didn't resolved into pass, then push turn start annoncment
+    saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
 }

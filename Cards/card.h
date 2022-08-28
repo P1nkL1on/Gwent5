@@ -411,6 +411,7 @@ void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::
 void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyCard, const int nWindow = 3, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
+void startChoiceRoundStartPlay(Field &ally, Field &enemy);
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);
@@ -418,7 +419,7 @@ void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy);
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy);
 void saveFieldsSnapshot(Field &ally, Field &enemy, const ActionType actionType, const Card *src = nullptr, const std::vector<Card *> &dst = {}, const std::string &sound = "", const int value = -1, const ActionType actionTypeEnemy = Invalid);
 /// returns false when no choice left (game end)
-bool tryFinishTurn(Field &ally, Field &enemy);
+void tryFinishTurn(Field &ally, Field &enemy);
 
 /// value computation
 std::map<const Card *, int> optionToGap(const Field &ally, const Field &enemy);

@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include <QPointer>
 #include <QMenuBar>
+#include <QScrollBar>
 #include <qfiledialog.h>
 
 #include "Cards/demos.h"
@@ -232,8 +233,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
 
     const auto isFinishChoiceButton = [=](const QPoint &point) {
         const QFontMetricsF metrics(QFont{});
-        const QString string = QString("Turn %1").arg(1 + ally.nTurns)/*.arg(QString::fromStdString(stringChoices(ally.cardStack)))*/;
-        const QPointF topLeft(metrics.width(string) + _layout.borderTextPx, 2 * _layout.spacingPx + 7 * posHeight - metrics.height());
+        const QPointF topLeft(_layout.borderTextPx, 2 * _layout.spacingPx + 7 * posHeight - metrics.height());
         const QRectF rectRes = QRectF(topLeft, QSizeF(metrics.width("Finish Choice"), metrics.height())).translated(rect.topLeft());
         return rectRes.contains(point);
     };
@@ -656,13 +656,13 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
     static_assert(View_count == 9, "");
     if (_view == ViewStack) {
         double statusWidth = 0;
+        if (currentChoiceView && currentChoiceView->isOptional) {
+            statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _layout.borderTextPx;
+        }
         if (currentChoiceView){
             const QString stringStatus = QString::fromStdString(currentChoiceView->toString());
             const QString stringTurn = QString::number(1 + view.nTurns);
-            statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(0, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _layout.borderTextPx;
-        }
-        if (currentChoiceView && currentChoiceView->isOptional) {
-            statusWidth += paintTextInPoint("Finish Choice", rect.topLeft() + QPointF(statusWidth, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::black, Qt::white) + _layout.borderTextPx;
+            statusWidth += paintTextInPoint("Turn " + stringTurn + ": " + stringStatus, rect.topLeft() + QPointF(statusWidth, 2 * _layout.spacingPx + 7 * posHeight - metrics.height()), Qt::gray) + _layout.borderTextPx;
         }
         if (currentChoiceView) {
             for (size_t i = 0; i < currentChoiceView->cardOptionIds.size(); ++i) {
@@ -1056,6 +1056,7 @@ void MainWindow::repaintCustom()
         {
             if(textEdit) {
                 textEdit->setPlainText(textEdit->toPlainText() + data);
+                textEdit->verticalScrollBar()->setValue(textEdit->verticalScrollBar()->maximum());
             }
             return maxSize;
         }
@@ -1083,34 +1084,18 @@ void MainWindow::repaintCustom()
     }
     if (!_ally.cardStack2.isEmpty()) {
         _snapshot = fieldView(_ally, _enemy);
+        _isLastSnapshotShownAlly = true;
+
     } else if (!_enemy.cardStack2.isEmpty()) {
         _snapshot = fieldView(_enemy, _ally);
+        _isLastSnapshotShownAlly = false;
+
+    } else if (_isLastSnapshotShownAlly) {
+        _snapshot = fieldView(_ally, _enemy);
+
+    } else {
+        _snapshot = fieldView(_enemy, _ally);
+
     }
     repaint();
-
-//    if (_ally.cardStack.size()) {
-//        for (const FieldView &snapshot : _ally.snapshots) {
-//            requestSoundByUrl(snapshot.sound);
-//            _snapshot = snapshot;
-//            repaint();
-//            QEventLoop loop;
-//            QTimer::singleShot(300, &loop, &QEventLoop::quit);
-//            loop.exec(QEventLoop::ExcludeUserInputEvents);
-//        }
-//        _ally.snapshots.clear();
-//        _snapshot = fieldView(_ally, _enemy);
-//        repaint();
-//    } else if (_enemy.cardStack.size()) {
-//        for (const FieldView &snapshot : _enemy.snapshots) {
-//            requestSoundByUrl(snapshot.sound);
-//            _snapshot = snapshot;
-//            repaint();
-//            QEventLoop loop;
-//            QTimer::singleShot(300, &loop, &QEventLoop::quit);
-//            loop.exec(QEventLoop::ExcludeUserInputEvents);
-//        }
-//        _enemy.snapshots.clear();
-//        _snapshot = fieldView(_enemy, _ally);
-//        repaint();
-    //    }
 }
