@@ -40,8 +40,6 @@ FieldView fieldView(
         const int actionValue,
         const bool computeOptionScoreGaps)
 {
-    ally.cardStack2.trace();
-
     std::map<const Card *, CardView> cardToView;
 
     int cardViewId = 0;

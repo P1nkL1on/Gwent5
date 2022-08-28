@@ -223,18 +223,25 @@ class CardStack
 public:
     Choice2 peekChoice() const;
     bool isEmpty() const;
-    void pushChoice(const Choice2 &peekChoice);
-    void popChoice();
-    void trace() const;
+    /// add a choice to the bottom of queue (resolves last)
+    void push(const Choice2 &choice);
+    /// add a choice to the top of queue (resolves first)
+    void put(const Choice2 &choice);
+    /// take the top choice
+    void pop();
     /// friend for tests
     const std::vector<Choice2> &queue() const { return _queue; }
     using Iterator = std::vector<Choice2>::iterator;
     Iterator begin() { return _queue.begin(); }
     Iterator end() { return _queue.end(); }
+    /// if set, options w/ 1 obvious choice are still not removed
+    /// and can be decided by a player himself. options w/ zero
+    /// options are still can be autoresolved and removed
     bool isRemovingExpandedChoice = true;
 private:
     /// returns true if removed a first choice
-    bool tryAutoResolveChoices();
+    bool tryAutoResolveTopChoice();
+    void trace() const;
     std::vector<Choice2> _queue;
 };
 
@@ -273,6 +280,7 @@ struct Field
     int nSwaps = 0;
     bool passed = false;
     bool canPass = true;
+    bool isMyTurn = false;
 
     Rng rng;
 
@@ -343,7 +351,7 @@ bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
 bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &enemy, const bool triggerDeploy, const Card *src);
 
 /// put any card to discard
-void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src);
+void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src, const bool triggerDeathwish = true);
 
 void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, const Card *src);
 
@@ -411,7 +419,10 @@ void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::
 void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyCard, const int nWindow = 3, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters = {}, const ChoiceGroup group = AnyBoard, const int nTargets = 1, const bool isOptional = false);
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets = 1, const bool isOptional = false);
+/// may result in autopass, cause instantly ties autoresolve
 void startChoiceRoundStartPlay(Field &ally, Field &enemy);
+void startChoiceRoundStartSwap(Field &ally, Field &enemy);
+void tryStartRoundAfterSwap(Field &ally, Field &enemy);
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy);
 void onChoiceDoneRowAndPlace(const RowAndPos &_findRowAndPos, Field &ally, Field &enemy);

@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
-        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Transformation", demoTransforms},
         //{"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
@@ -91,6 +90,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"Pack of smoothy elves", demoSwapElves},
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
+        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
+        {"Empty should resolve to Draw", demoEmpty},
     };
 
     /// make a choosing menu for it
@@ -744,8 +745,12 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             .arg(view.nPowerRowEnemyMeele + view.nPowerRowEnemyRange + view.nPowerRowEnemySeige)
             .arg(view.enemyPassed)
             .arg(view.nEnemyWins);
+    const QString statusRound = QString("Round #%1 Turn #%2")
+            .arg(view.nRounds)
+            .arg(view.nTurns);
     paintTextInPoint(stringStatusAlly, QPointF(0, 20), Qt::black, Qt::cyan);
     paintTextInPoint(stringStatusEnemy, QPointF(0, 35), Qt::black, Qt::red);
+    paintTextInPoint(statusRound, QPointF(0, 50), Qt::black, Qt::white);
 }
 
 void MainWindow::onImageRequestFinished(QNetworkReply *reply)
@@ -931,6 +936,15 @@ void MainWindow::repaintCustom()
             break;
         case WonGameBoth:
             stream << prefix << "DRAW!";
+            break;
+        case RoundStart:
+            stream << prefix << "\n#" << x << " round started";
+            break;
+        case MulliganSkipAlly:
+            stream << prefix << "You skipped a mulligan (" << x << ")";
+            break;
+        case MulliganSkipEnemy:
+            stream << prefix << "Opponent skipped a mulligan (" << x << ")";
             break;
         case PlaySpecial:
             stream << prefix << dst << " special played by " << src;

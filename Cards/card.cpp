@@ -208,14 +208,15 @@ void initField(const std::vector<Card *> &deckStarting, Card *leader, Field &fie
 
 void startNextRound(Field &ally, Field &enemy)
 {
-    /// BUG: Incorrect autosolving muligan choice and card play choice
-    /// in first case the game should continue, in the second player should
-    /// pass automaticly. In either case now nothing happens
-    ///
+    /// assert no choices left
+    assert(ally.cardStack2.isEmpty());
+    assert(enemy.cardStack2.isEmpty());
     /// check winners:
     /// if prev round wasn't first, and no winner already, then check it
     if (ally.nWins == 2 || enemy.nWins == 2)
         return;
+
+    /// if any rounds was already, count a winner
     if (ally.nRounds) {
         const int nPowerAlly = powerField(ally);
         const int nPowerEnemy = powerField(enemy);
@@ -223,15 +224,21 @@ void startNextRound(Field &ally, Field &enemy)
         const bool isTied = nPowerAlly == nPowerEnemy;
         if (isLoosing) {
             enemy.nWins++;
+            ally.isMyTurn = false;
+            enemy.isMyTurn = true;
             saveFieldsSnapshot(ally, enemy, WonRoundEnemy, nullptr, {}, "", ally.nRounds, WonRoundAlly);
             for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
                 card->onRoundLose(ally, enemy);
         } else if (isTied) {
             ally.nWins++;
             enemy.nWins++;
+            ally.isMyTurn = !ally.isMyTurn;
+            enemy.isMyTurn = !enemy.isMyTurn;
             saveFieldsSnapshot(ally, enemy, WonRoundBoth, nullptr, {}, "", ally.nRounds);
         } else {
             ally.nWins++;
+            ally.isMyTurn = true;
+            enemy.isMyTurn = false;
             saveFieldsSnapshot(ally, enemy, WonRoundAlly, nullptr, {}, "", ally.nRounds, WonRoundEnemy);
             for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
                 card->onRoundLose(enemy, ally);
@@ -248,35 +255,35 @@ void startNextRound(Field &ally, Field &enemy)
             saveFieldsSnapshot(ally, enemy, WonGameEnemy, nullptr, {}, "", -1, WonGameAlly);
             return;
         }
-    }
-    /// clean all the mess from previous round
-    for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
-        ally.rowEffect(row) = NoRowEffect;
-        enemy.rowEffect(row) = NoRowEffect;
 
-        const std::vector<Card *> rowAlly = ally.row(row);
-        for (Card *card : rowAlly)
-            if (!card->isResilient) {
-                takeCard(card, ally, enemy);
-                resetPower(card, ally, enemy, nullptr);
-                ally.discard.push_back(card);
-            } else {
-                card->isResilient = false;
-                if (card->power > card->powerBase)
-                    card->power = card->powerBase;
-            }
+        /// clean all the mess from previous round
+        for (const Row row : std::vector<Row>{Meele, Range, Seige}) {
+            ally.rowEffect(row) = NoRowEffect;
+            enemy.rowEffect(row) = NoRowEffect;
 
-        const std::vector<Card *> rowEnemy = enemy.row(row);
-        for (Card *card : rowEnemy)
-            if (!card->isResilient) {
-                takeCard(card, enemy, enemy);
-                resetPower(card, ally, enemy, nullptr);
-                enemy.discard.push_back(card);
-            } else {
-                card->isResilient = false;
-                if (card->power > card->powerBase)
-                    card->power = card->powerBase;
-            }
+            const auto cleanRow = [&ally, &enemy](const std::vector<Card *> &cards) {
+                for (Card *card : cards) {
+                    if (card->isResilient) {
+                        card->isResilient = false;
+                        resetPower(card, ally, enemy, nullptr);
+                        continue;
+                    }
+                    if (card->isDoomed) {
+                        banish(card, ally, enemy, nullptr);
+                        continue;
+                    }
+
+                    putToDiscard(card, ally, enemy, nullptr, false);
+                }
+            };
+            cleanRow(ally.row(row));
+            cleanRow(enemy.row(row));
+        }
+    } else {
+        ///determine an order of playing by random
+        // FIXME: tmp disabled, always ally start
+        ally.isMyTurn = true;
+        enemy.isMyTurn = false;
     }
 
     /// start next round
@@ -288,6 +295,9 @@ void startNextRound(Field &ally, Field &enemy)
     enemy.nTurns = 0;
     enemy.passed = false;
 
+    saveFieldsSnapshot(ally, enemy, RoundStart, nullptr, {}, "", ally.nRounds);
+
+    // add a draw and mulligan step
     int nDraw = 0;
     int nSwap = 0;
     if (ally.nRounds == 1) {
@@ -310,17 +320,8 @@ void startNextRound(Field &ally, Field &enemy)
 
     ally.nSwaps = nSwap;
     enemy.nSwaps = nSwap;
-
-    // TODO: flip a coin to determine first player
-    // TODO: agreagate to function: mulligan choice
-    Choice2 choice;
-    choice.type = CardRoundStartSwap;
-    choice.fieldPtrAlly = &ally;
-    choice.fieldPtrEnemy = &enemy;
-    choice.options = ally.hand;
-    choice.nTargets = nSwap;
-    choice.isOptional = true;
-    ally.cardStack2.pushChoice(choice);
+    startChoiceRoundStartSwap(ally, enemy);
+    startChoiceRoundStartSwap(enemy, ally);
 }
 
 void shuffle(std::vector<Card *> &cards, Rng &rng)
@@ -475,13 +476,13 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
     return true;
 }
 
-void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src)
+void putToDiscard(Card *card, Field &ally, Field &enemy, const Card *src, const bool triggerDeathwish)
 {
     Pos pos;
     bool isAlly;
     const Row takenFrom = takeCard(card, ally, enemy, &pos, &isAlly);
     const bool mayPutOnDiscard = !card->isDoomed && (card->isSpecial || card->powerBase > 0);
-    const bool mayTriggerDeathwish = card->powerBase > 0;
+    const bool mayTriggerDeathwish = card->powerBase > 0 && triggerDeathwish;
 
     Field *cardAlly = &ally;
     Field *cardEnemy = &enemy;
@@ -618,7 +619,7 @@ void startChoiceToSelectOption(Field &ally, Field &enemy, Card *src, const std::
     choice.nWindow = nWindow;
     choice.isOptional = isOptional;
 
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
 }
 
 void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nWindow, const bool isOptional)
@@ -635,7 +636,7 @@ void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filter
     choice.nWindow = nWindow;
     choice.isOptional = isOptional;
 
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -651,7 +652,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters
     choice.nTargets = nTargets;
     choice.isOptional = isOptional;
 
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
@@ -666,7 +667,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::ve
     choice.nTargets = nTargets;
     choice.isOptional = isOptional;
 
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
 }
 
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
@@ -679,13 +680,13 @@ void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::ve
     choice.fieldPtrAlly = &ally;
     choice.fieldPtrEnemy = &enemy;
     choice.src = self;
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
 }
 
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
     const Choice2 choice = ally.cardStack2.peekChoice();
-    ally.cardStack2.popChoice();
+    ally.cardStack2.pop();
 
     if (choice.type == CardRoundStartPlay) {
         /// passed
@@ -710,7 +711,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             choiceNext.optionsSelected.push_back(card);
 
             if ((int(choiceNext.optionsSelected.size()) < choiceNext.nTargets) && (choiceNext.options.size() > 0)) {
-                ally.cardStack2.pushChoice(choiceNext);
+                ally.cardStack2.push(choiceNext);
                 return;
             }
         } else {
@@ -745,13 +746,13 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
 
     if (choice.type == RowAndPosAlly) {
         _putOnField(choice.src, rowAndPos, ally, enemy, true, nullptr);
-        ally.cardStack2.popChoice();
+        ally.cardStack2.pop();
         return;
     }
 
     if (choice.type == RowAndPosEnemy) {
         _putOnField(choice.src, rowAndPos, enemy, ally, true, nullptr);
-        ally.cardStack2.popChoice();
+        ally.cardStack2.pop();
         return;
     }
 
@@ -763,30 +764,23 @@ void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
     const Choice2 choice = ally.cardStack2.peekChoice();
     assert(choice.type == RowSelect);
     choice.src->onTargetRowChoosen(ally, enemy, screenRow);
-    ally.cardStack2.popChoice();
+    ally.cardStack2.pop();
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 {
     const Choice2 choicePopped = ally.cardStack2.peekChoice();
-    ally.cardStack2.popChoice();
+    ally.cardStack2.pop();
     assert(choicePopped.type == CardRoundStartSwap);
 
     if (card != nullptr) {
         swapACard(card, ally, enemy, nullptr);
-
-        if (choicePopped.nTargets > 1) {
-            // TODO: agregate muligan choice
-            Choice2 choice = choicePopped;
-            choice.nTargets = choicePopped.nTargets - 1;
-            ally.cardStack2.pushChoice(choice);
-            return;
-        }
+        /// if any swaps left, then retry the choice
+        if (--ally.nSwaps)
+            return startChoiceRoundStartSwap(ally, enemy);
     }
 
-    /// start a game after start swap
-    ally.nSwaps = 0;
-    startChoiceRoundStartPlay(ally, enemy);
+    return tryStartRoundAfterSwap(ally, enemy);
 }
 
 bool isOkRowAndPos(const RowAndPos &rowAndPos, const Field &field)
@@ -1318,10 +1312,12 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *s
 
 void tryFinishTurn(Field &ally, Field &enemy)
 {
+    /// can't finish a turn nowm, choices are to be done
     if (!ally.cardStack2.isEmpty())
         return;
 
-    /// finish turn if neither of player has been passed
+    /// if tryFinishTurn after a pass, if both passed
+    /// go to the next round
     if (ally.passed && enemy.passed) {
         startNextRound(ally, enemy);
         return;
@@ -1333,7 +1329,7 @@ void tryFinishTurn(Field &ally, Field &enemy)
         _card->onTurnEnd(ally, enemy);
 
     ally.nTurns++;
-
+    saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns);
 
     // enemy turn
     triggerRowEffects(enemy, ally);
@@ -1341,23 +1337,9 @@ void tryFinishTurn(Field &ally, Field &enemy)
     for (Card *_card : _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.deck, enemy.discard}))
         _card->onTurnStart(enemy, ally);
 
-    /// finish turn if only enemy passed
+    /// skip enemy tun if they passed
     if (enemy.passed)
         return tryFinishTurn(enemy, ally);
-
-    // TODO: remove later, only for a hot-seat
-    if (enemy.nTurns == 0 && enemy.nSwaps != 0){
-        // TODO: agregate muligan choice
-        Choice2 choice;
-        choice.type = CardRoundStartSwap;
-        choice.fieldPtrAlly = &enemy;
-        choice.fieldPtrEnemy = &ally;
-        choice.options = enemy.hand;
-        choice.nTargets = enemy.nSwaps;
-        choice.isOptional = true;
-        enemy.cardStack2.pushChoice(choice);
-        return;
-    }
 
     /// give a choice to enemy
     startChoiceRoundStartPlay(enemy, ally);
@@ -1555,7 +1537,19 @@ void saveFieldsSnapshot(
             // if uncollapsable type, then stop it
             // TODO: check what is it...
             const ActionType type = field.snapshots[j].actionType;
-            if (type == PlaySpecial || type == PutOnField)
+            if (type == PlaySpecial
+                    || type == PutOnField
+                    || type == PassedAlly
+                    || type == PassedEnemy
+                    || type == WonRoundAlly
+                    || type == WonRoundEnemy
+                    || type == WonRoundBoth
+                    || type == WonGameAlly
+                    || type == WonGameEnemy
+                    || type == WonGameBoth
+                    || type == RoundStart
+                    || type == MulliganSkipAlly
+                    || type == MulliganSkipEnemy)
                 break;
 
             // find previous snapshot with same animation type and src
@@ -1744,7 +1738,7 @@ bool playCard2(Card *card, Field &ally, Field &enemy, const Card *src, const boo
         Choice2 choice;
         choice.type = card->isLoyal ? RowAndPosAlly : RowAndPosEnemy;
         choice.src = card;
-        ally.cardStack2.pushChoice(choice);
+        ally.cardStack2.push(choice);
         return true;
     }
 
@@ -2319,13 +2313,11 @@ Choice2 CardStack::peekChoice() const
     return _queue.front();
 }
 
-void CardStack::popChoice()
+void CardStack::pop()
 {
     assert(_queue.size());
     _queue.erase(_queue.begin());
-    while (tryAutoResolveChoices()) {
-        trace();
-    }
+    while (tryAutoResolveTopChoice());
 }
 
 bool CardStack::isEmpty() const
@@ -2333,12 +2325,16 @@ bool CardStack::isEmpty() const
     return !_queue.size();
 }
 
-void CardStack::pushChoice(const Choice2 &choice)
+void CardStack::push(const Choice2 &choice)
 {
     _queue.push_back(choice);
-    while (tryAutoResolveChoices()) {
-        trace();
-    }
+    while (tryAutoResolveTopChoice());
+}
+
+void CardStack::put(const Choice2 &choice)
+{
+    _queue.insert(_queue.begin(), choice);
+    while (tryAutoResolveTopChoice());
 }
 
 void CardStack::trace() const
@@ -2377,7 +2373,7 @@ void CardStack::trace() const
         std::cout << "^ LAST" << std::endl;
 }
 
-bool CardStack::tryAutoResolveChoices()
+bool CardStack::tryAutoResolveTopChoice()
 {
     if (!_queue.size())
         return false;
@@ -2433,10 +2429,7 @@ bool CardStack::tryAutoResolveChoices()
         if (choice.options.size() > 0)
             return false;
 
-        Field *fieldPtrAlly = choice.fieldPtrAlly;
-        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
-        _queue.erase(_queue.begin());
-        pass(*fieldPtrAlly, *fieldPtrEnemy);
+        onChoiceDoneCard(nullptr, *choice.fieldPtrAlly, *choice.fieldPtrEnemy);
         return true;
     }
 
@@ -2445,14 +2438,7 @@ bool CardStack::tryAutoResolveChoices()
         if (choice.options.size() > 0)
             return false;
 
-        // TODO: mk a function startSwap which both would be called here
-        // and inside a onChoiceDoneRounrStartSwap
-        Field *fieldPtrAlly = choice.fieldPtrAlly;
-        Field *fieldPtrEnemy = choice.fieldPtrEnemy;
-        _queue.erase(_queue.begin());
-
-        fieldPtrAlly->nSwaps = 0;
-        startChoiceRoundStartPlay(*fieldPtrAlly, *fieldPtrEnemy);
+        onChoiceDoneRoundStartSwap(nullptr, *choice.fieldPtrAlly, *choice.fieldPtrEnemy);
         return true;
     }
 
@@ -2520,17 +2506,15 @@ void startDemo(Field &ally, Field &enemy, const bool hasEnemyPassed, const bool 
 {
     enemy.passed = hasEnemyPassed;
     ally.canPass = canAllyPass;
-    return startChoiceRoundStartPlay(ally, enemy);
+    startChoiceRoundStartPlay(ally, enemy);
 }
 
 void startChoiceRoundStartPlay(Field &ally, Field &enemy)
 {
-    // assert mulligan finished and didn't pass and no choices left
-    assert(ally.nSwaps == 0);
     assert(!ally.passed);
+    assert(!ally.nSwaps);
     assert(ally.cardStack2.isEmpty());
 
-    // NOTE: may resolve in ally pass
     // TODO: add leader to hand, move to separate function
     std::vector<Card *> cardsToPlay = ally.hand;
     if (ally.leader != nullptr)
@@ -2543,10 +2527,52 @@ void startChoiceRoundStartPlay(Field &ally, Field &enemy)
     choice.options = cardsToPlay;
     choice.nTargets = 1;
     choice.isOptional = ally.canPass;
-    ally.cardStack2.pushChoice(choice);
+    ally.cardStack2.push(choice);
+}
 
-    if (ally.cardStack2.isEmpty())
+void startChoiceRoundStartSwap(Field &ally, Field &enemy)
+{
+    assert(ally.nSwaps > 0);
+    assert(!ally.passed);
+
+    /// end swap instantly, if no cards left in a deck
+    if (ally.deck.size() == 0) {
+        saveFieldsSnapshot(ally, enemy, MulliganSkipAlly, nullptr, {}, "", ally.nSwaps, MulliganSkipEnemy);
+        tryStartRoundAfterSwap(ally, enemy);
         return;
-    // if didn't resolved into pass, then push turn start annoncment
-    saveFieldsSnapshot(ally, enemy, TurnStart, nullptr, {}, "", ally.nTurns + 1);
+    }
+
+    Choice2 choice;
+    choice.type = CardRoundStartSwap;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
+    choice.options = ally.hand;
+    choice.nTargets = ally.nSwaps;
+    choice.isOptional = true;
+    ally.cardStack2.put(choice);
+}
+
+void tryStartRoundAfterSwap(Field &ally, Field &enemy)
+{
+    ally.nSwaps = 0;
+
+    /// enemy is still swapping
+    if (enemy.nSwaps > 0)
+        return;
+
+    Field *firstPtr = &ally;
+    Field *secondPtr = &enemy;
+    if (enemy.isMyTurn)
+        std::swap(firstPtr, secondPtr);
+
+    startChoiceRoundStartPlay(*firstPtr, *secondPtr);
+    if (!firstPtr->passed)
+        return;
+
+    startChoiceRoundStartPlay(*secondPtr, *firstPtr);
+    if (!secondPtr->passed)
+        return;
+
+    /// if noone can start a round, go next
+    startNextRound(*firstPtr, *secondPtr);
 }

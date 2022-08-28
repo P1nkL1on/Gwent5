@@ -1344,3 +1344,8 @@ void demoWithWindow5(Field &ally, Field &enemy)
     drawACard(ally, enemy);
     startDemo(ally, enemy, false, true);
 }
+
+void demoEmpty(Field &ally, Field &enemy)
+{
+    startNextRound(ally, enemy);
+}
