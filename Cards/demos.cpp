@@ -509,7 +509,7 @@ void demoBlueStripes(Field &ally, Field &enemy)
     enemy.passed = true;
     ally.canPass = false;
     for (int i = 0; i < 4; ++i)
-        drawACard(ally, enemy);
+        drawACard(ally, enemy, nullptr);
     startDemo(ally, enemy);
 }
 
@@ -1338,7 +1338,7 @@ void demoWithOpion1(Field &ally, Field &enemy)
 
     initField({h}, nullptr, ally);
     initField({p}, nullptr, enemy);
-    drawACard(ally, enemy);
+    drawACard(ally, enemy, nullptr);
     startDemo(ally, enemy);
 }
 
@@ -1346,7 +1346,7 @@ void demoWithWindow5(Field &ally, Field &enemy)
 {
     auto *h = new ShupesDayOff();
     initField({h}, nullptr, ally);
-    drawACard(ally, enemy);
+    drawACard(ally, enemy, nullptr);
     startDemo(ally, enemy, false, true);
 }
 

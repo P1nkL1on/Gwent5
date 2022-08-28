@@ -389,12 +389,12 @@ void reset(Card *card, Field &ally, Field &enemy, const Card *src);
 ///// NOTE: only for non-card resetings
 void resetPower(Card *card, Field &ally, Field &enemy, const Card *src);
 void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src);
-void putToHand(Card *card, Field &ally, Field &enemy);
+void putToHand(Card *card, Field &ally, Field &enemy, const Card *src);
 void boost(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void strengthen(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 bool weaken(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
-bool drawACard(Field &ally, Field &enemy);
+bool drawACard(Field &ally, Field &enemy, const Card *src);
 void swapACard(Card *card, Field &ally, Field &enemy, const Card *src);
 void banish(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns true if wins a duel

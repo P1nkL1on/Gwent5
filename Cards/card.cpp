@@ -314,8 +314,8 @@ void startNextRound(Field &ally, Field &enemy)
     }
 
     while (nDraw--) {
-        drawACard(ally, enemy);
-        drawACard(enemy, ally);
+        drawACard(ally, enemy, nullptr);
+        drawACard(enemy, ally, nullptr);
     }
 
     ally.nSwaps = nSwap;
@@ -1037,12 +1037,12 @@ RowEffect Field::rowEffect(const Row _row) const
     return rowEffectMeele;
 }
 
-bool drawACard(Field &ally, Field &enemy)
+bool drawACard(Field &ally, Field &enemy, const Card *src)
 {
     if (ally.deck.size() == 0)
         return false;
 
-    putToHand(ally.deck.front(), ally, enemy);
+    putToHand(ally.deck.front(), ally, enemy, src);
     return true;
 }
 
@@ -1061,7 +1061,7 @@ void swapACard(Card *card, Field &ally, Field &enemy, const Card *src)
 
     putToDeck(card, ally, enemy, DeckPosRandomButNotFirst, src);
 
-    const bool drawn = drawACard(ally, enemy);
+    const bool drawn = drawACard(ally, enemy, nullptr);
     assert(drawn);
     card->onDraw(ally, enemy);
 }
@@ -1231,7 +1231,7 @@ void removeAllStatuses(Card *card, Field &ally, Field &enemy, const Card *src)
     saveFieldsSnapshot(ally, enemy, StrippedOfAllStatuses, src, {card});
 }
 
-void putToHand(Card *card, Field &ally, Field &enemy)
+void putToHand(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     const Row row = takeCard(card, ally, enemy);
     assert(row != Hand);
@@ -1243,7 +1243,7 @@ void putToHand(Card *card, Field &ally, Field &enemy)
     card->isLocked = false;
 
     ally.hand.push_back(card);
-    saveFieldsSnapshot(ally, enemy, PutToHand, nullptr, {card});
+    saveFieldsSnapshot(ally, enemy, PutToHand, src, {card});
 
     if (row == Deck) {
         card->onDraw(ally, enemy);
