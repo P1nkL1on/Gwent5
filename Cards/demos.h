@@ -49,6 +49,9 @@ void demoSigismundDijkstra(Field &ally, Field &enemy);
 void demoRowsSelection(Field &ally, Field &enemy);
 void demoWolfsbane(Field &ally, Field &enemy);
 void demoDeckSummon(Field &ally, Field &enemy);
+void demoTriggersOrder(Field &ally, Field &enemy);
+void demoTurnFinishingAndRoundFinishing(Field &ally, Field &enemy);
+void demoAllTypedChoices(Field &ally, Field &enemy);
 void demoNeutralSpecial(Field &ally, Field &enemy);
 void demoGoldWitchers(Field &ally, Field &enemy);
 void demoNeutralDudes(Field &ally, Field &enemy);
@@ -57,6 +60,9 @@ void demoAedirnDragon(Field &ally, Field &enemy);
 void demoLeaders(Field &ally, Field &enemy);
 void demoDwarws(Field &ally, Field &enemy);
 void demoSwapElves(Field &ally, Field &enemy);
+void demoWithOpion1(Field &ally, Field &enemy);
+void demoWithWindow5(Field &ally, Field &enemy);
+void demoEmpty(Field &ally, Field &enemy);
 
 
 #endif // DEMOS_H

@@ -14,7 +14,7 @@ int compareArrays(
 
 struct Testcase
 {
-    void add(const int res, const int expected, const std::string &description = "");
+    bool add(const int res, const int expected, const std::string &description = "");
     int process() const;
 private:
     std::vector<int> _res;

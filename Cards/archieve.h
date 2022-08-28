@@ -1221,7 +1221,6 @@ struct WeavessIncantation : CardCollectible<WeavessIncantation>
 private:
     struct StrengthenAll : CardCollectible<StrengthenAll> {};
     struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
-    Card *_choosen = nullptr;
 };
 
 
@@ -1881,7 +1880,7 @@ private:
     struct BoostInHand : CardCollectible<BoostInHand> {};
     struct DamageHighest : CardCollectible<DamageHighest> {};
     struct CharmElf : CardCollectible<CharmElf> {};
-    int _nOptionsLeft = 0;
+    std::vector<Card *> _optionsSelected;
 };
 
 
@@ -2161,7 +2160,6 @@ private:
     struct DamageOdd : CardCollectible<DamageOdd> {};
     struct DamageEven : CardCollectible<DamageEven> {};
     struct PlayFromDeck : CardCollectible<PlayFromDeck> {};
-    Card *_choosen = nullptr;
 };
 
 

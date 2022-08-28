@@ -25,11 +25,12 @@ int compareArrays(
     return 1;
 }
 
-void Testcase::add(const int res, const int expected, const std::string &description)
+bool Testcase::add(const int res, const int expected, const std::string &description)
 {
     _res.push_back(res);
     _expected.push_back(expected);
     _descriptions.push_back(description);
+    return res == expected;
 }
 
 int Testcase::process() const
