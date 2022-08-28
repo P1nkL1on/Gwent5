@@ -221,14 +221,13 @@ struct Choice
 class CardStack
 {
 public:
-    Choice peekChoice() const;
     bool isEmpty() const;
     /// add a choice to the top of queue (resolves first)
     void push(const Choice &choice);
-    /// remove the top choice
-    void pop();
-    /// take the top choice
+    /// return a next choice, while removing it from a stack
     Choice take();
+    /// same as take, but doesn't remove. Must be used by views, etc
+    Choice peek() const;
     /// TODO: make tests for it
     /// call tryAutoResolveTopChoice
     void expandNextChoiceAndTryResolveIt();

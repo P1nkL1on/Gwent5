@@ -723,8 +723,6 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
         if (choice.type == CardTarget) {
             for (Card *card : choiceNext.optionsSelected)
                 choice.src->onTargetChoosen(card, ally, enemy);
-
-            ally.cardStack2.expandNextChoiceAndTryResolveIt();
             return;
         }
 
@@ -735,8 +733,6 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             /// delete other options
             for (Card *card : choiceNext.options)
                 delete card;
-
-            ally.cardStack2.expandNextChoiceAndTryResolveIt();
             return;
         }
     }
@@ -764,16 +760,14 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
 
 void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
 {
-    const Choice choice = ally.cardStack2.peekChoice();
+    const Choice choice = ally.cardStack2.take();
     assert(choice.type == RowSelect);
     choice.src->onTargetRowChoosen(ally, enemy, screenRow);
-    ally.cardStack2.pop();
 }
 
 void onChoiceDoneRoundStartSwap(Card *card, Field &ally, Field &enemy)
 {
-    const Choice choicePopped = ally.cardStack2.peekChoice();
-    ally.cardStack2.pop();
+    const Choice choicePopped = ally.cardStack2.take();
     assert(choicePopped.type == CardRoundStartSwap);
 
     if (card != nullptr) {
@@ -1315,7 +1309,10 @@ void gainArmor(Card *card, const int x, Field &ally, Field &enemy, const Card *s
 
 void tryFinishTurn(Field &ally, Field &enemy)
 {
-    /// can't finish a turn nowm, choices are to be done
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
+
+    /// can't finish a turn now, choices are to be done.
+    /// any btw, they are now correctly expanded
     if (!ally.cardStack2.isEmpty())
         return;
 
@@ -2310,23 +2307,19 @@ int nCrewed(Card *card, Field &ally)
     return n;
 }
 
-Choice CardStack::peekChoice() const
+Choice CardStack::peek() const
 {
     assert(_stack.size());
     return _stack.front();
 }
 
-void CardStack::pop()
-{
-    assert(_stack.size());
-    _stack.erase(_stack.begin());
-}
-
 Choice CardStack::take()
 {
     assert(_stack.size());
-    const Choice choice = _stack.at(0);
+    const Choice choice = peek();
+
     _stack.erase(_stack.begin());
+
     return choice;
 }
 
@@ -2446,9 +2439,10 @@ bool CardStack::tryAutoResolveTopChoice()
 
     /// if no options in mulligan, then auto finish it
     if (choice.type == CardRoundStartSwap) {
-        if (choice.options.size() > 0)
+        if (choice.options.size() > 0 && choice.fieldPtrAlly->deck.size())
             return false;
 
+        saveFieldsSnapshot(*choice.fieldPtrAlly, *choice.fieldPtrEnemy, MulliganSkipAlly, nullptr, {}, "", choice.nTargets, MulliganSkipEnemy);
         onChoiceDoneRoundStartSwap(nullptr, *choice.fieldPtrAlly, *choice.fieldPtrEnemy);
         return true;
     }
@@ -2470,12 +2464,6 @@ bool CardStack::tryAutoResolveTopChoice()
         /// at this stage, it can left no viable options, anyway.
         /// in this case, or in case number of options match `nTargets`
         /// we can autoresolve the existed choice and remove it.
-
-        // TODO: remove unused code
-        //        std::cout << "Autoresolve choice into ";
-        //        for (const Card *card : choice.options)
-        //            std::cout << card->name << ", ";
-        //        std::cout << "(" << choice.options.size() << ") src = " << choice.src->name << std::endl;
     }
 
     /// if `nWindow` given, then apply it
@@ -2545,19 +2533,13 @@ void startChoiceRoundStartPlay(Field &ally, Field &enemy)
     choice.nTargets = 1;
     choice.isOptional = ally.canPass;
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceRoundStartSwap(Field &ally, Field &enemy)
 {
     assert(ally.nSwaps > 0);
     assert(!ally.passed);
-
-    /// end swap instantly, if no cards left in a deck
-    if (ally.deck.size() == 0) {
-        saveFieldsSnapshot(ally, enemy, MulliganSkipAlly, nullptr, {}, "", ally.nSwaps, MulliganSkipEnemy);
-        tryStartRoundAfterSwap(ally, enemy);
-        return;
-    }
 
     Choice choice;
     choice.type = CardRoundStartSwap;
@@ -2567,6 +2549,7 @@ void startChoiceRoundStartSwap(Field &ally, Field &enemy)
     choice.nTargets = ally.nSwaps;
     choice.isOptional = true;
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void tryStartRoundAfterSwap(Field &ally, Field &enemy)
