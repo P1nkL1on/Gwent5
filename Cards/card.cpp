@@ -84,7 +84,7 @@ Row takeCard(const Card *card, Field &ally, Field &enemy, Pos *pos, bool *isAlly
 Filters canBeSelected(Card *self, const Field &ally, const Field &enemy)
 {
     return Filters{
-        [&](Card *card) {
+        [self, &ally, &enemy](Card *card) {
             if (card == self)
                 return false;
             const bool _isOnBoard = isOnBoard(card, ally) || isOnBoard(card, enemy);
@@ -663,6 +663,8 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::ve
     Choice2 choice;
     choice.type = CardTarget;
     choice.src = src;
+    choice.fieldPtrAlly = &ally;
+    choice.fieldPtrEnemy = &enemy;
     choice.options = options;
     choice.nTargets = nTargets;
     choice.isOptional = isOptional;
@@ -686,7 +688,7 @@ void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::ve
 void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
 {
     const Choice2 choice = ally.cardStack2.peekChoice();
-    ally.cardStack2.pop();
+    ally.cardStack2.take();
 
     if (choice.type == CardRoundStartPlay) {
         /// passed
@@ -721,6 +723,8 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
         if (choice.type == CardTarget) {
             for (Card *card : choiceNext.optionsSelected)
                 choice.src->onTargetChoosen(card, ally, enemy);
+
+            ally.cardStack2.expandNextChoiceAndTryResolveIt();
             return;
         }
 
@@ -731,6 +735,8 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             /// delete other options
             for (Card *card : choiceNext.options)
                 delete card;
+
+            ally.cardStack2.expandNextChoiceAndTryResolveIt();
             return;
         }
     }
@@ -2320,6 +2326,19 @@ void CardStack::pop()
     while (tryAutoResolveTopChoice());
 }
 
+Choice2 CardStack::take()
+{
+    assert(_queue.size());
+    const Choice2 choice = _queue.at(0);
+    _queue.erase(_queue.begin());
+    return choice;
+}
+
+void CardStack::expandNextChoiceAndTryResolveIt()
+{
+    while (tryAutoResolveTopChoice());
+}
+
 bool CardStack::isEmpty() const
 {
     return !_queue.size();
@@ -2459,6 +2478,12 @@ bool CardStack::tryAutoResolveTopChoice()
         /// at this stage, it can left no viable options, anyway.
         /// in this case, or in case number of options match `nTargets`
         /// we can autoresolve the existed choice and remove it.
+
+        // TODO: remove unused code
+        //        std::cout << "Autoresolve choice into ";
+        //        for (const Card *card : choice.options)
+        //            std::cout << card->name << ", ";
+        //        std::cout << "(" << choice.options.size() << ") src = " << choice.src->name << std::endl;
     }
 
     /// if `nWindow` given, then apply it

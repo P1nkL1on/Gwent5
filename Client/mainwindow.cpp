@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     const std::vector<std::pair<std::string, Demo>> demoTitleToMethod {
         {"Nilfgaard's Soldiers Deck", demoNilfgaardSoldiersDeck},
         {"Skellige's Veteran Deck", demoSkelligeVeteransPrimeDeck},
+        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
         {"Transformation", demoTransforms},
         //{"Instant Log Effects", demoInstantEffects},
@@ -90,7 +91,6 @@ MainWindow::MainWindow(QWidget *parent)
         {"Pack of smoothy elves", demoSwapElves},
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
-        {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Empty should resolve to Draw", demoEmpty},
     };
 

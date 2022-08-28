@@ -224,11 +224,17 @@ public:
     Choice2 peekChoice() const;
     bool isEmpty() const;
     /// add a choice to the bottom of queue (resolves last)
+    /// then call tryAutoResolveTopChoice for next
     void push(const Choice2 &choice);
     /// add a choice to the top of queue (resolves first)
+    /// then call tryAutoResolveTopChoice for it
     void put(const Choice2 &choice);
-    /// take the top choice
+    /// remove the top choice, then call tryAutoResolveTopChoice
     void pop();
+    /// take the top choice
+    Choice2 take();
+    /// call tryAutoResolveTopChoice
+    void expandNextChoiceAndTryResolveIt();
     /// friend for tests
     const std::vector<Choice2> &queue() const { return _queue; }
     using Iterator = std::vector<Choice2>::iterator;

@@ -998,9 +998,13 @@ void demoTriggersOrder(Field &ally, Field &enemy)
     auto *c1 = new DolBlathannaArcher();
     auto *c2 = new DolBlathannaArcher();
     auto *c3 = new TuirseachArcher();
+    auto *em = new EmhyrVarEmreis();
+    auto *bb = new SheTrollOfVergen();
+    auto *mm = new Dao();
 
-    ally.cardsAdded = {c1, c2, c3};
-    ally.hand = {c1, c2, c3};
+    ally.cardsAdded = {c1, c2, c3, em, bb, mm};
+    ally.hand = {c1, c2, c3, em, bb};
+    ally.deck = {mm};
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();
