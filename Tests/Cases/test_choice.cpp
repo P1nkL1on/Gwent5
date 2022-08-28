@@ -48,8 +48,8 @@ int main()
     testcase.add(ally.cardStack2.isEmpty(), 1, "Choice stack should be empty");
     runestone->onPlaySpecial(ally, enemy);
     testcase.add(ally.cardStack2.isEmpty(), 0, "Choice stack shouldn't be empty");
-    testcase.add(int(ally.cardStack2.peekChoice().options.size()), 3, "Create should has 3 cards");
-    onChoiceDoneCard(ally.cardStack2.peekChoice().options[0], ally, enemy);
+    testcase.add(int(ally.cardStack2.peek().options.size()), 3, "Create should has 3 cards");
+    onChoiceDoneCard(ally.cardStack2.peek().options[0], ally, enemy);
     testcase.add(ally.cardStack2.isEmpty(), 0, "Choice stack shouldn't be empty still");
 
     return testcase.process();
