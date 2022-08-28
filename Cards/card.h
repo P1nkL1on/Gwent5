@@ -240,6 +240,7 @@ public:
     using Iterator = std::vector<Choice2>::iterator;
     Iterator begin() { return _queue.begin(); }
     Iterator end() { return _queue.end(); }
+    void trace() const;
     /// if set, options w/ 1 obvious choice are still not removed
     /// and can be decided by a player himself. options w/ zero
     /// options are still can be autoresolved and removed
@@ -247,7 +248,6 @@ public:
 private:
     /// returns true if removed a first choice
     bool tryAutoResolveTopChoice();
-    void trace() const;
     std::vector<Choice2> _queue;
 };
 

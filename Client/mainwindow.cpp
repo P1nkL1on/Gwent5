@@ -1112,4 +1112,5 @@ void MainWindow::repaintCustom()
 
     }
     repaint();
+    _ally.cardStack2.trace();
 }

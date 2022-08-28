@@ -3954,6 +3954,7 @@ DonarAnHindar::DonarAnHindar()
     tags = { ClanHeymaey, Officer };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        // TODO: change it because of another order
         startChoiceToTargetCard(ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
     };
