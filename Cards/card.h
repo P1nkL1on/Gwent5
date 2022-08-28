@@ -201,7 +201,7 @@ using Filters = std::vector<std::function<bool(Card *)> >;
 using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
 
 
-struct Choice2
+struct Choice
 {
     ChoiceType type = CardTarget;
     Card *src = nullptr;
@@ -221,25 +221,22 @@ struct Choice2
 class CardStack
 {
 public:
-    Choice2 peekChoice() const;
+    Choice peekChoice() const;
     bool isEmpty() const;
-    /// add a choice to the bottom of queue (resolves last)
-    /// then call tryAutoResolveTopChoice for next
-    void push(const Choice2 &choice);
     /// add a choice to the top of queue (resolves first)
-    /// then call tryAutoResolveTopChoice for it
-    void put(const Choice2 &choice);
-    /// remove the top choice, then call tryAutoResolveTopChoice
+    void push(const Choice &choice);
+    /// remove the top choice
     void pop();
     /// take the top choice
-    Choice2 take();
+    Choice take();
+    /// TODO: make tests for it
     /// call tryAutoResolveTopChoice
     void expandNextChoiceAndTryResolveIt();
     /// friend for tests
-    const std::vector<Choice2> &queue() const { return _queue; }
-    using Iterator = std::vector<Choice2>::iterator;
-    Iterator begin() { return _queue.begin(); }
-    Iterator end() { return _queue.end(); }
+    const std::vector<Choice> &stack() const { return _stack; }
+    using Iterator = std::vector<Choice>::iterator;
+    Iterator begin() { return _stack.begin(); }
+    Iterator end() { return _stack.end(); }
     void trace() const;
     /// if set, options w/ 1 obvious choice are still not removed
     /// and can be decided by a player himself. options w/ zero
@@ -248,7 +245,7 @@ public:
 private:
     /// returns true if removed a first choice
     bool tryAutoResolveTopChoice();
-    std::vector<Choice2> _queue;
+    std::vector<Choice> _stack;
 };
 
 

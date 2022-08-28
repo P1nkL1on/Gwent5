@@ -76,7 +76,7 @@ FieldView fieldView(
     int choiceViewId = 0;
 
     if (!ally.cardStack2.isEmpty()) {
-        const Choice2 &choice = ally.cardStack2.peekChoice();
+        const Choice &choice = ally.cardStack2.peekChoice();
         ChoiceView view;
         view.id = choiceViewId++;
         view.choiceType = choice.type;

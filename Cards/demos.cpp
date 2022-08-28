@@ -1001,10 +1001,11 @@ void demoTriggersOrder(Field &ally, Field &enemy)
     auto *em = new EmhyrVarEmreis();
     auto *bb = new SheTrollOfVergen();
     auto *mm = new Dao();
+    auto *mm2 = new Dao();
 
-    ally.cardsAdded = {c1, c2, c3, em, bb, mm};
+    ally.cardsAdded = {c1, c2, c3, em, bb, mm, mm2};
     ally.hand = {c1, c2, c3, em, bb};
-    ally.deck = {mm};
+    ally.deck = {mm, mm2};
 
     auto *m1 = new ImperialManticore();
     auto *m2 = new ImperialManticore();

@@ -78,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent)
         //{"Rows Selection", demoRowsSelection},
         //{"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
-        {"Trigger Order", demoTriggersOrder},
         {"Turn and Round Finishing", demoTurnFinishingAndRoundFinishing},
         {"Every Choice Types", demoAllTypedChoices},
         //{"Neutral Specials", demoNeutralSpecial},
@@ -92,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
         {"Empty should resolve to Draw", demoEmpty},
+        {"Trigger Order", demoTriggersOrder},
     };
 
     /// make a choosing menu for it
@@ -316,6 +316,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 
 finish_turn:
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
     repaintCustom();
     tryFinishTurn(ally, enemy);
     repaintCustom();
@@ -1099,6 +1100,7 @@ void MainWindow::repaintCustom()
     if (!_ally.cardStack2.isEmpty()) {
         _snapshot = fieldView(_ally, _enemy);
         _isLastSnapshotShownAlly = true;
+        _ally.cardStack2.trace();
 
     } else if (!_enemy.cardStack2.isEmpty()) {
         _snapshot = fieldView(_enemy, _ally);
@@ -1112,5 +1114,4 @@ void MainWindow::repaintCustom()
 
     }
     repaint();
-    _ally.cardStack2.trace();
 }

@@ -7189,8 +7189,8 @@ SheTrollOfVergen::SheTrollOfVergen()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!_played) {
             _played = true;
-            playExistedCard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {target});
+            playExistedCard(target, ally, enemy, this);
             return;
         }
 
@@ -10297,8 +10297,8 @@ EmhyrVarEmreis::EmhyrVarEmreis()
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.hand)) {
-            playExistedCard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyBoard);
+            playExistedCard(target, ally, enemy, this);
             return;
         }
         putToHand(target, ally, enemy);

@@ -34,11 +34,11 @@ int main()
     geralt->onDeploy(ally, enemy);
 
     // First choice autoexpanded, but not autoresolved (due to settings)
-    testcase.add(int(ally.cardStack2.queue()[0].screenRows.size()), 1, "First Igni should contain 1 option, expanded");
-    testcase.add(int(ally.cardStack2.queue()[1].screenRows.size()), 3, "Second Igni should contain 3 options, unexpanded");
-    testcase.add(int(ally.cardStack2.queue().size()), 2, "Choice stack should contain 2 choices");
+    testcase.add(int(ally.cardStack2.stack()[0].screenRows.size()), 1, "First Igni should contain 1 option, expanded");
+    testcase.add(int(ally.cardStack2.stack()[1].screenRows.size()), 3, "Second Igni should contain 3 options, unexpanded");
+    testcase.add(int(ally.cardStack2.stack().size()), 2, "Choice stack should contain 2 choices");
     onChoiceDoneRow(4, ally, enemy);
-    testcase.add(int(ally.cardStack2.queue().size()), 0, "Second Igni should be autoresolved anyway, "
+    testcase.add(int(ally.cardStack2.stack().size()), 0, "Second Igni should be autoresolved anyway, "
                                                          "cause has no vaible options after expand");
     testcase.add(isIn(griffin, enemy.discard), 1, "Grifin should be destroyed");
 
