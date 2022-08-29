@@ -3954,9 +3954,8 @@ DonarAnHindar::DonarAnHindar()
     tags = { ClanHeymaey, Officer };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        // TODO: change it because of another order
-        startChoiceToTargetCard(ally, enemy, this);
         startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
+        startChoiceToTargetCard(ally, enemy, this);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -10297,6 +10296,7 @@ EmhyrVarEmreis::EmhyrVarEmreis()
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.hand)) {
+            // reverse due to choice stack: play a card, then return something to hand
             startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyBoard);
             playExistedCard(target, ally, enemy, this);
             return;
@@ -10516,6 +10516,7 @@ IorvethMeditation::IorvethMeditation()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        // TODO: check for new choices system and overall tests required
         std::vector<Card *>cards;
         for (const int _screenRow : std::vector<int>{3, 4, 5}) {
             std::vector<Card *> rowCards = cardsInRow(ally, enemy, _screenRow);

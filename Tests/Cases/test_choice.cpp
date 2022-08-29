@@ -39,10 +39,12 @@ int main()
     testcase.add(int(ally.cardStack2.stack()[1].screenRows.size()), 3, "Second Igni should contain 3 options, unexpanded");
     testcase.add(int(ally.cardStack2.stack().size()), 2, "Choice stack should contain 2 choices");
     onChoiceDoneRow(4, ally, enemy);
+    testcase.add(isIn(griffin, enemy.discard), 1, "Grifin should be destroyed");
+    testcase.add(int(ally.cardStack2.stack().size()), 1,               "Second Igni should still be on stack");
+    testcase.add(int(ally.cardStack2.stack()[0].screenRows.size()), 3, "Second Igni should still be unexpanded");
     ally.cardStack2.expandNextChoiceAndTryResolveIt();
     testcase.add(int(ally.cardStack2.stack().size()), 0, "Second Igni should be autoresolved anyway, "
                                                          "cause has no vaible options after expand");
-    testcase.add(isIn(griffin, enemy.discard), 1, "Grifin should be destroyed");
 
     // create
     Card *runestone = new ZoriaRunestone();
