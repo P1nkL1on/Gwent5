@@ -78,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent)
         //{"Rows Selection", demoRowsSelection},
         //{"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
-        {"Trigger Order", demoTriggersOrder},
         {"Turn and Round Finishing", demoTurnFinishingAndRoundFinishing},
         {"Every Choice Types", demoAllTypedChoices},
         //{"Neutral Specials", demoNeutralSpecial},
@@ -92,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
         {"Empty should resolve to Draw", demoEmpty},
+        {"Trigger Order", demoTriggersOrder},
     };
 
     /// make a choosing menu for it
@@ -198,10 +198,10 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         }
 
         if (!ally.cardStack2.isEmpty()) {
-            for (size_t i = 0; i < ally.cardStack2.peekChoice().options.size(); ++i) {
+            for (size_t i = 0; i < ally.cardStack2.peek().options.size(); ++i) {
                 const QRectF cardRect = QRectF(i * posWidth, 2 * _layout.spacingPx + 7 * posHeight, posWidth, posHeight).translated(rect.topLeft());
                 if (cardRect.contains(point))
-                    return ally.cardStack2.peekChoice().options[i];
+                    return ally.cardStack2.peek().options[i];
             }
         }
         return nullptr;
@@ -252,31 +252,31 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     if (ally.cardStack2.isEmpty())
         return;
 
-    if (ally.cardStack2.peekChoice().type == CardRoundStartPlay) {
-        if (ally.cardStack2.peekChoice().isOptional && isFinishChoiceButton(point)) {
+    if (ally.cardStack2.peek().type == CardRoundStartPlay) {
+        if (ally.cardStack2.peek().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
             goto finish_turn;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peek().options))
             return;
         onChoiceDoneCard(card, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == CardTarget || ally.cardStack2.peekChoice().type == CardOption) {
-        if (ally.cardStack2.peekChoice().isOptional && isFinishChoiceButton(point)) {
+    if (ally.cardStack2.peek().type == CardTarget || ally.cardStack2.peek().type == CardOption) {
+        if (ally.cardStack2.peek().isOptional && isFinishChoiceButton(point)) {
             onChoiceDoneCard(nullptr, ally, enemy);
             goto finish_turn;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peek().options))
             return;
         onChoiceDoneCard(card, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == RowAndPosAlly) {
+    if (ally.cardStack2.peek().type == RowAndPosAlly) {
         const RowAndPos rowAndPos = rowAndPostAt(true, point);
         if (!isOkRowAndPos(rowAndPos, ally))
             return;
@@ -284,7 +284,7 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == RowAndPosEnemy) {
+    if (ally.cardStack2.peek().type == RowAndPosEnemy) {
         const RowAndPos rowAndPos = rowAndPostAt(false, point);
         if (!isOkRowAndPos(rowAndPos, ally))
             return;
@@ -292,21 +292,21 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == RowSelect) {
+    if (ally.cardStack2.peek().type == RowSelect) {
         int screenRow;
-        if (screenRowAt(point, screenRow) && std::find(ally.cardStack2.peekChoice().screenRows.begin(), ally.cardStack2.peekChoice().screenRows.end(), screenRow) != ally.cardStack2.peekChoice().screenRows.end())
+        if (screenRowAt(point, screenRow) && std::find(ally.cardStack2.peek().screenRows.begin(), ally.cardStack2.peek().screenRows.end(), screenRow) != ally.cardStack2.peek().screenRows.end())
             onChoiceDoneRow(screenRow, ally, enemy);
         goto finish_turn;
     }
 
-    if (ally.cardStack2.peekChoice().type == CardRoundStartSwap) {
+    if (ally.cardStack2.peek().type == CardRoundStartSwap) {
         if (isFinishChoiceButton(point)) {
             onChoiceDoneRoundStartSwap(nullptr, ally, enemy);
             repaintCustom();
             return;
         }
         Card *card = cardAt(point);
-        if (card == nullptr || !isIn(card, ally.cardStack2.peekChoice().options))
+        if (card == nullptr || !isIn(card, ally.cardStack2.peek().options))
             return;
         onChoiceDoneRoundStartSwap(card, ally, enemy);
         repaintCustom();
@@ -316,8 +316,8 @@ void MainWindow::mouseClick(const QRect &rect, const QPoint &point, Field &ally,
     Q_ASSERT(false);
 
 finish_turn:
-    repaintCustom();
     tryFinishTurn(ally, enemy);
+
     repaintCustom();
 }
 
@@ -824,7 +824,7 @@ void MainWindow::openLoadDialog()
     _ally.canPass = false;
 
     for (int i = 0; i < 10; ++i)
-        drawACard(_ally, _enemy);
+        drawACard(_ally, _enemy, nullptr);
     // FIXME: check because changed choices
     Q_ASSERT(false);
     // _ally.cardStack.push_back(Choice(CardRoundStartPlay, nullptr, _ally.hand, 1, false));
@@ -845,10 +845,10 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
     if (e->type() == QEvent::MouseMove) {
         auto *em = static_cast<QMouseEvent *>(e);
-        if (!_ally.cardStack2.isEmpty() && _ally.cardStack2.peekChoice().src != nullptr) {
+        if (!_ally.cardStack2.isEmpty() && _ally.cardStack2.peek().src != nullptr) {
             _pos = em->pos();
             repaint();
-        } else if (!_enemy.cardStack2.isEmpty() && _enemy.cardStack2.peekChoice().src != nullptr) {
+        } else if (!_enemy.cardStack2.isEmpty() && _enemy.cardStack2.peek().src != nullptr) {
             _pos = em->pos();
             repaint();
         } else {
@@ -1099,6 +1099,7 @@ void MainWindow::repaintCustom()
     if (!_ally.cardStack2.isEmpty()) {
         _snapshot = fieldView(_ally, _enemy);
         _isLastSnapshotShownAlly = true;
+        _ally.cardStack2.trace();
 
     } else if (!_enemy.cardStack2.isEmpty()) {
         _snapshot = fieldView(_enemy, _ally);
@@ -1112,5 +1113,4 @@ void MainWindow::repaintCustom()
 
     }
     repaint();
-    _ally.cardStack2.trace();
 }

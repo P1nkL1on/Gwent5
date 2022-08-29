@@ -59,7 +59,7 @@ FieldView fieldView(
 
     /// add extra crads that are just options)
     if (!ally.cardStack2.isEmpty())
-        for (const Card *card : ally.cardStack2.peekChoice().options)
+        for (const Card *card : ally.cardStack2.peek().options)
             cardToView.insert({card, cardView(card, cardViewId++)});
 
     const auto id = [cardToView](const Card *card) -> int {
@@ -76,7 +76,7 @@ FieldView fieldView(
     int choiceViewId = 0;
 
     if (!ally.cardStack2.isEmpty()) {
-        const Choice2 &choice = ally.cardStack2.peekChoice();
+        const Choice &choice = ally.cardStack2.peek();
         ChoiceView view;
         view.id = choiceViewId++;
         view.choiceType = choice.type;
@@ -206,7 +206,7 @@ FieldView fieldView(
     res.actionSound = sound;
 
     /// value computation for hand cards
-    if (computeOptionScoreGaps && !ally.cardStack2.isEmpty() && ally.cardStack2.peekChoice().type == CardRoundStartPlay) {
+    if (computeOptionScoreGaps && !ally.cardStack2.isEmpty() && ally.cardStack2.peek().type == CardRoundStartPlay) {
         const std::map<const Card *, int> options = optionToGap(ally, enemy);
         std::cout << std::endl << "HAND OPTIONS (" << options.size() << ")" << std::endl;
         for (const auto &it : options) {

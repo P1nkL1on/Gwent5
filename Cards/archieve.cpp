@@ -626,7 +626,7 @@ DandelionPoet::DandelionPoet()
     tags = { Support };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        if (drawACard(ally, enemy))
+        if (drawACard(ally, enemy,  this))
             startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
     };
 
@@ -658,7 +658,7 @@ SileDeTansarville::SileDeTansarville()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
-        drawACard(ally, enemy);
+        drawACard(ally, enemy,  this);
     };
 }
 
@@ -1383,7 +1383,7 @@ Frightener::Frightener()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (tick(this, ally, enemy))
-            drawACard(ally, enemy);
+            drawACard(ally, enemy,  this);
 
         /// can't move another to this row, if its already full
         startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, EnemyBoard);
@@ -2030,7 +2030,7 @@ ShupeHunter::ShupeHunter()
         }
 
         if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            putToHand(target, ally, enemy);
+            putToHand(target, ally, enemy,  this);
             boost(target, 5, ally, enemy, this);
             playExistedCard(target, ally, enemy, this);
             delete _choosen;
@@ -2081,7 +2081,7 @@ ShupeMage::ShupeMage()
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (dynamic_cast<ShupeMage::Draw *>(target)) {
-            drawACard(ally, enemy);
+            drawACard(ally, enemy,  this);
             return;
         }
 
@@ -2369,7 +2369,7 @@ Decoy::Decoy()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
         boost(target, 3, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
@@ -2630,7 +2630,7 @@ Restore::Restore()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
         target->isDoomed = true;
         target->powerBase = target->power = 8;
         playExistedCard(target, ally, enemy, this);
@@ -2811,8 +2811,8 @@ Ermion::Ermion()
     tags = { ClanAnCraite, Support };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        drawACard(ally, enemy);
-        drawACard(ally, enemy);
+        drawACard(ally, enemy,  this);
+        drawACard(ally, enemy,  this);
         startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2);
     };
 
@@ -3244,7 +3244,7 @@ Udalryk::Udalryk()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
         for (Card *card : _drawn)
             if (card != target)
                 putToDiscard(card, ally, enemy, this);
@@ -3329,11 +3329,11 @@ Operator::Operator()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         Card *copyAlly = target->defaultCopy();
         ally.cardsAdded.push_back(copyAlly);
-        putToHand(copyAlly, ally, enemy);
+        putToHand(copyAlly, ally, enemy,  this);
 
         Card *copyEnemy = target->defaultCopy();
         enemy.cardsAdded.push_back(copyEnemy);
-        putToHand(copyEnemy, enemy, ally);
+        putToHand(copyEnemy, enemy, ally,  this);
     };
 }
 
@@ -4082,7 +4082,7 @@ SvanrigeTuirseach::SvanrigeTuirseach()
     tags = { ClanTuirseach, Officer };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        if (drawACard(ally, enemy))
+        if (drawACard(ally, enemy,  this))
             startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
     };
 
@@ -5119,7 +5119,7 @@ Vilgefortz::Vilgefortz()
                 playExistedCard(copy, ally, enemy, this);
         } else {
             if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
-                putToHand(card, enemy, ally);
+                putToHand(card, enemy, ally,  this);
                 reveal(card, ally, enemy, this);
             }
         }
@@ -5913,7 +5913,7 @@ TiborEggebracht::TiborEggebracht()
         if (ally.passed || enemy.passed)
             return;
         if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
-            putToHand(card, enemy, ally);
+            putToHand(card, enemy, ally,  this);
             reveal(card, ally, enemy, this);
         }
     };
@@ -5965,9 +5965,9 @@ Albrich::Albrich()
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
-        drawACard(ally, enemy);
+        drawACard(ally, enemy,  this);
         if (Card *card = first(enemy.deck)) {
-            putToHand(card, ally, enemy);
+            putToHand(card, ally, enemy,  this);
             reveal(card, ally, enemy, this);
         }
     };
@@ -6039,7 +6039,7 @@ DaerlanSoldier::DaerlanSoldier()
             return;
         /// don't jump and draw a card, if no place on a field
         if (moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this))
-            drawACard(ally, enemy);
+            drawACard(ally, enemy,  this);
     };
 }
 
@@ -6801,7 +6801,7 @@ ToadPrince::ToadPrince()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-            putToHand(unit, ally, enemy);
+            putToHand(unit, ally, enemy,  this);
             startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyHand);
         }
     };
@@ -7189,8 +7189,8 @@ SheTrollOfVergen::SheTrollOfVergen()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (!_played) {
             _played = true;
-            playExistedCard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {target});
+            playExistedCard(target, ally, enemy, this);
             return;
         }
 
@@ -7967,11 +7967,11 @@ Avalach::Avalach()
         if (ally.passed || enemy.passed)
             return;
 
-        drawACard(ally, enemy);
-        drawACard(enemy, ally);
+        drawACard(ally, enemy,  this);
+        drawACard(enemy, ally,  this);
 
-        drawACard(ally, enemy);
-        drawACard(enemy, ally);
+        drawACard(ally, enemy,  this);
+        drawACard(enemy, ally,  this);
     };
 }
 
@@ -9835,7 +9835,7 @@ SaesenthessisBlaze::SaesenthessisBlaze()
         for (Card *card : hand)
             banish(card, ally, enemy, this);
         for (int cardInd = 0; cardInd < nCards; ++cardInd)
-            drawACard(ally, enemy);
+            drawACard(ally, enemy,  this);
     };
 }
 
@@ -9884,7 +9884,7 @@ Ocvist::Ocvist()
             return;
         for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
             damage(card, 1, ally, enemy, this);
-        putToHand(this, ally, enemy);
+        putToHand(this, ally, enemy,  this);
     };
 }
 
@@ -10004,7 +10004,7 @@ IrisCompanions::IrisCompanions()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
         putToDiscard(random(ally.hand, ally.rng), ally, enemy, this);
     };
 }
@@ -10036,7 +10036,7 @@ Johnny::Johnny()
         if(Card *card = random(cardsFiltered(ally, enemy, {isColor(target->rarity)}, EnemyDeckStarting), ally.rng)) {
             Card *cardCopy = card->defaultCopy();
             addAsNew(ally, cardCopy);
-            putToHand(cardCopy, ally, enemy);
+            putToHand(cardCopy, ally, enemy,  this);
         }
     };
 }
@@ -10062,11 +10062,11 @@ Stregobor::Stregobor()
         if (ally.passed || enemy.passed)
             return;
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-            putToHand(unit, ally, enemy);
+            putToHand(unit, ally, enemy,  this);
             setPower(unit, 1, ally, enemy, this);
         }
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
-            putToHand(unit, enemy, ally);
+            putToHand(unit, enemy, ally,  this);
             setPower(unit, 1, ally, enemy, this);
         }
     };
@@ -10096,7 +10096,7 @@ Sarah::Sarah()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
             putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
-            putToHand(card, ally, enemy);
+            putToHand(card, ally, enemy,  this);
             // TODO: check if here we need to trigger onSwap or etc.
         }
     };
@@ -10297,11 +10297,11 @@ EmhyrVarEmreis::EmhyrVarEmreis()
 
     _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.hand)) {
-            playExistedCard(target, ally, enemy, this);
             startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyBoard);
+            playExistedCard(target, ally, enemy, this);
             return;
         }
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
     };
 }
 
@@ -10439,7 +10439,7 @@ FrancescaFindabair::FrancescaFindabair()
             return;
         }
         putToDeck(_cardToSwap, ally, enemy, DeckPosRandom, this);
-        putToHand(target, ally, enemy);
+        putToHand(target, ally, enemy,  this);
         boost(target, 3, ally, enemy, this);
     };
 }
@@ -10729,7 +10729,7 @@ Saskia::Saskia()
         Card *newBronze;
         if (!(newBronze = first(cardsFiltered(ally, enemy, {isBronze}, AllyDeck))))
             return;
-        putToHand(newBronze, ally, enemy);
+        putToHand(newBronze, ally, enemy,  this);
         putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
     };
 }
@@ -10858,10 +10858,10 @@ Yaevinn::Yaevinn()
             Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
             Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
             if (unit) {
-                putToHand(unit, ally, enemy);
+                putToHand(unit, ally, enemy,  this);
             }
             if (special) {
-                putToHand(special, ally, enemy);
+                putToHand(special, ally, enemy,  this);
             }
             if (!unit || !special)
                 return;
