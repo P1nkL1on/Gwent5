@@ -1000,11 +1000,12 @@ void demoTriggersOrder(Field &ally, Field &enemy)
     auto *c3 = new TuirseachArcher();
     auto *em = new EmhyrVarEmreis();
     auto *bb = new SheTrollOfVergen();
+    auto *zr = new ZoriaRunestone();
     auto *mm = new Dao();
     auto *mm2 = new Dao();
 
-    ally.cardsAdded = {c1, c2, c3, em, bb, mm, mm2};
-    ally.hand = {c1, c2, c3, em, bb};
+    ally.cardsAdded = {c1, c2, c3, em, bb, mm, mm2, zr};
+    ally.hand = {c1, c2, c3, em, bb, zr};
     ally.deck = {mm, mm2};
 
     auto *m1 = new ImperialManticore();

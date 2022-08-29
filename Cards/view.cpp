@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 #include "card.h"
 
@@ -27,6 +28,7 @@ CardView cardView(const Card *card, const int id)
     view.text = card->text;
     view.url = "https://gwent.one/image/card/low/cid/png/" + card->id + ".png";
     view.urlLarge = "https://gwent.one/image/card/medium/cid/png/" + card->id + ".png";
+
     return view;
 }
 
@@ -214,7 +216,6 @@ FieldView fieldView(
             std::cout << it.first->name << " -> " << (valueGain > 0 ? "+" : "") << valueGain << std::endl;
         }
     }
-
     return res;
 }
 
@@ -470,4 +471,131 @@ bool isLeader(const CardView &view)
         if (tag == Leader)
             return true;
     return false;
+}
+
+using Out = std::ostream;
+
+// declaration
+template <typename T> using NameAnd = std::pair<const char *, T>;
+template <typename T> void write(Out &out, const T &t);
+template <typename T> void write(Out &out, const NameAnd<T> &p);
+template <typename T> void write(Out &out, const std::vector<T> &v);
+template <typename T> void write(Out &out, const std::vector<NameAnd<T>> &v);
+
+// implementation
+template <>           void write(Out &out, const int &x)            { out << x; }
+template <>           void write(Out &out, const Tag &x)            { out << x; }
+template <>           void write(Out &out, const std::string &s)    { out << "\"" << s << "\""; }
+template <typename T> void write(Out &out, const NameAnd<T> &p)     { out << "\"" << p.first << "\": "; write(out, p.second); }
+template <typename T> void write(Out &out, const std::vector<T> &v) { const size_t n = v.size(); size_t i = 0; out << "["; if (n) for (;;) { write(out, v[i++]); if (i == n) break; out << ", "; } out << "]"; }
+template <typename T> void write(Out &out, const std::vector<NameAnd<T>> &v) { const size_t n = v.size(); size_t i = 0; if (n) for (;;) { write<T>(out, v[i++]); if (i == n) break; out << ", "; } }
+template <>           void write(Out &out, const CardView &c)
+{
+    out << "{";
+    write<int>(
+                out, {
+                    {"id", c.id},
+                    {"power", c.power},
+                    {"armor", c.armor},
+                    {"rarity", c.rarity},
+                    {"timer", c.timer},
+                    {"count", c.count},
+                    {"faction", c.faction},
+                    {"isLocked", c.isLocked},
+                    {"isSpy", c.isSpy},
+                    {"isResilient", c.isResilient},
+                    {"isAmbush", c.isAmbush},
+                    {"isImmune", c.isImmune},
+                    {"isDoomed", c.isDoomed},
+                    {"isRevealed", c.isRevealed},
+                    {"isVisible", c.isVisible},
+                });
+    out << ", ";
+    write<std::string>(
+                out, {
+                    {"name", c.name},
+                    {"text", c.text},
+                    {"url", c.url},
+                    {"urlLarge", c.urlLarge},
+                });
+    out << ", ";
+    write(out, NameAnd<std::vector<Tag>>{"tags", c.tags});
+    out << "}";
+}
+template <> void write(Out &out, const ChoiceView &c)
+{
+    out << "{";
+    write<int>(
+                out, {
+                    {"id", c.id},
+                    {"choiceType", c.choiceType},
+                    {"cardSourceId", c.cardSourceId},
+                    {"nTargets", c.nTargets},
+                    {"isOptional", c.isOptional},
+                });
+    out << ", ";
+    write<std::vector<int>>(
+                out, {
+                    {"cardOptionIds", c.cardOptionIds},
+                    {"cardOptionIds", c.cardOptionIdsSelected},
+                    {"cardOptionIds", c.valuesOptions},
+                });
+    out << "}";
+}
+template <> void write(Out &out, const FieldView &f)
+{
+    out << "{";
+    write(out, NameAnd<std::vector<CardView>>{"cards", f.cards});
+    out << ", ";
+    write(out, NameAnd<std::vector<ChoiceView>>{"choices", f.choices});
+    out << ", ";
+    write<int>(
+                out, {
+                    {"allyLeader", f.allyLeader},
+                    {"enemyLeader", f.enemyLeader},
+                    {"allyRowEffectMeele", f.allyRowEffectMeele},
+                    {"allyRowEffectRange", f.allyRowEffectRange},
+                    {"allyRowEffectSeige", f.allyRowEffectSeige},
+                    {"enemyRowEffectMeele", f.enemyRowEffectMeele},
+                    {"enemyRowEffectRange", f.enemyRowEffectRange},
+                    {"enemyRowEffectSeige", f.enemyRowEffectSeige},
+                    {"nPowerRowAllyMeele", f.nPowerRowAllyMeele},
+                    {"nPowerRowAllyRange", f.nPowerRowAllyRange},
+                    {"nPowerRowAllySeige", f.nPowerRowAllySeige},
+                    {"nPowerRowEnemyMeele", f.nPowerRowEnemyMeele},
+                    {"nPowerRowEnemyRange", f.nPowerRowEnemyRange},
+                    {"nPowerRowEnemySeige", f.nPowerRowEnemySeige},
+                    {"nTurns", f.nTurns},
+                    {"nRounds", f.nRounds},
+                    {"nAllyWins", f.nAllyWins},
+                    {"nEnemyWins", f.nEnemyWins},
+                    {"allyPassed", f.allyPassed},
+                    {"enemyPassed", f.enemyPassed},
+                    {"actionType", f.actionType},
+                    {"actionIdSrc", f.actionIdSrc},
+                    {"actionValue", f.actionValue},
+                });
+    out << ", ";
+    write(out, NameAnd<std::string>{"actionSound", f.actionSound});
+    out << ", ";
+    write<std::vector<int>>(
+                out, {
+                    {"allyRowMeeleIds", f.allyRowMeeleIds},
+                    {"allyRowRangeIds", f.allyRowRangeIds},
+                    {"allyRowSeigeIds", f.allyRowSeigeIds},
+                    {"allyHandIds", f.allyHandIds},
+                    {"allyDeckIds", f.allyDeckIds},
+                    {"allyDiscardIds", f.allyDiscardIds},
+                    {"enemyRowMeeleIds", f.enemyRowMeeleIds},
+                    {"enemyRowRangeIds", f.enemyRowRangeIds},
+                    {"enemyRowSeigeIds", f.enemyRowSeigeIds},
+                    {"enemyHandIds", f.enemyHandIds},
+                    {"enemyDeckIds", f.enemyDeckIds},
+                    {"enemyDiscardIds", f.enemyDiscardIds},
+                    {"cardsAppearedIds", f.cardsAppearedIds},
+                    {"cardsPlayedIds", f.cardsPlayedIds},
+                    {"enemyDiscardIds", f.enemyDiscardIds},
+                    {"actionIdsDst", f.actionIdsDst},
+                });
+    out << "}";
 }
