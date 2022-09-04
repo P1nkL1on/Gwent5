@@ -411,6 +411,7 @@ std::vector<Card *> allCards(const Patch)
         new Assassination(),
         new StefanSkellen(),
         new Shilard(),
+        new Cantarella(),
     };
 }
 
@@ -10061,7 +10062,16 @@ Stregobor::Stregobor()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-
+        if (ally.passed || enemy.passed)
+            return;
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+            putToHand(unit, ally, enemy,  this);
+            setPower(unit, 1, ally, enemy, this);
+        }
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
+            putToHand(unit, enemy, ally,  this);
+            setPower(unit, 1, ally, enemy, this);
+        }
     };
 
 }
@@ -11980,5 +11990,48 @@ Xarthisius::Xarthisius()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDeck(target, enemy, ally, DeckPosBottom, this);
+    };
+}
+
+Cantarella::Cantarella()
+{
+    id = "162108";
+    name = "Cantarella";
+    text = "Spying. Single-Use: Draw 2 cards. Keep one and move the other to the bottom of your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 13;
+    tags = {};
+    isLoyal = false;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.127.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.128.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.129.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy)) {
+            Card *firstCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            Card *secondCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            if (firstCard) {
+                putToHand(firstCard, ally, enemy,  this);
+            }
+            if (secondCard) {
+                putToHand(secondCard, ally, enemy,  this);
+            }
+            if (!firstCard || !secondCard)
+                return;
+            _drawn.push_back(firstCard);
+            _drawn.push_back(secondCard);
+            startChoiceToTargetCard(ally, enemy, this, _drawn);
+        }
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : _drawn)
+            if (card != target)
+                putToDeck(card, ally, enemy, DeckPosBottom, this);
+        _drawn.clear();
     };
 }

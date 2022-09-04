@@ -2772,4 +2772,12 @@ struct Xarthisius : CardCollectible<Xarthisius>
 };
 
 
+struct Cantarella : CardCollectible<Cantarella>
+{
+    Cantarella();
+private:
+    std::vector<Card *>_drawn;
+};
+
+
 #endif // CARDS_H

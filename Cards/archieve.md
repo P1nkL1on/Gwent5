@@ -327,14 +327,14 @@
 
 # Nilfgaard
 
-- [x] Assassination _(easy card)_
+- [x] Assassination
 - [x] Cahir Dyffryn
 - [x] Emhyr var Emreis
 - [x] Jan Calveit
 - [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
-- [x] Menno Coehoorn _(easy card)_
+- [x] Menno Coehoorn
 - [x] Morvran Voorhis
 - [x] Rainfarn of Attre
 - [x] Shilard
@@ -350,7 +350,7 @@
 - [ ] Assire var Anahid
 - [x] Auckes
 - [ ] Cadaverine
-- [ ] Cantarella
+- [x] Cantarella
 - [x] Ceallach Dyffryn
 - [ ] Cynthia
 - [x] Dazhbog Runestone
