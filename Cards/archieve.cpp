@@ -11878,3 +11878,25 @@ RainfarnOfAttre::RainfarnOfAttre()
         playExistedCard(target, ally, enemy, this);
     };
 }
+
+Assassination::Assassination()
+{
+    id = "163101";
+    name = "Assassination";
+    text = "Deal 8 damage to an enemy. Repeat once.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Tactics };
+    faction = Nilfgaard;
+    rarity = Gold;
+
+    _onDeploy = [=](Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 8, ally, enemy, this);
+    };
+
+}

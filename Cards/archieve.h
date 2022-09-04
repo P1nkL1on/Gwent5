@@ -2745,4 +2745,10 @@ struct RainfarnOfAttre : CardCollectible<RainfarnOfAttre>
 };
 
 
+struct Assassination : CardCollectible<Assassination>
+{
+    Assassination();
+};
+
+
 #endif // CARDS_H
