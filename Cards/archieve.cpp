@@ -11939,8 +11939,8 @@ Shilard::Shilard()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        //if (ally.passed || enemy.passed)
-        //    return;
+        if (ally.passed || enemy.passed)
+            return;
         std::vector<Card *> variants;
         if ((_allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
             variants.push_back(_allyCard);
