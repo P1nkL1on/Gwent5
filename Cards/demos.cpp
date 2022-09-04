@@ -1355,3 +1355,31 @@ void demoEmpty(Field &ally, Field &enemy)
 {
     startNextRound(ally, enemy);
 }
+
+void demoNilfsTemporary(Field &ally, Field &enemy)
+{
+    auto *a1 = new StefanSkellen();
+    auto *a2 = new Shilard();
+    auto *a3 = new Xarthisius();
+    auto *a4 = new ElvenScout();
+    auto *a5 = new ElvenScout();
+    auto *a6 = new Assassination();
+
+    ally.cardsAdded = {a1, a2, a3, a4, a5, a6};
+    ally.hand = {a1, a2, a3};
+    ally.deck = {a4, a5, a6};
+
+    auto *e1 = new ImperialManticore();
+    auto *e2 = new ImperialManticore();
+    auto *e3 = new ImperialManticore();
+    auto *e4 = new Mardroeme();
+    auto *e5 = new Mardroeme();
+    auto *e6 = new Mardroeme();
+
+    enemy.cardsAdded = {e1, e2, e3, e4, e5, e6};
+    enemy.rowMeele = {e1, e2};
+    enemy.deck = {e3, e4, e5, e6};
+
+    startDemo(ally, enemy, true, false);
+    // TODO: fix in card.cpp - here in the test Shilard loses Skellen's buff of a unit
+}

@@ -2751,4 +2751,25 @@ struct Assassination : CardCollectible<Assassination>
 };
 
 
+struct StefanSkellen : CardCollectible<StefanSkellen>
+{
+    StefanSkellen();
+};
+
+
+struct Shilard : CardCollectible<Shilard>
+{
+    Shilard();
+private:
+    Card * _allyCard = nullptr;
+    Card * _enemyCard = nullptr;
+};
+
+
+struct Xarthisius : CardCollectible<Xarthisius>
+{
+    Xarthisius();
+};
+
+
 #endif // CARDS_H

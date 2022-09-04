@@ -327,7 +327,7 @@
 
 # Nilfgaard
 
-- [ ] Assassination _(easy card)_
+- [x] Assassination _(easy card)_
 - [x] Cahir Dyffryn
 - [x] Emhyr var Emreis
 - [x] Jan Calveit
@@ -337,13 +337,13 @@
 - [x] Menno Coehoorn _(easy card)_
 - [x] Morvran Voorhis
 - [x] Rainfarn of Attre
-- [ ] Shilard
-- [ ] Stefan Skellen
+- [x] Shilard
+- [x] Stefan Skellen
 - [ ] Tibor Eggebracht
 - [x] Usurper
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
-- [ ] Xarthisius
+- [x] Xarthisius
 - [x] Yennefer: Enchantress
 - [x] Yennefer: Necromancer
 - [ ] Albrich

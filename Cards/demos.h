@@ -63,6 +63,7 @@ void demoSwapElves(Field &ally, Field &enemy);
 void demoWithOpion1(Field &ally, Field &enemy);
 void demoWithWindow5(Field &ally, Field &enemy);
 void demoEmpty(Field &ally, Field &enemy);
+void demoNilfsTemporary(Field &ally, Field &enemy);
 
 
 #endif // DEMOS_H

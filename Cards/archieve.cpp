@@ -408,6 +408,9 @@ std::vector<Card *> allCards(const Patch)
         new HawkerSmuggler(),
         new MennoCoehoorn(),
         new RainfarnOfAttre(),
+        new Assassination(),
+        new StefanSkellen(),
+        new Shilard(),
     };
 }
 
@@ -10058,16 +10061,7 @@ Stregobor::Stregobor()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        if (ally.passed || enemy.passed)
-            return;
-        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-            putToHand(unit, ally, enemy,  this);
-            setPower(unit, 1, ally, enemy, this);
-        }
-        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
-            putToHand(unit, enemy, ally,  this);
-            setPower(unit, 1, ally, enemy, this);
-        }
+
     };
 
 }
@@ -11890,7 +11884,7 @@ Assassination::Assassination()
     faction = Nilfgaard;
     rarity = Gold;
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
+    _onPlaySpecial = [=](Field &ally, Field & enemy) {
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
@@ -11899,4 +11893,92 @@ Assassination::Assassination()
         damage(target, 8, ally, enemy, this);
     };
 
+}
+
+StefanSkellen::StefanSkellen()
+{
+    id = "162106";
+    name = "Stefan Skellen";
+    text = "Move any card in your deck to the top. If it's a non-Spying unit, boost it by 5.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.98.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.99.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.97.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosTop, this);
+        if (!target->isSpecial && !target->isSpy)
+            boost(target, 5, ally, enemy, this);
+    };
+}
+
+Shilard::Shilard()
+{
+    id = "200071";
+    name = "Shilard";
+    text = "Truce: Draw a card from both decks. Keep one and give the other to your opponent.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.96.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.94.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.95.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        //if (ally.passed || enemy.passed)
+        //    return;
+        std::vector<Card *> variants;
+        if ((_allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
+            variants.push_back(_allyCard);
+        if ((_enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
+            variants.push_back(_enemyCard);
+        startChoiceToTargetCard(ally, enemy, this, variants);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy, this);
+        if (target == _allyCard && _enemyCard)
+            putToHand(_enemyCard, enemy, ally, this);
+        else if (target == _enemyCard && _allyCard)
+            putToHand(_allyCard, enemy, ally, this);
+    };
+}
+
+Xarthisius::Xarthisius()
+{
+    id = "162108";
+    name = "Xarthisius";
+    text = "Look at your opponent's deck and move a card to the bottom.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 13;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.118.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.119.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.120.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, enemy, ally, DeckPosBottom, this);
+    };
 }
