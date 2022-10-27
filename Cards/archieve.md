@@ -399,7 +399,7 @@
 - [ ] Spotter
 - [ ] Standard Bearer
 - [ ] Venendal Elite
-- [ ] Vicovaro Medic
+- [x] Vicovaro Medic
 - [ ] Vicovaro Novice _(easy card)_
 - [ ] Viper Witcher
 

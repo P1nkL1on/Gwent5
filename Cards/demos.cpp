@@ -1387,12 +1387,13 @@ void demoNilfsTemporary(Field &ally, Field &enemy)
 void demoPanther(Field &ally, Field &enemy)
 {
     auto *a1 = new Panther();
+    auto *a2 = new VicovaroMedic();
 
-    ally.cardsAdded = {a1};
-    ally.hand = {a1};
+    ally.cardsAdded = {a1, a2};
+    ally.hand = {a1, a2};
 
-    auto *e1 = new ImperialManticore();
-    auto *e2 = new ImperialManticore();
+    auto *e1 = new TemerianDrummer();
+    auto *e2 = new TemerianDrummer();
     auto *e3 = new ImperialManticore();
     auto *e4 = new ImperialManticore();
     auto *e5 = new ImperialManticore();

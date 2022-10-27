@@ -413,6 +413,7 @@ std::vector<Card *> allCards(const Patch)
         new Shilard(),
         new Cantarella(),
         new Panther(),
+        new VicovaroMedic(),
     };
 }
 
@@ -12044,7 +12045,7 @@ Panther::Panther()
     text = "Deal 7 damage to an enemy on a row with less than 4 units.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     power = powerBase = 4;
-    tags = {Beast};
+    tags = { Beast };
     faction = Scoiatael;
     rarity = Bronze;
 
@@ -12059,5 +12060,31 @@ Panther::Panther()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         damage(target, 7, ally, enemy, this);
+    };
+}
+
+VicovaroMedic::VicovaroMedic()
+{
+    id = "162304";
+    name = "Vicovaro Medic";
+    text = "Resurrect a Bronze unit from your opponent's graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Support };
+    isDoomed = true;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.431.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.430.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.429.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

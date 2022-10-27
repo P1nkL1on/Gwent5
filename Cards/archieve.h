@@ -2786,4 +2786,10 @@ struct Panther : CardCollectible<Panther>
 };
 
 
+struct VicovaroMedic : CardCollectible<VicovaroMedic>
+{
+    VicovaroMedic();
+};
+
+
 #endif // CARDS_H
