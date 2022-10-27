@@ -314,7 +314,7 @@
 - [x] Mahakam Marauder
 - [x] Mahakam Volunteers
 - [x] Incinerating Trap
-- [ ] Panther
+- [x] Panther
 - [x] Pyrotechnician
 - [x] Sage
 - [x] Vrihedd Brigade

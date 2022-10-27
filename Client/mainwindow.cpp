@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Empty should resolve to Draw", demoEmpty},
         {"Trigger Order", demoTriggersOrder},
         {"Temporary Nilfgaard-ian table", demoNilfsTemporary},
+        {"PANTHERAAAA", demoPanther},
     };
 
     /// make a choosing menu for it

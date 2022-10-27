@@ -412,6 +412,7 @@ std::vector<Card *> allCards(const Patch)
         new StefanSkellen(),
         new Shilard(),
         new Cantarella(),
+        new Panther(),
     };
 }
 
@@ -12033,5 +12034,30 @@ Cantarella::Cantarella()
             if (card != target)
                 putToDeck(card, ally, enemy, DeckPosBottom, this);
         _drawn.clear();
+    };
+}
+
+Panther::Panther()
+{
+    id = "200139";
+    name = "Panther";
+    text = "Deal 7 damage to an enemy on a row with less than 4 units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = {Beast};
+    faction = Scoiatael;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Field *enemyPtr = &enemy;
+        const auto isOk = [enemyPtr](Card *card) {
+            const Row row = _findRowAndPos(card, *enemyPtr).row();
+            return enemyPtr->row(row).size() < 4;
+        };
+        startChoiceToTargetCard(ally, enemy, this, {isOk}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, this);
     };
 }

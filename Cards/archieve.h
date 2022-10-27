@@ -2780,4 +2780,10 @@ private:
 };
 
 
+struct Panther : CardCollectible<Panther>
+{
+    Panther();
+};
+
+
 #endif // CARDS_H

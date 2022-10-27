@@ -1383,3 +1383,24 @@ void demoNilfsTemporary(Field &ally, Field &enemy)
     startDemo(ally, enemy, true, false);
     // TODO: fix in card.cpp - here in the test Shilard loses Skellen's buff of a unit
 }
+
+void demoPanther(Field &ally, Field &enemy)
+{
+    auto *a1 = new Panther();
+
+    ally.cardsAdded = {a1};
+    ally.hand = {a1};
+
+    auto *e1 = new ImperialManticore();
+    auto *e2 = new ImperialManticore();
+    auto *e3 = new ImperialManticore();
+    auto *e4 = new ImperialManticore();
+    auto *e5 = new ImperialManticore();
+    auto *e6 = new ImperialManticore();
+
+    enemy.cardsAdded = {e1, e2, e3, e4, e5, e6};
+    enemy.rowMeele = {e1, e2};
+    enemy.rowRange = {e3, e4, e5, e6};
+
+    startDemo(ally, enemy, true, false);
+}
