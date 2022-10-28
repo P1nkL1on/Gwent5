@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nekkers", demoNekkers},
         //{"Arachas Drones", demoArachasDrones},
         //{"Slyzards", demoSlyzards},
-        {"Avalach", demoAvalach},
+        //{"Avalach", demoAvalach},
         //{"Bears and Beer", demoBeer},
         {"Crew and Crewed", demoCrewAndCrewed},
         //{"She-Troll of Vergen", demoSheTrollOfVergen},
@@ -84,14 +84,16 @@ MainWindow::MainWindow(QWidget *parent)
         //{"Gold Witchers", demoGoldWitchers},
         //{"Regis", demoNeutralDudes},
         {"PowerChanged demo", demoPowerChanged},
-        {"Saskia", demoAedirnDragon},
+        //{"Saskia", demoAedirnDragon},
         {"Leaders test", demoLeaders},
-        {"Dwarfs pack of dudes", demoDwarws},
+        //{"Dwarfs pack of dudes", demoDwarws},
         {"Pack of smoothy elves", demoSwapElves},
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
         {"Empty should resolve to Draw", demoEmpty},
         {"Trigger Order", demoTriggersOrder},
+        {"Temporary Nilfgaard-ian table", demoNilfsTemporary},
+        {"PANTHERAAAA", demoPanther},
     };
 
     /// make a choosing menu for it

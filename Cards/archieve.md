@@ -314,7 +314,7 @@
 - [x] Mahakam Marauder
 - [x] Mahakam Volunteers
 - [x] Incinerating Trap
-- [ ] Panther
+- [x] Panther
 - [x] Pyrotechnician
 - [x] Sage
 - [x] Vrihedd Brigade
@@ -327,30 +327,30 @@
 
 # Nilfgaard
 
-- [ ] Assassination _(easy card)_
+- [x] Assassination
 - [x] Cahir Dyffryn
 - [x] Emhyr var Emreis
 - [x] Jan Calveit
 - [x] Leo Bonhart
 - [x] Letho of Gulet
 - [x] Letho: Kingslayer
-- [x] Menno Coehoorn _(easy card)_
+- [x] Menno Coehoorn
 - [x] Morvran Voorhis
 - [x] Rainfarn of Attre
-- [ ] Shilard
-- [ ] Stefan Skellen
+- [x] Shilard
+- [x] Stefan Skellen
 - [ ] Tibor Eggebracht
 - [x] Usurper
 - [ ] Vattier de Rideaux
 - [x] Vilgefortz __(NO ABILITY)__
-- [ ] Xarthisius
+- [x] Xarthisius
 - [x] Yennefer: Enchantress
 - [x] Yennefer: Necromancer
 - [ ] Albrich
 - [ ] Assire var Anahid
 - [x] Auckes
 - [ ] Cadaverine
-- [ ] Cantarella
+- [x] Cantarella
 - [x] Ceallach Dyffryn
 - [ ] Cynthia
 - [x] Dazhbog Runestone
@@ -399,7 +399,7 @@
 - [ ] Spotter
 - [ ] Standard Bearer
 - [ ] Venendal Elite
-- [ ] Vicovaro Medic
+- [x] Vicovaro Medic
 - [ ] Vicovaro Novice _(easy card)_
 - [ ] Viper Witcher
 

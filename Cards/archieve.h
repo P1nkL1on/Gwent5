@@ -2745,4 +2745,51 @@ struct RainfarnOfAttre : CardCollectible<RainfarnOfAttre>
 };
 
 
+struct Assassination : CardCollectible<Assassination>
+{
+    Assassination();
+};
+
+
+struct StefanSkellen : CardCollectible<StefanSkellen>
+{
+    StefanSkellen();
+};
+
+
+struct Shilard : CardCollectible<Shilard>
+{
+    Shilard();
+private:
+    Card * _allyCard = nullptr;
+    Card * _enemyCard = nullptr;
+};
+
+
+struct Xarthisius : CardCollectible<Xarthisius>
+{
+    Xarthisius();
+};
+
+
+struct Cantarella : CardCollectible<Cantarella>
+{
+    Cantarella();
+private:
+    std::vector<Card *>_drawn;
+};
+
+
+struct Panther : CardCollectible<Panther>
+{
+    Panther();
+};
+
+
+struct VicovaroMedic : CardCollectible<VicovaroMedic>
+{
+    VicovaroMedic();
+};
+
+
 #endif // CARDS_H

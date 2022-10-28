@@ -408,6 +408,12 @@ std::vector<Card *> allCards(const Patch)
         new HawkerSmuggler(),
         new MennoCoehoorn(),
         new RainfarnOfAttre(),
+        new Assassination(),
+        new StefanSkellen(),
+        new Shilard(),
+        new Cantarella(),
+        new Panther(),
+        new VicovaroMedic(),
     };
 }
 
@@ -11872,6 +11878,210 @@ RainfarnOfAttre::RainfarnOfAttre()
 
     _onDeploy = [=](Field &ally, Field & enemy) {
         startChoiceToTargetCard(ally, enemy, this, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Assassination::Assassination()
+{
+    id = "163101";
+    name = "Assassination";
+    text = "Deal 8 damage to an enemy. Repeat once.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isSpecial = true;
+    tags = { Tactics };
+    faction = Nilfgaard;
+    rarity = Gold;
+
+    _onPlaySpecial = [=](Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 8, ally, enemy, this);
+    };
+
+}
+
+StefanSkellen::StefanSkellen()
+{
+    id = "162106";
+    name = "Stefan Skellen";
+    text = "Move any card in your deck to the top. If it's a non-Spying unit, boost it by 5.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 10;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.98.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.99.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.97.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosTop, this);
+        if (!target->isSpecial && !target->isSpy)
+            boost(target, 5, ally, enemy, this);
+    };
+}
+
+Shilard::Shilard()
+{
+    id = "200071";
+    name = "Shilard";
+    text = "Truce: Draw a card from both decks. Keep one and give the other to your opponent.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 9;
+    tags = { Officer };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.96.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.94.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.95.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        std::vector<Card *> variants;
+        if ((_allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
+            variants.push_back(_allyCard);
+        if ((_enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
+            variants.push_back(_enemyCard);
+        startChoiceToTargetCard(ally, enemy, this, variants);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy, this);
+        if (target == _allyCard && _enemyCard)
+            putToHand(_enemyCard, enemy, ally, this);
+        else if (target == _enemyCard && _allyCard)
+            putToHand(_allyCard, enemy, ally, this);
+    };
+}
+
+Xarthisius::Xarthisius()
+{
+    id = "162108";
+    name = "Xarthisius";
+    text = "Look at your opponent's deck and move a card to the bottom.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 13;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.118.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.119.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.120.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, enemy, ally, DeckPosBottom, this);
+    };
+}
+
+Cantarella::Cantarella()
+{
+    id = "162108";
+    name = "Cantarella";
+    text = "Spying. Single-Use: Draw 2 cards. Keep one and move the other to the bottom of your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 13;
+    tags = {};
+    isLoyal = false;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.127.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.128.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.129.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy)) {
+            Card *firstCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            Card *secondCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            if (firstCard) {
+                putToHand(firstCard, ally, enemy,  this);
+            }
+            if (secondCard) {
+                putToHand(secondCard, ally, enemy,  this);
+            }
+            if (!firstCard || !secondCard)
+                return;
+            _drawn.push_back(firstCard);
+            _drawn.push_back(secondCard);
+            startChoiceToTargetCard(ally, enemy, this, _drawn);
+        }
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        for (Card *card : _drawn)
+            if (card != target)
+                putToDeck(card, ally, enemy, DeckPosBottom, this);
+        _drawn.clear();
+    };
+}
+
+Panther::Panther()
+{
+    id = "200139";
+    name = "Panther";
+    text = "Deal 7 damage to an enemy on a row with less than 4 units.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Beast };
+    faction = Scoiatael;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        const Field *enemyPtr = &enemy;
+        const auto isOk = [enemyPtr](Card *card) {
+            const Row row = _findRowAndPos(card, *enemyPtr).row();
+            return enemyPtr->row(row).size() < 4;
+        };
+        startChoiceToTargetCard(ally, enemy, this, {isOk}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, this);
+    };
+}
+
+VicovaroMedic::VicovaroMedic()
+{
+    id = "162304";
+    name = "Vicovaro Medic";
+    text = "Resurrect a Bronze unit from your opponent's graveyard.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Support };
+    isDoomed = true;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.431.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.430.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.429.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
