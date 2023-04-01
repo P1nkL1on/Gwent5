@@ -352,7 +352,7 @@
 - [ ] Cadaverine
 - [x] Cantarella
 - [x] Ceallach Dyffryn
-- [ ] Cynthia
+- [x] Cynthia
 - [x] Dazhbog Runestone
 - [ ] False Ciri
 - [x] Fringilla Vigo

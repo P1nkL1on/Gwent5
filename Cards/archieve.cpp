@@ -4668,14 +4668,11 @@ WildBoarOfTheSea::WildBoarOfTheSea()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        Row row;
-        Pos pos;
-        if (!_findRowAndPos(this, ally, row, pos))
-            return;
-        if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
+        if (Card *left = cardNextTo(this, ally, enemy, -1)) {
             strengthen(left, 1, ally, enemy, this);
-        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
-            damage(right, 1, ally, enemy, this);
+            if (Card *right = cardNextTo(this, ally, enemy, 1))
+                damage(right, 1, ally, enemy, this);
+        }
     };
 }
 
@@ -7557,7 +7554,7 @@ Archgriffin::Archgriffin()
     faction = Monster;
     tags = { Beast };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         clearHazardsFromItsRow(this, ally);
     };
 }
@@ -11491,6 +11488,7 @@ DwarvenMercenary::DwarvenMercenary()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         // NOTE: check if otherThan(this) required
+        // TODO: fix ability, wrong filters
         startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
     };
 
