@@ -2792,4 +2792,16 @@ struct VicovaroMedic : CardCollectible<VicovaroMedic>
 };
 
 
+struct AssireVarAnahid : CardCollectible<AssireVarAnahid>
+{
+    AssireVarAnahid();
+};
+
+
+struct FringillaVigo : CardCollectible<FringillaVigo>
+{
+    FringillaVigo();
+};
+
+
 #endif // CARDS_H

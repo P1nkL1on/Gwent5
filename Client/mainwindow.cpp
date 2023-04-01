@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Trigger Order", demoTriggersOrder},
         {"Temporary Nilfgaard-ian table", demoNilfsTemporary},
         {"PANTHERAAAA", demoPanther},
+        {"Nilfgaard Mages and Hefty Heldge", demoNilfgaardMages},
     };
 
     /// make a choosing menu for it

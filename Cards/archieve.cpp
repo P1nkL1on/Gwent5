@@ -414,6 +414,8 @@ std::vector<Card *> allCards(const Patch)
         new Cantarella(),
         new Panther(),
         new VicovaroMedic(),
+        new AssireVarAnahid(),
+        new FringillaVigo(),
     };
 }
 
@@ -12086,5 +12088,64 @@ VicovaroMedic::VicovaroMedic()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+AssireVarAnahid::AssireVarAnahid()
+{
+    id = "162202";
+    name = "Assire var Anahid";
+    text = "Return 2 Bronze or Silver cards from either graveyard to their respective decks.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.76.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.77.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.75.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyDiscard);
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.discard)){
+            putToDeck(target, ally, enemy, DeckPosRandom, this);
+            return;
+        }
+        else if (isIn(target, enemy.discard)){
+            putToDeck(target, enemy, ally, DeckPosRandom, this);
+            return;
+        }
+        assert(false);
+    };
+}
+
+FringillaVigo::FringillaVigo()
+{
+    id = "162205";
+    name = "Fringilla Vigo";
+    text = "Spying. Copy the power from the unit to the left to the unit to the right.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    isLoyal = false;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.90.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.88.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.89.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Card *left = cardNextTo(this, ally, enemy, -1);
+        Card *right = cardNextTo(this, ally, enemy, 1);
+        if (left != nullptr && right != nullptr)
+            setPower(right, left->power, ally, enemy, this);
     };
 }
