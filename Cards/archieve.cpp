@@ -5992,7 +5992,7 @@ HeftyHelge::HeftyHelge()
     tags = { Machine };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&enemy, this)};
+        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&ally, &enemy, this)};
         for (Card *card : cardsFiltered(ally, enemy, filters, EnemyBoard))
             damage(card, 1, ally, enemy, this);
     };

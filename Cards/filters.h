@@ -164,6 +164,8 @@ inline Filter isOnSameRow(const Field *field, const Card *self)
 }
 inline Filter isOnAnotherRow(const Field *field, const Card *self)
 {
+    // TODO: rewrite it for ally-enemy fields, not abstract
+    // see below
     return [field, self](Card *card) {
         Row rowSelf;
         Pos _;
@@ -172,6 +174,22 @@ inline Filter isOnAnotherRow(const Field *field, const Card *self)
         Row rowCard;
         if (!_findRowAndPos(card, *field, rowCard, _))
             return false;
+        return rowSelf != rowCard;
+    };
+}
+inline Filter isOnAnotherRow(const Field *ally, const Field *enemy, const Card *self)
+{
+    return [ally, enemy, self](Card *card) {
+        Row rowSelf;
+        Pos _;
+        if (!_findRowAndPos(self, *ally, rowSelf, _))
+            if (!_findRowAndPos(self, *enemy, rowSelf, _))
+                // TODO: consider assert false
+                return false;
+        Row rowCard;
+        if (!_findRowAndPos(card, *ally, rowCard, _))
+            if (!_findRowAndPos(card, *enemy, rowCard, _))
+                return false;
         return rowSelf != rowCard;
     };
 }

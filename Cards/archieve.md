@@ -355,8 +355,8 @@
 - [ ] Cynthia
 - [x] Dazhbog Runestone
 - [ ] False Ciri
-- [ ] Hefty Helge
 - [x] Fringilla Vigo
+- [x] Hefty Helge
 - [ ] Henry var Attre
 - [ ] Joachim de Wett
 - [ ] Nilfgaardian Gate _(easy card)_
