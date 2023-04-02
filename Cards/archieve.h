@@ -2804,4 +2804,10 @@ struct FringillaVigo : CardCollectible<FringillaVigo>
 };
 
 
+struct FalseCiri : CardCollectible<FalseCiri>
+{
+    FalseCiri();
+};
+
+
 #endif // CARDS_H

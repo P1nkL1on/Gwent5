@@ -354,7 +354,7 @@
 - [x] Ceallach Dyffryn
 - [x] Cynthia
 - [x] Dazhbog Runestone
-- [ ] False Ciri
+- [x] False Ciri
 - [x] Fringilla Vigo
 - [x] Hefty Helge
 - [ ] Henry var Attre

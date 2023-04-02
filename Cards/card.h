@@ -97,6 +97,7 @@ struct Card
     void onSpecialPlayed(Card *card, Field &ally, Field &enemy);
     void onEnemyMoved(Card *card, Field &ally, Field &enemy);
     void onOpponentPass(Field &ally, Field &enemy);
+    void onAllyPass(Field &ally, Field &enemy);
     void onRoundLose(Field &ally, Field &enemy);
     // TODO: test and find all the cases
     /// check whether self on board, in hand/deck/discard
@@ -140,6 +141,7 @@ protected:
     AllyEnemy _onArmorLost = nullptr;
     AllyEnemy _onContactWithFullMoon = nullptr;
     AllyEnemy _onOpponentPass = nullptr;
+    AllyEnemy _onAllyPass = nullptr;
     AllyEnemy _onRoundLose = nullptr;
     AllyEnemyInt _onTargetRowChoosen = nullptr;
     IntAllyEnemy _onBoost = nullptr;

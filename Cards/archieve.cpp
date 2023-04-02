@@ -416,6 +416,7 @@ std::vector<Card *> allCards(const Patch)
         new VicovaroMedic(),
         new AssireVarAnahid(),
         new FringillaVigo(),
+        new FalseCiri(),
     };
 }
 
@@ -12145,5 +12146,42 @@ FringillaVigo::FringillaVigo()
         Card *right = cardNextTo(this, ally, enemy, 1);
         if (left != nullptr && right != nullptr)
             setPower(right, left->power, ally, enemy, this);
+    };
+}
+
+FalseCiri::FalseCiri()
+{
+    id = "162212";
+    name = "False Ciri";
+    text = "Spying. If Spying, boost self by 1 on turn start and when this player passes, move to the opposite row. Deathwish: Destroy the Lowest unit on the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    isLoyal = false;
+    tags = { };
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.105.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.107.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.106.mp3",
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!this->isLoyal)
+            boost(this, 1, ally, enemy, this);
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *card = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
+            putToDiscard(card, ally, enemy, this);
+    };
+
+    _onAllyPass = [=](Field &ally, Field &enemy) {
+        // NOTE: for spying creatures logic of this event is inverted
+        // so an ally is an original enemy for FalseCiri
+        if (!this->isLoyal) {
+            const Row row = _findRowAndPos(this, ally).row();
+            moveExistedUnitToPos(this, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+        }
     };
 }
