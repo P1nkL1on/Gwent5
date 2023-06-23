@@ -347,16 +347,16 @@
 - [x] Yennefer: Enchantress
 - [x] Yennefer: Necromancer
 - [ ] Albrich
-- [ ] Assire var Anahid
+- [x] Assire var Anahid
 - [x] Auckes
 - [ ] Cadaverine
 - [x] Cantarella
 - [x] Ceallach Dyffryn
-- [ ] Cynthia
+- [x] Cynthia
 - [x] Dazhbog Runestone
-- [ ] False Ciri
-- [ ] Fringilla Vigo
-- [ ] Hefty Helge
+- [x] False Ciri
+- [x] Fringilla Vigo
+- [x] Hefty Helge
 - [ ] Henry var Attre
 - [ ] Joachim de Wett
 - [ ] Nilfgaardian Gate _(easy card)_

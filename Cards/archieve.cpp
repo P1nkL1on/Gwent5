@@ -414,6 +414,9 @@ std::vector<Card *> allCards(const Patch)
         new Cantarella(),
         new Panther(),
         new VicovaroMedic(),
+        new AssireVarAnahid(),
+        new FringillaVigo(),
+        new FalseCiri(),
     };
 }
 
@@ -4666,14 +4669,11 @@ WildBoarOfTheSea::WildBoarOfTheSea()
     };
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
-        Row row;
-        Pos pos;
-        if (!_findRowAndPos(this, ally, row, pos))
-            return;
-        if (Card *left = cardAtRowAndPos(row, pos + 1, ally))
+        if (Card *left = cardNextTo(this, ally, enemy, -1)) {
             strengthen(left, 1, ally, enemy, this);
-        if (Card *right = cardAtRowAndPos(row, pos + 1, ally))
-            damage(right, 1, ally, enemy, this);
+            if (Card *right = cardNextTo(this, ally, enemy, 1))
+                damage(right, 1, ally, enemy, this);
+        }
     };
 }
 
@@ -5990,7 +5990,7 @@ HeftyHelge::HeftyHelge()
     tags = { Machine };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&enemy, this)};
+        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&ally, &enemy, this)};
         for (Card *card : cardsFiltered(ally, enemy, filters, EnemyBoard))
             damage(card, 1, ally, enemy, this);
     };
@@ -7555,7 +7555,7 @@ Archgriffin::Archgriffin()
     faction = Monster;
     tags = { Beast };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    _onDeploy = [=](Field &ally, Field &) {
         clearHazardsFromItsRow(this, ally);
     };
 }
@@ -11489,6 +11489,7 @@ DwarvenMercenary::DwarvenMercenary()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         // NOTE: check if otherThan(this) required
+        // TODO: fix ability, wrong filters
         startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
     };
 
@@ -12086,5 +12087,101 @@ VicovaroMedic::VicovaroMedic()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+AssireVarAnahid::AssireVarAnahid()
+{
+    id = "162202";
+    name = "Assire var Anahid";
+    text = "Return 2 Bronze or Silver cards from either graveyard to their respective decks.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.76.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.77.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.75.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyDiscard);
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, EnemyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.discard)){
+            putToDeck(target, ally, enemy, DeckPosRandom, this);
+            return;
+        }
+        else if (isIn(target, enemy.discard)){
+            putToDeck(target, enemy, ally, DeckPosRandom, this);
+            return;
+        }
+        assert(false);
+    };
+}
+
+FringillaVigo::FringillaVigo()
+{
+    id = "162205";
+    name = "Fringilla Vigo";
+    text = "Spying. Copy the power from the unit to the left to the unit to the right.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    isLoyal = false;
+    tags = { Mage };
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.90.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.88.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.89.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        Card *left = cardNextTo(this, ally, enemy, -1);
+        Card *right = cardNextTo(this, ally, enemy, 1);
+        if (left != nullptr && right != nullptr)
+            setPower(right, left->power, ally, enemy, this);
+    };
+}
+
+FalseCiri::FalseCiri()
+{
+    id = "162212";
+    name = "False Ciri";
+    text = "Spying. If Spying, boost self by 1 on turn start and when this player passes, move to the opposite row. Deathwish: Destroy the Lowest unit on the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 8;
+    isLoyal = false;
+    tags = { };
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.105.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.107.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.106.mp3",
+    };
+
+    _onTurnStart = [=](Field &ally, Field &enemy) {
+        if (!this->isLoyal)
+            boost(this, 1, ally, enemy, this);
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *card = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
+            putToDiscard(card, ally, enemy, this);
+    };
+
+    _onAllyPass = [=](Field &ally, Field &enemy) {
+        // NOTE: for spying creatures logic of this event is inverted
+        // so an ally is an original enemy for FalseCiri
+        if (!this->isLoyal) {
+            const Row row = _findRowAndPos(this, ally).row();
+            moveExistedUnitToPos(this, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+        }
     };
 }

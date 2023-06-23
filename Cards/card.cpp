@@ -2179,6 +2179,12 @@ void Card::onOpponentPass(Field &ally, Field &enemy)
         return _onOpponentPass(ally, enemy);
 }
 
+void Card::onAllyPass(Field &ally, Field &enemy)
+{
+    if (_onAllyPass && !isLocked)
+        return _onAllyPass(ally, enemy);
+}
+
 void Card::onRoundLose(Field &ally, Field &enemy)
 {
     if (_onRoundLose && !isLocked)
@@ -2292,6 +2298,9 @@ void pass(Field &ally, Field &enemy)
 
     for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
         card->onOpponentPass(enemy, ally);
+
+    for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
+        card->onAllyPass(ally, enemy);
 }
 
 int nCrewed(Card *card, Field &ally)

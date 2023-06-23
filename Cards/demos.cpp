@@ -1405,3 +1405,33 @@ void demoPanther(Field &ally, Field &enemy)
 
     startDemo(ally, enemy, true, false);
 }
+
+void demoNilfgaardMages(Field &ally, Field &enemy)
+{
+    auto *a1 = new AssireVarAnahid();
+    auto *a2 = new FringillaVigo();
+    auto *a3 = new HeftyHelge();
+    auto *a4 = new FalseCiri();
+    auto *a5 = new AddaStriga();
+    auto *a6 = new HeftyHelge();
+    auto *a7 = new HeftyHelge();
+
+    ally.cardsAdded = {a1, a2, a3, a4, a5, a6, a7};
+    ally.hand = {a1, a2, a3, a4, a5};
+    ally.discard = {a6, a7};
+
+    auto *e1 = new TemerianDrummer();
+    auto *e2 = new TemerianDrummer();
+    auto *e3 = new ImperialManticore();
+    auto *e4 = new ImperialManticore();
+    auto *e5 = new ImperialManticore();
+    auto *e6 = new ImperialManticore();
+
+    enemy.cardsAdded = {e1, e2, e3, e4, e5, e6};
+    enemy.rowMeele = {e1, e3, e2};
+    enemy.hand = {e4, e5};
+    enemy.discard = {e6};
+    enemy.passed = false;
+
+    startDemo(ally, enemy, false, false);
+}
