@@ -2816,4 +2816,14 @@ struct Dandelion : CardCollectible<Dandelion>
 };
 
 
+struct Kiyan : CardCollectible<Kiyan>
+{
+    Kiyan();
+private:
+    struct Play : CardCollectible<Play> {};
+    struct Create : CardCollectible<Create> {};
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H

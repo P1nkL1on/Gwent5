@@ -12214,3 +12214,61 @@ Dandelion::Dandelion()
         boost(target, 2, ally, enemy, this);
     };
 }
+
+Kiyan::Kiyan()
+{
+    id = "";
+    name = "Kiyan";
+    text = "Choose One: Create a Bronze or Silver Alchemy card; or Play a Bronze or Silver Item from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 4;
+    tags = { Cursed, Witcher };
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.14.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.15.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.16.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.17.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.18.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        auto *option1 = new Kiyan::Create;
+        copyCardText(this, option1);
+        option1->text = "Create a Bronze or Silver Alchemy card.";
+
+        auto *option2 = new Kiyan::Play;
+        copyCardText(this, option2);
+        option2->text = "Play a Bronze or Silver Item from your deck.";
+
+        _choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+    };
+
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+
+        if (!_choosen && dynamic_cast<Kiyan::Play *>(target)) {
+            _choosen = target;
+            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+        }
+
+        if (!_choosen && dynamic_cast<Kiyan::Create *>(target)) {
+            _choosen = target;
+            return startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
+        }
+
+        if (dynamic_cast<Kiyan::Create *>(_choosen)) {
+            spawnNewCard(target, ally, enemy, this);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}

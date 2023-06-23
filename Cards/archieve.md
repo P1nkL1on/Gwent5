@@ -123,7 +123,7 @@
 - [x] King Foltest
 - [x] King Henselt
 - [x] King Radovid V
-- [ ] Kiyan
+- [x] Kiyan
 - [ ] Philippa Eilhart
 - [x] Princess Adda
 - [x] Priscilla

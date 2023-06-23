@@ -1440,16 +1440,18 @@ void demoNothern(Field &ally, Field &enemy)
 {
     auto *d = new Dandelion();
     auto *d1 = new DandelionPoet();
+    auto *k = new Kiyan();
     auto *f = new KingFoltest();
     auto *b = new Bear();
     auto *b1 = new Bear();
     auto *b2 = new Bear();
     auto *w = new Wolf();
+    auto *s = new Swallow();
 
-    ally.cardsAdded = {f, d, d1, b, b1, b2, w};
+    ally.cardsAdded = {f, d, d1, k, b, b1, b2, w, s};
     ally.leader = f;
-    ally.hand = {d, d1};
-    ally.deck = {b, b1, b2, w};
+    ally.hand = {d, d1, k};
+    ally.deck = {b, b1, b2, w, s};
 
     startDemo(ally, enemy, true, true);
 }
