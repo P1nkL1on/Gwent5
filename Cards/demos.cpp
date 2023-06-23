@@ -1438,9 +1438,13 @@ void demoNilfgaardMages(Field &ally, Field &enemy)
 
 void demoNothern(Field &ally, Field &enemy)
 {
+    auto *m = new ImperialManticore();
+    auto *m1 = new Cantarella();
+    auto *m2 = new Frightener();
     auto *d = new Dandelion();
     auto *d1 = new DandelionPoet();
     auto *k = new Kiyan();
+    auto *pe = new PhilippaEilhart();
     auto *f = new KingFoltest();
     auto *b = new Bear();
     auto *b1 = new Bear();
@@ -1448,10 +1452,14 @@ void demoNothern(Field &ally, Field &enemy)
     auto *w = new Wolf();
     auto *s = new Swallow();
 
-    ally.cardsAdded = {f, d, d1, k, b, b1, b2, w, s};
+    ally.cardsAdded = {pe, f, d, d1, k, b, b1, b2, w, s};
     ally.leader = f;
-    ally.hand = {d, d1, k};
+    ally.hand = {d, d1, k, pe};
     ally.deck = {b, b1, b2, w, s};
+
+    enemy.cardsAdded = {m, m1, m2};
+    enemy.rowMeele = {m, m1};
+    enemy.rowRange = {m2};
 
     startDemo(ally, enemy, true, true);
 }

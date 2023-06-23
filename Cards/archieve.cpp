@@ -417,6 +417,8 @@ std::vector<Card *> allCards(const Patch)
         new AssireVarAnahid(),
         new FringillaVigo(),
         new FalseCiri(),
+        new Dandelion(),
+        new Kiyan(),
     };
 }
 
@@ -12270,5 +12272,40 @@ Kiyan::Kiyan()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+PhilippaEilhart::PhilippaEilhart()
+{
+    id = "";
+    name = "Philippa Eilhart";
+    text = "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 1;
+    tags = { Mage, Redania };
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/PHIL_Q502_00555967.mp3",
+        "https://gwent.one/audio/card/ob/en/PHIL_Q310_00533376.mp3",
+        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041426.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLPA_200102_0065.mp3",
+        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041424.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_FLPA_300358_0012.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+
+        for (int dmg = 4; dmg > 0; --dmg) {
+            target = random(cardsFiltered(ally, enemy, {otherThan(target)}, EnemyBoard), ally.rng);
+            if (!target)
+                return;
+            damage(target, dmg, ally, enemy, this);
+        }
     };
 }

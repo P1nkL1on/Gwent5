@@ -2826,4 +2826,11 @@ private:
 };
 
 
+struct PhilippaEilhart : CardCollectible<PhilippaEilhart>
+{
+    PhilippaEilhart();
+private:
+};
+
+
 #endif // CARDS_H
