@@ -4929,7 +4929,7 @@ MarchingOrders::MarchingOrders()
 AlzursDoubleCross::AlzursDoubleCross()
 {
     id = "113209";
-    name = "Alzur's Double???Cross";
+    name = "Alzur's Double Cross";
     text = "Boost the Highest Bronze or Silver unit in your deck by 2, then play it.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Spell };
@@ -12183,5 +12183,34 @@ FalseCiri::FalseCiri()
             const Row row = _findRowAndPos(this, ally).row();
             moveExistedUnitToPos(this, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
         }
+    };
+}
+
+Dandelion::Dandelion()
+{
+    id = "";
+    name = "Dandelion";
+    text = "Boost 3 units in your deck by 2.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    power = powerBase = 11;
+    tags = { Support };
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+    };
+
+    _onDeploy = [this](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, this);
     };
 }

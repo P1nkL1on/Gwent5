@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Temporary Nilfgaard-ian table", demoNilfsTemporary},
         {"PANTHERAAAA", demoPanther},
         {"Nilfgaard Mages and Hefty Heldge", demoNilfgaardMages},
+        {"Northen Deck Buff", demoNothern},
     };
 
     /// make a choosing menu for it

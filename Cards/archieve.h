@@ -2810,4 +2810,10 @@ struct FalseCiri : CardCollectible<FalseCiri>
 };
 
 
+struct Dandelion : CardCollectible<Dandelion>
+{
+    Dandelion();
+};
+
+
 #endif // CARDS_H

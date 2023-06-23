@@ -1435,3 +1435,21 @@ void demoNilfgaardMages(Field &ally, Field &enemy)
 
     startDemo(ally, enemy, false, false);
 }
+
+void demoNothern(Field &ally, Field &enemy)
+{
+    auto *d = new Dandelion();
+    auto *d1 = new DandelionPoet();
+    auto *f = new KingFoltest();
+    auto *b = new Bear();
+    auto *b1 = new Bear();
+    auto *b2 = new Bear();
+    auto *w = new Wolf();
+
+    ally.cardsAdded = {f, d, d1, b, b1, b2, w};
+    ally.leader = f;
+    ally.hand = {d, d1};
+    ally.deck = {b, b1, b2, w};
+
+    startDemo(ally, enemy, true, true);
+}

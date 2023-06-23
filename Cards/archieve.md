@@ -117,7 +117,7 @@
 # Nothern Realms
 
 - [x] Bloody Baron
-- [ ] Dandelion
+- [x] Dandelion
 - [x] John Natalis
 - [x] Keira Metz
 - [x] King Foltest

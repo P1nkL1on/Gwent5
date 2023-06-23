@@ -1230,8 +1230,12 @@ void putToHand(Card *card, Field &ally, Field &enemy, const Card *src)
     const Row row = takeCard(card, ally, enemy);
     assert(row != Hand);
 
+    /// if drawing, thean leave boosts
+    /// otherwise reset power
+    if (row != Deck)
+        card->power = card->powerBase;
+
     /// reset a card statuses
-    card->power = card->powerBase;
     card->isSpy = false;
     card->isResilient = false;
     card->isLocked = false;
