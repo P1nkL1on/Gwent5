@@ -2829,7 +2829,6 @@ private:
 struct PhilippaEilhart : CardCollectible<PhilippaEilhart>
 {
     PhilippaEilhart();
-private:
 };
 
 

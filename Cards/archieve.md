@@ -124,12 +124,12 @@
 - [x] King Henselt
 - [x] King Radovid V
 - [x] Kiyan
-- [ ] Philippa Eilhart
+- [x] Philippa Eilhart
 - [x] Princess Adda
 - [x] Priscilla
-- [ ] Roche: Merciless
+- [x] Roche: Merciless
 - [x] Seltkirk of Gulet
-- [ ] Shani _(easy card)_
+- [x] Shani _(easy card)_
 - [ ] Sigismund Dijkstra
 - [ ] Vandergrift
 - [ ] Vernon Roche

@@ -419,6 +419,7 @@ std::vector<Card *> allCards(const Patch)
         new FalseCiri(),
         new Dandelion(),
         new Kiyan(),
+        new PhilippaEilhart(),
     };
 }
 
@@ -12307,5 +12308,58 @@ PhilippaEilhart::PhilippaEilhart()
                 return;
             damage(target, dmg, ally, enemy, this);
         }
+    };
+}
+
+RocheMerciless::RocheMerciless()
+{
+    id = "";
+    name = "Roche: Merciless";
+    text = "Destroy a face-down Ambush enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Officer };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Gold;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
+        "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        // FIXME: test, because it won't work
+        startChoiceToTargetCard(ally, enemy, this, {isAmbushing}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
+        putToDiscard(card, ally, enemy, this);
+    };
+}
+
+Shani::Shani()
+{
+    id = "";
+    name = "Roche: Merciless";
+    text = "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Redania, Support };
+    power = powerBase = 4;
+    faction = NothernRealms;
+    rarity = Gold;
+    isDoomed = true;
+
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SHNI_SHANI_01130725.mp3",
+        "https://gwent.one/audio/card/ob/en/SHNI_Q601_01101942.mp3",
+        "https://gwent.one/audio/card/ob/en/SHNI_Q602_01119358.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+        gainArmor(target, 2, ally, enemy, this);
     };
 }
