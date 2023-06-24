@@ -1444,17 +1444,18 @@ void demoNothern(Field &ally, Field &enemy)
     auto *d = new Dandelion();
     auto *d1 = new DandelionPoet();
     auto *k = new Kiyan();
+    auto *v = new Vandergrift();
     auto *pe = new PhilippaEilhart();
     auto *f = new KingFoltest();
-    auto *b = new Bear();
-    auto *b1 = new Bear();
-    auto *b2 = new Bear();
-    auto *w = new Wolf();
+    auto *b = new Botchling();
+    auto *b1 = new Botchling();
+    auto *b2 = new Lubberkin();
+    auto *w = new Lubberkin();
     auto *s = new Swallow();
 
-    ally.cardsAdded = {pe, f, d, d1, k, b, b1, b2, w, s};
+    ally.cardsAdded = {v, pe, f, d, d1, k, b, b1, b2, w, s};
     ally.leader = f;
-    ally.hand = {d, d1, k, pe};
+    ally.hand = {d, d1, k, pe, v};
     ally.deck = {b, b1, b2, w, s};
 
     enemy.cardsAdded = {m, m1, m2};

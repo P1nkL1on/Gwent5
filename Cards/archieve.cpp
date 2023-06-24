@@ -420,6 +420,8 @@ std::vector<Card *> allCards(const Patch)
         new Dandelion(),
         new Kiyan(),
         new PhilippaEilhart(),
+        new RocheMerciless(),
+        new Shani(),
     };
 }
 
@@ -8563,6 +8565,9 @@ SigismundDijkstra::SigismundDijkstra()
     tags = { Redania };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        // FIXME: 2 deikstras ni a row won't work correctly!
+        // or any other combo, when 1st Dijkstra card
+        // drawing card or interacts with a deck
         for (Card *card : firsts(ally.deck, 2))
             playExistedCard(card, ally, enemy, this);
     };
@@ -12210,7 +12215,7 @@ Dandelion::Dandelion()
     };
 
     _onDeploy = [this](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, false);
+        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyDeckShuffled, 3, false);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -12361,5 +12366,68 @@ Shani::Shani()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
         gainArmor(target, 2, ally, enemy, this);
+    };
+}
+
+Vandergrift::Vandergrift()
+{
+    id = "";
+    name = "Vandergrift";
+    text = "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed, Kaedwen, Officer };
+    power = powerBase = 7;
+    faction = NothernRealms;
+    rarity = Gold;
+
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.11.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.10.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.9.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.8.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.7.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (damage(card, 1, ally, enemy, this)) {
+                const Row row = _findRowAndPos(this, enemy).row();
+                applyRowEffect(ally, enemy, toScreenRow(row, false), RaghNarRoogEffect);
+            }
+        }
+    };
+}
+
+Botchling::Botchling()
+{
+    id = "";
+    name = "Botchling";
+    text = "Summon a Lubberkin to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    power = powerBase = 10;
+    faction = NothernRealms;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy<Lubberkin>}, AllyDeck))
+            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    };
+}
+
+Lubberkin::Lubberkin()
+{
+    id = "";
+    name = "Lubberkin";
+    text = "Summon a Botchling to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    power = powerBase = 5;
+    faction = NothernRealms;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy<Botchling>}, AllyDeck))
+            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
     };
 }

@@ -130,20 +130,20 @@
 - [x] Roche: Merciless
 - [x] Seltkirk of Gulet
 - [x] Shani _(easy card)_
-- [ ] Sigismund Dijkstra
-- [ ] Vandergrift
-- [ ] Vernon Roche
-- [ ] Botchling _(easy card)_
+- [x] Sigismund Dijkstra
+- [x] Vandergrift
+- [x] Vernon Roche
+- [x] Botchling _(easy card)_
 - [x] Dethmold
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
-- [ ] Lubberkin _(easy card)_
+- [x] Lubberkin _(easy card)_
 - [ ] Margarita of Aretuza
 - [ ] Nenneke
 - [x] Odrin
-- [ ] Prince Stennis
+- [x] Prince Stennis
 - [x] Princess Pavetta
-- [x] Ronvid the Incessant __(NO ABILITY)__
+- [x] Ronvid the Incessant
 - [ ] Sabrina Glevissig
 - [ ] Sabrina's Specter
 - [x] Sile de Tansarville
@@ -159,8 +159,8 @@
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram
 - [ ] Bloody Flail _(easy card)_
-- [ ] Blue Stripe Commando
-- [ ] Blue Stripe Scout
+- [x] Blue Stripe Commando
+- [x] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
 - [x] Dun Banner

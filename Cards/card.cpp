@@ -1377,7 +1377,7 @@ Row fromScreenRow(const int screenRow, bool &isAlly)
     return Row(screenRow - 3);
 }
 
-int toScreenRow(const Row row, const bool &isAlly)
+int toScreenRow(const Row row, const bool isAlly)
 {
     switch (row) {
     case Meele:

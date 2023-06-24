@@ -2832,4 +2832,34 @@ struct PhilippaEilhart : CardCollectible<PhilippaEilhart>
 };
 
 
+struct RocheMerciless : CardCollectible<RocheMerciless>
+{
+    RocheMerciless();
+};
+
+
+struct Shani : CardCollectible<Shani>
+{
+    Shani();
+};
+
+
+struct Vandergrift : CardCollectible<Vandergrift>
+{
+    Vandergrift();
+};
+
+
+struct Botchling : CardCollectible<Botchling>
+{
+    Botchling();
+};
+
+
+struct Lubberkin : CardCollectible<Lubberkin>
+{
+    Lubberkin();
+};
+
+
 #endif // CARDS_H
