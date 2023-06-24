@@ -422,6 +422,9 @@ std::vector<Card *> allCards(const Patch)
         new PhilippaEilhart(),
         new RocheMerciless(),
         new Shani(),
+        new Vandergrift(),
+        new Botchling(),
+        new Lubberkin(),
     };
 }
 
