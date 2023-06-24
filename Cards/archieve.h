@@ -9,6 +9,16 @@ std::vector<Card *> allCards(const Patch);
 std::map<std::string, std::string> keywordDescriptions(const Patch patch = PublicBeta_0_9_24_3_432);
 
 
+struct Cards
+{
+    virtual ~Cards() = default;
+    virtual Card *addaStriga() const;
+    virtual Card *dao() const;
+    virtual Card *daoLesser() const;
+    virtual Card *mahakamHorn() const;
+};
+
+
 struct AddaStriga : CardCollectible<AddaStriga>
 {
     AddaStriga();

@@ -24,10 +24,33 @@ private:
 };
 
 
+struct State
+{
+    virtual ~State() = default;
+    virtual State *exactCopy() const = 0;
+    virtual State *defaultCopy() const = 0;
+};
+
+
+template <class T>
+struct StateCopy : State
+{
+    StateCopy<T> *exactCopy() const override
+    {
+        return new T(*dynamic_cast<const T *>(this));
+    }
+    StateCopy<T> *defaultCopy() const override
+    {
+        return new T();
+    }
+};
+
+
 struct Card
 {
     Card() = default;
-    virtual ~Card() = default;
+    Card *copy() const;
+    virtual ~Card();
 
     int power = 0;
     int powerBase = 0;
@@ -49,6 +72,8 @@ struct Card
     bool isDoomed = false;
     bool isCrew = false;
     bool isRevealed = false;
+    // special state if needed
+    State *state = nullptr;
 
     std::string id;
     std::string name;
@@ -112,7 +137,13 @@ struct Card
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
     inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
 
-protected:
+private:
+    Card(const Card &card) = default;
+    Card(Card &&card) = default;
+    Card &operator=(Card &&card) = default;
+    Card &operator=(const Card &card) = default;
+
+public:
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
     using CardAllyEnemyRowAndPos = std::function<void(Card *, Field &, Field &, const RowAndPos &)>;
@@ -167,28 +198,6 @@ protected:
     AllyEnemySrcChangable _onAllyConsume = nullptr;
     AllyEnemySrcPowerChangeType _onPowerChanged = nullptr;
 };
-
-template <class T>
-struct CardCollectible : Card
-{
-    static Card *create(const Patch patch)
-    {
-        Card *base = new Card;
-        base->patch = patch;
-        T *res = new(base) T();
-        return res;
-    }
-    Card *defaultCopy() const override
-    {
-        return CardCollectible<T>::create(patch);
-    }
-    Card *exactCopy() const override
-    {
-        const T *self = dynamic_cast<const T*>(this);
-        return new T(*self);
-    }
-};
-
 
 /// The Choice:
 ///     1) rows, rowFilters, adjacent = 0|1

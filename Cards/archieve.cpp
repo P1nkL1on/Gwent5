@@ -463,6 +463,112 @@ std::map<std::string, std::string> keywordDescriptions(const Patch patch)
     return {};
 }
 
+
+Card *Cards::addaStriga() const
+{
+    auto *card = new Card();
+    card->id = "200073";
+    card->power = card->powerBase = 6;
+    card->rarity = Silver;
+    card->faction = Monster;
+    card->tags = { Relict, Cursed };
+
+    card->_onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, card, {isNonMonsterFaction});
+    };
+
+    card->_onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
+        damage(card, 8, ally, enemy, card);
+    };
+
+    return card;
+}
+
+Card *Cards::dao() const
+{
+    auto *card = new Card();
+    card->id = "132213";
+    card->power = card->powerBase = 6;
+    card->rarity = Bronze;
+    card->faction = Monster;
+    card->tags = { Construct };
+
+    card->_onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        spawnNewUnitToPos(daoLesser(), rowAndPos, ally, enemy, card);
+        spawnNewUnitToPos(daoLesser(), rowAndPos, ally, enemy, card);
+    };
+
+    return card;
+}
+
+Card *Cards::daoLesser() const
+{
+    auto *card = new Card();
+    card->id = "132405";
+    card->power = card->powerBase = 4;
+    card->rarity = Bronze;
+    card->faction = Monster;
+    card->tags = { Construct };
+    card->isDoomed = true;
+}
+
+Card *Cards::mahakamHorn() const
+{
+    auto *card = new Card();
+    card->id = "201653";
+    card->isSpecial = true;
+    card->tags = { Item };
+    card->faction = Scoiatael;
+    card->rarity = Silver;
+
+//    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
+//        auto *option1 = new MahakamHorn::Create;
+//        copyCardText(card, option1);
+//        option1->text = "Create a Bronze or Silver Dwarf.";
+
+//        auto *option2 = new MahakamHorn::Strengthen;
+//        copyCardText(card, option2);
+//        option2->text = "Strengthen a unit by 7.";
+
+//        _choosen = nullptr;
+//        startChoiceToSelectOption(ally, enemy, card, {option1, option2});
+//    };
+
+//    card->_onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        if (!_choosen && dynamic_cast<MahakamHorn::Create *>(target)) {
+//            _choosen = target;
+//            startChoiceCreateOptions(ally, enemy, card, {isBronzeOrSilver, hasTag(Dwarf)});
+//            return;
+//        }
+
+//        if (!_choosen && dynamic_cast<MahakamHorn::Strengthen *>(target)) {
+//            _choosen = target;
+//            startChoiceToTargetCard(ally, enemy, card, {}, AnyBoard);
+//            return;
+//        }
+
+//        if (dynamic_cast<MahakamHorn::Create *>(_choosen)) {
+//            spawnNewCard(target, ally, enemy, card);
+//            delete _choosen;
+//            _choosen = nullptr;
+//            return;
+//        }
+
+//        assert(false);
+//    };
+
+//    card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        assert(dynamic_cast<MahakamHorn::Strengthen *>(_choosen));
+
+//        strengthen(target, 7, ally, enemy, card);
+
+//        delete _choosen;
+//        _choosen = nullptr;
+//    };
+
+    return card;
+}
+
 AddaStriga::AddaStriga()
 {
     id = "200073";

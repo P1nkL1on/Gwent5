@@ -1607,7 +1607,9 @@ bool isOnBoard(const Card *card, const Field &field)
 
 void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src)
 {
-    *card = target;
+    // FIXME: not implemented
+    assert(false);
+    //*card = target;
     saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
@@ -1961,6 +1963,11 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
     card->isRevealed = false;
 }
 
+Card::~Card()
+{
+
+}
+
 void Card::onGameStart(Field &ally, Field &enemy)
 {
     if (_onGameStart)
@@ -2207,6 +2214,13 @@ void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
 {
     if (_onAllyConsume && !isLocked)
         return _onAllyConsume(ally, enemy, src);
+}
+
+Card *Card::copy() const
+{
+    auto *res = new Card;
+    res->state = state ? state->exactCopy() : nullptr;
+    return res;
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
