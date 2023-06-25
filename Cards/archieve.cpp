@@ -425,6 +425,9 @@ std::vector<Card *> allCards(const Patch)
         new Vandergrift(),
         new Botchling(),
         new Lubberkin(),
+        new NilfgaardianGate(),
+        new PeterSaarGwynleve(),
+        new VicovaroNovice(),
     };
 }
 
@@ -12199,7 +12202,7 @@ FalseCiri::FalseCiri()
 
 Dandelion::Dandelion()
 {
-    id = "";
+    id = "122201";
     name = "Dandelion";
     text = "Boost 3 units in your deck by 2.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12228,7 +12231,7 @@ Dandelion::Dandelion()
 
 Kiyan::Kiyan()
 {
-    id = "";
+    id = "201621";
     name = "Kiyan";
     text = "Choose One: Create a Bronze or Silver Alchemy card; or Play a Bronze or Silver Item from your deck.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12286,7 +12289,7 @@ Kiyan::Kiyan()
 
 PhilippaEilhart::PhilippaEilhart()
 {
-    id = "";
+    id = "122104";
     name = "Philippa Eilhart";
     text = "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12321,7 +12324,7 @@ PhilippaEilhart::PhilippaEilhart()
 
 RocheMerciless::RocheMerciless()
 {
-    id = "";
+    id = "201777";
     name = "Roche: Merciless";
     text = "Destroy a face-down Ambush enemy.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12346,8 +12349,8 @@ RocheMerciless::RocheMerciless()
 
 Shani::Shani()
 {
-    id = "";
-    name = "Roche: Merciless";
+    id = "122106";
+    name = "Shani";
     text = "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
     tags = { Redania, Support };
@@ -12374,7 +12377,7 @@ Shani::Shani()
 
 Vandergrift::Vandergrift()
 {
-    id = "";
+    id = "201620";
     name = "Vandergrift";
     text = "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12403,7 +12406,7 @@ Vandergrift::Vandergrift()
 
 Botchling::Botchling()
 {
-    id = "";
+    id = "122401";
     name = "Botchling";
     text = "Summon a Lubberkin to this row.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12420,7 +12423,7 @@ Botchling::Botchling()
 
 Lubberkin::Lubberkin()
 {
-    id = "";
+    id = "122402";
     name = "Lubberkin";
     text = "Summon a Botchling to this row.";
     url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
@@ -12432,5 +12435,81 @@ Lubberkin::Lubberkin()
     _onDeploy = [=](Field &ally, Field &enemy) {
         for (Card *botchling : cardsFiltered(ally, enemy, {isCopy<Botchling>}, AllyDeck))
             moveExistedUnitToPos(botchling, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    };
+}
+
+NilfgaardianGate::NilfgaardianGate()
+{
+    id = "201699";
+    name = "Nilfgaardian Gate";
+    text = "Play a Bronze or Silver Officer from your deck and boost it by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Tactics };
+    isSpecial = true;
+    faction = Nilfgaard;
+    rarity = Silver;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+PeterSaarGwynleve::PeterSaarGwynleve()
+{
+    id = "162204";
+    name = "Peter Saar Gwynleve";
+    text = "Reset an ally and Strengthen it by 3; or Reset an enemy and Weaken it by 3.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 6;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.426.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.427.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.428.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, this);
+        if (isOnBoard(target, ally))
+            strengthen(target, 3, ally, enemy, this);
+        else if (isOnBoard(target, enemy))
+            weaken(target, 3, ally, enemy, this);
+        else
+            assert(false);
+    };
+}
+
+VicovaroNovice::VicovaroNovice()
+{
+    id = "122403";
+    name = "Vicovaro Novice";
+    text = "Look at 2 random Bronze Alchemy cards from your deck, then play 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage };
+    power = powerBase = 2;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.820.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.821.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.819.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }

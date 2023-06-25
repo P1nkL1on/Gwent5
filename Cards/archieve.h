@@ -2862,4 +2862,22 @@ struct Lubberkin : CardCollectible<Lubberkin>
 };
 
 
+struct NilfgaardianGate : CardCollectible<NilfgaardianGate>
+{
+    NilfgaardianGate();
+};
+
+
+struct PeterSaarGwynleve : CardCollectible<PeterSaarGwynleve>
+{
+    PeterSaarGwynleve();
+};
+
+
+struct VicovaroNovice : CardCollectible<VicovaroNovice>
+{
+    VicovaroNovice();
+};
+
+
 #endif // CARDS_H

@@ -359,8 +359,8 @@
 - [x] Hefty Helge
 - [ ] Henry var Attre
 - [ ] Joachim de Wett
-- [ ] Nilfgaardian Gate _(easy card)_
-- [ ] Peter Saar Gwynleve _(easy card)_
+- [x] Nilfgaardian Gate _(easy card)_
+- [x] Peter Saar Gwynleve _(easy card)_
 - [ ] Serrit
 - [ ] Sweers
 - [x] The Guardian
@@ -400,7 +400,7 @@
 - [ ] Standard Bearer
 - [ ] Venendal Elite
 - [x] Vicovaro Medic
-- [ ] Vicovaro Novice _(easy card)_
+- [x] Vicovaro Novice _(easy card)_
 - [ ] Viper Witcher
 
 # Monster
