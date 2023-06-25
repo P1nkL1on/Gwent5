@@ -6,12 +6,12 @@
 
 /// returns all cards in games (no tokens included)
 void allCardsInfos(const Patch);
-std::vector<Card *> allCards(const Patch);
 std::map<std::string, std::string> keywordDescriptions(const Patch patch = PublicBeta_0_9_24_3_432);
 
 /// open-beta Gwent v0.9.24.3.432
 namespace CardsObt {
 
+std::vector<Card *> createAll();
 Card *createAddaStriga();
 Card *createDao();
 Card *createPoorFingInfantry();

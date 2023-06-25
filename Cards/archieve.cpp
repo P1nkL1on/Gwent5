@@ -5,422 +5,6 @@
 
 #include "filters.h"
 
-std::vector<Card *> allCards(const Patch)
-{
-    return {
-        CardsObt::createAddaStriga(),
-                CardsObt::createDao(),
-                CardsObt::createPoorFingInfantry(),
-                CardsObt::createDeithwenArbalest(),
-                CardsObt::createTemerianDrummer(),
-                CardsObt::createDandelionPoet(),
-                CardsObt::createSileDeTansarville(),
-                CardsObt::createRedanianKnightElect(),
-                CardsObt::createKaedweniKnight(),
-                CardsObt::createAnCraiteMarauder(),
-                CardsObt::createAnCraiteGreatsword(),
-                CardsObt::createDimunLightLongship(),
-                CardsObt::createTuirseachBearmaster(),
-                CardsObt::createTuirseachHunter(),
-                CardsObt::createRedanianElite(),
-                CardsObt::createRedanianKnight(),
-                CardsObt::createKaedweniCavalry(),
-                CardsObt::createAlzursThunder(),
-                CardsObt::createSwallow(),
-                CardsObt::createThunderbolt(),
-                CardsObt::createArachasVenom(),
-                CardsObt::createKeiraMetz(),
-                CardsObt::createDolBlathannaArcher(),
-                CardsObt::createHalfElfHunter(),
-                CardsObt::createAmbassador(),
-                CardsObt::createAssassin(),
-                CardsObt::createEmissary(),
-                CardsObt::createCeallachDyffryn(),
-                CardsObt::createTuirseachArcher(),
-                CardsObt::createInfiltrator(),
-                CardsObt::createImpenetrableFog(),
-                CardsObt::createTorrentialRain(),
-                CardsObt::createBitingFrost(),
-                CardsObt::createGoldenFroth(),
-                CardsObt::createSkelligeStorm(),
-                CardsObt::createImperialManticore(),
-                CardsObt::createManticoreVenom(),
-                CardsObt::createGloriousHunt(),
-                CardsObt::createVes(),
-                CardsObt::createVaedermakar(),
-                CardsObt::createFrightener(),
-                CardsObt::createCleaver(),
-                CardsObt::createScorch(),
-                CardsObt::createReinforcements(),
-                CardsObt::createJohnNatalis(),
-                CardsObt::createEleyas(),
-                CardsObt::createReaverScout(),
-                CardsObt::createHeymaeySpearmaiden(),
-                CardsObt::createVriheddSappers(),
-                CardsObt::createPriestessOfFreya(),
-                CardsObt::createDimunCorsair(),
-                CardsObt::createSigrdrifa(),
-                CardsObt::createDrummondQueensguard(),
-                CardsObt::createSage(),
-                CardsObt::createReconnaissance(),
-                CardsObt::createElvenMercenary(),
-                CardsObt::createChampionOfHov(),
-                CardsObt::createPriscilla(),
-                CardsObt::createSeltkirkOfGulet(),
-                CardsObt::createAdrenalineRush(),
-                CardsObt::createMandrake(),
-                CardsObt::createBoneTalisman(),
-                CardsObt::createRestore(),
-                CardsObt::createDecoy(),
-                CardsObt::createShupesDayOff(),
-                CardsObt::createFirstLight(),
-                CardsObt::createEpidemic(),
-                CardsObt::createMoonlight(),
-                CardsObt::createCiriNova(),
-                CardsObt::createHaraldTheCripple(),
-                CardsObt::createBranTuirseach(),
-                CardsObt::createDrummondWarmonger(),
-                CardsObt::createDimunPirate(),
-                CardsObt::createAnCraiteRaider(),
-                CardsObt::createMadmanLugos(),
-                CardsObt::createErmion(),
-                CardsObt::createCerysFearless(),
-                CardsObt::createCerysAnCraite(),
-                CardsObt::createWoodlandSpirit(),
-                CardsObt::createTrollololo(),
-                CardsObt::createPrinceStennis(),
-                CardsObt::createVincentMeis(),
-                CardsObt::createMorkvarg(),
-                CardsObt::createArtefactCompression(),
-                CardsObt::createHjalmarAnCraite(),
-                CardsObt::createRegis(),
-                CardsObt::createLethoOfGulet(),
-                CardsObt::createAnCraiteLongship(),
-                CardsObt::createGeraltIgni(),
-                CardsObt::createGeraltOfRivia(),
-                CardsObt::createTuirseachVeteran(),
-                CardsObt::createUdalryk(),
-                CardsObt::createBloodcurdlingRoar(),
-                CardsObt::createGremist(),
-                CardsObt::createZoriaRunestone(),
-                CardsObt::createOperator(),
-                CardsObt::createRenew(),
-                CardsObt::createEistTuirseach(),
-                CardsObt::createTuirseachAxeman(),
-                CardsObt::createDerran(),
-                CardsObt::createTuirseachSkirmisher(),
-                CardsObt::createRoach(),
-                CardsObt::createJanCalveit(),
-                CardsObt::createCahirDyffryn(),
-                CardsObt::createLethoKingslayer(),
-                CardsObt::createKingHenselt(),
-                CardsObt::createBloodyBaron(),
-                CardsObt::createHubertRejk(),
-                CardsObt::createDethmold(),
-                CardsObt::createRonvidTheIncessant(),
-                CardsObt::createCrachAnCraite(),
-                CardsObt::createBirnaBran(),
-                CardsObt::createCoral(),
-                CardsObt::createVabjorn(),
-                CardsObt::createBlueboyLugos(),
-                CardsObt::createDjengeFrett(),
-                CardsObt::createDonarAnHindar(),
-                CardsObt::createDraigBonDhu(),
-                CardsObt::createHolgerBlackhand(),
-                CardsObt::createJuttaAnDimun(),
-                CardsObt::createSavageBear(),
-                CardsObt::createSvanrigeTuirseach(),
-                CardsObt::createSkjall(),
-                CardsObt::createHaraldHoundsnout(),
-                CardsObt::createYoana(),
-                CardsObt::createAnCraiteBlacksmith(),
-                CardsObt::createAnCraiteWarcrier(),
-                CardsObt::createAnCraiteWarrior(),
-                CardsObt::createBerserkerMarauder(),
-                CardsObt::createDimunPirateCaptain(),
-                CardsObt::createDimunSmuggler(),
-                CardsObt::createDrummondShieldmaid(),
-                CardsObt::createHeymaeyFlaminica(),
-                CardsObt::createHeymaeyHerbalist(),
-                CardsObt::createHeymaeyProtector(),
-                CardsObt::createHeymaeySkald(),
-                CardsObt::createRagingBerserker(),
-                CardsObt::createHym(),
-                CardsObt::createKambi(),
-                CardsObt::createOlaf(),
-                CardsObt::createUlfhedinn(),
-                CardsObt::createWildBoarOfTheSea(),
-                CardsObt::createGiantBoar(),
-                CardsObt::createOrnamentalSword(),
-                CardsObt::createDimunWarship(),
-                CardsObt::createVilgefortz(),
-                CardsObt::createTrissButterflies(),
-                CardsObt::createYennefer(),
-                CardsObt::createGermainPiquant(),
-                CardsObt::createCommandersHorn(),
-                CardsObt::createMarchingOrders(),
-                CardsObt::createAlzursDoubleCross(),
-                CardsObt::createAlbaArmoredCavalry(),
-                CardsObt::createSentry(),
-                CardsObt::createNauzicaaSergeant(),
-                CardsObt::createSlaveInfantry(),
-                CardsObt::createRecruit(),
-                CardsObt::createOintment(),
-                CardsObt::createVreemde(),
-                CardsObt::createLambert(),
-                CardsObt::createEskel(),
-                CardsObt::createVesemir(),
-                CardsObt::createTridamInfantry(),
-                CardsObt::createVriheddDragoon(),
-                CardsObt::createMalena(),
-                CardsObt::createUnseenElder(),
-                CardsObt::createDevanaRunestone(),
-                CardsObt::createDazhbogRunestone(),
-                CardsObt::createMoranaRunestone(),
-                CardsObt::createStribogRunestone(),
-                CardsObt::createMuzzle(),
-                CardsObt::createWhisperingHillock(),
-                CardsObt::createBrewess(),
-                CardsObt::createWeavess(),
-                CardsObt::createWhispess(),
-                CardsObt::createWeavessIncantation(),
-                CardsObt::createBrewessRitual(),
-                CardsObt::createWhispessTribute(),
-                CardsObt::createNivellen(),
-                CardsObt::createLeoBonhart(),
-                CardsObt::createMorvranVoorhis(),
-                CardsObt::createCynthia(),
-                CardsObt::createSerrit(),
-                CardsObt::createSweers(),
-                CardsObt::createTiborEggebracht(),
-                CardsObt::createVattierDeRideaux(),
-                CardsObt::createAlbrich(),
-                CardsObt::createHeftyHelge(),
-                CardsObt::createAlchemist(),
-                CardsObt::createDaerlanSoldier(),
-                CardsObt::createFireScorpion(),
-                CardsObt::createMangonel(),
-                CardsObt::createNilfgaardianKnight(),
-                CardsObt::createSpotter(),
-                CardsObt::createVenendalElite(),
-                CardsObt::createMasterOfDisguise(),
-                CardsObt::createHenryVarAttre(),
-                CardsObt::createWildHuntHound(),
-                CardsObt::createWildHuntWarrior(),
-                CardsObt::createWildHuntNavigator(),
-                CardsObt::createNithral(),
-                CardsObt::createMiruna(),
-                CardsObt::createImlerith(),
-                CardsObt::createCaretaker(),
-                CardsObt::createRuehin(),
-                CardsObt::createOldSpeartipAsleep(),
-                CardsObt::createOldSpeartip(),
-                CardsObt::createGolyat(),
-                CardsObt::createBarbegazi(),
-                CardsObt::createGhoul(),
-                CardsObt::createForktail(),
-                CardsObt::createArachasQueen(),
-                CardsObt::createOzzrel(),
-                CardsObt::createKayran(),
-                CardsObt::createMourntart(),
-                CardsObt::createToadPrince(),
-                CardsObt::createFiend(),
-                CardsObt::createMorvudd(),
-                CardsObt::createEkimmara(),
-                CardsObt::createRotfiend(),
-                CardsObt::createArchespore(),
-                CardsObt::createCyclops(),
-                CardsObt::createMaerolorn(),
-                CardsObt::createMonsterNest(),
-                CardsObt::createArachasDrone(),
-                CardsObt::createEredinBreaccGlas(),
-                CardsObt::createCaranthirArFeiniel(),
-                CardsObt::createImlerithSabbath(),
-                CardsObt::createDagon(),
-                CardsObt::createIfrit(),
-                CardsObt::createSheTrollOfVergen(),
-                CardsObt::createWyvern(),
-                CardsObt::createAbaya(),
-                CardsObt::createParasite(),
-                CardsObt::createJotunn(),
-                CardsObt::createIceGiant(),
-                CardsObt::createIceTroll(),
-                CardsObt::createDrowner(),
-                CardsObt::createFoglet(),
-                CardsObt::createAncientFoglet(),
-                CardsObt::createDraug(),
-                CardsObt::createCelaenoHarpy(),
-                CardsObt::createArachasBehemoth(),
-                CardsObt::createArchgriffin(),
-                CardsObt::createGriffin(),
-                CardsObt::createBridgeTroll(),
-                CardsObt::createCockatrice(),
-                CardsObt::createSiren(),
-                CardsObt::createLamia(),
-                CardsObt::createNekker(),
-                CardsObt::createNekkerWarrior(),
-                CardsObt::createSlyzard(),
-                CardsObt::createWerecat(),
-                CardsObt::createHarpy(),
-                CardsObt::createWildHuntDrakkar(),
-                CardsObt::createGeels(),
-                CardsObt::createWildHuntRider(),
-                CardsObt::createVranWarrior(),
-                CardsObt::createAnCraiteArmorsmith(),
-                CardsObt::createAvalach(),
-                CardsObt::createAvalachSage(),
-                CardsObt::createNekurat(),
-                CardsObt::createRaghNarRoog(),
-                CardsObt::createGeraltProfessional(),
-                CardsObt::createGeraltAard(),
-                CardsObt::createGeraltYrden(),
-                CardsObt::createCiriDash(),
-                CardsObt::createAguara(),
-                CardsObt::createAguaraTrueForm(),
-                CardsObt::createKorathiHeatwave(),
-                CardsObt::createAleOfTheAncestors(),
-                CardsObt::createMahakamAle(),
-                CardsObt::createOdrin(),
-                CardsObt::createToruviel(),
-                CardsObt::createCiri(),
-                CardsObt::createMilva(),
-                CardsObt::createPrincessPavetta(),
-                CardsObt::createTheGuardian(),
-                CardsObt::createGaunterODimm(),
-                CardsObt::createKaedweniSergeant(),
-                CardsObt::createReinforcedBallista(),
-                CardsObt::createSigismundDijkstra(),
-                CardsObt::createWhiteFrost(),
-                CardsObt::createWolfsbane(),
-                CardsObt::createDunBanner(),
-                CardsObt::createAelirenn(),
-                CardsObt::createHanmarvynsDream(),
-                CardsObt::createBlackBlood(),
-                CardsObt::createBekkersRockslide(),
-                CardsObt::createBekkersDarkMirror(),
-                CardsObt::createMerigoldsHailstorm(),
-                CardsObt::createNecromancy(),
-                CardsObt::createStammelfordsTremor(),
-                CardsObt::createExpiredAle(),
-                CardsObt::createTrialOfTheGrasses(),
-                CardsObt::createDimeritiumBomb(),
-                CardsObt::createGarrison(),
-                CardsObt::createTheLastWish(),
-                CardsObt::createDimeritiumShackles(),
-                CardsObt::createWyvernScaleShield(),
-                CardsObt::createMastercraftedSpear(),
-                CardsObt::createPetrisPhilter(),
-                CardsObt::createShrike(),
-                CardsObt::createRoyalDecree(),
-                CardsObt::createUmasCurse(),
-                CardsObt::createLacerate(),
-                CardsObt::createCrowsEye(),
-                CardsObt::createDoppler(),
-                CardsObt::createSpores(),
-                CardsObt::createMardroeme(),
-                CardsObt::createSihil(),
-                CardsObt::createEskelPathfinder(),
-                CardsObt::createVesemirMentor(),
-                CardsObt::createLambertSwordmaster(),
-                CardsObt::createRegisHigherVampire(),
-                CardsObt::createZoltanScoundrel(),
-                CardsObt::createYenneferConjurer(),
-                CardsObt::createTrissMerigold(),
-                CardsObt::createTrissTelekinesis(),
-                CardsObt::createDorregarayOfVole(),
-                CardsObt::createDandelionVainglory(),
-                CardsObt::createCyprianWiley(),
-                CardsObt::createDudu(),
-                CardsObt::createIhuarraquax(),
-                CardsObt::createMahakamMarauder(),
-                CardsObt::createZoltanChivay(),
-                CardsObt::createYenneferNecromancer(),
-                CardsObt::createPhoenix(),
-                CardsObt::createSaesenthessisBlaze(),
-                CardsObt::createVillentretenmerth(),
-                CardsObt::createOcvist(),
-                CardsObt::createMyrgtabrakke(),
-                CardsObt::createKingOfBeggars(),
-                CardsObt::createOlgierdVonEverec(),
-                CardsObt::createIrisVonEverec(),
-                CardsObt::createIrisCompanions(),
-                CardsObt::createJohnny(),
-                CardsObt::createStregobor(),
-                CardsObt::createSarah(),
-                CardsObt::createPeasantMilitia(),
-                CardsObt::createPrizeWinningCow(),
-                CardsObt::createPrincessAdda(),
-                CardsObt::createKingFoltest(),
-                CardsObt::createKingRadovidV(),
-                CardsObt::createEmhyrVarEmreis(),
-                CardsObt::createUsurper(),
-                CardsObt::createBrouverHoog(),
-                CardsObt::createEithne(),
-                CardsObt::createFilavandrel(),
-                CardsObt::createFrancescaFindabair(),
-                CardsObt::createAglais(),
-                CardsObt::createIorveth(),
-                CardsObt::createIorvethMeditation(),
-                CardsObt::createIsengrimFaoiltiarna(),
-                CardsObt::createIsengrimOutlaw(),
-                CardsObt::createSchirru(),
-                CardsObt::createSaesenthessis(),
-                CardsObt::createSaskia(),
-                CardsObt::createBarclayEls(),
-                CardsObt::createDennisCranmer(),
-                CardsObt::createSheldonSkaggs(),
-                CardsObt::createYarpenZigrin(),
-                CardsObt::createYaevinn(),
-                CardsObt::createIdaEmeanAepSivney(),
-                CardsObt::createPavkoGale(),
-                CardsObt::createCiaranAepEasnillen(),
-                CardsObt::createEibhearHattori(),
-                CardsObt::createMilaen(),
-                CardsObt::createBraenn(),
-                CardsObt::createMorenn(),
-                CardsObt::createPaulieDahlberg(),
-                CardsObt::createMahakamHorn(),
-                CardsObt::createNaturesGift(),
-                CardsObt::createPitTrap(),
-                CardsObt::createCrushingTrap(),
-                CardsObt::createElvenBlade(),
-                CardsObt::createIncineratingTrap(),
-                CardsObt::createBlueMountainElite(),
-                CardsObt::createDolBlathannaBomber(),
-                CardsObt::createDolBlathannaBowman(),
-                CardsObt::createDolBlathannaSentry(),
-                CardsObt::createElvenScout(),
-                CardsObt::createElvenSwordmaster(),
-                CardsObt::createDwarvenAgitator(),
-                CardsObt::createDwarvenMercenary(),
-                CardsObt::createDwarvenSkirmisher(),
-                CardsObt::createHawkerHealer(),
-                CardsObt::createHawkerSupport(),
-                CardsObt::createMahakamDefender(),
-                CardsObt::createMahakamGuard(),
-                CardsObt::createMahakamVolunteers(),
-                CardsObt::createPyrotechnician(),
-                CardsObt::createWardancer(),
-                CardsObt::createVriheddVanguard(),
-                CardsObt::createVriheddOfficer(),
-                CardsObt::createVriheddNeophyte(),
-                CardsObt::createVriheddBrigade(),
-                CardsObt::createHawkerSmuggler(),
-                CardsObt::createMennoCoehoorn(),
-                CardsObt::createRainfarnOfAttre(),
-                CardsObt::createAssassination(),
-                CardsObt::createStefanSkellen(),
-                CardsObt::createShilard(),
-                CardsObt::createCantarella(),
-                CardsObt::createPanther(),
-                CardsObt::createVicovaroMedic(),
-                CardsObt::createAssireVarAnahid(),
-                CardsObt::createFringillaVigo(),
-                CardsObt::createFalseCiri(),
-    };
-}
-
-
 std::map<std::string, std::string> keywordDescriptions(const Patch patch)
 {
     if (patch == PublicBeta_0_9_24_3_432)
@@ -463,20 +47,20 @@ std::map<std::string, std::string> keywordDescriptions(const Patch patch)
     return {};
 }
 
-
-
 void allCardsInfos(const Patch)
 {
-    using Sounds = std::vector<std::string>;
+    using Name = std::string;
+    using Text = std::string;
+    using Urls = std::vector<std::string>;
     struct Info
     {
-        Info(const std::string &name, const std::string &text = "", const Sounds &sounds = {}) :
+        Info(const Name &name, const Text &text = "", const Urls &sounds = {}) :
             name(name), text(text), sounds(sounds)
         {}
     private:
-        std::string name;
-        std::string text;
-        Sounds sounds;
+        Name name;
+        Text text;
+        Urls sounds;
     };
 
     const std::map<std::string, Info> infos {
@@ -495,7 +79,7 @@ void allCardsInfos(const Patch)
         {"200234", Info(
                         "Poor F'ing Infantry",
                         "Spawn Left Flank Infantry and Right Flank Infantry to the left and right of this unit, respectively.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3",
                             "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00519831.mp3",
                             "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00518009.mp3",
@@ -503,7 +87,7 @@ void allCardsInfos(const Patch)
         {"162305", Info(
                         "Deithwen Arbalest",
                         "Deal 3 damage to an enemy. If it's Spying, deal 6 damage instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514109.mp3",
                             "https://gwent.one/audio/card/ob/en/NILF3_SQ102_00591494.mp3",
                             "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514105.mp3",
@@ -511,7 +95,7 @@ void allCardsInfos(const Patch)
         {"200299", Info(
                         "Temerian Drummer",
                         "Boost an ally by 6.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.407.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.408.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.409.mp3",
@@ -519,7 +103,7 @@ void allCardsInfos(const Patch)
         {"201776", Info(
                         "Dandelion: Poet",
                         "Draw a card, then play a card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
                             "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
                             "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
@@ -531,7 +115,7 @@ void allCardsInfos(const Patch)
         {"122205", Info(
                         "S'ile de Tansarville",
                         "Play a Bronze or Silver special card, then draw a card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.29.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.30.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.31.mp3",
@@ -539,7 +123,7 @@ void allCardsInfos(const Patch)
         {"123301", Info(
                         "Redanian Knight Elect",
                         "If this unit has Armor on turn end, boost adjacent units by 1. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.320.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.321.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.322.mp3",
@@ -549,7 +133,7 @@ void allCardsInfos(const Patch)
         {"201578", Info(
                         "An Craite Marauder",
                         "Deal 4 damage. If Resurrected, deal 6 damage instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.395.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.396.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.397.mp3",
@@ -557,7 +141,7 @@ void allCardsInfos(const Patch)
         {"200040", Info(
                         "An Craite Greatsword",
                         "Every 2 turns, if damaged, Heal self and Strengthen by 2 on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.314.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.315.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.316.mp3",
@@ -572,7 +156,7 @@ void allCardsInfos(const Patch)
         {"200144", Info(
                         "Tuirseach Bearmaster",
                         "Spawn a Bear.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.26.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.27.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.28.mp3",
@@ -582,7 +166,7 @@ void allCardsInfos(const Patch)
         {"122317", Info(
                         "Redanian Elite",
                         "Whenever this unit's Armor reaches 0, boost self by 5. 4 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516089.mp3",
                             "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516091.mp3",
                             "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516093.mp3",
@@ -590,7 +174,7 @@ void allCardsInfos(const Patch)
         {"122308", Info(
                         "Redanian Knight",
                         "If this unit has no Armor, boost it by 2 and give it 2 Armor on turn end.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/RES1_VSET_00508445.mp3",
                             "https://gwent.one/audio/card/ob/en/RES1_VSET_00508451.mp3",
                             "https://gwent.one/audio/card/ob/en/RES1_VSET_00508237.mp3",
@@ -598,7 +182,7 @@ void allCardsInfos(const Patch)
         {"122314", Info(
                         "Kaedweni Cavalry",
                         "Destroy a unit's Armor, then boost self by the amount destroyed.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0003.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0004.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_KG02_200565_0005.mp3",
@@ -618,7 +202,7 @@ void allCardsInfos(const Patch)
         {"122108", Info(
                         "Keira Metz",
                         "Spawn Alzur's Thunder, Thunderbolt or Arachas Venom.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_01040781.mp3",
                             "https://gwent.one/audio/card/ob/en/KEIR_SQ101_00565661.mp3",
                             "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_00475332.mp3",
@@ -626,7 +210,7 @@ void allCardsInfos(const Patch)
         {"142310", Info(
                         "Dol Blathanna Archer",
                         "Deal 3 damage, then deal 1 damage.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0011.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.801.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0001.mp3",
@@ -675,7 +259,7 @@ void allCardsInfos(const Patch)
         {"122204", Info(
                         "Ves",
                         "Swap up to 2 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VESS_Q403_00546798.mp3",
                             "https://gwent.one/audio/card/ob/en/VESS_VES_01070698.mp3",
                             "https://gwent.one/audio/card/ob/en/VESS_MQ3035_01064809.mp3",
@@ -699,7 +283,7 @@ void allCardsInfos(const Patch)
         {"122103", Info(
                         "John Natalis",
                         "Play a Bronze or Silver Tactic from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_JANT_900381_0141.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_JANT_300862_0253.mp3",
                         })},
@@ -709,7 +293,7 @@ void allCardsInfos(const Patch)
         {"122307", Info(
                         "Reaver Scout",
                         "Choose a different Bronze ally and play a copy of it from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0060.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0008.mp3",
@@ -717,7 +301,7 @@ void allCardsInfos(const Patch)
         {"200528", Info(
                         "Heymaey Spearmaiden",
                         "Deal 1 damage to a Bronze Machine or Soldier ally, then play a copy of it from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.85.mp3",
@@ -725,7 +309,7 @@ void allCardsInfos(const Patch)
         {"201622", Info(
                         "Kaedweni Knight",
                         "Boost self by 5 if played from the deck. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.10.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.11.mp3",
@@ -733,7 +317,7 @@ void allCardsInfos(const Patch)
         {"142307", Info(
                         "Vrihedd Sappers",
                         "Ambush: After 2 turns, flip over on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0006.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0007.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SMV2_202544_0022.mp3",
@@ -741,7 +325,7 @@ void allCardsInfos(const Patch)
         {"152310", Info(
                         "Priestess of Freya",
                         "Resurrect a Bronze Soldier.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553534.mp3",
                             "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553573.mp3",
                             "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553583.mp3",
@@ -749,7 +333,7 @@ void allCardsInfos(const Patch)
         {"200145", Info(
                         "Dimun Corsair",
                         "Resurrect a Bronze Machine.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.71.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.72.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.73.mp3",
@@ -757,7 +341,7 @@ void allCardsInfos(const Patch)
         {"152211", Info(
                         "Sigrdrifa",
                         "Resurrect a Bronze or Silver Clan unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SPR1_VSET_00553157.mp3",
                             "https://gwent.one/audio/card/ob/en/SPR1_SQ201_00499249.mp3",
                             "https://gwent.one/audio/card/ob/en/SPR1_SHOP_00437650.mp3",
@@ -774,14 +358,14 @@ void allCardsInfos(const Patch)
         {"152202", Info(
                         "Champion of Hov",
                         "Duel an enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053125.mp3",
                             "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053127.mp3",
                         })},
         {"112102", Info(
                         "Geralt: Igni",
                         "Destroy the Highest units on an enemy row if that row has a total of 25 or more.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
@@ -791,7 +375,7 @@ void allCardsInfos(const Patch)
         {"112103", Info(
                         "Geralt of Rivia",
                         "",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
@@ -801,7 +385,7 @@ void allCardsInfos(const Patch)
         {"122202", Info(
                         "Priscilla",
                         "Boost 5 random allies by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/PRIS_Q305_00489643.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.9.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.10.mp3",
@@ -810,7 +394,7 @@ void allCardsInfos(const Patch)
         {"201618", Info(
                         "Seltkirk of Gulet",
                         "Duel an enemy. 3 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.117.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.118.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.119.mp3",
@@ -821,7 +405,7 @@ void allCardsInfos(const Patch)
         {"201627", Info(
                         "Shupe's Day Off",
                         "If your starting deck has no duplicates, Spawn a Shupe: Knight, Shupe: Hunter or Supe: Mage",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.168.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.169.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.170.mp3",
@@ -858,7 +442,7 @@ void allCardsInfos(const Patch)
         {"201626", Info(
                         "Ciri: Nova",
                         "If you have exactly 2 copies of each Bronze card in your starting deck, set base power to 22.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
@@ -867,7 +451,7 @@ void allCardsInfos(const Patch)
         {"200161", Info(
                         "Harald the Cripple",
                         "Deal 1 damage to a random enemy on the opposite row. Repeat 9 times.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.196.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.197.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.198.mp3",
@@ -875,7 +459,7 @@ void allCardsInfos(const Patch)
         {"162314", Info(
                         "Emissary",
                         "Look at 2 random Bronze units from your deck, then play 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526372.mp3",
                             "https://gwent.one/audio/card/ob/en/NIS1_Q002_01048548.mp3",
                             "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526356.mp3",
@@ -883,7 +467,7 @@ void allCardsInfos(const Patch)
         {"162213", Info(
                         "Ceallach Dyffryn",
                         "Spawn an Ambassador, Assassin or Emissary.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.109.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.110.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.111.mp3",
@@ -894,7 +478,7 @@ void allCardsInfos(const Patch)
         {"152307", Info(
                         "Drummond Queensguard",
                         "Resurrect all copies of this unit on this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SWO5_Q205_00482375.mp3",
                             "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521383.mp3",
                             "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521512.mp3",
@@ -902,7 +486,7 @@ void allCardsInfos(const Patch)
         {"200159", Info(
                         "Bran Tuirseach",
                         "Discard up to 3 cards from your deck and Strengthen them by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.193.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.194.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.195.mp3",
@@ -910,7 +494,7 @@ void allCardsInfos(const Patch)
         {"200036", Info(
                         "Drummond Warmonger",
                         "Discard a Bronze card from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.5.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.6.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.7.mp3",
@@ -918,7 +502,7 @@ void allCardsInfos(const Patch)
         {"152305", Info(
                         "Dimun Pirate",
                         "Discard all copies of this unit from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SBD3_VSET_00526925.mp3",
                             "https://gwent.one/audio/card/ob/en/SBD3_VSET_00527400.mp3",
                             "https://gwent.one/audio/card/ob/en/SBD3_MQ2034_01013429.mp3",
@@ -926,7 +510,7 @@ void allCardsInfos(const Patch)
         {"152316", Info(
                         "An Craite Raider",
                         "Whenever you Discard this unit, Resurrect it on a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SGD1_CHAT_01024106.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD1_VSET_00541470.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD1_FF204_00523558.mp3",
@@ -934,7 +518,7 @@ void allCardsInfos(const Patch)
         {"152106", Info(
                         "Madman Lugos",
                         "Discard a Bronze unit from your deck, then deal damage equal to its base power to an enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LUTM_Q210_00561116.mp3",
                             "https://gwent.one/audio/card/ob/en/LUTM_SQ209_00593785.mp3",
                             "https://gwent.one/audio/card/ob/en/LUTM_LUGOS_01016673.mp3",
@@ -943,7 +527,7 @@ void allCardsInfos(const Patch)
         {"152103", Info(
                         "Ermion",
                         "Draw 2 cards, then Discard 2 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/MOUS_Q203_01040282.mp3",
                             "https://gwent.one/audio/card/ob/en/MOUS_Q403_00566059.mp3",
                             "https://gwent.one/audio/card/ob/en/MOUS_Q201_00439012.mp3",
@@ -952,7 +536,7 @@ void allCardsInfos(const Patch)
         {"201778", Info(
                         "Cerys: Fearless",
                         "Resurrect the next unit you Discard.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
                             "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
                             "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
@@ -961,7 +545,7 @@ void allCardsInfos(const Patch)
         {"200177", Info(
                         "Cerys An Craite",
                         "When 4 units are Resurrected while this unit is in the graveyard, Resurrect it on a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
                             "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
                             "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
@@ -973,7 +557,7 @@ void allCardsInfos(const Patch)
         {"122209", Info(
                         "Trollololo",
                         "9 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00411733.mp3",
                             "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468246.mp3",
                             "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00466604.mp3",
@@ -983,7 +567,7 @@ void allCardsInfos(const Patch)
         {"122208", Info(
                         "Prince Stennis",
                         "Play the top non-Spying Bronze or Silver unit from your deck and give it 5 Armor. 3 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0302.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_STEN_200098_0258.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0316.mp3",
@@ -991,7 +575,7 @@ void allCardsInfos(const Patch)
         {"200098", Info(
                         "Vincent Meis",
                         "Destroy the Armor of all units, then boost self by half the value destroyed.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.203.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.202.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.201.mp3",
@@ -999,7 +583,7 @@ void allCardsInfos(const Patch)
         {"152209", Info(
                         "Morkvarg",
                         "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00499647.mp3",
                             "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00501979.mp3",
                             "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00504630.mp3",
@@ -1015,7 +599,7 @@ void allCardsInfos(const Patch)
         {"152101", Info(
                         "Hjalmar an Craite",
                         "Spawn the Lord of Undvik on the opposite row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037900.mp3",
                             "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037904.mp3",
                             "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037912.mp3",
@@ -1024,7 +608,7 @@ void allCardsInfos(const Patch)
         {"112104", Info(
                         "Regis",
                         "Drain all boosts from a unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/REGI_Q702_01155490.mp3",
                             "https://gwent.one/audio/card/ob/en/REGI_Q702_01155230.mp3",
                             "https://gwent.one/audio/card/ob/en/REGI_Q702_01178597.mp3",
@@ -1032,7 +616,7 @@ void allCardsInfos(const Patch)
         {"162101", Info(
                         "Letho of Gulet",
                         "Spying. Apply Lock status to 2 units on this row, then Drain all their power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
                             "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
                             "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
@@ -1044,7 +628,7 @@ void allCardsInfos(const Patch)
         {"200046", Info(
                         "Tuirseach Veteran",
                         "Strengthen all your other Clan Tuirseach units in hand, deck, and on board by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.410.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.411.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.412.mp3",
@@ -1052,7 +636,7 @@ void allCardsInfos(const Patch)
         {"152304", Info(
                         "Tuirseach Hunter",
                         "Deal 5 damage.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544501.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544569.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544491.mp3",
@@ -1066,7 +650,7 @@ void allCardsInfos(const Patch)
         {"152206", Info(
                         "Gremist",
                         "Spawn Torrential Rain, Clear Skies or Bloodcurdling Roar.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.828.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.829.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.830.mp3",
@@ -1075,7 +659,7 @@ void allCardsInfos(const Patch)
         {"112208", Info(
                         "Operator",
                         "Single-Use, Truce: Make a default copy of a Bronze unit in your hand for both players.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0012.mp3",
                         })},
@@ -1088,7 +672,7 @@ void allCardsInfos(const Patch)
         {"201597", Info(
                         "Eist Tuirseach",
                         "Spawn a Bronze Clan Tuirseach Soldier.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.47.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.48.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.49.mp3",
@@ -1096,7 +680,7 @@ void allCardsInfos(const Patch)
         {"152312", Info(
                         "Tuirseach Axeman",
                         "Whenever an enemy on the opposite row is damaged, boost self by 1. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.807.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.808.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.809.mp3",
@@ -1104,7 +688,7 @@ void allCardsInfos(const Patch)
         {"152313", Info(
                         "Tuirseach Skirmisher",
                         "Whenever this unit is Resurrected, Strengthen it by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SGD2_VSET_00165758.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD2_VSET_00526547.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165400.mp3",
@@ -1112,7 +696,7 @@ void allCardsInfos(const Patch)
         {"201646", Info(
                         "Derran",
                         "Whenever an enemy is damaged, boost self by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.232.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.233.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.234.mp3",
@@ -1123,7 +707,7 @@ void allCardsInfos(const Patch)
         {"200164", Info(
                         "Jan Calveit",
                         "Look at the top 3 cards from your deck, then play 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.55.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.56.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.57.mp3",
@@ -1131,7 +715,7 @@ void allCardsInfos(const Patch)
         {"162104", Info(
                         "Cahir Dyffryn",
                         "Resurrect a Leader.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.69.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.70.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.71.mp3",
@@ -1139,7 +723,7 @@ void allCardsInfos(const Patch)
         {"201603", Info(
                         "Letho: Kingslayer",
                         "Choose One: Destroy an enemy Leader, then boost self by 5; or Play a Bronze or Silver Tactic from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
                             "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
                             "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
@@ -1148,7 +732,7 @@ void allCardsInfos(const Patch)
         {"200170", Info(
                         "King Henselt",
                         "Choose a Bronze Machine or Kaedweni ally and play all copies of it from your deck. Crew.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0265.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_HSLT_200497_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0254.mp3",
@@ -1156,7 +740,7 @@ void allCardsInfos(const Patch)
         {"122101", Info(
                         "Bloody Baron",
                         "If in hand, deck, or on board, boost self by 1 whenever an enemy is destroyed.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/BARN_Q103_00473473.mp3",
                             "https://gwent.one/audio/card/ob/en/BARN_Q107_00515406.mp3",
                             "https://gwent.one/audio/card/ob/en/BARN_BARON_00402523.mp3",
@@ -1166,7 +750,7 @@ void allCardsInfos(const Patch)
         {"122207", Info(
                         "Dethmold",
                         "Spawn Torrential Rain, Clear Skies or Alzur's Thunder.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_DETM_200219_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_DETM_200182_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_DETM_200338_0412.mp3",
@@ -1174,7 +758,7 @@ void allCardsInfos(const Patch)
         {"200529", Info(
                         "Ronvid the Incessant",
                         "Resurrect on a random row with 1 power on turn end. Crew.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.401.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.402.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.403.mp3",
@@ -1182,7 +766,7 @@ void allCardsInfos(const Patch)
         {"200088", Info(
                         "Hubert Rejk",
                         "Drain all boosts from units in your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.177.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.175.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.176.mp3",
@@ -1190,7 +774,7 @@ void allCardsInfos(const Patch)
         {"200160", Info(
                         "Crach an Craite",
                         "Strengthen the Highest non-Spying Bronze or Silver unit in your deck by 2 and play it.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040579.mp3",
                             "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040589.mp3",
                             "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040591.mp3",
@@ -1199,7 +783,7 @@ void allCardsInfos(const Patch)
         {"152105", Info(
                         "Birna Bran",
                         "Apply Skellige Storm to an enemy row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.206.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.207.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.205.mp3",
@@ -1207,7 +791,7 @@ void allCardsInfos(const Patch)
         {"152107", Info(
                         "Coral",
                         "Transform a Bronze or Silver unit into a Jade Figurine.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.202.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.204.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.203.mp3",
@@ -1215,7 +799,7 @@ void allCardsInfos(const Patch)
         {"152402", Info(
                         "Hemdall",
                         "Destroy all other units and clear all Boons and Hazards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.199.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.201.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.200.mp3",
@@ -1223,7 +807,7 @@ void allCardsInfos(const Patch)
         {"200028", Info(
                         "Vabjorn",
                         "Deal 2 damage to an enemy. If it was already damaged, destroy it instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.211.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.213.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.214.mp3",
@@ -1231,14 +815,14 @@ void allCardsInfos(const Patch)
         {"152201", Info(
                         "Blueboy Lugos",
                         "Spawn a Spectral Whale on an enemy row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LUTG_SQ209_00594723.mp3",
                             "https://gwent.one/audio/card/ob/en/LUTG_LUGOS_01038779.mp3",
                         })},
         {"152203", Info(
                         "Djenge Frett",
                         "Deal 1 damage to 2 allies and Strengthen self by 2 for each.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.806.mp3",
                             "https://gwent.one/audio/card/ob/en/SWR3_MQ2013_00349800.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.804.mp3",
@@ -1247,7 +831,7 @@ void allCardsInfos(const Patch)
         {"152204", Info(
                         "Donar an Hindar",
                         "Toggle a unit's Lock status, then move a Bronze unit from your opponent's graveyard to yours.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/DONR_Q206_00587479.mp3",
                             "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037057.mp3",
                             "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037055.mp3",
@@ -1255,14 +839,14 @@ void allCardsInfos(const Patch)
         {"152205", Info(
                         "Draig Bon-Dhu",
                         "Strengthen 2 non-Leader units in your graveyard by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SBR1_VSET_00527986.mp3",
                             "https://gwent.one/audio/card/ob/en/SBR1_VSET_00528002.mp3",
                         })},
         {"152207", Info(
                         "Holger Blackhand",
                         "Deal 6 damage. If the unit was destroyed, Strengthen the Highest unit in your graveyard by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/HOLG_Q201_00387298.mp3",
                             "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038014.mp3",
                             "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038016.mp3",
@@ -1270,7 +854,7 @@ void allCardsInfos(const Patch)
         {"152208", Info(
                         "Jutta an Dimun",
                         "Deal 1 damage to self.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509731.mp3",
                             "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00507987.mp3",
                             "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509565.mp3",
@@ -1281,7 +865,7 @@ void allCardsInfos(const Patch)
         {"152213", Info(
                         "Svanrige Tuirseach",
                         "Draw a card, then Discard a card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.209.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.210.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.208.mp3",
@@ -1291,7 +875,7 @@ void allCardsInfos(const Patch)
         {"200212", Info(
                         "Skjall",
                         "Play a random Bronze or Silver Cursed unit from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.822.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.823.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.825.mp3",
@@ -1302,7 +886,7 @@ void allCardsInfos(const Patch)
         {"200043", Info(
                         "Harald Houndsnout",
                         "Spawn Wilfred to the left of this unit, Wilhelm to the right, and Wilmar on the opposite row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.130.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.131.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.129.mp3",
@@ -1320,7 +904,7 @@ void allCardsInfos(const Patch)
         {"201644", Info(
                         "Yoana",
                         "Heal an ally, then boost it by the amount Healed.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.20.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.24.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.22.mp3",
@@ -1330,7 +914,7 @@ void allCardsInfos(const Patch)
         {"152311", Info(
                         "An Craite Blacksmith",
                         "Strengthen an ally by 2 and give it 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550878.mp3",
                             "https://gwent.one/audio/card/ob/en/SAR3_CHAT_01050115.mp3",
                             "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550859.mp3",
@@ -1338,7 +922,7 @@ void allCardsInfos(const Patch)
         {"113313", Info(
                         "An Craite Warcrier",
                         "Boost an ally by half its power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.327.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.330.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.329.mp3",
@@ -1348,7 +932,7 @@ void allCardsInfos(const Patch)
         {"152303", Info(
                         "An Craite Warrior",
                         "Deal 1 damage to self.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165312.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD2_VSET_00541769.mp3",
                             "https://gwent.one/audio/card/ob/en/SGD2_Q208_01071227.mp3",
@@ -1356,7 +940,7 @@ void allCardsInfos(const Patch)
         {"152302", Info(
                         "Berserker Marauder",
                         "Boost self by 1 for each damaged or Cursed ally.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536097.mp3",
                             "https://gwent.one/audio/card/ob/en/SBE1_Q206_00413021.mp3",
                             "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536089.mp3",
@@ -1364,7 +948,7 @@ void allCardsInfos(const Patch)
         {"152306", Info(
                         "Dimun Pirate Captain",
                         "Play a different Bronze Dimun unit from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SBD1_MQ2003_01054136.mp3",
                             "https://gwent.one/audio/card/ob/en/SBD1_Q202_00307483.mp3",
                             "https://gwent.one/audio/card/ob/en/SBD1_MQ2002_00442097.mp3",
@@ -1373,7 +957,7 @@ void allCardsInfos(const Patch)
         {"200146", Info(
                         "Dimun Smuggler",
                         "Return a Bronze unit from your graveyard to your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.76.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.75.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.77.mp3",
@@ -1381,7 +965,7 @@ void allCardsInfos(const Patch)
         {"152318", Info(
                         "Drummond Shieldmaid",
                         "Summon all copies of this unit to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.1.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.3.mp3",
@@ -1389,7 +973,7 @@ void allCardsInfos(const Patch)
         {"200147", Info(
                         "Heymaey Flaminica",
                         "Clear Hazards from the row and move 2 allies to it.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.89.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.88.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.87.mp3",
@@ -1397,7 +981,7 @@ void allCardsInfos(const Patch)
         {"200081", Info(
                         "Heymaey Herbalist",
                         "Play a random Bronze Organic or Hazard card from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.121.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.123.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.122.mp3",
@@ -1405,7 +989,7 @@ void allCardsInfos(const Patch)
         {"200149", Info(
                         "Heymaey Protector",
                         "Play a Bronze Item from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.80.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.81.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.79.mp3",
@@ -1413,7 +997,7 @@ void allCardsInfos(const Patch)
         {"152308", Info(
                         "Heymaey Skald",
                         "Boost all allies from a Clan of your choice by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/DROG_Q206_01072830.mp3",
                             "https://gwent.one/audio/card/ob/en/DROG_BARD_01036857.mp3",
                             "https://gwent.one/audio/card/ob/en/DROG_Q206_00329460.mp3",
@@ -1421,7 +1005,7 @@ void allCardsInfos(const Patch)
         {"152301", Info(
                         "Raging Berserker",
                         "When this unit is damaged or Weakened, transform into a Raging Bear.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536507.mp3",
                             "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536513.mp3",
                             "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536587.mp3",
@@ -1459,7 +1043,7 @@ void allCardsInfos(const Patch)
         {"122107", Info(
                         "Triss: Butterflies",
                         "Boost the Lowest allies by 1 on turn end.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
                             "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
@@ -1470,7 +1054,7 @@ void allCardsInfos(const Patch)
         {"112108", Info(
                         "Yennefer",
                         "Choose One: Spawn a Unicorn that boosts all other units by 2; or Spawn a Chironex that deals 2 damage to all other units.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
@@ -1484,7 +1068,7 @@ void allCardsInfos(const Patch)
         {"200523", Info(
                         "Germain Piquant",
                         "Spawn 2 Cows on each side of this unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.261.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.260.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
@@ -1502,7 +1086,7 @@ void allCardsInfos(const Patch)
         {"200296", Info(
                         "Alba Armored Cavalry",
                         "Whenever an ally appears, boost self by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.379.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
@@ -1513,7 +1097,7 @@ void allCardsInfos(const Patch)
         {"162309", Info(
                         "Nauzicaa Sergeant",
                         "Clear Hazards from its row and boost an ally or a Revealed unit in your hand by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.439.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
@@ -1521,7 +1105,7 @@ void allCardsInfos(const Patch)
         {"201610", Info(
                         "Slave Infantry",
                         "Spawn a Doomed default copy of this unit on your other rows.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.108.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.110.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.112.mp3",
@@ -1531,7 +1115,7 @@ void allCardsInfos(const Patch)
         {"201617", Info(
                         "Recruit",
                         "Play a random different Bronze Soldier from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.36.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.35.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.34.mp3",
@@ -1544,7 +1128,7 @@ void allCardsInfos(const Patch)
         {"162105", Info(
                         "Vilgefortz",
                         "Destroy an ally, then play the top card of your deck; or Truce: Destroy an enemy, then your opponent draws and Reveals a Bronze card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.72.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
@@ -1552,7 +1136,7 @@ void allCardsInfos(const Patch)
         {"200050", Info(
                         "Vreemde",
                         "Create a Bronze Nilfgaardian Soldier.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.109.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
@@ -1562,7 +1146,7 @@ void allCardsInfos(const Patch)
         {"162208", Info(
                         "Auckes",
                         "Toggle 2 units' Lock statuses.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.112.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.113.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.114.mp3",
@@ -1570,7 +1154,7 @@ void allCardsInfos(const Patch)
         {"112202", Info(
                         "Eskel",
                         "Summon Vesemir and Lambert to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
@@ -1579,7 +1163,7 @@ void allCardsInfos(const Patch)
         {"112204", Info(
                         "Lambert",
                         "Summon Eskel and Vesemir to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
                             "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
                             "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
@@ -1590,7 +1174,7 @@ void allCardsInfos(const Patch)
         {"112203", Info(
                         "Vesemir",
                         "Summon Eskel and Lambert to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
                             "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
                             "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
@@ -1598,7 +1182,7 @@ void allCardsInfos(const Patch)
         {"200171", Info(
                         "Tridam Infantry",
                         "4 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.230.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.231.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.226.mp3",
@@ -1606,7 +1190,7 @@ void allCardsInfos(const Patch)
         {"142205", Info(
                         "Vrihedd Dragoon",
                         "Boost a random non-Spying unit in your hand by 1 on turn end.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.779.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.781.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.780.mp3",
@@ -1614,7 +1198,7 @@ void allCardsInfos(const Patch)
         {"142210", Info(
                         "Malena",
                         "Ambush: After 2 turns, flip over and Charm the Highest Bronze or Silver enemy with 5 power or less on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_MALN_106817_0005.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_MALN_106745_0017.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_MALN_106657_0009.mp3",
@@ -1622,7 +1206,7 @@ void allCardsInfos(const Patch)
         {"200055", Info(
                         "Unseen Elder",
                         "Drain a unit by half.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.255.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.257.mp3",
@@ -1648,7 +1232,7 @@ void allCardsInfos(const Patch)
         {"201587", Info(
                         "Whispering Hillock",
                         "Create a Bronze or Silver Organic card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.4.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.5.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.2.mp3",
@@ -1658,7 +1242,7 @@ void allCardsInfos(const Patch)
         {"132207", Info(
                         "Brewess",
                         "Summon Whispess and Weavess to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
                             "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
                             "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
@@ -1666,7 +1250,7 @@ void allCardsInfos(const Patch)
         {"132208", Info(
                         "Weavess",
                         "Summon Brewess and Whispess to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
                             "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
                             "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
@@ -1674,7 +1258,7 @@ void allCardsInfos(const Patch)
         {"132206", Info(
                         "Whispess",
                         "Summon Brewess and Weavess to this row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
@@ -1685,7 +1269,7 @@ void allCardsInfos(const Patch)
         {"200222", Info(
                         "Weavess: Incantation",
                         "Choose One: Strengthen all your other Relicts in hand, deck, and on board by 2; or Play a Bronze or Silver Relict from your deck and Strengthen it by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
                             "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
                             "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
@@ -1693,7 +1277,7 @@ void allCardsInfos(const Patch)
         {"200221", Info(
                         "Brewess: Ritual",
                         "Resurrect 2 Bronze Deathwish units.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
                             "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
                             "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
@@ -1701,7 +1285,7 @@ void allCardsInfos(const Patch)
         {"200220", Info(
                         "Whispess: Tribute",
                         "Play a Bronze or Silver Organic card from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
                             "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
@@ -1712,7 +1296,7 @@ void allCardsInfos(const Patch)
         {"200089", Info(
                         "Nivellen",
                         "Move all units on a row to random rows.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.167.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
@@ -1720,7 +1304,7 @@ void allCardsInfos(const Patch)
         {"200031", Info(
                         "Leo Bonhart",
                         "Reveal one of your units and deal damage equal to its base power to an enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.13.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.14.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.15.mp3",
@@ -1728,7 +1312,7 @@ void allCardsInfos(const Patch)
         {"200163", Info(
                         "Morvran Voorhis",
                         "Reveal up to 4 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.52.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.53.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.54.mp3",
@@ -1736,7 +1320,7 @@ void allCardsInfos(const Patch)
         {"162203", Info(
                         "Cynthia",
                         "Reveal the Highest unit in your opponent's hand and boost self by its power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_CNTH_303653_0335.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_CNTH_303743_0002.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_CNTH_303656_0001.mp3",
@@ -1744,7 +1328,7 @@ void allCardsInfos(const Patch)
         {"162209", Info(
                         "Serrit",
                         "Deal 7 damage to an enemy; or Set a Revealed opposing unit's power to 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.115.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.116.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.117.mp3",
@@ -1752,7 +1336,7 @@ void allCardsInfos(const Patch)
         {"162206", Info(
                         "Sweers",
                         "Choose an enemy or a Revealed unit in your opponent's hand, then move all copies of it from their deck to the graveyard.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.100.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.101.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.102.mp3",
@@ -1760,7 +1344,7 @@ void allCardsInfos(const Patch)
         {"162107", Info(
                         "Tibor Eggebracht",
                         "Truce: Boost self by 15, then your opponent draws a Revealed Bronze card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.66.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.67.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.68.mp3",
@@ -1768,7 +1352,7 @@ void allCardsInfos(const Patch)
         {"162103", Info(
                         "Vattier de Rideaux",
                         "Reveal up to 2 of your cards, then Reveal the same number of your opponent's randomly.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.106.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.107.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.108.mp3",
@@ -1776,7 +1360,7 @@ void allCardsInfos(const Patch)
         {"162201", Info(
                         "Albrich",
                         "Truce: Each player draws a card. The opponent's card is Revealed.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.78.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.79.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.80.mp3",
@@ -1787,7 +1371,7 @@ void allCardsInfos(const Patch)
         {"162316", Info(
                         "Alchemist",
                         "Reveal up to 2 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423237.mp3",
                             "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00459610.mp3",
                             "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423227.mp3",
@@ -1795,7 +1379,7 @@ void allCardsInfos(const Patch)
         {"162301", Info(
                         "Daerlan Soldier",
                         "Whenever you Reveal this unit, play it automatically on a random row and draw a card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.417.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.418.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.419.mp3",
@@ -1809,7 +1393,7 @@ void allCardsInfos(const Patch)
         {"132309", Info(
                         "Wild Hunt Warrior",
                         "Deal 3 damage to an enemy. If the enemy is destroyed or is under Biting Frost, boost self by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.793.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.792.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.794.mp3",
@@ -1820,7 +1404,7 @@ void allCardsInfos(const Patch)
         {"162318", Info(
                         "Nilfgaardian Knight",
                         "Reveal a random card in your hand, with priority given to Bronze, then Silver, then Gold. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.441.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.442.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.443.mp3",
@@ -1828,7 +1412,7 @@ void allCardsInfos(const Patch)
         {"162303", Info(
                         "Spotter",
                         "Boost self by the base power of a Revealed Bronze or Silver unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051421.mp3",
                             "https://gwent.one/audio/card/ob/en/NILF4_VSET_00514238.mp3",
                             "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051417.mp3",
@@ -1836,7 +1420,7 @@ void allCardsInfos(const Patch)
         {"200518", Info(
                         "Venendal Elite",
                         "Switch this unit's power with that of a Revealed unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.383.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.384.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.382.mp3",
@@ -1844,7 +1428,7 @@ void allCardsInfos(const Patch)
         {"201616", Info(
                         "Master of Disguise",
                         "Conceal 2 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.359.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.360.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.361.mp3",
@@ -1852,7 +1436,7 @@ void allCardsInfos(const Patch)
         {"200227", Info(
                         "Henry var Attre",
                         "Conceal any number of units. If allies, boost by 2. If enemies, deal 2 damage.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.435.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.436.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.437.mp3",
@@ -1863,7 +1447,7 @@ void allCardsInfos(const Patch)
         {"200080", Info(
                         "Xavier Moran",
                         "Boost this unit by the default power of the last other Dwarf you played.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.290.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.291.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.292.mp3",
@@ -1871,7 +1455,7 @@ void allCardsInfos(const Patch)
         {"201601", Info(
                         "Yennefer",
                         "Spawn the last Bronze or Silver Spell you played.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
@@ -1879,14 +1463,14 @@ void allCardsInfos(const Patch)
         {"122102", Info(
                         "Vernon Roche",
                         "Deal 7 damage to an enemy. At game start, add a Blue Stripe Commando to your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
                             "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
                         })},
         {"122310", Info(
                         "Blue Stripe Scout",
                         "Boost all Temerian allies and your non-Spying Temerian units in hand and deck with the same power as this unit by 1. Crew.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_RS01_101992_0004.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_ROS1_102779_0005.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_RS01_106541_0014.mp3",
@@ -1894,7 +1478,7 @@ void allCardsInfos(const Patch)
         {"122311", Info(
                         "Blue Stripe Commando",
                         "Whenever a different Temerian ally with the same power is played, Summon a copy of this unit to a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_ROS3_102779_0003.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0003.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0004.mp3",
@@ -1905,7 +1489,7 @@ void allCardsInfos(const Patch)
         {"200026", Info(
                         "Wild Hunt Navigator",
                         "Choose a Bronze non-Mage Wild Hunt ally and play a copy of it from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.45.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.44.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.43.mp3",
@@ -1913,7 +1497,7 @@ void allCardsInfos(const Patch)
         {"132214", Info(
                         "Nithral",
                         "Deal 6 damage to an enemy. Increase damage by 1 for each Wild Hunt unit in your hand.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555151.mp3",
                             "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555148.mp3",
                             "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555150.mp3",
@@ -1921,7 +1505,7 @@ void allCardsInfos(const Patch)
         {"132108", Info(
                         "Miruna",
                         "After 2 turns, Charm the Highest enemy on the opposite row on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053075.mp3",
                             "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053091.mp3",
                             "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053077.mp3",
@@ -1929,7 +1513,7 @@ void allCardsInfos(const Patch)
         {"132102", Info(
                         "Imlerith",
                         "Deal 4 damage to an enemy. If the enemy is under Biting Frost, deal 8 damage instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524739.mp3",
                             "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524776.mp3",
                             "https://gwent.one/audio/card/ob/en/IMLR_Q111_01062046.mp3",
@@ -2009,7 +1593,7 @@ void allCardsInfos(const Patch)
         {"131101", Info(
                         "Eredin Bréacc Glas",
                         "Spawn a Bronze Wild Hunt unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/ERDN_Q501_00534051.mp3",
                             "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040841.mp3",
                             "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040845.mp3",
@@ -2019,7 +1603,7 @@ void allCardsInfos(const Patch)
         {"132104", Info(
                         "Caranthir Ar-Feiniel",
                         "Move an enemy to the row opposite this unit and apply Biting Frost to that row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.192.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.191.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.189.mp3",
@@ -2027,7 +1611,7 @@ void allCardsInfos(const Patch)
         {"201781", Info(
                         "Imlerith: Sabbath",
                         "Every turn, Duel the Highest enemy on turn end. If this unit survives, Heal it by 2 and give it 2 Armor. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.852.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.853.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.851.mp3",
@@ -2044,7 +1628,7 @@ void allCardsInfos(const Patch)
         {"200534", Info(
                         "She-Troll of Vergen",
                         "Play a Bronze Deathwish unit from your deck, Consume it and boost self by its base power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.406.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.405.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.404.mp3",
@@ -2064,7 +1648,7 @@ void allCardsInfos(const Patch)
         {"132212", Info(
                         "Ice Giant",
                         "Boost by 6 if Biting Frost is anywhere on the board.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/ice_giant_aggro07.mp3",
                             "https://gwent.one/audio/card/ob/en/ice_giant_aggro06.mp3",
                         })},
@@ -2117,7 +1701,7 @@ void allCardsInfos(const Patch)
         {"200112", Info(
                         "Siren",
                         "Play Moonlight from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.91.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.93.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.92.mp3",
@@ -2128,7 +1712,7 @@ void allCardsInfos(const Patch)
         {"132305", Info(
                         "Nekker",
                         "If in hand, deck, or on board, boost self by 1 whenever you Consume a card. Deathwish: Summon a copy of this unit to the same position.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/nekker_mumble_003.mp3",
                             "https://gwent.one/audio/card/ob/en/nekker_attack_004.mp3",
                             "https://gwent.one/audio/card/ob/en/nekker_attack_009.mp3",
@@ -2136,7 +1720,7 @@ void allCardsInfos(const Patch)
         {"132211", Info(
                         "Nekker Warrior",
                         "Choose a Bronze ally and add 2 copies of it to the bottom of your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/nekker_scream_006.mp3",
                             "https://gwent.one/audio/card/ob/en/nekker_scream_004.mp3",
                         })},
@@ -2155,14 +1739,14 @@ void allCardsInfos(const Patch)
         {"131102", Info(
                         "Ge'els",
                         "Look at a random Gold and Silver card from your deck, then play 1 and move the other to the top of the deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312005.mp3",
                             "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312236.mp3",
                         })},
         {"132310", Info(
                         "Wild Hunt Rider",
                         "Increase the damage dealt by Biting Frost on the opposite row by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.798.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
@@ -2173,7 +1757,7 @@ void allCardsInfos(const Patch)
         {"152317", Info(
                         "An Craite Armorsmith",
                         "Heal 2 allies and give them 3 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00422532.mp3",
                             "https://gwent.one/audio/card/ob/en/SAR1_VSET_00550731.mp3",
                             "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00434397.mp3",
@@ -2181,7 +1765,7 @@ void allCardsInfos(const Patch)
         {"132105", Info(
                         "Avallac'h",
                         "Truce: Each player draws 2 cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
@@ -2191,7 +1775,7 @@ void allCardsInfos(const Patch)
         {"112112", Info(
                         "Avallac'h: Sage",
                         "Spawn a default copy of a random Gold or Silver unit from your opponent's starting deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
                             "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
@@ -2204,7 +1788,7 @@ void allCardsInfos(const Patch)
         {"201772", Info(
                         "Geralt: Professional",
                         "Deal 4 damage to an enemy. If it's a Monster faction unit, destroy it instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
@@ -2214,7 +1798,7 @@ void allCardsInfos(const Patch)
         {"112111", Info(
                         "Geralt: Aard",
                         "Deal 3 damage to 3 enemies and move them to the row above.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
@@ -2224,7 +1808,7 @@ void allCardsInfos(const Patch)
         {"201523", Info(
                         "Geralt: Yrden",
                         "Reset all units on a row and remove their statuses.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
@@ -2234,7 +1818,7 @@ void allCardsInfos(const Patch)
         {"112110", Info(
                         "Ciri: Dash",
                         "Whenever this unit is Discarded or destroyed, return it to your deck and Strengthen it by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
@@ -2243,7 +1827,7 @@ void allCardsInfos(const Patch)
         {"200062", Info(
                         "Aguara",
                         "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.156.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.155.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.154.mp3",
@@ -2263,7 +1847,7 @@ void allCardsInfos(const Patch)
         {"122213", Info(
                         "Odrin",
                         "Move to a random row and boost all other allies on it by 1 on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0002.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_ODRI_200481_0002.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0001.mp3",
@@ -2272,7 +1856,7 @@ void allCardsInfos(const Patch)
         {"142204", Info(
                         "Toruviel",
                         "Ambush: When your opponent passes, flip over and boost 2 units on each side by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.775.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.777.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.776.mp3",
@@ -2280,7 +1864,7 @@ void allCardsInfos(const Patch)
         {"112101", Info(
                         "Ciri",
                         "Whenever you lose a round, return this unit to your hand. 2 Armor.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
                             "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
@@ -2289,7 +1873,7 @@ void allCardsInfos(const Patch)
         {"142104", Info(
                         "Milva",
                         "Return each player's Highest Bronze or Silver unit to their deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.142.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.144.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.143.mp3",
@@ -2297,7 +1881,7 @@ void allCardsInfos(const Patch)
         {"122210", Info(
                         "Princess Pavetta",
                         "Return each player's Lowest Bronze or Silver unit to their deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.38.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.40.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.37.mp3",
@@ -2306,7 +1890,7 @@ void allCardsInfos(const Patch)
         {"162401", Info(
                         "The Guardian",
                         "Add a Lesser Guardian to the top of your opponent's deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.386.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.387.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.385.mp3",
@@ -2316,7 +1900,7 @@ void allCardsInfos(const Patch)
         {"132215", Info(
                         "Gaunter O'Dimm",
                         "Gamble with Gaunter: Guess the power of the card he's picked to play it.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/MRRR_Q602_01116657.mp3",
                             "https://gwent.one/audio/card/ob/en/MRRR_Q605_01108178.mp3",
                             "https://gwent.one/audio/card/ob/en/MRRR_Q605_01132010.mp3",
@@ -2326,7 +1910,7 @@ void allCardsInfos(const Patch)
         {"122214", Info(
                         "Kaedweni Sergeant",
                         "Clear Hazards from its row. 3 Armor. Crew.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.46.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.47.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.48.mp3",
@@ -2337,7 +1921,7 @@ void allCardsInfos(const Patch)
         {"122105", Info(
                         "Sigismund Dijkstra",
                         "Spying. Play the top 2 cards from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/DJKS_Q303_00486613.mp3",
                             "https://gwent.one/audio/card/ob/en/DJKS_Q303_00378559.mp3",
                             "https://gwent.one/audio/card/ob/en/DJKS_MQ3035_01067766.mp3",
@@ -2352,7 +1936,7 @@ void allCardsInfos(const Patch)
         {"122313", Info(
                         "Dun Banner",
                         "If you are losing by more than 25 on turn start, Summon this unit to a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0012.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_KG06_200420_0005.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0005.mp3",
@@ -2360,7 +1944,7 @@ void allCardsInfos(const Patch)
         {"142211", Info(
                         "Aelirenn",
                         "If 5 Elf allies are on the board on any turn end, Summon this unit to a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.183.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.184.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.185.mp3",
@@ -2446,7 +2030,7 @@ void allCardsInfos(const Patch)
         {"200236", Info(
                         "Eskel: Pathfinder",
                         "Destroy a Bronze or Silver enemy that is not boosted.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
@@ -2455,7 +2039,7 @@ void allCardsInfos(const Patch)
         {"200237", Info(
                         "Vesemir: Mentor",
                         "Play a Bronze or Silver Alchemy card from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
                             "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
                             "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
@@ -2463,7 +2047,7 @@ void allCardsInfos(const Patch)
         {"200235", Info(
                         "Lambert",
                         "Deal 4 damage to all copies of an enemy unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
                             "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
                             "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
@@ -2474,13 +2058,13 @@ void allCardsInfos(const Patch)
         {"112105", Info(
                         "Regis: Higher Vampire",
                         "Look at 3 Bronze units from your opponent's deck. Consume 1, then boost self by its base power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/katakan_taunt_short_003.mp3",
                         })},
         {"112109", Info(
                         "Zoltan: Scoundrel",
                         "Choose One: Spawn a Duda: Companion that boosts 2 units on each side of it by 2; or Spawn a Duda: Agitator that deals 2 damage to 2 units on each side of",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
                             "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
                             "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
@@ -2496,7 +2080,7 @@ void allCardsInfos(const Patch)
         {"112113", Info(
                         "Yennefer: Conjurer",
                         "Deal 1 damage to the Highest enemies on turn end.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
@@ -2504,7 +2088,7 @@ void allCardsInfos(const Patch)
         {"112106", Info(
                         "Triss Merigold",
                         "Deal 5 damage.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
                             "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
@@ -2515,7 +2099,7 @@ void allCardsInfos(const Patch)
         {"201773", Info(
                         "Triss: Telekinesis",
                         "Create a Bronze special card from either player's starting deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
                             "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
@@ -2526,7 +2110,7 @@ void allCardsInfos(const Patch)
         {"200087", Info(
                         "Dorregaray of Vole",
                         "Create any Bronze or Silver Beast or Draconid.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
                             "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
@@ -2537,7 +2121,7 @@ void allCardsInfos(const Patch)
         {"201774", Info(
                         "Dandelion: Vainglory",
                         "Boost self by 3 for each Geralt, Yennefer, Triss and Zoltan card in your starting deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
                             "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
                             "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
@@ -2549,7 +2133,7 @@ void allCardsInfos(const Patch)
         {"112214", Info(
                         "Cyprian Wiley",
                         "Weaken a unit by 4.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
                             "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
                             "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
@@ -2557,7 +2141,7 @@ void allCardsInfos(const Patch)
         {"112201", Info(
                         "Dudu",
                         "Copy the power of an enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.816.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.818.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.817.mp3",
@@ -2568,7 +2152,7 @@ void allCardsInfos(const Patch)
         {"200042", Info(
                         "Mahakam Marauder",
                         "Whenever this unit's power changes, except when Reset, boost self by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.41.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.39.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.40.mp3",
@@ -2576,7 +2160,7 @@ void allCardsInfos(const Patch)
         {"142105", Info(
                         "Zoltan Chivay",
                         "Choose 3 units. Strengthen allies by 2 and move them to this row. Deal 2 damage to enemies and move them to the row opposite this unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
                             "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
                             "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
@@ -2586,7 +2170,7 @@ void allCardsInfos(const Patch)
         {"201780", Info(
                         "Yennefer: Necromancer",
                         "Resurrect a Bronze or Silver Soldier from your opponent's graveyard.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
                             "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
@@ -2603,7 +2187,7 @@ void allCardsInfos(const Patch)
         {"112206", Info(
                         "Ocvist",
                         "Single-Use: After 4 turns, deal 1 damage to all enemies, then return to your hand on turn start.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008.mp3",
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009.mp3",
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010.mp3",
@@ -2611,7 +2195,7 @@ void allCardsInfos(const Patch)
         {"112205", Info(
                         "Myrgtabrakke",
                         "Deal 2 damage. Repeat 2 times.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009_OB.mp3",
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010_OB.mp3",
                             "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008_OB.mp3",
@@ -2619,7 +2203,7 @@ void allCardsInfos(const Patch)
         {"112213", Info(
                         "King of Beggars",
                         "If losing, Strengthen self up to a maximum of 15 until scores are tied.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/KGBG_Q302_00487960.mp3",
                             "https://gwent.one/audio/card/ob/en/KGBG_Q301_00486502.mp3",
                             "https://gwent.one/audio/card/ob/en/KGBG_Q301_00499725.mp3",
@@ -2628,7 +2212,7 @@ void allCardsInfos(const Patch)
         {"112207", Info(
                         "Olgierd von Everec",
                         "Deathwish: Resurrect this unit on a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101145.mp3",
                             "https://gwent.one/audio/card/ob/en/OLGD_Q604_01137773.mp3",
                             "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101591.mp3",
@@ -2636,7 +2220,7 @@ void allCardsInfos(const Patch)
         {"112215", Info(
                         "Iris von Everec",
                         "Spying. Deathwish: Boost 5 random units on the opposite side by 5.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106159.mp3",
                             "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106875.mp3",
                             "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106944.mp3",
@@ -2644,7 +2228,7 @@ void allCardsInfos(const Patch)
         {"200083", Info(
                         "Iris' Companions",
                         "Move a card from your deck to your hand, then Discard a random card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.268.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.265.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.264.mp3",
@@ -2653,7 +2237,7 @@ void allCardsInfos(const Patch)
         {"112211", Info(
                         "Johnny",
                         "Discard a card. Then make a default copy of a card of the same color from your opponent's starting deck in your hand.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GJHN_Q105_00420525.mp3",
                             "https://gwent.one/audio/card/ob/en/GJHN_Q111_01011367.mp3",
                             "https://gwent.one/audio/card/ob/en/GJHN_Q105_00417768.mp3",
@@ -2663,7 +2247,7 @@ void allCardsInfos(const Patch)
         {"200091", Info(
                         "Stregobor",
                         "Truce: Each player draws a unit and sets its power to 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.165.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.162.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.163.mp3",
@@ -2672,7 +2256,7 @@ void allCardsInfos(const Patch)
         {"112212", Info(
                         "Sarah",
                         "Swap a card for one of the same color.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/GSAR_Q301_00493632.mp3",
                             "https://gwent.one/audio/card/ob/en/GSAR_Q301_00484178.mp3",
                             "https://gwent.one/audio/card/ob/en/GSAR_GODLING_01059640.mp3",
@@ -2680,7 +2264,7 @@ void allCardsInfos(const Patch)
         {"201753", Info(
                         "Peasant Militia",
                         "Spawn 3 Peasants on a row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.86.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.87.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.84.mp3",
@@ -2699,7 +2283,7 @@ void allCardsInfos(const Patch)
         {"201595", Info(
                         "Princess Adda",
                         "Create a Bronze or Silver Cursed unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.194.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.195.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.193.mp3",
@@ -2707,7 +2291,7 @@ void allCardsInfos(const Patch)
         {"200168", Info(
                         "King Foltest",
                         "Boost all other allies and your non-Spying units in hand and deck by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0002.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0004.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0012.mp3",
@@ -2717,7 +2301,7 @@ void allCardsInfos(const Patch)
         {"200169", Info(
                         "King Radovid V",
                         "Toggle 2 units' Lock statuses. If enemies, deal 4 damage to them. Crew.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/RADV_SQ302_00302977.mp3",
                             "https://gwent.one/audio/card/ob/en/RADV_Q302_00512777.mp3",
                             "https://gwent.one/audio/card/ob/en/RADV_RADOVID_01040720.mp3",
@@ -2728,7 +2312,7 @@ void allCardsInfos(const Patch)
         {"200162", Info(
                         "Emhyr var Emreis",
                         "Play a card, then return a Bronze or Silver ally to your hand.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.236.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.238.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.237.mp3",
@@ -2736,7 +2320,7 @@ void allCardsInfos(const Patch)
         {"201580", Info(
                         "Usurper",
                         "Spying. Create any Leader and boost it by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.433.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.432.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.434.mp3",
@@ -2744,7 +2328,7 @@ void allCardsInfos(const Patch)
         {"200167", Info(
                         "Brouver Hoog",
                         "Play a non-Spying Silver unit or a Bronze Dwarf from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.136.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.137.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.138.mp3",
@@ -2752,7 +2336,7 @@ void allCardsInfos(const Patch)
         {"200166", Info(
                         "Eithne",
                         "Resurrect a Bronze or Silver special card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.133.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.135.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.134.mp3",
@@ -2760,7 +2344,7 @@ void allCardsInfos(const Patch)
         {"201589", Info(
                         "Filavandrel",
                         "Create a Silver special card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.279.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.278.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.280.mp3",
@@ -2768,7 +2352,7 @@ void allCardsInfos(const Patch)
         {"200165", Info(
                         "Francesca Findabair",
                         "Swap a card with one of your choice and boost it by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.130.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.131.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.132.mp3",
@@ -2776,7 +2360,7 @@ void allCardsInfos(const Patch)
         {"142106", Info(
                         "Aglais",
                         "Resurrect a Bronze or Silver special card from your opponent's graveyard, then Banish it.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.154.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.153.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.152.mp3",
@@ -2784,7 +2368,7 @@ void allCardsInfos(const Patch)
         {"142103", Info(
                         "Iorveth",
                         "Deal 8 damage to an enemy. If the unit was destroyed, boost all Elves in your hand by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
@@ -2793,7 +2377,7 @@ void allCardsInfos(const Patch)
         {"201611", Info(
                         "Iorveth: Meditation",
                         "Force 2 enemies on the same row to Duel each other.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
@@ -2802,7 +2386,7 @@ void allCardsInfos(const Patch)
         {"142102", Info(
                         "Isengrim Faoiltiarna",
                         "Play a Bronze or Silver Ambush from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
@@ -2810,7 +2394,7 @@ void allCardsInfos(const Patch)
         {"201615", Info(
                         "Isengrim: Outlaw",
                         "Choose One: Play a Bronze or Silver special card from your deck; or Create a Silver Elf.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
@@ -2818,7 +2402,7 @@ void allCardsInfos(const Patch)
         {"142107", Info(
                         "Ithlinne Aegli",
                         "Play a Bronze Spell, Boon or Hazard from your deck twice.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.170.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.172.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.171.mp3",
@@ -2826,7 +2410,7 @@ void allCardsInfos(const Patch)
         {"142108", Info(
                         "Schirru",
                         "Spawn Scorch or Epidemic.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.187.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.186.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.188.mp3",
@@ -2837,7 +2421,7 @@ void allCardsInfos(const Patch)
         {"200209", Info(
                         "Saskia",
                         "Swap up to 2 cards for Bronze cards.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0023.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_TARM_200154_0192.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0011.mp3",
@@ -2847,7 +2431,7 @@ void allCardsInfos(const Patch)
         {"142207", Info(
                         "Barclay Els",
                         "Play a random Bronze or Silver Dwarf from your deck and Strengthen it by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.162.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.163.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.161.mp3",
@@ -2855,7 +2439,7 @@ void allCardsInfos(const Patch)
         {"142211", Info(
                         "Dennis Cranmer",
                         "Strengthen all your other Dwarves in hand, deck, and on board by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.157.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.156.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.155.mp3",
@@ -2863,7 +2447,7 @@ void allCardsInfos(const Patch)
         {"142212", Info(
                         "Sheldon Skaggs",
                         "Move all allies on this row to random rows and boost self by 1 for each.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.33.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.34.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.35.mp3",
@@ -2871,7 +2455,7 @@ void allCardsInfos(const Patch)
         {"142213", Info(
                         "Yarpen Zigrin",
                         "Resilience. Whenever a Dwarf ally appears, boost self by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
@@ -2879,7 +2463,7 @@ void allCardsInfos(const Patch)
         {"142203", Info(
                         "Yaevinn",
                         "Spying. Single-Use: Draw a special card and a unit. Keep one and return the other to your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
@@ -2887,14 +2471,14 @@ void allCardsInfos(const Patch)
         {"142202", Info(
                         "Ida Emean aep Sivney",
                         "Spawn Impenetrable Fog, Clear Skies or Alzur's Thunder.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/IDEM_Q401_00532088.mp3",
                             "https://gwent.one/audio/card/ob/en/IDEM_Q401_00517579.mp3",
                         })},
         {"201676", Info(
                         "Pavko Gale",
                         "Play a Bronze or Silver Item from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.32.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.31.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.34.mp3",
@@ -2904,7 +2488,7 @@ void allCardsInfos(const Patch)
         {"142206", Info(
                         "Ciaran aep Easnillen",
                         "Toggle a unit's Lock status and move it to this row on its side.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.159.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.160.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.158.mp3",
@@ -2912,7 +2496,7 @@ void allCardsInfos(const Patch)
         {"200520", Info(
                         "Eibhear Hattori",
                         "Resurrect a lower or equal Bronze or Silver Scoia'tael unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_00507925.mp3",
                             "https://gwent.one/audio/card/ob/en/HTRI_SQ304_00539954.mp3",
                             "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_01032235.mp3",
@@ -2920,7 +2504,7 @@ void allCardsInfos(const Patch)
         {"200030", Info(
                         "Milaen",
                         "Deal 6 damage to the units at the end of a row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.220.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.222.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.221.mp3",
@@ -2928,7 +2512,7 @@ void allCardsInfos(const Patch)
         {"142209", Info(
                         "Braenn",
                         "Deal damage equal to this unit's power. If a unit was destroyed, boost all your other Dryads and Ambush units in hand, deck, and on board by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.168.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.169.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.167.mp3",
@@ -2936,7 +2520,7 @@ void allCardsInfos(const Patch)
         {"142208", Info(
                         "Morenn",
                         "Ambush: When a unit is played on your opponent's side, flip over and deal 7 damage to it.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.165.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.164.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.166.mp3",
@@ -2965,7 +2549,7 @@ void allCardsInfos(const Patch)
         {"142316", Info(
                         "Blue Mountain Elite",
                         "Summon all copies of this unit to this row. Whenever this unit moves, boost it by 2.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0006.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0004.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0007.mp3",
@@ -2973,7 +2557,7 @@ void allCardsInfos(const Patch)
         {"142316", Info(
                         "Dol Blathanna Bomber",
                         "Spawn an Incinerating Trap on an enemy row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SWF1_107697_0003.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWF1_100532_0009.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWF1_109383_0001.mp3",
@@ -2981,7 +2565,7 @@ void allCardsInfos(const Patch)
         {"142314", Info(
                         "Dol Blathanna Bowman",
                         "Deal 2 damage to an enemy. Whenever an enemy moves, deal 2 damage to it. Whenever this unit moves, deal 2 damage to a random enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0006.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0007.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0012.mp3",
@@ -2989,7 +2573,7 @@ void allCardsInfos(const Patch)
         {"200039", Info(
                         "Dol Blathanna Bowman",
                         "If in hand, deck or on board, boost self by 1 whenever you play a special card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.310.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.312.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.311.mp3",
@@ -2997,7 +2581,7 @@ void allCardsInfos(const Patch)
         {"201638", Info(
                         "Elven Scout",
                         "Swap a card.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.92.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.91.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.89.mp3",
@@ -3007,7 +2591,7 @@ void allCardsInfos(const Patch)
         {"200535", Info(
                         "Elven Swordmaster",
                         "Deal damage equal to this unit's power to an enemy.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.398.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.400.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.399.mp3",
@@ -3015,7 +2599,7 @@ void allCardsInfos(const Patch)
         {"200293", Info(
                         "Dwarven Agitator",
                         "Spawn a default copy of a random different Bronze Dwarf from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.96.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.94.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.97.mp3",
@@ -3025,7 +2609,7 @@ void allCardsInfos(const Patch)
         {"142311", Info(
                         "Dwarven Mercenary",
                         "Move a unit to this row on its side. If it's an ally, boost it by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526104.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526102.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525272.mp3",
@@ -3033,7 +2617,7 @@ void allCardsInfos(const Patch)
         {"142305", Info(
                         "Dwarven Skirmisher",
                         "Deal 3 damage to an enemy. If the unit was not destroyed, boost self by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525271.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525421.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525423.mp3",
@@ -3041,7 +2625,7 @@ void allCardsInfos(const Patch)
         {"142301", Info(
                         "Hawker Healer",
                         "Boost 2 allies by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523670.mp3",
                             "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523680.mp3",
                             "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523672.mp3",
@@ -3049,7 +2633,7 @@ void allCardsInfos(const Patch)
         {"142312", Info(
                         "Hawker Support",
                         "Boost a unit in your hand by 3.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00358151.mp3",
                             "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00357973.mp3",
                             "https://gwent.one/audio/card/ob/en/VBAN1_VSET_00592242.mp3",
@@ -3057,7 +2641,7 @@ void allCardsInfos(const Patch)
         {"142306", Info(
                         "Mahakam Defender",
                         "Resilience.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525429.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525431.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525279.mp3",
@@ -3065,7 +2649,7 @@ void allCardsInfos(const Patch)
         {"142317", Info(
                         "Mahakam Guard",
                         "Boost an ally by 7.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013381.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013385.mp3",
                             "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013371.mp3",
@@ -3073,7 +2657,7 @@ void allCardsInfos(const Patch)
         {"201559", Info(
                         "Mahakam Volunteers",
                         "Summon all copies of this unit.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.101.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.99.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.102.mp3",
@@ -3083,7 +2667,7 @@ void allCardsInfos(const Patch)
         {"200135", Info(
                         "Pyrotechnician",
                         "Deal 3 damage to a random enemy on each row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.318.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.320.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.319.mp3",
@@ -3091,7 +2675,7 @@ void allCardsInfos(const Patch)
         {"142313", Info(
                         "Wardancer",
                         "Whenever you Swap this unit, play it automatically on a random row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.4.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.3.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.2.mp3",
@@ -3099,7 +2683,7 @@ void allCardsInfos(const Patch)
         {"142309", Info(
                         "Vrihedd Vanguard",
                         "Boost Elf allies by 1. Whenever you Swap this card, trigger its ability.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SF01_107685_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0042.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0054.mp3",
@@ -3107,14 +2691,14 @@ void allCardsInfos(const Patch)
         {"142303", Info(
                         "Vrihedd Officer",
                         "Swap a card and boost self by its base power.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SF02_108969_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF02_101662_0066.mp3",
                         })},
         {"142301", Info(
                         "Vrihedd Neophyte",
                         "Boost 2 random units in your hand by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.788.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.789.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.790.mp3",
@@ -3122,7 +2706,7 @@ void allCardsInfos(const Patch)
         {"142302", Info(
                         "Vrihedd Brigade",
                         "Clear Hazards from its row and move a unit to this row on its side.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/VO_SF01_102780_0001.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0035.mp3",
                             "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0038.mp3",
@@ -3130,7 +2714,7 @@ void allCardsInfos(const Patch)
         {"142315", Info(
                         "Hawker Smuggler",
                         "Whenever an enemy appears, boost self by 1.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.5.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.6.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.7.mp3",
@@ -3138,7 +2722,7 @@ void allCardsInfos(const Patch)
         {"162102", Info(
                         "Menno Coehoorn",
                         "Deal 4 damage to an enemy. If it's Spying, destroy it instead.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.59.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.58.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.60.mp3",
@@ -3146,7 +2730,7 @@ void allCardsInfos(const Patch)
         {"200032", Info(
                         "Rainfarn of Attre",
                         "Play a Bronze or Silver Spying unit from your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.91.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.93.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.92.mp3",
@@ -3157,7 +2741,7 @@ void allCardsInfos(const Patch)
         {"162106", Info(
                         "Stefan Skellen",
                         "Move any card in your deck to the top. If it's a non-Spying unit, boost it by 5.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.98.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.99.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.97.mp3",
@@ -3165,7 +2749,7 @@ void allCardsInfos(const Patch)
         {"200071", Info(
                         "Shilard",
                         "Truce: Draw a card from both decks. Keep one and give the other to your opponent.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.96.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.94.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.95.mp3",
@@ -3173,7 +2757,7 @@ void allCardsInfos(const Patch)
         {"162108", Info(
                         "Xarthisius",
                         "Look at your opponent's deck and move a card to the bottom.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.118.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.119.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.120.mp3",
@@ -3181,7 +2765,7 @@ void allCardsInfos(const Patch)
         {"162108", Info(
                         "Cantarella",
                         "Spying. Single-Use: Draw 2 cards. Keep one and move the other to the bottom of your deck.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.127.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.128.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.129.mp3",
@@ -3192,7 +2776,7 @@ void allCardsInfos(const Patch)
         {"162304", Info(
                         "Vicovaro Medic",
                         "Resurrect a Bronze unit from your opponent's graveyard.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.431.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.430.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.429.mp3",
@@ -3200,7 +2784,7 @@ void allCardsInfos(const Patch)
         {"162202", Info(
                         "Assire var Anahid",
                         "Return 2 Bronze or Silver cards from either graveyard to their respective decks.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.76.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.77.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.75.mp3",
@@ -3208,7 +2792,7 @@ void allCardsInfos(const Patch)
         {"162205", Info(
                         "Fringilla Vigo",
                         "Spying. Copy the power from the unit to the left to the unit to the right.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.90.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.88.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries.89.mp3",
@@ -3216,7 +2800,7 @@ void allCardsInfos(const Patch)
         {"162212", Info(
                         "False Ciri",
                         "Spying. If Spying, boost self by 1 on turn start and when this player passes, move to the opposite row. Deathwish: Destroy the Lowest unit on the row.",
-                        Sounds{
+                        Urls{
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.105.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.107.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.106.mp3",
@@ -3224,7 +2808,425 @@ void allCardsInfos(const Patch)
     return infos;
 }
 
-Card *CardsObt::createAddaStriga()
+
+namespace CardsObt {
+
+std::vector<Card *> createAll()
+{
+    return {
+        createAddaStriga(),
+        createDao(),
+        createPoorFingInfantry(),
+        createDeithwenArbalest(),
+        createTemerianDrummer(),
+        createDandelionPoet(),
+        createSileDeTansarville(),
+        createRedanianKnightElect(),
+        createKaedweniKnight(),
+        createAnCraiteMarauder(),
+        createAnCraiteGreatsword(),
+        createDimunLightLongship(),
+        createTuirseachBearmaster(),
+        createTuirseachHunter(),
+        createRedanianElite(),
+        createRedanianKnight(),
+        createKaedweniCavalry(),
+        createAlzursThunder(),
+        createSwallow(),
+        createThunderbolt(),
+        createArachasVenom(),
+        createKeiraMetz(),
+        createDolBlathannaArcher(),
+        createHalfElfHunter(),
+        createAmbassador(),
+        createAssassin(),
+        createEmissary(),
+        createCeallachDyffryn(),
+        createTuirseachArcher(),
+        createInfiltrator(),
+        createImpenetrableFog(),
+        createTorrentialRain(),
+        createBitingFrost(),
+        createGoldenFroth(),
+        createSkelligeStorm(),
+        createImperialManticore(),
+        createManticoreVenom(),
+        createGloriousHunt(),
+        createVes(),
+        createVaedermakar(),
+        createFrightener(),
+        createCleaver(),
+        createScorch(),
+        createReinforcements(),
+        createJohnNatalis(),
+        createEleyas(),
+        createReaverScout(),
+        createHeymaeySpearmaiden(),
+        createVriheddSappers(),
+        createPriestessOfFreya(),
+        createDimunCorsair(),
+        createSigrdrifa(),
+        createDrummondQueensguard(),
+        createSage(),
+        createReconnaissance(),
+        createElvenMercenary(),
+        createChampionOfHov(),
+        createPriscilla(),
+        createSeltkirkOfGulet(),
+        createAdrenalineRush(),
+        createMandrake(),
+        createBoneTalisman(),
+        createRestore(),
+        createDecoy(),
+        createShupesDayOff(),
+        createFirstLight(),
+        createEpidemic(),
+        createMoonlight(),
+        createCiriNova(),
+        createHaraldTheCripple(),
+        createBranTuirseach(),
+        createDrummondWarmonger(),
+        createDimunPirate(),
+        createAnCraiteRaider(),
+        createMadmanLugos(),
+        createErmion(),
+        createCerysFearless(),
+        createCerysAnCraite(),
+        createWoodlandSpirit(),
+        createTrollololo(),
+        createPrinceStennis(),
+        createVincentMeis(),
+        createMorkvarg(),
+        createArtefactCompression(),
+        createHjalmarAnCraite(),
+        createRegis(),
+        createLethoOfGulet(),
+        createAnCraiteLongship(),
+        createGeraltIgni(),
+        createGeraltOfRivia(),
+        createTuirseachVeteran(),
+        createUdalryk(),
+        createBloodcurdlingRoar(),
+        createGremist(),
+        createZoriaRunestone(),
+        createOperator(),
+        createRenew(),
+        createEistTuirseach(),
+        createTuirseachAxeman(),
+        createDerran(),
+        createTuirseachSkirmisher(),
+        createRoach(),
+        createJanCalveit(),
+        createCahirDyffryn(),
+        createLethoKingslayer(),
+        createKingHenselt(),
+        createBloodyBaron(),
+        createHubertRejk(),
+        createDethmold(),
+        createRonvidTheIncessant(),
+        createCrachAnCraite(),
+        createBirnaBran(),
+        createCoral(),
+        createVabjorn(),
+        createBlueboyLugos(),
+        createDjengeFrett(),
+        createDonarAnHindar(),
+        createDraigBonDhu(),
+        createHolgerBlackhand(),
+        createJuttaAnDimun(),
+        createSavageBear(),
+        createSvanrigeTuirseach(),
+        createSkjall(),
+        createHaraldHoundsnout(),
+        createYoana(),
+        createAnCraiteBlacksmith(),
+        createAnCraiteWarcrier(),
+        createAnCraiteWarrior(),
+        createBerserkerMarauder(),
+        createDimunPirateCaptain(),
+        createDimunSmuggler(),
+        createDrummondShieldmaid(),
+        createHeymaeyFlaminica(),
+        createHeymaeyHerbalist(),
+        createHeymaeyProtector(),
+        createHeymaeySkald(),
+        createRagingBerserker(),
+        createHym(),
+        createKambi(),
+        createOlaf(),
+        createUlfhedinn(),
+        createWildBoarOfTheSea(),
+        createGiantBoar(),
+        createOrnamentalSword(),
+        createDimunWarship(),
+        createVilgefortz(),
+        createTrissButterflies(),
+        createYennefer(),
+        createGermainPiquant(),
+        createCommandersHorn(),
+        createMarchingOrders(),
+        createAlzursDoubleCross(),
+        createAlbaArmoredCavalry(),
+        createSentry(),
+        createNauzicaaSergeant(),
+        createSlaveInfantry(),
+        createRecruit(),
+        createOintment(),
+        createVreemde(),
+        createLambert(),
+        createEskel(),
+        createVesemir(),
+        createTridamInfantry(),
+        createVriheddDragoon(),
+        createMalena(),
+        createUnseenElder(),
+        createDevanaRunestone(),
+        createDazhbogRunestone(),
+        createMoranaRunestone(),
+        createStribogRunestone(),
+        createMuzzle(),
+        createWhisperingHillock(),
+        createBrewess(),
+        createWeavess(),
+        createWhispess(),
+        createWeavessIncantation(),
+        createBrewessRitual(),
+        createWhispessTribute(),
+        createNivellen(),
+        createLeoBonhart(),
+        createMorvranVoorhis(),
+        createCynthia(),
+        createSerrit(),
+        createSweers(),
+        createTiborEggebracht(),
+        createVattierDeRideaux(),
+        createAlbrich(),
+        createHeftyHelge(),
+        createAlchemist(),
+        createDaerlanSoldier(),
+        createFireScorpion(),
+        createMangonel(),
+        createNilfgaardianKnight(),
+        createSpotter(),
+        createVenendalElite(),
+        createMasterOfDisguise(),
+        createHenryVarAttre(),
+        createWildHuntHound(),
+        createWildHuntWarrior(),
+        createWildHuntNavigator(),
+        createNithral(),
+        createMiruna(),
+        createImlerith(),
+        createCaretaker(),
+        createRuehin(),
+        createOldSpeartipAsleep(),
+        createOldSpeartip(),
+        createGolyat(),
+        createBarbegazi(),
+        createGhoul(),
+        createForktail(),
+        createArachasQueen(),
+        createOzzrel(),
+        createKayran(),
+        createMourntart(),
+        createToadPrince(),
+        createFiend(),
+        createMorvudd(),
+        createEkimmara(),
+        createRotfiend(),
+        createArchespore(),
+        createCyclops(),
+        createMaerolorn(),
+        createMonsterNest(),
+        createArachasDrone(),
+        createEredinBreaccGlas(),
+        createCaranthirArFeiniel(),
+        createImlerithSabbath(),
+        createDagon(),
+        createIfrit(),
+        createSheTrollOfVergen(),
+        createWyvern(),
+        createAbaya(),
+        createParasite(),
+        createJotunn(),
+        createIceGiant(),
+        createIceTroll(),
+        createDrowner(),
+        createFoglet(),
+        createAncientFoglet(),
+        createDraug(),
+        createCelaenoHarpy(),
+        createArachasBehemoth(),
+        createArchgriffin(),
+        createGriffin(),
+        createBridgeTroll(),
+        createCockatrice(),
+        createSiren(),
+        createLamia(),
+        createNekker(),
+        createNekkerWarrior(),
+        createSlyzard(),
+        createWerecat(),
+        createHarpy(),
+        createWildHuntDrakkar(),
+        createGeels(),
+        createWildHuntRider(),
+        createVranWarrior(),
+        createAnCraiteArmorsmith(),
+        createAvalach(),
+        createAvalachSage(),
+        createNekurat(),
+        createRaghNarRoog(),
+        createGeraltProfessional(),
+        createGeraltAard(),
+        createGeraltYrden(),
+        createCiriDash(),
+        createAguara(),
+        createAguaraTrueForm(),
+        createKorathiHeatwave(),
+        createAleOfTheAncestors(),
+        createMahakamAle(),
+        createOdrin(),
+        createToruviel(),
+        createCiri(),
+        createMilva(),
+        createPrincessPavetta(),
+        createTheGuardian(),
+        createGaunterODimm(),
+        createKaedweniSergeant(),
+        createReinforcedBallista(),
+        createSigismundDijkstra(),
+        createWhiteFrost(),
+        createWolfsbane(),
+        createDunBanner(),
+        createAelirenn(),
+        createHanmarvynsDream(),
+        createBlackBlood(),
+        createBekkersRockslide(),
+        createBekkersDarkMirror(),
+        createMerigoldsHailstorm(),
+        createNecromancy(),
+        createStammelfordsTremor(),
+        createExpiredAle(),
+        createTrialOfTheGrasses(),
+        createDimeritiumBomb(),
+        createGarrison(),
+        createTheLastWish(),
+        createDimeritiumShackles(),
+        createWyvernScaleShield(),
+        createMastercraftedSpear(),
+        createPetrisPhilter(),
+        createShrike(),
+        createRoyalDecree(),
+        createUmasCurse(),
+        createLacerate(),
+        createCrowsEye(),
+        createDoppler(),
+        createSpores(),
+        createMardroeme(),
+        createSihil(),
+        createEskelPathfinder(),
+        createVesemirMentor(),
+        createLambertSwordmaster(),
+        createRegisHigherVampire(),
+        createZoltanScoundrel(),
+        createYenneferConjurer(),
+        createTrissMerigold(),
+        createTrissTelekinesis(),
+        createDorregarayOfVole(),
+        createDandelionVainglory(),
+        createCyprianWiley(),
+        createDudu(),
+        createIhuarraquax(),
+        createMahakamMarauder(),
+        createZoltanChivay(),
+        createYenneferNecromancer(),
+        createPhoenix(),
+        createSaesenthessisBlaze(),
+        createVillentretenmerth(),
+        createOcvist(),
+        createMyrgtabrakke(),
+        createKingOfBeggars(),
+        createOlgierdVonEverec(),
+        createIrisVonEverec(),
+        createIrisCompanions(),
+        createJohnny(),
+        createStregobor(),
+        createSarah(),
+        createPeasantMilitia(),
+        createPrizeWinningCow(),
+        createPrincessAdda(),
+        createKingFoltest(),
+        createKingRadovidV(),
+        createEmhyrVarEmreis(),
+        createUsurper(),
+        createBrouverHoog(),
+        createEithne(),
+        createFilavandrel(),
+        createFrancescaFindabair(),
+        createAglais(),
+        createIorveth(),
+        createIorvethMeditation(),
+        createIsengrimFaoiltiarna(),
+        createIsengrimOutlaw(),
+        createSchirru(),
+        createSaesenthessis(),
+        createSaskia(),
+        createBarclayEls(),
+        createDennisCranmer(),
+        createSheldonSkaggs(),
+        createYarpenZigrin(),
+        createYaevinn(),
+        createIdaEmeanAepSivney(),
+        createPavkoGale(),
+        createCiaranAepEasnillen(),
+        createEibhearHattori(),
+        createMilaen(),
+        createBraenn(),
+        createMorenn(),
+        createPaulieDahlberg(),
+        createMahakamHorn(),
+        createNaturesGift(),
+        createPitTrap(),
+        createCrushingTrap(),
+        createElvenBlade(),
+        createIncineratingTrap(),
+        createBlueMountainElite(),
+        createDolBlathannaBomber(),
+        createDolBlathannaBowman(),
+        createDolBlathannaSentry(),
+        createElvenScout(),
+        createElvenSwordmaster(),
+        createDwarvenAgitator(),
+        createDwarvenMercenary(),
+        createDwarvenSkirmisher(),
+        createHawkerHealer(),
+        createHawkerSupport(),
+        createMahakamDefender(),
+        createMahakamGuard(),
+        createMahakamVolunteers(),
+        createPyrotechnician(),
+        createWardancer(),
+        createVriheddVanguard(),
+        createVriheddOfficer(),
+        createVriheddNeophyte(),
+        createVriheddBrigade(),
+        createHawkerSmuggler(),
+        createMennoCoehoorn(),
+        createRainfarnOfAttre(),
+        createAssassination(),
+        createStefanSkellen(),
+        createShilard(),
+        createCantarella(),
+        createPanther(),
+        createVicovaroMedic(),
+        createAssireVarAnahid(),
+        createFringillaVigo(),
+        createFalseCiri(),
+    };
+}
+
+Card *createAddaStriga()
 {
     auto *card = new Card();
     card->id = "200073";
@@ -3244,7 +3246,7 @@ Card *CardsObt::createAddaStriga()
     return card;
 }
 
-Card *CardsObt::createDao()
+Card *createDao()
 {
     auto *card = new Card();
     card->id = "132213";
@@ -3272,7 +3274,7 @@ Card *CardsObt::createDao()
     return card;
 }
 
-Card *CardsObt::createPoorFingInfantry()
+Card *createPoorFingInfantry()
 {
     auto *card = new Card();
     card->id = "200234";
@@ -3312,7 +3314,7 @@ Card *CardsObt::createPoorFingInfantry()
     return card;
 }
 
-Card *CardsObt::createDeithwenArbalest()
+Card *createDeithwenArbalest()
 {
     auto *card = new Card();
     card->id = "162305";
@@ -3332,7 +3334,7 @@ Card *CardsObt::createDeithwenArbalest()
 }
 
 
-Card *CardsObt::createTemerianDrummer()
+Card *createTemerianDrummer()
 {
     auto *card = new Card();
     card->id = "200299";
@@ -3352,7 +3354,7 @@ Card *CardsObt::createTemerianDrummer()
 }
 
 
-Card *CardsObt::createDandelionPoet()
+Card *createDandelionPoet()
 {
     auto *card = new Card();
     card->id = "201776";
@@ -3373,7 +3375,7 @@ Card *CardsObt::createDandelionPoet()
 }
 
 
-Card *CardsObt::createSileDeTansarville()
+Card *createSileDeTansarville()
 {
     auto *card = new Card();
     card->id = "122205";
@@ -3394,7 +3396,7 @@ Card *CardsObt::createSileDeTansarville()
 }
 
 
-Card *CardsObt::createRedanianKnightElect()
+Card *createRedanianKnightElect()
 {
     auto *card = new Card();
     card->id = "123301";
@@ -3423,7 +3425,7 @@ Card *CardsObt::createRedanianKnightElect()
 }
 
 
-Card *CardsObt::createAnCraiteMarauder()
+Card *createAnCraiteMarauder()
 {
     auto *card = new Card();
     card->id = "201578";
@@ -3435,7 +3437,7 @@ Card *CardsObt::createAnCraiteMarauder()
 }
 
 
-Card *CardsObt::createAnCraiteGreatsword()
+Card *createAnCraiteGreatsword()
 {
     auto *card = new Card();
     card->id = "200040";
@@ -3462,7 +3464,7 @@ Card *CardsObt::createAnCraiteGreatsword()
 }
 
 
-Card *CardsObt::createDimunLightLongship()
+Card *createDimunLightLongship()
 {
     auto *card = new Card();
     card->id = "152309";
@@ -3481,7 +3483,7 @@ Card *CardsObt::createDimunLightLongship()
 }
 
 
-Card *CardsObt::createBear()
+Card *createBear()
 {
     auto *card = new Card();
     card->id = "152406";
@@ -3493,7 +3495,7 @@ Card *CardsObt::createBear()
 }
 
 
-Card *CardsObt::createWolf()
+Card *createWolf()
 {
     auto *card = new Card();
     card->id = "132403";
@@ -3506,7 +3508,7 @@ Card *CardsObt::createWolf()
 }
 
 
-Card *CardsObt::createTuirseachBearmaster()
+Card *createTuirseachBearmaster()
 {
     auto *card = new Card();
     card->id = "200144";
@@ -3522,7 +3524,7 @@ Card *CardsObt::createTuirseachBearmaster()
 }
 
 
-Card *CardsObt::createRedanianElite()
+Card *createRedanianElite()
 {
     auto *card = new Card();
     card->id = "122317";
@@ -3542,7 +3544,7 @@ Card *CardsObt::createRedanianElite()
 }
 
 
-Card *CardsObt::createRedanianKnight()
+Card *createRedanianKnight()
 {
     auto *card = new Card();
     card->id = "122308";
@@ -3561,7 +3563,7 @@ Card *CardsObt::createRedanianKnight()
 }
 
 
-Card *CardsObt::createKaedweniCavalry()
+Card *createKaedweniCavalry()
 {
     auto *card = new Card();
     card->id = "122314";
@@ -3583,7 +3585,7 @@ Card *CardsObt::createKaedweniCavalry()
 }
 
 
-Card *CardsObt::createAlzursThunder()
+Card *createAlzursThunder()
 {
     auto *card = new Card();
     card->id = "113301";
@@ -3604,7 +3606,7 @@ Card *CardsObt::createAlzursThunder()
 }
 
 
-Card *CardsObt::createSwallow()
+Card *createSwallow()
 {
     auto *card = new Card();
     card->id = "113310";
@@ -3624,7 +3626,7 @@ Card *CardsObt::createSwallow()
 }
 
 
-Card *CardsObt::createThunderbolt()
+Card *createThunderbolt()
 {
     auto *card = new Card();
     card->id = "113311";
@@ -3657,7 +3659,7 @@ Card *CardsObt::createThunderbolt()
 }
 
 
-Card *CardsObt::createArachasVenom()
+Card *createArachasVenom()
 {
     auto *card = new Card();
     card->id = "200023";
@@ -3681,7 +3683,7 @@ Card *CardsObt::createArachasVenom()
 }
 
 
-Card *CardsObt::createKeiraMetz()
+Card *createKeiraMetz()
 {
     auto *card = new Card();
     card->id = "122108";
@@ -3701,7 +3703,7 @@ Card *CardsObt::createKeiraMetz()
 }
 
 
-Card *CardsObt::createDolBlathannaArcher()
+Card *createDolBlathannaArcher()
 {
     auto *card = new Card();
     card->id = "142310";
@@ -3723,7 +3725,7 @@ Card *CardsObt::createDolBlathannaArcher()
 }
 
 
-Card *CardsObt::createHalfElfHunter()
+Card *createHalfElfHunter()
 {
     auto *card = new Card();
     card->id = "201636";
@@ -3741,7 +3743,7 @@ Card *CardsObt::createHalfElfHunter()
 }
 
 
-Card *CardsObt::createAmbassador()
+Card *createAmbassador()
 {
     auto *card = new Card();
     card->id = "162315";
@@ -3762,7 +3764,7 @@ Card *CardsObt::createAmbassador()
 }
 
 
-Card *CardsObt::createAssassin()
+Card *createAssassin()
 {
     auto *card = new Card();
     card->id = "200115";
@@ -3781,7 +3783,7 @@ Card *CardsObt::createAssassin()
 }
 
 
-Card *CardsObt::createTuirseachArcher()
+Card *createTuirseachArcher()
 {
     auto *card = new Card();
     card->id = "152315";
@@ -3802,7 +3804,7 @@ Card *CardsObt::createTuirseachArcher()
 }
 
 
-Card *CardsObt::createInfiltrator()
+Card *createInfiltrator()
 {
     auto *card = new Card();
     card->id = "200118";
@@ -3822,7 +3824,7 @@ Card *CardsObt::createInfiltrator()
 }
 
 
-Card *CardsObt::createImpenetrableFog()
+Card *createImpenetrableFog()
 {
     auto *card = new Card();
     card->id = "113305";
@@ -3842,7 +3844,7 @@ Card *CardsObt::createImpenetrableFog()
 }
 
 
-Card *CardsObt::createTorrentialRain()
+Card *createTorrentialRain()
 {
     auto *card = new Card();
     card->id = "113312";
@@ -3862,7 +3864,7 @@ Card *CardsObt::createTorrentialRain()
 }
 
 
-Card *CardsObt::createBitingFrost()
+Card *createBitingFrost()
 {
     auto *card = new Card();
     card->id = "113302";
@@ -3882,7 +3884,7 @@ Card *CardsObt::createBitingFrost()
 }
 
 
-Card *CardsObt::createGoldenFroth()
+Card *createGoldenFroth()
 {
     auto *card = new Card();
     card->id = "201749";
@@ -3902,7 +3904,7 @@ Card *CardsObt::createGoldenFroth()
 }
 
 
-Card *CardsObt::createSkelligeStorm()
+Card *createSkelligeStorm()
 {
     auto *card = new Card();
     card->id = "113203";
@@ -3922,7 +3924,7 @@ Card *CardsObt::createSkelligeStorm()
 }
 
 
-Card *CardsObt::createImperialManticore()
+Card *createImperialManticore()
 {
     auto *card = new Card();
     card->id = "132209";
@@ -3934,7 +3936,7 @@ Card *CardsObt::createImperialManticore()
 }
 
 
-Card *CardsObt::createManticoreVenom()
+Card *createManticoreVenom()
 {
     auto *card = new Card();
     card->id = "113306";
@@ -3954,7 +3956,7 @@ Card *CardsObt::createManticoreVenom()
 }
 
 
-Card *CardsObt::createGloriousHunt()
+Card *createGloriousHunt()
 {
     auto *card = new Card();
     card->id = "201635";
@@ -3973,7 +3975,7 @@ Card *CardsObt::createGloriousHunt()
 }
 
 
-Card *CardsObt::createVes()
+Card *createVes()
 {
     auto *card = new Card();
     card->id = "122204";
@@ -3993,7 +3995,7 @@ Card *CardsObt::createVes()
 }
 
 
-Card *CardsObt::createVaedermakar()
+Card *createVaedermakar()
 {
     auto *card = new Card();
     card->id = "113208";
@@ -4013,7 +4015,7 @@ Card *CardsObt::createVaedermakar()
 }
 
 
-Card *CardsObt::createFrightener()
+Card *createFrightener()
 {
     auto *card = new Card();
     card->id = "132204";
@@ -4039,7 +4041,7 @@ Card *CardsObt::createFrightener()
 }
 
 
-Card *CardsObt::createCleaver()
+Card *createCleaver()
 {
     auto *card = new Card();
     card->id = "122216";
@@ -4060,7 +4062,7 @@ Card *CardsObt::createCleaver()
 }
 
 
-Card *CardsObt::createScorch()
+Card *createScorch()
 {
     auto *card = new Card();
     card->id = "113309";
@@ -4077,7 +4079,7 @@ Card *CardsObt::createScorch()
 }
 
 
-Card *CardsObt::createReinforcements()
+Card *createReinforcements()
 {
     auto *card = new Card();
     card->id = "123201";
@@ -4097,7 +4099,7 @@ Card *CardsObt::createReinforcements()
 }
 
 
-Card *CardsObt::createJohnNatalis()
+Card *createJohnNatalis()
 {
     auto *card = new Card();
     card->id = "122103";
@@ -4117,7 +4119,7 @@ Card *CardsObt::createJohnNatalis()
 }
 
 
-Card *CardsObt::createEleyas()
+Card *createEleyas()
 {
     auto *card = new Card();
     card->id = "142214";
@@ -4138,7 +4140,7 @@ Card *CardsObt::createEleyas()
 }
 
 
-Card *CardsObt::createReaverScout()
+Card *createReaverScout()
 {
     auto *card = new Card();
     card->id = "122307";
@@ -4159,7 +4161,7 @@ Card *CardsObt::createReaverScout()
 }
 
 
-Card *CardsObt::createHeymaeySpearmaiden()
+Card *createHeymaeySpearmaiden()
 {
     auto *card = new Card();
     card->id = "200528";
@@ -4181,7 +4183,7 @@ Card *CardsObt::createHeymaeySpearmaiden()
 }
 
 
-Card *CardsObt::createKaedweniKnight()
+Card *createKaedweniKnight()
 {
     auto *card = new Card();
     card->id = "201622";
@@ -4202,7 +4204,7 @@ Card *CardsObt::createKaedweniKnight()
 }
 
 
-Card *CardsObt::createVriheddSappers()
+Card *createVriheddSappers()
 {
     auto *card = new Card();
     card->id = "142307";
@@ -4225,7 +4227,7 @@ Card *CardsObt::createVriheddSappers()
 }
 
 
-Card *CardsObt::createPriestessOfFreya()
+Card *createPriestessOfFreya()
 {
     auto *card = new Card();
     card->id = "152310";
@@ -4246,7 +4248,7 @@ Card *CardsObt::createPriestessOfFreya()
 }
 
 
-Card *CardsObt::createDimunCorsair()
+Card *createDimunCorsair()
 {
     auto *card = new Card();
     card->id = "200145";
@@ -4267,7 +4269,7 @@ Card *CardsObt::createDimunCorsair()
 }
 
 
-Card *CardsObt::createSigrdrifa()
+Card *createSigrdrifa()
 {
     auto *card = new Card();
     card->id = "152211";
@@ -4288,7 +4290,7 @@ Card *CardsObt::createSigrdrifa()
 }
 
 
-Card *CardsObt::createSage()
+Card *createSage()
 {
     auto *card = new Card();
     card->id = "200138";
@@ -4309,7 +4311,7 @@ Card *CardsObt::createSage()
 }
 
 
-Card *CardsObt::createReconnaissance()
+Card *createReconnaissance()
 {
     auto *card = new Card();
     card->id = "201704";
@@ -4329,7 +4331,7 @@ Card *CardsObt::createReconnaissance()
 }
 
 
-Card *CardsObt::createElvenMercenary()
+Card *createElvenMercenary()
 {
     auto *card = new Card();
     card->id = "142308";
@@ -4349,7 +4351,7 @@ Card *CardsObt::createElvenMercenary()
 }
 
 
-Card *CardsObt::createChampionOfHov()
+Card *createChampionOfHov()
 {
     auto *card = new Card();
     card->id = "152202";
@@ -4369,7 +4371,7 @@ Card *CardsObt::createChampionOfHov()
 }
 
 
-Card *CardsObt::createGeraltIgni()
+Card *createGeraltIgni()
 {
     auto *card = new Card();
     card->id = "112102";
@@ -4394,7 +4396,7 @@ Card *CardsObt::createGeraltIgni()
 }
 
 
-Card *CardsObt::createGeraltOfRivia()
+Card *createGeraltOfRivia()
 {
     auto *card = new Card();
     card->id = "112103";
@@ -4406,7 +4408,7 @@ Card *CardsObt::createGeraltOfRivia()
 }
 
 
-Card *CardsObt::createPriscilla()
+Card *createPriscilla()
 {
     auto *card = new Card();
     card->id = "122202";
@@ -4423,7 +4425,7 @@ Card *CardsObt::createPriscilla()
 }
 
 
-Card *CardsObt::createSeltkirkOfGulet()
+Card *createSeltkirkOfGulet()
 {
     auto *card = new Card();
     card->id = "201618";
@@ -4444,7 +4446,7 @@ Card *CardsObt::createSeltkirkOfGulet()
 }
 
 
-Card *CardsObt::createAdrenalineRush()
+Card *createAdrenalineRush()
 {
     auto *card = new Card();
     card->id = "113307";
@@ -4464,7 +4466,7 @@ Card *CardsObt::createAdrenalineRush()
 }
 
 
-Card *CardsObt::createShupesDayOff()
+Card *createShupesDayOff()
 {
     auto *card = new Card();
     card->id = "201627";
@@ -4487,7 +4489,7 @@ Card *CardsObt::createShupesDayOff()
 }
 
 
-Card *CardsObt::createShupeHunter()
+Card *createShupeHunter()
 {
     auto *card = new Card();
     card->id = "201731";
@@ -4591,7 +4593,7 @@ Card *CardsObt::createShupeHunter()
 }
 
 
-Card *CardsObt::createShupeMage()
+Card *createShupeMage()
 {
     auto *card = new Card();
     card->id = "201725";
@@ -4693,7 +4695,7 @@ Card *CardsObt::createShupeMage()
 }
 
 
-Card *CardsObt::createMandrake()
+Card *createMandrake()
 {
     auto *card = new Card();
     card->id = "200223";
@@ -4748,7 +4750,7 @@ Card *CardsObt::createMandrake()
 }
 
 
-Card *CardsObt::createBoneTalisman()
+Card *createBoneTalisman()
 {
     auto *card = new Card();
     card->id = "201598";
@@ -4808,7 +4810,7 @@ Card *CardsObt::createBoneTalisman()
 }
 
 
-Card *CardsObt::createShupeKnight()
+Card *createShupeKnight()
 {
     auto *card = new Card();
     card->id = "201737";
@@ -4899,7 +4901,7 @@ Card *CardsObt::createShupeKnight()
 }
 
 
-Card *CardsObt::createDecoy()
+Card *createDecoy()
 {
     auto *card = new Card();
     card->id = "113201";
@@ -4921,7 +4923,7 @@ Card *CardsObt::createDecoy()
 }
 
 
-Card *CardsObt::createFirstLight()
+Card *createFirstLight()
 {
     auto *card = new Card();
     card->id = "113303";
@@ -4965,7 +4967,7 @@ Card *CardsObt::createFirstLight()
 }
 
 
-Card *CardsObt::createClearSkies()
+Card *createClearSkies()
 {
     auto *card = new Card();
     card->id = "113303";
@@ -4984,7 +4986,7 @@ Card *CardsObt::createClearSkies()
 }
 
 
-Card *CardsObt::createEpidemic()
+Card *createEpidemic()
 {
     auto *card = new Card();
     card->id = "113308";
@@ -5001,7 +5003,7 @@ Card *CardsObt::createEpidemic()
 }
 
 
-Card *CardsObt::createMoonlight()
+Card *createMoonlight()
 {
     auto *card = new Card();
     card->id = "200067";
@@ -5047,7 +5049,7 @@ Card *CardsObt::createMoonlight()
 }
 
 
-Card *CardsObt::createCiriNova()
+Card *createCiriNova()
 {
     auto *card = new Card();
     card->id = "201626";
@@ -5067,7 +5069,7 @@ Card *CardsObt::createCiriNova()
 }
 
 
-Card *CardsObt::createHaraldTheCripple()
+Card *createHaraldTheCripple()
 {
     auto *card = new Card();
     card->id = "200161";
@@ -5089,7 +5091,7 @@ Card *CardsObt::createHaraldTheCripple()
 }
 
 
-Card *CardsObt::createEmissary()
+Card *createEmissary()
 {
     auto *card = new Card();
     card->id = "162314";
@@ -5110,7 +5112,7 @@ Card *CardsObt::createEmissary()
 }
 
 
-Card *CardsObt::createCeallachDyffryn()
+Card *createCeallachDyffryn()
 {
     auto *card = new Card();
     card->id = "162213";
@@ -5130,7 +5132,7 @@ Card *CardsObt::createCeallachDyffryn()
 }
 
 
-Card *CardsObt::createRestore()
+Card *createRestore()
 {
     auto *card = new Card();
     card->id = "153201";
@@ -5153,7 +5155,7 @@ Card *CardsObt::createRestore()
 }
 
 
-Card *CardsObt::createDrummondQueensguard()
+Card *createDrummondQueensguard()
 {
     auto *card = new Card();
     card->id = "152307";
@@ -5170,7 +5172,7 @@ Card *CardsObt::createDrummondQueensguard()
 }
 
 
-Card *CardsObt::createBranTuirseach()
+Card *createBranTuirseach()
 {
     auto *card = new Card();
     card->id = "200159";
@@ -5192,7 +5194,7 @@ Card *CardsObt::createBranTuirseach()
 }
 
 
-Card *CardsObt::createDrummondWarmonger()
+Card *createDrummondWarmonger()
 {
     auto *card = new Card();
     card->id = "200036";
@@ -5212,7 +5214,7 @@ Card *CardsObt::createDrummondWarmonger()
 }
 
 
-Card *CardsObt::createDimunPirate()
+Card *createDimunPirate()
 {
     auto *card = new Card();
     card->id = "152305";
@@ -5229,7 +5231,7 @@ Card *CardsObt::createDimunPirate()
 }
 
 
-Card *CardsObt::createAnCraiteRaider()
+Card *createAnCraiteRaider()
 {
     auto *card = new Card();
     card->id = "152316";
@@ -5245,7 +5247,7 @@ Card *CardsObt::createAnCraiteRaider()
 }
 
 
-Card *CardsObt::createMadmanLugos()
+Card *createMadmanLugos()
 {
     auto *card = new Card();
     card->id = "152106";
@@ -5271,7 +5273,7 @@ Card *CardsObt::createMadmanLugos()
 }
 
 
-Card *CardsObt::createErmion()
+Card *createErmion()
 {
     auto *card = new Card();
     card->id = "152103";
@@ -5293,7 +5295,7 @@ Card *CardsObt::createErmion()
 }
 
 
-Card *CardsObt::createCerysFearless()
+Card *createCerysFearless()
 {
     auto *card = new Card();
     card->id = "201778";
@@ -5317,7 +5319,7 @@ Card *CardsObt::createCerysFearless()
 }
 
 
-Card *CardsObt::createCerysAnCraite()
+Card *createCerysAnCraite()
 {
     auto *card = new Card();
     card->id = "200177";
@@ -5345,7 +5347,7 @@ Card *CardsObt::createCerysAnCraite()
 }
 
 
-Card *CardsObt::createWoodlandSpirit()
+Card *createWoodlandSpirit()
 {
     auto *card = new Card();
     card->id = "132103";
@@ -5367,7 +5369,7 @@ Card *CardsObt::createWoodlandSpirit()
 }
 
 
-Card *CardsObt::createTrollololo()
+Card *createTrollololo()
 {
     auto *card = new Card();
     card->id = "122209";
@@ -5383,7 +5385,7 @@ Card *CardsObt::createTrollololo()
 }
 
 
-Card *CardsObt::createPrinceStennis()
+Card *createPrinceStennis()
 {
     auto *card = new Card();
     card->id = "122208";
@@ -5406,7 +5408,7 @@ Card *CardsObt::createPrinceStennis()
 }
 
 
-Card *CardsObt::createVincentMeis()
+Card *createVincentMeis()
 {
     auto *card = new Card();
     card->id = "200098";
@@ -5429,7 +5431,7 @@ Card *CardsObt::createVincentMeis()
 }
 
 
-Card *CardsObt::createMorkvarg()
+Card *createMorkvarg()
 {
     auto *card = new Card();
     // BUG: isn't carry over...
@@ -5453,7 +5455,7 @@ Card *CardsObt::createMorkvarg()
 }
 
 
-Card *CardsObt::createArtefactCompression()
+Card *createArtefactCompression()
 {
     auto *card = new Card();
     card->id = "200053";
@@ -5503,7 +5505,7 @@ HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 }
 
 
-Card *CardsObt::createHjalmarAnCraite()
+Card *createHjalmarAnCraite()
 {
     auto *card = new Card();
     card->id = "152101";
@@ -5519,7 +5521,7 @@ Card *CardsObt::createHjalmarAnCraite()
 }
 
 
-Card *CardsObt::createRegis()
+Card *createRegis()
 {
     auto *card = new Card();
     card->id = "112104";
@@ -5540,7 +5542,7 @@ Card *CardsObt::createRegis()
 }
 
 
-Card *CardsObt::createLethoOfGulet()
+Card *createLethoOfGulet()
 {
     auto *card = new Card();
     card->id = "162101";
@@ -5562,7 +5564,7 @@ Card *CardsObt::createLethoOfGulet()
 }
 
 
-Card *CardsObt::createAnCraiteLongship()
+Card *createAnCraiteLongship()
 {
     auto *card = new Card();
     card->id = "152314";
@@ -5586,7 +5588,7 @@ Card *CardsObt::createAnCraiteLongship()
 }
 
 
-Card *CardsObt::createTuirseachVeteran()
+Card *createTuirseachVeteran()
 {
     auto *card = new Card();
     card->id = "200046";
@@ -5603,7 +5605,7 @@ Card *CardsObt::createTuirseachVeteran()
 }
 
 
-Card *CardsObt::createTuirseachHunter()
+Card *createTuirseachHunter()
 {
     auto *card = new Card();
     card->id = "152304";
@@ -5623,7 +5625,7 @@ Card *CardsObt::createTuirseachHunter()
 }
 
 
-Card *CardsObt::createUdalryk()
+Card *createUdalryk()
 {
     auto *card = new Card();
     card->id = "152214";
@@ -5651,7 +5653,7 @@ Card *CardsObt::createUdalryk()
 }
 
 
-Card *CardsObt::createBloodcurdlingRoar()
+Card *createBloodcurdlingRoar()
 {
     auto *card = new Card();
     card->id = "152406";
@@ -5672,7 +5674,7 @@ Card *CardsObt::createBloodcurdlingRoar()
 }
 
 
-Card *CardsObt::createGremist()
+Card *createGremist()
 {
     auto *card = new Card();
     card->id = "152206";
@@ -5692,7 +5694,7 @@ Card *CardsObt::createGremist()
 }
 
 
-Card *CardsObt::createOperator()
+Card *createOperator()
 {
     auto *card = new Card();
     card->id = "112208";
@@ -5722,7 +5724,7 @@ Card *CardsObt::createOperator()
 }
 
 
-Card *CardsObt::createZoriaRunestone()
+Card *createZoriaRunestone()
 {
     auto *card = new Card();
     card->id = "201582";
@@ -5742,7 +5744,7 @@ Card *CardsObt::createZoriaRunestone()
 }
 
 
-Card *CardsObt::createRenew()
+Card *createRenew()
 {
     auto *card = new Card();
     card->id = "113316";
@@ -5762,7 +5764,7 @@ Card *CardsObt::createRenew()
 }
 
 
-Card *CardsObt::createEistTuirseach()
+Card *createEistTuirseach()
 {
     auto *card = new Card();
     card->id = "201597";
@@ -5782,7 +5784,7 @@ Card *CardsObt::createEistTuirseach()
 }
 
 
-Card *CardsObt::createTuirseachAxeman()
+Card *createTuirseachAxeman()
 {
     auto *card = new Card();
     card->id = "152312";
@@ -5807,7 +5809,7 @@ Card *CardsObt::createTuirseachAxeman()
 }
 
 
-Card *CardsObt::createTuirseachSkirmisher()
+Card *createTuirseachSkirmisher()
 {
     auto *card = new Card();
     card->id = "152313";
@@ -5823,7 +5825,7 @@ Card *CardsObt::createTuirseachSkirmisher()
 }
 
 
-Card *CardsObt::createDerran()
+Card *createDerran()
 {
     auto *card = new Card();
     card->id = "201646";
@@ -5840,7 +5842,7 @@ Card *CardsObt::createDerran()
 }
 
 
-Card *CardsObt::createRoach()
+Card *createRoach()
 {
     auto *card = new Card();
     card->id = "112210";
@@ -5862,7 +5864,7 @@ Card *CardsObt::createRoach()
 }
 
 
-Card *CardsObt::createJanCalveit()
+Card *createJanCalveit()
 {
     auto *card = new Card();
     card->id = "200164";
@@ -5883,7 +5885,7 @@ Card *CardsObt::createJanCalveit()
 }
 
 
-Card *CardsObt::createCahirDyffryn()
+Card *createCahirDyffryn()
 {
     auto *card = new Card();
     card->id = "162104";
@@ -5904,7 +5906,7 @@ Card *CardsObt::createCahirDyffryn()
 }
 
 
-Card *CardsObt::createLethoKingslayer()
+Card *createLethoKingslayer()
 {
     auto *card = new Card();
     card->id = "201603";
@@ -5964,7 +5966,7 @@ Card *CardsObt::createLethoKingslayer()
 }
 
 
-Card *CardsObt::createKingHenselt()
+Card *createKingHenselt()
 {
     auto *card = new Card();
     card->id = "200170";
@@ -5986,7 +5988,7 @@ Card *CardsObt::createKingHenselt()
 }
 
 
-Card *CardsObt::createBloodyBaron()
+Card *createBloodyBaron()
 {
     auto *card = new Card();
     card->id = "122101";
@@ -6003,7 +6005,7 @@ Card *CardsObt::createBloodyBaron()
 }
 
 
-Card *CardsObt::createDethmold()
+Card *createDethmold()
 {
     auto *card = new Card();
     card->id = "122207";
@@ -6023,7 +6025,7 @@ Card *CardsObt::createDethmold()
 }
 
 
-Card *CardsObt::createRonvidTheIncessant()
+Card *createRonvidTheIncessant()
 {
     auto *card = new Card();
     card->id = "200529";
@@ -6044,7 +6046,7 @@ Card *CardsObt::createRonvidTheIncessant()
 }
 
 
-Card *CardsObt::createHubertRejk()
+Card *createHubertRejk()
 {
     auto *card = new Card();
     card->id = "200088";
@@ -6061,7 +6063,7 @@ Card *CardsObt::createHubertRejk()
 }
 
 
-Card *CardsObt::createCrachAnCraite()
+Card *createCrachAnCraite()
 {
     auto *card = new Card();
     card->id = "200160";
@@ -6080,7 +6082,7 @@ Card *CardsObt::createCrachAnCraite()
 }
 
 
-Card *CardsObt::createBirnaBran()
+Card *createBirnaBran()
 {
     auto *card = new Card();
     card->id = "152105";
@@ -6100,7 +6102,7 @@ Card *CardsObt::createBirnaBran()
 }
 
 
-Card *CardsObt::createCoral()
+Card *createCoral()
 {
     auto *card = new Card();
     card->id = "152107";
@@ -6140,7 +6142,7 @@ Kambi::Hemdall::Hemdall()
 }
 
 
-Card *CardsObt::createVabjorn()
+Card *createVabjorn()
 {
     auto *card = new Card();
     card->id = "200028";
@@ -6163,7 +6165,7 @@ Card *CardsObt::createVabjorn()
 }
 
 
-Card *CardsObt::createBlueboyLugos()
+Card *createBlueboyLugos()
 {
     auto *card = new Card();
     card->id = "152201";
@@ -6179,7 +6181,7 @@ Card *CardsObt::createBlueboyLugos()
 }
 
 
-Card *CardsObt::createDjengeFrett()
+Card *createDjengeFrett()
 {
     auto *card = new Card();
     card->id = "152203";
@@ -6200,7 +6202,7 @@ Card *CardsObt::createDjengeFrett()
 }
 
 
-Card *CardsObt::createDonarAnHindar()
+Card *createDonarAnHindar()
 {
     auto *card = new Card();
     card->id = "152204";
@@ -6226,7 +6228,7 @@ Card *CardsObt::createDonarAnHindar()
 }
 
 
-Card *CardsObt::createDraigBonDhu()
+Card *createDraigBonDhu()
 {
     auto *card = new Card();
     card->id = "152205";
@@ -6246,7 +6248,7 @@ Card *CardsObt::createDraigBonDhu()
 }
 
 
-Card *CardsObt::createHolgerBlackhand()
+Card *createHolgerBlackhand()
 {
     auto *card = new Card();
     card->id = "152207";
@@ -6268,7 +6270,7 @@ Card *CardsObt::createHolgerBlackhand()
 }
 
 
-Card *CardsObt::createJuttaAnDimun()
+Card *createJuttaAnDimun()
 {
     auto *card = new Card();
     card->id = "152208";
@@ -6284,7 +6286,7 @@ Card *CardsObt::createJuttaAnDimun()
 }
 
 
-Card *CardsObt::createSavageBear()
+Card *createSavageBear()
 {
     auto *card = new Card();
     card->id = "152210";
@@ -6301,7 +6303,7 @@ Card *CardsObt::createSavageBear()
 }
 
 
-Card *CardsObt::createSvanrigeTuirseach()
+Card *createSvanrigeTuirseach()
 {
     auto *card = new Card();
     card->id = "152213";
@@ -6322,7 +6324,7 @@ Card *CardsObt::createSvanrigeTuirseach()
 }
 
 
-Card *CardsObt::createSkjall()
+Card *createSkjall()
 {
     auto *card = new Card();
     card->id = "200212";
@@ -6339,7 +6341,7 @@ Card *CardsObt::createSkjall()
 }
 
 
-Card *CardsObt::createHaraldHoundsnout()
+Card *createHaraldHoundsnout()
 {
     auto *card = new Card();
     card->id = "200043";
@@ -6404,7 +6406,7 @@ HaraldHoundsnout::Wilmar::Wilmar()
 }
 
 
-Card *CardsObt::createYoana()
+Card *createYoana()
 {
     auto *card = new Card();
     card->id = "201644";
@@ -6426,7 +6428,7 @@ Card *CardsObt::createYoana()
 }
 
 
-Card *CardsObt::createAnCraiteBlacksmith()
+Card *createAnCraiteBlacksmith()
 {
     auto *card = new Card();
     card->id = "152311";
@@ -6446,7 +6448,7 @@ Card *CardsObt::createAnCraiteBlacksmith()
     return card;
 }
 
-Card *CardsObt::createAnCraiteWarcrier()
+Card *createAnCraiteWarcrier()
 {
     auto *card = new Card();
     card->id = "113313";
@@ -6465,7 +6467,7 @@ Card *CardsObt::createAnCraiteWarcrier()
     return card;
 }
 
-Card *CardsObt::createAnCraiteWarrior()
+Card *createAnCraiteWarrior()
 {
     auto *card = new Card();
     card->id = "152303";
@@ -6480,7 +6482,7 @@ Card *CardsObt::createAnCraiteWarrior()
     return card;
 }
 
-Card *CardsObt::createBerserkerMarauder()
+Card *createBerserkerMarauder()
 {
     auto *card = new Card();
     card->id = "152302";
@@ -6500,7 +6502,7 @@ Card *CardsObt::createBerserkerMarauder()
     return card;
 }
 
-Card *CardsObt::createDimunPirateCaptain()
+Card *createDimunPirateCaptain()
 {
     auto *card = new Card();
     card->id = "152306";
@@ -6519,7 +6521,7 @@ Card *CardsObt::createDimunPirateCaptain()
     return card;
 }
 
-Card *CardsObt::createDimunSmuggler()
+Card *createDimunSmuggler()
 {
     auto *card = new Card();
     card->id = "200146";
@@ -6538,7 +6540,7 @@ Card *CardsObt::createDimunSmuggler()
     return card;
 }
 
-Card *CardsObt::createDrummondShieldmaid()
+Card *createDrummondShieldmaid()
 {
     auto *card = new Card();
     card->id = "152318";
@@ -6554,7 +6556,7 @@ Card *CardsObt::createDrummondShieldmaid()
     return card;
 }
 
-Card *CardsObt::createHeymaeyFlaminica()
+Card *createHeymaeyFlaminica()
 {
     auto *card = new Card();
     card->id = "200147";
@@ -6574,7 +6576,7 @@ Card *CardsObt::createHeymaeyFlaminica()
     return card;
 }
 
-Card *CardsObt::createHeymaeyHerbalist()
+Card *createHeymaeyHerbalist()
 {
     auto *card = new Card();
     card->id = "200081";
@@ -6590,7 +6592,7 @@ Card *CardsObt::createHeymaeyHerbalist()
     return card;
 }
 
-Card *CardsObt::createHeymaeyProtector()
+Card *createHeymaeyProtector()
 {
     auto *card = new Card();
     card->id = "200149";
@@ -6609,7 +6611,7 @@ Card *CardsObt::createHeymaeyProtector()
     return card;
 }
 
-Card *CardsObt::createHeymaeySkald()
+Card *createHeymaeySkald()
 {
     auto *card = new Card();
     card->id = "152308";
@@ -6634,7 +6636,7 @@ Card *CardsObt::createHeymaeySkald()
     return card;
 }
 
-Card *CardsObt::createRagingBerserker()
+Card *createRagingBerserker()
 {
     auto *card = new Card();
     card->id = "152301";
@@ -6664,7 +6666,7 @@ RagingBerserker::RagingBear::RagingBear()
     return card;
 }
 
-Card *CardsObt::createHym()
+Card *createHym()
 {
     auto *card = new Card();
     card->id = "200102";
@@ -6718,7 +6720,7 @@ Card *CardsObt::createHym()
     return card;
 }
 
-Card *CardsObt::createKambi()
+Card *createKambi()
 {
     auto *card = new Card();
     card->id = "152104";
@@ -6735,7 +6737,7 @@ Card *CardsObt::createKambi()
     return card;
 }
 
-Card *CardsObt::createOlaf()
+Card *createOlaf()
 {
     auto *card = new Card();
     card->id = "200103";
@@ -6752,7 +6754,7 @@ Card *CardsObt::createOlaf()
     return card;
 }
 
-Card *CardsObt::createUlfhedinn()
+Card *createUlfhedinn()
 {
     auto *card = new Card();
     card->id = "200104";
@@ -6772,7 +6774,7 @@ Card *CardsObt::createUlfhedinn()
     return card;
 }
 
-Card *CardsObt::createWildBoarOfTheSea()
+Card *createWildBoarOfTheSea()
 {
     auto *card = new Card();
     card->id = "152109";
@@ -6795,7 +6797,7 @@ Card *CardsObt::createWildBoarOfTheSea()
     return card;
 }
 
-Card *CardsObt::createGiantBoar()
+Card *createGiantBoar()
 {
     auto *card = new Card();
     card->id = "201623";
@@ -6813,7 +6815,7 @@ Card *CardsObt::createGiantBoar()
     return card;
 }
 
-Card *CardsObt::createOrnamentalSword()
+Card *createOrnamentalSword()
 {
     auto *card = new Card();
     card->id = "201642";
@@ -6852,7 +6854,7 @@ BlueboyLugos::SpectralWhale::SpectralWhale()
     return card;
 }
 
-Card *CardsObt::createDimunWarship()
+Card *createDimunWarship()
 {
     auto *card = new Card();
     card->id = "200105";
@@ -6874,7 +6876,7 @@ Card *CardsObt::createDimunWarship()
     return card;
 }
 
-Card *CardsObt::createTrissButterflies()
+Card *createTrissButterflies()
 {
     auto *card = new Card();
     card->id = "122107";
@@ -6892,7 +6894,7 @@ Card *CardsObt::createTrissButterflies()
     return card;
 }
 
-Card *CardsObt::createYennefer()
+Card *createYennefer()
 {
     auto *card = new Card();
     card->id = "112108";
@@ -6946,7 +6948,7 @@ Yennefer::Unicorn::Unicorn()
     return card;
 }
 
-Card *CardsObt::createGermainPiquant()
+Card *createGermainPiquant()
 {
     auto *card = new Card();
     card->id = "200523";
@@ -6965,7 +6967,7 @@ Card *CardsObt::createGermainPiquant()
 }
 
 
-Card *CardsObt::createCommandersHorn()
+Card *createCommandersHorn()
 {
     auto *card = new Card();
     card->id = "113207";
@@ -6994,7 +6996,7 @@ Card *CardsObt::createCommandersHorn()
 }
 
 
-Card *CardsObt::createMarchingOrders()
+Card *createMarchingOrders()
 {
     auto *card = new Card();
     card->id = "200019";
@@ -7014,7 +7016,7 @@ Card *CardsObt::createMarchingOrders()
 }
 
 
-Card *CardsObt::createAlzursDoubleCross()
+Card *createAlzursDoubleCross()
 {
     auto *card = new Card();
     card->id = "113209";
@@ -7034,7 +7036,7 @@ Card *CardsObt::createAlzursDoubleCross()
 }
 
 
-Card *CardsObt::createAlbaArmoredCavalry()
+Card *createAlbaArmoredCavalry()
 {
     auto *card = new Card();
     card->id = "200296";
@@ -7046,7 +7048,7 @@ Card *CardsObt::createAlbaArmoredCavalry()
 }
 
 
-Card *CardsObt::createSentry()
+Card *createSentry()
 {
     auto *card = new Card();
     card->id = "201661";
@@ -7067,7 +7069,7 @@ Card *CardsObt::createSentry()
 }
 
 
-Card *CardsObt::createNauzicaaSergeant()
+Card *createNauzicaaSergeant()
 {
     auto *card = new Card();
     card->id = "162309";
@@ -7088,7 +7090,7 @@ Card *CardsObt::createNauzicaaSergeant()
 }
 
 
-Card *CardsObt::createSlaveInfantry()
+Card *createSlaveInfantry()
 {
     auto *card = new Card();
     card->id = "201610";
@@ -7114,7 +7116,7 @@ Card *CardsObt::createSlaveInfantry()
 }
 
 
-Card *CardsObt::createRecruit()
+Card *createRecruit()
 {
     auto *card = new Card();
     card->id = "201617";
@@ -7131,7 +7133,7 @@ Card *CardsObt::createRecruit()
 }
 
 
-Card *CardsObt::createOintment()
+Card *createOintment()
 {
     auto *card = new Card();
     card->id = "201619";
@@ -7151,7 +7153,7 @@ Card *CardsObt::createOintment()
 }
 
 
-Card *CardsObt::createVilgefortz()
+Card *createVilgefortz()
 {
     auto *card = new Card();
     card->id = "162105";
@@ -7183,7 +7185,7 @@ Card *CardsObt::createVilgefortz()
 }
 
 
-Card *CardsObt::createVreemde()
+Card *createVreemde()
 {
     auto *card = new Card();
     card->id = "200050";
@@ -7215,7 +7217,7 @@ GermainPiquant::Cow::Cow()
 }
 
 
-Card *CardsObt::createAuckes()
+Card *createAuckes()
 {
     auto *card = new Card();
     card->id = "162208";
@@ -7235,7 +7237,7 @@ Card *CardsObt::createAuckes()
 }
 
 
-Card *CardsObt::createEskel()
+Card *createEskel()
 {
     auto *card = new Card();
     card->id = "112202";
@@ -7255,7 +7257,7 @@ Card *CardsObt::createEskel()
 }
 
 
-Card *CardsObt::createLambert()
+Card *createLambert()
 {
     auto *card = new Card();
     card->id = "112204";
@@ -7275,7 +7277,7 @@ Card *CardsObt::createLambert()
 }
 
 
-Card *CardsObt::createVesemir()
+Card *createVesemir()
 {
     auto *card = new Card();
     card->id = "112203";
@@ -7294,7 +7296,7 @@ Card *CardsObt::createVesemir()
     return card;
 }
 
-Card *CardsObt::createTridamInfantry()
+Card *createTridamInfantry()
 {
     auto *card = new Card();
     card->id = "200171";
@@ -7310,7 +7312,7 @@ Card *CardsObt::createTridamInfantry()
 }
 
 
-Card *CardsObt::createVriheddDragoon()
+Card *createVriheddDragoon()
 {
     auto *card = new Card();
     card->id = "142205";
@@ -7329,7 +7331,7 @@ Card *CardsObt::createVriheddDragoon()
 }
 
 
-Card *CardsObt::createMalena()
+Card *createMalena()
 {
     auto *card = new Card();
     card->id = "142210";
@@ -7355,7 +7357,7 @@ Card *CardsObt::createMalena()
 }
 
 
-Card *CardsObt::createUnseenElder()
+Card *createUnseenElder()
 {
     auto *card = new Card();
     card->id = "200055";
@@ -7375,7 +7377,7 @@ Card *CardsObt::createUnseenElder()
 }
 
 
-Card *CardsObt::createDevanaRunestone()
+Card *createDevanaRunestone()
 {
     auto *card = new Card();
     card->id = "201584";
@@ -7395,7 +7397,7 @@ Card *CardsObt::createDevanaRunestone()
 }
 
 
-Card *CardsObt::createDazhbogRunestone()
+Card *createDazhbogRunestone()
 {
     auto *card = new Card();
     card->id = "201583";
@@ -7415,7 +7417,7 @@ Card *CardsObt::createDazhbogRunestone()
 }
 
 
-Card *CardsObt::createMoranaRunestone()
+Card *createMoranaRunestone()
 {
     auto *card = new Card();
     card->id = "201585";
@@ -7435,7 +7437,7 @@ Card *CardsObt::createMoranaRunestone()
 }
 
 
-Card *CardsObt::createStribogRunestone()
+Card *createStribogRunestone()
 {
     auto *card = new Card();
     card->id = "201581";
@@ -7455,7 +7457,7 @@ Card *CardsObt::createStribogRunestone()
 }
 
 
-Card *CardsObt::createMuzzle()
+Card *createMuzzle()
 {
     auto *card = new Card();
     card->id = "200225";
@@ -7475,7 +7477,7 @@ Card *CardsObt::createMuzzle()
 }
 
 
-Card *CardsObt::createRockBarrage()
+Card *createRockBarrage()
 {
     auto *card = new Card();
     card->id = "201647";
@@ -7505,7 +7507,7 @@ Card *CardsObt::createRockBarrage()
 }
 
 
-Card *CardsObt::createWhisperingHillock()
+Card *createWhisperingHillock()
 {
     auto *card = new Card();
     card->id = "201587";
@@ -7524,7 +7526,7 @@ Card *CardsObt::createWhisperingHillock()
     return card;
 }
 
-Card *CardsObt::createBrewess()
+Card *createBrewess()
 {
     auto *card = new Card();
     card->id = "132207";
@@ -7543,7 +7545,7 @@ Card *CardsObt::createBrewess()
     return card;
 }
 
-Card *CardsObt::createWeavess()
+Card *createWeavess()
 {
     auto *card = new Card();
     card->id = "132208";
@@ -7563,7 +7565,7 @@ Card *CardsObt::createWeavess()
 }
 
 
-Card *CardsObt::createWhispess()
+Card *createWhispess()
 {
     auto *card = new Card();
     card->id = "132206";
@@ -7582,7 +7584,7 @@ Card *CardsObt::createWhispess()
     return card;
 }
 
-Card *CardsObt::createWeavessIncantation()
+Card *createWeavessIncantation()
 {
     auto *card = new Card();
     card->id = "200222";
@@ -7625,7 +7627,7 @@ Card *CardsObt::createWeavessIncantation()
     return card;
 }
 
-Card *CardsObt::createBrewessRitual()
+Card *createBrewessRitual()
 {
     auto *card = new Card();
     card->id = "200221";
@@ -7644,7 +7646,7 @@ Card *CardsObt::createBrewessRitual()
     return card;
 }
 
-Card *CardsObt::createWhispessTribute()
+Card *createWhispessTribute()
 {
     auto *card = new Card();
     card->id = "200220";
@@ -7663,7 +7665,7 @@ Card *CardsObt::createWhispessTribute()
     return card;
 }
 
-Card *CardsObt::createNivellen()
+Card *createNivellen()
 {
     auto *card = new Card();
     card->id = "200089";
@@ -7690,7 +7692,7 @@ Card *CardsObt::createNivellen()
 
 
 
-Card *CardsObt::createLeoBonhart()
+Card *createLeoBonhart()
 {
     auto *card = new Card();
     card->id = "200031";
@@ -7717,7 +7719,7 @@ Card *CardsObt::createLeoBonhart()
 
 
 
-Card *CardsObt::createMorvranVoorhis()
+Card *createMorvranVoorhis()
 {
     auto *card = new Card();
     card->id = "200163";
@@ -7738,7 +7740,7 @@ Card *CardsObt::createMorvranVoorhis()
 
 
 
-Card *CardsObt::createCynthia()
+Card *createCynthia()
 {
     auto *card = new Card();
     card->id = "162203";
@@ -7757,7 +7759,7 @@ Card *CardsObt::createCynthia()
 }
 
 
-Card *CardsObt::createSerrit()
+Card *createSerrit()
 {
     auto *card = new Card();
     card->id = "162209";
@@ -7778,7 +7780,7 @@ Card *CardsObt::createSerrit()
 }
 
 
-Card *CardsObt::createSweers()
+Card *createSweers()
 {
     auto *card = new Card();
     card->id = "162206";
@@ -7799,7 +7801,7 @@ Card *CardsObt::createSweers()
 }
 
 
-Card *CardsObt::createTiborEggebracht()
+Card *createTiborEggebracht()
 {
     auto *card = new Card();
     card->id = "162107";
@@ -7819,7 +7821,7 @@ Card *CardsObt::createTiborEggebracht()
     return card;
 }
 
-Card *CardsObt::createVattierDeRideaux()
+Card *createVattierDeRideaux()
 {
     auto *card = new Card();
     card->id = "162103";
@@ -7840,7 +7842,7 @@ Card *CardsObt::createVattierDeRideaux()
     return card;
 }
 
-Card *CardsObt::createAlbrich()
+Card *createAlbrich()
 {
     auto *card = new Card();
     card->id = "162201";
@@ -7861,7 +7863,7 @@ Card *CardsObt::createAlbrich()
     return card;
 }
 
-Card *CardsObt::createHeftyHelge()
+Card *createHeftyHelge()
 {
     auto *card = new Card();
     card->id = "200041";
@@ -7878,7 +7880,7 @@ Card *CardsObt::createHeftyHelge()
     return card;
 }
 
-Card *CardsObt::createAlchemist()
+Card *createAlchemist()
 {
     auto *card = new Card();
     card->id = "162316";
@@ -7897,7 +7899,7 @@ Card *CardsObt::createAlchemist()
     return card;
 }
 
-Card *CardsObt::createDaerlanSoldier()
+Card *createDaerlanSoldier()
 {
     auto *card = new Card();
     card->id = "162301";
@@ -7918,7 +7920,7 @@ Card *CardsObt::createDaerlanSoldier()
     return card;
 }
 
-Card *CardsObt::createFireScorpion()
+Card *createFireScorpion()
 {
     auto *card = new Card();
     card->id = "162306";
@@ -7941,7 +7943,7 @@ Card *CardsObt::createFireScorpion()
     return card;
 }
 
-Card *CardsObt::createWildHuntHound()
+Card *createWildHuntHound()
 {
     auto *card = new Card();
     card->id = "132402";
@@ -7957,7 +7959,7 @@ Card *CardsObt::createWildHuntHound()
     return card;
 }
 
-Card *CardsObt::createWildHuntWarrior()
+Card *createWildHuntWarrior()
 {
     auto *card = new Card();
     card->id = "132309";
@@ -7979,7 +7981,7 @@ Card *CardsObt::createWildHuntWarrior()
 }
 
 
-Card *CardsObt::createMangonel()
+Card *createMangonel()
 {
     auto *card = new Card();
     card->id = "162317";
@@ -8000,7 +8002,7 @@ Card *CardsObt::createMangonel()
     return card;
 }
 
-Card *CardsObt::createNilfgaardianKnight()
+Card *createNilfgaardianKnight()
 {
     auto *card = new Card();
     card->id = "162318";
@@ -8021,7 +8023,7 @@ Card *CardsObt::createNilfgaardianKnight()
     return card;
 }
 
-Card *CardsObt::createSpotter()
+Card *createSpotter()
 {
     auto *card = new Card();
     card->id = "162303";
@@ -8040,7 +8042,7 @@ Card *CardsObt::createSpotter()
     return card;
 }
 
-Card *CardsObt::createVenendalElite()
+Card *createVenendalElite()
 {
     auto *card = new Card();
     card->id = "200518";
@@ -8063,7 +8065,7 @@ Card *CardsObt::createVenendalElite()
     return card;
 }
 
-Card *CardsObt::createMasterOfDisguise()
+Card *createMasterOfDisguise()
 {
     auto *card = new Card();
     card->id = "201616";
@@ -8082,7 +8084,7 @@ Card *CardsObt::createMasterOfDisguise()
     return card;
 }
 
-Card *CardsObt::createHenryVarAttre()
+Card *createHenryVarAttre()
 {
     auto *card = new Card();
     card->id = "200227";
@@ -8110,7 +8112,7 @@ Card *CardsObt::createHenryVarAttre()
     return card;
 }
 
-Card *CardsObt::createSummoningCircle()
+Card *createSummoningCircle()
 {
     auto *card = new Card();
     card->id = "200022";
@@ -8126,7 +8128,7 @@ Card *CardsObt::createSummoningCircle()
     return card;
 }
 
-Card *CardsObt::createXavierMoran()
+Card *createXavierMoran()
 {
     auto *card = new Card();
     card->id = "200080";
@@ -8142,7 +8144,7 @@ Card *CardsObt::createXavierMoran()
     return card;
 }
 
-Card *CardsObt::createYenneferEnchantress()
+Card *createYenneferEnchantress()
 {
     auto *card = new Card();
     card->id = "201601";
@@ -8158,7 +8160,7 @@ Card *CardsObt::createYenneferEnchantress()
     return card;
 }
 
-Card *CardsObt::createVernonRoche()
+Card *createVernonRoche()
 {
     auto *card = new Card();
     card->id = "122102";
@@ -8183,7 +8185,7 @@ Card *CardsObt::createVernonRoche()
     return card;
 }
 
-Card *CardsObt::createBlueStripeScout()
+Card *createBlueStripeScout()
 {
     auto *card = new Card();
     card->id = "122310";
@@ -8200,7 +8202,7 @@ Card *CardsObt::createBlueStripeScout()
     return card;
 }
 
-Card *CardsObt::createBlueStripeCommando()
+Card *createBlueStripeCommando()
 {
     auto *card = new Card();
     card->id = "122311";
@@ -8226,7 +8228,7 @@ Card *CardsObt::createBlueStripeCommando()
     return card;
 }
 
-Card *CardsObt::createImperialGolem()
+Card *createImperialGolem()
 {
     auto *card = new Card();
     card->id = "132407";
@@ -8252,7 +8254,7 @@ Card *CardsObt::createImperialGolem()
     return card;
 }
 
-Card *CardsObt::createWildHuntNavigator()
+Card *createWildHuntNavigator()
 {
     auto *card = new Card();
     card->id = "200026";
@@ -8272,7 +8274,7 @@ Card *CardsObt::createWildHuntNavigator()
     return card;
 }
 
-Card *CardsObt::createNithral()
+Card *createNithral()
 {
     auto *card = new Card();
     card->id = "132214";
@@ -8292,7 +8294,7 @@ Card *CardsObt::createNithral()
     return card;
 }
 
-Card *CardsObt::createMiruna()
+Card *createMiruna()
 {
     auto *card = new Card();
     card->id = "132108";
@@ -8314,7 +8316,7 @@ Card *CardsObt::createMiruna()
     return card;
 }
 
-Card *CardsObt::createImlerith()
+Card *createImlerith()
 {
     auto *card = new Card();
     card->id = "132102";
@@ -8334,7 +8336,7 @@ Card *CardsObt::createImlerith()
     return card;
 }
 
-Card *CardsObt::createCaretaker()
+Card *createCaretaker()
 {
     auto *card = new Card();
     card->id = "132106";
@@ -8353,7 +8355,7 @@ Card *CardsObt::createCaretaker()
     return card;
 }
 
-Card *CardsObt::createRuehin()
+Card *createRuehin()
 {
     auto *card = new Card();
     card->id = "201660";
@@ -8369,7 +8371,7 @@ Card *CardsObt::createRuehin()
     return card;
 }
 
-Card *CardsObt::createOldSpeartipAsleep()
+Card *createOldSpeartipAsleep()
 {
     auto *card = new Card();
     card->id = "132218";
@@ -8385,7 +8387,7 @@ Card *CardsObt::createOldSpeartipAsleep()
     return card;
 }
 
-Card *CardsObt::createOldSpeartip()
+Card *createOldSpeartip()
 {
     auto *card = new Card();
     card->id = "132408";
@@ -8401,7 +8403,7 @@ Card *CardsObt::createOldSpeartip()
     return card;
 }
 
-Card *CardsObt::createGolyat()
+Card *createGolyat()
 {
     auto *card = new Card();
     card->id = "200052";
@@ -8421,7 +8423,7 @@ Card *CardsObt::createGolyat()
     return card;
 }
 
-Card *CardsObt::createBarbegazi()
+Card *createBarbegazi()
 {
     auto *card = new Card();
     card->id = "201701";
@@ -8441,7 +8443,7 @@ Card *CardsObt::createBarbegazi()
     return card;
 }
 
-Card *CardsObt::createGhoul()
+Card *createGhoul()
 {
     auto *card = new Card();
     card->id = "132306";
@@ -8460,7 +8462,7 @@ Card *CardsObt::createGhoul()
     return card;
 }
 
-Card *CardsObt::createForktail()
+Card *createForktail()
 {
     auto *card = new Card();
     card->id = "201606";
@@ -8479,7 +8481,7 @@ Card *CardsObt::createForktail()
     return card;
 }
 
-Card *CardsObt::createArachasQueen()
+Card *createArachasQueen()
 {
     auto *card = new Card();
     card->id = "201743";
@@ -8499,7 +8501,7 @@ Card *CardsObt::createArachasQueen()
     return card;
 }
 
-Card *CardsObt::createOzzrel()
+Card *createOzzrel()
 {
     auto *card = new Card();
     card->id = "201698";
@@ -8518,7 +8520,7 @@ Card *CardsObt::createOzzrel()
     return card;
 }
 
-Card *CardsObt::createKayran()
+Card *createKayran()
 {
     auto *card = new Card();
     card->id = "132107";
@@ -8537,7 +8539,7 @@ Card *CardsObt::createKayran()
     return card;
 }
 
-Card *CardsObt::createMourntart()
+Card *createMourntart()
 {
     auto *card = new Card();
     card->id = "132202";
@@ -8557,7 +8559,7 @@ Card *CardsObt::createMourntart()
     return card;
 }
 
-Card *CardsObt::createToadPrince()
+Card *createToadPrince()
 {
     auto *card = new Card();
     card->id = "132216";
@@ -8579,7 +8581,7 @@ Card *CardsObt::createToadPrince()
     return card;
 }
 
-Card *CardsObt::createFiend()
+Card *createFiend()
 {
     auto *card = new Card();
     card->id = "112405";
@@ -8590,7 +8592,7 @@ Card *CardsObt::createFiend()
     return card;
 }
 
-Card *CardsObt::createMorvudd()
+Card *createMorvudd()
 {
     auto *card = new Card();
     card->id = "112405";
@@ -8611,7 +8613,7 @@ Card *CardsObt::createMorvudd()
     return card;
 }
 
-Card *CardsObt::createEkimmara()
+Card *createEkimmara()
 {
     auto *card = new Card();
     card->id = "132313";
@@ -8630,7 +8632,7 @@ Card *CardsObt::createEkimmara()
     return card;
 }
 
-Card *CardsObt::createRotfiend()
+Card *createRotfiend()
 {
     auto *card = new Card();
     card->id = "200295";
@@ -8646,7 +8648,7 @@ Card *CardsObt::createRotfiend()
     return card;
 }
 
-Card *CardsObt::createArchespore()
+Card *createArchespore()
 {
     auto *card = new Card();
     card->id = "200038";
@@ -8668,7 +8670,7 @@ Card *CardsObt::createArchespore()
     return card;
 }
 
-Card *CardsObt::createCyclops()
+Card *createCyclops()
 {
     auto *card = new Card();
     card->id = "200037";
@@ -8694,7 +8696,7 @@ Card *CardsObt::createCyclops()
     return card;
 }
 
-Card *CardsObt::createMaerolorn()
+Card *createMaerolorn()
 {
     auto *card = new Card();
     card->id = "132406";
@@ -8713,7 +8715,7 @@ Card *CardsObt::createMaerolorn()
     return card;
 }
 
-Card *CardsObt::createMonsterNest()
+Card *createMonsterNest()
 {
     auto *card = new Card();
     card->id = "133302";
@@ -8733,7 +8735,7 @@ Card *CardsObt::createMonsterNest()
     return card;
 }
 
-Card *CardsObt::createArachasDrone()
+Card *createArachasDrone()
 {
     auto *card = new Card();
     card->id = "132304";
@@ -8749,7 +8751,7 @@ Card *CardsObt::createArachasDrone()
     return card;
 }
 
-Card *CardsObt::createAlphaWerewolf()
+Card *createAlphaWerewolf()
 {
     auto *card = new Card();
     card->id = "200114";
@@ -8765,7 +8767,7 @@ Card *CardsObt::createAlphaWerewolf()
     return card;
 }
 
-Card *CardsObt::createWerewolf()
+Card *createWerewolf()
 {
     auto *card = new Card();
     card->id = "201600";
@@ -8781,7 +8783,7 @@ Card *CardsObt::createWerewolf()
     return card;
 }
 
-Card *CardsObt::createEredinBreaccGlas()
+Card *createEredinBreaccGlas()
 {
     auto *card = new Card();
     card->id = "131101";
@@ -8800,7 +8802,7 @@ Card *CardsObt::createEredinBreaccGlas()
     return card;
 }
 
-Card *CardsObt::createCaranthirArFeiniel()
+Card *createCaranthirArFeiniel()
 {
     auto *card = new Card();
     card->id = "132104";
@@ -8821,7 +8823,7 @@ Card *CardsObt::createCaranthirArFeiniel()
     return card;
 }
 
-Card *CardsObt::createImlerithSabbath()
+Card *createImlerithSabbath()
 {
     auto *card = new Card();
     card->id = "201781";
@@ -8845,7 +8847,7 @@ Card *CardsObt::createImlerithSabbath()
     return card;
 }
 
-Card *CardsObt::createDagon()
+Card *createDagon()
 {
     auto *card = new Card();
     card->id = "200158";
@@ -8864,7 +8866,7 @@ Card *CardsObt::createDagon()
     return card;
 }
 
-Card *CardsObt::createIfrit()
+Card *createIfrit()
 {
     auto *card = new Card();
     card->id = "132210";
@@ -8899,7 +8901,7 @@ Ifrit::IfritLesser::IfritLesser()
     return card;
 }
 
-Card *CardsObt::createSheTrollOfVergen()
+Card *createSheTrollOfVergen()
 {
     auto *card = new Card();
     card->id = "200534";
@@ -8926,7 +8928,7 @@ Card *CardsObt::createSheTrollOfVergen()
     return card;
 }
 
-Card *CardsObt::createWyvern()
+Card *createWyvern()
 {
     auto *card = new Card();
     card->id = "132303";
@@ -8945,7 +8947,7 @@ Card *CardsObt::createWyvern()
     return card;
 }
 
-Card *CardsObt::createAbaya()
+Card *createAbaya()
 {
     auto *card = new Card();
     card->id = "132203";
@@ -8964,7 +8966,7 @@ Card *CardsObt::createAbaya()
     return card;
 }
 
-Card *CardsObt::createParasite()
+Card *createParasite()
 {
     auto *card = new Card();
     card->id = "201657";
@@ -8989,7 +8991,7 @@ Card *CardsObt::createParasite()
     return card;
 }
 
-Card *CardsObt::createJotunn()
+Card *createJotunn()
 {
     auto *card = new Card();
     card->id = "200218";
@@ -9011,7 +9013,7 @@ Card *CardsObt::createJotunn()
     return card;
 }
 
-Card *CardsObt::createIceGiant()
+Card *createIceGiant()
 {
     auto *card = new Card();
     card->id = "132212";
@@ -9032,7 +9034,7 @@ Card *CardsObt::createIceGiant()
     return card;
 }
 
-Card *CardsObt::createIceTroll()
+Card *createIceTroll()
 {
     auto *card = new Card();
     card->id = "200502";
@@ -9057,7 +9059,7 @@ Card *CardsObt::createIceTroll()
     return card;
 }
 
-Card *CardsObt::createDrowner()
+Card *createDrowner()
 {
     auto *card = new Card();
     card->id = "132314";
@@ -9079,7 +9081,7 @@ Card *CardsObt::createDrowner()
     return card;
 }
 
-Card *CardsObt::createFoglet()
+Card *createFoglet()
 {
     auto *card = new Card();
     card->id = "132301";
@@ -9105,7 +9107,7 @@ Card *CardsObt::createFoglet()
     return card;
 }
 
-Card *CardsObt::createAncientFoglet()
+Card *createAncientFoglet()
 {
     auto *card = new Card();
     card->id = "132302";
@@ -9128,7 +9130,7 @@ Card *CardsObt::createAncientFoglet()
     return card;
 }
 
-Card *CardsObt::createDraug()
+Card *createDraug()
 {
     auto *card = new Card();
     card->id = "132101";
@@ -9165,7 +9167,7 @@ Draug::Draugir::Draugir()
     return card;
 }
 
-Card *CardsObt::createCelaenoHarpy()
+Card *createCelaenoHarpy()
 {
     auto *card = new Card();
     card->id = "132217";
@@ -9211,7 +9213,7 @@ CelaenoHarpy::HarpyHatchling::HarpyHatchling()
     return card;
 }
 
-Card *CardsObt::createArachasBehemoth()
+Card *createArachasBehemoth()
 {
     auto *card = new Card();
     card->id = "132201";
@@ -9249,7 +9251,7 @@ ArachasBehemoth::ArachasHatchling::ArachasHatchling()
     return card;
 }
 
-Card *CardsObt::createArchgriffin()
+Card *createArchgriffin()
 {
     auto *card = new Card();
     card->id = "132307";
@@ -9264,7 +9266,7 @@ Card *CardsObt::createArchgriffin()
     return card;
 }
 
-Card *CardsObt::createGriffin()
+Card *createGriffin()
 {
     auto *card = new Card();
     card->id = "132312";
@@ -9283,7 +9285,7 @@ Card *CardsObt::createGriffin()
     return card;
 }
 
-Card *CardsObt::createBridgeTroll()
+Card *createBridgeTroll()
 {
     auto *card = new Card();
     card->id = "201700";
@@ -9319,7 +9321,7 @@ Card *CardsObt::createBridgeTroll()
     return card;
 }
 
-Card *CardsObt::createCockatrice()
+Card *createCockatrice()
 {
     auto *card = new Card();
     card->id = "200233";
@@ -9339,7 +9341,7 @@ Card *CardsObt::createCockatrice()
     return card;
 }
 
-Card *CardsObt::createNekurat()
+Card *createNekurat()
 {
     auto *card = new Card();
     card->id = "132220";
@@ -9354,7 +9356,7 @@ Card *CardsObt::createNekurat()
     return card;
 }
 
-Card *CardsObt::createSiren()
+Card *createSiren()
 {
     auto *card = new Card();
     card->id = "200112";
@@ -9370,7 +9372,7 @@ Card *CardsObt::createSiren()
     return card;
 }
 
-Card *CardsObt::createLamia()
+Card *createLamia()
 {
     auto *card = new Card();
     card->id = "132409";
@@ -9389,7 +9391,7 @@ Card *CardsObt::createLamia()
     return card;
 }
 
-Card *CardsObt::createNekker()
+Card *createNekker()
 {
     auto *card = new Card();
     card->id = "132305";
@@ -9410,7 +9412,7 @@ Card *CardsObt::createNekker()
     return card;
 }
 
-Card *CardsObt::createNekkerWarrior()
+Card *createNekkerWarrior()
 {
     auto *card = new Card();
     card->id = "132211";
@@ -9434,7 +9436,7 @@ Card *CardsObt::createNekkerWarrior()
     return card;
 }
 
-Card *CardsObt::createSlyzard()
+Card *createSlyzard()
 {
     auto *card = new Card();
     card->id = "200539";
@@ -9455,7 +9457,7 @@ Card *CardsObt::createSlyzard()
     return card;
 }
 
-Card *CardsObt::createWerecat()
+Card *createWerecat()
 {
     auto *card = new Card();
     card->id = "201599";
@@ -9477,7 +9479,7 @@ Card *CardsObt::createWerecat()
     return card;
 }
 
-Card *CardsObt::createHarpy()
+Card *createHarpy()
 {
     auto *card = new Card();
     card->id = "132315";
@@ -9503,7 +9505,7 @@ Card *CardsObt::createHarpy()
     return card;
 }
 
-Card *CardsObt::createWildHuntDrakkar()
+Card *createWildHuntDrakkar()
 {
     auto *card = new Card();
     card->id = "200301";
@@ -9525,7 +9527,7 @@ Card *CardsObt::createWildHuntDrakkar()
     return card;
 }
 
-Card *CardsObt::createGeels()
+Card *createGeels()
 {
     auto *card = new Card();
     card->id = "131102";
@@ -9554,7 +9556,7 @@ Card *CardsObt::createGeels()
     return card;
 }
 
-Card *CardsObt::createWildHuntRider()
+Card *createWildHuntRider()
 {
     auto *card = new Card();
     card->id = "132310";
@@ -9567,7 +9569,7 @@ Card *CardsObt::createWildHuntRider()
     return card;
 }
 
-Card *CardsObt::createVranWarrior()
+Card *createVranWarrior()
 {
     auto *card = new Card();
     card->id = "132308";
@@ -9589,7 +9591,7 @@ Card *CardsObt::createVranWarrior()
     return card;
 }
 
-Card *CardsObt::createAnCraiteArmorsmith()
+Card *createAnCraiteArmorsmith()
 {
     auto *card = new Card();
     card->id = "152317";
@@ -9609,7 +9611,7 @@ Card *CardsObt::createAnCraiteArmorsmith()
     return card;
 }
 
-Card *CardsObt::createAvalach()
+Card *createAvalach()
 {
     auto *card = new Card();
     card->id = "132105";
@@ -9632,7 +9634,7 @@ Card *CardsObt::createAvalach()
     return card;
 }
 
-Card *CardsObt::createAvalachSage()
+Card *createAvalachSage()
 {
     auto *card = new Card();
     card->id = "112112";
@@ -9648,7 +9650,7 @@ Card *CardsObt::createAvalachSage()
     return card;
 }
 
-Card *CardsObt::createRaghNarRoog()
+Card *createRaghNarRoog()
 {
     auto *card = new Card();
     card->id = "113101";
@@ -9664,7 +9666,7 @@ Card *CardsObt::createRaghNarRoog()
     return card;
 }
 
-Card *CardsObt::createGeraltProfessional()
+Card *createGeraltProfessional()
 {
     auto *card = new Card();
     card->id = "201772";
@@ -9686,7 +9688,7 @@ Card *CardsObt::createGeraltProfessional()
     return card;
 }
 
-Card *CardsObt::createGeraltAard()
+Card *createGeraltAard()
 {
     auto *card = new Card();
     card->id = "112111";
@@ -9710,7 +9712,7 @@ Card *CardsObt::createGeraltAard()
     return card;
 }
 
-Card *CardsObt::createGeraltYrden()
+Card *createGeraltYrden()
 {
     auto *card = new Card();
     card->id = "201523";
@@ -9732,7 +9734,7 @@ Card *CardsObt::createGeraltYrden()
     return card;
 }
 
-Card *CardsObt::createCiriDash()
+Card *createCiriDash()
 {
     auto *card = new Card();
     card->id = "112110";
@@ -9752,7 +9754,7 @@ Card *CardsObt::createCiriDash()
     return card;
 }
 
-Card *CardsObt::createAguara()
+Card *createAguara()
 {
     auto *card = new Card();
     card->id = "200062";
@@ -9811,7 +9813,7 @@ Card *CardsObt::createAguara()
     return card;
 }
 
-Card *CardsObt::createAguaraTrueForm()
+Card *createAguaraTrueForm()
 {
     auto *card = new Card();
     card->id = "200056";
@@ -9830,7 +9832,7 @@ Card *CardsObt::createAguaraTrueForm()
     return card;
 }
 
-Card *CardsObt::createKorathiHeatwave()
+Card *createKorathiHeatwave()
 {
     auto *card = new Card();
     card->id = "200018";
@@ -9847,7 +9849,7 @@ Card *CardsObt::createKorathiHeatwave()
     return card;
 }
 
-Card *CardsObt::createAleOfTheAncestors()
+Card *createAleOfTheAncestors()
 {
     auto *card = new Card();
     card->id = "200532";
@@ -9861,7 +9863,7 @@ Card *CardsObt::createAleOfTheAncestors()
     return card;
 }
 
-Card *CardsObt::createMahakamAle()
+Card *createMahakamAle()
 {
     auto *card = new Card();
     card->id = "200519";
@@ -9878,7 +9880,7 @@ Card *CardsObt::createMahakamAle()
     return card;
 }
 
-Card *CardsObt::createOdrin()
+Card *createOdrin()
 {
     auto *card = new Card();
     card->id = "122213";
@@ -9898,7 +9900,7 @@ Card *CardsObt::createOdrin()
     return card;
 }
 
-Card *CardsObt::createToruviel()
+Card *createToruviel()
 {
     auto *card = new Card();
     card->id = "142204";
@@ -9928,7 +9930,7 @@ Card *CardsObt::createToruviel()
     return card;
 }
 
-Card *CardsObt::createCiri()
+Card *createCiri()
 {
     auto *card = new Card();
     card->id = "112101";
@@ -9943,7 +9945,7 @@ Card *CardsObt::createCiri()
     return card;
 }
 
-Card *CardsObt::createMilva()
+Card *createMilva()
 {
     auto *card = new Card();
     card->id = "142104";
@@ -9962,7 +9964,7 @@ Card *CardsObt::createMilva()
 }
 
 
-Card *CardsObt::createPrincessPavetta()
+Card *createPrincessPavetta()
 {
     auto *card = new Card();
     card->id = "122210";
@@ -9980,7 +9982,7 @@ Card *CardsObt::createPrincessPavetta()
     return card;
 }
 
-Card *CardsObt::createTheGuardian()
+Card *createTheGuardian()
 {
     auto *card = new Card();
     card->id = "162401";
@@ -10008,7 +10010,7 @@ TheGuardian::LesserGuardian::LesserGuardian()
     return card;
 }
 
-Card *CardsObt::createGaunterODimm()
+Card *createGaunterODimm()
 {
     auto *card = new Card();
     card->id = "132215";
@@ -10018,7 +10020,7 @@ Card *CardsObt::createGaunterODimm()
     card->tags = { Relict };
 
     card->_onDeploy = [=](Field &ally, Field &enemy) {
-        _picked = random(allCards(patch), ally.rng);
+        _picked = random(createAll(patch), ally.rng);
 
         auto *option1 = new GaunterODimm::Less6;
         copyCardText(card, option1);
@@ -10051,7 +10053,7 @@ Card *CardsObt::createGaunterODimm()
     return card;
 }
 
-Card *CardsObt::createKaedweniSergeant()
+Card *createKaedweniSergeant()
 {
     auto *card = new Card();
     card->id = "122214";
@@ -10068,7 +10070,7 @@ Card *CardsObt::createKaedweniSergeant()
     return card;
 }
 
-Card *CardsObt::createReinforcedBallista()
+Card *createReinforcedBallista()
 {
     auto *card = new Card();
     card->id = "122302";
@@ -10089,7 +10091,7 @@ Card *CardsObt::createReinforcedBallista()
     return card;
 }
 
-Card *CardsObt::createSigismundDijkstra()
+Card *createSigismundDijkstra()
 {
     auto *card = new Card();
     card->id = "122105";
@@ -10106,7 +10108,7 @@ Card *CardsObt::createSigismundDijkstra()
     return card;
 }
 
-Card *CardsObt::createWhiteFrost()
+Card *createWhiteFrost()
 {
     auto *card = new Card();
     card->id = "113206";
@@ -10127,7 +10129,7 @@ Card *CardsObt::createWhiteFrost()
 }
 
 
-Card *CardsObt::createWolfsbane()
+Card *createWolfsbane()
 {
     auto *card = new Card();
     card->id = "200226";
@@ -10153,7 +10155,7 @@ Card *CardsObt::createWolfsbane()
     return card;
 }
 
-Card *CardsObt::createDunBanner()
+Card *createDunBanner()
 {
     auto *card = new Card();
     card->id = "122313";
@@ -10174,7 +10176,7 @@ Card *CardsObt::createDunBanner()
     return card;
 }
 
-Card *CardsObt::createAelirenn()
+Card *createAelirenn()
 {
     auto *card = new Card();
     card->id = "142211";
@@ -10194,7 +10196,7 @@ Card *CardsObt::createAelirenn()
     return card;
 }
 
-Card *CardsObt::createHanmarvynsDream()
+Card *createHanmarvynsDream()
 {
     auto *card = new Card();
     card->id = "200079";
@@ -10215,7 +10217,7 @@ Card *CardsObt::createHanmarvynsDream()
     return card;
 }
 
-Card *CardsObt::createBlackBlood()
+Card *createBlackBlood()
 {
     auto *card = new Card();
     card->id = "201697";
@@ -10273,7 +10275,7 @@ Card *CardsObt::createBlackBlood()
     return card;
 }
 
-Card *CardsObt::createBekkersRockslide()
+Card *createBekkersRockslide()
 {
     auto *card = new Card();
     card->id = "201634";
@@ -10289,7 +10291,7 @@ Card *CardsObt::createBekkersRockslide()
     return card;
 }
 
-Card *CardsObt::createBekkersDarkMirror()
+Card *createBekkersDarkMirror()
 {
     auto *card = new Card();
     card->id = "113315";
@@ -10310,7 +10312,7 @@ Card *CardsObt::createBekkersDarkMirror()
     return card;
 }
 
-Card *CardsObt::createMerigoldsHailstorm()
+Card *createMerigoldsHailstorm()
 {
     auto *card = new Card();
     card->id = "113202";
@@ -10332,7 +10334,7 @@ Card *CardsObt::createMerigoldsHailstorm()
     return card;
 }
 
-Card *CardsObt::createNecromancy()
+Card *createNecromancy()
 {
     auto *card = new Card();
     card->id = "200020";
@@ -10357,7 +10359,7 @@ Card *CardsObt::createNecromancy()
     return card;
 }
 
-Card *CardsObt::createStammelfordsTremor()
+Card *createStammelfordsTremor()
 {
     auto *card = new Card();
     card->id = "113204";
@@ -10373,7 +10375,7 @@ Card *CardsObt::createStammelfordsTremor()
     return card;
 }
 
-Card *CardsObt::createExpiredAle()
+Card *createExpiredAle()
 {
     auto *card = new Card();
     card->id = "200530";
@@ -10390,7 +10392,7 @@ Card *CardsObt::createExpiredAle()
     return card;
 }
 
-Card *CardsObt::createTrialOfTheGrasses()
+Card *createTrialOfTheGrasses()
 {
     auto *card = new Card();
     card->id = "200078";
@@ -10410,7 +10412,7 @@ Card *CardsObt::createTrialOfTheGrasses()
     return card;
 }
 
-Card *CardsObt::createDimeritiumBomb()
+Card *createDimeritiumBomb()
 {
     auto *card = new Card();
     card->id = "113205";
@@ -10432,7 +10434,7 @@ Card *CardsObt::createDimeritiumBomb()
     return card;
 }
 
-Card *CardsObt::createGarrison()
+Card *createGarrison()
 {
     auto *card = new Card();
     card->id = "201639";
@@ -10449,7 +10451,7 @@ Card *CardsObt::createGarrison()
     return card;
 }
 
-Card *CardsObt::createTheLastWish()
+Card *createTheLastWish()
 {
     auto *card = new Card();
     card->id = "113102";
@@ -10468,7 +10470,7 @@ Card *CardsObt::createTheLastWish()
     return card;
 }
 
-Card *CardsObt::createDimeritiumShackles()
+Card *createDimeritiumShackles()
 {
     auto *card = new Card();
     card->id = "113319";
@@ -10489,7 +10491,7 @@ Card *CardsObt::createDimeritiumShackles()
     return card;
 }
 
-Card *CardsObt::createWyvernScaleShield()
+Card *createWyvernScaleShield()
 {
     auto *card = new Card();
     card->id = "133301";
@@ -10517,7 +10519,7 @@ Card *CardsObt::createWyvernScaleShield()
     return card;
 }
 
-Card *CardsObt::createMastercraftedSpear()
+Card *createMastercraftedSpear()
 {
     auto *card = new Card();
     card->id = "201656";
@@ -10545,7 +10547,7 @@ Card *CardsObt::createMastercraftedSpear()
     return card;
 }
 
-Card *CardsObt::createPetrisPhilter()
+Card *createPetrisPhilter()
 {
     auto *card = new Card();
     card->id = "200008";
@@ -10561,7 +10563,7 @@ Card *CardsObt::createPetrisPhilter()
     return card;
 }
 
-Card *CardsObt::createShrike()
+Card *createShrike()
 {
     auto *card = new Card();
     card->id = "200009";
@@ -10577,7 +10579,7 @@ Card *CardsObt::createShrike()
     return card;
 }
 
-Card *CardsObt::createRoyalDecree()
+Card *createRoyalDecree()
 {
     auto *card = new Card();
     card->id = "200154";
@@ -10597,7 +10599,7 @@ Card *CardsObt::createRoyalDecree()
     return card;
 }
 
-Card *CardsObt::createUmasCurse()
+Card *createUmasCurse()
 {
     auto *card = new Card();
     card->id = "200058";
@@ -10616,7 +10618,7 @@ Card *CardsObt::createUmasCurse()
     return card;
 }
 
-Card *CardsObt::createLacerate()
+Card *createLacerate()
 {
     auto *card = new Card();
     card->id = "153301";
@@ -10636,7 +10638,7 @@ Card *CardsObt::createLacerate()
     return card;
 }
 
-Card *CardsObt::createCrowsEye()
+Card *createCrowsEye()
 {
     auto *card = new Card();
     card->id = "200224";
@@ -10654,7 +10656,7 @@ Card *CardsObt::createCrowsEye()
     return card;
 }
 
-Card *CardsObt::createDoppler()
+Card *createDoppler()
 {
     auto *card = new Card();
     card->id = "201631";
@@ -10665,13 +10667,13 @@ Card *CardsObt::createDoppler()
 
     card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
         const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
-        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, allCards(card->patch)), ally.rng)->defaultCopy();
+        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, createAll(card->patch)), ally.rng)->defaultCopy();
         spawnNewCard(card, ally, enemy, card);
     };
     return card;
 }
 
-Card *CardsObt::createSpores()
+Card *createSpores()
 {
     auto *card = new Card();
     card->id = "201744";
@@ -10693,7 +10695,7 @@ Card *CardsObt::createSpores()
     return card;
 }
 
-Card *CardsObt::createMardroeme()
+Card *createMardroeme()
 {
     auto *card = new Card();
     card->id = "113320";
@@ -10736,7 +10738,7 @@ Card *CardsObt::createMardroeme()
     return card;
 }
 
-Card *CardsObt::createSihil()
+Card *createSihil()
 {
     auto *card = new Card();
     card->id = "201632";
@@ -10785,7 +10787,7 @@ Card *CardsObt::createSihil()
     return card;
 }
 
-Card *CardsObt::createDragonsDream()
+Card *createDragonsDream()
 {
     auto *card = new Card();
     card->id = "201637";
@@ -10804,7 +10806,7 @@ Card *CardsObt::createDragonsDream()
     return card;
 }
 
-Card *CardsObt::createEskelPathfinder()
+Card *createEskelPathfinder()
 {
     auto *card = new Card();
     card->id = "200236";
@@ -10823,7 +10825,7 @@ Card *CardsObt::createEskelPathfinder()
     return card;
 }
 
-Card *CardsObt::createVesemirMentor()
+Card *createVesemirMentor()
 {
     auto *card = new Card();
     card->id = "200237";
@@ -10842,7 +10844,7 @@ Card *CardsObt::createVesemirMentor()
     return card;
 }
 
-Card *CardsObt::createLambertSwordmaster()
+Card *createLambertSwordmaster()
 {
     auto *card = new Card();
     card->id = "200235";
@@ -10862,7 +10864,7 @@ Card *CardsObt::createLambertSwordmaster()
     return card;
 }
 
-Card *CardsObt::createRegisHigherVampire()
+Card *createRegisHigherVampire()
 {
     auto *card = new Card();
     card->id = "112105";
@@ -10881,7 +10883,7 @@ Card *CardsObt::createRegisHigherVampire()
     return card;
 }
 
-Card *CardsObt::createZoltanScoundrel()
+Card *createZoltanScoundrel()
 {
     auto *card = new Card();
     card->id = "112109";
@@ -10949,7 +10951,7 @@ ZoltanScoundrel::DudaAgitator::DudaAgitator()
     return card;
 }
 
-Card *CardsObt::createYenneferConjurer()
+Card *createYenneferConjurer()
 {
     auto *card = new Card();
     card->id = "112113";
@@ -10967,7 +10969,7 @@ Card *CardsObt::createYenneferConjurer()
     return card;
 }
 
-Card *CardsObt::createTrissMerigold()
+Card *createTrissMerigold()
 {
     auto *card = new Card();
     card->id = "112106";
@@ -10986,7 +10988,7 @@ Card *CardsObt::createTrissMerigold()
     return card;
 }
 
-Card *CardsObt::createTrissTelekinesis()
+Card *createTrissTelekinesis()
 {
     auto *card = new Card();
     card->id = "201773";
@@ -11003,7 +11005,7 @@ Card *CardsObt::createTrissTelekinesis()
     return card;
 }
 
-Card *CardsObt::createDorregarayOfVole()
+Card *createDorregarayOfVole()
 {
     auto *card = new Card();
     card->id = "200087";
@@ -11022,7 +11024,7 @@ Card *CardsObt::createDorregarayOfVole()
     return card;
 }
 
-Card *CardsObt::createDandelionVainglory()
+Card *createDandelionVainglory()
 {
     auto *card = new Card();
     card->id = "201774";
@@ -11057,7 +11059,7 @@ Card *CardsObt::createDandelionVainglory()
     return card;
 }
 
-Card *CardsObt::createCyprianWiley()
+Card *createCyprianWiley()
 {
     auto *card = new Card();
     card->id = "112214";
@@ -11076,7 +11078,7 @@ Card *CardsObt::createCyprianWiley()
     return card;
 }
 
-Card *CardsObt::createDudu()
+Card *createDudu()
 {
     auto *card = new Card();
     card->id = "112201";
@@ -11095,7 +11097,7 @@ Card *CardsObt::createDudu()
     return card;
 }
 
-Card *CardsObt::createIhuarraquax()
+Card *createIhuarraquax()
 {
     auto *card = new Card();
     card->id = "201817";
@@ -11125,7 +11127,7 @@ Card *CardsObt::createIhuarraquax()
     return card;
 }
 
-Card *CardsObt::createMahakamMarauder()
+Card *createMahakamMarauder()
 {
     auto *card = new Card();
     card->id = "200042";
@@ -11142,7 +11144,7 @@ Card *CardsObt::createMahakamMarauder()
     return card;
 }
 
-Card *CardsObt::createZoltanChivay()
+Card *createZoltanChivay()
 {
     auto *card = new Card();
     card->id = "142105";
@@ -11172,7 +11174,7 @@ Card *CardsObt::createZoltanChivay()
     return card;
 }
 
-Card *CardsObt::createYenneferNecromancer()
+Card *createYenneferNecromancer()
 {
     auto *card = new Card();
     card->id = "201780";
@@ -11191,7 +11193,7 @@ Card *CardsObt::createYenneferNecromancer()
     return card;
 }
 
-Card *CardsObt::createPhoenix()
+Card *createPhoenix()
 {
     auto *card = new Card();
     card->id = "201579";
@@ -11211,7 +11213,7 @@ Card *CardsObt::createPhoenix()
     return card;
 }
 
-Card *CardsObt::createSaesenthessisBlaze()
+Card *createSaesenthessisBlaze()
 {
     auto *card = new Card();
     card->id = "201613";
@@ -11231,7 +11233,7 @@ Card *CardsObt::createSaesenthessisBlaze()
     return card;
 }
 
-Card *CardsObt::createVillentretenmerth()
+Card *createVillentretenmerth()
 {
     auto *card = new Card();
     card->id = "112107";
@@ -11253,7 +11255,7 @@ Card *CardsObt::createVillentretenmerth()
     return card;
 }
 
-Card *CardsObt::createOcvist()
+Card *createOcvist()
 {
     auto *card = new Card();
     card->id = "112206";
@@ -11273,7 +11275,7 @@ Card *CardsObt::createOcvist()
     return card;
 }
 
-Card *CardsObt::createMyrgtabrakke()
+Card *createMyrgtabrakke()
 {
     auto *card = new Card();
     card->id = "112205";
@@ -11293,7 +11295,7 @@ Card *CardsObt::createMyrgtabrakke()
     return card;
 }
 
-Card *CardsObt::createKingOfBeggars()
+Card *createKingOfBeggars()
 {
     auto *card = new Card();
     card->id = "112213";
@@ -11310,7 +11312,7 @@ Card *CardsObt::createKingOfBeggars()
     return card;
 }
 
-Card *CardsObt::createOlgierdVonEverec()
+Card *createOlgierdVonEverec()
 {
     auto *card = new Card();
     card->id = "112207";
@@ -11325,7 +11327,7 @@ Card *CardsObt::createOlgierdVonEverec()
     return card;
 }
 
-Card *CardsObt::createIrisVonEverec()
+Card *createIrisVonEverec()
 {
     auto *card = new Card();
     card->id = "112215";
@@ -11342,7 +11344,7 @@ Card *CardsObt::createIrisVonEverec()
     return card;
 }
 
-Card *CardsObt::createIrisCompanions()
+Card *createIrisCompanions()
 {
     auto *card = new Card();
     card->id = "200083";
@@ -11362,7 +11364,7 @@ Card *CardsObt::createIrisCompanions()
     return card;
 }
 
-Card *CardsObt::createJohnny()
+Card *createJohnny()
 {
     auto *card = new Card();
     card->id = "112211";
@@ -11386,7 +11388,7 @@ Card *CardsObt::createJohnny()
     return card;
 }
 
-Card *CardsObt::createStregobor()
+Card *createStregobor()
 {
     auto *card = new Card();
     card->id = "200091";
@@ -11411,7 +11413,7 @@ Card *CardsObt::createStregobor()
     return card;
 }
 
-Card *CardsObt::createSarah()
+Card *createSarah()
 {
     auto *card = new Card();
     card->id = "112212";
@@ -11434,7 +11436,7 @@ Card *CardsObt::createSarah()
     return card;
 }
 
-Card *CardsObt::createPeasantMilitia()
+Card *createPeasantMilitia()
 {
     auto *card = new Card();
     card->id = "201753";
@@ -11478,7 +11480,7 @@ PeasantMilitia::Peasant::Peasant()
     return card;
 }
 
-Card *CardsObt::createPrizeWinningCow()
+Card *createPrizeWinningCow()
 {
     auto *card = new Card();
     //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
@@ -11510,7 +11512,7 @@ PrizeWinningCow::Chort::Chort()
     return card;
 }
 
-Card *CardsObt::createPrincessAdda()
+Card *createPrincessAdda()
 {
     auto *card = new Card();
     card->id = "201595";
@@ -11529,7 +11531,7 @@ Card *CardsObt::createPrincessAdda()
     return card;
 }
 
-Card *CardsObt::createKingFoltest()
+Card *createKingFoltest()
 {
     auto *card = new Card();
     card->id = "200168";
@@ -11551,7 +11553,7 @@ Card *CardsObt::createKingFoltest()
     return card;
 }
 
-Card *CardsObt::createKingRadovidV()
+Card *createKingRadovidV()
 {
     auto *card = new Card();
     card->id = "200169";
@@ -11573,7 +11575,7 @@ Card *CardsObt::createKingRadovidV()
     return card;
 }
 
-Card *CardsObt::createEmhyrVarEmreis()
+Card *createEmhyrVarEmreis()
 {
     auto *card = new Card();
     card->id = "200162";
@@ -11598,7 +11600,7 @@ Card *CardsObt::createEmhyrVarEmreis()
     return card;
 }
 
-Card *CardsObt::createUsurper()
+Card *createUsurper()
 {
     auto *card = new Card();
     card->id = "201580";
@@ -11619,7 +11621,7 @@ Card *CardsObt::createUsurper()
     return card;
 }
 
-Card *CardsObt::createBrouverHoog()
+Card *createBrouverHoog()
 {
     auto *card = new Card();
     card->id = "200167";
@@ -11642,7 +11644,7 @@ Card *CardsObt::createBrouverHoog()
     return card;
 }
 
-Card *CardsObt::createEithne()
+Card *createEithne()
 {
     auto *card = new Card();
     card->id = "200166";
@@ -11661,7 +11663,7 @@ Card *CardsObt::createEithne()
     return card;
 }
 
-Card *CardsObt::createFilavandrel()
+Card *createFilavandrel()
 {
     auto *card = new Card();
     card->id = "201589";
@@ -11680,7 +11682,7 @@ Card *CardsObt::createFilavandrel()
     return card;
 }
 
-Card *CardsObt::createFrancescaFindabair()
+Card *createFrancescaFindabair()
 {
     auto *card = new Card();
     card->id = "200165";
@@ -11707,7 +11709,7 @@ Card *CardsObt::createFrancescaFindabair()
     return card;
 }
 
-Card *CardsObt::createAglais()
+Card *createAglais()
 {
     auto *card = new Card();
     card->id = "142106";
@@ -11727,7 +11729,7 @@ Card *CardsObt::createAglais()
     return card;
 }
 
-Card *CardsObt::createIorveth()
+Card *createIorveth()
 {
     auto *card = new Card();
     card->id = "142103";
@@ -11748,7 +11750,7 @@ Card *CardsObt::createIorveth()
     return card;
 }
 
-Card *CardsObt::createIorvethMeditation()
+Card *createIorvethMeditation()
 {
     auto *card = new Card();
     card->id = "201611";
@@ -11786,7 +11788,7 @@ Card *CardsObt::createIorvethMeditation()
     return card;
 }
 
-Card *CardsObt::createIsengrimFaoiltiarna()
+Card *createIsengrimFaoiltiarna()
 {
     auto *card = new Card();
     card->id = "142102";
@@ -11809,7 +11811,7 @@ Card *CardsObt::createIsengrimFaoiltiarna()
     return card;
 }
 
-Card *CardsObt::createIsengrimOutlaw()
+Card *createIsengrimOutlaw()
 {
     auto *card = new Card();
     card->id = "201615";
@@ -11860,7 +11862,7 @@ Card *CardsObt::createIsengrimOutlaw()
     return card;
 }
 
-Card *CardsObt::createIthlinneAegli()
+Card *createIthlinneAegli()
 {
     auto *card = new Card();
     card->id = "142107";
@@ -11879,7 +11881,7 @@ Card *CardsObt::createIthlinneAegli()
     return card;
 }
 
-Card *CardsObt::createSchirru()
+Card *createSchirru()
 {
     auto *card = new Card();
     card->id = "142108";
@@ -11899,7 +11901,7 @@ Card *CardsObt::createSchirru()
     return card;
 }
 
-Card *CardsObt::createSaesenthessis()
+Card *createSaesenthessis()
 {
     auto *card = new Card();
     card->id = "142108";
@@ -11922,7 +11924,7 @@ Card *CardsObt::createSaesenthessis()
     return card;
 }
 
-Card *CardsObt::createSaskia()
+Card *createSaskia()
 {
     auto *card = new Card();
     card->id = "200209";
@@ -11945,7 +11947,7 @@ Card *CardsObt::createSaskia()
     return card;
 }
 
-Card *CardsObt::createBarclayEls()
+Card *createBarclayEls()
 {
     auto *card = new Card();
     card->id = "142207";
@@ -11963,7 +11965,7 @@ Card *CardsObt::createBarclayEls()
     return card;
 }
 
-Card *CardsObt::createDennisCranmer()
+Card *createDennisCranmer()
 {
     auto *card = new Card();
     card->id = "142211";
@@ -11979,7 +11981,7 @@ Card *CardsObt::createDennisCranmer()
     return card;
 }
 
-Card *CardsObt::createSheldonSkaggs()
+Card *createSheldonSkaggs()
 {
     auto *card = new Card();
     card->id = "142212";
@@ -12002,7 +12004,7 @@ Card *CardsObt::createSheldonSkaggs()
     return card;
 }
 
-Card *CardsObt::createYarpenZigrin()
+Card *createYarpenZigrin()
 {
     auto *card = new Card();
     card->id = "142213";
@@ -12023,7 +12025,7 @@ Card *CardsObt::createYarpenZigrin()
     return card;
 }
 
-Card *CardsObt::createYaevinn()
+Card *createYaevinn()
 {
     auto *card = new Card();
     card->id = "142203";
@@ -12060,7 +12062,7 @@ Card *CardsObt::createYaevinn()
     return card;
 }
 
-Card *CardsObt::createIdaEmeanAepSivney()
+Card *createIdaEmeanAepSivney()
 {
     auto *card = new Card();
     card->id = "142202";
@@ -12079,7 +12081,7 @@ Card *CardsObt::createIdaEmeanAepSivney()
     return card;
 }
 
-Card *CardsObt::createPavkoGale()
+Card *createPavkoGale()
 {
     auto *card = new Card();
     card->id = "201676";
@@ -12098,7 +12100,7 @@ Card *CardsObt::createPavkoGale()
     return card;
 }
 
-Card *CardsObt::createCiaranAepEasnillen()
+Card *createCiaranAepEasnillen()
 {
     auto *card = new Card();
     card->id = "142206";
@@ -12127,7 +12129,7 @@ Card *CardsObt::createCiaranAepEasnillen()
     return card;
 }
 
-Card *CardsObt::createEibhearHattori()
+Card *createEibhearHattori()
 {
     auto *card = new Card();
     card->id = "200520";
@@ -12148,7 +12150,7 @@ Card *CardsObt::createEibhearHattori()
 }
 
 
-Card *CardsObt::createMilaen()
+Card *createMilaen()
 {
     auto *card = new Card();
     card->id = "200030";
@@ -12173,7 +12175,7 @@ Card *CardsObt::createMilaen()
     return card;
 }
 
-Card *CardsObt::createBraenn()
+Card *createBraenn()
 {
     auto *card = new Card();
     card->id = "142209";
@@ -12200,7 +12202,7 @@ Card *CardsObt::createBraenn()
     return card;
 }
 
-Card *CardsObt::createMorenn()
+Card *createMorenn()
 {
     auto *card = new Card();
     card->id = "142208";
@@ -12231,7 +12233,7 @@ Card *CardsObt::createMorenn()
     return card;
 }
 
-Card *CardsObt::createPaulieDahlberg()
+Card *createPaulieDahlberg()
 {
     auto *card = new Card();
     card->id = "201696";
@@ -12251,7 +12253,7 @@ Card *CardsObt::createPaulieDahlberg()
     return card;
 }
 
-Card *CardsObt::createMahakamHorn()
+Card *createMahakamHorn()
 {
     auto *card = new Card();
     card->id = "201653";
@@ -12307,7 +12309,7 @@ Card *CardsObt::createMahakamHorn()
     return card;
 }
 
-Card *CardsObt::createNaturesGift()
+Card *createNaturesGift()
 {
     auto *card = new Card();
     card->id = "143201";
@@ -12326,7 +12328,7 @@ Card *CardsObt::createNaturesGift()
     return card;
 }
 
-Card *CardsObt::createPitTrap()
+Card *createPitTrap()
 {
     auto *card = new Card();
     card->id = "200228";
@@ -12345,7 +12347,7 @@ Card *CardsObt::createPitTrap()
     return card;
 }
 
-Card *CardsObt::createCrushingTrap()
+Card *createCrushingTrap()
 {
     auto *card = new Card();
     card->id = "201645";
@@ -12370,7 +12372,7 @@ Card *CardsObt::createCrushingTrap()
     return card;
 }
 
-Card *CardsObt::createElvenBlade()
+Card *createElvenBlade()
 {
     auto *card = new Card();
     card->id = "201643";
@@ -12389,7 +12391,7 @@ Card *CardsObt::createElvenBlade()
     return card;
 }
 
-Card *CardsObt::createIncineratingTrap()
+Card *createIncineratingTrap()
 {
     auto *card = new Card();
     card->id = "143301";
@@ -12411,7 +12413,7 @@ Card *CardsObt::createIncineratingTrap()
     return card;
 }
 
-Card *CardsObt::createBlueMountainElite()
+Card *createBlueMountainElite()
 {
     auto *card = new Card();
     card->id = "142316";
@@ -12431,7 +12433,7 @@ Card *CardsObt::createBlueMountainElite()
     return card;
 }
 
-Card *CardsObt::createDolBlathannaBomber()
+Card *createDolBlathannaBomber()
 {
     auto *card = new Card();
     card->id = "142316";
@@ -12446,7 +12448,7 @@ Card *CardsObt::createDolBlathannaBomber()
     return card;
 }
 
-Card *CardsObt::createDolBlathannaBowman()
+Card *createDolBlathannaBowman()
 {
     auto *card = new Card();
     card->id = "142314";
@@ -12475,7 +12477,7 @@ Card *CardsObt::createDolBlathannaBowman()
     return card;
 }
 
-Card *CardsObt::createDolBlathannaSentry()
+Card *createDolBlathannaSentry()
 {
     auto *card = new Card();
     card->id = "200039";
@@ -12495,7 +12497,7 @@ Card *CardsObt::createDolBlathannaSentry()
     return card;
 }
 
-Card *CardsObt::createElvenScout()
+Card *createElvenScout()
 {
     auto *card = new Card();
     card->id = "201638";
@@ -12514,7 +12516,7 @@ Card *CardsObt::createElvenScout()
     return card;
 }
 
-Card *CardsObt::createElvenSwordmaster()
+Card *createElvenSwordmaster()
 {
     auto *card = new Card();
     card->id = "200535";
@@ -12533,7 +12535,7 @@ Card *CardsObt::createElvenSwordmaster()
     return card;
 }
 
-Card *CardsObt::createDwarvenAgitator()
+Card *createDwarvenAgitator()
 {
     auto *card = new Card();
     card->id = "200293";
@@ -12549,7 +12551,7 @@ Card *CardsObt::createDwarvenAgitator()
     return card;
 }
 
-Card *CardsObt::createDwarvenMercenary()
+Card *createDwarvenMercenary()
 {
     auto *card = new Card();
     card->id = "142311";
@@ -12582,7 +12584,7 @@ Card *CardsObt::createDwarvenMercenary()
     return card;
 }
 
-Card *CardsObt::createDwarvenSkirmisher()
+Card *createDwarvenSkirmisher()
 {
     auto *card = new Card();
     card->id = "142305";
@@ -12602,7 +12604,7 @@ Card *CardsObt::createDwarvenSkirmisher()
     return card;
 }
 
-Card *CardsObt::createHawkerHealer()
+Card *createHawkerHealer()
 {
     auto *card = new Card();
     card->id = "142301";
@@ -12621,7 +12623,7 @@ Card *CardsObt::createHawkerHealer()
     return card;
 }
 
-Card *CardsObt::createHawkerSupport()
+Card *createHawkerSupport()
 {
     auto *card = new Card();
     card->id = "142312";
@@ -12640,7 +12642,7 @@ Card *CardsObt::createHawkerSupport()
     return card;
 }
 
-Card *CardsObt::createMahakamDefender()
+Card *createMahakamDefender()
 {
     auto *card = new Card();
     card->id = "142306";
@@ -12655,7 +12657,7 @@ Card *CardsObt::createMahakamDefender()
     return card;
 }
 
-Card *CardsObt::createMahakamGuard()
+Card *createMahakamGuard()
 {
     auto *card = new Card();
     card->id = "142317";
@@ -12674,7 +12676,7 @@ Card *CardsObt::createMahakamGuard()
     return card;
 }
 
-Card *CardsObt::createMahakamVolunteers()
+Card *createMahakamVolunteers()
 {
     auto *card = new Card();
     card->id = "201559";
@@ -12690,7 +12692,7 @@ Card *CardsObt::createMahakamVolunteers()
     return card;
 }
 
-Card *CardsObt::createPyrotechnician()
+Card *createPyrotechnician()
 {
     auto *card = new Card();
     card->id = "200135";
@@ -12708,7 +12710,7 @@ Card *CardsObt::createPyrotechnician()
     return card;
 }
 
-Card *CardsObt::createWardancer()
+Card *createWardancer()
 {
     auto *card = new Card();
     card->id = "142313";
@@ -12723,7 +12725,7 @@ Card *CardsObt::createWardancer()
     return card;
 }
 
-Card *CardsObt::createVriheddVanguard()
+Card *createVriheddVanguard()
 {
     auto *card = new Card();
     card->id = "142309";
@@ -12743,7 +12745,7 @@ Card *CardsObt::createVriheddVanguard()
     return card;
 }
 
-Card *CardsObt::createVriheddOfficer()
+Card *createVriheddOfficer()
 {
     auto *card = new Card();
     card->id = "142303";
@@ -12763,7 +12765,7 @@ Card *CardsObt::createVriheddOfficer()
     return card;
 }
 
-Card *CardsObt::createVriheddNeophyte()
+Card *createVriheddNeophyte()
 {
     auto *card = new Card();
     card->id = "142301";
@@ -12779,7 +12781,7 @@ Card *CardsObt::createVriheddNeophyte()
     return card;
 }
 
-Card *CardsObt::createVriheddBrigade()
+Card *createVriheddBrigade()
 {
     auto *card = new Card();
     card->id = "142302";
@@ -12808,7 +12810,7 @@ Card *CardsObt::createVriheddBrigade()
     return card;
 }
 
-Card *CardsObt::createHawkerSmuggler()
+Card *createHawkerSmuggler()
 {
     auto *card = new Card();
     card->id = "142315";
@@ -12827,7 +12829,7 @@ Card *CardsObt::createHawkerSmuggler()
     return card;
 }
 
-Card *CardsObt::createMennoCoehoorn()
+Card *createMennoCoehoorn()
 {
     auto *card = new Card();
     card->id = "162102";
@@ -12848,7 +12850,7 @@ Card *CardsObt::createMennoCoehoorn()
     return card;
 }
 
-Card *CardsObt::createRainfarnOfAttre()
+Card *createRainfarnOfAttre()
 {
     auto *card = new Card();
     card->id = "200032";
@@ -12867,7 +12869,7 @@ Card *CardsObt::createRainfarnOfAttre()
     return card;
 }
 
-Card *CardsObt::createAssassination()
+Card *createAssassination()
 {
     auto *card = new Card();
     card->id = "163101";
@@ -12888,7 +12890,7 @@ Card *CardsObt::createAssassination()
     return card;
 }
 
-Card *CardsObt::createStefanSkellen()
+Card *createStefanSkellen()
 {
     auto *card = new Card();
     card->id = "162106";
@@ -12909,7 +12911,7 @@ Card *CardsObt::createStefanSkellen()
     return card;
 }
 
-Card *CardsObt::createShilard()
+Card *createShilard()
 {
     auto *card = new Card();
     card->id = "200071";
@@ -12939,7 +12941,7 @@ Card *CardsObt::createShilard()
     return card;
 }
 
-Card *CardsObt::createXarthisius()
+Card *createXarthisius()
 {
     auto *card = new Card();
     card->id = "162108";
@@ -12958,7 +12960,7 @@ Card *CardsObt::createXarthisius()
     return card;
 }
 
-Card *CardsObt::createCantarella()
+Card *createCantarella()
 {
     auto *card = new Card();
     card->id = "162108";
@@ -12995,7 +12997,7 @@ Card *CardsObt::createCantarella()
     return card;
 }
 
-Card *CardsObt::createPanther()
+Card *createPanther()
 {
     auto *card = new Card();
     card->id = "200139";
@@ -13019,7 +13021,7 @@ Card *CardsObt::createPanther()
     return card;
 }
 
-Card *CardsObt::createVicovaroMedic()
+Card *createVicovaroMedic()
 {
     auto *card = new Card();
     card->id = "162304";
@@ -13039,7 +13041,7 @@ Card *CardsObt::createVicovaroMedic()
     return card;
 }
 
-Card *CardsObt::createAssireVarAnahid()
+Card *createAssireVarAnahid()
 {
     auto *card = new Card();
     card->id = "162202";
@@ -13067,7 +13069,7 @@ Card *CardsObt::createAssireVarAnahid()
     return card;
 }
 
-Card *CardsObt::createFringillaVigo()
+Card *createFringillaVigo()
 {
     auto *card = new Card();
     card->id = "162205";
@@ -13086,7 +13088,7 @@ Card *CardsObt::createFringillaVigo()
     return card;
 }
 
-Card *CardsObt::createFalseCiri()
+Card *createFalseCiri()
 {
     auto *card = new Card();
     card->id = "162212";
@@ -13115,4 +13117,6 @@ Card *CardsObt::createFalseCiri()
         }
     };
     return card;
+}
+
 }
