@@ -428,6 +428,7 @@ std::vector<Card *> allCards(const Patch)
         new NilfgaardianGate(),
         new PeterSaarGwynleve(),
         new VicovaroNovice(),
+        new Cadaverine(),
     };
 }
 
@@ -12511,5 +12512,60 @@ VicovaroNovice::VicovaroNovice()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+Cadaverine::Cadaverine()
+{
+    id = "201662";
+    name = "Cadaverine";
+    text = "Choose One: Deal 2 damage to an enemy and all units that share its categories; or Destroy a Bronze or Silver Neutral unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Alchemy, Item };
+    isSpecial = true;
+    faction = Nilfgaard;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new Cadaverine::DealDamage;
+        copyCardText(this, option1);
+        option1->text = "Deal 2 damage to an enemy and all units that share its categories.";
+
+        auto *option2 = new Cadaverine::Destroy;
+        copyCardText(this, option2);
+        option2->text = "Destroy a Bronze or Silver Neutral unit.";
+
+        _choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+    };
+
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (!_choosen && dynamic_cast<Cadaverine::DealDamage *>(target)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+
+        if (!_choosen && dynamic_cast<Cadaverine::Destroy *>(target)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
+            return;
+        }
+
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
+
+        if (dynamic_cast<Cadaverine::DealDamage *>(_choosen))
+            for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
+                damage(card, 2, ally, enemy, this);
+
+        if (dynamic_cast<Cadaverine::Destroy *>(_choosen))
+            putToDiscard(target, ally, enemy, this);
+
+        delete _choosen;
+        _choosen = nullptr;
     };
 }

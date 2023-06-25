@@ -339,17 +339,17 @@
 - [x] Rainfarn of Attre
 - [x] Shilard
 - [x] Stefan Skellen
-- [ ] Tibor Eggebracht
+- [x] Tibor Eggebracht
 - [x] Usurper
-- [ ] Vattier de Rideaux
-- [x] Vilgefortz __(NO ABILITY)__
+- [x] Vattier de Rideaux
+- [x] Vilgefortz
 - [x] Xarthisius
 - [x] Yennefer: Enchantress
 - [x] Yennefer: Necromancer
-- [ ] Albrich
+- [x] Albrich
 - [x] Assire var Anahid
 - [x] Auckes
-- [ ] Cadaverine
+- [x] Cadaverine
 - [x] Cantarella
 - [x] Ceallach Dyffryn
 - [x] Cynthia
@@ -357,38 +357,38 @@
 - [x] False Ciri
 - [x] Fringilla Vigo
 - [x] Hefty Helge
-- [ ] Henry var Attre
+- [x] Henry var Attre
 - [ ] Joachim de Wett
-- [x] Nilfgaardian Gate _(easy card)_
-- [x] Peter Saar Gwynleve _(easy card)_
-- [ ] Serrit
-- [ ] Sweers
+- [x] Nilfgaardian Gate
+- [x] Peter Saar Gwynleve
+- [x] Serrit
+- [x] Sweers
 - [x] The Guardian
 - [ ] Treason
 - [ ] Vanhemar
-- [x] Vreemde __(NO ABILITY)__
+- [x] Vreemde
 - [ ] Vrygheff
 - [x] Alba Armored Cavalry
 - [ ] Alba Pikeman
 - [ ] Alba Spearman
-- [ ] Alchemist
+- [x] Alchemist
 - [x] Ambassador
 - [x] Assassin
 - [ ] Combat Engineer
-- [ ] Daerlan Soldier
+- [x] Daerlan Soldier __(???)__
 - [x] Deithwen Arbalest
 - [x] Emissary
-- [ ] Fire Scorpion
+- [x] Fire Scorpion
 - [ ] Impera Brigade
 - [ ] Impera Enforcers
-- [ ] Imperial Golem
+- [x] Imperial Golem
 - [x] Infiltrator
 - [ ] Magne Division
-- [ ] Mangonel
-- [ ] Master of Disguise
+- [x] Mangonel
+- [x] Master of Disguise
 - [ ] Nauzicaa Brigade
-- [x] Nauzicaa Sergeant __(NO ABILITY)__
-- [ ] Nilfgaardian Knight
+- [x] Nauzicaa Sergeant
+- [x] Nilfgaardian Knight
 - [x] Ointment
 - [x] Recruit
 - [ ] Rot Tosser
@@ -396,11 +396,11 @@
 - [ ] Slave Driver
 - [ ] Slave Hunter
 - [x] Slave Infantry
-- [ ] Spotter
+- [x] Spotter
 - [ ] Standard Bearer
-- [ ] Venendal Elite
+- [x] Venendal Elite
 - [x] Vicovaro Medic
-- [x] Vicovaro Novice _(easy card)_
+- [x] Vicovaro Novice
 - [ ] Viper Witcher
 
 # Monster

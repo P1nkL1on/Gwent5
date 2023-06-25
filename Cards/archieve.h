@@ -2880,4 +2880,14 @@ struct VicovaroNovice : CardCollectible<VicovaroNovice>
 };
 
 
+struct Cadaverine : CardCollectible<Cadaverine>
+{
+    Cadaverine();
+private:
+    struct DealDamage : CardCollectible<DealDamage> {};
+    struct Destroy : CardCollectible<Destroy> {};
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H
