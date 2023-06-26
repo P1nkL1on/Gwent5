@@ -440,6 +440,7 @@ std::vector<Card *> allCards(const Patch)
         new SlaveDriver(),
         new SlaveHunter(),
         new ViperWitcher(),
+        new RotTosser(),
     };
 }
 
@@ -12882,5 +12883,46 @@ ViperWitcher::ViperWitcher()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         int x = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
         damage(target, x, ally, enemy, this);
+    };
+}
+
+RotTosser::RotTosser()
+{
+    id = "162302";
+    name = "Rot Tosser";
+    text = "Spawn a Cow Carcass on an enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new CowCarcass(), ally, enemy, this);
+    };
+}
+
+RotTosser::CowCarcass::CowCarcass()
+{
+    id = "162402";
+    name = "Cow Carcass";
+    text = "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isDoomed = true;
+    isLoyal = false;
+    power = powerBase = 1;
+    faction = Nilfgaard;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        for (Card *card : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
+            putToDiscard(card, ally, enemy, this);
+        banish(this, ally, enemy, this);
     };
 }

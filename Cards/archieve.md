@@ -391,7 +391,7 @@
 - [x] Nilfgaardian Knight
 - [x] Ointment
 - [x] Recruit
-- [ ] Rot Tosser
+- [x] Rot Tosser
 - [x] Sentry
 - [x] Slave Driver
 - [x] Slave Hunter

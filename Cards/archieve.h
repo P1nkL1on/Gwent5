@@ -2960,4 +2960,14 @@ struct ViperWitcher : CardCollectible<ViperWitcher>
 };
 
 
+struct RotTosser : CardCollectible<RotTosser>
+{
+    RotTosser();
+    struct CowCarcass : CardCollectible<CowCarcass>
+    {
+        CowCarcass();
+    };
+};
+
+
 #endif // CARDS_H
