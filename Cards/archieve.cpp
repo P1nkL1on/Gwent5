@@ -435,6 +435,8 @@ std::vector<Card *> allCards(const Patch)
         new Vrygheff(),
         new AlbaPikeman(),
         new CombatEngineer(),
+        new MagneDivision(),
+        new NauzicaaBrigade(),
     };
 }
 
@@ -12739,5 +12741,53 @@ CombatEngineer::CombatEngineer()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 5, ally, enemy, this);
+    };
+}
+
+MagneDivision::MagneDivision()
+{
+    id = "200044";
+    name = "Magne Division";
+    text = "Play a random Bronze Item from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 3;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.35.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.37.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.36.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+}
+
+NauzicaaBrigade::NauzicaaBrigade()
+{
+    id = "162310";
+    name = "Nauzicaa Brigade";
+    text = "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513916.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513914.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513922.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isSpying}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 7, ally, enemy, this))
+            strengthen(this, 4, ally, enemy, this);
     };
 }

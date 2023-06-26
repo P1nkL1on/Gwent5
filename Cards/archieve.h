@@ -2928,4 +2928,16 @@ struct CombatEngineer : CardCollectible<CombatEngineer>
 };
 
 
+struct MagneDivision : CardCollectible<MagneDivision>
+{
+    MagneDivision();
+};
+
+
+struct NauzicaaBrigade : CardCollectible<NauzicaaBrigade>
+{
+    NauzicaaBrigade();
+};
+
+
 #endif // CARDS_H

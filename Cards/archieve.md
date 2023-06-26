@@ -383,10 +383,10 @@
 - [ ] Impera Enforcers
 - [x] Imperial Golem
 - [x] Infiltrator
-- [ ] Magne Division
+- [x] Magne Division
 - [x] Mangonel
 - [x] Master of Disguise
-- [ ] Nauzicaa Brigade
+- [x] Nauzicaa Brigade
 - [x] Nauzicaa Sergeant
 - [x] Nilfgaardian Knight
 - [x] Ointment
