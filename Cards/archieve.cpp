@@ -437,6 +437,8 @@ std::vector<Card *> allCards(const Patch)
         new CombatEngineer(),
         new MagneDivision(),
         new NauzicaaBrigade(),
+        new SlaveDriver(),
+        new SlaveHunter(),
     };
 }
 
@@ -5885,8 +5887,10 @@ Serrit::Serrit()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
-        damage(target, x, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, 7, ally, enemy, this);
+        else
+            setPower(target, 1, ally, enemy, this);
     };
 }
 
@@ -12789,5 +12793,66 @@ NauzicaaBrigade::NauzicaaBrigade()
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         if (damage(target, 7, ally, enemy, this))
             strengthen(this, 4, ally, enemy, this);
+    };
+}
+
+SlaveDriver::SlaveDriver()
+{
+    id = "201612";
+    name = "Slave Driver";
+    text = "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 10;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.113.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.114.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.115.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.116.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.117.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_lostPower == -1) {
+            _lostPower = target->power - 1;
+            setPower(target, 1, ally, enemy, this);
+            if (_lostPower == 0) return;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _lostPower, ally, enemy, this);
+    };
+}
+
+SlaveHunter::SlaveHunter()
+{
+    id = "201609";
+    name = "Slave Hunter";
+    text = "Charm a Bronze enemy with 3 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.105.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.104.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.103.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.106.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.107.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, this);
     };
 }

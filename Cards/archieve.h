@@ -2940,4 +2940,18 @@ struct NauzicaaBrigade : CardCollectible<NauzicaaBrigade>
 };
 
 
+struct SlaveDriver : CardCollectible<SlaveDriver>
+{
+    SlaveDriver();
+private:
+    int _lostPower= -1;
+};
+
+
+struct SlaveHunter : CardCollectible<SlaveHunter>
+{
+    SlaveHunter();
+};
+
+
 #endif // CARDS_H

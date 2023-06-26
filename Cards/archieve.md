@@ -393,8 +393,8 @@
 - [x] Recruit
 - [ ] Rot Tosser
 - [x] Sentry
-- [ ] Slave Driver
-- [ ] Slave Hunter
+- [x] Slave Driver
+- [x] Slave Hunter
 - [x] Slave Infantry
 - [x] Spotter
 - [ ] Standard Bearer
