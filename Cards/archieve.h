@@ -2890,4 +2890,10 @@ private:
 };
 
 
+struct JoachimDeWett : CardCollectible<JoachimDeWett>
+{
+    JoachimDeWett();
+};
+
+
 #endif // CARDS_H

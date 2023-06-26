@@ -429,6 +429,7 @@ std::vector<Card *> allCards(const Patch)
         new PeterSaarGwynleve(),
         new VicovaroNovice(),
         new Cadaverine(),
+        new JoachimDeWett(),
     };
 }
 
@@ -12567,5 +12568,29 @@ Cadaverine::Cadaverine()
 
         delete _choosen;
         _choosen = nullptr;
+    };
+}
+
+JoachimDeWett::JoachimDeWett()
+{
+    id = "162211";
+    name = "Joachim de Wett";
+    text = "Spying. Play the top non-Spying Bronze or Silver unit from your deck and boost it by 10.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.19.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.18.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.17.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card* card = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
+            playExistedCard(card, ally, enemy, this);
+            boost(card, 10, ally, enemy, this);
+        }
     };
 }

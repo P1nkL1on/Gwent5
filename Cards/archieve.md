@@ -358,7 +358,7 @@
 - [x] Fringilla Vigo
 - [x] Hefty Helge
 - [x] Henry var Attre
-- [ ] Joachim de Wett
+- [x] Joachim de Wett
 - [x] Nilfgaardian Gate
 - [x] Peter Saar Gwynleve
 - [x] Serrit
