@@ -369,12 +369,12 @@
 - [x] Vreemde
 - [x] Vrygheff
 - [x] Alba Armored Cavalry
-- [ ] Alba Pikeman
+- [x] Alba Pikeman
 - [ ] Alba Spearman
 - [x] Alchemist
 - [x] Ambassador
 - [x] Assassin
-- [ ] Combat Engineer
+- [x] Combat Engineer
 - [x] Daerlan Soldier __(???)__
 - [x] Deithwen Arbalest
 - [x] Emissary

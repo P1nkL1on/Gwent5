@@ -433,6 +433,8 @@ std::vector<Card *> allCards(const Patch)
         new Treason(),
         new Vanhemar(),
         new Vrygheff(),
+        new AlbaPikeman(),
+        new CombatEngineer(),
     };
 }
 
@@ -12688,5 +12690,53 @@ Vrygheff::Vrygheff()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         playExistedCard(target, ally, enemy, this);
+    };
+}
+
+AlbaPikeman::AlbaPikeman()
+{
+    id = "162311";
+    name = "Alba Pikeman";
+    text = "Summon all copies of this unit to this row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 3;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514121.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514091.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514113.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    };
+}
+
+CombatEngineer::CombatEngineer()
+{
+    id = "162313";
+    name = "Combat Engineer";
+    text = "Boost an ally by 5. Crew.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Support };
+    isCrew = true;
+    power = powerBase = 6;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF2_Q502_00556520.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513907.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_01072393.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 5, ally, enemy, this);
     };
 }

@@ -2916,4 +2916,16 @@ struct Vrygheff : CardCollectible<Vrygheff>
 };
 
 
+struct AlbaPikeman : CardCollectible<AlbaPikeman>
+{
+    AlbaPikeman();
+};
+
+
+struct CombatEngineer : CardCollectible<CombatEngineer>
+{
+    CombatEngineer();
+};
+
+
 #endif // CARDS_H
