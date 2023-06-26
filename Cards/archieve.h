@@ -2810,4 +2810,122 @@ struct FalseCiri : CardCollectible<FalseCiri>
 };
 
 
+struct Dandelion : CardCollectible<Dandelion>
+{
+    Dandelion();
+};
+
+
+struct Kiyan : CardCollectible<Kiyan>
+{
+    Kiyan();
+private:
+    struct Play : CardCollectible<Play> {};
+    struct Create : CardCollectible<Create> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct PhilippaEilhart : CardCollectible<PhilippaEilhart>
+{
+    PhilippaEilhart();
+};
+
+
+struct RocheMerciless : CardCollectible<RocheMerciless>
+{
+    RocheMerciless();
+};
+
+
+struct Shani : CardCollectible<Shani>
+{
+    Shani();
+};
+
+
+struct Vandergrift : CardCollectible<Vandergrift>
+{
+    Vandergrift();
+};
+
+
+struct Botchling : CardCollectible<Botchling>
+{
+    Botchling();
+};
+
+
+struct Lubberkin : CardCollectible<Lubberkin>
+{
+    Lubberkin();
+};
+
+
+struct NilfgaardianGate : CardCollectible<NilfgaardianGate>
+{
+    NilfgaardianGate();
+};
+
+
+struct PeterSaarGwynleve : CardCollectible<PeterSaarGwynleve>
+{
+    PeterSaarGwynleve();
+};
+
+
+struct VicovaroNovice : CardCollectible<VicovaroNovice>
+{
+    VicovaroNovice();
+};
+
+
+struct Cadaverine : CardCollectible<Cadaverine>
+{
+    Cadaverine();
+private:
+    struct DealDamage : CardCollectible<DealDamage> {};
+    struct Destroy : CardCollectible<Destroy> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct JoachimDeWett : CardCollectible<JoachimDeWett>
+{
+    JoachimDeWett();
+};
+
+
+struct Treason : CardCollectible<Treason>
+{
+    Treason();
+private:
+    Card *_choosen = nullptr;
+};
+
+
+struct Vanhemar : CardCollectible<Vanhemar>
+{
+    Vanhemar();
+};
+
+
+struct Vrygheff : CardCollectible<Vrygheff>
+{
+    Vrygheff();
+};
+
+
+struct AlbaPikeman : CardCollectible<AlbaPikeman>
+{
+    AlbaPikeman();
+};
+
+
+struct CombatEngineer : CardCollectible<CombatEngineer>
+{
+    CombatEngineer();
+};
+
+
 #endif // CARDS_H

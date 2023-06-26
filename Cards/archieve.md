@@ -117,33 +117,33 @@
 # Nothern Realms
 
 - [x] Bloody Baron
-- [ ] Dandelion
+- [x] Dandelion
 - [x] John Natalis
 - [x] Keira Metz
 - [x] King Foltest
 - [x] King Henselt
 - [x] King Radovid V
-- [ ] Kiyan
-- [ ] Philippa Eilhart
+- [x] Kiyan
+- [x] Philippa Eilhart
 - [x] Princess Adda
 - [x] Priscilla
-- [ ] Roche: Merciless
+- [x] Roche: Merciless
 - [x] Seltkirk of Gulet
-- [ ] Shani _(easy card)_
-- [ ] Sigismund Dijkstra
-- [ ] Vandergrift
-- [ ] Vernon Roche
-- [ ] Botchling _(easy card)_
+- [x] Shani _(easy card)_
+- [x] Sigismund Dijkstra
+- [x] Vandergrift
+- [x] Vernon Roche
+- [x] Botchling _(easy card)_
 - [x] Dethmold
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
-- [ ] Lubberkin _(easy card)_
+- [x] Lubberkin _(easy card)_
 - [ ] Margarita of Aretuza
 - [ ] Nenneke
 - [x] Odrin
-- [ ] Prince Stennis
+- [x] Prince Stennis
 - [x] Princess Pavetta
-- [x] Ronvid the Incessant __(NO ABILITY)__
+- [x] Ronvid the Incessant
 - [ ] Sabrina Glevissig
 - [ ] Sabrina's Specter
 - [x] Sile de Tansarville
@@ -159,8 +159,8 @@
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram
 - [ ] Bloody Flail _(easy card)_
-- [ ] Blue Stripe Commando
-- [ ] Blue Stripe Scout
+- [x] Blue Stripe Commando
+- [x] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
 - [x] Dun Banner
@@ -339,17 +339,17 @@
 - [x] Rainfarn of Attre
 - [x] Shilard
 - [x] Stefan Skellen
-- [ ] Tibor Eggebracht
+- [x] Tibor Eggebracht
 - [x] Usurper
-- [ ] Vattier de Rideaux
-- [x] Vilgefortz __(NO ABILITY)__
+- [x] Vattier de Rideaux
+- [x] Vilgefortz
 - [x] Xarthisius
 - [x] Yennefer: Enchantress
 - [x] Yennefer: Necromancer
-- [ ] Albrich
+- [x] Albrich
 - [x] Assire var Anahid
 - [x] Auckes
-- [ ] Cadaverine
+- [x] Cadaverine
 - [x] Cantarella
 - [x] Ceallach Dyffryn
 - [x] Cynthia
@@ -357,38 +357,38 @@
 - [x] False Ciri
 - [x] Fringilla Vigo
 - [x] Hefty Helge
-- [ ] Henry var Attre
-- [ ] Joachim de Wett
-- [ ] Nilfgaardian Gate _(easy card)_
-- [ ] Peter Saar Gwynleve _(easy card)_
-- [ ] Serrit
-- [ ] Sweers
+- [x] Henry var Attre
+- [x] Joachim de Wett
+- [x] Nilfgaardian Gate
+- [x] Peter Saar Gwynleve
+- [x] Serrit
+- [x] Sweers
 - [x] The Guardian
-- [ ] Treason
-- [ ] Vanhemar
-- [x] Vreemde __(NO ABILITY)__
-- [ ] Vrygheff
+- [x] Treason
+- [x] Vanhemar
+- [x] Vreemde
+- [x] Vrygheff
 - [x] Alba Armored Cavalry
-- [ ] Alba Pikeman
+- [x] Alba Pikeman
 - [ ] Alba Spearman
-- [ ] Alchemist
+- [x] Alchemist
 - [x] Ambassador
 - [x] Assassin
-- [ ] Combat Engineer
-- [ ] Daerlan Soldier
+- [x] Combat Engineer
+- [x] Daerlan Soldier __(???)__
 - [x] Deithwen Arbalest
 - [x] Emissary
-- [ ] Fire Scorpion
+- [x] Fire Scorpion
 - [ ] Impera Brigade
 - [ ] Impera Enforcers
-- [ ] Imperial Golem
+- [x] Imperial Golem
 - [x] Infiltrator
 - [ ] Magne Division
-- [ ] Mangonel
-- [ ] Master of Disguise
+- [x] Mangonel
+- [x] Master of Disguise
 - [ ] Nauzicaa Brigade
-- [x] Nauzicaa Sergeant __(NO ABILITY)__
-- [ ] Nilfgaardian Knight
+- [x] Nauzicaa Sergeant
+- [x] Nilfgaardian Knight
 - [x] Ointment
 - [x] Recruit
 - [ ] Rot Tosser
@@ -396,11 +396,11 @@
 - [ ] Slave Driver
 - [ ] Slave Hunter
 - [x] Slave Infantry
-- [ ] Spotter
+- [x] Spotter
 - [ ] Standard Bearer
-- [ ] Venendal Elite
+- [x] Venendal Elite
 - [x] Vicovaro Medic
-- [ ] Vicovaro Novice _(easy card)_
+- [x] Vicovaro Novice
 - [ ] Viper Witcher
 
 # Monster

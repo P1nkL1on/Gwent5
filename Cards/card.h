@@ -318,7 +318,7 @@ RowAndPos rowAndPosLastInTheSameRow(const Card *card, const Field &field);
 //RowAndPos rowAndPosLastInExactRow(const Field &field);
 RowAndPos rowAndPosRandom(Field &field);
 Row fromScreenRow(const int screenRow, bool &isAlly);
-int toScreenRow(const Row row, const bool &isAlly);
+int toScreenRow(const Row row, const bool isAlly);
 
 /// may be used as top or most-left
 std::vector<Card *> firsts(const std::vector<Card *> &cards, const int nFirsts);

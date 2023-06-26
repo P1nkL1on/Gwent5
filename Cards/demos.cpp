@@ -1435,3 +1435,64 @@ void demoNilfgaardMages(Field &ally, Field &enemy)
 
     startDemo(ally, enemy, false, false);
 }
+
+void demoNothern(Field &ally, Field &enemy)
+{
+    auto *m = new ImperialManticore();
+    auto *m1 = new Cantarella();
+    auto *m2 = new Frightener();
+    auto *d = new Dandelion();
+    auto *d1 = new DandelionPoet();
+    auto *k = new Kiyan();
+    auto *v = new Vandergrift();
+    auto *pe = new PhilippaEilhart();
+    auto *f = new KingFoltest();
+    auto *b = new Botchling();
+    auto *b1 = new Botchling();
+    auto *b2 = new Lubberkin();
+    auto *w = new Lubberkin();
+    auto *s = new Swallow();
+
+    ally.cardsAdded = {v, pe, f, d, d1, k, b, b1, b2, w, s};
+    ally.leader = f;
+    ally.hand = {d, d1, k, pe, v};
+    ally.deck = {b, b1, b2, w, s};
+
+    enemy.cardsAdded = {m, m1, m2};
+    enemy.rowMeele = {m, m1};
+    enemy.rowRange = {m2};
+
+    startDemo(ally, enemy, true, true);
+}
+
+void demoTreason(Field &ally, Field &enemy)
+{
+    auto *a1 = new ImperialManticore();
+    auto *a2 = new ImperialManticore();
+    auto *a3 = new Treason();
+
+    ally.cardsAdded = {a1, a2, a3};
+    ally.rowMeele = {a1, a2};
+    ally.hand = {a3};
+
+    auto *m = new ImperialManticore();
+    auto *m1 = new Cantarella();
+    auto *m2 = new Milva();
+    auto *m3 = new TemerianDrummer();
+    auto *m4 = new Morenn();
+    auto *m5 = new TemerianDrummer();
+    auto *m6 = new TemerianDrummer();
+
+    auto *r = new ImperialManticore();
+    auto *r1 = new Morenn();
+    auto *r2 = new TemerianDrummer();
+
+    auto *s = new TemerianDrummer();
+
+    enemy.cardsAdded = {m, m1, m2, m3, m4, m5, m6, r, r1, r2, s};
+    enemy.rowMeele = {m, m1, m2, m3, m4, m5, m6};
+    enemy.rowRange = {r, r1, r2};
+    enemy.rowSeige = {s};
+
+    startDemo(ally, enemy, true, true);
+}
