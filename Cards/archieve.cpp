@@ -430,6 +430,7 @@ std::vector<Card *> allCards(const Patch)
         new VicovaroNovice(),
         new Cadaverine(),
         new JoachimDeWett(),
+        new Treason(),
     };
 }
 
@@ -12592,5 +12593,47 @@ JoachimDeWett::JoachimDeWett()
             playExistedCard(card, ally, enemy, this);
             boost(card, 10, ally, enemy, this);
         }
+    };
+}
+
+Treason::Treason()
+{
+    id = "163201";
+    name = "Treason";
+    text = "Force 2 adjacent enemies to Duel each other.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Tactics };
+    isSpecial = true;
+    faction = Nilfgaard;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        std::vector<Card *> cardsToChoice;
+        for(Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (!card->isAmbush) {
+                Card *left = cardNextTo(card, ally, enemy, -1);
+                Card *right = cardNextTo(card, ally, enemy, 1);
+                if ((left != nullptr && !left->isAmbush) || (right != nullptr && !right->isAmbush))
+                   cardsToChoice.push_back(card);
+            }
+        }
+        startChoiceToTargetCard(ally, enemy, this, cardsToChoice);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_choosen == nullptr) {
+            _choosen = target;
+            std::vector<Card *> cards;
+            if (Card *left = cardNextTo(target, ally, enemy, -1))
+                if(!left->isAmbush)
+                    cards.push_back(left);
+            if (Card *right = cardNextTo(target, ally, enemy, 1))
+                if(!right->isAmbush)
+                    cards.push_back(right);
+            assert(cards.size() != 0);
+            startChoiceToTargetCard(ally, enemy, this, cards);
+            return;
+        }
+        duel(_choosen, target, ally, enemy);
     };
 }

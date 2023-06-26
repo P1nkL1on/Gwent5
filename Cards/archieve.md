@@ -364,7 +364,7 @@
 - [x] Serrit
 - [x] Sweers
 - [x] The Guardian
-- [ ] Treason
+- [x] Treason
 - [ ] Vanhemar
 - [x] Vreemde
 - [ ] Vrygheff

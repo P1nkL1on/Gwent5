@@ -2896,4 +2896,12 @@ struct JoachimDeWett : CardCollectible<JoachimDeWett>
 };
 
 
+struct Treason : CardCollectible<Treason>
+{
+    Treason();
+private:
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H
