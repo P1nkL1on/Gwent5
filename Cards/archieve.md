@@ -365,9 +365,9 @@
 - [x] Sweers
 - [x] The Guardian
 - [x] Treason
-- [ ] Vanhemar
+- [x] Vanhemar
 - [x] Vreemde
-- [ ] Vrygheff
+- [x] Vrygheff
 - [x] Alba Armored Cavalry
 - [ ] Alba Pikeman
 - [ ] Alba Spearman

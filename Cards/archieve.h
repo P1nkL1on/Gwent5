@@ -2904,4 +2904,16 @@ private:
 };
 
 
+struct Vanhemar : CardCollectible<Vanhemar>
+{
+    Vanhemar();
+};
+
+
+struct Vrygheff : CardCollectible<Vrygheff>
+{
+    Vrygheff();
+};
+
+
 #endif // CARDS_H

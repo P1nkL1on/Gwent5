@@ -431,6 +431,8 @@ std::vector<Card *> allCards(const Patch)
         new Cadaverine(),
         new JoachimDeWett(),
         new Treason(),
+        new Vanhemar(),
+        new Vrygheff(),
     };
 }
 
@@ -12635,5 +12637,56 @@ Treason::Treason()
             return;
         }
         duel(_choosen, target, ally, enemy);
+    };
+}
+
+Vanhemar::Vanhemar()
+{
+    id = "162207";
+    name = "Vanhemar";
+    text = "Spawn Biting Frost, Clear Skies or Shrike.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage };
+    power = powerBase = 4;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_NM01_200057_0187.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_NM01_200996_0005.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_NM01_200049_0007.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ClearSkies(), new Shrike()});
+    };
+
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, this);
+    };
+}
+
+Vrygheff::Vrygheff()
+{
+    id = "201664";
+    name = "Vrygheff";
+    text = "Play a Bronze Machine from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.256.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.255.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.253.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.254.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
     };
 }
