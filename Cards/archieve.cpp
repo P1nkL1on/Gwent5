@@ -12461,6 +12461,7 @@ NilfgaardianGate::NilfgaardianGate()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        boost(target, 1, ally, enemy, this);
         playExistedCard(target, ally, enemy, this);
     };
 }
@@ -12594,8 +12595,8 @@ JoachimDeWett::JoachimDeWett()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         if (Card* card = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
-            playExistedCard(card, ally, enemy, this);
             boost(card, 10, ally, enemy, this);
+            playExistedCard(card, ally, enemy, this);
         }
     };
 }
