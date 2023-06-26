@@ -439,6 +439,7 @@ std::vector<Card *> allCards(const Patch)
         new NauzicaaBrigade(),
         new SlaveDriver(),
         new SlaveHunter(),
+        new ViperWitcher(),
     };
 }
 
@@ -12854,5 +12855,32 @@ SlaveHunter::SlaveHunter()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         charm(target, ally, enemy, this);
+    };
+}
+
+ViperWitcher::ViperWitcher()
+{
+    id = "200124";
+    name = "Viper Witcher";
+    text = "Deal 1 damage for each Alchemy card in your starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.339.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.338.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.337.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int x = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
+        damage(target, x, ally, enemy, this);
     };
 }

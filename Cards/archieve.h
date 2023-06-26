@@ -2954,4 +2954,10 @@ struct SlaveHunter : CardCollectible<SlaveHunter>
 };
 
 
+struct ViperWitcher : CardCollectible<ViperWitcher>
+{
+    ViperWitcher();
+};
+
+
 #endif // CARDS_H

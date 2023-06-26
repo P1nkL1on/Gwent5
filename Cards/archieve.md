@@ -401,7 +401,7 @@
 - [x] Venendal Elite
 - [x] Vicovaro Medic
 - [x] Vicovaro Novice
-- [ ] Viper Witcher
+- [x] Viper Witcher
 
 # Monster
 
