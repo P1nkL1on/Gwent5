@@ -2928,4 +2928,52 @@ struct CombatEngineer : CardCollectible<CombatEngineer>
 };
 
 
+struct MagneDivision : CardCollectible<MagneDivision>
+{
+    MagneDivision();
+};
+
+
+struct NauzicaaBrigade : CardCollectible<NauzicaaBrigade>
+{
+    NauzicaaBrigade();
+};
+
+
+struct SlaveDriver : CardCollectible<SlaveDriver>
+{
+    SlaveDriver();
+private:
+    int _lostPower= -1;
+};
+
+
+struct SlaveHunter : CardCollectible<SlaveHunter>
+{
+    SlaveHunter();
+};
+
+
+struct ViperWitcher : CardCollectible<ViperWitcher>
+{
+    ViperWitcher();
+};
+
+
+struct RotTosser : CardCollectible<RotTosser>
+{
+    RotTosser();
+    struct CowCarcass : CardCollectible<CowCarcass>
+    {
+        CowCarcass();
+    };
+};
+
+
+struct StandardBearer : CardCollectible<StandardBearer>
+{
+    StandardBearer();
+};
+
+
 #endif // CARDS_H

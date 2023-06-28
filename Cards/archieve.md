@@ -383,25 +383,25 @@
 - [ ] Impera Enforcers
 - [x] Imperial Golem
 - [x] Infiltrator
-- [ ] Magne Division
+- [x] Magne Division
 - [x] Mangonel
 - [x] Master of Disguise
-- [ ] Nauzicaa Brigade
+- [x] Nauzicaa Brigade
 - [x] Nauzicaa Sergeant
 - [x] Nilfgaardian Knight
 - [x] Ointment
 - [x] Recruit
-- [ ] Rot Tosser
+- [x] Rot Tosser
 - [x] Sentry
-- [ ] Slave Driver
-- [ ] Slave Hunter
+- [x] Slave Driver
+- [x] Slave Hunter
 - [x] Slave Infantry
 - [x] Spotter
-- [ ] Standard Bearer
+- [x] Standard Bearer
 - [x] Venendal Elite
 - [x] Vicovaro Medic
 - [x] Vicovaro Novice
-- [ ] Viper Witcher
+- [x] Viper Witcher
 
 # Monster
 

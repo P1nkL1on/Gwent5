@@ -435,6 +435,13 @@ std::vector<Card *> allCards(const Patch)
         new Vrygheff(),
         new AlbaPikeman(),
         new CombatEngineer(),
+        new MagneDivision(),
+        new NauzicaaBrigade(),
+        new SlaveDriver(),
+        new SlaveHunter(),
+        new ViperWitcher(),
+        new RotTosser(),
+        new StandardBearer(),
     };
 }
 
@@ -5883,8 +5890,10 @@ Serrit::Serrit()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
-        damage(target, x, ally, enemy, this);
+        if (isOnBoard(target, enemy))
+            damage(target, 7, ally, enemy, this);
+        else
+            setPower(target, 1, ally, enemy, this);
     };
 }
 
@@ -12739,5 +12748,209 @@ CombatEngineer::CombatEngineer()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         boost(target, 5, ally, enemy, this);
+    };
+}
+
+MagneDivision::MagneDivision()
+{
+    id = "200044";
+    name = "Magne Division";
+    text = "Play a random Bronze Item from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 3;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.35.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.37.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.36.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, this);
+    };
+}
+
+NauzicaaBrigade::NauzicaaBrigade()
+{
+    id = "162310";
+    name = "Nauzicaa Brigade";
+    text = "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513916.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513914.mp3",
+        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513922.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isSpying}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 7, ally, enemy, this))
+            strengthen(this, 4, ally, enemy, this);
+    };
+}
+
+SlaveDriver::SlaveDriver()
+{
+    id = "201612";
+    name = "Slave Driver";
+    text = "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Officer };
+    power = powerBase = 10;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.113.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.114.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.115.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.116.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.117.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        if (_lostPower == -1) {
+            _lostPower = target->power - 1;
+            setPower(target, 1, ally, enemy, this);
+            if (_lostPower == 0)
+                return;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _lostPower, ally, enemy, this);
+    };
+}
+
+SlaveHunter::SlaveHunter()
+{
+    id = "201609";
+    name = "Slave Hunter";
+    text = "Charm a Bronze enemy with 3 power or less.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.105.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.104.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.103.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.106.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.107.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, this);
+    };
+}
+
+ViperWitcher::ViperWitcher()
+{
+    id = "200124";
+    name = "Viper Witcher";
+    text = "Deal 1 damage for each Alchemy card in your starting deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Witcher };
+    power = powerBase = 5;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.339.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.338.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.337.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
+        damage(target, dmg, ally, enemy, this);
+    };
+}
+
+RotTosser::RotTosser()
+{
+    id = "162302";
+    name = "Rot Tosser";
+    text = "Spawn a Cow Carcass on an enemy row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        spawnNewCard(new CowCarcass(), ally, enemy, this);
+    };
+}
+
+RotTosser::CowCarcass::CowCarcass()
+{
+    id = "162402";
+    name = "Cow Carcass";
+    text = "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    isDoomed = true;
+    isLoyal = false;
+    power = powerBase = 1;
+    faction = Nilfgaard;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        setTimer(this, ally, enemy, 2);
+    };
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!tick(this, ally, enemy))
+            return;
+        for (Card *card : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
+            putToDiscard(card, ally, enemy, this);
+        banish(this, ally, enemy, this);
+    };
+}
+
+StandardBearer::StandardBearer()
+{
+    id = "200294";
+    name = "Standard Bearer";
+    text = "Boost an ally by 2 whenever you play a Soldier.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.338.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.339.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.340.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.341.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.342.mp3",
+    };
+
+    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        if (hasTag(other, Soldier))
+            boost(this, 2, ally, enemy, this);
     };
 }

@@ -1470,10 +1470,13 @@ void demoTreason(Field &ally, Field &enemy)
     auto *a1 = new ImperialManticore();
     auto *a2 = new ImperialManticore();
     auto *a3 = new Treason();
+    auto *a4 = new RotTosser();
+    auto *a5 = new Swallow();
+    auto *a6 = new Swallow();
 
-    ally.cardsAdded = {a1, a2, a3};
+    ally.cardsAdded = {a1, a2, a3, a4, a5, a6};
     ally.rowMeele = {a1, a2};
-    ally.hand = {a3};
+    ally.hand = {a3, a4, a5, a6};
 
     auto *m = new ImperialManticore();
     auto *m1 = new Cantarella();
