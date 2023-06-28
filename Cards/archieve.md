@@ -397,7 +397,7 @@
 - [x] Slave Hunter
 - [x] Slave Infantry
 - [x] Spotter
-- [ ] Standard Bearer
+- [x] Standard Bearer
 - [x] Venendal Elite
 - [x] Vicovaro Medic
 - [x] Vicovaro Novice

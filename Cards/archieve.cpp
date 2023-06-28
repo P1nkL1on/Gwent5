@@ -441,6 +441,7 @@ std::vector<Card *> allCards(const Patch)
         new SlaveHunter(),
         new ViperWitcher(),
         new RotTosser(),
+        new StandardBearer(),
     };
 }
 
@@ -12924,5 +12925,29 @@ RotTosser::CowCarcass::CowCarcass()
         for (Card *card : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
             putToDiscard(card, ally, enemy, this);
         banish(this, ally, enemy, this);
+    };
+}
+
+StandardBearer::StandardBearer()
+{
+    id = "200294";
+    name = "Standard Bearer";
+    text = "Boost an ally by 2 whenever you play a Soldier.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Soldier };
+    power = powerBase = 8;
+    faction = Nilfgaard;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.338.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.339.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.340.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.341.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.342.mp3",
+    };
+
+    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+        if (hasTag(other, Soldier))
+            boost(this, 2, ally, enemy, this);
     };
 }

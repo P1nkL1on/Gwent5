@@ -2970,4 +2970,10 @@ struct RotTosser : CardCollectible<RotTosser>
 };
 
 
+struct StandardBearer : CardCollectible<StandardBearer>
+{
+    StandardBearer();
+};
+
+
 #endif // CARDS_H
