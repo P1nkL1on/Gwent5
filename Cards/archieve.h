@@ -2988,4 +2988,16 @@ struct Nenneke : CardCollectible<Nenneke>
 };
 
 
+struct SabrinasSpecter : CardCollectible<SabrinasSpecter>
+{
+    SabrinasSpecter();
+};
+
+
+struct SabrinaGlevissig : CardCollectible<SabrinaGlevissig>
+{
+    SabrinaGlevissig();
+};
+
+
 #endif // CARDS_H

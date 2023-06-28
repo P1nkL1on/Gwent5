@@ -144,8 +144,8 @@
 - [x] Prince Stennis
 - [x] Princess Pavetta
 - [x] Ronvid the Incessant
-- [ ] Sabrina Glevissig
-- [ ] Sabrina's Specter
+- [x] Sabrina Glevissig
+- [x] Sabrina's Specter
 - [x] Sile de Tansarville
 - [ ] Thaler
 - [x] Trollololo

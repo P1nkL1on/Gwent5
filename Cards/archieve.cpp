@@ -444,6 +444,8 @@ std::vector<Card *> allCards(const Patch)
         new StandardBearer(),
         new MargaritaOfAretuza(),
         new Nenneke(),
+        new SabrinasSpecter(),
+        new SabrinaGlevissig(),
     };
 }
 
@@ -13005,5 +13007,56 @@ Nenneke::Nenneke()
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
         putToDeck(target, ally, enemy, DeckPosRandom, this);
+    };
+}
+
+SabrinasSpecter::SabrinasSpecter()
+{
+    id = "201650";
+    name = "Sabrina's Specter";
+    text = "Resurrect a Bronze Cursed unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Cursed };
+    isDoomed = true;
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Cursed)}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+SabrinaGlevissig::SabrinaGlevissig()
+{
+    id = "122206";
+    name = "Sabrina Glevissig";
+    text = "Spying. Deathwish: Set the power of all units on the row to the power of the Lowest unit on the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Kaedwen, Mage };
+    isLoyal = false;
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        std::vector<Card *> cards = ally.row(rowAndPos.row());
+        const int power = lowest(cards, ally.rng)->power;
+        for (Card *card : cards)
+            setPower(card, power, ally, enemy, this);
     };
 }
