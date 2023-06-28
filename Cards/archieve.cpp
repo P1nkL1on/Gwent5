@@ -442,6 +442,8 @@ std::vector<Card *> allCards(const Patch)
         new ViperWitcher(),
         new RotTosser(),
         new StandardBearer(),
+        new MargaritaOfAretuza(),
+        new Nenneke(),
     };
 }
 
@@ -12952,5 +12954,56 @@ StandardBearer::StandardBearer()
             return;
         if (hasTag(other, Soldier))
             boost(this, 2, ally, enemy, this);
+    };
+}
+
+MargaritaOfAretuza::MargaritaOfAretuza()
+{
+    id = "122211";
+    name = "Margarita of Aretuza";
+    text = "Reset a unit and toggle its Lock status.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Mage };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MGLA_Q210_00584250.mp3",
+        "https://gwent.one/audio/card/ob/en/MGLA_Q310_00562485.mp3",
+        "https://gwent.one/audio/card/ob/en/MGLA_MARGARITTA_01012961.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, this);
+        toggleLock(target, ally, enemy, this);
+    };
+}
+
+Nenneke::Nenneke()
+{
+    id = "122212";
+    name = "Nenneke";
+    text = "Return 3 Bronze or Silver units from the graveyard to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Support };
+    power = powerBase = 10;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.43.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.42.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.44.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyDiscard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, this);
     };
 }

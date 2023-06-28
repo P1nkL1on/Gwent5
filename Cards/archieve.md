@@ -138,8 +138,8 @@
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
 - [x] Lubberkin _(easy card)_
-- [ ] Margarita of Aretuza
-- [ ] Nenneke
+- [x] Margarita of Aretuza
+- [x] Nenneke
 - [x] Odrin
 - [x] Prince Stennis
 - [x] Princess Pavetta

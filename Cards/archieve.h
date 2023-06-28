@@ -2976,4 +2976,16 @@ struct StandardBearer : CardCollectible<StandardBearer>
 };
 
 
+struct MargaritaOfAretuza : CardCollectible<MargaritaOfAretuza>
+{
+    MargaritaOfAretuza();
+};
+
+
+struct Nenneke : CardCollectible<Nenneke>
+{
+    Nenneke();
+};
+
+
 #endif // CARDS_H
