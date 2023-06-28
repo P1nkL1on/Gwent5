@@ -12825,7 +12825,8 @@ SlaveDriver::SlaveDriver()
         if (_lostPower == -1) {
             _lostPower = target->power - 1;
             setPower(target, 1, ally, enemy, this);
-            if (_lostPower == 0) return;
+            if (_lostPower == 0)
+                return;
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
             return;
         }
@@ -12882,8 +12883,8 @@ ViperWitcher::ViperWitcher()
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int x = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
-        damage(target, x, ally, enemy, this);
+        const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
+        damage(target, dmg, ally, enemy, this);
     };
 }
 
@@ -12947,6 +12948,8 @@ StandardBearer::StandardBearer()
     };
 
     _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         if (hasTag(other, Soldier))
             boost(this, 2, ally, enemy, this);
     };
