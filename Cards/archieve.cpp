@@ -446,6 +446,9 @@ std::vector<Card *> allCards(const Patch)
         new Nenneke(),
         new SabrinasSpecter(),
         new SabrinaGlevissig(),
+        new Thaler(),
+        new AedirnianMauler(),
+        new AretuzaAdept(),
     };
 }
 
@@ -13058,5 +13061,81 @@ SabrinaGlevissig::SabrinaGlevissig()
         const int power = lowest(cards, ally.rng)->power;
         for (Card *card : cards)
             setPower(card, power, ally, enemy, this);
+    };
+}
+
+Thaler::Thaler()
+{
+    id = "122203";
+    name = "Thaler";
+    text = "Spying. Single-Use: Draw 2 cards, keep one and return the other to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria };
+    isLoyal = false;
+    timer = 1;
+    power = powerBase = 13;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067599.mp3",
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067657.mp3",
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067677.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  this);
+    };
+}
+
+AedirnianMauler::AedirnianMauler()
+{
+    id = "200540";
+    name = "Aedirnian Mauler";
+    text = "Deal 4 damage to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Aedirn, Soldier };
+    power = powerBase = 7;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.82.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.81.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.80.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.79.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.78.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyDeck);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 4, ally, enemy, this);
+    };
+}
+
+AretuzaAdept::AretuzaAdept()
+{
+    id = "200033";
+    name = "Aretuza Adept";
+    text = "Play a random Bronze Hazard from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Mage };
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.376.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.377.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.378.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        playExistedCard(random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng), ally, enemy, this);
     };
 }

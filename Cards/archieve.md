@@ -147,14 +147,14 @@
 - [x] Sabrina Glevissig
 - [x] Sabrina's Specter
 - [x] Sile de Tansarville
-- [ ] Thaler
+- [x] Thaler
 - [x] Trollololo
 - [ ] Vandergrift's Blade
 - [x] Ves
 - [x] Vincent Meis
 - [x] Zoria Runestone
-- [ ] Aedirnian Mauler _(easy card)_
-- [ ] Aretuza Adept _(easy card)_
+- [x] Aedirnian Mauler
+- [x] Aretuza Adept
 - [ ] Ballista
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram

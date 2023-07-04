@@ -3000,4 +3000,22 @@ struct SabrinaGlevissig : CardCollectible<SabrinaGlevissig>
 };
 
 
+struct Thaler : CardCollectible<Thaler>
+{
+    Thaler();
+};
+
+
+struct AedirnianMauler : CardCollectible<AedirnianMauler>
+{
+    AedirnianMauler();
+};
+
+
+struct AretuzaAdept : CardCollectible<AretuzaAdept>
+{
+    AretuzaAdept();
+};
+
+
 #endif // CARDS_H
