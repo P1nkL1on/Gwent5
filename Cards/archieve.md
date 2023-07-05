@@ -149,7 +149,7 @@
 - [x] Sile de Tansarville
 - [x] Thaler
 - [x] Trollololo
-- [ ] Vandergrift's Blade
+- [x] Vandergrift's Blade
 - [x] Ves
 - [x] Vincent Meis
 - [x] Zoria Runestone

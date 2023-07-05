@@ -449,6 +449,7 @@ std::vector<Card *> allCards(const Patch)
         new Thaler(),
         new AedirnianMauler(),
         new AretuzaAdept(),
+        new VandergriftsBlade(),
     };
 }
 
@@ -13137,5 +13138,62 @@ AretuzaAdept::AretuzaAdept()
 
     _onDeploy = [=](Field &ally, Field &enemy) {
         playExistedCard(random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng), ally, enemy, this);
+    };
+}
+
+VandergriftsBlade::VandergriftsBlade()
+{
+    id = "201648";
+    name = "Vandergrift's Blade";
+    text = "Choose One: Destroy a Bronze or Silver Cursed enemy; or Deal 9 damage and, if the unit was destroyed, Banish it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Item };
+    isSpecial = true;
+    faction = NothernRealms;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new VandergriftsBlade::Destroy;
+        copyCardText(this, option1);
+        option1->text = "Destroy a Bronze or Silver Cursed enemy.";
+
+        auto *option2 = new VandergriftsBlade::Damage;
+        copyCardText(this, option2);
+        option2->text = "Deal 9 damage and, if the unit was destroyed, Banish it.";
+
+        _choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+    };
+
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        _choosen = target;
+        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen))
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
+        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen))
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
+
+        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
+            putToDiscard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
+            if (damage(target, 9, ally, enemy, this))
+                banish(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
     };
 }

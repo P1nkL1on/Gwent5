@@ -3018,4 +3018,14 @@ struct AretuzaAdept : CardCollectible<AretuzaAdept>
 };
 
 
+struct VandergriftsBlade : CardCollectible<VandergriftsBlade>
+{
+    VandergriftsBlade();
+private:
+    struct Destroy : CardCollectible<Destroy> {};
+    struct Damage : CardCollectible<Damage> {};
+    Card *_choosen = nullptr;
+};
+
+
 #endif // CARDS_H
