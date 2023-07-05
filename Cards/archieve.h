@@ -3028,4 +3028,17 @@ private:
 };
 
 
+struct ReinforcedTrebuchet : CardCollectible<ReinforcedTrebuchet>
+{
+    ReinforcedTrebuchet();
+};
+
+
+struct Ballista : CardCollectible<Ballista>
+{
+    Ballista();
+};
+
+
+
 #endif // CARDS_H

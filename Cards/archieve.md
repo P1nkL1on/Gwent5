@@ -155,7 +155,7 @@
 - [x] Zoria Runestone
 - [x] Aedirnian Mauler
 - [x] Aretuza Adept
-- [ ] Ballista
+- [x] Ballista
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram
 - [ ] Bloody Flail _(easy card)_
@@ -176,7 +176,7 @@
 - [x] Redanian Knight
 - [x] Redanian Knight-Elect
 - [x] Reinforced Ballista
-- [ ] Reinforced Trebuchet
+- [x] Reinforced Trebuchet
 - [ ] Siege Master
 - [ ] Siege Support
 - [ ] Siege Tower

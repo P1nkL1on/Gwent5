@@ -450,6 +450,8 @@ std::vector<Card *> allCards(const Patch)
         new AedirnianMauler(),
         new AretuzaAdept(),
         new VandergriftsBlade(),
+        new ReinforcedTrebuchet(),
+        new Ballista(),
     };
 }
 
@@ -13195,5 +13197,46 @@ VandergriftsBlade::VandergriftsBlade()
         }
 
         assert(false);
+    };
+}
+
+ReinforcedTrebuchet::ReinforcedTrebuchet()
+{
+    id = "122315";
+    name = "Reinforced Trebuchet";
+    text = "Deal 1 damage to a random enemy on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 8;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+    };
+}
+
+Ballista::Ballista()
+{
+    id = "122301";
+    name = "Ballista";
+    text = "Deal 1 damage to an enemy and 4 other random enemies with the same power. Crewed: Repeat its ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        int n = nCrewed(this, ally);
+        while (n--)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> cards = randoms(cardsFiltered(ally, enemy, {hasPowerX(target->power), otherThan(target)}, EnemyBoard), 4, ally.rng);
+        cards.push_back(target);
+        for (Card *card : cards)
+            damage(card, 1, ally, enemy, this);
     };
 }
