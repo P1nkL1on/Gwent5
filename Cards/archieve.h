@@ -3040,5 +3040,15 @@ struct Ballista : CardCollectible<Ballista>
 };
 
 
+struct BloodyFlail : CardCollectible<BloodyFlail>
+{
+    struct Specter : CardCollectible<Specter>
+    {
+        Specter();
+    };
+    BloodyFlail();
+};
+
+
 
 #endif // CARDS_H

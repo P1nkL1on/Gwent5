@@ -158,7 +158,7 @@
 - [x] Ballista
 - [ ] Ban Ard Tutor
 - [ ] Battering Ram
-- [ ] Bloody Flail _(easy card)_
+- [x] Bloody Flail _(easy card)_
 - [x] Blue Stripe Commando
 - [x] Blue Stripe Scout
 - [ ] Cursed Knight

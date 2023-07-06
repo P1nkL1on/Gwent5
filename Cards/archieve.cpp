@@ -452,6 +452,7 @@ std::vector<Card *> allCards(const Patch)
         new VandergriftsBlade(),
         new ReinforcedTrebuchet(),
         new Ballista(),
+        new BloodyFlail(),
     };
 }
 
@@ -13239,4 +13240,39 @@ Ballista::Ballista()
         for (Card *card : cards)
             damage(card, 1, ally, enemy, this);
     };
+}
+
+BloodyFlail::BloodyFlail()
+{
+    id = "201633";
+    name = "Bloody Flail";
+    text = "Deal 5 damage and Spawn a Specter on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Item };
+    isSpecial = true;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+        spawnNewUnitToPos(new Specter(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+
+}
+
+BloodyFlail::Specter::Specter()
+{
+    // TODO: find a real picture
+    id = "201633";
+    name = "Specter";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    isDoomed = true;
+    power = powerBase = 5;
+    faction = NothernRealms;
+    rarity = Bronze;
 }
