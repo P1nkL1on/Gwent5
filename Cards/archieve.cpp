@@ -453,6 +453,8 @@ std::vector<Card *> allCards(const Patch)
         new ReinforcedTrebuchet(),
         new Ballista(),
         new BloodyFlail(),
+        new BatteringRam(),
+        new Trebuchet(),
     };
 }
 
@@ -13275,4 +13277,51 @@ BloodyFlail::Specter::Specter()
     power = powerBase = 5;
     faction = NothernRealms;
     rarity = Bronze;
+}
+
+BatteringRam::BatteringRam()
+{
+    id = "200049";
+    name = "Battering Ram";
+    text = "Deal 3 damage to an enemy. If it's destroyed, deal 3 damage to another enemy. Crewed: Increase initial damage by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int x = 3 + nCrewed(this, ally);
+        if (damage(target, x, ally, enemy, this))
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+}
+
+Trebuchet::Trebuchet()
+{
+    id = "122303";
+    name = "Trebuchet";
+    text = "Deal 1 damage to 3 adjacent enemies. Crewed: Increase damage by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 7;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int x = 1 + nCrewed(this, ally);
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
+        for (Card *card : std::vector<Card *>{left, target, right})
+            if (card != nullptr)
+                damage(card, x, ally, enemy, this);
+    };
 }

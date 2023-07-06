@@ -3050,5 +3050,16 @@ struct BloodyFlail : CardCollectible<BloodyFlail>
 };
 
 
+struct BatteringRam : CardCollectible<BatteringRam>
+{
+    BatteringRam();
+};
+
+
+struct Trebuchet : CardCollectible<Trebuchet>
+{
+    Trebuchet();
+};
+
 
 #endif // CARDS_H

@@ -157,7 +157,7 @@
 - [x] Aretuza Adept
 - [x] Ballista
 - [ ] Ban Ard Tutor
-- [ ] Battering Ram
+- [x] Battering Ram
 - [x] Bloody Flail _(easy card)_
 - [x] Blue Stripe Commando
 - [x] Blue Stripe Scout
@@ -183,7 +183,7 @@
 - [x] Temerian Drummer
 - [x] Temerian Infantry
 - [ ] Tormented Mage _(easy card)_
-- [ ] Trebuchet
+- [x] Trebuchet
 - [x] Tridam Infantry
 - [ ] Witch Hunter
 
