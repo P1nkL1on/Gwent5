@@ -8970,9 +8970,16 @@ Garrison::Garrison()
     tags = { Tactics };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        // TODO: implenemt an ability
+        // TODO: imitating of an ability
         // NOTE: the same ability in TrissTelekinesis
-        //startChoiceCreateOptions(ally, this);
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, EnemyDeckStarting), 3, ally.rng));
+        // NOTE: if smt increases this 3, it will be a magic number
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        boost(copy, 2, ally, enemy, this);
+        spawnNewCard(copy, ally, enemy, this);
     };
 }
 
@@ -9601,7 +9608,13 @@ TrissTelekinesis::TrissTelekinesis()
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: implenemt an ability
         // NOTE: the same ability in Garrison
-        //startChoiceCreateOptions(ally, this);
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze}, EnemyDeckStarting), 3, ally.rng));
+        // NOTE: if smt increases this 3, it will be a magic number
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        spawnNewCard(copy, ally, enemy, this);
     };
 }
 
