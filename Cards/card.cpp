@@ -115,7 +115,8 @@ void triggerRowEffects(Field &ally, Field &enemy)
             break;
         case BitingFrostEffect:
             if (Card *target = lowest(rowFiltered, ally.rng)) {
-                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy<WildHuntRider>, isNotLocked}, EnemyBoard).size();
+                // NOTE: 132310 is a WildHuntRider
+                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy("132310"), isNotLocked}, EnemyBoard).size();
                 damage(target, 2 + int(n), ally, enemy, nullptr);
             }
             break;
@@ -891,7 +892,8 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
             return ally.cardsAppearedBoth;
 
         if (group == AnyCard)
-            return allCards(PublicBeta_0_9_24_3_432);
+            // FIXME: fix on class -> function allCards
+            assert(false); /// return allCards(PublicBeta_0_9_24_3_432);
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -1189,8 +1191,12 @@ void reset(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
 
+
     // TODO: check if need smt else
-    Card *copy = card->defaultCopy();
+    // FIXME: fix on class -> function
+    assert(false);
+    Card *copy = card->copy(); // defaultCopy here is needed
+
     card->powerBase = copy->powerBase;
     card->power = copy->power;
     card->armor = copy->armor;
@@ -1825,7 +1831,7 @@ void _copyFields(
         if (origCardToCopyMap.find(card) != origCardToCopyMap.end())
             return origCardToCopyMap[card];
 
-        Card *copy = card->exactCopy();
+        Card *copy = card->copy();
         origCardToCopyMap[card] = copy;
         return copy;
     };
@@ -1965,7 +1971,7 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
 
 Card::~Card()
 {
-
+    delete state;
 }
 
 void Card::onGameStart(Field &ally, Field &enemy)
@@ -2218,7 +2224,7 @@ void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
 
 Card *Card::copy() const
 {
-    auto *res = new Card;
+    auto *res = new Card(*this);
     res->state = state ? state->exactCopy() : nullptr;
     return res;
 }
@@ -2598,4 +2604,27 @@ void tryStartRoundAfterSwap(Field &ally, Field &enemy)
 
     /// if noone can start a round, go next
     startNextRound(*firstPtr, *secondPtr);
+}
+
+Card *createDefaultCard(const std::vector<Card *> &cards, const Id &id)
+{
+#ifndef NDEBUG
+    Card *res = nullptr;
+    for (Card *card : cards) {
+        const bool isMatch = card->id == id;
+        if (!isMatch)
+            continue;
+        const bool isFound = res != nullptr;
+        assert(!isFound);
+        res = card;
+    }
+    assert(res);
+    return res;
+#else
+    for (Card *card : cards)
+        if (card->id == id)
+            return card;
+    assert(false);
+    return nullptr;
+#endif
 }

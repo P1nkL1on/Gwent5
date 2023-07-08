@@ -49,8 +49,8 @@ struct StateCopy : State
 struct Card
 {
     Card() = default;
-    Card *copy() const;
     virtual ~Card();
+    Card *copy() const;
 
     int power = 0;
     int powerBase = 0;
@@ -75,7 +75,7 @@ struct Card
     // special state if needed
     State *state = nullptr;
 
-    std::string id;
+    Id id;
     std::string name;
     std::string text;
     std::string url;
@@ -132,8 +132,6 @@ struct Card
     void onConsumed(Field &ally, Field &enemy, Card *src);
     void onAllyConsume(Field &ally, Field &enemy, Card *src);
 
-    inline virtual Card *defaultCopy() const { return new Card; }
-    inline virtual Card *exactCopy() const { return new Card; }
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
     inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
 
@@ -144,6 +142,7 @@ private:
     Card &operator=(const Card &card) = default;
 
 public:
+    using Constructor = std::function<Card *()>;
     using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
     using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
     using CardAllyEnemyRowAndPos = std::function<void(Card *, Field &, Field &, const RowAndPos &)>;
@@ -156,6 +155,7 @@ public:
     using AllyEnemyInt = std::function<void(Field &, Field &, const int)>;
     using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
     using AllyEnemySrcPowerChangeType = std::function<void(Field &, Field &, const Card *src, const PowerChangeType)>;
+    Constructor _constructor = nullptr;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
     AllyEnemy _onGameStart = nullptr;
@@ -356,6 +356,7 @@ bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
 RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
+Card *createDefaultCard(const std::vector<Card *> &cards, const Id &id);
 
 /// find a place of a card in the field. returns false if non found
 bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);

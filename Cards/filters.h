@@ -35,8 +35,6 @@ inline bool isCrew(Card *card) { return card->isCrew && !card->isLocked; }
 inline bool isOnAllyApplyEffect(Card *card) { return card->hasOnAllyApplyEffect(); }
 inline bool hasOddPower(Card *card) { return card->power % 2 != 0; }
 inline bool hasEvenPower(Card *card) { return card->power % 2 == 0; }
-template <typename T> inline bool isCopy(Card *card) { return dynamic_cast<T *>(card) != nullptr; }
-template <typename T> inline bool isNotCopy(Card *card) { return dynamic_cast<T *>(card) == nullptr; }
 
 
 using Filter = std::function<bool(Card *)>;
@@ -111,16 +109,16 @@ inline Filter otherThan(const Card *card)
         return card != _card;
     };
 }
-inline Filter isCopy(const std::string &name)
+inline Filter isCopy(const std::string &id)
 {
-    return [name](Card *card) {
-        return card->name == name;
+    return [id](Card *card) {
+        return card->id == id;
     };
 }
-inline Filter isNotCopy(const Card *card)
+inline Filter isNotCopy(const std::string &id)
 {
-    return [card](Card *_card) {
-        return _card->name != card->name;
+    return [id](Card *card) {
+        return card->id != id;
     };
 }
 inline Filter hasPowerXorLess(const int x)
