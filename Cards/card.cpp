@@ -906,12 +906,14 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
 std::vector<Card *> highests(const std::vector<Card *> &row)
 {
+    const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
+
     int powerMax = INT_MIN;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         powerMax = std::max(card->power, powerMax);
 
     std::vector<Card *> res;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         if (card->power == powerMax)
             res.push_back(card);
 
@@ -929,12 +931,14 @@ Card *highest(const std::vector<Card *> &row, Rng &rng)
 
 std::vector<Card *> lowests(const std::vector<Card *> &row)
 {
+    const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
+
     int powerMin = INT_MAX;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         powerMin = std::min(card->power, powerMin);
 
     std::vector<Card *> res;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         if (card->power == powerMin)
             res.push_back(card);
 
@@ -1455,34 +1459,32 @@ RowEffect randomHazardEffect(Rng &rng)
 
 bool hasNoDuplicates(const std::vector<Card *> &cards)
 {
-    std::map<std::string, int> nameToCount;
+    std::map<std::string, int> idToCount;
     for (Card *card : cards) {
-        auto it = nameToCount.find(card->name);
-        if (it != nameToCount.end()) {
+        auto it = idToCount.find(card->id);
+        if (it != idToCount.end())
             return false;
-        } else {
-            nameToCount.insert({card->name, 1});
-        }
+        idToCount.insert({card->id, 1});
     }
     return true;
 }
 
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards)
 {
-    std::map<std::string, int> nameToCount;
+    std::map<std::string, int> idToCount;
     for (Card *card : cards) {
         if (card->rarity != Bronze)
             continue;
-        auto it = nameToCount.find(card->name);
-        if (it != nameToCount.end()) {
+        auto it = idToCount.find(card->id);
+        if (it != idToCount.end()) {
             ++it->second;
         } else {
-            nameToCount.insert({card->name, 1});
+            idToCount.insert({card->id, 1});
         }
     }
 
-    for (const std::pair<std::string, int> &nameAndCount : nameToCount)
-        if (nameAndCount.second != 2)
+    for (const std::pair<std::string, int> &idAndCount : idToCount)
+        if (idAndCount.second != 2)
             return false;
 
     return true;

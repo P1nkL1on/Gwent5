@@ -1,49 +1,7 @@
 #include "tests.h"
 
-#include <iostream>
 #include "Cards/archieve.h"
-
-namespace TestTools {
-
-void printPosAtFile(
-        std::ostream &os,
-        const char *file,
-        const char *func,
-        const int line)
-{
-    os << "File \"" << file << "\", func \"" << func << "\"";
-    if (line > 0) os << ", line " << line << ": "; else os << ": ";
-}
-
-bool assert(
-        std::ostream &os,
-        const bool statement,
-        const char *statementStr,
-        const char *file,
-        const char *func,
-        const int line)
-{
-    if (statement)
-        return true;
-    printPosAtFile(os, file, func, line);
-    os << "assert failed (" << statementStr << ")" << "\n";
-    return false;
-}
-
-}
-
-
-#define assert_(statement)\
-{\
-    if (!TestTools::assert(std::cerr, statement, #statement, __FILE__, __func__, __LINE__))\
-        return 1;\
-}
-
-#define pass_()\
-{\
-    TestTools::printPosAtFile(std::cout, __FILE__, __func__, 0);\
-    std::cout << "pass!\n";\
-}
+#include "Cards/testcase.h"
 
 namespace Tests {
 
@@ -251,6 +209,188 @@ int testCreateFilavandrel()
         delete card;
     }
     delete fila;
+    pass_();
+    return 0;
+}
+
+int testIsIn()
+{
+    using Cards = std::vector<Card *>;
+    auto *a = new Card();
+    auto *b = new Card();
+
+    assert_((Cards{a, b} == Cards{a, b}));
+    assert_(!isIn(a, {}));
+    assert_(!isIn(nullptr, {a}));
+    assert_(isIn(a, {a}));
+    assert_(!isIn(a, {b}));
+    assert_(!isIn(b, {a}));
+    assert_(isIn(b, {a, b}));
+    assert_(isIn(a, {a, b}));
+    assert_(isIn(a, {a, a}));
+
+    delete a;
+    delete b;
+    pass_();
+    return 0;
+}
+
+int testFirstsAndLasts()
+{
+    using Cards = std::vector<Card *>;
+    auto *a = new Card();
+    auto *b = new Card();
+    assert_(firsts({}, 0) == Cards{});
+    assert_(firsts({}, 1) == Cards{});
+    assert_(firsts({}, 2) == Cards{});
+    assert_(firsts({a}, 0) == Cards{});
+    assert_(firsts({a, b}, 0) == Cards{});
+    assert_(firsts({a}, 1) == Cards{a});
+    assert_(firsts({a}, 2) == Cards{a});
+    assert_((firsts({a, b}, 1) == Cards{a}));
+    assert_((firsts({b, a}, 1) == Cards{b}));
+    assert_((firsts({b, a}, 2) == Cards{b, a}));
+    assert_((firsts({a, b}, 3) == Cards{a, b}));
+
+    assert_(first({}) == nullptr);
+    assert_(first({a}) == a);
+    assert_(first({a, a}) == a);
+    assert_(first({b, a}) == b);
+
+    assert_(last({}) == nullptr);
+    assert_(last({a}) == a);
+    assert_(last({a, a}) == a);
+    assert_(last({b, a}) == a);
+
+    delete a;
+    delete b;
+    pass_();
+    return 0;
+}
+
+int testPowerRow()
+{
+    auto *a = new Card();
+    auto *b = new Card();
+    auto *c = new Card();
+    auto *d = new Card();
+    a->power = 1;
+    b->power = 2;
+    c->power = 3;
+    d->power = 4;
+
+    assert_(powerRow({}) == 0);
+    assert_(powerRow({a}) == 1);
+    assert_(powerRow({a, a}) == 2);
+    assert_(powerRow({a, b, c}) == 6);
+
+    d->isAmbush = true;
+    assert_(powerRow({a, b, c, d}) == 6);
+    assert_(powerRow({b, d, a}) == 3);
+    assert_(powerRow({d, d, d}) == 0);
+    delete a;
+    delete b;
+    delete c;
+    delete d;
+    pass_();
+    return 0;
+}
+
+int testHighests()
+{
+    using Cards = std::vector<Card *>;
+    auto *a = new Card();
+    auto *b = new Card();
+    auto *c = new Card();
+    auto *d = new Card();
+    a->power = 1;
+    b->power = 2;
+    c->power = 3;
+    d->power = 4;
+    d->isAmbush = true;
+
+    assert_(highests({}) == Cards{});
+    assert_(highests({a}) == Cards{a});
+    assert_(highests({a, b}) == Cards{b});
+    assert_(highests({a, b, c}) == Cards{c});
+    assert_((highests({a, b, c, b, c}) == Cards{c, c}));
+    assert_((highests({a, b, c, a, c}) == Cards{c, c}));
+    assert_((highests({b, b}) == Cards{b, b}));
+    assert_(highests({d}) == Cards{});
+    assert_(highests({a, d}) == Cards{a});
+    assert_((highests({a, b, d, b, a}) == Cards{b, b}));
+
+    assert_(lowests({}) == Cards{});
+    assert_(lowests({a}) == Cards{a});
+    assert_(lowests({a, b}) == Cards{a});
+    assert_(lowests({b, c}) == Cards{b});
+    assert_(lowests({a, b, c, b, c}) == Cards{a});
+    assert_((lowests({a, b, c, a, c}) == Cards{a, a}));
+    assert_((lowests({b, b}) == Cards{b, b}));
+    assert_(lowests({d}) == Cards{});
+    assert_(lowests({d, c}) == Cards{c});
+
+    delete a;
+    delete b;
+    delete c;
+    delete d;
+    pass_();
+    return 0;
+}
+
+int testHasNoDuplicates()
+{
+    auto *a = new Card();
+    auto *b = new Card();
+    auto *c = new Card();
+    auto *d = new Card();
+    a->id = "a";
+    b->id = "b";
+    c->id = "c";
+    d->id = "d";
+    assert_(hasNoDuplicates({}));
+    assert_(hasNoDuplicates({a}));
+    assert_(hasNoDuplicates({a, b}));
+    assert_(hasNoDuplicates({a, b, d}));
+    assert_(!hasNoDuplicates({a, b, d, d}));
+    assert_(hasNoDuplicates({a, b, c}));
+    assert_(!hasNoDuplicates({a, a}));
+    delete a;
+    delete b;
+    delete c;
+    delete d;
+    pass_();
+    return 0;
+}
+
+int testHasExactTwoCopiesOfEachBronze()
+{
+    auto *a = new Card();
+    auto *b = new Card();
+    auto *c = new Card();
+    auto *d = new Card();
+    a->id = "a";
+    b->id = "b";
+    c->id = "c";
+    d->id = "d";
+    a->rarity = Bronze;
+    b->rarity = Bronze;
+    c->rarity = Bronze;
+    d->rarity = Silver;
+    assert_(hasExactTwoDuplicatesOfBronze({}));
+    assert_(hasExactTwoDuplicatesOfBronze({a, a}));
+    assert_(hasExactTwoDuplicatesOfBronze({a, a, d, d}));
+    assert_(hasExactTwoDuplicatesOfBronze({a, a, b, d, b}));
+    assert_(!hasExactTwoDuplicatesOfBronze({a, b, d, b}));
+    assert_(!hasExactTwoDuplicatesOfBronze({a, a, b, d}));
+    assert_(!hasExactTwoDuplicatesOfBronze({a, a, a, b, b, c, c, d, d}));
+    assert_(hasExactTwoDuplicatesOfBronze({a, a, b, b, c, c, d, d}));
+    assert_(hasExactTwoDuplicatesOfBronze({d, d}));
+    assert_(hasExactTwoDuplicatesOfBronze({d}));
+    delete a;
+    delete b;
+    delete c;
+    delete d;
     pass_();
     return 0;
 }

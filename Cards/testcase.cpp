@@ -1,39 +1,16 @@
 #include "testcase.h"
 
-int compareArrays(
-        const std::vector<int> &res,
-        const std::vector<int> &expected,
-        const std::vector<std::string> *descriptions)
+void TestTools::printPosAtFile(std::ostream &os, const char *file, const char *func, const int line)
 {
-    if (res == expected)
-        return 0;
-    const size_t align = 10;
-    const size_t l = std::max(res.size(), expected.size());
-    std::cout << std::setw(align) << "Result"
-              << std::setw(align) << "Expected"
-              << std::setw(align) << "Compare"
-              << "  Description\n";
-    for (size_t ind = 0; ind < l; ++ind) {
-        const bool hasRes = ind < res.size();
-        const bool hasExp = ind < expected.size();
-        const bool isEq   = hasRes && hasExp && (res[ind] == expected[ind]);
-        std::cout << std::setw(align) << (hasRes ? std::to_string(res[ind])      : "*")
-                  << std::setw(align) << (hasExp ? std::to_string(expected[ind]) : "*")
-                  << std::setw(align) << (isEq ? "OK" : "FAIL")
-                  << "  " << (descriptions ? descriptions->at(ind) : "") << std::endl;
-    }
-    return 1;
+    os << "File \"" << file << "\", func \"" << func << "\"";
+    if (line > 0) os << ", line " << line << ": "; else os << ": ";
 }
 
-bool Testcase::add(const int res, const int expected, const std::string &description)
+bool TestTools::assert(std::ostream &os, const bool statement, const char *statementStr, const char *file, const char *func, const int line)
 {
-    _res.push_back(res);
-    _expected.push_back(expected);
-    _descriptions.push_back(description);
-    return res == expected;
-}
-
-int Testcase::process() const
-{
-    return compareArrays(_res, _expected, &_descriptions);
+    if (statement)
+        return true;
+    printPosAtFile(os, file, func, line);
+    os << "assert failed (" << statementStr << ")" << "\n";
+    return false;
 }

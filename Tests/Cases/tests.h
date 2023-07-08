@@ -3,6 +3,12 @@
 
 namespace Tests {
 
+int testIsIn();
+int testFirstsAndLasts();
+int testPowerRow();
+int testHighests();
+int testHasNoDuplicates();
+int testHasExactTwoCopiesOfEachBronze();
 int testStateCopyVsExactCopy();
 int testStatelessCardCopyVsExactCopy();
 int testStateCopyBlathannaArcher();

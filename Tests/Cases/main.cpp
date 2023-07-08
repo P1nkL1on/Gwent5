@@ -109,7 +109,14 @@ int main()
 int main(int argc, char **argv)
 {
     using namespace Tests;
-    return testStateCopyVsExactCopy()
+    return 0
+            + testIsIn()
+            + testFirstsAndLasts()
+            + testPowerRow()
+            + testHighests()
+            + testHasNoDuplicates()
+            + testHasExactTwoCopiesOfEachBronze()
+            + testStateCopyVsExactCopy()
             + testStatelessCardCopyVsExactCopy()
             + testStateCopyBlathannaArcher()
             + testBlathannaArcherSeparatedShots()

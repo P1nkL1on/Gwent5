@@ -24,3 +24,4 @@ enable_testing()
 
 add_executable(main ${PROJECT_SOURCE_DIR}/Tests/Cases/tests.cpp ${PROJECT_SOURCE_DIR}/Tests/Cases/main.cpp)
 target_link_libraries(main PUBLIC cards_lib)
+add_test(NAME main COMMAND main)
