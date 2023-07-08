@@ -440,7 +440,36 @@ public:
 //    virtual Card *createAssireVarAnahid();
 //    virtual Card *createFringillaVigo();
 //    virtual Card *createFalseCiri();
+//    virtual Card *createDandelion();
+//    virtual Card *createKiyan();
+//    virtual Card *createPlay();
+//    virtual Card *createCreate();
+//    virtual Card *createPhilippaEilhart();
+//    virtual Card *createRocheMerciless();
+//    virtual Card *createShani();
+//    virtual Card *createVandergrift();
+//    virtual Card *createBotchling();
+//    virtual Card *createLubberkin();
+//    virtual Card *createNilfgaardianGate();
+//    virtual Card *createPeterSaarGwynleve();
+//    virtual Card *createVicovaroNovice();
+//    virtual Card *createCadaverine();
+//    virtual Card *createDealDamage();
+//    virtual Card *createDestroy();
+//    virtual Card *createJoachimDeWett();
+//    virtual Card *createTreason();
+//    virtual Card *createVanhemar();
+//    virtual Card *createVrygheff();
+//    virtual Card *createAlbaPikeman();
+//    virtual Card *createCombatEngineer();
+//    virtual Card *createMagneDivision();
+//    virtual Card *createNauzicaaBrigade();
+//    virtual Card *createSlaveDriver();
+//    virtual Card *createSlaveHunter();
+//    virtual Card *createViperWitcher();
+//    virtual Card *createRotTosser();
+//    virtual Card *createCowCarcass();
+//    virtual Card *createStandardBearer();
 };
-
 
 #endif // CARDS_H

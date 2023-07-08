@@ -417,6 +417,36 @@ std::vector<Card *> Cards::createAll()
 //        createAssireVarAnahid(),
 //        createFringillaVigo(),
 //        createFalseCiri(),
+//        createDandelion(),
+//        createKiyan(),
+//        createPlay(),
+//        createCreate(),
+//        createPhilippaEilhart(),
+//        createRocheMerciless(),
+//        createShani(),
+//        createVandergrift(),
+//        createBotchling(),
+//        createLubberkin(),
+//        createNilfgaardianGate(),
+//        createPeterSaarGwynleve(),
+//        createVicovaroNovice(),
+//        createCadaverine(),
+//        createDealDamage(),
+//        createDestroy(),
+//        createJoachimDeWett(),
+//        createTreason(),
+//        createVanhemar(),
+//        createVrygheff(),
+//        createAlbaPikeman(),
+//        createCombatEngineer(),
+//        createMagneDivision(),
+//        createNauzicaaBrigade(),
+//        createSlaveDriver(),
+//        createSlaveHunter(),
+//        createViperWitcher(),
+//        createRotTosser(),
+//        createCowCarcass(),
+//        createStandardBearer(),
     };
     return cards;
 }
@@ -11205,4 +11235,743 @@ Card *Cards::createFilavandrel()
 //        }
 //    };
 //    return card;
+//}
+
+//Dandelion::Dandelion()
+//{
+//    id = "122201";
+//    name = "Dandelion";
+//    text = "Boost 3 units in your deck by 2.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    power = powerBase = 11;
+//    tags = { Support };
+//    faction = NothernRealms;
+//    rarity = Gold;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+//        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+//        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+//        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+//    };
+
+//    _onDeploy = [this](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyDeckShuffled, 3, false);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        boost(target, 2, ally, enemy, this);
+//    };
+//}
+
+//Kiyan::Kiyan()
+//{
+//    id = "201621";
+//    name = "Kiyan";
+//    text = "Choose One: Create a Bronze or Silver Alchemy card; or Play a Bronze or Silver Item from your deck.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    power = powerBase = 4;
+//    tags = { Cursed, Witcher };
+//    faction = NothernRealms;
+//    rarity = Gold;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.14.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.15.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.16.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.17.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.18.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        auto *option1 = new Kiyan::Create;
+//        copyCardText(this, option1);
+//        option1->text = "Create a Bronze or Silver Alchemy card.";
+
+//        auto *option2 = new Kiyan::Play;
+//        copyCardText(this, option2);
+//        option2->text = "Play a Bronze or Silver Item from your deck.";
+
+//        _choosen = nullptr;
+//        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+//    };
+
+//    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+
+//        if (!_choosen && dynamic_cast<Kiyan::Play *>(target)) {
+//            _choosen = target;
+//            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+//        }
+
+//        if (!_choosen && dynamic_cast<Kiyan::Create *>(target)) {
+//            _choosen = target;
+//            return startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
+//        }
+
+//        if (dynamic_cast<Kiyan::Create *>(_choosen)) {
+//            spawnNewCard(target, ally, enemy, this);
+//            delete _choosen;
+//            _choosen = nullptr;
+//            return;
+//        }
+
+//        assert(false);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        playExistedCard(target, ally, enemy, this);
+//    };
+//}
+
+//PhilippaEilhart::PhilippaEilhart()
+//{
+//    id = "122104";
+//    name = "Philippa Eilhart";
+//    text = "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    power = powerBase = 1;
+//    tags = { Mage, Redania };
+//    faction = NothernRealms;
+//    rarity = Gold;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/PHIL_Q502_00555967.mp3",
+//        "https://gwent.one/audio/card/ob/en/PHIL_Q310_00533376.mp3",
+//        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041426.mp3",
+//        "https://gwent.one/audio/card/ob/en/VO_FLPA_200102_0065.mp3",
+//        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041424.mp3",
+//        "https://gwent.one/audio/card/ob/en/VO_FLPA_300358_0012.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        damage(target, 5, ally, enemy, this);
+
+//        for (int dmg = 4; dmg > 0; --dmg) {
+//            target = random(cardsFiltered(ally, enemy, {otherThan(target)}, EnemyBoard), ally.rng);
+//            if (!target)
+//                return;
+//            damage(target, dmg, ally, enemy, this);
+//        }
+//    };
+//}
+
+//RocheMerciless::RocheMerciless()
+//{
+//    id = "201777";
+//    name = "Roche: Merciless";
+//    text = "Destroy a face-down Ambush enemy.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Temeria, Officer };
+//    power = powerBase = 6;
+//    faction = NothernRealms;
+//    rarity = Gold;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
+//        "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        // FIXME: test, because it won't work
+//        startChoiceToTargetCard(ally, enemy, this, {isAmbushing}, EnemyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
+//        putToDiscard(card, ally, enemy, this);
+//    };
+//}
+
+//Shani::Shani()
+//{
+//    id = "122106";
+//    name = "Shani";
+//    text = "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Redania, Support };
+//    power = powerBase = 4;
+//    faction = NothernRealms;
+//    rarity = Gold;
+//    isDoomed = true;
+
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SHNI_SHANI_01130725.mp3",
+//        "https://gwent.one/audio/card/ob/en/SHNI_Q601_01101942.mp3",
+//        "https://gwent.one/audio/card/ob/en/SHNI_Q602_01119358.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        playExistedCard(target, ally, enemy, this);
+//        gainArmor(target, 2, ally, enemy, this);
+//    };
+//}
+
+//Vandergrift::Vandergrift()
+//{
+//    id = "201620";
+//    name = "Vandergrift";
+//    text = "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Cursed, Kaedwen, Officer };
+//    power = powerBase = 7;
+//    faction = NothernRealms;
+//    rarity = Gold;
+
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.11.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.10.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.9.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.8.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.7.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+//            if (damage(card, 1, ally, enemy, this)) {
+//                const Row row = _findRowAndPos(this, enemy).row();
+//                applyRowEffect(ally, enemy, toScreenRow(row, false), RaghNarRoogEffect);
+//            }
+//        }
+//    };
+//}
+
+//Botchling::Botchling()
+//{
+//    id = "122401";
+//    name = "Botchling";
+//    text = "Summon a Lubberkin to this row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Cursed };
+//    power = powerBase = 10;
+//    faction = NothernRealms;
+//    rarity = Silver;
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy<Lubberkin>}, AllyDeck))
+//            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+//    };
+//}
+
+//Lubberkin::Lubberkin()
+//{
+//    id = "122402";
+//    name = "Lubberkin";
+//    text = "Summon a Botchling to this row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Cursed };
+//    power = powerBase = 5;
+//    faction = NothernRealms;
+//    rarity = Silver;
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy<Botchling>}, AllyDeck))
+//            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+//    };
+//}
+
+//NilfgaardianGate::NilfgaardianGate()
+//{
+//    id = "201699";
+//    name = "Nilfgaardian Gate";
+//    text = "Play a Bronze or Silver Officer from your deck and boost it by 1.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Tactics };
+//    isSpecial = true;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        boost(target, 1, ally, enemy, this);
+//        playExistedCard(target, ally, enemy, this);
+//    };
+//}
+
+//PeterSaarGwynleve::PeterSaarGwynleve()
+//{
+//    id = "162204";
+//    name = "Peter Saar Gwynleve";
+//    text = "Reset an ally and Strengthen it by 3; or Reset an enemy and Weaken it by 3.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Officer };
+//    power = powerBase = 6;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.426.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.427.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.428.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        reset(target, ally, enemy, this);
+//        if (isOnBoard(target, ally))
+//            strengthen(target, 3, ally, enemy, this);
+//        else if (isOnBoard(target, enemy))
+//            weaken(target, 3, ally, enemy, this);
+//        else
+//            assert(false);
+//    };
+//}
+
+//VicovaroNovice::VicovaroNovice()
+//{
+//    id = "122403";
+//    name = "Vicovaro Novice";
+//    text = "Look at 2 random Bronze Alchemy cards from your deck, then play 1.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Mage };
+//    power = powerBase = 2;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.820.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.821.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.819.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        playExistedCard(target, ally, enemy, this);
+//    };
+//}
+
+//Cadaverine::Cadaverine()
+//{
+//    id = "201662";
+//    name = "Cadaverine";
+//    text = "Choose One: Deal 2 damage to an enemy and all units that share its categories; or Destroy a Bronze or Silver Neutral unit.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Alchemy, Item };
+//    isSpecial = true;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+
+//    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+//        auto *option1 = new Cadaverine::DealDamage;
+//        copyCardText(this, option1);
+//        option1->text = "Deal 2 damage to an enemy and all units that share its categories.";
+
+//        auto *option2 = new Cadaverine::Destroy;
+//        copyCardText(this, option2);
+//        option2->text = "Destroy a Bronze or Silver Neutral unit.";
+
+//        _choosen = nullptr;
+//        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+//    };
+
+//    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        if (!_choosen && dynamic_cast<Cadaverine::DealDamage *>(target)) {
+//            _choosen = target;
+//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+//            return;
+//        }
+
+//        if (!_choosen && dynamic_cast<Cadaverine::Destroy *>(target)) {
+//            _choosen = target;
+//            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
+//            return;
+//        }
+
+//        assert(false);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        assert(_choosen);
+
+//        if (dynamic_cast<Cadaverine::DealDamage *>(_choosen))
+//            for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
+//                damage(card, 2, ally, enemy, this);
+
+//        if (dynamic_cast<Cadaverine::Destroy *>(_choosen))
+//            putToDiscard(target, ally, enemy, this);
+
+//        delete _choosen;
+//        _choosen = nullptr;
+//    };
+//}
+
+//JoachimDeWett::JoachimDeWett()
+//{
+//    id = "162211";
+//    name = "Joachim de Wett";
+//    text = "Spying. Play the top non-Spying Bronze or Silver unit from your deck and boost it by 10.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Officer };
+//    power = powerBase = 5;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.19.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.18.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.17.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        if (Card* card = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
+//            boost(card, 10, ally, enemy, this);
+//            playExistedCard(card, ally, enemy, this);
+//        }
+//    };
+//}
+
+//Treason::Treason()
+//{
+//    id = "163201";
+//    name = "Treason";
+//    text = "Force 2 adjacent enemies to Duel each other.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Tactics };
+//    isSpecial = true;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+
+//    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+//        std::vector<Card *> cardsToChoice;
+//        for(Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+//            if (!card->isAmbush) {
+//                Card *left = cardNextTo(card, ally, enemy, -1);
+//                Card *right = cardNextTo(card, ally, enemy, 1);
+//                if ((left != nullptr && !left->isAmbush) || (right != nullptr && !right->isAmbush))
+//                   cardsToChoice.push_back(card);
+//            }
+//        }
+//        startChoiceToTargetCard(ally, enemy, this, cardsToChoice);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        if (_choosen == nullptr) {
+//            _choosen = target;
+//            std::vector<Card *> cards;
+//            if (Card *left = cardNextTo(target, ally, enemy, -1))
+//                if(!left->isAmbush)
+//                    cards.push_back(left);
+//            if (Card *right = cardNextTo(target, ally, enemy, 1))
+//                if(!right->isAmbush)
+//                    cards.push_back(right);
+//            assert(cards.size() != 0);
+//            startChoiceToTargetCard(ally, enemy, this, cards);
+//            return;
+//        }
+//        duel(_choosen, target, ally, enemy);
+//    };
+//}
+
+//Vanhemar::Vanhemar()
+//{
+//    id = "162207";
+//    name = "Vanhemar";
+//    text = "Spawn Biting Frost, Clear Skies or Shrike.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Mage };
+//    power = powerBase = 4;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/VO_NM01_200057_0187.mp3",
+//        "https://gwent.one/audio/card/ob/en/VO_NM01_200996_0005.mp3",
+//        "https://gwent.one/audio/card/ob/en/VO_NM01_200049_0007.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ClearSkies(), new Shrike()});
+//    };
+
+//    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        spawnNewCard(target, ally, enemy, this);
+//    };
+//}
+
+//Vrygheff::Vrygheff()
+//{
+//    id = "201664";
+//    name = "Vrygheff";
+//    text = "Play a Bronze Machine from your deck.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Officer };
+//    power = powerBase = 5;
+//    faction = Nilfgaard;
+//    rarity = Silver;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.256.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.255.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.253.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.254.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        playExistedCard(target, ally, enemy, this);
+//    };
+//}
+
+//AlbaPikeman::AlbaPikeman()
+//{
+//    id = "162311";
+//    name = "Alba Pikeman";
+//    text = "Summon all copies of this unit to this row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Soldier };
+//    power = powerBase = 3;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514121.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514091.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514113.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
+//            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+//    };
+//}
+
+//CombatEngineer::CombatEngineer()
+//{
+//    id = "162313";
+//    name = "Combat Engineer";
+//    text = "Boost an ally by 5. Crew.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Support };
+//    isCrew = true;
+//    power = powerBase = 6;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/NILF2_Q502_00556520.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513907.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF2_VSET_01072393.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        boost(target, 5, ally, enemy, this);
+//    };
+//}
+
+//MagneDivision::MagneDivision()
+//{
+//    id = "200044";
+//    name = "Magne Division";
+//    text = "Play a random Bronze Item from your deck.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Soldier };
+//    power = powerBase = 3;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.35.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.37.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.36.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
+//            playExistedCard(card, ally, enemy, this);
+//    };
+//}
+
+//NauzicaaBrigade::NauzicaaBrigade()
+//{
+//    id = "162310";
+//    name = "Nauzicaa Brigade";
+//    text = "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Soldier };
+//    power = powerBase = 5;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513916.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513914.mp3",
+//        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513922.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {isSpying}, AnyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        if (damage(target, 7, ally, enemy, this))
+//            strengthen(this, 4, ally, enemy, this);
+//    };
+//}
+
+//SlaveDriver::SlaveDriver()
+//{
+//    id = "201612";
+//    name = "Slave Driver";
+//    text = "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Officer };
+//    power = powerBase = 10;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.113.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.114.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.115.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.116.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.117.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        if (_lostPower == -1) {
+//            _lostPower = target->power - 1;
+//            setPower(target, 1, ally, enemy, this);
+//            if (_lostPower == 0)
+//                return;
+//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+//            return;
+//        }
+//        damage(target, _lostPower, ally, enemy, this);
+//    };
+//}
+
+//SlaveHunter::SlaveHunter()
+//{
+//    id = "201609";
+//    name = "Slave Hunter";
+//    text = "Charm a Bronze enemy with 3 power or less.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Soldier };
+//    power = powerBase = 8;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.105.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.104.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.103.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.106.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.107.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        charm(target, ally, enemy, this);
+//    };
+//}
+
+//ViperWitcher::ViperWitcher()
+//{
+//    id = "200124";
+//    name = "Viper Witcher";
+//    text = "Deal 1 damage for each Alchemy card in your starting deck.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Witcher };
+//    power = powerBase = 5;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.339.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.338.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.337.mp3",
+//    };
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
+//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+//    };
+
+//    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+//        const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
+//        damage(target, dmg, ally, enemy, this);
+//    };
+//}
+
+//RotTosser::RotTosser()
+//{
+//    id = "162302";
+//    name = "Rot Tosser";
+//    text = "Spawn a Cow Carcass on an enemy row.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Machine };
+//    power = powerBase = 8;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        spawnNewCard(new CowCarcass(), ally, enemy, this);
+//    };
+//}
+
+//RotTosser::CowCarcass::CowCarcass()
+//{
+//    id = "162402";
+//    name = "Cow Carcass";
+//    text = "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    isDoomed = true;
+//    isLoyal = false;
+//    power = powerBase = 1;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+
+//    _onDeploy = [=](Field &ally, Field &enemy) {
+//        setTimer(this, ally, enemy, 2);
+//    };
+
+//    _onTurnEnd = [=](Field &ally, Field &enemy) {
+//        if (!tick(this, ally, enemy))
+//            return;
+//        for (Card *card : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
+//            putToDiscard(card, ally, enemy, this);
+//        banish(this, ally, enemy, this);
+//    };
+//}
+
+//StandardBearer::StandardBearer()
+//{
+//    id = "200294";
+//    name = "Standard Bearer";
+//    text = "Boost an ally by 2 whenever you play a Soldier.";
+//    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+//    tags = { Soldier };
+//    power = powerBase = 8;
+//    faction = Nilfgaard;
+//    rarity = Bronze;
+//    sounds = {
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.338.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.339.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.340.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.341.mp3",
+//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.342.mp3",
+//    };
+
+//    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+//        if (!isOnBoard(this, ally))
+//            return;
+//        if (hasTag(other, Soldier))
+//            boost(this, 2, ally, enemy, this);
+//    };
 //}
