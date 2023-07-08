@@ -115,6 +115,7 @@ int main(int argc, char **argv)
             + testBlathannaArcherSeparatedShots()
             + testHalfElfHunder()
             + testOptionsMandrake()
+            + testCreateFilavandrel()
             ;
 }
 

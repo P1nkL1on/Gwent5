@@ -289,6 +289,9 @@ struct Field
     /// and retrograde effects
     std::vector<Card *> cardsAppearedBoth;
     std::vector<Card *> cardsAppeared;
+    // FIXME: tmp solution. remove it with paired ally,
+    // enemy. Replace it with proxy field implementation!
+    std::vector<Card *> cardsAll;
     int nTurns = 0;
     int nRounds = 0;
     int nWins = 0;

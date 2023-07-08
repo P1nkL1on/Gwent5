@@ -638,6 +638,7 @@ void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filter
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -894,8 +895,7 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
             return ally.cardsAppearedBoth;
 
         if (group == AnyCard)
-            // FIXME: fix on class -> function allCards
-            assert(false); /// return allCards(PublicBeta_0_9_24_3_432);
+            return ally.cardsAll;
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -2240,7 +2240,7 @@ Card *Card::defaultCopy() const
 
 struct StateOption : StateCopy<StateOption>
 {
-    int _option = 0;
+    int _option = -1;
 };
 
 

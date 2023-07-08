@@ -56,7 +56,7 @@ public:
 //    virtual Card *createVaedermakar();
 //    virtual Card *createFrightener();
 //    virtual Card *createCleaver();
-//    virtual Card *createScorch();
+    virtual Card *createScorch();
 //    virtual Card *createReinforcements();
 //    virtual Card *createJohnNatalis();
 //    virtual Card *createEleyas();
@@ -78,10 +78,10 @@ public:
     virtual Card *createBoneTalisman();
 //    virtual Card *createRestore();
 //    virtual Card *createDecoy();
-//    virtual Card *createShupesDayOff();
-//    virtual Card *createShupeKnight();
-//    virtual Card *createShupeHunter();
-//    virtual Card *createShupeMage();
+    virtual Card *createShupesDayOff();
+    virtual Card *createShupeKnight();
+    virtual Card *createShupeHunter();
+    virtual Card *createShupeMage();
 //    virtual Card *createFirstLight();
 //    virtual Card *createClearSkies();
 //    virtual Card *createEpidemic();
@@ -377,7 +377,7 @@ public:
 //    virtual Card *createUsurper();
 //    virtual Card *createBrouverHoog();
 //    virtual Card *createEithne();
-//    virtual Card *createFilavandrel();
+    virtual Card *createFilavandrel();
 //    virtual Card *createFrancescaFindabair();
 //    virtual Card *createAglais();
 //    virtual Card *createIorveth();

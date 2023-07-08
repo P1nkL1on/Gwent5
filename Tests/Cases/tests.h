@@ -9,6 +9,7 @@ int testStateCopyBlathannaArcher();
 int testBlathannaArcherSeparatedShots();
 int testHalfElfHunder();
 int testOptionsMandrake();
+int testCreateFilavandrel();
 
 }
 
