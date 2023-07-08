@@ -654,6 +654,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
@@ -671,6 +672,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::ve
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
@@ -1195,7 +1197,7 @@ void reset(Card *card, Field &ally, Field &enemy, const Card *src)
     // TODO: check if need smt else
     // FIXME: fix on class -> function
     assert(false);
-    Card *copy = card->copy(); // defaultCopy here is needed
+    Card *copy = card->exactCopy(); // defaultCopy here is needed
 
     card->powerBase = copy->powerBase;
     card->power = copy->power;
@@ -1430,24 +1432,6 @@ void charm(Card *card, Field &ally, Field &enemy, const Card *src)
 
     if (moveExistedUnitToPos(card, rowAndPosLastInExactRow(*allyPtr, _findRowAndPos(card, *enemyPtr).row()), *allyPtr, *enemyPtr, src))
         spy(card, ally, enemy, card);
-}
-
-void copyCardText(const Card *card, Card *dst)
-{
-    assert(card->armor == 0);
-    assert(card->timer == 0);
-    dst->power = card->power;
-    dst->powerBase = card->powerBase;
-    dst->rarity = card->rarity;
-    dst->faction = card->faction;
-    dst->tags = card->tags;
-    dst->isLoyal = card->isLoyal;
-    dst->isSpecial = card->isSpecial;
-    dst->name = card->name;
-    dst->text = card->text;
-    dst->url = card->url;
-    dst->id = card->id;
-    dst->sounds = card->sounds;
 }
 
 std::string randomSound(const Card *card, Rng &rng)
@@ -1831,7 +1815,7 @@ void _copyFields(
         if (origCardToCopyMap.find(card) != origCardToCopyMap.end())
             return origCardToCopyMap[card];
 
-        Card *copy = card->copy();
+        Card *copy = card->exactCopy();
         origCardToCopyMap[card] = copy;
         return copy;
     };
@@ -2222,11 +2206,74 @@ void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
         return _onAllyConsume(ally, enemy, src);
 }
 
-Card *Card::copy() const
+Card *Card::exactCopy() const
 {
-    auto *res = new Card(*this);
+    Card *res = defaultCopy();
+    res->power = power;
+    res->powerBase = powerBase;
+    res->armor = armor;
+    res->timer = timer;
+    res->isLocked = isLocked;
+    res->isSpy = isSpy;
+    res->isResilient = isResilient;
+    res->isAmbush = isAmbush;
+    res->isImmune = isImmune;
+    res->isDoomed = isDoomed;
+    res->isRevealed = isRevealed;
     res->state = state ? state->exactCopy() : nullptr;
+    // NOTE: commented out due to regular cards
+    // can't change any of this non-const props
+    //    res->rarity = rarity;
+    //    res->faction = faction;
+    //    res->isLoyal = isLoyal;
+    //    res->isSpecial = isSpecial;
+    //    res->isCrew = isCrew;
     return res;
+}
+
+Card *Card::defaultCopy() const
+{
+    assert(_constructor);
+    return _constructor();
+}
+
+
+struct StateOption : StateCopy<StateOption>
+{
+    int _option = 0;
+};
+
+
+Card *createOption(const Card *card, const int optionInd)
+{
+    assert(isSpecial);
+    assert(card->armor == 0);
+    assert(card->timer == 0);
+    Card *res = new Card();
+
+    auto *stateOption = new StateOption;
+    stateOption->_option = optionInd;
+    res->state = stateOption;
+
+    res->power = card->power;
+    res->powerBase = card->powerBase;
+    res->rarity = card->rarity;
+    res->faction = card->faction;
+    res->tags = card->tags;
+    res->isLoyal = card->isLoyal;
+    res->name = card->name;
+    res->text = card->text;
+    res->url = card->url;
+    res->id = card->id;
+    res->sounds = card->sounds;
+    res->isSpecial = card->isSpecial;
+    return res;
+}
+
+int isOption(const Card *card, const int optionInd)
+{
+    assert(card->state);
+    return static_cast<StateOption *>(card->state)->_option == optionInd;
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
@@ -2326,7 +2373,7 @@ void pass(Field &ally, Field &enemy)
 int nCrewed(Card *card, Field &ally)
 {
     Field _;
-    int n = 1;
+    int n = 0;
     if (Card *left = cardNextTo(card, ally, _, -1))
         if (isCrew(left))
             ++n;

@@ -3,9 +3,12 @@
 
 namespace Tests {
 
-int testCopyCardNoState();
-int testDefaultCopyVsExactCopy();
+int testStateCopyVsExactCopy();
+int testStatelessCardCopyVsExactCopy();
 int testStateCopyBlathannaArcher();
+int testBlathannaArcherSeparatedShots();
+int testHalfElfHunder();
+int testOptionsMandrake();
 
 }
 

@@ -425,6 +425,8 @@ std::vector<Card *> Cards::createAll()
 Card *Cards::createAddaStriga()
 {
     auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createAddaStriga, this);
+
     card->id = "200073";
     card->power = card->powerBase = 6;
     card->rarity = Silver;
@@ -442,25 +444,30 @@ Card *Cards::createAddaStriga()
     return card;
 }
 
+Card *Cards::createDaoLesser()
+{
+    auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createDaoLesser, this);
+
+    card->id = "132405";
+    card->power = card->powerBase = 4;
+    card->rarity = Bronze;
+    card->faction = Monster;
+    card->tags = { Construct };
+    card->isDoomed = true;
+    return card;
+}
+
 Card *Cards::createDao()
 {
     auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createDao, this);
+
     card->id = "132213";
     card->power = card->powerBase = 6;
     card->rarity = Bronze;
     card->faction = Monster;
     card->tags = { Construct };
-
-    const auto createDaoLesser = []{
-        auto *card = new Card();
-        card->id = "132405";
-        card->power = card->powerBase = 4;
-        card->rarity = Bronze;
-        card->faction = Monster;
-        card->tags = { Construct };
-        card->isDoomed = true;
-        return card;
-    };
 
     card->_onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
         spawnNewUnitToPos(createDaoLesser(), rowAndPos, ally, enemy, card);
@@ -473,6 +480,8 @@ Card *Cards::createDao()
 //Card *Cards::createPoorFingInfantry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200234";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -482,6 +491,8 @@ Card *Cards::createDao()
 
 //    const auto createLeftFlankInfantry = []{
 //        auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //        card->id = "200302";
 //        card->power = card->powerBase = 2;
 //        card->rarity = Bronze;
@@ -494,6 +505,8 @@ Card *Cards::createDao()
 
 //    const auto createRightFlankInfantry = []{
 //        auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //        card->id = "200303";
 //        card->power = card->powerBase = 2;
 //        card->rarity = Bronze;
@@ -513,6 +526,8 @@ Card *Cards::createDao()
 //Card *Cards::createDeithwenArbalest()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162305";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -533,6 +548,8 @@ Card *Cards::createDao()
 //Card *Cards::createTemerianDrummer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200299";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Bronze;
@@ -553,6 +570,8 @@ Card *Cards::createDao()
 //Card *Cards::createDandelionPoet()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201776";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -574,6 +593,8 @@ Card *Cards::createDao()
 //Card *Cards::createSileDeTansarville()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122205";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -595,6 +616,8 @@ Card *Cards::createDao()
 //Card *Cards::createRedanianKnightElect()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "123301";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -624,6 +647,8 @@ Card *Cards::createDao()
 //Card *Cards::createAnCraiteMarauder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201578";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -638,6 +663,8 @@ Card *Cards::createDao()
 //Card *Cards::createAnCraiteGreatsword()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200040";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -665,6 +692,8 @@ Card *Cards::createDao()
 //Card *Cards::createDimunLightLongship()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152309";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -684,6 +713,8 @@ Card *Cards::createDao()
 //Card *Cards::createBear()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152406";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Bronze;
@@ -696,6 +727,8 @@ Card *Cards::createDao()
 //Card *Cards::createWolf()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132403";
 //    card->power = card->powerBase = 1;
 //    card->isDoomed = true;
@@ -709,6 +742,8 @@ Card *Cards::createDao()
 //Card *Cards::createTuirseachBearmaster()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200144";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -725,6 +760,8 @@ Card *Cards::createDao()
 //Card *Cards::createRedanianElite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122317";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -745,6 +782,8 @@ Card *Cards::createDao()
 //Card *Cards::createRedanianKnight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122308";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -764,6 +803,8 @@ Card *Cards::createDao()
 //Card *Cards::createKaedweniCavalry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122314";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -786,6 +827,8 @@ Card *Cards::createDao()
 //Card *Cards::createAlzursThunder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113301";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -807,6 +850,8 @@ Card *Cards::createDao()
 //Card *Cards::createSwallow()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113310";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -827,6 +872,8 @@ Card *Cards::createDao()
 //Card *Cards::createThunderbolt()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113311";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -860,6 +907,8 @@ Card *Cards::createDao()
 //Card *Cards::createArachasVenom()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200023";
 //    card->rarity = Bronze ;
 //    card->faction = Neutral;
@@ -884,6 +933,8 @@ Card *Cards::createDao()
 //Card *Cards::createKeiraMetz()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122108";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -903,25 +954,25 @@ Card *Cards::createDao()
 
 Card *Cards::createDolBlathannaArcher()
 {
-    struct State : StateCopy<State> { int _nShots = 0; };
-
     auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createDolBlathannaArcher, this);
+
     card->id = "142310";
     card->power = card->powerBase = 7;
     card->rarity = Bronze;
     card->faction = Scoiatael;
     card->tags = { Elf, Soldier };
+
+    struct State : StateCopy<State> { int _nShots = 0; };
     card->state = new State();
 
-    card->_constructor = std::bind(&Cards::createDolBlathannaArcher, this);
-
     card->_onDeploy = [=](Field &ally, Field &enemy) {
-        static_cast<State *>(card->state)->_nShots = 0;
+        card->stateAs<State>()->_nShots = 0;
         startChoiceToTargetCard(ally, enemy, card);
     };
 
     card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int &nShots = static_cast<State *>(card->state)->_nShots;
+        int &nShots = card->stateAs<State>()->_nShots;
         ++nShots;
         if (nShots == 1) {
             damage(target, 3, ally, enemy, card);
@@ -938,27 +989,31 @@ Card *Cards::createDolBlathannaArcher()
 }
 
 
-//Card *Cards::createHalfElfHunter()
-//{
-//    auto *card = new Card();
-//    card->id = "201636";
-//    card->power = card->powerBase = 6;
-//    card->rarity = Bronze;
-//    card->faction = Scoiatael;
-//    card->tags = { Elf, Soldier };
+Card *Cards::createHalfElfHunter()
+{
+    auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createHalfElfHunter, this);
 
-//    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        Card *copy = defaultCopy();
-//        copy->isDoomed = true;
-//        summonNewUnitToPos(copy, rowAndPosToTheRight(card, ally, 1), ally, enemy, card);
-//    };
-//    return card;
-//}
+    card->id = "201636";
+    card->power = card->powerBase = 6;
+    card->rarity = Bronze;
+    card->faction = Scoiatael;
+    card->tags = { Elf, Soldier };
+
+    card->_onDeploy = [=](Field &ally, Field &enemy) {
+        Card *copy = card->defaultCopy();
+        copy->isDoomed = true;
+        summonNewUnitToPos(copy, rowAndPosToTheRight(card, ally, 1), ally, enemy, card);
+    };
+    return card;
+}
 
 
 //Card *Cards::createAmbassador()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162315";
 //    card->power = card->powerBase = 2;
 //    card->isLoyal = false;
@@ -980,6 +1035,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAssassin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200115";
 //    card->power = card->powerBase = 1;
 //    card->isLoyal = false;
@@ -999,6 +1056,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTuirseachArcher()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152315";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -1020,6 +1079,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createInfiltrator()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200118";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -1040,6 +1101,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createImpenetrableFog()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113305";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1060,6 +1123,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTorrentialRain()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113312";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1080,6 +1145,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBitingFrost()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113302";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1100,6 +1167,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGoldenFroth()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201749";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1120,6 +1189,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSkelligeStorm()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113203";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -1140,6 +1211,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createImperialManticore()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132209";
 //    card->power = card->powerBase = 13;
 //    card->rarity = Silver;
@@ -1152,6 +1225,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createManticoreVenom()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113306";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -1172,6 +1247,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGloriousHunt()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201635";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -1191,6 +1268,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVes()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122204";
 //    card->power = card->powerBase = 12;
 //    card->rarity = Silver;
@@ -1211,6 +1290,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVaedermakar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113208";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -1231,6 +1312,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFrightener()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132204";
 //    card->power = card->powerBase = 13;
 //    card->isLoyal = false;
@@ -1257,6 +1340,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCleaver()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122216";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Silver;
@@ -1278,6 +1363,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createScorch()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113309";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -1295,6 +1382,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createReinforcements()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "123201";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -1315,6 +1404,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createJohnNatalis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122103";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -1335,6 +1426,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEleyas()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142214";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Silver;
@@ -1356,6 +1449,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createReaverScout()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122307";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -1377,6 +1472,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeymaeySpearmaiden()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200528";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Bronze;
@@ -1399,6 +1496,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKaedweniKnight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201622";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -1420,6 +1519,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddSappers()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142307";
 //    card->power = card->powerBase = 11;
 //    card->isAmbush = true;
@@ -1443,6 +1544,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPriestessOfFreya()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152310";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -1464,6 +1567,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimunCorsair()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200145";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Bronze;
@@ -1485,6 +1590,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSigrdrifa()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152211";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Silver;
@@ -1506,6 +1613,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSage()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200138";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Bronze;
@@ -1527,6 +1636,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createReconnaissance()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201704";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1547,6 +1658,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createElvenMercenary()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142308";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -1567,6 +1680,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createChampionOfHov()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152202";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Silver;
@@ -1587,6 +1702,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeraltIgni()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112102";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -1612,6 +1729,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeraltOfRivia()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112103";
 //    card->power = card->powerBase = 15;
 //    card->rarity = Gold;
@@ -1624,6 +1743,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPriscilla()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122202";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Gold;
@@ -1641,6 +1762,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSeltkirkOfGulet()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201618";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Gold;
@@ -1662,6 +1785,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAdrenalineRush()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113307";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -1682,6 +1807,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createShupesDayOff()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201627";
 //    card->isSpecial = true;
 //    card->rarity = Gold;
@@ -1705,6 +1832,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createShupeHunter()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201731";
 //    card->power = card->powerBase = 8;
 //    card->isDoomed = true;
@@ -1713,23 +1842,23 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Ogroid };
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new ShupeHunter::Play;
+//        auto *option1 = createOption(card, Play);
 //        copyCardText(card, option1);
 //        option1->text = "Play a Bronze or Silver unit from Deck.";
 
-//        auto *option2 = new ShupeHunter::Shot;
+//        auto *option2 = createOption(card, Shot);
 //        copyCardText(card, option2);
 //        option2->text = "Deal 15 damage.";
 
-//        auto *option3 = new ShupeHunter::Replay;
+//        auto *option3 = createOption(card, Replay);
 //        copyCardText(card, option3);
 //        option3->text = "Replay a Bronze or Silver unit and Boost it by 5.";
 
-//        auto *option4 = new ShupeHunter::Clear;
+//        auto *option4 = createOption(card, Clear);
 //        copyCardText(card, option4);
 //        option4->text = "Clear all Hazards from your side and Boost allies by 1.";
 
-//        auto *option5 = new ShupeHunter::Barrage;
+//        auto *option5 = createOption(card, Barrage);
 //        copyCardText(card, option5);
 //        option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
 
@@ -1809,6 +1938,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createShupeMage()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201725";
 //    card->power = card->powerBase = 4;
 //    card->isDoomed = true;
@@ -1817,23 +1948,23 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Ogroid };
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new ShupeMage::Draw;
+//        auto *option1 = createOption(card, Draw);
 //        copyCardText(card, option1);
 //        option1->text = "Draw a card.";
 
-//        auto *option2 = new ShupeMage::Charm;
+//        auto *option2 = createOption(card, Charm);
 //        copyCardText(card, option2);
 //        option2->text = "Charm a random enemy.";
 
-//        auto *option3 = new ShupeMage::Hazards;
+//        auto *option3 = createOption(card, Hazards);
 //        copyCardText(card, option3);
 //        option3->text = "Spawn a random Hazard on each enemy row.";
 
-//        auto *option4 = new ShupeMage::Meteor;
+//        auto *option4 = createOption(card, Meteor);
 //        copyCardText(card, option4);
 //        option4->text = "Deal 10 damage to an enemy and 5 damage to each adjacent enemy.";
 
-//        auto *option5 = new ShupeMage::Play;
+//        auto *option5 = createOption(card, Play);
 //        copyCardText(card, option5);
 //        option5->text = "Play a Bronze or Silver special card from your deck.";
 
@@ -1908,124 +2039,135 @@ Card *Cards::createDolBlathannaArcher()
 //}
 
 
-//Card *Cards::createMandrake()
-//{
-//    auto *card = new Card();
-//    card->id = "200223";
-//    card->isSpecial = true;
-//    card->rarity = Silver;
-//    card->faction = Neutral;
-//    card->tags = { Alchemy, Organic };
-
-//    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Mandrake::Buff;
-//        copyCardText(card, option1);
-//        option1->text = "Heal a unit and and Strengthen it by 6.";
-
-//        auto *option2 = new Mandrake::Debuff;
-//        copyCardText(card, option2);
-//        option2->text = "Reset a unit and Weaken it by 6.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, card, {option1, option2});
-//    };
-
-//    card->_onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-//        _choosen = target;
-//        startChoiceToTargetCard(ally, enemy, card);
-//        return;
-//    };
-
-//    card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-//        assert(_choosen);
-
-//        if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
-//            heal(target, ally, enemy, card);
-//            strengthen(target, 6, ally, enemy, card);
-
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
-
-//        if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-//            reset(target, ally, enemy, card);
-//            weaken(target, 6, ally, enemy, card);
-
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
-
-//        assert(false);
-//    };
-//    return card;
-//}
+struct StateChoosen : StateCopy<StateChoosen> { Card *_choosen = nullptr; };
 
 
-//Card *Cards::createBoneTalisman()
-//{
-//    auto *card = new Card();
-//    card->id = "201598";
-//    card->isSpecial = true;
-//    card->rarity = Bronze;
-//    card->faction = Skellige;
-//    card->tags = { Item };
+Card *Cards::createMandrake()
+{
+    auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createMandrake, this);
 
-//    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new BoneTalisman::Resurrect;
-//        copyCardText(card, option1);
-//        option1->text = "Resurrect a Bronze Beast or Cultist.";
+    card->id = "200223";
+    card->isSpecial = true;
+    card->rarity = Silver;
+    card->faction = Neutral;
+    card->tags = { Alchemy, Organic };
+    card->state = new StateChoosen();
 
-//        auto *option2 = new BoneTalisman::Buff;
-//        copyCardText(card, option2);
-//        option2->text = "Heal an ally and Strengthen it by 3.";
+    enum Option { Buff, Debuff };
+    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
+        Card *option1 = createOption(card, Buff);
+        option1->text = "Heal a unit and and Strengthen it by 6.";
 
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, card, {option1, option2});
-//    };
+        Card *option2 = createOption(card, Debuff);
+        option2->text = "Reset a unit and Weaken it by 6.";
 
-//    card->_onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-//        _choosen = target;
+        card->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, card, {option1, option2});
+    };
 
-//        if (dynamic_cast<BoneTalisman::Resurrect *>(target))
-//            return startChoiceToTargetCard(ally, enemy, card, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+    card->_onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        card->stateAs<StateChoosen>()->_choosen = target;
+        startChoiceToTargetCard(ally, enemy, card);
+        return;
+    };
 
-//        if (dynamic_cast<BoneTalisman::Buff *>(target))
-//            return startChoiceToTargetCard(ally, enemy, card, {}, AllyBoard);
+    card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *choosen = card->stateAs<StateChoosen>()->_choosen;
+        assert(choosen);
 
-//        assert(false);
-//    };
+        if (isOption(choosen, Buff)) {
+            heal(target, ally, enemy, card);
+            strengthen(target, 6, ally, enemy, card);
 
-//    card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-//        assert(_choosen);
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
 
-//        if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
-//            playExistedCard(target, ally, enemy, card);
+        if (isOption(choosen, Debuff)) {
+            reset(target, ally, enemy, card);
+            weaken(target, 6, ally, enemy, card);
 
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
 
-//        if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
-//            heal(target, ally, enemy, card);
-//            strengthen(target, 3, ally, enemy, card);
+        assert(false);
+    };
+    return card;
+}
 
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
 
-//        assert(false);
-//    };
-//    return card;
-//}
+Card *Cards::createBoneTalisman()
+{
+    auto *card = new Card();
+    card->_constructor = std::bind(&Cards::createBoneTalisman, this);
+
+    card->id = "201598";
+    card->isSpecial = true;
+    card->rarity = Bronze;
+    card->faction = Skellige;
+    card->tags = { Item };
+    card->state = new StateChoosen();
+
+    enum Option { Resurrect, Buff };
+    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = createOption(card, Resurrect);
+        option1->text = "Resurrect a Bronze Beast or Cultist.";
+
+        auto *option2 = createOption(card, Buff);
+        option2->text = "Heal an ally and Strengthen it by 3.";
+
+        card->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, card, {option1, option2});
+    };
+
+    card->_onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        card->stateAs<StateChoosen>()->_choosen = target;
+
+        if (isOption(target, Resurrect))
+            return startChoiceToTargetCard(ally, enemy, card, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+
+        if (isOption(target, Buff))
+            return startChoiceToTargetCard(ally, enemy, card, {}, AllyBoard);
+
+        assert(false);
+    };
+
+    card->_onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *choosen = card->stateAs<StateChoosen>()->_choosen;
+        assert(choosen);
+
+        if (isOption(choosen, Resurrect)) {
+            playExistedCard(target, ally, enemy, card);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        if (isOption(choosen, Buff)) {
+            heal(target, ally, enemy, card);
+            strengthen(target, 3, ally, enemy, card);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+    return card;
+}
 
 
 //Card *Cards::createShupeKnight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201737";
 //    card->power = card->powerBase = 12;
 //    card->isDoomed = true;
@@ -2034,23 +2176,23 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Ogroid };
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new ShupeKnight::Destroy;
+//        auto *option1 = createOption(card, Destroy);
 //        copyCardText(card, option1);
 //        option1->text = "Destroy enemies with 4 or less power.";
 
-//        auto *option2 = new ShupeKnight::Reset;
+//        auto *option2 = createOption(card, Reset);
 //        copyCardText(card, option2);
 //        option2->text = "Reset a unit.";
 
-//        auto *option3 = new ShupeKnight::Duel;
+//        auto *option3 = createOption(card, Duel);
 //        copyCardText(card, option3);
 //        option3->text = "Duel an enemy.";
 
-//        auto *option4 = new ShupeKnight::Strengthen;
+//        auto *option4 = createOption(card, Strengthen);
 //        copyCardText(card, option4);
 //        option4->text = "Strengthen self to 25.";
 
-//        auto *option5 = new ShupeKnight::Resilient;
+//        auto *option5 = createOption(card, Resilient);
 //        copyCardText(card, option5);
 //        option5->text = "Resilent.";
 
@@ -2117,6 +2259,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDecoy()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113201";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -2139,6 +2283,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFirstLight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113303";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -2146,11 +2292,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Tactics };
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new FirstLight::Clear;
+//        auto *option1 = createOption(card, Clear);
 //        copyCardText(card, option1);
 //        option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
 
-//        auto *option2 = new FirstLight::Play;
+//        auto *option2 = createOption(card, Play);
 //        copyCardText(card, option2);
 //        option2->text = "Play a random Bronze unit from your deck.";
 
@@ -2183,6 +2329,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createClearSkies()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113303";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -2202,6 +2350,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEpidemic()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113308";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -2219,6 +2369,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMoonlight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200067";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -2226,12 +2378,12 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Hazard, Boon };
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Moonlight::FullMoon;
+//        auto *option1 = createOption(card, FullMoon);
 //        copyCardText(card, option1);
 //        option1->name = "Full Moon";
 //        option1->text = "Apply a Boon to an allied row that boosts a random Beast or Vampire by 2 on turn start.";
 
-//        auto *option2 = new Moonlight::BloodMoon;
+//        auto *option2 = createOption(card, BloodMoon);
 //        copyCardText(card, option2);
 //        option2->name = "Blood Moon";
 //        option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
@@ -2265,6 +2417,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCiriNova()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201626";
 //    card->power = card->powerBase = 1;
 //    card->isDoomed = true;
@@ -2285,6 +2439,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHaraldTheCripple()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200161";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -2307,6 +2463,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEmissary()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162314";
 //    card->isLoyal = false;
 //    card->power = card->powerBase = 2;
@@ -2328,6 +2486,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCeallachDyffryn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162213";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Silver;
@@ -2348,6 +2508,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRestore()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "153201";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -2371,6 +2533,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDrummondQueensguard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152307";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -2388,6 +2552,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBranTuirseach()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200159";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Gold;
@@ -2410,6 +2576,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDrummondWarmonger()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200036";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -2430,6 +2598,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimunPirate()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152305";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Bronze;
@@ -2447,6 +2617,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteRaider()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152316";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -2463,6 +2635,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMadmanLugos()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152106";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -2489,6 +2663,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createErmion()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152103";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -2511,6 +2687,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCerysFearless()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201778";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -2535,6 +2713,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCerysAnCraite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200177";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -2563,6 +2743,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWoodlandSpirit()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132103";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -2585,6 +2767,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTrollololo()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122209";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Silver;
@@ -2601,6 +2785,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPrinceStennis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122208";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Silver;
@@ -2624,6 +2810,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVincentMeis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200098";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Silver;
@@ -2647,6 +2835,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMorkvarg()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    // BUG: isn't carry over...
 //    // Add a onPutOnDiscard for Morkvarg and golden spell which strikes after 3 turns
 //    card->id = "152209";
@@ -2671,6 +2861,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArtefactCompression()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200053";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -2691,6 +2883,8 @@ Card *Cards::createDolBlathannaArcher()
 //ArtefactCompression::JadeFigurine::JadeFigurine()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200053";
 //    card->isDoomed = true;
 //    card->power = card->powerBase = 2;
@@ -2703,6 +2897,8 @@ Card *Cards::createDolBlathannaArcher()
 //HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->isLoyal = false;
 //    card->isDoomed = true;
 //    card->power = card->powerBase = 5;
@@ -2721,6 +2917,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHjalmarAnCraite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152101";
 //    card->power = card->powerBase = 16;
 //    card->rarity = Gold;
@@ -2737,6 +2935,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRegis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112104";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Gold;
@@ -2758,6 +2958,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLethoOfGulet()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162101";
 //    card->isLoyal = false;
 //    card->power = card->powerBase = 1;
@@ -2780,6 +2982,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteLongship()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152314";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -2804,6 +3008,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTuirseachVeteran()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200046";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -2821,6 +3027,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTuirseachHunter()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152304";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -2841,6 +3049,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createUdalryk()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152214";
 //    card->power = card->powerBase = 13;
 //    card->isLoyal = false;
@@ -2869,6 +3079,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBloodcurdlingRoar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152406";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -2890,6 +3102,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGremist()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152206";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -2910,6 +3124,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOperator()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112208";
 //    card->power = card->powerBase = 5;
 //    card->timer = 1;
@@ -2940,6 +3156,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createZoriaRunestone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201582";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -2960,6 +3178,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRenew()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113316";
 //    card->isSpecial = true;
 //    card->rarity = Gold;
@@ -2980,6 +3200,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEistTuirseach()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201597";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -3000,6 +3222,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTuirseachAxeman()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152312";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -3025,6 +3249,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTuirseachSkirmisher()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152313";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -3041,6 +3267,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDerran()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201646";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -3058,6 +3286,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRoach()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112210";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -3080,6 +3310,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createJanCalveit()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200164";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -3101,6 +3333,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCahirDyffryn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162104";
 //    card->power = card->powerBase = 1;
 //    card->isDoomed = true;
@@ -3122,6 +3356,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLethoKingslayer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201603";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -3129,11 +3365,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Witcher };
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new LethoKingslayer::Destroy;
+//        auto *option1 = createOption(card, Destroy);
 //        copyCardText(card, option1);
 //        option1->text = "Destroy an enemy Leader, then boost self by 5.";
 
-//        auto *option2 = new LethoKingslayer::Play;
+//        auto *option2 = createOption(card, Play);
 //        copyCardText(card, option2);
 //        option2->text = "Play a Bronze or Silver Tactic from your deck.";
 
@@ -3182,6 +3418,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKingHenselt()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200170";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Gold;
@@ -3204,6 +3442,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBloodyBaron()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122101";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Gold;
@@ -3221,6 +3461,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDethmold()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122207";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -3241,6 +3483,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRonvidTheIncessant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200529";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Silver;
@@ -3262,6 +3506,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHubertRejk()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200088";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Silver;
@@ -3279,6 +3525,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCrachAnCraite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200160";
 //    card->power = card->powerBase = 5;
 //    card->faction = Skellige;
@@ -3298,6 +3546,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBirnaBran()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152105";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3318,6 +3568,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCoral()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152107";
 //    card->power = card->powerBase = 5;
 //    card->faction = Skellige;
@@ -3338,6 +3590,8 @@ Card *Cards::createDolBlathannaArcher()
 //Kambi::Hemdall::Hemdall()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152402";
 //    card->isDoomed = true;
 //    card->power = card->powerBase = 20;
@@ -3358,6 +3612,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVabjorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200028";
 //    card->power = card->powerBase = 11;
 //    card->faction = Skellige;
@@ -3381,6 +3637,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBlueboyLugos()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152201";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3397,6 +3655,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDjengeFrett()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152203";
 //    card->power = card->powerBase = 10;
 //    card->faction = Skellige;
@@ -3418,6 +3678,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDonarAnHindar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152204";
 //    card->power = card->powerBase = 8;
 //    card->faction = Skellige;
@@ -3444,6 +3706,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDraigBonDhu()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152205";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3464,6 +3728,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHolgerBlackhand()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152207";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3486,6 +3752,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createJuttaAnDimun()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152208";
 //    card->power = card->powerBase = 13;
 //    card->faction = Skellige;
@@ -3502,6 +3770,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSavageBear()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152210";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3519,6 +3789,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSvanrigeTuirseach()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152213";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3540,6 +3812,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSkjall()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200212";
 //    card->power = card->powerBase = 5;
 //    card->faction = Skellige;
@@ -3557,6 +3831,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHaraldHoundsnout()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200043";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3575,6 +3851,8 @@ Card *Cards::createDolBlathannaArcher()
 //HaraldHoundsnout::Wilfred::Wilfred()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->power = card->powerBase = 1;
 //    card->faction = Skellige;
 //    card->rarity = Bronze;
@@ -3591,6 +3869,8 @@ Card *Cards::createDolBlathannaArcher()
 //HaraldHoundsnout::Wilhelm::Wilhelm()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->power = card->powerBase = 1;
 //    card->faction = Skellige;
 //    card->rarity = Bronze;
@@ -3607,6 +3887,8 @@ Card *Cards::createDolBlathannaArcher()
 //HaraldHoundsnout::Wilmar::Wilmar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->power = card->powerBase = 1;
 //    card->faction = Skellige;
 //    card->rarity = Bronze;
@@ -3622,6 +3904,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYoana()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201644";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3644,6 +3928,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteBlacksmith()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152311";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3664,6 +3950,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteWarcrier()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113313";
 //    card->power = card->powerBase = 5;
 //    card->faction = Skellige;
@@ -3683,6 +3971,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteWarrior()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152303";
 //    card->power = card->powerBase = 12;
 //    card->faction = Skellige;
@@ -3698,6 +3988,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBerserkerMarauder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152302";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3718,6 +4010,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimunPirateCaptain()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152306";
 //    card->power = card->powerBase = 1;
 //    card->faction = Skellige;
@@ -3737,6 +4031,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimunSmuggler()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200146";
 //    card->power = card->powerBase = 10;
 //    card->faction = Skellige;
@@ -3756,6 +4052,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDrummondShieldmaid()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152318";
 //    card->power = card->powerBase = 3;
 //    card->faction = Skellige;
@@ -3772,6 +4070,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeymaeyFlaminica()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200147";
 //    card->power = card->powerBase = 10;
 //    card->faction = Skellige;
@@ -3792,6 +4092,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeymaeyHerbalist()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200081";
 //    card->power = card->powerBase = 3;
 //    card->faction = Skellige;
@@ -3808,6 +4110,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeymaeyProtector()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200149";
 //    card->power = card->powerBase = 2;
 //    card->faction = Skellige;
@@ -3827,6 +4131,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeymaeySkald()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152308";
 //    card->power = card->powerBase = 9;
 //    card->faction = Skellige;
@@ -3852,6 +4158,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRagingBerserker()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152301";
 //    card->power = card->powerBase = 8;
 //    card->faction = Skellige;
@@ -3871,6 +4179,8 @@ Card *Cards::createDolBlathannaArcher()
 //RagingBerserker::RagingBear::RagingBear()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152405";
 //    card->power = card->powerBase = 12;
 //    card->faction = Skellige;
@@ -3882,6 +4192,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHym()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200102";
 //    card->power = card->powerBase = 3;
 //    card->faction = Skellige;
@@ -3889,11 +4201,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Cursed };
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Hym::Play;
+//        auto *option1 = createOption(card, Play);
 //        copyCardText(card, option1);
 //        option1->text = "Play a Bronze or Silver Cursed unit from your deck.";
 
-//        auto *option2 = new Hym::Create;
+//        auto *option2 = createOption(card, Create);
 //        copyCardText(card, option2);
 //        option2->text = "Create a Silver unit from your opponent's starting deck.";
 
@@ -3936,6 +4248,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKambi()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152104";
 //    card->isLoyal = false;
 //    card->power = card->powerBase = 1;
@@ -3953,6 +4267,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOlaf()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200103";
 //    card->power = card->powerBase = 20;
 //    card->faction = Skellige;
@@ -3970,6 +4286,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createUlfhedinn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200104";
 //    card->power = card->powerBase = 6;
 //    card->faction = Skellige;
@@ -3990,6 +4308,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildBoarOfTheSea()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152109";
 //    card->power = card->powerBase = 8;
 //    card->faction = Skellige;
@@ -4013,6 +4333,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGiantBoar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201623";
 //    card->power = card->powerBase = 8;
 //    card->faction = Skellige;
@@ -4031,6 +4353,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOrnamentalSword()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201642";
 //    card->isSpecial = true;
 //    card->faction = Skellige;
@@ -4051,6 +4375,8 @@ Card *Cards::createDolBlathannaArcher()
 //BlueboyLugos::SpectralWhale::SpectralWhale()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152403";
 //    card->isDoomed = true;
 //    card->power = card->powerBase = 3;
@@ -4070,6 +4396,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimunWarship()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200105";
 //    card->power = card->powerBase = 7;
 //    card->faction = Skellige;
@@ -4092,6 +4420,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTrissButterflies()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122107";
 //    card->tags = { Mage, Temeria };
 //    card->power = card->powerBase = 8;
@@ -4110,6 +4440,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYennefer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112108";
 //    card->tags = { Mage, Aedirn };
 //    card->power = card->powerBase = 6;
@@ -4129,6 +4461,8 @@ Card *Cards::createDolBlathannaArcher()
 //Yennefer::Chironex::Chironex()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112402";
 //    card->tags = { Cursed };
 //    card->isDoomed = true;
@@ -4147,6 +4481,8 @@ Card *Cards::createDolBlathannaArcher()
 //Yennefer::Unicorn::Unicorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112401";
 //    card->tags = { Beast };
 //    card->isDoomed = true;
@@ -4164,6 +4500,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGermainPiquant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200523";
 //    card->tags = { Officer };
 //    card->power = card->powerBase = 10;
@@ -4183,6 +4521,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCommandersHorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113207";
 //    card->tags = { Tactics };
 //    card->isSpecial = true;
@@ -4212,6 +4552,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMarchingOrders()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200019";
 //    card->tags = { Tactics };
 //    card->isSpecial = true;
@@ -4232,6 +4574,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAlzursDoubleCross()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113209";
 //    card->tags = { Spell };
 //    card->isSpecial = true;
@@ -4252,6 +4596,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAlbaArmoredCavalry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200296";
 //    card->tags = { Soldier };
 //    card->power = card->powerBase = 7;
@@ -4264,6 +4610,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSentry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201661";
 //    card->tags = { Soldier };
 //    card->power = card->powerBase = 8;
@@ -4285,6 +4633,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNauzicaaSergeant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162309";
 //    card->tags = { Officer };
 //    card->power = card->powerBase = 7;
@@ -4306,6 +4656,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSlaveInfantry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201610";
 //    card->tags = { Soldier };
 //    card->power = card->powerBase = 3;
@@ -4332,6 +4684,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRecruit()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201617";
 //    card->tags = { Soldier };
 //    card->power = card->powerBase = 1;
@@ -4349,6 +4703,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOintment()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201619";
 //    card->tags = { Alchemy, Item };
 //    card->isSpecial = true;
@@ -4369,6 +4725,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVilgefortz()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162105";
 //    card->tags = { Mage };
 //    card->power = card->powerBase = 9;
@@ -4401,6 +4759,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVreemde()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200050";
 //    card->tags = { Officer };
 //    card->power = card->powerBase = 4;
@@ -4420,6 +4780,8 @@ Card *Cards::createDolBlathannaArcher()
 //GermainPiquant::Cow::Cow()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201576";
 //    card->tags = { Beast };
 //    card->isDoomed = true;
@@ -4433,6 +4795,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAuckes()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162208";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 7;
@@ -4453,6 +4817,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEskel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112202";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 6;
@@ -4473,6 +4839,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLambert()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112204";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 6;
@@ -4493,6 +4861,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVesemir()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112203";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 7;
@@ -4512,6 +4882,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTridamInfantry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200171";
 //    card->tags = { Soldier };
 //    card->power = card->powerBase = 10;
@@ -4528,6 +4900,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddDragoon()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142205";
 //    card->tags = { Elf, Soldier };
 //    card->power = card->powerBase = 8;
@@ -4547,6 +4921,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMalena()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142210";
 //    card->power = card->powerBase = 7;
 //    card->isAmbush = true;
@@ -4573,6 +4949,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createUnseenElder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200055";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -4593,6 +4971,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDevanaRunestone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201584";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -4613,6 +4993,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDazhbogRunestone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201583";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -4633,6 +5015,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMoranaRunestone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201585";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -4653,6 +5037,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createStribogRunestone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201581";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -4673,6 +5059,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMuzzle()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200225";
 //    card->isSpecial = true;
 //    card->rarity = Gold;
@@ -4693,6 +5081,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRockBarrage()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201647";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -4723,6 +5113,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWhisperingHillock()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201587";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -4742,6 +5134,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBrewess()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132207";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 8;
@@ -4761,6 +5155,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWeavess()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132208";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 6;
@@ -4781,6 +5177,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWhispess()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132206";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 6;
@@ -4800,6 +5198,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWeavessIncantation()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200222";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 4;
@@ -4807,11 +5207,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->rarity = Gold;
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new WeavessIncantation::StrengthenAll;
+//        auto *option1 = createOption(card, StrengthenAll);
 //        copyCardText(card, option1);
 //        option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
 
-//        auto *option2 = new WeavessIncantation::PlayAndStrengthen;
+//        auto *option2 = createOption(card, PlayAndStrengthen);
 //        copyCardText(card, option2);
 //        option2->text = "Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
 
@@ -4843,6 +5243,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBrewessRitual()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200221";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 1;
@@ -4862,6 +5264,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWhispessTribute()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200220";
 //    card->tags = { Mage, Relict };
 //    card->power = card->powerBase = 6;
@@ -4881,6 +5285,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNivellen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200089";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Silver;
@@ -4908,6 +5314,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLeoBonhart()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200031";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -4935,6 +5343,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMorvranVoorhis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200163";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -4956,6 +5366,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCynthia()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162203";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Silver;
@@ -4975,6 +5387,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSerrit()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162209";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -4996,6 +5410,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSweers()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162206";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Silver;
@@ -5017,6 +5433,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTiborEggebracht()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162107";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -5037,6 +5455,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVattierDeRideaux()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162103";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -5058,6 +5478,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAlbrich()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162201";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Silver;
@@ -5079,6 +5501,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHeftyHelge()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200041";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Silver;
@@ -5096,6 +5520,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAlchemist()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162316";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Bronze;
@@ -5115,6 +5541,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDaerlanSoldier()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162301";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -5136,6 +5564,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFireScorpion()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162306";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Bronze;
@@ -5159,6 +5589,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildHuntHound()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132402";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -5175,6 +5607,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildHuntWarrior()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132309";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -5197,6 +5631,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMangonel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162317";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -5218,6 +5654,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNilfgaardianKnight()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162318";
 //    card->power = card->powerBase = 12;
 //    card->rarity = Bronze;
@@ -5239,6 +5677,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSpotter()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162303";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Bronze;
@@ -5258,6 +5698,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVenendalElite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200518";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -5281,6 +5723,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMasterOfDisguise()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201616";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Bronze;
@@ -5300,6 +5744,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHenryVarAttre()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200227";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Silver;
@@ -5328,6 +5774,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSummoningCircle()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200022";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -5344,6 +5792,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createXavierMoran()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200080";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -5360,6 +5810,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYenneferEnchantress()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201601";
 //    card->tags = { Mage, Aedirn };
 //    card->power = card->powerBase = 5;
@@ -5376,6 +5828,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVernonRoche()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122102";
 //    card->tags = { Temeria, Officer };
 //    card->power = card->powerBase = 3;
@@ -5401,6 +5855,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBlueStripeScout()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122310";
 //    card->tags = { Temeria, Soldier };
 //    card->power = card->powerBase = 3;
@@ -5418,6 +5874,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBlueStripeCommando()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122311";
 //    card->tags = { Temeria, Soldier };
 //    card->power = card->powerBase = 3;
@@ -5444,6 +5902,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createImperialGolem()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132407";
 //    card->tags = { Construct };
 //    card->power = card->powerBase = 3;
@@ -5470,6 +5930,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildHuntNavigator()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200026";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Bronze;
@@ -5490,6 +5952,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNithral()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132214";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -5510,6 +5974,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMiruna()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132108";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Gold;
@@ -5532,6 +5998,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createImlerith()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132102";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Gold;
@@ -5552,6 +6020,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCaretaker()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132106";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Gold;
@@ -5571,6 +6041,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRuehin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201660";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Silver;
@@ -5587,6 +6059,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOldSpeartipAsleep()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132218";
 //    card->power = card->powerBase = 12;
 //    card->rarity = Gold;
@@ -5603,6 +6077,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOldSpeartip()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132408";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -5619,6 +6095,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGolyat()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200052";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Silver;
@@ -5639,6 +6117,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBarbegazi()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201701";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -5659,6 +6139,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGhoul()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132306";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -5678,6 +6160,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createForktail()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201606";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -5697,6 +6181,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArachasQueen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201743";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -5717,6 +6203,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOzzrel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201698";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Silver;
@@ -5736,6 +6224,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKayran()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132107";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -5755,6 +6245,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMourntart()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132202";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -5775,6 +6267,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createToadPrince()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132216";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -5797,6 +6291,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFiend()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112405";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Bronze;
@@ -5808,6 +6304,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMorvudd()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112405";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -5829,6 +6327,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEkimmara()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132313";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Bronze;
@@ -5848,6 +6348,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRotfiend()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200295";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -5864,6 +6366,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArchespore()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200038";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -5886,6 +6390,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCyclops()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200037";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Bronze;
@@ -5912,6 +6418,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMaerolorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132406";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -5931,6 +6439,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMonsterNest()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "133302";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -5951,6 +6461,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArachasDrone()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132304";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Bronze;
@@ -5967,6 +6479,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAlphaWerewolf()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200114";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -5983,6 +6497,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWerewolf()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201600";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -5999,6 +6515,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEredinBreaccGlas()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "131101";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -6018,6 +6536,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCaranthirArFeiniel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132104";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Gold;
@@ -6039,6 +6559,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createImlerithSabbath()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201781";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -6063,6 +6585,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDagon()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200158";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Gold;
@@ -6082,6 +6606,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIfrit()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132210";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Silver;
@@ -6101,6 +6627,8 @@ Card *Cards::createDolBlathannaArcher()
 //Ifrit::IfritLesser::IfritLesser()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132404";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -6117,6 +6645,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSheTrollOfVergen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200534";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Silver;
@@ -6144,6 +6674,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWyvern()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132303";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6163,6 +6695,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAbaya()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132203";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Silver;
@@ -6182,6 +6716,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createParasite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201657";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -6207,6 +6743,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createJotunn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200218";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -6229,6 +6767,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIceGiant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132212";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6250,6 +6790,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIceTroll()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200502";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6275,6 +6817,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDrowner()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132314";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -6297,6 +6841,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFoglet()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132301";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6323,6 +6869,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAncientFoglet()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132302";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -6346,6 +6894,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDraug()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132101";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -6370,6 +6920,8 @@ Card *Cards::createDolBlathannaArcher()
 //Draug::Draugir::Draugir()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    // TODO: find picture
 //    card->id = "132101";
 //    card->power = card->powerBase = 1;
@@ -6383,6 +6935,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCelaenoHarpy()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132217";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6399,6 +6953,8 @@ Card *Cards::createDolBlathannaArcher()
 //CelaenoHarpy::HarpyEgg::HarpyEgg()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132316";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Bronze;
@@ -6418,6 +6974,8 @@ Card *Cards::createDolBlathannaArcher()
 //CelaenoHarpy::HarpyHatchling::HarpyHatchling()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132315";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6429,6 +6987,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArachasBehemoth()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132201";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Bronze;
@@ -6451,6 +7011,8 @@ Card *Cards::createDolBlathannaArcher()
 //ArachasBehemoth::ArachasHatchling::ArachasHatchling()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132304";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Bronze;
@@ -6467,6 +7029,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createArchgriffin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132307";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -6482,6 +7046,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGriffin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132312";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Bronze;
@@ -6501,6 +7067,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBridgeTroll()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201700";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -6537,6 +7105,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCockatrice()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200233";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6557,6 +7127,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNekurat()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132220";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Silver;
@@ -6572,6 +7144,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSiren()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200112";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6588,6 +7162,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLamia()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132409";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6607,6 +7183,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNekker()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132305";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6628,6 +7206,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNekkerWarrior()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132211";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Bronze;
@@ -6652,6 +7232,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSlyzard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200539";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Bronze;
@@ -6673,6 +7255,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWerecat()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201599";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Bronze;
@@ -6695,6 +7279,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHarpy()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132315";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -6721,6 +7307,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildHuntDrakkar()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200301";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -6743,6 +7331,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeels()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "131102";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Gold;
@@ -6772,6 +7362,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWildHuntRider()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132310";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Bronze;
@@ -6785,6 +7377,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVranWarrior()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132308";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -6807,6 +7401,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAnCraiteArmorsmith()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "152317";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -6827,6 +7423,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAvalach()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132105";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Gold;
@@ -6850,6 +7448,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAvalachSage()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112112";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Gold;
@@ -6866,6 +7466,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRaghNarRoog()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113101";
 //    card->isSpecial = true;
 //    card->rarity = Gold;
@@ -6882,6 +7484,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeraltProfessional()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201772";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -6904,6 +7508,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeraltAard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112111";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -6928,6 +7534,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGeraltYrden()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201523";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -6950,6 +7558,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCiriDash()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112110";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Gold;
@@ -6970,6 +7580,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAguara()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200062";
 //    card->power = card->powerBase = 5;
 //    card->rarity = Gold;
@@ -6977,19 +7589,19 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Relict, Cursed };
 
 //    card->_onDeploy = [=](Field & ally, Field &enemy) {
-//        auto *option1 = new Aguara::BoostLowest;
+//        auto *option1 = createOption(card, BoostLowest);
 //        copyCardText(card, option1);
 //        option1->text = "Boost the Lowest ally by 5.";
 
-//        auto *option2 = new Aguara::BoostInHand;
+//        auto *option2 = createOption(card, BoostInHand);
 //        copyCardText(card, option2);
 //        option2->text = "Boost a random unit in your hand by 5.";
 
-//        auto *option3 = new Aguara::DamageHighest;
+//        auto *option3 = createOption(card, DamageHighest);
 //        copyCardText(card, option3);
 //        option3->text = "Deal 5 damage to the Highest enemy.";
 
-//        auto *option4 = new Aguara::CharmElf;
+//        auto *option4 = createOption(card, CharmElf);
 //        copyCardText(card, option4);
 //        option4->text = "Charm a random enemy Elf with 5 power or less.";
 
@@ -7029,6 +7641,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAguaraTrueForm()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200056";
 //    card->power = card->powerBase = 2;
 //    card->rarity = Gold;
@@ -7048,6 +7662,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKorathiHeatwave()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200018";
 //    card->isSpecial = true;
 //    card->rarity = Gold;
@@ -7065,6 +7681,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAleOfTheAncestors()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200532";
 //    card->power = card->powerBase = 10;
 //    card->rarity = Gold;
@@ -7079,6 +7697,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamAle()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200519";
 //    card->isSpecial = true;
 //    card->rarity = Bronze;
@@ -7096,6 +7716,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOdrin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122213";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Silver;
@@ -7116,6 +7738,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createToruviel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142204";
 //    card->power = card->powerBase = 6;
 //    card->isAmbush = true;
@@ -7146,6 +7770,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCiri()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112101";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -7161,6 +7787,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMilva()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142104";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -7180,6 +7808,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPrincessPavetta()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122210";
 //    card->power = card->powerBase = 3;
 //    card->rarity = Silver;
@@ -7198,6 +7828,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTheGuardian()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162401";
 //    card->power = card->powerBase = 11;
 //    card->rarity = Silver;
@@ -7215,6 +7847,8 @@ Card *Cards::createDolBlathannaArcher()
 //TheGuardian::LesserGuardian::LesserGuardian()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162401";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Bronze;
@@ -7226,6 +7860,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGaunterODimm()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "132215";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -7235,15 +7871,15 @@ Card *Cards::createDolBlathannaArcher()
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
 //        _picked = random(createAll(patch), ally.rng);
 
-//        auto *option1 = new GaunterODimm::Less6;
+//        auto *option1 = createOption(card, Less6);
 //        copyCardText(card, option1);
 //        option1->text = "Picked card power is less than 6.";
 
-//        auto *option2 = new GaunterODimm::Equal6;
+//        auto *option2 = createOption(card, Equal6);
 //        copyCardText(card, option2);
 //        option2->text = "Picked card power is 6.";
 
-//        auto *option3 = new GaunterODimm::More6;
+//        auto *option3 = createOption(card, More6);
 //        copyCardText(card, option3);
 //        option3->text = "Picked card power is more than 6.";
 
@@ -7269,6 +7905,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKaedweniSergeant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122214";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Bronze;
@@ -7286,6 +7924,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createReinforcedBallista()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122302";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -7307,6 +7947,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSigismundDijkstra()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122105";
 //    card->isLoyal = false;
 //    card->power = card->powerBase = 4;
@@ -7324,6 +7966,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWhiteFrost()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113206";
 //    card->isSpecial = true;
 //    card->rarity = Silver;
@@ -7345,6 +7989,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWolfsbane()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200226";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7371,6 +8017,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDunBanner()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "122313";
 //    card->power = card->powerBase = 4;
 //    card->rarity = Bronze;
@@ -7392,6 +8040,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAelirenn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142211";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Silver;
@@ -7412,6 +8062,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHanmarvynsDream()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200079";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7433,6 +8085,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBlackBlood()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201697";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7440,11 +8094,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Alchemy, Item };
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new BlackBlood::Create;
+//        auto *option1 = createOption(card, Create);
 //        copyCardText(card, option1);
 //        option1->text = "Create a Bronze Necrophage or Vampire and boost it by 2";
 
-//        auto *option2 = new BlackBlood::Destroy;
+//        auto *option2 = createOption(card, Destroy);
 //        copyCardText(card, option2);
 //        option2->text = "Destroy a Bronze or Silver Necrophage or Vampire.";
 
@@ -7491,6 +8145,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBekkersRockslide()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201634";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7507,6 +8163,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBekkersDarkMirror()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113315";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7528,6 +8186,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMerigoldsHailstorm()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113202";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7550,6 +8210,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNecromancy()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200020";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7575,6 +8237,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createStammelfordsTremor()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113204";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7591,6 +8255,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createExpiredAle()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200530";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7608,6 +8274,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTrialOfTheGrasses()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200078";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7628,6 +8296,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimeritiumBomb()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113205";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7650,6 +8320,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createGarrison()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201639";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7667,6 +8339,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTheLastWish()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113102";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -7686,6 +8360,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDimeritiumShackles()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113319";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7707,6 +8383,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWyvernScaleShield()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "133301";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7735,6 +8413,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMastercraftedSpear()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201656";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7763,6 +8443,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPetrisPhilter()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200008";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7779,6 +8461,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createShrike()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200009";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7795,6 +8479,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRoyalDecree()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200154";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7815,6 +8501,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createUmasCurse()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200058";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7834,6 +8522,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLacerate()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "153301";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7854,6 +8544,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCrowsEye()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200224";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7872,6 +8564,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDoppler()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201631";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7889,6 +8583,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSpores()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201744";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7911,6 +8607,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMardroeme()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "113320";
 //    card->rarity = Bronze;
 //    card->faction = Neutral;
@@ -7918,11 +8616,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Alchemy, Organic };
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Mardroeme::Strengthen;
+//        auto *option1 = createOption(card, Strengthen);
 //        copyCardText(card, option1);
 //        option1->text = "Reset a unit and Strengthen it by 3.";
 
-//        auto *option2 = new Mardroeme::Weaken;
+//        auto *option2 = createOption(card, Weaken);
 //        copyCardText(card, option2);
 //        option2->text = "Reset a unit and Weaken it by 3.";
 
@@ -7954,6 +8652,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSihil()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201632";
 //    card->rarity = Gold;
 //    card->faction = Neutral;
@@ -7961,15 +8661,15 @@ Card *Cards::createDolBlathannaArcher()
 //    card->tags = { Item };
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Sihil::DamageOdd;
+//        auto *option1 = createOption(card, DamageOdd);
 //        copyCardText(card, option1);
 //        option1->text = "Deal 3 damage to all enemies with odd power.";
 
-//        auto *option2 = new Sihil::DamageEven;
+//        auto *option2 = createOption(card, DamageEven);
 //        copyCardText(card, option2);
 //        option2->text = "Deal 3 damage to all enemies with even power.";
 
-//        auto *option3 = new Sihil::PlayFromDeck;
+//        auto *option3 = createOption(card, PlayFromDeck);
 //        copyCardText(card, option3);
 //        option3->text = "Play a random Bronze or Silver unit from your deck.";
 
@@ -8003,6 +8703,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDragonsDream()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201637";
 //    card->rarity = Silver;
 //    card->faction = Neutral;
@@ -8022,6 +8724,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEskelPathfinder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200236";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -8041,6 +8745,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVesemirMentor()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200237";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 6;
@@ -8060,6 +8766,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createLambertSwordmaster()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200235";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 8;
@@ -8080,6 +8788,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRegisHigherVampire()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112105";
 //    card->tags = { Witcher };
 //    card->power = card->powerBase = 6;
@@ -8099,6 +8809,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createZoltanScoundrel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112109";
 //    card->tags = { Dwarf };
 //    card->power = card->powerBase = 8;
@@ -8118,6 +8830,8 @@ Card *Cards::createDolBlathannaArcher()
 //ZoltanScoundrel::DudaCompanion::DudaCompanion()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112403";
 //    card->tags = { Beast };
 //    card->isDoomed = true;
@@ -8142,6 +8856,8 @@ Card *Cards::createDolBlathannaArcher()
 //ZoltanScoundrel::DudaAgitator::DudaAgitator()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112404";
 //    card->tags = { Beast };
 //    card->isDoomed = true;
@@ -8167,6 +8883,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYenneferConjurer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112113";
 //    card->tags = { Mage, Aedirn };
 //    card->power = card->powerBase = 10;
@@ -8185,6 +8903,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTrissMerigold()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112106";
 //    card->tags = { Mage, Temeria };
 //    card->power = card->powerBase = 10;
@@ -8204,6 +8924,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createTrissTelekinesis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201773";
 //    card->tags = { Mage, Temeria };
 //    card->power = card->powerBase = 6;
@@ -8221,6 +8943,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDorregarayOfVole()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200087";
 //    card->tags = { Mage };
 //    card->power = card->powerBase = 1;
@@ -8240,6 +8964,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDandelionVainglory()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201774";
 //    card->power = card->powerBase = 9;
 //    card->rarity = Gold;
@@ -8275,6 +9001,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCyprianWiley()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112214";
 //    card->power = card->powerBase = 8;
 //    card->rarity = Silver;
@@ -8294,6 +9022,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDudu()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112201";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Silver;
@@ -8313,6 +9043,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIhuarraquax()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201817";
 //    card->tags = { Beast };
 //    card->power = card->powerBase = 7;
@@ -8343,6 +9075,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamMarauder()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200042";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Bronze;
@@ -8360,6 +9094,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createZoltanChivay()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142105";
 //    card->tags = { Dwarf };
 //    card->power = card->powerBase = 8;
@@ -8390,6 +9126,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYenneferNecromancer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201780";
 //    card->tags = { Mage, Aedirn };
 //    card->power = card->powerBase = 5;
@@ -8409,6 +9147,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPhoenix()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201579";
 //    card->tags = { Draconid };
 //    card->isDoomed = true;
@@ -8429,6 +9169,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSaesenthessisBlaze()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201613";
 //    card->tags = { Aedirn, Draconid };
 //    card->power = card->powerBase = 11;
@@ -8449,6 +9191,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVillentretenmerth()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112107";
 //    card->tags = { Draconid };
 //    card->power = card->powerBase = 10;
@@ -8471,6 +9215,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOcvist()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112206";
 //    card->tags = { Draconid };
 //    card->power = card->powerBase = 8;
@@ -8491,6 +9237,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMyrgtabrakke()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112205";
 //    card->tags = { Draconid };
 //    card->power = card->powerBase = 7;
@@ -8511,6 +9259,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKingOfBeggars()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112213";
 //    card->tags = { Support };
 //    card->power = card->powerBase = 5;
@@ -8528,6 +9278,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createOlgierdVonEverec()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112207";
 //    card->tags = { Redania, Cursed };
 //    card->power = card->powerBase = 5;
@@ -8543,6 +9295,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIrisVonEverec()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112215";
 //    card->tags = { Redania, Cursed };
 //    card->isLoyal = false;
@@ -8560,6 +9314,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIrisCompanions()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200083";
 //    card->tags = { Relict };
 //    card->power = card->powerBase = 11;
@@ -8580,6 +9336,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createJohnny()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112211";
 //    card->tags = { Relict };
 //    card->power = card->powerBase = 9;
@@ -8604,6 +9362,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createStregobor()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200091";
 //    card->tags = { Mage };
 //    card->power = card->powerBase = 10;
@@ -8629,6 +9389,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSarah()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "112212";
 //    card->tags = { Relict };
 //    card->power = card->powerBase = 11;
@@ -8652,6 +9414,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPeasantMilitia()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201753";
 //    card->tags = { Tactics };
 //    card->isSpecial = true;
@@ -8677,6 +9441,8 @@ Card *Cards::createDolBlathannaArcher()
 //PeasantMilitia::Peasant::Peasant()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201753";
 //    card->power = card->powerBase = 3;
 //    card->tags = { };
@@ -8696,6 +9462,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPrizeWinningCow()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
 //    card->id = "112209";
 //    card->power = card->powerBase = 1;
@@ -8714,6 +9482,8 @@ Card *Cards::createDolBlathannaArcher()
 //PrizeWinningCow::Chort::Chort()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    // FIXME: check all the details
 //    card->id = "112209";
 //    // TODO: place this picture somehow
@@ -8728,6 +9498,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPrincessAdda()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201595";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Leader, Cursed };
@@ -8747,6 +9519,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKingFoltest()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200168";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Leader, Temeria };
@@ -8769,6 +9543,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createKingRadovidV()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200169";
 //    card->power = card->powerBase = 6;
 //    card->rarity = Gold;
@@ -8791,6 +9567,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEmhyrVarEmreis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200162";
 //    card->power = card->powerBase = 7;
 //    card->rarity = Gold;
@@ -8816,6 +9594,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createUsurper()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201580";
 //    card->power = card->powerBase = 1;
 //    card->rarity = Gold;
@@ -8837,6 +9617,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBrouverHoog()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200167";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Leader, Dwarf };
@@ -8860,6 +9642,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEithne()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200166";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Leader, Dryad };
@@ -8879,6 +9663,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFilavandrel()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201589";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Leader, Elf };
@@ -8898,6 +9684,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFrancescaFindabair()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200165";
 //    card->power = card->powerBase = 7;
 //    card->tags = { Leader, Mage, Elf };
@@ -8925,6 +9713,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAglais()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142106";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Dryad };
@@ -8945,6 +9735,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIorveth()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142103";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Elf, Officer };
@@ -8966,6 +9758,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIorvethMeditation()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201611";
 //    card->power = card->powerBase = 2;
 //    card->tags = { Elf, Officer };
@@ -9004,6 +9798,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIsengrimFaoiltiarna()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142102";
 //    card->power = card->powerBase = 7;
 //    card->tags = { Elf, Officer };
@@ -9027,6 +9823,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIsengrimOutlaw()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201615";
 //    card->power = card->powerBase = 2;
 //    card->tags = { Elf, Officer };
@@ -9034,11 +9832,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->rarity = Gold;
 
 //    card->_onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new IsengrimOutlaw::Create;
+//        auto *option1 = createOption(card, Create);
 //        copyCardText(card, option1);
 //        option1->text = "Create a Silver Elf.";
 
-//        auto *option2 = new IsengrimOutlaw::Play;
+//        auto *option2 = createOption(card, Play);
 //        copyCardText(card, option2);
 //        option2->text = "Play a Bronze or Silver special card from your deck.";
 
@@ -9078,6 +9876,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIthlinneAegli()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142107";
 //    card->power = card->powerBase = 2;
 //    card->tags = { Elf, Mage };
@@ -9097,6 +9897,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSchirru()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142108";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Elf, Soldier };
@@ -9117,6 +9919,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSaesenthessis()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142108";
 //    card->power = card->powerBase = 10;
 //    card->tags = { Aedirn, Draconid };
@@ -9140,6 +9944,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSaskia()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200209";
 //    card->power = card->powerBase = 11;
 //    card->tags = { Aedirn, Draconid };
@@ -9163,6 +9969,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBarclayEls()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142207";
 //    card->power = card->powerBase = 2;
 //    card->tags = { Dwarf, Officer };
@@ -9181,6 +9989,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDennisCranmer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142211";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Dwarf, Officer };
@@ -9197,6 +10007,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createSheldonSkaggs()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142212";
 //    card->power = card->powerBase = 9;
 //    card->tags = { Dwarf, Officer };
@@ -9220,6 +10032,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYarpenZigrin()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142213";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Dwarf, Soldier };
@@ -9241,6 +10055,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createYaevinn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142203";
 //    card->power = card->powerBase = 13;
 //    card->tags = { Elf };
@@ -9278,6 +10094,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIdaEmeanAepSivney()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142202";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Elf, Mage };
@@ -9297,6 +10115,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPavkoGale()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201676";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Soldier };
@@ -9316,6 +10136,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCiaranAepEasnillen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142206";
 //    card->power = card->powerBase = 9;
 //    card->tags = { Elf, Soldier };
@@ -9345,6 +10167,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createEibhearHattori()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200520";
 //    card->power = card->powerBase = 3;
 //    card->tags = { Elf, Support };
@@ -9366,6 +10190,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMilaen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200030";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Elf };
@@ -9391,6 +10217,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBraenn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142209";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Dryad };
@@ -9418,6 +10246,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMorenn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142208";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Dryad };
@@ -9449,6 +10279,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPaulieDahlberg()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201696";
 //    card->power = card->powerBase = 3;
 //    card->tags = { Dwarf, Support };
@@ -9469,6 +10301,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamHorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201653";
 //    card->isSpecial = true;
 //    card->tags = { Item };
@@ -9476,11 +10310,11 @@ Card *Cards::createDolBlathannaArcher()
 //    card->rarity = Silver;
 
 //    card->_onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new MahakamHorn::Create;
+//        auto *option1 = createOption(card, Create);
 //        copyCardText(card, option1);
 //        option1->text = "Create a Bronze or Silver Dwarf.";
 
-//        auto *option2 = new MahakamHorn::Strengthen;
+//        auto *option2 = createOption(card, Strengthen);
 //        copyCardText(card, option2);
 //        option2->text = "Strengthen a unit by 7.";
 
@@ -9525,6 +10359,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createNaturesGift()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "143201";
 //    card->isSpecial = true;
 //    card->tags = { Spell };
@@ -9544,6 +10380,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPitTrap()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200228";
 //    card->isSpecial = true;
 //    card->tags = { Item };
@@ -9563,6 +10401,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCrushingTrap()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201645";
 //    card->isSpecial = true;
 //    card->tags = { Item };
@@ -9588,6 +10428,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createElvenBlade()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201643";
 //    card->isSpecial = true;
 //    card->tags = { Item };
@@ -9607,6 +10449,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createIncineratingTrap()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "143301";
 //    card->power = card->powerBase = 1;
 //    card->tags = { Machine };
@@ -9629,6 +10473,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createBlueMountainElite()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142316";
 //    card->power = card->powerBase = 3;
 //    card->tags = { Elf, Soldier };
@@ -9649,6 +10495,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDolBlathannaBomber()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142316";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Elf, Soldier };
@@ -9664,6 +10512,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDolBlathannaBowman()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142314";
 //    card->power = card->powerBase = 7;
 //    card->tags = { Elf, Soldier };
@@ -9693,6 +10543,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDolBlathannaSentry()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200039";
 //    card->power = card->powerBase = 2;
 //    card->tags = { Elf, Soldier };
@@ -9713,6 +10565,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createElvenScout()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201638";
 //    card->power = card->powerBase = 10;
 //    card->tags = { Elf, Soldier };
@@ -9732,6 +10586,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createElvenSwordmaster()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200535";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Elf, Soldier };
@@ -9751,6 +10607,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDwarvenAgitator()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200293";
 //    card->power = card->powerBase = 1;
 //    card->tags = { Dwarf, Support };
@@ -9767,6 +10625,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDwarvenMercenary()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142311";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Dwarf, Soldier };
@@ -9800,6 +10660,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createDwarvenSkirmisher()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142305";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Dwarf, Soldier };
@@ -9820,6 +10682,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHawkerHealer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142301";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Elf, Support };
@@ -9839,6 +10703,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHawkerSupport()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142312";
 //    card->power = card->powerBase = 7;
 //    card->tags = { Elf, Support };
@@ -9858,6 +10724,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamDefender()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142306";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Dwarf, Soldier };
@@ -9873,6 +10741,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamGuard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142317";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Dwarf, Soldier };
@@ -9892,6 +10762,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMahakamVolunteers()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "201559";
 //    card->power = card->powerBase = 3;
 //    card->tags = { Dwarf, Soldier };
@@ -9908,6 +10780,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPyrotechnician()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200135";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Dwarf, Soldier };
@@ -9926,6 +10800,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createWardancer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142313";
 //    card->power = card->powerBase = 3;
 //    card->tags = { Elf, Soldier };
@@ -9941,6 +10817,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddVanguard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142309";
 //    card->power = card->powerBase = 6;
 //    card->tags = { Elf, Soldier };
@@ -9961,6 +10839,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddOfficer()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142303";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Elf, Officer };
@@ -9981,6 +10861,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddNeophyte()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142301";
 //    card->power = card->powerBase = 10;
 //    card->tags = { Elf, Soldier };
@@ -9997,6 +10879,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVriheddBrigade()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142302";
 //    card->power = card->powerBase = 9;
 //    card->tags = { Elf, Soldier };
@@ -10026,6 +10910,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createHawkerSmuggler()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "142315";
 //    card->power = card->powerBase = 7;
 //    card->tags = { Elf, Support };
@@ -10045,6 +10931,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createMennoCoehoorn()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162102";
 //    card->power = card->powerBase = 8;
 //    card->tags = { Officer };
@@ -10066,6 +10954,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createRainfarnOfAttre()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200032";
 //    card->power = card->powerBase = 5;
 //    card->tags = { Officer };
@@ -10085,6 +10975,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAssassination()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "163101";
 //    card->isSpecial = true;
 //    card->tags = { Tactics };
@@ -10106,6 +10998,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createStefanSkellen()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162106";
 //    card->power = card->powerBase = 10;
 //    card->tags = { Officer };
@@ -10127,6 +11021,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createShilard()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200071";
 //    card->power = card->powerBase = 9;
 //    card->tags = { Officer };
@@ -10157,6 +11053,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createXarthisius()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162108";
 //    card->power = card->powerBase = 13;
 //    card->tags = { Mage };
@@ -10176,6 +11074,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createCantarella()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162108";
 //    card->power = card->powerBase = 13;
 //    card->tags = {};
@@ -10213,6 +11113,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createPanther()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "200139";
 //    card->power = card->powerBase = 4;
 //    card->tags = { Beast };
@@ -10237,6 +11139,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createVicovaroMedic()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162304";
 //    card->power = card->powerBase = 1;
 //    card->tags = { Support };
@@ -10257,6 +11161,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createAssireVarAnahid()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162202";
 //    card->power = card->powerBase = 11;
 //    card->tags = { Mage };
@@ -10285,6 +11191,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFringillaVigo()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162205";
 //    card->power = card->powerBase = 1;
 //    card->isLoyal = false;
@@ -10304,6 +11212,8 @@ Card *Cards::createDolBlathannaArcher()
 //Card *Cards::createFalseCiri()
 //{
 //    auto *card = new Card();
+//    card->_constructor = std::bind(&Cards::, this);
+// 
 //    card->id = "162212";
 //    card->power = card->powerBase = 8;
 //    card->isLoyal = false;

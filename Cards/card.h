@@ -50,7 +50,8 @@ struct Card
 {
     Card() = default;
     virtual ~Card();
-    Card *copy() const;
+    Card *exactCopy() const;
+    Card *defaultCopy() const;
 
     int power = 0;
     int powerBase = 0;
@@ -134,6 +135,7 @@ struct Card
 
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
     inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
+    template <typename T> T *stateAs() { return static_cast<T *>(state); }
 
 private:
     Card(const Card &card) = default;
@@ -349,7 +351,6 @@ void startDemo(Field &ally, Field &enemy, const bool hasEnemyPassed = true, cons
 void shuffle(std::vector<Card *> &cards, Rng &rng);
 std::vector<Card *> randoms(const std::vector<Card *> &cards, const int nRandoms, Rng &rng);
 Card *random(const std::vector<Card *> &cards, Rng &rng);
-void copyCardText(const Card *card, Card *dst);
 std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
@@ -425,6 +426,8 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src);
 /// returns number of ability calls for a crewed units
 int nCrewed(Card *card, Field &ally);
 void pass(Field &ally, Field &enemy);
+Card *createOption(const Card *card, const int optionInd);
+int isOption(const Card *card, const int optionInd);
 
 std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filters, const ChoiceGroup group);
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions = {0, 1, 2, 3, 4, 5}, const RowFilters &rowFilters = {});

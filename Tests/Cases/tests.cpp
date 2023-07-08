@@ -47,7 +47,7 @@ bool assert(
 
 namespace Tests {
 
-int testDefaultCopyVsExactCopy()
+int testStateCopyVsExactCopy()
 {
     struct State1 : StateCopy<State1>
     {
@@ -72,25 +72,21 @@ int testDefaultCopyVsExactCopy()
     return 0;
 }
 
-int testCopyCardNoState()
+int testStatelessCardCopyVsExactCopy()
 {
     Cards cards;
     Card *adda = cards.createAddaStriga();
 
-    Card *addaRef = adda;
-    assert_(6 == addaRef->power);
-    assert_(adda->id == addaRef->id);
-
-    Card *addaCopy = adda->copy();
-    assert_(adda->id == addaCopy->id);
-    assert_(6 == addaCopy->power);
-
-    addaCopy->power = 10;
-    assert_(10 == addaCopy->power);
-    assert_(6 == addaRef->power);
+    adda->power = 10;
+    Card *addaDefaultCopy = adda->defaultCopy();
+    Card *addaExactCopy = adda->exactCopy();
+    assert_(10 == adda->power);
+    assert_(10 == addaExactCopy->power);
+    assert_(6 == addaDefaultCopy->power);
 
     delete adda;
-    delete addaCopy;
+    delete addaDefaultCopy;
+    delete addaExactCopy;
     pass_();
     return 0;
 }
@@ -99,37 +95,138 @@ int testStateCopyBlathannaArcher()
 {
     Cards cards;
     Card *archer = cards.createDolBlathannaArcher();
-    Card *archerEnemy = cards.createDolBlathannaArcher();
+    Card *adda = cards.createAddaStriga();
+    Card *adda2 = cards.createAddaStriga();
+
+    Field ally;
+    ally.cardsAdded = {archer};
+    ally.rowRange = {archer};
+
+    // NOTE: creating 2 enemies to
+    // prevent choice autoresolving
+    Field enemy;
+    enemy.cardsAdded = {adda, adda2};
+    enemy.rowRange = {adda, adda2};
+
+    assert_(ally.cardStack2.isEmpty());
+    archer->onDeploy(ally, enemy);
+    assert_(!ally.cardStack2.isEmpty());
+    assert_(6 == adda->power);
+
+    onChoiceDoneCard(adda, ally, enemy);
+    assert_(3 == adda->power);
+
+    // NOTE: copying archer with intermediate state,
+    // so after using his ability he will shot once
+    Card *archerCopy = archer->exactCopy();
+    ally.cardsAdded.push_back(archerCopy);
+
+    onChoiceDoneCard(adda, ally, enemy);
+    assert_(2 == adda->power);
+
+    archerCopy->onTargetChoosen(adda, ally, enemy);
+    assert_(1 == adda->power);
+
+    delete archer;
+    delete archerCopy;
+    delete adda;
+    pass_();
+    return 0;
+}
+
+int testBlathannaArcherSeparatedShots()
+{
+    Cards cards;
+    Card *archer = cards.createDolBlathannaArcher();
+    Card *dao = cards.createDao();
 
     Field ally;
     ally.cardsAdded = {archer};
     ally.rowRange = {archer};
 
     Field enemy;
-    enemy.cardsAdded = {archerEnemy};
-    enemy.rowRange = {archerEnemy};
+    enemy.cardsAdded = {dao};
+    enemy.rowRange = {dao};
+    dao->power = 2;
 
-    assert_(ally.cardStack2.isEmpty());
+    // NOTE: autochoosing dao and destroying it
     archer->onDeploy(ally, enemy);
+    assert_(std::vector<Card *>{dao} == enemy.discard);
+
     assert_(!ally.cardStack2.isEmpty());
-    assert_(7 == archerEnemy->power);
+    const Choice choice = ally.cardStack2.peek();
 
-    onChoiceDoneCard(archerEnemy, ally, enemy);
-    assert_(4 == archerEnemy->power);
+    assert_(2 == choice.options.size());
+    const Card *daoLesser = choice.options.at(0);
+    assert_("132405" == daoLesser->id);
+    assert_(4 == daoLesser->power);
 
-    Card *archerCopy = archer->_constructor();
-    archerCopy->state = archer->state->exactCopy();
-    ally.cardsAdded.push_back(archerCopy);
-
-    onChoiceDoneCard(archerEnemy, ally, enemy);
-    assert_(3 == archerEnemy->power);
-
-    archerCopy->onTargetChoosen(archerEnemy, ally, enemy);
-    assert_(2 == archerEnemy->power);
+    const Card *daoLesser2 = choice.options.at(1);
 
     delete archer;
-    delete archerCopy;
-    delete archerEnemy;
+    delete dao;
+    delete daoLesser;
+    delete daoLesser2;
+    pass_();
+    return 0;
+}
+
+int testHalfElfHunder()
+{
+    Cards cards;
+    Card *hunter = cards.createHalfElfHunter();
+    hunter->power = 8;
+
+    Field ally;
+    ally.cardsAdded = {hunter};
+    ally.rowMeele = {hunter};
+
+    Field enemy;
+    hunter->onDeploy(ally, enemy);
+    Card *copy = ally.rowMeele.at(1);
+    assert_(hunter->id == copy->id);
+    assert_(8 == hunter->power);
+    assert_(6 == copy->power);
+    assert_(2 == ally.rowMeele.size());
+
+    delete hunter;
+    delete copy;
+    pass_();
+    return 0;
+}
+
+int testOptionsMandrake()
+{
+    Cards cards;
+    Card *adda = cards.createAddaStriga();
+    Card *mandrake = cards.createMandrake();
+
+    Field ally;
+    ally.cardsAdded = {adda, mandrake};
+    ally.rowMeele = {adda};
+
+    Field enemy;
+    mandrake->onPlaySpecial(ally, enemy);
+
+    assert_(!ally.cardStack2.isEmpty());
+    const Choice choice = ally.cardStack2.peek();
+    assert_(2 == choice.options.size());
+
+    Card *option1 = choice.options.at(0);
+    assert_(isOption(option1, 0));
+    assert_(option1->isSpecial);
+    assert_(mandrake->id == option1->id);
+
+    Card *option2 = choice.options.at(1);
+    assert_(isOption(option2, 1));
+    assert_(option2->isSpecial);
+    assert_(mandrake->id == option2->id);
+
+    onChoiceDoneCard(option1, ally, enemy);
+    assert_(12 == adda->powerBase);
+
+    delete adda;
+    delete mandrake;
     pass_();
     return 0;
 }

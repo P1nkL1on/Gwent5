@@ -11,6 +11,7 @@ public:
     virtual std::vector<Card *> createAll();
 
     virtual Card *createAddaStriga();
+    virtual Card *createDaoLesser();
     virtual Card *createDao();
 //    virtual Card *createPoorFingInfantry();
 //    virtual Card *createDeithwenArbalest();
@@ -36,7 +37,7 @@ public:
 //    virtual Card *createArachasVenom();
 //    virtual Card *createKeiraMetz();
     virtual Card *createDolBlathannaArcher();
-//    virtual Card *createHalfElfHunter();
+    virtual Card *createHalfElfHunter();
 //    virtual Card *createAmbassador();
 //    virtual Card *createAssassin();
 //    virtual Card *createEmissary();
@@ -73,8 +74,8 @@ public:
 //    virtual Card *createPriscilla();
 //    virtual Card *createSeltkirkOfGulet();
 //    virtual Card *createAdrenalineRush();
-//    virtual Card *createMandrake();
-//    virtual Card *createBoneTalisman();
+    virtual Card *createMandrake();
+    virtual Card *createBoneTalisman();
 //    virtual Card *createRestore();
 //    virtual Card *createDecoy();
 //    virtual Card *createShupesDayOff();

@@ -109,9 +109,12 @@ int main()
 int main(int argc, char **argv)
 {
     using namespace Tests;
-    return testDefaultCopyVsExactCopy()
-            + testCopyCardNoState()
+    return testStateCopyVsExactCopy()
+            + testStatelessCardCopyVsExactCopy()
             + testStateCopyBlathannaArcher()
+            + testBlathannaArcherSeparatedShots()
+            + testHalfElfHunder()
+            + testOptionsMandrake()
             ;
 }
 
