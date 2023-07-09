@@ -1601,11 +1601,9 @@ bool isOnBoard(const Card *card, const Field &field)
     return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }
 
-void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src)
+void transform(Card *card, Card *target, Field &ally, Field &enemy, const Card *src)
 {
-    // FIXME: not implemented
-    assert(false);
-    //*card = target;
+    card->transofrm(target);
     saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
@@ -1967,249 +1965,249 @@ Card::~Card()
 void Card::onGameStart(Field &ally, Field &enemy)
 {
     if (_onGameStart)
-        return _onGameStart(ally, enemy);
+        return _onGameStart(this, ally, enemy);
 }
 
 void Card::onDeploy(Field &ally, Field &enemy)
 {
     if (_onDeploy && !isLocked)
-        return _onDeploy(ally, enemy);
+        return _onDeploy(this, ally, enemy);
 }
 
 void Card::onDeployFromDiscard(Field &ally, Field &enemy)
 {
     if (_onDeployFromDiscard && !isLocked)
-        return _onDeployFromDiscard(ally, enemy);
+        return _onDeployFromDiscard(this, ally, enemy);
     return onDeploy(ally, enemy);
 }
 
 void Card::onDeployFromDeck(Field &ally, Field &enemy)
 {
     if (_onDeployFromDeck && !isLocked)
-        return _onDeployFromDeck(ally, enemy);
+        return _onDeployFromDeck(this, ally, enemy);
     return onDeploy(ally, enemy);
 }
 
 void Card::onMoveFromRowToRow(Field &ally, Field &enemy)
 {
     if (_onMoveFromRowToRow && !isLocked)
-        return _onMoveFromRowToRow(ally, enemy);
+        return _onMoveFromRowToRow(this, ally, enemy);
 }
 
 void Card::onTurnStart(Field &ally, Field &enemy)
 {
     if (_onTurnStart && !isLocked)
-        return _onTurnStart(ally, enemy);
+        return _onTurnStart(this, ally, enemy);
 }
 
 void Card::onTurnEnd(Field &ally, Field &enemy)
 {
     if (_onTurnEnd && !isLocked)
-        return _onTurnEnd(ally, enemy);
+        return _onTurnEnd(this, ally, enemy);
 }
 
 void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 {
     if (_onTargetChoosen && !isLocked)
-        return _onTargetChoosen(card, ally, enemy);
+        return _onTargetChoosen(this, card, ally, enemy);
 }
 
 void Card::onOptionChoosen(Card *card, Field &ally, Field &enemy)
 {
     if (_onOptionChoosen)
-        return _onOptionChoosen(card, ally, enemy);
+        return _onOptionChoosen(this, card, ally, enemy);
 }
 
 void Card::onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow)
 {
     if (_onTargetRowChoosen && !isLocked)
-        return _onTargetRowChoosen(ally, enemy, screenRow);
+        return _onTargetRowChoosen(this, ally, enemy, screenRow);
 }
 
 void Card::onDraw(Field &ally, Field &enemy)
 {
     if (_onDraw && !isLocked)
-        return _onDraw(ally, enemy);
+        return _onDraw(this, ally, enemy);
 }
 
 void Card::onSwap(Field &ally, Field &enemy)
 {
     if (_onSwap && !isLocked)
-        return _onSwap(ally, enemy);
+        return _onSwap(this, ally, enemy);
 }
 
 void Card::onDiscard(Field &ally, Field &enemy)
 {
     if (_onDiscard && !isLocked)
-        return _onDiscard(ally, enemy);
+        return _onDiscard(this, ally, enemy);
 }
 
 void Card::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     if (_onDestroy && !isLocked)
-        return _onDestroy(ally, enemy, rowAndPos);
+        return _onDestroy(this, ally, enemy, rowAndPos);
 }
 
 void Card::onPlaySpecial(Field &ally, Field &enemy)
 {
     if (_onPlaySpecial && !isLocked)
-        return _onPlaySpecial(ally, enemy);
+        return _onPlaySpecial(this, ally, enemy);
 }
 
 void Card::onBoost(const int x, Field &ally, Field &enemy)
 {
     if (_onBoost && !isLocked)
-        return _onBoost(x, ally, enemy);
+        return _onBoost(this, x, ally, enemy);
 }
 
 void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onDamaged && !isLocked)
-        return _onDamaged(x, ally, enemy, src);
+        return _onDamaged(this, x, ally, enemy, src);
 }
 
 void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onWeakened && !isLocked)
-        return _onWeakened(x, ally, enemy, src);
+        return _onWeakened(this, x, ally, enemy, src);
 }
 
 void Card::onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type)
 {
     if (_onPowerChanged && !isLocked)
-        return _onPowerChanged(ally, enemy, src, type);
+        return _onPowerChanged(this, ally, enemy, src, type);
 }
 
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
 {
     if (_onRevealed && !isLocked)
-        return _onRevealed(ally, enemy, src);
+        return _onRevealed(this, ally, enemy, src);
 }
 
 void Card::onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src)
 {
     if (_onOtherRevealed && !isLocked)
-        return _onOtherRevealed(ally, enemy, card, src);
+        return _onOtherRevealed(this, ally, enemy, card, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)
 {
     if (_onArmorLost && !isLocked)
-        return _onArmorLost(ally, enemy);
+        return _onArmorLost(this, ally, enemy);
 }
 
 void Card::onContactWithFullMoon(Field &ally, Field &enemy)
 {
     if (_onContactWithFullMoon && !isLocked)
-        return _onContactWithFullMoon(ally, enemy);
+        return _onContactWithFullMoon(this, ally, enemy);
 }
 
 void Card::onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyDamaged && !isLocked)
-        return _onOtherEnemyDamaged(card, ally, enemy);
+        return _onOtherEnemyDamaged(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyDestroyed && !isLocked)
-        return _onOtherEnemyDestroyed(card, ally, enemy);
+        return _onOtherEnemyDestroyed(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyDiscarded && !isLocked)
-        return _onOtherAllyDiscarded(card, ally, enemy);
+        return _onOtherAllyDiscarded(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyDestroyed(Card *card, Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     if (_onOtherAllyDestroyed && !isLocked)
-        return _onOtherAllyDestroyed(card, ally, enemy, rowAndPos);
+        return _onOtherAllyDestroyed(this, card, ally, enemy, rowAndPos);
 }
 
 void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyPlayedFromHand && !isLocked)
-        return _onOtherAllyPlayedFromHand(card, ally, enemy);
+        return _onOtherAllyPlayedFromHand(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyAppears && !isLocked)
-        return _onOtherAllyAppears(card, ally, enemy);
+        return _onOtherAllyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyAppears && !isLocked)
-        return _onOtherEnemyAppears(card, ally, enemy);
+        return _onOtherEnemyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherSpyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherSpyAppears && !isLocked)
-        return _onOtherSpyAppears(card, ally, enemy);
+        return _onOtherSpyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyPlayedFromHand && !isLocked)
-        return _onOtherEnemyPlayedFromHand(card, ally, enemy);
+        return _onOtherEnemyPlayedFromHand(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
-        return _onOtherAllyResurrecteded(card, ally, enemy);
+        return _onOtherAllyResurrecteded(this, card, ally, enemy);
 }
 
 void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
 {
     if (_onSpecialPlayed && !isLocked)
-        return _onSpecialPlayed(card, ally, enemy);
+        return _onSpecialPlayed(this, card, ally, enemy);
 }
 
 void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)
 {
     if (_onEnemyMoved && !isLocked)
-        return _onEnemyMoved(card, ally, enemy);
+        return _onEnemyMoved(this, card, ally, enemy);
 }
 
 void Card::onOpponentPass(Field &ally, Field &enemy)
 {
     if (_onOpponentPass && !isLocked)
-        return _onOpponentPass(ally, enemy);
+        return _onOpponentPass(this, ally, enemy);
 }
 
 void Card::onAllyPass(Field &ally, Field &enemy)
 {
     if (_onAllyPass && !isLocked)
-        return _onAllyPass(ally, enemy);
+        return _onAllyPass(this, ally, enemy);
 }
 
 void Card::onRoundLose(Field &ally, Field &enemy)
 {
     if (_onRoundLose && !isLocked)
-        return _onRoundLose(ally, enemy);
+        return _onRoundLose(this, ally, enemy);
 }
 
 void Card::onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row)
 {
     if (_onAllyAppliedRowEffect && !isLocked)
-        return _onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+        return _onAllyAppliedRowEffect(this, rowEffect, ally, enemy, row);
 }
 
 void Card::onConsumed(Field &ally, Field &enemy, Card *src)
 {
     if (_onConsumed && !isLocked)
-        return _onConsumed(ally, enemy, src);
+        return _onConsumed(this, ally, enemy, src);
 }
 
 void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
 {
     if (_onAllyConsume && !isLocked)
-        return _onAllyConsume(ally, enemy, src);
+        return _onAllyConsume(this, ally, enemy, src);
 }
 
 Card *Card::exactCopy() const
@@ -2243,6 +2241,13 @@ Card *Card::defaultCopy() const
     return _constructor();
 }
 
+void Card::transofrm(Card *target)
+{
+    assert(target);
+    *this = std::move(*target);
+    target->state = nullptr;
+    delete target;
+}
 
 struct StateOption : StateCopy<StateOption>
 {

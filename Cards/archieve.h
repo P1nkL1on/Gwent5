@@ -103,7 +103,8 @@ public:
 //    virtual Card *createPrinceStennis();
 //    virtual Card *createVincentMeis();
 //    virtual Card *createMorkvarg();
-//    virtual Card *createArtefactCompression();
+    virtual Card *createJadeFigurine();
+    virtual Card *createArtefactCompression();
 //    virtual Card *createHjalmarAnCraite();
 //    virtual Card *createRegis();
 //    virtual Card *createLethoOfGulet();
@@ -133,7 +134,7 @@ public:
 //    virtual Card *createHubertRejk();
 //    virtual Card *createCrachAnCraite();
 //    virtual Card *createBirnaBran();
-//    virtual Card *createCoral();
+    virtual Card *createCoral();
 //    virtual Card *createVabjorn();
 //    virtual Card *createBlueboyLugos();
 //    virtual Card *createDjengeFrett();
@@ -157,7 +158,8 @@ public:
 //    virtual Card *createHeymaeyHerbalist();
 //    virtual Card *createHeymaeyProtector();
 //    virtual Card *createHeymaeySkald();
-//    virtual Card *createRagingBerserker();
+    virtual Card *createRagingBear();
+    virtual Card *createRagingBerserker();
 //    virtual Card *createHym();
 //    virtual Card *createKambi();
 //    virtual Card *createOlaf();
@@ -472,6 +474,7 @@ public:
 //    virtual Card *createRotTosser();
 //    virtual Card *createCowCarcass();
 //    virtual Card *createStandardBearer();
+    virtual Card *createCursedKnight();
 };
 
 #endif // CARDS_H

@@ -52,6 +52,8 @@ struct Card
     virtual ~Card();
     Card *exactCopy() const;
     Card *defaultCopy() const;
+    // NOTE: given target card will be deleted
+    void transofrm(Card *target);
 
     int power = 0;
     int powerBase = 0;
@@ -81,7 +83,6 @@ struct Card
     std::string text;
     std::string url;
     std::vector<std::string> sounds;
-    Patch patch = PublicBeta_0_9_24_3_432;
 
     /// temporary created options
     std::vector<Card *> _options;
@@ -137,26 +138,27 @@ struct Card
     inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
     template <typename T> T *stateAs() { return static_cast<T *>(state); }
 
-private:
+public:
     Card(const Card &card) = default;
     Card(Card &&card) = default;
     Card &operator=(Card &&card) = default;
     Card &operator=(const Card &card) = default;
 
 public:
+    using Self = Card;
     using Constructor = std::function<Card *()>;
-    using AllyEnemyRowAndPos = std::function<void(Field &, Field &, const RowAndPos &)>;
-    using CardAllyEnemy = std::function<void(Card *, Field &, Field &)>;
-    using CardAllyEnemyRowAndPos = std::function<void(Card *, Field &, Field &, const RowAndPos &)>;
-    using AllyEnemy = std::function<void(Field &, Field &)>;
-    using IntAllyEnemy = std::function<void(const int, Field &, Field &)>;
-    using AllyEnemyCardSrc = std::function<void(Field &, Field &, Card *, const Card *)>;
-    using AllyEnemySrc = std::function<void(Field &, Field &, const Card *)>;
-    using AllyEnemySrcChangable = std::function<void(Field &, Field &, Card *)>;
-    using IntAllyEnemySrc = std::function<void(const int, Field &, Field &, const Card *)>;
-    using AllyEnemyInt = std::function<void(Field &, Field &, const int)>;
-    using RowEffectAllyEnemyRow = std::function<void(const RowEffect, Field &, Field &, const Row)>;
-    using AllyEnemySrcPowerChangeType = std::function<void(Field &, Field &, const Card *src, const PowerChangeType)>;
+    using AllyEnemyRowAndPos = std::function<void(Self *, Field &, Field &, const RowAndPos &)>;
+    using CardAllyEnemy = std::function<void(Self *, Card *, Field &, Field &)>;
+    using CardAllyEnemyRowAndPos = std::function<void(Self *, Card *, Field &, Field &, const RowAndPos &)>;
+    using AllyEnemy = std::function<void(Self *, Field &, Field &)>;
+    using IntAllyEnemy = std::function<void(Self *, const int, Field &, Field &)>;
+    using AllyEnemyCardSrc = std::function<void(Self *, Field &, Field &, Card *, const Card *)>;
+    using AllyEnemySrc = std::function<void(Self *, Field &, Field &, const Card *)>;
+    using AllyEnemySrcChangable = std::function<void(Self *, Field &, Field &, Card *)>;
+    using IntAllyEnemySrc = std::function<void(Self *, const int, Field &, Field &, const Card *)>;
+    using AllyEnemyInt = std::function<void(Self *, Field &, Field &, const int)>;
+    using RowEffectAllyEnemyRow = std::function<void(Self *, const RowEffect, Field &, Field &, const Row)>;
+    using AllyEnemySrcPowerChangeType = std::function<void(Self *, Field &, Field &, const Card *src, const PowerChangeType)>;
     Constructor _constructor = nullptr;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
@@ -395,7 +397,8 @@ void applyRowEffect(Field &ally, Field &enemy, const int screenRow, const RowEff
 std::vector<Card *> cardsInRow(Field &ally, Field &enemy, const int screenRow);
 void clearHazardsFromItsRow(const Card *card, Field &field);
 void clearAllHazards(Field &field, std::vector<Card *> *damagedUnitsUnderHazards = nullptr);
-void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src);
+/// NOTE: given target card will be deleted
+void transform(Card *card, Card *target, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, Field &ally, Field &enemy, const Card *src);
 void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src);
 /// always takes bigger half. 1 of 1, 2 of 3, 3 of 5, etc
