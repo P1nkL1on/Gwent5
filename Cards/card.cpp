@@ -2663,26 +2663,3 @@ void tryStartRoundAfterSwap(Field &ally, Field &enemy)
     /// if noone can start a round, go next
     startNextRound(*firstPtr, *secondPtr);
 }
-
-Card *createDefaultCard(const std::vector<Card *> &cards, const Id &id)
-{
-#ifndef NDEBUG
-    Card *res = nullptr;
-    for (Card *card : cards) {
-        const bool isMatch = card->id == id;
-        if (!isMatch)
-            continue;
-        const bool isFound = res != nullptr;
-        assert(!isFound);
-        res = card;
-    }
-    assert(res);
-    return res;
-#else
-    for (Card *card : cards)
-        if (card->id == id)
-            return card;
-    assert(false);
-    return nullptr;
-#endif
-}

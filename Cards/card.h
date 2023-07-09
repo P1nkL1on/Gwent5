@@ -362,7 +362,6 @@ bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
 RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
 RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
-Card *createDefaultCard(const std::vector<Card *> &cards, const Id &id);
 
 /// find a place of a card in the field. returns false if non found
 bool _findRowAndPos(const Card *card, const Field &field, Row &row, Pos &pos);
