@@ -2213,6 +2213,10 @@ void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
 Card *Card::exactCopy() const
 {
     Card *res = defaultCopy();
+
+    delete res->state;
+    res->state = state ? state->exactCopy() : nullptr;
+
     res->power = power;
     res->powerBase = powerBase;
     res->armor = armor;
@@ -2224,7 +2228,7 @@ Card *Card::exactCopy() const
     res->isImmune = isImmune;
     res->isDoomed = isDoomed;
     res->isRevealed = isRevealed;
-    res->state = state ? state->exactCopy() : nullptr;
+
     // NOTE: commented out due to regular cards
     // can't change any of this non-const props
     //    res->rarity = rarity;

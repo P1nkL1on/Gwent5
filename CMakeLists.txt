@@ -14,7 +14,7 @@ add_library(cards_lib ${SOURCE_FILES})
 
 enable_testing()
 
-file(GLOB TEST_CASE_SOURCES ${PROJECT_SOURCE_DIR}/Tests/Cases/*.cpp)
+file(GLOB TEST_CASE_SOURCES ${PROJECT_SOURCE_DIR}/Tests/Cases/test_*.cpp)
 foreach (test_case_source ${TEST_CASE_SOURCES})
     get_filename_component(test_name ${test_case_source} NAME_WLE)
     add_executable(${test_name} ${test_case_source})
