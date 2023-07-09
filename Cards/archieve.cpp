@@ -8571,7 +8571,7 @@ ReinforcedBallista::ReinforcedBallista()
     tags = { Machine };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        int n = nCrewed(this, ally);
+        int n = 1 + nCrewed(this, ally);
         while (n--)
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
@@ -13244,7 +13244,7 @@ Ballista::Ballista()
     rarity = Bronze;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        int n = nCrewed(this, ally);
+        int n = 1 + nCrewed(this, ally);
         while (n--)
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };

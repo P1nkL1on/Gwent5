@@ -2310,7 +2310,7 @@ void pass(Field &ally, Field &enemy)
 int nCrewed(Card *card, Field &ally)
 {
     Field _;
-    int n = 1;
+    int n = 0;
     if (Card *left = cardNextTo(card, ally, _, -1))
         if (isCrew(left))
             ++n;
