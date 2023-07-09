@@ -271,6 +271,7 @@ public:
     virtual Card *createCaranthirArFeiniel();
     virtual Card *createImlerithSabbath();
     virtual Card *createDagon();
+    virtual Card *createIfritLesser();
     virtual Card *createIfrit();
     virtual Card *createSheTrollOfVergen();
     virtual Card *createWyvern();
@@ -282,9 +283,13 @@ public:
     virtual Card *createDrowner();
     virtual Card *createFoglet();
     virtual Card *createAncientFoglet();
+    virtual Card *createDraugir();
     virtual Card *createDraug();
+    virtual Card *createHarpyEgg();
+    virtual Card *createHarpyHatchling();
     virtual Card *createCelaenoHarpy();
     virtual Card *createArachasBehemoth();
+    virtual Card *createArachasHatchling();
     virtual Card *createArchgriffin();
     virtual Card *createGriffin();
     virtual Card *createBridgeTroll();
@@ -318,6 +323,7 @@ public:
     virtual Card *createToruviel();
     virtual Card *createMilva();
     virtual Card *createPrincessPavetta();
+    virtual Card *createLesserGuardian();
     virtual Card *createTheGuardian();
     virtual Card *createGaunterODimm();
     virtual Card *createKaedweniSergeant();
