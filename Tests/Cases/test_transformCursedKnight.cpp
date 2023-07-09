@@ -49,7 +49,7 @@ int main()
         Field ally;
         Field enemy;
         ally.cardsAdded = {knight, adda};
-        ally.rowMeele = {adda};
+        ally.rowMeele = {knight, adda};
 
         assert_("200073" == adda->id);
         assert_(6 == adda->power);
@@ -60,14 +60,12 @@ int main()
         assert_(8 == adda->power);
         assert_(2 == adda->armor);
 
+        // NOTE: choice is done automatically
+        assert_(10 == knight->power);
+        assert_(2 == knight->armor);
         adda->onDeploy(ally, enemy);
-
-//        // NOTE: choice is done automatically
-//        adda->onDeploy(ally, enemy);
-//        onChoiceDoneCard(adda2, ally, enemy);
-//        assert_(knight->id == adda2->id);
-//        assert_(8 == adda2->power);
-//        assert_(2 == adda2->armor);
+        assert_(8 == knight->power);
+        assert_(2 == knight->armor);
 
         delete knight;
         delete adda;

@@ -53,7 +53,7 @@ struct Card
     Card *exactCopy() const;
     Card *defaultCopy() const;
     // NOTE: given target card will be deleted
-    void transofrm(Card *target);
+    void transform(Card *target);
 
     int power = 0;
     int powerBase = 0;

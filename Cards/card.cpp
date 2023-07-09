@@ -1603,7 +1603,7 @@ bool isOnBoard(const Card *card, const Field &field)
 
 void transform(Card *card, Card *target, Field &ally, Field &enemy, const Card *src)
 {
-    card->transofrm(target);
+    card->transform(target);
     saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
@@ -2241,7 +2241,7 @@ Card *Card::defaultCopy() const
     return _constructor();
 }
 
-void Card::transofrm(Card *target)
+void Card::transform(Card *target)
 {
     assert(target);
     *this = std::move(*target);

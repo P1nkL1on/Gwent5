@@ -2898,9 +2898,7 @@ Card *Cards::createArtefactCompression()
     };
 
     res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
-        Card *figurine = createJadeFigurine();
-        transform(target, figurine, ally, enemy, self);
-        delete figurine;
+        transform(target, createJadeFigurine(), ally, enemy, self);
     };
     return res;
 }
@@ -3605,9 +3603,7 @@ Card *Cards::createCoral()
     };
 
     res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
-        Card *figurine = createJadeFigurine();
-        transform(target, figurine, ally, enemy, self);
-        delete figurine;
+        transform(target, createJadeFigurine(), ally, enemy, self);
     };
     return res;
 }
@@ -4193,9 +4189,7 @@ Card *Cards::createRagingBerserker()
     res->tags = { Cursed, Soldier, Cultist };
 
     res->_onDamaged = [this](Card *self, const int, Field &ally, Field &enemy, const Card *) {
-        Card *bear = createRagingBear();
-        transform(self, bear, ally, enemy, self);
-        delete bear;
+        transform(self, createRagingBear(), ally, enemy, self);
     };
 
     res->_onWeakened = [](Card *self, const int x, Field &ally, Field &enemy, const Card *src) {
@@ -12004,7 +11998,7 @@ Card *Cards::createCursedKnight()
     };
 
     res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-        target->transofrm(self->defaultCopy());
+        transform(target, self->defaultCopy(), ally, enemy, self);
         gainArmor(target, 2, ally, enemy, target);
     };
     return res;
