@@ -363,6 +363,8 @@ public:
     virtual Card *createVesemirMentor();
     virtual Card *createLambertSwordmaster();
     virtual Card *createRegisHigherVampire();
+    virtual Card *createDudaCompanion();
+    virtual Card *createDudaAgitator();
     virtual Card *createZoltanScoundrel();
     virtual Card *createYenneferConjurer();
     virtual Card *createTrissMerigold();
@@ -387,7 +389,9 @@ public:
     virtual Card *createJohnny();
     virtual Card *createStregobor();
     virtual Card *createSarah();
+    virtual Card *createPeasant();
     virtual Card *createPeasantMilitia();
+    virtual Card *createChort();
     virtual Card *createPrizeWinningCow();
     virtual Card *createPrincessAdda();
     virtual Card *createKingFoltest();
@@ -461,8 +465,6 @@ public:
     virtual Card *createFalseCiri();
     virtual Card *createDandelion();
     virtual Card *createKiyan();
-    virtual Card *createPlay();
-    virtual Card *createCreate();
     virtual Card *createPhilippaEilhart();
     virtual Card *createRocheMerciless();
     virtual Card *createShani();
@@ -473,8 +475,6 @@ public:
     virtual Card *createPeterSaarGwynleve();
     virtual Card *createVicovaroNovice();
     virtual Card *createCadaverine();
-    virtual Card *createDealDamage();
-    virtual Card *createDestroy();
     virtual Card *createJoachimDeWett();
     virtual Card *createTreason();
     virtual Card *createVanhemar();

@@ -419,8 +419,6 @@ std::vector<Card *> Cards::createAll()
         createFalseCiri(),
         createDandelion(),
         createKiyan(),
-        createPlay(),
-        createCreate(),
         createPhilippaEilhart(),
         createRocheMerciless(),
         createShani(),
@@ -431,8 +429,6 @@ std::vector<Card *> Cards::createAll()
         createPeterSaarGwynleve(),
         createVicovaroNovice(),
         createCadaverine(),
-        createDealDamage(),
-        createDestroy(),
         createJoachimDeWett(),
         createTreason(),
         createVanhemar(),
@@ -8248,1498 +8244,1521 @@ Card *Cards::createBekkersRockslide()
     return res;
 }
 
-//Card *Cards::createBekkersDarkMirror()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createBekkersDarkMirror, this);
-// 
-//    res->id = "113315";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        Card *high = highest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
-//        Card *low = lowest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
-//        if (/*highest == nullptr ||*/ high == low)
-//            return;
-//        int transPower = std::min(10, high->power - low->power);
-//        setPower(high, high->power - transPower, ally, enemy, self);
-//        setPower(low, low->power + transPower, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMerigoldsHailstorm()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMerigoldsHailstorm, this);
-// 
-//    res->id = "113202";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        for (Card *self : cardsInRow(ally, enemy, screenRow)) {
-//            if (isBronzeOrSilver(self))
-//                setPower(self, self->power - half(self->power), ally, enemy, self);
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createNecromancy()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createNecromancy, this);
-// 
-//    res->id = "200020";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, BothDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if(isOnBoard(target, ally)) {
-//            boost(target, transPower, ally, enemy, self);
-//            return;
-//        }
-//        transPower = target->power;
-//        banish(target, ally, enemy, self);
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createStammelfordsTremor()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createStammelfordsTremor, this);
-// 
-//    res->id = "113204";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard))
-//            damage(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createExpiredAle()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createExpiredAle, this);
-// 
-//    res->id = "200530";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-//            if (Card *self = highest(enemy.row(row), enemy.rng))
-//                damage(self, 6, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createTrialOfTheGrasses()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createTrialOfTheGrasses, this);
-// 
-//    res->id = "200078";
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, self)) && target->power < 25)
-//            setPower(target, 25, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDimeritiumBomb()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDimeritiumBomb, this);
-// 
-//    res->id = "113205";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        for (Card *self : cardsInRow(ally, enemy, screenRow)) {
-//            if (isBoosted(self))
-//                reset(self, ally, enemy, self);
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createGarrison()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createGarrison, this);
-// 
-//    res->id = "201639";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Tactics };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        // TODO: implenemt an ability
-//        // NOTE: the same ability in TrissTelekinesis
-//        //startChoiceCreateOptions(ally, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createTheLastWish()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createTheLastWish, this);
-// 
-//    res->id = "113102";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDimeritiumShackles()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDimeritiumShackles, this);
-// 
-//    res->id = "113319";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        toggleLock(target, ally, enemy, self);
-//        if (isOnBoard(target, enemy))
-//            damage(target, 4, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createWyvernScaleShield()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createWyvernScaleShield, this);
-// 
-//    res->id = "133301";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
-//            return;
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
-//        _boostAmount = 0;
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (_boostAmount <= 0) {
-//            _boostAmount = target->powerBase;
-//            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//            return;
-//        }
-//        boost(target, _boostAmount, ally, enemy, self);
-//        _boostAmount = 0;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMastercraftedSpear()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMastercraftedSpear, this);
-// 
-//    res->id = "201656";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
-//            return;
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
-//        _damageAmount = 0;
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (_damageAmount <= 0) {
-//            _damageAmount = target->powerBase;
-//            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//            return;
-//        }
-//        damage(target, _damageAmount, ally, enemy, self);
-//        _damageAmount = 0;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPetrisPhilter()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPetrisPhilter, this);
-// 
-//    res->id = "200008";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng))
-//            boost(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createShrike()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createShrike, this);
-// 
-//    res->id = "200009";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng))
-//            damage(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createRoyalDecree()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createRoyalDecree, this);
-// 
-//    res->id = "200154";
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Tactics };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isGold, isUnit}, AllyDeck);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(target, 2, ally, enemy, self);
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createUmasCurse()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createUmasCurse, this);
-// 
-//    res->id = "200058";
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceCreateOptions(ally, enemy, self, {isGold, isUnit, hasNoTag(Leader)});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createLacerate()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createLacerate, this);
-// 
-//    res->id = "153301";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Organic };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        for (Card *self : cardsInRow(ally, enemy, screenRow))
-//            damage(self, 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createCrowsEye()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createCrowsEye, this);
-// 
-//    res->id = "200224";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Organic };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        const int extraDamage = int(cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size());
-//        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-//            if (Card *self = highest(enemy.row(row), enemy.rng))
-//                damage(self, 4 + extraDamage, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDoppler()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDoppler, this);
-// 
-//    res->id = "201631";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
-//        Card *self = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, createAll(self->patch)), ally.rng)->defaultCopy();
-//        spawnNewCard(self, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSpores()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSpores, this);
-// 
-//    res->id = "201744";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Organic };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        for (Card *self : cardsInRow(ally, enemy, screenRow))
-//            damage(self, 2, ally, enemy, self);
-//        if (rowEffectInSreenRow(ally, enemy, screenRow) > 9)
-//            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMardroeme()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMardroeme, this);
-// 
-//    res->id = "113320";
-//    res->rarity = Bronze;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Organic };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        auto *option1 = createOption(self, Strengthen);
-//        option1->text = "Reset a unit and Strengthen it by 3.";
-
-//        auto *option2 = createOption(self, Weaken);
-//        option2->text = "Reset a unit and Weaken it by 3.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        _choosen = target;
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        assert(_choosen);
-
-//        reset(target, ally, enemy, self);
-//        if (isOption(_choosen, Strengthen))
-//            strengthen(target, 3, ally, enemy, self);
-
-//        if (isOption(_choosen, Weaken))
-//            weaken(target, 3, ally, enemy, self);
-
-//        delete _choosen;
-//        _choosen = nullptr;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSihil()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSihil, this);
-// 
-//    res->id = "201632";
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        auto *option1 = createOption(self, DamageOdd);
-//        option1->text = "Deal 3 damage to all enemies with odd power.";
-
-//        auto *option2 = createOption(self, DamageEven);
-//        option2->text = "Deal 3 damage to all enemies with even power.";
-
-//        auto *option3 = createOption(self, PlayFromDeck);
-//        option3->text = "Play a random Bronze or Silver unit from your deck.";
-
-//        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (isOption(target, DamageOdd)) {
-//            for (Card *self : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
-//                damage(self, 3, ally, enemy, self);
-//            return;
-//        }
-
-//        if (isOption(target, DamageEven)) {
-//            for (Card *self : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
-//                damage(self, 3, ally, enemy, self);
-//            return;
-//        }
-
-//        if (isOption(target, PlayFromDeck)) {
-//            if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
-//                playExistedCard(self, ally, enemy, self);
-//            return;
-//        }
-
-//        assert(false);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDragonsDream()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDragonsDream, this);
-// 
-//    res->id = "201637";
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->isSpecial = true;
-//    res->tags = { Alchemy, Item };
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createEskelPathfinder()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createEskelPathfinder, this);
-// 
-//    res->id = "200236";
-//    res->power = res->powerBase = 7;
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->tags = { Witcher };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToDiscard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVesemirMentor()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVesemirMentor, this);
-// 
-//    res->id = "200237";
-//    res->tags = { Witcher };
-//    res->power = res->powerBase = 6;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createLambertSwordmaster()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createLambertSwordmaster, this);
-// 
-//    res->id = "200235";
-//    res->tags = { Witcher };
-//    res->power = res->powerBase = 8;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        for (Card *self : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
-//            damage(self, 4, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createRegisHigherVampire()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createRegisHigherVampire, this);
-// 
-//    res->id = "112105";
-//    res->tags = { Witcher };
-//    res->power = res->powerBase = 6;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createZoltanScoundrel()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createZoltanScoundrel, this);
-// 
-//    res->id = "112109";
-//    res->tags = { Dwarf };
-//    res->power = res->powerBase = 8;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectOption(ally, enemy, self, {new DudaCompanion(), new DudaAgitator()});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//ZoltanScoundrel::DudaCompanion::DudaCompanion()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::DudaCompa, this);
-// 
-//    res->id = "112403";
-//    res->tags = { Beast };
-//    res->isDoomed = true;
-//    res->power = res->powerBase = 1;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const std::vector<Card *> cardsToBoost {
-//            cardNextTo(self, ally, enemy, -2),
-//                    cardNextTo(self, ally, enemy, -1),
-//                    cardNextTo(self, ally, enemy, 1),
-//                    cardNextTo(self, ally, enemy, 2),
-//        };
-//        for (Card *self : cardsToBoost)
-//            if (self != nullptr)
-//                boost(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//ZoltanScoundrel::DudaAgitator::DudaAgitator()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::DudaAgitat, this);
-// 
-//    res->id = "112404";
-//    res->tags = { Beast };
-//    res->isDoomed = true;
-//    res->isLoyal = false;
-//    res->power = res->powerBase = 1;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const std::vector<Card *> cardsToDamage {
-//            cardNextTo(self, ally, enemy, -2),
-//                    cardNextTo(self, ally, enemy, -1),
-//                    cardNextTo(self, ally, enemy, 1),
-//                    cardNextTo(self, ally, enemy, 2),
-//        };
-//        for (Card *self : cardsToDamage)
-//            if (self != nullptr)
-//                damage(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createYenneferConjurer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createYenneferConjurer, this);
-// 
-//    res->id = "112113";
-//    res->tags = { Mage, Aedirn };
-//    res->power = res->powerBase = 10;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
-//        if (!isOnBoard(self, ally))
-//            return;
-//        for (Card *self : highests(cardsFiltered(ally, enemy, {}, EnemyBoard)))
-//            damage(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createTrissMerigold()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createTrissMerigold, this);
-// 
-//    res->id = "112106";
-//    res->tags = { Mage, Temeria };
-//    res->power = res->powerBase = 10;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 5, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createTrissTelekinesis()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createTrissTelekinesis, this);
-// 
-//    res->id = "201773";
-//    res->tags = { Mage, Temeria };
-//    res->power = res->powerBase = 6;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        // TODO: implenemt an ability
-//        // NOTE: the same ability in Garrison
-//        //startChoiceCreateOptions(ally, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDorregarayOfVole()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDorregarayOfVole, this);
-// 
-//    res->id = "200087";
-//    res->tags = { Mage };
-//    res->power = res->powerBase = 1;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDandelionVainglory()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDandelionVainglory, this);
-// 
-//    res->id = "201774";
-//    res->power = res->powerBase = 9;
-//    res->rarity = Gold;
-//    res->faction = Neutral;
-//    res->tags = { Support };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const auto isFellow = [](Card *self) {
-//            return isCopy<GeraltAard>(self)
-//                    || isCopy<GeraltIgni>(self)
-//                    || isCopy<GeraltYrden>(self)
-//                    || isCopy<GeraltOfRivia>(self)
-//                    || isCopy<GeraltProfessional>(self)
-//                    || isCopy<Yennefer>(self)
-//                    || isCopy<YenneferConjurer>(self)
-//                    || isCopy<YenneferEnchantress>(self)
-//                    || isCopy<YenneferNecromancer>(self)
-//                    || isCopy<TrissMerigold>(self)
-//                    || isCopy<TrissButterflies>(self)
-//                    || isCopy<TrissTelekinesis>(self)
-//                    || isCopy<ZoltanChivay>(self)
-//                    || isCopy<ZoltanScoundrel>(self);
-//        };
-
-//        int boostNumber = cardsFiltered(ally, enemy, {isFellow}, AllyDeckStarting).size();
-//        if (boostNumber <= 0)
-//            return;
-//        boost(self, boostNumber * 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createCyprianWiley()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createCyprianWiley, this);
-// 
-//    res->id = "112214";
-//    res->power = res->powerBase = 8;
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->tags = { Redania };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        weaken(target, 4, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDudu()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDudu, this);
-// 
-//    res->id = "112201";
-//    res->power = res->powerBase = 1;
-//    res->rarity = Silver;
-//    res->faction = Neutral;
-//    res->tags = { Relict };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        setPower(self, target->power, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIhuarraquax()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIhuarraquax, this);
-// 
-//    res->id = "201817";
-//    res->tags = { Beast };
-//    res->power = res->powerBase = 7;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        damageDone = false;
-//        setTimer(self, ally, enemy, 1);
-//        damage(self, 5, ally, enemy, self);
-//    };
-
-//    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *, const PowerChangeType) {
-//        if ((timer > 0) && (power == powerBase))
-//            tick(self, ally, enemy);
-//    };
-
-//    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
-//        if((timer != -1) || (damageDone) || (!isOnBoard(self, ally)))
-//            return;
-//        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
-//            damage(self, 7, ally, enemy, self);
-//        damageDone = true;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMahakamMarauder()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMahakamMarauder, this);
-// 
-//    res->id = "200042";
-//    res->power = res->powerBase = 7;
-//    res->rarity = Bronze;
-//    res->faction = Scoiatael;
-//    res->tags = { Dwarf, Soldier };
-
-//    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
-//        if((!isOnBoard(self, ally)) || (type == Reset) || (src == self))
-//            return;
-//        boost(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createZoltanChivay()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createZoltanChivay, this);
-// 
-//    res->id = "142105";
-//    res->tags = { Dwarf };
-//    res->power = res->powerBase = 8;
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 3);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        const Row row = _findRowAndPos(self, ally).row();
-//        if (isOnBoard(target, ally)) {
-//            strengthen(target, 2, ally, enemy, self);
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
-//            return;
-//        }
-//        if (isOnBoard(target, enemy)) {
-//            damage(target, 2, ally, enemy, self);
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
-//            return;
-//        }
-//        assert(false);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createYenneferNecromancer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createYenneferNecromancer, this);
-// 
-//    res->id = "201780";
-//    res->tags = { Mage, Aedirn };
-//    res->power = res->powerBase = 5;
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Soldier)}, EnemyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPhoenix()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPhoenix, this);
-// 
-//    res->id = "201579";
-//    res->tags = { Draconid };
-//    res->isDoomed = true;
-//    res->power = res->powerBase = 5;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Draconid)}, AllyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSaesenthessisBlaze()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSaesenthessisBlaze, this);
-// 
-//    res->id = "201613";
-//    res->tags = { Aedirn, Draconid };
-//    res->power = res->powerBase = 11;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const std::vector<Card *> hand = ally.hand;
-//        const int64_t nCards = hand.size();
-//        for (Card *self : hand)
-//            banish(self, ally, enemy, self);
-//        for (int cardInd = 0; cardInd < nCards; ++cardInd)
-//            drawACard(ally, enemy,  self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVillentretenmerth()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVillentretenmerth, this);
-// 
-//    res->id = "112107";
-//    res->tags = { Draconid };
-//    res->power = res->powerBase = 10;
-//    res->faction = Neutral;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        setTimer(self, ally, enemy, 3);
-//    };
-
-//    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
-//        if (!tick(self, ally, enemy))
-//            return;
-//        for (Card *self : highests(cardsFiltered(ally, enemy, {otherThan(self)}, AnyBoard)))
-//            putToDiscard(self, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createOcvist()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createOcvist, this);
-// 
-//    res->id = "112206";
-//    res->tags = { Draconid };
-//    res->power = res->powerBase = 8;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-//    res->timer = 4;
-
-//    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
-//        if (!isOnBoard(self, ally) || !tick(self, ally, enemy))
-//            return;
-//        for (Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard))
-//            damage(self, 1, ally, enemy, self);
-//        putToHand(self, ally, enemy,  self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMyrgtabrakke()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMyrgtabrakke, this);
-// 
-//    res->id = "112205";
-//    res->tags = { Draconid };
-//    res->power = res->powerBase = 7;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        for (int n = 0; n < 3; ++n)
-//            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createKingOfBeggars()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createKingOfBeggars, this);
-// 
-//    res->id = "112213";
-//    res->tags = { Support };
-//    res->power = res->powerBase = 5;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const int boost = std::min(powerField(enemy) - powerField(ally), 10);
-//        if (boost > 0)
-//            strengthen(self, boost, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createOlgierdVonEverec()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createOlgierdVonEverec, this);
-// 
-//    res->id = "112207";
-//    res->tags = { Redania, Cursed };
-//    res->power = res->powerBase = 5;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
-//        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIrisVonEverec()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIrisVonEverec, this);
-// 
-//    res->id = "112215";
-//    res->tags = { Redania, Cursed };
-//    res->isLoyal = false;
-//    res->power = res->powerBase = 3;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
-//        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 5, ally.rng))
-//            boost(self, 5, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIrisCompanions()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIrisCompanions, this);
-// 
-//    res->id = "200083";
-//    res->tags = { Relict };
-//    res->power = res->powerBase = 11;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeck);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToHand(target, ally, enemy,  self);
-//        putToDiscard(random(ally.hand, ally.rng), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createJohnny()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createJohnny, this);
-// 
-//    res->id = "112211";
-//    res->tags = { Relict };
-//    res->power = res->powerBase = 9;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToDiscard(target, ally, enemy, self);
-//        if(Card *self = random(cardsFiltered(ally, enemy, {isColor(target->rarity)}, EnemyDeckStarting), ally.rng)) {
-//            Card *cardCopy = self->defaultCopy();
-//            addAsNew(ally, cardCopy);
-//            putToHand(cardCopy, ally, enemy,  self);
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createStregobor()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createStregobor, this);
-// 
-//    res->id = "200091";
-//    res->tags = { Mage };
-//    res->power = res->powerBase = 10;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (ally.passed || enemy.passed)
-//            return;
-//        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-//            putToHand(unit, ally, enemy,  self);
-//            setPower(unit, 1, ally, enemy, self);
-//        }
-//        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
-//            putToHand(unit, enemy, ally,  self);
-//            setPower(unit, 1, ally, enemy, self);
-//        }
-//    };
-
-//    return res;
-//}
-
-//Card *Cards::createSarah()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSarah, this);
-// 
-//    res->id = "112212";
-//    res->tags = { Relict };
-//    res->power = res->powerBase = 11;
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (Card *self = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
-//            putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
-//            putToHand(self, ally, enemy,  self);
-//            // TODO: check if here we need to trigger onSwap or etc.
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPeasantMilitia()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPeasantMilitia, this);
-// 
-//    res->id = "201753";
-//    res->tags = { Tactics };
-//    res->isSpecial = true;
-//    res->faction = Neutral;
-//    res->rarity = Bronze;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self, {0, 1, 2});
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        for(int i = 0; i < 3; i++) {
-//            if (isRowFull(cardsInRow(ally, enemy, screenRow)))
-//                return;
-//            Card *self = new Peasant();
-//            addAsNew(ally, self);
-//            moveExistedUnitToPos(self, rowAndPosLastInExactRow(screenRow, ally, enemy), ally, enemy, self);
-//        }
-//    };
-//    return res;
-//}
-
-//PeasantMilitia::Peasant::Peasant()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::Peasant, this);
-// 
-//    res->id = "201753";
-//    res->power = res->powerBase = 3;
-//    res->isDoomed = true;
-//    res->faction = Neutral;
-//    res->rarity = Bronze;
-//    //    sounds = {
-//    //        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.86.mp3",
-//    //        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.87.mp3",
-//    //        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.84.mp3",
-//    //        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.85.mp3",
-//    //        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.83.mp3",
-//    //    };
-//    return res;
-//}
-
-//Card *Cards::createPrizeWinningCow()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPrizeWinningCow, this);
-// 
-//    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
-//    res->id = "112209";
-//    res->power = res->powerBase = 1;
-//    res->tags = { Beast };
-//    res->faction = Neutral;
-//    res->rarity = Silver;
-
-//    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
-//        Card *self = new Chort();
-//        addAsNew(ally, self);
-//        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//PrizeWinningCow::Chort::Chort()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::Chort, this);
-// 
-//    // FIXME: check all the details
-//    res->id = "112209";
-//    // TODO: place this picture somehow
-//    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
-//    res->power = res->powerBase = 15;
-//    res->tags = { Relict };
-//    res->faction = Neutral;
-//    res->rarity = Bronze;
-//    return res;
-//}
-
-//Card *Cards::createPrincessAdda()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPrincessAdda, this);
-// 
-//    res->id = "201595";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Leader, Cursed };
-//    res->faction = NothernRealms;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createKingFoltest()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createKingFoltest, this);
-// 
-//    res->id = "200168";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Leader, Temeria };
-//    res->isCrew = true;
-//    res->faction = NothernRealms;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        std::vector<Card *> cards = cardsFiltered(ally, enemy, {otherThan(self)}, AllyBoard);
-//        std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyDeck);
-//        std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyHand);
-//        cards.insert(cards.end(), cardsDeck.begin(), cardsDeck.end());
-//        cards.insert(cards.end(), cardsHand.begin(), cardsHand.end());
-//        for (Card *self : cards)
-//            boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createKingRadovidV()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createKingRadovidV, this);
-// 
-//    res->id = "200169";
-//    res->power = res->powerBase = 6;
-//    res->rarity = Gold;
-//    res->faction = NothernRealms;
-//    res->tags = { Leader, Redania };
-//    res->isCrew = true;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 2);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        toggleLock(target, ally, enemy, self);
-//        if (isOnBoard(target, enemy))
-//            damage(target, 4, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createEmhyrVarEmreis()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createEmhyrVarEmreis, this);
-// 
-//    res->id = "200162";
-//    res->power = res->powerBase = 7;
-//    res->rarity = Gold;
-//    res->faction = Nilfgaard;
-//    res->tags = { Leader, Officer };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (isIn(target, ally.hand)) {
-//            // reverse due to choice stack: play a self, then return something to hand
-//            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyBoard);
-//            playExistedCard(target, ally, enemy, self);
-//            return;
-//        }
-//        putToHand(target, ally, enemy,  self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createUsurper()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createUsurper, this);
-// 
-//    res->id = "201580";
-//    res->power = res->powerBase = 1;
-//    res->rarity = Gold;
-//    res->faction = Nilfgaard;
-//    res->tags = { Leader, Officer };
-//    res->isLoyal = false;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceCreateOptions(ally, enemy, self, {hasTag(Leader)});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(target, 2, ally, enemy, self);
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createBrouverHoog()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createBrouverHoog, this);
-// 
-//    res->id = "200167";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Leader, Dwarf };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->const auto isOk = [](Card *self, Card *self) {
-//        return isUnit(self) && ((isNonSpying(self) && isSilver(self)) || (hasTag(self, Dwarf) && isBronze(self)));
-//    };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isOk}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createEithne()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createEithne, this);
-// 
-//    res->id = "200166";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Leader, Dryad };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
+Card *Cards::createBekkersDarkMirror()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBekkersDarkMirror, this);
+
+    res->id = "113315";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        Card *high = highest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
+        Card *low = lowest(cardsFiltered(ally, enemy, {otherThan(high)}, AnyBoard), ally.rng);
+        if (high == low)
+            return;
+        int transPower = std::min(10, high->power - low->power);
+        setPower(high, high->power - transPower, ally, enemy, self);
+        setPower(low, low->power + transPower, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMerigoldsHailstorm()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMerigoldsHailstorm, this);
+
+    res->id = "113202";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBronzeOrSilver(card))
+                setPower(card, card->power - half(card->power), ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createNecromancy()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNecromancy, this);
+
+    res->id = "200020";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    struct State : StateCopy<State> { int transPower = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, BothDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if(isOnBoard(target, ally)) {
+            boost(target, self->stateAs<State>()->transPower, ally, enemy, self);
+            return;
+        }
+        self->stateAs<State>()->transPower = target->power;
+        banish(target, ally, enemy, self);
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+    };
+    return res;
+}
+
+Card *Cards::createStammelfordsTremor()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStammelfordsTremor, this);
+
+    res->id = "113204";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            damage(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createExpiredAle()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createExpiredAle, this);
+
+    res->id = "200530";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 6, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createTrialOfTheGrasses()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrialOfTheGrasses, this);
+
+    res->id = "200078";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, self)) && target->power < 25)
+            setPower(target, 25, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDimeritiumBomb()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimeritiumBomb, this);
+
+    res->id = "113205";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow)) {
+            if (isBoosted(card))
+                reset(card, ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createGarrison()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGarrison, this);
+
+    res->id = "201639";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        // FIXME: implenemt an ability
+        //startChoiceCreateOptions(ally, self);
+    };
+    return res;
+}
+
+Card *Cards::createTheLastWish()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTheLastWish, this);
+
+    res->id = "113102";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDimeritiumShackles()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimeritiumShackles, this);
+
+    res->id = "113319";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
+        if (isOnBoard(target, enemy))
+            damage(target, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createWyvernScaleShield()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWyvernScaleShield, this);
+
+    res->id = "133301";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    struct State : StateCopy<State> { int _boostAmount = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
+        self->stateAs<State>()->_boostAmount = 0;
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &boostAmount = self->stateAs<State>()->_boostAmount;
+        if (boostAmount <= 0) {
+            boostAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+            return;
+        }
+        boost(target, boostAmount, ally, enemy, self);
+        boostAmount = 0;
+    };
+    return res;
+}
+
+Card *Cards::createMastercraftedSpear()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMastercraftedSpear, this);
+
+    res->id = "201656";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    struct State : StateCopy<State> { int _damageAmount = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
+        self->stateAs<State>()->_damageAmount = 0;
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &damageAmount = self->stateAs<State>()->_damageAmount;
+        if (damageAmount <= 0) {
+            damageAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+            return;
+        }
+        damage(target, damageAmount, ally, enemy, self);
+        damageAmount = 0;
+    };
+    return res;
+}
+
+Card *Cards::createPetrisPhilter()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPetrisPhilter, this);
+
+    res->id = "200008";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng))
+            boost(card, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createShrike()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShrike, this);
+
+    res->id = "200009";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng))
+            damage(card, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createRoyalDecree()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRoyalDecree, this);
+
+    res->id = "200154";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isGold, isUnit}, AllyDeck);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createUmasCurse()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUmasCurse, this);
+
+    res->id = "200058";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isGold, isUnit, hasNoTag(Leader)});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createLacerate()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLacerate, this);
+
+    res->id = "153301";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
+            damage(card, 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCrowsEye()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCrowsEye, this);
+
+    res->id = "200224";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        const int extraDamage = int(cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDiscard).size());
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = highest(enemy.row(row), enemy.rng))
+                damage(card, 4 + extraDamage, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDoppler()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDoppler, this);
+
+    res->id = "201631";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [=](Card *self, Field &ally, Field &enemy) {
+        const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
+        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, createAll()), ally.rng)->defaultCopy();
+        spawnNewCard(card, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSpores()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpores, this);
+
+    res->id = "201744";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        for (Card *card : cardsInRow(ally, enemy, screenRow))
+            damage(card, 2, ally, enemy, self);
+        if (rowEffectInSreenRow(ally, enemy, screenRow) > 9)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+    };
+    return res;
+}
+
+Card *Cards::createMardroeme()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMardroeme, this);
+
+    res->id = "113320";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Organic };
+    res->state = new StateChoosen();
+
+    enum { Strengthen, Weaken };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Strengthen);
+        option1->text = "Reset a unit and Strengthen it by 3.";
+
+        auto *option2 = createOption(self, Weaken);
+        option2->text = "Reset a unit and Weaken it by 3.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        self->stateAs<StateChoosen>()->_choosen = target;
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        assert(choosen);
+
+        reset(target, ally, enemy, self);
+        if (isOption(choosen, Strengthen))
+            strengthen(target, 3, ally, enemy, self);
+
+        if (isOption(choosen, Weaken))
+            weaken(target, 3, ally, enemy, self);
+
+        delete choosen;
+        choosen = nullptr;
+    };
+    return res;
+}
+
+Card *Cards::createSihil()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSihil, this);
+
+    res->id = "201632";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    enum { DamageOdd, DamageEven, PlayFromDeck };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, DamageOdd);
+        option1->text = "Deal 3 damage to all enemies with odd power.";
+
+        auto *option2 = createOption(self, DamageEven);
+        option2->text = "Deal 3 damage to all enemies with even power.";
+
+        auto *option3 = createOption(self, PlayFromDeck);
+        option3->text = "Play a random Bronze or Silver unit from your deck.";
+
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, DamageOdd)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
+                damage(self, 3, ally, enemy, self);
+            return;
+        }
+
+        if (isOption(target, DamageEven)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
+                damage(self, 3, ally, enemy, self);
+            return;
+        }
+
+        if (isOption(target, PlayFromDeck)) {
+            if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
+                playExistedCard(self, ally, enemy, self);
+            return;
+        }
+
+        assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createDragonsDream()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDragonsDream, this);
+
+    res->id = "201637";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
+    };
+    return res;
+}
+
+Card *Cards::createEskelPathfinder()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEskelPathfinder, this);
+
+    res->id = "200236";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVesemirMentor()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVesemirMentor, this);
+
+    res->id = "200237";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createLambertSwordmaster()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLambertSwordmaster, this);
+
+    res->id = "200235";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        for (Card *copy : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(copy, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createRegisHigherVampire()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRegisHigherVampire, this);
+
+    res->id = "112105";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createZoltanScoundrel()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createZoltanScoundrel, this);
+
+    res->id = "112109";
+    res->tags = { Dwarf };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createDudaCompanion(), createDudaAgitator()});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDudaCompanion()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudaCompanion, this);
+
+    res->id = "112403";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const std::vector<Card *> cardsToBoost {
+            cardNextTo(self, ally, enemy, -2),
+            cardNextTo(self, ally, enemy, -1),
+            cardNextTo(self, ally, enemy, 1),
+            cardNextTo(self, ally, enemy, 2),
+        };
+        for (Card *card : cardsToBoost)
+            if (card != nullptr)
+                boost(card, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDudaAgitator()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudaAgitator, this);
+
+    res->id = "112404";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const std::vector<Card *> cardsToDamage {
+            cardNextTo(self, ally, enemy, -2),
+            cardNextTo(self, ally, enemy, -1),
+            cardNextTo(self, ally, enemy, 1),
+            cardNextTo(self, ally, enemy, 2),
+        };
+        for (Card *card : cardsToDamage)
+            if (card != nullptr)
+                damage(card, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createYenneferConjurer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYenneferConjurer, this);
+
+    res->id = "112113";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
+            return;
+        for (Card *card : highests(cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createTrissMerigold()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrissMerigold, this);
+
+    res->id = "112106";
+    res->tags = { Mage, Temeria };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createTrissTelekinesis()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrissTelekinesis, this);
+
+    res->id = "201773";
+    res->tags = { Mage, Temeria };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // FIXME: implenemt an ability
+    };
+    return res;
+}
+
+Card *Cards::createDorregarayOfVole()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDorregarayOfVole, this);
+
+    res->id = "200087";
+    res->tags = { Mage };
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDandelionVainglory()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDandelionVainglory, this);
+
+    res->id = "201774";
+    res->power = res->powerBase = 9;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const auto isFellow = [](Card *card) {
+            /// NOTE: GeraltAard
+            return isCopy("112111")(card)
+                    /// NOTE: GeraltIgni
+                    || isCopy("112102")(card)
+                    /// NOTE: GeraltYrden
+                    || isCopy("201523")(card)
+                    /// NOTE: GeraltOfRivia
+                    || isCopy("112103")(card)
+                    /// NOTE: GeraltProfessional
+                    || isCopy("201772")(card)
+                    /// NOTE: Yennefer
+                    || isCopy("112108")(card)
+                    /// NOTE: YenneferConjurer
+                    || isCopy("112113")(card)
+                    /// NOTE: YenneferEnchantress
+                    || isCopy("201601")(card)
+                    /// NOTE: YenneferNecromancer
+                    || isCopy("201780")(card)
+                    /// NOTE: TrissMerigold
+                    || isCopy("112106")(card)
+                    /// NOTE: TrissButterflies
+                    || isCopy("122107")(card)
+                    /// NOTE: TrissTelekinesis
+                    || isCopy("201773")(card)
+                    /// NOTE: ZoltanChivay
+                    || isCopy("142105")(card)
+                    /// NOTE: ZoltanScoundrel
+                    || isCopy("112109")(card);
+        };
+
+        int boostNumber = cardsFiltered(ally, enemy, {isFellow}, AllyDeckStarting).size();
+        if (boostNumber <= 0)
+            return;
+        boost(self, boostNumber * 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCyprianWiley()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCyprianWiley, this);
+
+    res->id = "112214";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Redania };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        weaken(target, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDudu()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudu, this);
+
+    res->id = "112201";
+    res->power = res->powerBase = 1;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        setPower(self, target->power, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIhuarraquax()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIhuarraquax, this);
+
+    res->id = "201817";
+    res->tags = { Beast };
+    res->power = res->powerBase = 7;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State> { bool damageDone = false; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->damageDone = false;
+        setTimer(self, ally, enemy, 1);
+        damage(self, 5, ally, enemy, self);
+    };
+
+    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *, const PowerChangeType) {
+        if ((self->timer > 0) && (self->power == self->powerBase))
+            tick(self, ally, enemy);
+    };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        bool &damageDone = self->stateAs<State>()->damageDone;
+        if((self->timer != -1) || (damageDone) || (!isOnBoard(self, ally)))
+            return;
+        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
+            damage(self, 7, ally, enemy, self);
+        damageDone = true;
+    };
+    return res;
+}
+
+Card *Cards::createMahakamMarauder()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamMarauder, this);
+
+    res->id = "200042";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Dwarf, Soldier };
+
+    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
+        if((!isOnBoard(self, ally)) || (type == Reset) || (src == self))
+            return;
+        boost(self, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createZoltanChivay()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createZoltanChivay, this);
+
+    res->id = "142105";
+    res->tags = { Dwarf };
+    res->power = res->powerBase = 8;
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 3);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(self, ally).row();
+        if (isOnBoard(target, ally)) {
+            strengthen(target, 2, ally, enemy, self);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
+            return;
+        }
+        if (isOnBoard(target, enemy)) {
+            damage(target, 2, ally, enemy, self);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
+            return;
+        }
+        assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createYenneferNecromancer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYenneferNecromancer, this);
+
+    res->id = "201780";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Soldier)}, EnemyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPhoenix()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPhoenix, this);
+
+    res->id = "201579";
+    res->tags = { Draconid };
+    res->isDoomed = true;
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Draconid)}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSaesenthessisBlaze()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaesenthessisBlaze, this);
+
+    res->id = "201613";
+    res->tags = { Aedirn, Draconid };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const std::vector<Card *> hand = ally.hand;
+        const int64_t nCards = hand.size();
+        for (Card *card : hand)
+            banish(card, ally, enemy, self);
+        for (int cardInd = 0; cardInd < nCards; ++cardInd)
+            drawACard(ally, enemy,  self);
+    };
+    return res;
+}
+
+Card *Cards::createVillentretenmerth()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVillentretenmerth, this);
+
+    res->id = "112107";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 3);
+    };
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
+            return;
+        for (Card *card : highests(cardsFiltered(ally, enemy, {otherThan(self)}, AnyBoard)))
+            putToDiscard(card, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createOcvist()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOcvist, this);
+
+    res->id = "112206";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Silver;
+    res->timer = 4;
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !tick(self, ally, enemy))
+            return;
+        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
+            damage(card, 1, ally, enemy, self);
+        putToHand(self, ally, enemy,  self);
+    };
+    return res;
+}
+
+Card *Cards::createMyrgtabrakke()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMyrgtabrakke, this);
+
+    res->id = "112205";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 7;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (int n = 0; n < 3; ++n)
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKingOfBeggars()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingOfBeggars, this);
+
+    res->id = "112213";
+    res->tags = { Support };
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const int boost = std::min(powerField(enemy) - powerField(ally), 10);
+        if (boost > 0)
+            strengthen(self, boost, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createOlgierdVonEverec()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOlgierdVonEverec, this);
+
+    res->id = "112207";
+    res->tags = { Redania, Cursed };
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIrisVonEverec()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIrisVonEverec, this);
+
+    res->id = "112215";
+    res->tags = { Redania, Cursed };
+    res->isLoyal = false;
+    res->power = res->powerBase = 3;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 5, ally.rng))
+            boost(card, 5, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIrisCompanions()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIrisCompanions, this);
+
+    res->id = "200083";
+    res->tags = { Relict };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeck);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
+        putToDiscard(random(ally.hand, ally.rng), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createJohnny()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJohnny, this);
+
+    res->id = "112211";
+    res->tags = { Relict };
+    res->power = res->powerBase = 9;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
+        if(Card *card = random(cardsFiltered(ally, enemy, {isColor(target->rarity)}, EnemyDeckStarting), ally.rng)) {
+            Card *cardCopy = card->defaultCopy();
+            addAsNew(ally, cardCopy);
+            putToHand(cardCopy, ally, enemy,  self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createStregobor()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStregobor, this);
+
+    res->id = "200091";
+    res->tags = { Mage };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
+            putToHand(unit, ally, enemy,  self);
+            setPower(unit, 1, ally, enemy, self);
+        }
+        if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
+            putToHand(unit, enemy, ally,  self);
+            setPower(unit, 1, ally, enemy, self);
+        }
+    };
+
+    return res;
+}
+
+Card *Cards::createSarah()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSarah, this);
+
+    res->id = "112212";
+    res->tags = { Relict };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (Card *self = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
+            putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
+            putToHand(self, ally, enemy,  self);
+            // TODO: check if here we need to trigger onSwap or etc.
+        }
+    };
+    return res;
+}
+
+Card *Cards::createPeasantMilitia()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeasantMilitia, this);
+
+    res->id = "201753";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Neutral;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {0, 1, 2});
+    };
+
+    res->_onTargetRowChoosen = [=](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        for(int i = 0; i < 3; i++) {
+            if (isRowFull(cardsInRow(ally, enemy, screenRow)))
+                return;
+            Card *peasant = createPeasant();
+            addAsNew(ally, peasant);
+            moveExistedUnitToPos(peasant, rowAndPosLastInExactRow(screenRow, ally, enemy), ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createPeasant()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeasant, this);
+
+    res->id = "201753";
+    res->power = res->powerBase = 3;
+    res->isDoomed = true;
+    res->faction = Neutral;
+    res->rarity = Bronze;
+    return res;
+}
+
+Card *Cards::createPrizeWinningCow()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrizeWinningCow, this);
+
+    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
+    res->id = "112209";
+    res->power = res->powerBase = 1;
+    res->tags = { Beast };
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [=](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        Card *chort = createChort();
+        addAsNew(ally, chort);
+        moveExistedUnitToPos(chort, rowAndPosRandom(ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createChort()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createChort, this);
+
+    // FIXME: missing image and incorrect id
+    res->id = "112209";
+    // TODO: place this picture somehow
+    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
+    res->power = res->powerBase = 15;
+    res->tags = { Relict };
+    res->faction = Neutral;
+    res->rarity = Bronze;
+    return res;
+}
+
+Card *Cards::createPrincessAdda()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrincessAdda, this);
+
+    res->id = "201595";
+    res->power = res->powerBase = 6;
+    res->tags = { Leader, Cursed };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKingFoltest()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingFoltest, this);
+
+    res->id = "200168";
+    res->power = res->powerBase = 5;
+    res->tags = { Leader, Temeria };
+    res->isCrew = true;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        std::vector<Card *> cards = cardsFiltered(ally, enemy, {otherThan(self)}, AllyBoard);
+        std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyDeck);
+        std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyHand);
+        cards.insert(cards.end(), cardsDeck.begin(), cardsDeck.end());
+        cards.insert(cards.end(), cardsHand.begin(), cardsHand.end());
+        for (Card *card : cards)
+            boost(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKingRadovidV()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingRadovidV, this);
+
+    res->id = "200169";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Leader, Redania };
+    res->isCrew = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 2);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
+        if (isOnBoard(target, enemy))
+            damage(target, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createEmhyrVarEmreis()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEmhyrVarEmreis, this);
+
+    res->id = "200162";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Leader, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.hand)) {
+            // reverse due to choice stack: play a self, then return something to hand
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyBoard);
+            playExistedCard(target, ally, enemy, self);
+            return;
+        }
+        putToHand(target, ally, enemy,  self);
+    };
+    return res;
+}
+
+Card *Cards::createUsurper()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUsurper, this);
+
+    res->id = "201580";
+    res->power = res->powerBase = 1;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Leader, Officer };
+    res->isLoyal = false;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {hasTag(Leader)});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBrouverHoog()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBrouverHoog, this);
+
+    res->id = "200167";
+    res->power = res->powerBase = 4;
+    res->tags = { Leader, Dwarf };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    const auto isOk = [](Card *card) {
+        return isUnit(card) && ((isNonSpying(card) && isSilver(card)) || (hasTag(card, Dwarf) && isBronze(card)));
+    };
+
+    res->_onDeploy = [isOk](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isOk}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createEithne()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEithne, this);
+
+    res->id = "200166";
+    res->power = res->powerBase = 5;
+    res->tags = { Leader, Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
 
 Card *Cards::createFilavandrel()
 {
@@ -9762,2300 +9781,2320 @@ Card *Cards::createFilavandrel()
     return res;
 }
 
-//Card *Cards::createFrancescaFindabair()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createFrancescaFindabair, this);
-// 
-//    res->id = "200165";
-//    res->power = res->powerBase = 7;
-//    res->tags = { Leader, Mage, Elf };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        _cardToSwap = nullptr;
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (_cardToSwap == nullptr) {
-//            _cardToSwap = target;
-//            startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
-//            return;
-//        }
-//        putToDeck(_cardToSwap, ally, enemy, DeckPosRandom, self);
-//        putToHand(target, ally, enemy,  self);
-//        boost(target, 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createAglais()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createAglais, this);
-// 
-//    res->id = "142106";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Dryad };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, EnemyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//        banish(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIorveth()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIorveth, this);
-// 
-//    res->id = "142103";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Elf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (damage(target, 8, ally, enemy, self))
-//            for (Card *self : cardsFiltered(ally, enemy, {isUnit, hasTag(Elf)}, AllyHand))
-//                boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIorvethMeditation()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIorvethMeditation, this);
-// 
-//    res->id = "201611";
-//    res->power = res->powerBase = 2;
-//    res->tags = { Elf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        // TODO: check for new choices system and overall tests required
-//        std::vector<Card *>cards;
-//        for (const int _screenRow : std::vector<int>{3, 4, 5}) {
-//            std::vector<Card *> rowCards = cardsInRow(ally, enemy, _screenRow);
-//            if (rowCards.size() >= 2)
-//                cards.insert(cards.end(), rowCards.begin(), rowCards.end());
-//        }
-//        if (cards.size() <= 0)
-//            return;
-//        startChoiceToTargetCard(ally, enemy, self, cards);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (_choosen == nullptr) {
-//            _choosen = target;
-//            const int screenRow = _findScreenRow(target, ally, enemy);
-//            std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
-//            for (int i = 0; i < int(cards.size()); i++)
-//                if (cards[i] == _choosen)
-//                    cards.erase(cards.begin() + i);
-//            startChoiceToTargetCard(ally, enemy, self, cards);
-//            return;
-//        }
-//        duel(_choosen, target, ally, enemy);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIsengrimFaoiltiarna()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIsengrimFaoiltiarna, this);
-// 
-//    res->id = "142102";
-//    res->power = res->powerBase = 7;
-//    res->tags = { Elf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->const auto isCardAmbush = [](Card *self, Card *self) {
-//        return self->defaultCopy()->isAmbush;
-//    };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIsengrimOutlaw()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIsengrimOutlaw, this);
-// 
-//    res->id = "201615";
-//    res->power = res->powerBase = 2;
-//    res->tags = { Elf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        auto *option1 = createOption(self, Create);
-//        option1->text = "Create a Silver Elf.";
-
-//        auto *option2 = createOption(self, Play);
-//        option2->text = "Play a Bronze or Silver special self from your deck.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (!_choosen && isOption(target, Create)) {
-//            _choosen = target;
-//            startChoiceCreateOptions(ally, enemy, self, {isSilver, hasTag(Elf)});
-//            return;
-//        }
-//        if (!_choosen && isOption(target, Play)) {
-//            _choosen = target;
-//            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
-//            return;
-//        }
-
-//        if (isOption(_choosen, Create)) {
-//            delete _choosen;
-//            _choosen = nullptr;
-//            spawnNewCard(target, ally, enemy, self);
-//        }
-//        return;
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        assert(isOption(_choosen, Create));
-//        delete _choosen;
-//        _choosen = nullptr;
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIthlinneAegli()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIthlinneAegli, this);
-// 
-//    res->id = "142107";
-//    res->power = res->powerBase = 2;
-//    res->tags = { Elf, Mage };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Boon, Hazard, Spell})}, AllyDeckShuffled);
-//    };
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSchirru()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSchirru, this);
-// 
-//    res->id = "142108";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectOption(ally, enemy, self, {new Scorch(), new Epidemic()});
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-
-//    return res;
-//}
-
-//Card *Cards::createSaesenthessis()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSaesenthessis, this);
-// 
-//    res->id = "142108";
-//    res->power = res->powerBase = 10;
-//    res->tags = { Aedirn, Draconid };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (const int dwarfsCount = cardsFiltered(ally, enemy, {hasTag(Dwarf)}, AllyBoard).size() > 0)
-//            boost(self, dwarfsCount, ally, enemy, self);
-//        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
-//            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
-//            damage(target, elfsCount, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSaskia()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSaskia, this);
-// 
-//    res->id = "200209";
-//    res->power = res->powerBase = 11;
-//    res->tags = { Aedirn, Draconid };
-//    res->faction = Scoiatael;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronze}, AllyHand, 2, true);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        Card *newBronze;
-//        if (!(newBronze = first(cardsFiltered(ally, enemy, {isBronze}, AllyDeck))))
-//            return;
-//        putToHand(newBronze, ally, enemy,  self);
-//        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createBarclayEls()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createBarclayEls, this);
-// 
-//    res->id = "142207";
-//    res->power = res->powerBase = 2;
-//    res->tags = { Dwarf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit, hasTag(Dwarf)}, AllyDeck), ally.rng)) {
-//            strengthen(self, 3, ally, enemy, self);
-//            playExistedCard(self, ally, enemy, self);
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDennisCranmer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDennisCranmer, this);
-// 
-//    res->id = "142211";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Dwarf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *self : cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(self), isUnit}, AllyBoardHandDeck))
-//            strengthen(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createSheldonSkaggs()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createSheldonSkaggs, this);
-// 
-//    res->id = "142212";
-//    res->power = res->powerBase = 9;
-//    res->tags = { Dwarf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        int boostAmount = 0;
-//        const int screenRow = _findScreenRow(self, ally, enemy);
-//        std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
-//        for (Card *self : cards)
-//            if (self != self)
-//                if (moveToRandomRow(self, ally, enemy, self))
-//                    boostAmount++;
-//        if (boostAmount > 0)
-//            boost(self, boostAmount, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createYarpenZigrin()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createYarpenZigrin, this);
-// 
-//    res->id = "142213";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &, Field &) {
-//        isResilient = true;
-//    };
-
-//    res->_onOtherAllyAppears = [](Card *self, Card *self, Field &ally, Field &enemy) {
-//        if (!isOnBoard(self, ally) || !hasTag(self, Dwarf))
-//            return;
-//        boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createYaevinn()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createYaevinn, this);
-// 
-//    res->id = "142203";
-//    res->power = res->powerBase = 13;
-//    res->tags = { Elf };
-//    res->isLoyal = false;
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (tick(self, ally, enemy)) {
-//            Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
-//            Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
-//            if (unit) {
-//                putToHand(unit, ally, enemy,  self);
-//            }
-//            if (special) {
-//                putToHand(special, ally, enemy,  self);
-//            }
-//            if (!unit || !special)
-//                return;
-//            _drawn.push_back(unit);
-//            _drawn.push_back(special);
-//            startChoiceToTargetCard(ally, enemy, self, _drawn);
-//        }
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        for (Card *self : _drawn)
-//            if (self != target)
-//                putToDeck(self, ally, enemy, DeckPosRandom, self);
-//        _drawn.clear();
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIdaEmeanAepSivney()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIdaEmeanAepSivney, this);
-// 
-//    res->id = "142202";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Elf, Mage };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectOption(ally, enemy, self, {new ImpenetrableFog(), new ClearSkies(), new AlzursThunder()});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPavkoGale()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPavkoGale, this);
-// 
-//    res->id = "201676";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createCiaranAepEasnillen()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createCiaranAepEasnillen, this);
-// 
-//    res->id = "142206";
-//    res->power = res->powerBase = 9;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        // TODO: fix the in-same-line moving issue (DwarvenMercenary has the same)
-//        toggleLock(target, ally, enemy, self);
-//        const Row row = _findRowAndPos(self, ally).row();
-//        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
-//            return;
-//        }
-//        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
-//            return;
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createEibhearHattori()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createEibhearHattori, this);
-// 
-//    res->id = "200520";
-//    res->power = res->powerBase = 3;
-//    res->tags = { Elf, Support };
-//    res->isDoomed = true;
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit, isFaction(Scoiatael), hasPowerXorLess(power)}, AllyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-
-//Card *Cards::createMilaen()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMilaen, this);
-// 
-//    res->id = "200030";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Elf };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
-//        if (cards.size() <= 0)
-//            return;
-//        Card *first;
-//        damage(first = cards[0], 6, ally, enemy, self);
-//        if (cards[cards.size()] != first)
-//            damage(cards[cards.size()], 6, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createBraenn()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createBraenn, this);
-// 
-//    res->id = "142209";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Dryad };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->const auto isCardOk = [](Card *self, Card *self) {
-//        return hasTag(self, Dryad) || self->defaultCopy()->isAmbush;
-//        // || (self->defaultCopy()->isAmbush && !isOnBoard(self, ally)); // don't know how to get '&ally' here
-//        // TODO: check how does the Braenn buff allies in Ambush on board
-//    };
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (damage(target, power, ally, enemy, self))
-//            for (Card *self : cardsFiltered(ally, enemy, {isCardOk}, AllyBoardHandDeck))
-//                boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMorenn()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMorenn, this);
-// 
-//    res->id = "142208";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Dryad };
-//    res->isAmbush = true;
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &, Field &) {
-//        isAmbush = true;
-//    };
-
-//    res->_onOtherEnemyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        // TODO: check how should it works with cases like resurrect, spawn, summon
-//        // maybe have to replace onOtherEnemyAppears call
-//        if (!isOnBoard(self, ally) || !isAmbush)
-//            return;
-//        flipOver(self, ally, enemy);
-//        damage (target, 7, ally, enemy, self);
-//    };
-
-//    res->_onOtherSpyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (!isOnBoard(target, enemy))
-//            return;
-//        onOtherEnemyAppears(target, ally, enemy);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPaulieDahlberg()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPaulieDahlberg, this);
-// 
-//    res->id = "201696";
-//    res->power = res->powerBase = 3;
-//    res->tags = { Dwarf, Support };
-//    res->isDoomed = true;
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit, hasTag(Dwarf), hasNoTag(Support)}, AllyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card * target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMahakamHorn()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMahakamHorn, this);
-// 
-//    res->id = "201653";
-//    res->isSpecial = true;
-//    res->tags = { Item };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        auto *option1 = createOption(self, Create);
-//        option1->text = "Create a Bronze or Silver Dwarf.";
-
-//        auto *option2 = createOption(self, Strengthen);
-//        option2->text = "Strengthen a unit by 7.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
-//    };
-
-//    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (!_choosen && isOption(target, Create)) {
-//            _choosen = target;
-//            startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Dwarf)});
-//            return;
-//        }
-
-//        if (!_choosen && isOption(target, Strengthen)) {
-//            _choosen = target;
-//            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//            return;
-//        }
-
-//        if (isOption(_choosen, Create)) {
-//            spawnNewCard(target, ally, enemy, self);
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
-
-//        assert(false);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        assert(isOption(_choosen, Strengthen));
-
-//        strengthen(target, 7, ally, enemy, self);
-
-//        delete _choosen;
-//        _choosen = nullptr;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createNaturesGift()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createNaturesGift, this);
-// 
-//    res->id = "143201";
-//    res->isSpecial = true;
-//    res->tags = { Spell };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPitTrap()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPitTrap, this);
-// 
-//    res->id = "200228";
-//    res->isSpecial = true;
-//    res->tags = { Item };
-//    res->faction = Scoiatael;
-//    res->rarity = Silver;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self, { 3, 4, 5 });
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        applyRowEffect(ally, enemy, screenRow, PitTrapEffect);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createCrushingTrap()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createCrushingTrap, this);
-// 
-//    res->id = "201645";
-//    res->isSpecial = true;
-//    res->tags = { Item };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToSelectRow(ally, enemy, self);
-//    };
-
-//    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
-//        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
-//        if (cards.size() <= 0)
-//            return;
-//        Card *first;
-//        damage(first = cards[0], 6, ally, enemy, self);
-//        if (cards[cards.size()] != first)
-//            damage(cards[cards.size()], 6, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createElvenBlade()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createElvenBlade, this);
-// 
-//    res->id = "201643";
-//    res->isSpecial = true;
-//    res->tags = { Item };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {hasNoTag(Elf)}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 10, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createIncineratingTrap()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createIncineratingTrap, this);
-// 
-//    res->id = "143301";
-//    res->power = res->powerBase = 1;
-//    res->tags = { Machine };
-//    res->isDoomed = true;
-//    res->isLoyal = false;
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
-//        if (!isOnBoard(self, enemy))
-//            return;
-//        for (Card *self : cardsInRow(ally, enemy, _findScreenRow(self, ally, enemy)))
-//            if (self != self)
-//                damage(self, 2, ally, enemy, self);
-//        banish(self, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createBlueMountainElite()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createBlueMountainElite, this);
-// 
-//    res->id = "142316";
-//    res->power = res->powerBase = 3;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
-//            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
-//    };
-
-//    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
-//        boost(self, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDolBlathannaBomber()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDolBlathannaBomber, this);
-// 
-//    res->id = "142316";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        spawnNewCard(new IncineratingTrap(), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDolBlathannaBowman()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDolBlathannaBowman, this);
-// 
-//    res->id = "142314";
-//    res->power = res->powerBase = 7;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 2, ally, enemy, self);
-//    };
-
-//    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
-//        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 2, ally, enemy, self);
-//    };
-
-//    res->_onEnemyMoved = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (!isOnBoard(self, ally))
-//            return;
-//        damage(target, 2, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDolBlathannaSentry()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDolBlathannaSentry, this);
-// 
-//    res->id = "200039";
-//    res->power = res->powerBase = 2;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onSpecialPlayed = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if(!isOnBoard(self, ally) && !isIn(self, ally.deck) && !isIn(self, ally.hand))
-//            return;
-//        if (!target->isSpecial || !(isIn(target, ally.discard) || isIn(target, ally.hand)))
-//            //(target != ally.cardsAppeared.end()) ??
-//            return;
-//        boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createElvenScout()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createElvenScout, this);
-// 
-//    res->id = "201638";
-//    res->power = res->powerBase = 10;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        swapACard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createElvenSwordmaster()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createElvenSwordmaster, this);
-// 
-//    res->id = "200535";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, power, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDwarvenAgitator()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDwarvenAgitator, this);
-// 
-//    res->id = "200293";
-//    res->power = res->powerBase = 1;
-//    res->tags = { Dwarf, Support };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (Card *self = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy<DwarvenAgitator>}, AllyDeck), ally.rng))
-//            spawnNewCard(self->defaultCopy(), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDwarvenMercenary()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDwarvenMercenary, this);
-// 
-//    res->id = "142311";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        // NOTE: check if otherThan(self) required
-//        // TODO: fix ability, wrong filters
-//        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen has the same)
-//        const Row row = _findRowAndPos(self, ally).row();
-//        if (isOnBoard(target, ally)) {
-//            boost(target, 3, ally, enemy, self);
-//            // TODO: check if it's check really needed, and can `moveExistedUnitToPos` work with both fields?
-//            if (_findRowAndPos(target, ally).row() != row)
-//                moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
-//            return;
-//        }
-//        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
-//            return;
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createDwarvenSkirmisher()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createDwarvenSkirmisher, this);
-// 
-//    res->id = "142305";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (!damage(target, 3, ally, enemy, self))
-//            boost(self, 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createHawkerHealer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createHawkerHealer, this);
-// 
-//    res->id = "142301";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Elf, Support };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(target, 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createHawkerSupport()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createHawkerSupport, this);
-// 
-//    res->id = "142312";
-//    res->power = res->powerBase = 7;
-//    res->tags = { Elf, Support };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(target, 3, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMahakamDefender()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMahakamDefender, this);
-// 
-//    res->id = "142306";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &, Field &) {
-//        isResilient = true;
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMahakamGuard()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMahakamGuard, this);
-// 
-//    res->id = "142317";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(target, 7, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMahakamVolunteers()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMahakamVolunteers, this);
-// 
-//    res->id = "201559";
-//    res->power = res->powerBase = 3;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
-//            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPyrotechnician()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPyrotechnician, this);
-// 
-//    res->id = "200135";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Dwarf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        for (const Row row : std::vector<Row>{Meele, Range, Seige})
-//            if (Card *self = random(enemy.row(row), enemy.rng))
-//                damage(self, 3, ally, enemy, self);
-//    };
-
-//    return res;
-//}
-
-//Card *Cards::createWardancer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createWardancer, this);
-// 
-//    res->id = "142313";
-//    res->power = res->powerBase = 3;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
-//        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVriheddVanguard()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVriheddVanguard, this);
-// 
-//    res->id = "142309";
-//    res->power = res->powerBase = 6;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
-//        for (Card *self : cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard))
-//            boost(self, 1, ally, enemy, self);
-//    };
-
-//    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
-//        onDeploy(ally, enemy);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVriheddOfficer()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVriheddOfficer, this);
-// 
-//    res->id = "142303";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Elf, Officer };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        boost(self, target->powerBase, ally, enemy, self);
-//        swapACard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVriheddNeophyte()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVriheddNeophyte, this);
-// 
-//    res->id = "142301";
-//    res->power = res->powerBase = 10;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
-//        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, AllyHand), 2, ally.rng))
-//            boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVriheddBrigade()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVriheddBrigade, this);
-// 
-//    res->id = "142302";
-//    res->power = res->powerBase = 9;
-//    res->tags = { Elf, Soldier };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
-//        clearHazardsFromItsRow(self, ally);
-//        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen and DwarvenMecenary has the same)
-//        const Row row = _findRowAndPos(self, ally).row();
-//        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
-//            return;
-//        }
-//        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-//            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
-//            return;
-//        }
-//    };
-//    return res;
-//}
-
-//Card *Cards::createHawkerSmuggler()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createHawkerSmuggler, this);
-// 
-//    res->id = "142315";
-//    res->power = res->powerBase = 7;
-//    res->tags = { Elf, Support };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onOtherEnemyAppears = [](Card *self, Card *, Field &ally, Field &enemy) {
-//        // TODO: check how should it works with cases like resurrect, spawn, summon
-//        // maybe have to replace onOtherEnemyAppears call
-//        if (!isOnBoard(self, ally))
-//            return;
-//        boost(self, 1, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createMennoCoehoorn()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createMennoCoehoorn, this);
-// 
-//    res->id = "162102";
-//    res->power = res->powerBase = 8;
-//    res->tags = { Officer };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (target->isSpy == false)
-//            return putToDiscard(target, ally, enemy, self);
-//        damage(target, 4, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createRainfarnOfAttre()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createRainfarnOfAttre, this);
-// 
-//    res->id = "200032";
-//    res->power = res->powerBase = 5;
-//    res->tags = { Officer };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createAssassination()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createAssassination, this);
-// 
-//    res->id = "163101";
-//    res->isSpecial = true;
-//    res->tags = { Tactics };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onPlaySpecial = [](Card *self, Field &ally, Field & enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 8, ally, enemy, self);
-//    };
-
-//    return res;
-//}
-
-//Card *Cards::createStefanSkellen()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createStefanSkellen, this);
-// 
-//    res->id = "162106";
-//    res->power = res->powerBase = 10;
-//    res->tags = { Officer };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToDeck(target, ally, enemy, DeckPosTop, self);
-//        if (!target->isSpecial && !target->isSpy)
-//            boost(target, 5, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createShilard()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createShilard, this);
-// 
-//    res->id = "200071";
-//    res->power = res->powerBase = 9;
-//    res->tags = { Officer };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (ally.passed || enemy.passed)
-//            return;
-//        std::vector<Card *> variants;
-//        if ((_allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
-//            variants.push_back(_allyCard);
-//        if ((_enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
-//            variants.push_back(_enemyCard);
-//        startChoiceToTargetCard(ally, enemy, self, variants);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToHand(target, ally, enemy, self);
-//        if (target == _allyCard && _enemyCard)
-//            putToHand(_enemyCard, enemy, ally, self);
-//        else if (target == _enemyCard && _allyCard)
-//            putToHand(_allyCard, enemy, ally, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createXarthisius()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createXarthisius, this);
-// 
-//    res->id = "162108";
-//    res->power = res->powerBase = 13;
-//    res->tags = { Mage };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {}, EnemyDeck);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        putToDeck(target, enemy, ally, DeckPosBottom, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createCantarella()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createCantarella, this);
-// 
-//    res->id = "162108";
-//    res->power = res->powerBase = 13;
-//    res->tags = {};
-//    res->isLoyal = false;
-//    res->faction = Nilfgaard;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        if (tick(self, ally, enemy)) {
-//            Card *firstCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
-//            Card *secondCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
-//            if (firstCard) {
-//                putToHand(firstCard, ally, enemy,  self);
-//            }
-//            if (secondCard) {
-//                putToHand(secondCard, ally, enemy,  self);
-//            }
-//            if (!firstCard || !secondCard)
-//                return;
-//            _drawn.push_back(firstCard);
-//            _drawn.push_back(secondCard);
-//            startChoiceToTargetCard(ally, enemy, self, _drawn);
-//        }
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        for (Card *self : _drawn)
-//            if (self != target)
-//                putToDeck(self, ally, enemy, DeckPosBottom, self);
-//        _drawn.clear();
-//    };
-//    return res;
-//}
-
-//Card *Cards::createPanther()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createPanther, this);
-// 
-//    res->id = "200139";
-//    res->power = res->powerBase = 4;
-//    res->tags = { Beast };
-//    res->faction = Scoiatael;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        const Field *enemyPtr = &enemy;
-//        const auto isOk = [enemyPtr](Card *self) {
-//            const Row row = _findRowAndPos(self, *enemyPtr).row();
-//            return enemyPtr->row(row).size() < 4;
-//        };
-//        startChoiceToTargetCard(ally, enemy, self, {isOk}, EnemyBoard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        damage(target, 7, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createVicovaroMedic()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createVicovaroMedic, this);
-// 
-//    res->id = "162304";
-//    res->power = res->powerBase = 1;
-//    res->tags = { Support };
-//    res->isDoomed = true;
-//    res->faction = Nilfgaard;
-//    res->rarity = Bronze;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, EnemyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createAssireVarAnahid()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createAssireVarAnahid, this);
-// 
-//    res->id = "162202";
-//    res->power = res->powerBase = 11;
-//    res->tags = { Mage };
-//    res->faction = Nilfgaard;
-//    res->rarity = Gold;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyDiscard);
-//        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, EnemyDiscard);
-//    };
-
-//    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-//        if (isIn(target, ally.discard)){
-//            putToDeck(target, ally, enemy, DeckPosRandom, self);
-//            return;
-//        }
-//        else if (isIn(target, enemy.discard)){
-//            putToDeck(target, enemy, ally, DeckPosRandom, self);
-//            return;
-//        }
-//        assert(false);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createFringillaVigo()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createFringillaVigo, this);
-// 
-//    res->id = "162205";
-//    res->power = res->powerBase = 1;
-//    res->isLoyal = false;
-//    res->tags = { Mage };
-//    res->faction = Nilfgaard;
-//    res->rarity = Silver;
-
-//    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-//        Card *left = cardNextTo(self, ally, enemy, -1);
-//        Card *right = cardNextTo(self, ally, enemy, 1);
-//        if (left != nullptr && right != nullptr)
-//            setPower(right, left->power, ally, enemy, self);
-//    };
-//    return res;
-//}
-
-//Card *Cards::createFalseCiri()
-//{
-//    auto *res = new Card();
-//    res->_constructor = std::bind(&Cards::createFalseCiri, this);
-// 
-//    res->id = "162212";
-//    res->power = res->powerBase = 8;
-//    res->isLoyal = false;
-//    res->faction = Nilfgaard;
-//    res->rarity = Silver;
-
-//    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
-//        if (!this->isLoyal)
-//            boost(self, 1, ally, enemy, self);
-//    };
-
-//    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-//        if (Card *self = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
-//            putToDiscard(self, ally, enemy, self);
-//    };
-
-//    res->_onAllyPass = [](Card *self, Field &ally, Field &enemy) {
-//        // NOTE: for spying creatures logic of this event is inverted
-//        // so an ally is an original enemy for FalseCiri
-//        if (!this->isLoyal) {
-//            const Row row = _findRowAndPos(self, ally).row();
-//            moveExistedUnitToPos(self, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
-//        }
-//    };
-//    return res;
-//}
-
-//Dandelion::Dandelion()
-//{
-//    id = "122201";
-//    name = "Dandelion";
-//    text = "Boost 3 units in your deck by 2.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    power = powerBase = 11;
-//    tags = { Support };
-//    faction = NothernRealms;
-//    rarity = Gold;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/DAND_Q302_00490269.mp3",
-//        "https://gwent.one/audio/self/ob/en/DAND_DANDELION_00429307.mp3",
-//        "https://gwent.one/audio/self/ob/en/DAND_Q302_00489393.mp3",
-//        "https://gwent.one/audio/self/ob/en/VO_JSKR_100926_0188.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.5.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.6.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.7.mp3",
-//    };
-
-//    _onDeploy = [this](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyDeckShuffled, 3, false);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        boost(target, 2, ally, enemy, this);
-//    };
-//}
-
-//Kiyan::Kiyan()
-//{
-//    id = "201621";
-//    name = "Kiyan";
-//    text = "Choose One: Create a Bronze or Silver Alchemy self; or Play a Bronze or Silver Item from your deck.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    power = powerBase = 4;
-//    tags = { Cursed, Witcher };
-//    faction = NothernRealms;
-//    rarity = Gold;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.14.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.15.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.16.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.17.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.18.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Kiyan::Create;
-//        copyCardText(this, option1);
-//        option1->text = "Create a Bronze or Silver Alchemy self.";
-
-//        auto *option2 = new Kiyan::Play;
-//        copyCardText(this, option2);
-//        option2->text = "Play a Bronze or Silver Item from your deck.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
-//    };
-
-//    _onOptionChoosen = [](Card *target, Field &ally, Field &enemy) {
-
-//        if (!_choosen && dynamic_cast<Kiyan::Play *>(target)) {
-//            _choosen = target;
-//            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
-//        }
-
-//        if (!_choosen && dynamic_cast<Kiyan::Create *>(target)) {
-//            _choosen = target;
-//            return startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
-//        }
-
-//        if (dynamic_cast<Kiyan::Create *>(_choosen)) {
-//            spawnNewCard(target, ally, enemy, this);
-//            delete _choosen;
-//            _choosen = nullptr;
-//            return;
-//        }
-
-//        assert(false);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, this);
-//    };
-//}
-
-//PhilippaEilhart::PhilippaEilhart()
-//{
-//    id = "122104";
-//    name = "Philippa Eilhart";
-//    text = "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    power = powerBase = 1;
-//    tags = { Mage, Redania };
-//    faction = NothernRealms;
-//    rarity = Gold;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/PHIL_Q502_00555967.mp3",
-//        "https://gwent.one/audio/self/ob/en/PHIL_Q310_00533376.mp3",
-//        "https://gwent.one/audio/self/ob/en/PHIL_PHILIPPA_01041426.mp3",
-//        "https://gwent.one/audio/self/ob/en/VO_FLPA_200102_0065.mp3",
-//        "https://gwent.one/audio/self/ob/en/PHIL_PHILIPPA_01041424.mp3",
-//        "https://gwent.one/audio/self/ob/en/VO_FLPA_300358_0012.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        damage(target, 5, ally, enemy, this);
-
-//        for (int dmg = 4; dmg > 0; --dmg) {
-//            target = random(cardsFiltered(ally, enemy, {otherThan(target)}, EnemyBoard), ally.rng);
-//            if (!target)
-//                return;
-//            damage(target, dmg, ally, enemy, this);
-//        }
-//    };
-//}
-
-//RocheMerciless::RocheMerciless()
-//{
-//    id = "201777";
-//    name = "Roche: Merciless";
-//    text = "Destroy a face-down Ambush enemy.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Temeria, Officer };
-//    power = powerBase = 6;
-//    faction = NothernRealms;
-//    rarity = Gold;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/ROCH_ROCHE_00541126.mp3",
-//        "https://gwent.one/audio/self/ob/en/ROCH_MQ3035_01064844.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        // FIXME: test, because it won't work
-//        startChoiceToTargetCard(ally, enemy, this, {isAmbushing}, EnemyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *self, Field &ally, Field &enemy) {
-//        putToDiscard(self, ally, enemy, this);
-//    };
-//}
-
-//Shani::Shani()
-//{
-//    id = "122106";
-//    name = "Shani";
-//    text = "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Redania, Support };
-//    power = powerBase = 4;
-//    faction = NothernRealms;
-//    rarity = Gold;
-//    isDoomed = true;
-
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SHNI_SHANI_01130725.mp3",
-//        "https://gwent.one/audio/self/ob/en/SHNI_Q601_01101942.mp3",
-//        "https://gwent.one/audio/self/ob/en/SHNI_Q602_01119358.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, this);
-//        gainArmor(target, 2, ally, enemy, this);
-//    };
-//}
-
-//Vandergrift::Vandergrift()
-//{
-//    id = "201620";
-//    name = "Vandergrift";
-//    text = "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Cursed, Kaedwen, Officer };
-//    power = powerBase = 7;
-//    faction = NothernRealms;
-//    rarity = Gold;
-
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.11.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.10.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.9.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.8.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.7.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        for (Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
-//            if (damage(self, 1, ally, enemy, this)) {
-//                const Row row = _findRowAndPos(this, enemy).row();
-//                applyRowEffect(ally, enemy, toScreenRow(row, false), RaghNarRoogEffect);
-//            }
-//        }
-//    };
-//}
-
-//Botchling::Botchling()
-//{
-//    id = "122401";
-//    name = "Botchling";
-//    text = "Summon a Lubberkin to this row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Cursed };
-//    power = powerBase = 10;
-//    faction = NothernRealms;
-//    rarity = Silver;
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy<Lubberkin>}, AllyDeck))
-//            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-//    };
-//}
-
-//Lubberkin::Lubberkin()
-//{
-//    id = "122402";
-//    name = "Lubberkin";
-//    text = "Summon a Botchling to this row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Cursed };
-//    power = powerBase = 5;
-//    faction = NothernRealms;
-//    rarity = Silver;
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy<Botchling>}, AllyDeck))
-//            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-//    };
-//}
-
-//NilfgaardianGate::NilfgaardianGate()
-//{
-//    id = "201699";
-//    name = "Nilfgaardian Gate";
-//    text = "Play a Bronze or Silver Officer from your deck and boost it by 1.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Tactics };
-//    isSpecial = true;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        boost(target, 1, ally, enemy, this);
-//        playExistedCard(target, ally, enemy, this);
-//    };
-//}
-
-//PeterSaarGwynleve::PeterSaarGwynleve()
-//{
-//    id = "162204";
-//    name = "Peter Saar Gwynleve";
-//    text = "Reset an ally and Strengthen it by 3; or Reset an enemy and Weaken it by 3.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Officer };
-//    power = powerBase = 6;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.426.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.427.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.428.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        reset(target, ally, enemy, this);
-//        if (isOnBoard(target, ally))
-//            strengthen(target, 3, ally, enemy, this);
-//        else if (isOnBoard(target, enemy))
-//            weaken(target, 3, ally, enemy, this);
-//        else
-//            assert(false);
-//    };
-//}
-
-//VicovaroNovice::VicovaroNovice()
-//{
-//    id = "122403";
-//    name = "Vicovaro Novice";
-//    text = "Look at 2 random Bronze Alchemy cards from your deck, then play 1.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Mage };
-//    power = powerBase = 2;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.820.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.821.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.819.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, this);
-//    };
-//}
-
-//Cadaverine::Cadaverine()
-//{
-//    id = "201662";
-//    name = "Cadaverine";
-//    text = "Choose One: Deal 2 damage to an enemy and all units that share its categories; or Destroy a Bronze or Silver Neutral unit.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Alchemy, Item };
-//    isSpecial = true;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-
-//    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        auto *option1 = new Cadaverine::DealDamage;
-//        copyCardText(this, option1);
-//        option1->text = "Deal 2 damage to an enemy and all units that share its categories.";
-
-//        auto *option2 = new Cadaverine::Destroy;
-//        copyCardText(this, option2);
-//        option2->text = "Destroy a Bronze or Silver Neutral unit.";
-
-//        _choosen = nullptr;
-//        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
-//    };
-
-//    _onOptionChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        if (!_choosen && dynamic_cast<Cadaverine::DealDamage *>(target)) {
-//            _choosen = target;
-//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-//            return;
-//        }
-
-//        if (!_choosen && dynamic_cast<Cadaverine::Destroy *>(target)) {
-//            _choosen = target;
-//            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
-//            return;
-//        }
-
-//        assert(false);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        assert(_choosen);
-
-//        if (dynamic_cast<Cadaverine::DealDamage *>(_choosen))
-//            for (Card *self : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
-//                damage(self, 2, ally, enemy, this);
-
-//        if (dynamic_cast<Cadaverine::Destroy *>(_choosen))
-//            putToDiscard(target, ally, enemy, this);
-
-//        delete _choosen;
-//        _choosen = nullptr;
-//    };
-//}
-
-//JoachimDeWett::JoachimDeWett()
-//{
-//    id = "162211";
-//    name = "Joachim de Wett";
-//    text = "Spying. Play the top non-Spying Bronze or Silver unit from your deck and boost it by 10.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Officer };
-//    power = powerBase = 5;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.19.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.18.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.17.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        if (Card* self = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
-//            boost(self, 10, ally, enemy, this);
-//            playExistedCard(self, ally, enemy, this);
-//        }
-//    };
-//}
-
-//Treason::Treason()
-//{
-//    id = "163201";
-//    name = "Treason";
-//    text = "Force 2 adjacent enemies to Duel each other.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Tactics };
-//    isSpecial = true;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-
-//    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-//        std::vector<Card *> cardsToChoice;
-//        for(Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
-//            if (!self->isAmbush) {
-//                Card *left = cardNextTo(self, ally, enemy, -1);
-//                Card *right = cardNextTo(self, ally, enemy, 1);
-//                if ((left != nullptr && !left->isAmbush) || (right != nullptr && !right->isAmbush))
-//                   cardsToChoice.push_back(self);
-//            }
-//        }
-//        startChoiceToTargetCard(ally, enemy, this, cardsToChoice);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        if (_choosen == nullptr) {
-//            _choosen = target;
-//            std::vector<Card *> cards;
-//            if (Card *left = cardNextTo(target, ally, enemy, -1))
-//                if(!left->isAmbush)
-//                    cards.push_back(left);
-//            if (Card *right = cardNextTo(target, ally, enemy, 1))
-//                if(!right->isAmbush)
-//                    cards.push_back(right);
-//            assert(cards.size() != 0);
-//            startChoiceToTargetCard(ally, enemy, this, cards);
-//            return;
-//        }
-//        duel(_choosen, target, ally, enemy);
-//    };
-//}
-
-//Vanhemar::Vanhemar()
-//{
-//    id = "162207";
-//    name = "Vanhemar";
-//    text = "Spawn Biting Frost, Clear Skies or Shrike.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Mage };
-//    power = powerBase = 4;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/VO_NM01_200057_0187.mp3",
-//        "https://gwent.one/audio/self/ob/en/VO_NM01_200996_0005.mp3",
-//        "https://gwent.one/audio/self/ob/en/VO_NM01_200049_0007.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ClearSkies(), new Shrike()});
-//    };
-
-//    _onOptionChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        spawnNewCard(target, ally, enemy, this);
-//    };
-//}
-
-//Vrygheff::Vrygheff()
-//{
-//    id = "201664";
-//    name = "Vrygheff";
-//    text = "Play a Bronze Machine from your deck.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Officer };
-//    power = powerBase = 5;
-//    faction = Nilfgaard;
-//    rarity = Silver;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.256.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.255.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.253.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.254.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        playExistedCard(target, ally, enemy, this);
-//    };
-//}
-
-//AlbaPikeman::AlbaPikeman()
-//{
-//    id = "162311";
-//    name = "Alba Pikeman";
-//    text = "Summon all copies of this unit to this row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Soldier };
-//    power = powerBase = 3;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514121.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514091.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514113.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-//            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
-//    };
-//}
-
-//CombatEngineer::CombatEngineer()
-//{
-//    id = "162313";
-//    name = "Combat Engineer";
-//    text = "Boost an ally by 5. Crew.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Support };
-//    isCrew = true;
-//    power = powerBase = 6;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/NILF2_Q502_00556520.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513907.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF2_VSET_01072393.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        boost(target, 5, ally, enemy, this);
-//    };
-//}
-
-//MagneDivision::MagneDivision()
-//{
-//    id = "200044";
-//    name = "Magne Division";
-//    text = "Play a random Bronze Item from your deck.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Soldier };
-//    power = powerBase = 3;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.35.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.37.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.36.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        if (Card *self = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
-//            playExistedCard(self, ally, enemy, this);
-//    };
-//}
-
-//NauzicaaBrigade::NauzicaaBrigade()
-//{
-//    id = "162310";
-//    name = "Nauzicaa Brigade";
-//    text = "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Soldier };
-//    power = powerBase = 5;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513916.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513914.mp3",
-//        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513922.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {isSpying}, AnyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        if (damage(target, 7, ally, enemy, this))
-//            strengthen(this, 4, ally, enemy, this);
-//    };
-//}
-
-//SlaveDriver::SlaveDriver()
-//{
-//    id = "201612";
-//    name = "Slave Driver";
-//    text = "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Officer };
-//    power = powerBase = 10;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.113.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.114.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.115.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.116.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.117.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        if (_lostPower == -1) {
-//            _lostPower = target->power - 1;
-//            setPower(target, 1, ally, enemy, this);
-//            if (_lostPower == 0)
-//                return;
-//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-//            return;
-//        }
-//        damage(target, _lostPower, ally, enemy, this);
-//    };
-//}
-
-//SlaveHunter::SlaveHunter()
-//{
-//    id = "201609";
-//    name = "Slave Hunter";
-//    text = "Charm a Bronze enemy with 3 power or less.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Soldier };
-//    power = powerBase = 8;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.105.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.104.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.103.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.106.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.107.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        charm(target, ally, enemy, this);
-//    };
-//}
-
-//ViperWitcher::ViperWitcher()
-//{
-//    id = "200124";
-//    name = "Viper Witcher";
-//    text = "Deal 1 damage for each Alchemy self in your starting deck.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Witcher };
-//    power = powerBase = 5;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.339.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.338.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.337.mp3",
-//    };
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
-//            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-//    };
-
-//    _onTargetChoosen = [](Card *target, Field &ally, Field &enemy) {
-//        const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
-//        damage(target, dmg, ally, enemy, this);
-//    };
-//}
-
-//RotTosser::RotTosser()
-//{
-//    id = "162302";
-//    name = "Rot Tosser";
-//    text = "Spawn a Cow Carcass on an enemy row.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Machine };
-//    power = powerBase = 8;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        spawnNewCard(new CowCarcass(), ally, enemy, this);
-//    };
-//}
-
-//RotTosser::CowCarcass::CowCarcass()
-//{
-//    id = "162402";
-//    name = "Cow Carcass";
-//    text = "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    isDoomed = true;
-//    isLoyal = false;
-//    power = powerBase = 1;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-
-//    _onDeploy = [=](Field &ally, Field &enemy) {
-//        setTimer(this, ally, enemy, 2);
-//    };
-
-//    _onTurnEnd = [=](Field &ally, Field &enemy) {
-//        if (!tick(this, ally, enemy))
-//            return;
-//        for (Card *self : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
-//            putToDiscard(self, ally, enemy, this);
-//        banish(this, ally, enemy, this);
-//    };
-//}
-
-//StandardBearer::StandardBearer()
-//{
-//    id = "200294";
-//    name = "Standard Bearer";
-//    text = "Boost an ally by 2 whenever you play a Soldier.";
-//    url = "https://gwent.one/image/self/low/cid/png/" + id + ".png";
-//    tags = { Soldier };
-//    power = powerBase = 8;
-//    faction = Nilfgaard;
-//    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.338.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.339.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.340.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.341.mp3",
-//        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part5.342.mp3",
-//    };
-
-//    _onOtherAllyPlayedFromHand = [](Card *other, Field &ally, Field &enemy) {
-//        if (!isOnBoard(this, ally))
-//            return;
-//        if (hasTag(other, Soldier))
-//            boost(this, 2, ally, enemy, this);
-//    };
-//}
+Card *Cards::createFrancescaFindabair()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFrancescaFindabair, this);
+
+    res->id = "200165";
+    res->power = res->powerBase = 7;
+    res->tags = { Leader, Mage, Elf };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State> { Card *_cardToSwap = nullptr; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_cardToSwap = nullptr;
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&cardToSwap = self->stateAs<State>()->_cardToSwap;
+        if (cardToSwap == nullptr) {
+            cardToSwap = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
+            return;
+        }
+        putToDeck(cardToSwap, ally, enemy, DeckPosRandom, self);
+        putToHand(target, ally, enemy,  self);
+        boost(target, 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createAglais()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAglais, this);
+
+    res->id = "142106";
+    res->power = res->powerBase = 8;
+    res->tags = { Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, EnemyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        banish(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIorveth()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIorveth, this);
+
+    res->id = "142103";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 8, ally, enemy, self))
+            for (Card *card : cardsFiltered(ally, enemy, {isUnit, hasTag(Elf)}, AllyHand))
+                boost(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIorvethMeditation()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIorvethMeditation, this);
+
+    res->id = "201611";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // TODO: check for new choices system and overall tests required
+        std::vector<Card *>cards;
+        for (const int _screenRow : std::vector<int>{3, 4, 5}) {
+            std::vector<Card *> rowCards = cardsInRow(ally, enemy, _screenRow);
+            if (rowCards.size() >= 2)
+                cards.insert(cards.end(), rowCards.begin(), rowCards.end());
+        }
+        if (cards.size() <= 0)
+            return;
+        startChoiceToTargetCard(ally, enemy, self, cards);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (choosen == nullptr) {
+            choosen = target;
+            const int screenRow = _findScreenRow(target, ally, enemy);
+            std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
+            for (int i = 0; i < int(cards.size()); i++)
+                if (cards[i] == choosen)
+                    cards.erase(cards.begin() + i);
+            startChoiceToTargetCard(ally, enemy, self, cards);
+            return;
+        }
+        duel(choosen, target, ally, enemy);
+    };
+    return res;
+}
+
+Card *Cards::createIsengrimFaoiltiarna()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIsengrimFaoiltiarna, this);
+
+    res->id = "142102";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    const auto isCardAmbush = [](Card *card) {
+        return card->defaultCopy()->isAmbush;
+    };
+
+    res->_onDeploy = [isCardAmbush](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIsengrimOutlaw()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIsengrimOutlaw, this);
+
+    res->id = "201615";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
+
+    enum { Create, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
+        option1->text = "Create a Silver Elf.";
+
+        auto *option2 = createOption(self, Play);
+        option2->text = "Play a Bronze or Silver special self from your deck.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            startChoiceCreateOptions(ally, enemy, self, {isSilver, hasTag(Elf)});
+            return;
+        }
+        if (!choosen && isOption(target, Play)) {
+            choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+            return;
+        }
+
+        if (isOption(choosen, Create)) {
+            delete choosen;
+            choosen = nullptr;
+            spawnNewCard(target, ally, enemy, self);
+        }
+        return;
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        assert(isOption(choosen, Create));
+        delete choosen;
+        choosen = nullptr;
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIthlinneAegli()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIthlinneAegli, this);
+
+    res->id = "142107";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Mage };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Boon, Hazard, Spell})}, AllyDeckShuffled);
+    };
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSchirru()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSchirru, this);
+
+    res->id = "142108";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createScorch(), createEpidemic()});
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+
+    return res;
+}
+
+Card *Cards::createSaesenthessis()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaesenthessis, this);
+
+    res->id = "142108";
+    res->power = res->powerBase = 10;
+    res->tags = { Aedirn, Draconid };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (const int dwarfsCount = cardsFiltered(ally, enemy, {hasTag(Dwarf)}, AllyBoard).size() > 0)
+            boost(self, dwarfsCount, ally, enemy, self);
+        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
+            damage(target, elfsCount, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSaskia()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaskia, this);
+
+    res->id = "200209";
+    res->power = res->powerBase = 11;
+    res->tags = { Aedirn, Draconid };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze}, AllyHand, 2, true);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *newBronze = nullptr;
+        if (!(newBronze = first(cardsFiltered(ally, enemy, {isBronze}, AllyDeck))))
+            return;
+        putToHand(newBronze, ally, enemy,  self);
+        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
+    };
+    return res;
+}
+
+Card *Cards::createBarclayEls()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBarclayEls, this);
+
+    res->id = "142207";
+    res->power = res->powerBase = 2;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit, hasTag(Dwarf)}, AllyDeck), ally.rng)) {
+            strengthen(self, 3, ally, enemy, self);
+            playExistedCard(self, ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createDennisCranmer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDennisCranmer, this);
+
+    res->id = "142211";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(self), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSheldonSkaggs()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSheldonSkaggs, this);
+
+    res->id = "142212";
+    res->power = res->powerBase = 9;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        int boostAmount = 0;
+        const int screenRow = _findScreenRow(self, ally, enemy);
+        const std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
+        for (Card *card : cards)
+            if (card != self)
+                if (moveToRandomRow(card, ally, enemy, self))
+                    boostAmount++;
+        if (boostAmount > 0)
+            boost(self, boostAmount, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createYarpenZigrin()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYarpenZigrin, this);
+
+    res->id = "142213";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isResilient = true;
+    };
+
+    res->_onOtherAllyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !hasTag(target, Dwarf))
+            return;
+        boost(target, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createYaevinn()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYaevinn, this);
+
+    res->id = "142203";
+    res->power = res->powerBase = 13;
+    res->tags = { Elf };
+    res->isLoyal = false;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    struct State : StateCopy<State> { std::vector<Card *> _drawn; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
+            return;
+
+        Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
+        Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
+        if (unit) {
+            putToHand(unit, ally, enemy,  self);
+        }
+        if (special) {
+            putToHand(special, ally, enemy,  self);
+        }
+        if (!unit || !special)
+            return;
+
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        drawn.push_back(unit);
+        drawn.push_back(special);
+        startChoiceToTargetCard(ally, enemy, self, drawn);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        for (Card *self : drawn)
+            if (self != target)
+                putToDeck(self, ally, enemy, DeckPosRandom, self);
+        drawn.clear();
+    };
+    return res;
+}
+
+Card *Cards::createIdaEmeanAepSivney()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIdaEmeanAepSivney, this);
+
+    res->id = "142202";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf, Mage };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createImpenetrableFog(), createClearSkies(), createAlzursThunder()});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPavkoGale()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPavkoGale, this);
+
+    res->id = "201676";
+    res->power = res->powerBase = 5;
+    res->tags = { Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCiaranAepEasnillen()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCiaranAepEasnillen, this);
+
+    res->id = "142206";
+    res->power = res->powerBase = 9;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (DwarvenMercenary has the same)
+        toggleLock(target, ally, enemy, self);
+        const Row row = _findRowAndPos(self, ally).row();
+        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
+            return;
+        }
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
+            return;
+        }
+    };
+    return res;
+}
+
+Card *Cards::createEibhearHattori()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEibhearHattori, this);
+
+    res->id = "200520";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Support };
+    res->isDoomed = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit, isFaction(Scoiatael), hasPowerXorLess(self->power)}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createMilaen()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMilaen, this);
+
+    res->id = "200030";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
+        if (cards.size() <= 0)
+            return;
+        Card *first;
+        damage(first = cards[0], 6, ally, enemy, self);
+        if (cards[cards.size()] != first)
+            damage(cards[cards.size()], 6, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBraenn()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBraenn, this);
+
+    res->id = "142209";
+    res->power = res->powerBase = 6;
+    res->tags = { Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    const auto isCardOk = [](Card *self) {
+        return hasTag(self, Dryad) || self->defaultCopy()->isAmbush;
+        // || (self->defaultCopy()->isAmbush && !isOnBoard(self, ally)); // don't know how to get '&ally' here
+        // TODO: check how does the Braenn buff allies in Ambush on board
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [isCardOk](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, self->power, ally, enemy, self))
+            for (Card *self : cardsFiltered(ally, enemy, {isCardOk}, AllyBoardHandDeck))
+                boost(self, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMorenn()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMorenn, this);
+
+    res->id = "142208";
+    res->power = res->powerBase = 8;
+    res->tags = { Dryad };
+    res->isAmbush = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isAmbush = true;
+    };
+
+    res->_onOtherEnemyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // TODO: check how should it works with cases like resurrect, spawn, summon
+        // maybe have to replace onOtherEnemyAppears call
+        if (!isOnBoard(self, ally) || !self->isAmbush)
+            return;
+        flipOver(self, ally, enemy);
+        damage (target, 7, ally, enemy, self);
+    };
+
+    res->_onOtherSpyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(target, enemy))
+            return;
+        self->onOtherEnemyAppears(target, ally, enemy);
+    };
+    return res;
+}
+
+Card *Cards::createPaulieDahlberg()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPaulieDahlberg, this);
+
+    res->id = "201696";
+    res->power = res->powerBase = 3;
+    res->tags = { Dwarf, Support };
+    res->isDoomed = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit, hasTag(Dwarf), hasNoTag(Support)}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card * target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMahakamHorn()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamHorn, this);
+
+    res->id = "201653";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { Create, Strengthen };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
+        option1->text = "Create a Bronze or Silver Dwarf.";
+
+        auto *option2 = createOption(self, Strengthen);
+        option2->text = "Strengthen a unit by 7.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Dwarf)});
+            return;
+        }
+
+        if (!choosen && isOption(target, Strengthen)) {
+            choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+            return;
+        }
+
+        if (isOption(choosen, Create)) {
+            spawnNewCard(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        assert(isOption(choosen, Strengthen));
+
+        strengthen(target, 7, ally, enemy, self);
+
+        delete choosen;
+        choosen = nullptr;
+    };
+    return res;
+}
+
+Card *Cards::createNaturesGift()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNaturesGift, this);
+
+    res->id = "143201";
+    res->isSpecial = true;
+    res->tags = { Spell };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPitTrap()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPitTrap, this);
+
+    res->id = "200228";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, { 3, 4, 5 });
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        applyRowEffect(ally, enemy, screenRow, PitTrapEffect);
+    };
+    return res;
+}
+
+Card *Cards::createCrushingTrap()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCrushingTrap, this);
+
+    res->id = "201645";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
+    };
+
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
+        if (cards.size() <= 0)
+            return;
+        Card *first;
+        damage(first = cards[0], 6, ally, enemy, self);
+        if (cards[cards.size()] != first)
+            damage(cards[cards.size()], 6, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createElvenBlade()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenBlade, this);
+
+    res->id = "201643";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasNoTag(Elf)}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 10, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createIncineratingTrap()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIncineratingTrap, this);
+
+    res->id = "143301";
+    res->power = res->powerBase = 1;
+    res->tags = { Machine };
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, enemy))
+            return;
+        for (Card *card : cardsInRow(ally, enemy, _findScreenRow(self, ally, enemy)))
+            if (card != self)
+                damage(card, 2, ally, enemy, self);
+        banish(self, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBlueMountainElite()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlueMountainElite, this);
+
+    res->id = "142316";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
+    };
+
+    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDolBlathannaBomber()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaBomber, this);
+
+    res->id = "142316";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createIncineratingTrap(), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDolBlathannaBowman()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaBowman, this);
+
+    res->id = "142314";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, self);
+    };
+
+    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 2, ally, enemy, self);
+    };
+
+    res->_onEnemyMoved = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
+            return;
+        damage(target, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDolBlathannaSentry()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaSentry, this);
+
+    res->id = "200039";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onSpecialPlayed = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if(!isOnBoard(self, ally) && !isIn(self, ally.deck) && !isIn(self, ally.hand))
+            return;
+        if (!target->isSpecial || !(isIn(target, ally.discard) || isIn(target, ally.hand)))
+            //(target != ally.cardsAppeared.end()) ??
+            return;
+        boost(self, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createElvenScout()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenScout, this);
+
+    res->id = "201638";
+    res->power = res->powerBase = 10;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        swapACard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createElvenSwordmaster()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenSwordmaster, this);
+
+    res->id = "200535";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, self->power, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDwarvenAgitator()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenAgitator, this);
+
+    res->id = "200293";
+    res->power = res->powerBase = 1;
+    res->tags = { Dwarf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy(self->id)}, AllyDeck), ally.rng))
+            spawnNewCard(card->defaultCopy(), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createDwarvenMercenary()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenMercenary, this);
+
+    res->id = "142311";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: check if otherThan(self) required
+        // TODO: fix ability, wrong filters
+        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen has the same)
+        const Row row = _findRowAndPos(self, ally).row();
+        if (isOnBoard(target, ally)) {
+            boost(target, 3, ally, enemy, self);
+            // TODO: check if it's check really needed, and can `moveExistedUnitToPos` work with both fields?
+            if (_findRowAndPos(target, ally).row() != row)
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
+            return;
+        }
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
+            return;
+        }
+    };
+    return res;
+}
+
+Card *Cards::createDwarvenSkirmisher()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenSkirmisher, this);
+
+    res->id = "142305";
+    res->power = res->powerBase = 6;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, self))
+            boost(self, 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createHawkerHealer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerHealer, this);
+
+    res->id = "142301";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createHawkerSupport()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerSupport, this);
+
+    res->id = "142312";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMahakamDefender()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamDefender, this);
+
+    res->id = "142306";
+    res->power = res->powerBase = 6;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isResilient = true;
+    };
+    return res;
+}
+
+Card *Cards::createMahakamGuard()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamGuard, this);
+
+    res->id = "142317";
+    res->power = res->powerBase = 4;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 7, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMahakamVolunteers()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamVolunteers, this);
+
+    res->id = "201559";
+    res->power = res->powerBase = 3;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPyrotechnician()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPyrotechnician, this);
+
+    res->id = "200135";
+    res->power = res->powerBase = 5;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (const Row row : std::vector<Row>{Meele, Range, Seige})
+            if (Card *card = random(enemy.row(row), enemy.rng))
+                damage(card, 3, ally, enemy, self);
+    };
+
+    return res;
+}
+
+Card *Cards::createWardancer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWardancer, this);
+
+    res->id = "142313";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVriheddVanguard()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddVanguard, this);
+
+    res->id = "142309";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard))
+            boost(card, 1, ally, enemy, self);
+    };
+
+    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
+        self->onDeploy(ally, enemy);
+    };
+    return res;
+}
+
+Card *Cards::createVriheddOfficer()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddOfficer, this);
+
+    res->id = "142303";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, target->powerBase, ally, enemy, self);
+        swapACard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVriheddNeophyte()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddNeophyte, this);
+
+    res->id = "142301";
+    res->power = res->powerBase = 10;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyHand), 2, ally.rng))
+            boost(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVriheddBrigade()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddBrigade, this);
+
+    res->id = "142302";
+    res->power = res->powerBase = 9;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        clearHazardsFromItsRow(self, ally);
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // TODO: fix the in-same-line moving issue (CiaranAepEasnillen and DwarvenMecenary has the same)
+        const Row row = _findRowAndPos(self, ally).row();
+        if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
+            return;
+        }
+        if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
+            return;
+        }
+    };
+    return res;
+}
+
+Card *Cards::createHawkerSmuggler()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerSmuggler, this);
+
+    res->id = "142315";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onOtherEnemyAppears = [](Card *self, Card *, Field &ally, Field &enemy) {
+        // TODO: check how should it works with cases like resurrect, spawn, summon
+        // maybe have to replace onOtherEnemyAppears call
+        if (!isOnBoard(self, ally))
+            return;
+        boost(self, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMennoCoehoorn()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMennoCoehoorn, this);
+
+    res->id = "162102";
+    res->power = res->powerBase = 8;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (target->isSpy == false)
+            return putToDiscard(target, ally, enemy, self);
+        damage(target, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createRainfarnOfAttre()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRainfarnOfAttre, this);
+
+    res->id = "200032";
+    res->power = res->powerBase = 5;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createAssassination()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAssassination, this);
+
+    res->id = "163101";
+    res->isSpecial = true;
+    res->tags = { Tactics };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 8, ally, enemy, self);
+    };
+
+    return res;
+}
+
+Card *Cards::createStefanSkellen()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStefanSkellen, this);
+
+    res->id = "162106";
+    res->power = res->powerBase = 10;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosTop, self);
+        if (!target->isSpecial && !target->isSpy)
+            boost(target, 5, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createShilard()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShilard, this);
+
+    res->id = "200071";
+    res->power = res->powerBase = 9;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State>
+    {
+        Card *_allyCard = nullptr;
+        Card *_enemyCard = nullptr;
+    };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (ally.passed || enemy.passed)
+            return;
+        std::vector<Card *> variants;
+        Card *&allyCard = self->stateAs<State>()->_allyCard;
+        Card *&enemyCard = self->stateAs<State>()->_enemyCard;
+        if ((allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
+            variants.push_back(allyCard);
+        if ((enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
+            variants.push_back(enemyCard);
+        startChoiceToTargetCard(ally, enemy, self, variants);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy, self);
+        Card *allyCard = self->stateAs<State>()->_allyCard;
+        Card *enemyCard = self->stateAs<State>()->_enemyCard;
+        if (target == allyCard && enemyCard)
+            putToHand(enemyCard, enemy, ally, self);
+        else if (target == enemyCard && allyCard)
+            putToHand(allyCard, enemy, ally, self);
+    };
+    return res;
+}
+
+Card *Cards::createXarthisius()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createXarthisius, this);
+
+    res->id = "162108";
+    res->power = res->powerBase = 13;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyDeck);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, enemy, ally, DeckPosBottom, self);
+    };
+    return res;
+}
+
+Card *Cards::createCantarella()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCantarella, this);
+
+    res->id = "162108";
+    res->power = res->powerBase = 13;
+    res->tags = {};
+    res->isLoyal = false;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    struct State : StateCopy<State> { std::vector<Card *> _drawn; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (tick(self, ally, enemy)) {
+            Card *firstCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            Card *secondCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
+            if (firstCard) {
+                putToHand(firstCard, ally, enemy,  self);
+            }
+            if (secondCard) {
+                putToHand(secondCard, ally, enemy,  self);
+            }
+            if (!firstCard || !secondCard)
+                return;
+            std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+            drawn.push_back(firstCard);
+            drawn.push_back(secondCard);
+            startChoiceToTargetCard(ally, enemy, self, drawn);
+        }
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        for (Card *card : drawn)
+            if (card != target)
+                putToDeck(card, ally, enemy, DeckPosBottom, self);
+        drawn.clear();
+    };
+    return res;
+}
+
+Card *Cards::createPanther()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPanther, this);
+
+    res->id = "200139";
+    res->power = res->powerBase = 4;
+    res->tags = { Beast };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const Field *enemyPtr = &enemy;
+        const auto isOk = [enemyPtr](Card *self) {
+            const Row row = _findRowAndPos(self, *enemyPtr).row();
+            return enemyPtr->row(row).size() < 4;
+        };
+        startChoiceToTargetCard(ally, enemy, self, {isOk}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVicovaroMedic()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVicovaroMedic, this);
+
+    res->id = "162304";
+    res->power = res->powerBase = 1;
+    res->tags = { Support };
+    res->isDoomed = true;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, EnemyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createAssireVarAnahid()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAssireVarAnahid, this);
+
+    res->id = "162202";
+    res->power = res->powerBase = 11;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyDiscard);
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, EnemyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isIn(target, ally.discard)){
+            putToDeck(target, ally, enemy, DeckPosRandom, self);
+            return;
+        }
+        if (isIn(target, enemy.discard)){
+            putToDeck(target, enemy, ally, DeckPosRandom, self);
+            return;
+        }
+        assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createFringillaVigo()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFringillaVigo, this);
+
+    res->id = "162205";
+    res->power = res->powerBase = 1;
+    res->isLoyal = false;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Card *left = cardNextTo(self, ally, enemy, -1);
+        Card *right = cardNextTo(self, ally, enemy, 1);
+        if (left != nullptr && right != nullptr)
+            setPower(right, left->power, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createFalseCiri()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFalseCiri, this);
+
+    res->id = "162212";
+    res->power = res->powerBase = 8;
+    res->isLoyal = false;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!self->isLoyal)
+            boost(self, 1, ally, enemy, self);
+    };
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *self = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
+            putToDiscard(self, ally, enemy, self);
+    };
+
+    res->_onAllyPass = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: for spying creatures logic of this event is inverted
+        // so an ally is an original enemy for FalseCiri
+        if (self->isLoyal)
+            return;
+        const Row row = _findRowAndPos(self, ally).row();
+        moveExistedUnitToPos(self, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
+    };
+    return res;
+}
+
+Card *Cards::createDandelion()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createDandelion, this);
+
+    res->id = "122201";
+    res->power = res->powerBase = 11;
+    res->tags = { Support };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/self/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/self/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.7.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit}, AllyDeckShuffled, 3, false);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKiyan()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createKiyan, this);
+
+    res->id = "201621";
+    res->power = res->powerBase = 4;
+    res->tags = { Cursed, Witcher };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
+
+    enum { Create, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
+        option1->text = "Create a Bronze or Silver Alchemy self.";
+
+        auto *option2 = createOption(self, Play);
+        option2->text = "Play a Bronze or Silver Item from your deck.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!_choosen && isOption(target, Play)) {
+            _choosen = target;
+            return startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+        }
+
+        if (!_choosen && isOption(target, Create)) {
+            _choosen = target;
+            return startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
+        }
+
+        if (isOption(_choosen, Create)) {
+            spawnNewCard(target, ally, enemy, self);
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPhilippaEilhart()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createPhilippaEilhart, this);
+
+    res->id = "122104";
+    res->power = res->powerBase = 1;
+    res->tags = { Mage, Redania };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
+
+        for (int dmg = 4; dmg > 0; --dmg) {
+            target = random(cardsFiltered(ally, enemy, {otherThan(target)}, EnemyBoard), ally.rng);
+            if (!target)
+                return;
+            damage(target, dmg, ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createRocheMerciless()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createRocheMerciless, this);
+
+    res->id = "201777";
+    res->tags = { Temeria, Officer };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/ROCH_ROCHE_00541126.mp3",
+        "https://gwent.one/audio/self/ob/en/ROCH_MQ3035_01064844.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // FIXME: test, because it won't work
+        startChoiceToTargetCard(ally, enemy, self, {isAmbushing}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createShani()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createShani, this);
+
+    res->id = "122106";
+    res->tags = { Redania, Support };
+    res->power = res->powerBase = 4;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->isDoomed = true;
+
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SHNI_SHANI_01130725.mp3",
+        "https://gwent.one/audio/self/ob/en/SHNI_Q601_01101942.mp3",
+        "https://gwent.one/audio/self/ob/en/SHNI_Q602_01119358.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        gainArmor(target, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVandergrift()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVandergrift, this);
+
+    res->id = "201620";
+    res->tags = { Cursed, Kaedwen, Officer };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (damage(self, 1, ally, enemy, self)) {
+                const Row row = _findRowAndPos(self, enemy).row();
+                applyRowEffect(ally, enemy, toScreenRow(row, false), RaghNarRoogEffect);
+            }
+        }
+    };
+    return res;
+}
+
+Card *Cards::createBotchling()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createBotchling, this);
+
+    res->id = "122401";
+    res->tags = { Cursed };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: 122402 is Lubberkin
+        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy("122402")}, AllyDeck))
+            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createLubberkin()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createLubberkin, this);
+
+    res->id = "122402";
+    res->tags = { Cursed };
+    res->power = res->powerBase = 5;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: 122401 is Botchling
+        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy("122401")}, AllyDeck))
+            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createNilfgaardianGate()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createNilfgaardianGate, this);
+
+    res->id = "201699";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 1, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createPeterSaarGwynleve()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeterSaarGwynleve, this);
+
+    res->id = "162204";
+    res->tags = { Officer };
+    res->power = res->powerBase = 6;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.426.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.427.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.428.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, self);
+        if (isOnBoard(target, ally))
+            strengthen(target, 3, ally, enemy, self);
+        else if (isOnBoard(target, enemy))
+            weaken(target, 3, ally, enemy, self);
+        else
+            assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createVicovaroNovice()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVicovaroNovice, this);
+
+    res->id = "122403";
+    res->tags = { Mage };
+    res->power = res->powerBase = 2;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.820.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.821.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.819.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCadaverine()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCadaverine, this);
+
+    res->id = "201662";
+    res->tags = { Alchemy, Item };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { DealDamage, Destroy };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, DealDamage);
+        option1->text = "Deal 2 damage to an enemy and all units that share its categories.";
+
+        auto *option2 = createOption(self, Destroy);
+        option2->text = "Destroy a Bronze or Silver Neutral unit.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!_choosen && isOption(target, DealDamage)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+            return;
+        }
+
+        if (!_choosen && isOption(target, Destroy)) {
+            _choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
+            return;
+        }
+
+        assert(false);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        assert(_choosen);
+
+        if (isOption(_choosen, DealDamage)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
+                damage(self, 2, ally, enemy, self);
+            delete _choosen;
+            _choosen = nullptr;
+            return;_choosen;
+        }
+
+        if (isOption(_choosen, Destroy)) {
+            putToDiscard(target, ally, enemy, self);
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createJoachimDeWett()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createJoachimDeWett, this);
+
+    res->id = "162211";
+    res->tags = { Officer };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.19.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.18.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.17.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card* self = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
+            boost(self, 10, ally, enemy, self);
+            playExistedCard(self, ally, enemy, self);
+        }
+    };
+    return res;
+}
+
+Card *Cards::createTreason()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createTreason, this);
+
+    res->id = "163201";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        std::vector<Card *> cardsToChoice;
+        for(Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (!self->isAmbush) {
+                Card *left = cardNextTo(self, ally, enemy, -1);
+                Card *right = cardNextTo(self, ally, enemy, 1);
+                if ((left != nullptr && !left->isAmbush) || (right != nullptr && !right->isAmbush))
+                   cardsToChoice.push_back(self);
+            }
+        }
+        startChoiceToTargetCard(ally, enemy, self, cardsToChoice);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (_choosen == nullptr) {
+            _choosen = target;
+            std::vector<Card *> cards;
+            if (Card *left = cardNextTo(target, ally, enemy, -1))
+                if(!left->isAmbush)
+                    cards.push_back(left);
+            if (Card *right = cardNextTo(target, ally, enemy, 1))
+                if(!right->isAmbush)
+                    cards.push_back(right);
+            assert(cards.size() != 0);
+            startChoiceToTargetCard(ally, enemy, self, cards);
+            return;
+        }
+        duel(_choosen, target, ally, enemy);
+    };
+    return res;
+}
+
+Card *Cards::createVanhemar()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVanhemar, this);
+
+    res->id = "162207";
+    res->tags = { Mage };
+    res->power = res->powerBase = 4;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200057_0187.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200996_0005.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200049_0007.mp3",
+    };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createBitingFrost(), createClearSkies(), createShrike()});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVrygheff()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVrygheff, this);
+
+    res->id = "201664";
+    res->tags = { Officer };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.256.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.255.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.253.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.254.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createAlbaPikeman()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlbaPikeman, this);
+
+    res->id = "162311";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514121.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514091.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514113.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCombatEngineer()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCombatEngineer, this);
+
+    res->id = "162313";
+    res->tags = { Support };
+    res->isCrew = true;
+    res->power = res->powerBase = 6;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/NILF2_Q502_00556520.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513907.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF2_VSET_01072393.mp3",
+    };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 5, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createMagneDivision()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createMagneDivision, this);
+
+    res->id = "200044";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createNauzicaaBrigade()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createNauzicaaBrigade, this);
+
+    res->id = "162310";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isSpying}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 7, ally, enemy, self))
+            strengthen(self, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSlaveDriver()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlaveDriver, this);
+
+    res->id = "201612";
+    res->tags = { Officer };
+    res->power = res->powerBase = 10;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { int _lostPower = -1; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &_lostPower = self->stateAs<State>()->_lostPower;
+        if (_lostPower == -1) {
+            _lostPower = target->power - 1;
+            setPower(target, 1, ally, enemy, self);
+            if (_lostPower == 0)
+                return;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+            return;
+        }
+        damage(target, _lostPower, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSlaveHunter()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlaveHunter, this);
+
+    res->id = "201609";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createViperWitcher()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createViperWitcher, this);
+
+    res->id = "200124";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
+        damage(target, dmg, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createRotTosser()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createRotTosser, this);
+
+    res->id = "162302";
+    res->tags = { Machine };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createCowCarcass(), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createCowCarcass()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCowCarcass, this);
+
+    res->id = "162402";
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 2);
+    };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
+            return;
+        for (Card *self : lowests(cardsFiltered(ally, enemy,  {otherThan(self), isOnSameRow(&ally, self)}, AllyBoard)))
+            putToDiscard(self, ally, enemy, self);
+        banish(self, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createStandardBearer()
+{
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createStandardBearer, this);
+
+    res->id = "200294";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onOtherAllyPlayedFromHand = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
+            return;
+        if (hasTag(target, Soldier))
+            boost(target, 2, ally, enemy, self);
+    };
+    return res;
+}
 
 Card *Cards::createCursedKnight()
 {
