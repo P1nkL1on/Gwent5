@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int selectingImmuneWerewolf()
+#else
 int main()
+#endif
 {
     {
         // NOTE: selecting wolf from field

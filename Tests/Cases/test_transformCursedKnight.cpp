@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int transformCursedKnight()
+#else
 int main()
+#endif
 {
     {
         // NOTE: moving std function

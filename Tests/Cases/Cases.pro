@@ -6,9 +6,6 @@ QMAKE_CXXFLAGS += -Wno-padded
 
 include($$PWD/../../Cards/Cards.pri)
 
-SOURCES += \
-    main.cpp \
-    tests.cpp
-
-HEADERS += \
-    tests.h
+DEFINES += QT_TESTS
+SOURCES += $$PWD/test_*.cpp $$PWD/main.cpp
+HEADERS += $$PWD/test_*.h

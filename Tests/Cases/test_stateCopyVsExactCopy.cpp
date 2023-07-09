@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int stateCopyVsExactCopy()
+#else
 int main()
+#endif
 {
     struct State1 : StateCopy<State1>
     {

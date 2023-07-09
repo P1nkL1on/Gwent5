@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int powerRow()
+#else
 int main()
+#endif
 {
     auto *a = new Card();
     auto *b = new Card();

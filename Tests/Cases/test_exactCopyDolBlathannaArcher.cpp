@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int exactCopyDolBlathannaArcher()
+#else
 int main()
+#endif
 {
     Cards cards;
     Card *archer = cards.createDolBlathannaArcher();
@@ -38,9 +42,10 @@ int main()
     archerCopy->onTargetChoosen(adda, ally, enemy);
     assert_(1 == adda->power);
 
+    delete adda;
+    delete adda2;
     delete archer;
     delete archerCopy;
-    delete adda;
     pass_();
     return 0;
 }

@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int isIn()
+#else
 int main()
+#endif
 {
     using Cards = std::vector<Card *>;
     auto *a = new Card();

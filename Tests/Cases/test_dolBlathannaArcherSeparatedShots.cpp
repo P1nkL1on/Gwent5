@@ -2,7 +2,11 @@
 #include "Cards/testcase.h"
 
 
+#ifdef QT_TESTS
+inline int dolBlathannaArcherSeparatedShots()
+#else
 int main()
+#endif
 {
     Cards cards;
     Card *archer = cards.createDolBlathannaArcher();
