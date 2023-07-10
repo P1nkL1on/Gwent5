@@ -13024,7 +13024,7 @@ Nenneke::Nenneke()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyDiscard, 3);
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard, 3);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -13076,7 +13076,7 @@ SabrinaGlevissig::SabrinaGlevissig()
     };
 
     _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        std::vector<Card *> cards = ally.row(rowAndPos.row());
+        const std::vector<Card *> cards = ally.row(rowAndPos.row());
         const int power = lowest(cards, ally.rng)->power;
         for (Card *card : cards)
             setPower(card, power, ally, enemy, this);
@@ -13130,7 +13130,7 @@ AedirnianMauler::AedirnianMauler()
     };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyDeck);
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
@@ -13185,10 +13185,14 @@ VandergriftsBlade::VandergriftsBlade()
 
     _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
         _choosen = target;
-        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen))
+        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
             startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
-        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen))
+            return;
+        }
+        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
         assert(false);
     };
 
@@ -13228,6 +13232,8 @@ ReinforcedTrebuchet::ReinforcedTrebuchet()
     rarity = Bronze;
 
     _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
         damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
     };
 }
@@ -13304,13 +13310,16 @@ BatteringRam::BatteringRam()
     rarity = Bronze;
 
     _onDeploy = [=](Field &ally, Field &enemy) {
+        _isFirstChoise = true;
         startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
 
     _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int x = 3 + nCrewed(this, ally);
-        if (damage(target, x, ally, enemy, this))
+        int x = 3 + _isFirstChoise * nCrewed(this, ally);
+        if (damage(target, x, ally, enemy, this) && _isFirstChoise) {
+            _isFirstChoise = false;
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        }
     };
 }
 

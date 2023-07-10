@@ -3053,6 +3053,8 @@ struct BloodyFlail : CardCollectible<BloodyFlail>
 struct BatteringRam : CardCollectible<BatteringRam>
 {
     BatteringRam();
+private:
+    bool _isFirstChoise = true;
 };
 
 
