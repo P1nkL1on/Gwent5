@@ -9608,7 +9608,7 @@ TrissTelekinesis::TrissTelekinesis()
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: implenemt an ability
         // NOTE: the same ability in Garrison
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze}, EnemyDeckStarting), 3, ally.rng));
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze}, BothDeckStarting), 3, ally.rng));
         // NOTE: if smt increases this 3, it will be a magic number
     };
 
