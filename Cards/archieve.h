@@ -3064,4 +3064,16 @@ struct Trebuchet : CardCollectible<Trebuchet>
 };
 
 
+struct BanArdTutor : CardCollectible<BanArdTutor>
+{
+    BanArdTutor();
+};
+
+
+struct FieldMedic : CardCollectible<FieldMedic>
+{
+    FieldMedic();
+};
+
+
 #endif // CARDS_H

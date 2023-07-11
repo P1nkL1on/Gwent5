@@ -455,6 +455,8 @@ std::vector<Card *> allCards(const Patch)
         new BloodyFlail(),
         new BatteringRam(),
         new Trebuchet(),
+        new BanArdTutor(),
+        new FieldMedic(),
     };
 }
 
@@ -13345,5 +13347,53 @@ Trebuchet::Trebuchet()
         for (Card *card : std::vector<Card *>{left, target, right})
             if (card != nullptr)
                 damage(card, x, ally, enemy, this);
+    };
+}
+
+BanArdTutor::BanArdTutor()
+{
+    id = "200048";
+    name = "Ban Ard Tutor";
+    text = "Swap a card in your hand with a Bronze special card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Kaedwen, Mage };
+    power = powerBase = 9;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.13.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.14.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.15.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, this);
+        putToHand(first(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck)), ally, enemy, this);
+    };
+}
+
+FieldMedic::FieldMedic()
+{
+    id = "122312";
+    name = "Field Medic";
+    text = "Boost Soldier allies by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Support };
+    power = powerBase = 8;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00566917.mp3",
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card* card : cardsFiltered(ally, enemy, {hasTag(Soldier)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
     };
 }

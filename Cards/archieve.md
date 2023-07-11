@@ -24,7 +24,7 @@
 - [x] Uma's Curse
 - [x] Triss Merigold
 - [x] Triss: Butterflies
-- [x] Triss: Telekinesis __{NO ABILITY}__
+- [x] Triss: Telekinesis __{NOT EXACT ABILITY}__
 - [x] Dandelion: Poet
 - [x] Dandelion: Vainglory
 - [x] Hanmarvyn's Dream
@@ -55,7 +55,7 @@
 - [x] Lacerate
 - [x] Gaunter O'Dimm
 - [x] Dorregaray of Vole
-- [x] Garrison  __{NO ABILITY}__
+- [x] Garrison  __{NOT EXACT ABILITY}__
 - [x] Iris' Companions
 - [x] Johnny
 - [x] Stregobor
@@ -129,15 +129,15 @@
 - [x] Priscilla
 - [x] Roche: Merciless
 - [x] Seltkirk of Gulet
-- [x] Shani _(easy card)_
+- [x] Shani
 - [x] Sigismund Dijkstra
 - [x] Vandergrift
 - [x] Vernon Roche
-- [x] Botchling _(easy card)_
+- [x] Botchling
 - [x] Dethmold
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
-- [x] Lubberkin _(easy card)_
+- [x] Lubberkin
 - [x] Margarita of Aretuza
 - [x] Nenneke
 - [x] Odrin
@@ -156,15 +156,15 @@
 - [x] Aedirnian Mauler
 - [x] Aretuza Adept
 - [x] Ballista
-- [ ] Ban Ard Tutor
+- [x] Ban Ard Tutor
 - [x] Battering Ram
-- [x] Bloody Flail _(easy card)_
+- [x] Bloody Flail
 - [x] Blue Stripe Commando
 - [x] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
 - [x] Dun Banner
-- [ ] Field Medic _(easy card)_
+- [x] Field Medic
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
 - [ ] Kaedweni Revenant
