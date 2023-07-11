@@ -1499,3 +1499,35 @@ void demoTreason(Field &ally, Field &enemy)
 
     startDemo(ally, enemy, true, true);
 }
+
+void demoNennekeAndMages(Field &ally, Field &enemy)
+{
+    auto *n = new Nenneke();
+    auto *m1 = new ReinforcedBallista();
+    auto *m2 = new ReinforcedBallista();
+    auto *m3 = new ReinforcedBallista();
+    auto *m4 = new ReinforcedBallista();
+    auto *m5 = new ReinforcedBallista();
+    auto *ch1 = new MargaritaOfAretuza();
+    auto *ch2 = new SabrinaGlevissig();
+    auto *ch3 = new SabrinasSpecter();
+    auto *th = new TuirseachHunter();
+    auto *c = new Bear();
+
+    ally.cardsAdded = {n, m1, m2, m3, m4, m5, ch1, ch2, ch3, th, c};
+    ally.rowMeele = {m1};
+    ally.hand = {n, ch1, ch2, ch3, th};
+    ally.discard = {m2, m3, m4, m5, c};
+
+    auto *m6 = new ReinforcedBallista();
+    auto *m7 = new ReinforcedBallista();
+    auto *m8 = new ReinforcedBallista();
+
+    enemy.cardsAdded = {m6, m7, m8};
+    enemy.rowMeele = {m6, m7};
+    enemy.discard = {m8};
+
+    boost(m7, 5, ally, enemy, m7);
+
+    startDemo(ally, enemy, true, true);
+}

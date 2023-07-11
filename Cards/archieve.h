@@ -2976,4 +2976,104 @@ struct StandardBearer : CardCollectible<StandardBearer>
 };
 
 
+struct MargaritaOfAretuza : CardCollectible<MargaritaOfAretuza>
+{
+    MargaritaOfAretuza();
+};
+
+
+struct Nenneke : CardCollectible<Nenneke>
+{
+    Nenneke();
+};
+
+
+struct SabrinasSpecter : CardCollectible<SabrinasSpecter>
+{
+    SabrinasSpecter();
+};
+
+
+struct SabrinaGlevissig : CardCollectible<SabrinaGlevissig>
+{
+    SabrinaGlevissig();
+};
+
+
+struct Thaler : CardCollectible<Thaler>
+{
+    Thaler();
+};
+
+
+struct AedirnianMauler : CardCollectible<AedirnianMauler>
+{
+    AedirnianMauler();
+};
+
+
+struct AretuzaAdept : CardCollectible<AretuzaAdept>
+{
+    AretuzaAdept();
+};
+
+
+struct VandergriftsBlade : CardCollectible<VandergriftsBlade>
+{
+    VandergriftsBlade();
+private:
+    struct Destroy : CardCollectible<Destroy> {};
+    struct Damage : CardCollectible<Damage> {};
+    Card *_choosen = nullptr;
+};
+
+
+struct ReinforcedTrebuchet : CardCollectible<ReinforcedTrebuchet>
+{
+    ReinforcedTrebuchet();
+};
+
+
+struct Ballista : CardCollectible<Ballista>
+{
+    Ballista();
+};
+
+
+struct BloodyFlail : CardCollectible<BloodyFlail>
+{
+    struct Specter : CardCollectible<Specter>
+    {
+        Specter();
+    };
+    BloodyFlail();
+};
+
+
+struct BatteringRam : CardCollectible<BatteringRam>
+{
+    BatteringRam();
+private:
+    bool _isFirstChoise = true;
+};
+
+
+struct Trebuchet : CardCollectible<Trebuchet>
+{
+    Trebuchet();
+};
+
+
+struct BanArdTutor : CardCollectible<BanArdTutor>
+{
+    BanArdTutor();
+};
+
+
+struct FieldMedic : CardCollectible<FieldMedic>
+{
+    FieldMedic();
+};
+
+
 #endif // CARDS_H

@@ -826,26 +826,14 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyBoard)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
 
-        if (group == AllyHand)
-            return ally.hand;
-
-        if (group == AllyDiscard)
-            return ally.discard;
-
-        if (group == AllyDeck)
-            return ally.deck;
-
-        if (group == AllyDeckStarting)
-            return ally.deckStarting;
-
-        if (group == AllyDeckShuffled) {
-            std::vector<Card *> deck = ally.deck;
-            shuffle(deck, ally.rng);
-            return deck;
-        }
-
         if (group == AllyBoardHandDeck)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck});
+
+        if (group == EnemyBoardAndHandRevealed)
+            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({::isRevealed}, enemy.hand)});
+
+        if (group == AllyBoardAndHandRevealed)
+            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({::isRevealed}, ally.hand)});
 
         if (group == AllyAnywhere)
             return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, ally.hand, ally.deck, ally.discard});
@@ -853,20 +841,17 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
         if (group == EnemyAnywhere)
             return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, enemy.hand, enemy.deck, enemy.discard});
 
+        if (group == AllyAppeared)
+            return ally.cardsAppeared;
+
+        if (group == BothAppeared)
+            return ally.cardsAppearedBoth;
+
+        if (group == AllyHand)
+            return ally.hand;
+
         if (group == EnemyHand)
             return enemy.hand;
-
-        if (group == EnemyDeck)
-            return enemy.deck;
-
-        if (group == EnemyDeckStarting)
-            return enemy.deckStarting;
-
-        // BUG: enemy hand is visible during REVEAL choice
-        if (group == EnemyDiscard)
-            return enemy.discard;
-        if (group == BothDiscard)
-            return _united(Rows{ally.discard, enemy.discard});
 
         // FIXME: enemy hand is visible during REVEAL choice
         // because its a choice
@@ -878,17 +863,36 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
             return _united(Rows{allyHand, enemyHand});
         }
 
-        if (group == EnemyBoardAndHandRevealed)
-            return _united(Rows{enemy.rowMeele, enemy.rowRange, enemy.rowSeige, _filtered({::isRevealed}, enemy.hand)});
+        if (group == AllyDiscard)
+            return ally.discard;
 
-        if (group == AllyBoardAndHandRevealed)
-            return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, _filtered({::isRevealed}, ally.hand)});
+        // BUG: enemy hand is visible during REVEAL choice
+        if (group == EnemyDiscard)
+            return enemy.discard;
 
-        if (group == AllyAppeared)
-            return ally.cardsAppeared;
+        if (group == BothDiscard)
+            return _united(Rows{ally.discard, enemy.discard});
 
-        if (group == BothAppeared)
-            return ally.cardsAppearedBoth;
+        if (group == AllyDeck)
+            return ally.deck;
+
+        if (group == EnemyDeck)
+            return enemy.deck;
+
+        if (group == AllyDeckShuffled) {
+            std::vector<Card *> deck = ally.deck;
+            shuffle(deck, ally.rng);
+            return deck;
+        }
+
+        if (group == AllyDeckStarting)
+            return ally.deckStarting;
+
+        if (group == EnemyDeckStarting)
+            return enemy.deckStarting;
+
+        if (group == BothDeckStarting)
+            return _united(Rows{ally.deckStarting, enemy.deckStarting});
 
         if (group == AnyCard)
             return allCards(PublicBeta_0_9_24_3_432);
@@ -2310,7 +2314,7 @@ void pass(Field &ally, Field &enemy)
 int nCrewed(Card *card, Field &ally)
 {
     Field _;
-    int n = 1;
+    int n = 0;
     if (Card *left = cardNextTo(card, ally, _, -1))
         if (isCrew(left))
             ++n;

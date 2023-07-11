@@ -442,6 +442,21 @@ std::vector<Card *> allCards(const Patch)
         new ViperWitcher(),
         new RotTosser(),
         new StandardBearer(),
+        new MargaritaOfAretuza(),
+        new Nenneke(),
+        new SabrinasSpecter(),
+        new SabrinaGlevissig(),
+        new Thaler(),
+        new AedirnianMauler(),
+        new AretuzaAdept(),
+        new VandergriftsBlade(),
+        new ReinforcedTrebuchet(),
+        new Ballista(),
+        new BloodyFlail(),
+        new BatteringRam(),
+        new Trebuchet(),
+        new BanArdTutor(),
+        new FieldMedic(),
     };
 }
 
@@ -8558,7 +8573,7 @@ ReinforcedBallista::ReinforcedBallista()
     tags = { Machine };
 
     _onDeploy = [=](Field &ally, Field &enemy) {
-        int n = nCrewed(this, ally);
+        int n = 1 + nCrewed(this, ally);
         while (n--)
             startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
     };
@@ -8957,9 +8972,16 @@ Garrison::Garrison()
     tags = { Tactics };
 
     _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        // TODO: implenemt an ability
+        // TODO: imitating of an ability
         // NOTE: the same ability in TrissTelekinesis
-        //startChoiceCreateOptions(ally, this);
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, EnemyDeckStarting), 3, ally.rng));
+        // NOTE: if smt increases this 3, it will be a magic number
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        boost(copy, 2, ally, enemy, this);
+        spawnNewCard(copy, ally, enemy, this);
     };
 }
 
@@ -9588,7 +9610,13 @@ TrissTelekinesis::TrissTelekinesis()
     _onDeploy = [=](Field &ally, Field &enemy) {
         // TODO: implenemt an ability
         // NOTE: the same ability in Garrison
-        //startChoiceCreateOptions(ally, this);
+        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze}, BothDeckStarting), 3, ally.rng));
+        // NOTE: if smt increases this 3, it will be a magic number
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        spawnNewCard(copy, ally, enemy, this);
     };
 }
 
@@ -12952,5 +12980,420 @@ StandardBearer::StandardBearer()
             return;
         if (hasTag(other, Soldier))
             boost(this, 2, ally, enemy, this);
+    };
+}
+
+MargaritaOfAretuza::MargaritaOfAretuza()
+{
+    id = "122211";
+    name = "Margarita of Aretuza";
+    text = "Reset a unit and toggle its Lock status.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Mage };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/MGLA_Q210_00584250.mp3",
+        "https://gwent.one/audio/card/ob/en/MGLA_Q310_00562485.mp3",
+        "https://gwent.one/audio/card/ob/en/MGLA_MARGARITTA_01012961.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, this);
+        toggleLock(target, ally, enemy, this);
+    };
+}
+
+Nenneke::Nenneke()
+{
+    id = "122212";
+    name = "Nenneke";
+    text = "Return 3 Bronze or Silver units from the graveyard to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Support };
+    power = powerBase = 10;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.43.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.42.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.44.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard, 3);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, this);
+    };
+}
+
+SabrinasSpecter::SabrinasSpecter()
+{
+    id = "201650";
+    name = "Sabrina's Specter";
+    text = "Resurrect a Bronze Cursed unit.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Mage, Cursed };
+    isDoomed = true;
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Cursed)}, AllyDiscard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, this);
+    };
+}
+
+SabrinaGlevissig::SabrinaGlevissig()
+{
+    id = "122206";
+    name = "Sabrina Glevissig";
+    text = "Spying. Deathwish: Set the power of all units on the row to the power of the Lowest unit on the row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Kaedwen, Mage };
+    isLoyal = false;
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    };
+
+    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        const std::vector<Card *> cards = ally.row(rowAndPos.row());
+        const int power = lowest(cards, ally.rng)->power;
+        for (Card *card : cards)
+            setPower(card, power, ally, enemy, this);
+    };
+}
+
+Thaler::Thaler()
+{
+    id = "122203";
+    name = "Thaler";
+    text = "Spying. Single-Use: Draw 2 cards, keep one and return the other to your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria };
+    isLoyal = false;
+    timer = 1;
+    power = powerBase = 13;
+    faction = NothernRealms;
+    rarity = Silver;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067599.mp3",
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067657.mp3",
+        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067677.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        if (tick(this, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  this);
+    };
+}
+
+AedirnianMauler::AedirnianMauler()
+{
+    id = "200540";
+    name = "Aedirnian Mauler";
+    text = "Deal 4 damage to an enemy.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Aedirn, Soldier };
+    power = powerBase = 7;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.82.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.81.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.80.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.79.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.78.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 4, ally, enemy, this);
+    };
+}
+
+AretuzaAdept::AretuzaAdept()
+{
+    id = "200033";
+    name = "Aretuza Adept";
+    text = "Play a random Bronze Hazard from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Temeria, Mage };
+    power = powerBase = 3;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.376.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.377.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.378.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        playExistedCard(random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng), ally, enemy, this);
+    };
+}
+
+VandergriftsBlade::VandergriftsBlade()
+{
+    id = "201648";
+    name = "Vandergrift's Blade";
+    text = "Choose One: Destroy a Bronze or Silver Cursed enemy; or Deal 9 damage and, if the unit was destroyed, Banish it.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Item };
+    isSpecial = true;
+    faction = NothernRealms;
+    rarity = Silver;
+
+    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+        auto *option1 = new VandergriftsBlade::Destroy;
+        copyCardText(this, option1);
+        option1->text = "Destroy a Bronze or Silver Cursed enemy.";
+
+        auto *option2 = new VandergriftsBlade::Damage;
+        copyCardText(this, option2);
+        option2->text = "Deal 9 damage and, if the unit was destroyed, Banish it.";
+
+        _choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+    };
+
+    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        _choosen = target;
+        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
+            return;
+        }
+        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            return;
+        }
+        assert(false);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        assert(_choosen);
+
+        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
+            putToDiscard(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
+            if (damage(target, 9, ally, enemy, this))
+                banish(target, ally, enemy, this);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+}
+
+ReinforcedTrebuchet::ReinforcedTrebuchet()
+{
+    id = "122315";
+    name = "Reinforced Trebuchet";
+    text = "Deal 1 damage to a random enemy on turn end.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 8;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onTurnEnd = [=](Field &ally, Field &enemy) {
+        if (!isOnBoard(this, ally))
+            return;
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+    };
+}
+
+Ballista::Ballista()
+{
+    id = "122301";
+    name = "Ballista";
+    text = "Deal 1 damage to an enemy and 4 other random enemies with the same power. Crewed: Repeat its ability.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        int n = 1 + nCrewed(this, ally);
+        while (n--)
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> cards = randoms(cardsFiltered(ally, enemy, {hasPowerX(target->power), otherThan(target)}, EnemyBoard), 4, ally.rng);
+        cards.push_back(target);
+        for (Card *card : cards)
+            damage(card, 1, ally, enemy, this);
+    };
+}
+
+BloodyFlail::BloodyFlail()
+{
+    id = "201633";
+    name = "Bloody Flail";
+    text = "Deal 5 damage and Spawn a Specter on a random row.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Item };
+    isSpecial = true;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, this);
+        spawnNewUnitToPos(new Specter(), rowAndPosRandom(ally), ally, enemy, this);
+    };
+
+}
+
+BloodyFlail::Specter::Specter()
+{
+    // TODO: find a real picture
+    id = "201633";
+    name = "Specter";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Cursed };
+    isDoomed = true;
+    power = powerBase = 5;
+    faction = NothernRealms;
+    rarity = Bronze;
+}
+
+BatteringRam::BatteringRam()
+{
+    id = "200049";
+    name = "Battering Ram";
+    text = "Deal 3 damage to an enemy. If it's destroyed, deal 3 damage to another enemy. Crewed: Increase initial damage by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 6;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        _isFirstChoise = true;
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int x = 3 + _isFirstChoise * nCrewed(this, ally);
+        if (damage(target, x, ally, enemy, this) && _isFirstChoise) {
+            _isFirstChoise = false;
+            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        }
+    };
+}
+
+Trebuchet::Trebuchet()
+{
+    id = "122303";
+    name = "Trebuchet";
+    text = "Deal 1 damage to 3 adjacent enemies. Crewed: Increase damage by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Machine };
+    power = powerBase = 7;
+    faction = NothernRealms;
+    rarity = Bronze;
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        int x = 1 + nCrewed(this, ally);
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
+        for (Card *card : std::vector<Card *>{left, target, right})
+            if (card != nullptr)
+                damage(card, x, ally, enemy, this);
+    };
+}
+
+BanArdTutor::BanArdTutor()
+{
+    id = "200048";
+    name = "Ban Ard Tutor";
+    text = "Swap a card in your hand with a Bronze special card from your deck.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Kaedwen, Mage };
+    power = powerBase = 9;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.13.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.14.mp3",
+        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.15.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    };
+
+    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, this);
+        putToHand(first(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck)), ally, enemy, this);
+    };
+}
+
+FieldMedic::FieldMedic()
+{
+    id = "122312";
+    name = "Field Medic";
+    text = "Boost Soldier allies by 1.";
+    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
+    tags = { Support };
+    power = powerBase = 8;
+    faction = NothernRealms;
+    rarity = Bronze;
+    sounds = {
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00566917.mp3",
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
+        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
+    };
+
+    _onDeploy = [=](Field &ally, Field &enemy) {
+        for (Card* card : cardsFiltered(ally, enemy, {hasTag(Soldier)}, AllyBoard))
+            boost(card, 1, ally, enemy, this);
     };
 }

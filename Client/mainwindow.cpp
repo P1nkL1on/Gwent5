@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard Mages and Hefty Heldge", demoNilfgaardMages},
         {"Northen Deck Buff", demoNothern},
         {"Treason VS Ambush", demoTreason},
+        {"Nenneke and Northern Mages", demoNennekeAndMages},
     };
 
     /// make a choosing menu for it
