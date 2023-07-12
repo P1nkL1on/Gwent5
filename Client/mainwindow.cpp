@@ -45,48 +45,48 @@ MainWindow::MainWindow(QWidget *parent)
         {"Nilfgaard's Reveal Deck VS Nothern Realms' Armor Deck", demoNilfgaardReveal},
         {"Skellige's Discard Deck VS Nothern Realms' Armor Deck", demoVsSkelligeDiscardVsNothernRealmsArmor},
         {"Transformation", demoTransforms},
-        //{"Instant Log Effects", demoInstantEffects},
+        {"Instant Log Effects", demoInstantEffects},
         {"Spawning and Summoning", demoSpawnAndSummon},
         {"Single-Use (Frightener)", demoSingleUseFrightener},
-        //{"Ambushes & Invisible Timers", demoAmbushes},
-        //{"Charming Happy Case", demoCharm},
-        //{"Rock Barrage", demoRockBarrage},
-        //{"Row Movement", demoMoving},
-        //{"Runestones Generation", demoRunestones},
-        //{"Reveal Leo Bonhart", demoLeoBonhart},
-        //{"Locking The Deathwish", demoLockingDeathwish},
-        //{"Monsters Leaders", demoMonsterLeaders},
-        //{"Monsters Sisters", demoMonsterSisters},
-        //{"Monsters Summoning", demoSummoning},
-        //{"Last Played Card", demoLastPlayed},
-        //{"Blue Stripes", demoBlueStripes},
-        //{"New Big Ogrs vs some Skellige", demoBigOgrs},
+        {"Ambushes & Invisible Timers", demoAmbushes},
+        {"Charming Happy Case", demoCharm},
+        {"Rock Barrage", demoRockBarrage},
+        {"Row Movement", demoMoving},
+        {"Runestones Generation", demoRunestones},
+        {"Reveal Leo Bonhart", demoLeoBonhart},
+        {"Locking The Deathwish", demoLockingDeathwish},
+        {"Monsters Leaders", demoMonsterLeaders},
+        {"Monsters Sisters", demoMonsterSisters},
+        {"Monsters Summoning", demoSummoning},
+        {"Last Played Card", demoLastPlayed},
+        {"Blue Stripes", demoBlueStripes},
+        {"New Big Ogrs vs some Skellige", demoBigOgrs},
         {"Wild Hunt", demoWildHunt},
         {"Archespore demo", demoArchesporeJumping},
-        //{"Party against Devil Lord", demoImlerithSabbath},
-        //{"Consume demo", demoConsume},
-        //{"Temporary demo", demoTemporaryForTests},
-        //{"Nekker Warrior", demoNekkerWarrior},
+        {"Party against Devil Lord", demoImlerithSabbath},
+        {"Consume demo", demoConsume},
+        {"Temporary demo", demoTemporaryForTests},
+        {"Nekker Warrior", demoNekkerWarrior},
         {"Nekkers", demoNekkers},
-        //{"Arachas Drones", demoArachasDrones},
-        //{"Slyzards", demoSlyzards},
-        //{"Avalach", demoAvalach},
-        //{"Bears and Beer", demoBeer},
+        {"Arachas Drones", demoArachasDrones},
+        {"Slyzards", demoSlyzards},
+        {"Avalach", demoAvalach},
+        {"Bears and Beer", demoBeer},
         {"Crew and Crewed", demoCrewAndCrewed},
-        //{"She-Troll of Vergen", demoSheTrollOfVergen},
-        //{"Sigismund Dijkstra", demoSigismundDijkstra},
-        //{"Rows Selection", demoRowsSelection},
-        //{"Wolfsbane", demoWolfsbane},
+        {"She-Troll of Vergen", demoSheTrollOfVergen},
+        {"Sigismund Dijkstra", demoSigismundDijkstra},
+        {"Rows Selection", demoRowsSelection},
+        {"Wolfsbane", demoWolfsbane},
         {"Deck Summon", demoDeckSummon},
         {"Turn and Round Finishing", demoTurnFinishingAndRoundFinishing},
         {"Every Choice Types", demoAllTypedChoices},
-        //{"Neutral Specials", demoNeutralSpecial},
-        //{"Gold Witchers", demoGoldWitchers},
-        //{"Regis", demoNeutralDudes},
+        {"Neutral Specials", demoNeutralSpecial},
+        {"Gold Witchers", demoGoldWitchers},
+        {"Regis", demoNeutralDudes},
         {"PowerChanged demo", demoPowerChanged},
-        //{"Saskia", demoAedirnDragon},
+        {"Saskia", demoAedirnDragon},
         {"Leaders test", demoLeaders},
-        //{"Dwarfs pack of dudes", demoDwarws},
+        {"Dwarfs pack of dudes", demoDwarws},
         {"Pack of smoothy elves", demoSwapElves},
         {"Option 1 bug case", demoWithOpion1},
         {"Window 3/3 of 5", demoWithWindow5},
@@ -573,9 +573,10 @@ void MainWindow::paintInRect(const QRect rect, const FieldView &view)
             QString("Doomed? %1").arg(cardView.isDoomed ? "True" : "False"),
             QString("Revealed? %1").arg(cardView.isRevealed? "True" : "False"),
         };
-        for (const auto &it : keywordDescriptions())
-            if (cardView.text.find(it.first) != std::string::npos)
-                infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
+        // FIXME: keywords in english
+//        for (const auto &it : keywordDescriptions())
+//            if (cardView.text.find(it.first) != std::string::npos)
+//                infos.append(QString("%1: %2").arg(QString::fromStdString(it.first), QString::fromStdString(it.second)));
 
         for (int i = 0; i < infos.size(); ++i)
             paintTextInPoint(infos[i], topLeft + QPointF(0, 2 * posHeight + i * metrics.height()), Qt::white, Qt::black);
@@ -800,7 +801,8 @@ void MainWindow::openLoadDialog()
     }
 
     // TODO: not reading leader correctly...
-    const std::vector<Card *> cards = allCards(PublicBeta_0_9_24_3_432);
+    Cards patch;
+    const std::vector<Card *> cards = patch.createAll();
     const auto addNewCard = [cards](const std::string &name) -> const Card *
     {
         for (const Card *card : cards)

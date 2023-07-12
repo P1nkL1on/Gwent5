@@ -2800,6 +2800,293 @@ void allCardsInfos(const Patch)
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.105.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.107.mp3",
                             "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.106.mp3",
-                        })}};
+                        })},
+        {"122201", Info(
+                        "Dandelion",
+                        "Boost 3 units in your deck by 2.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
+                            "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
+                            "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+                        })},
+        {"201621", Info(
+                        "Kiyan",
+                        "Choose One: Create a Bronze or Silver Alchemy card; or Play a Bronze or Silver Item from your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.14.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.15.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.16.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.17.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.18.mp3",
+                        })},
+
+        {"122104", Info(
+                        "Philippa Eilhart",
+                        "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/PHIL_Q502_00555967.mp3",
+                            "https://gwent.one/audio/card/ob/en/PHIL_Q310_00533376.mp3",
+                            "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041426.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_FLPA_200102_0065.mp3",
+                            "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041424.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_FLPA_300358_0012.mp3",
+                        })},
+
+        {"201777", Info(
+                        "Roche: Merciless",
+                        "Destroy a face-down Ambush enemy.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
+                            "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
+                        })},
+        {"122106", Info(
+                        "Shani",
+                        "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SHNI_SHANI_01130725.mp3",
+                            "https://gwent.one/audio/card/ob/en/SHNI_Q601_01101942.mp3",
+                            "https://gwent.one/audio/card/ob/en/SHNI_Q602_01119358.mp3",
+                        })},
+        {"201620", Info(
+                        "Vandergrift",
+                        "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.11.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.10.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.9.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.8.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.7.mp3",
+                        })},
+        {"122401", Info(
+                        "Botchling",
+                        "Summon a Lubberkin to this row.")},
+        {"122402", Info(
+                        "Lubberkin",
+                        "Summon a Botchling to this row.")},
+        {"201699", Info(
+                        "Nilfgaardian Gate",
+                        "Play a Bronze or Silver Officer from your deck and boost it by 1.")},
+        {"162204", Info(
+                        "Peter Saar Gwynleve",
+                        "Reset an ally and Strengthen it by 3; or Reset an enemy and Weaken it by 3.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.426.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.427.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.428.mp3",
+                        })},
+        {"122403", Info(
+                        "Vicovaro Novice",
+                        "Look at 2 random Bronze Alchemy cards from your deck, then play 1.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.820.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.821.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.819.mp3",
+                        })},
+        {"201662", Info(
+                        "Cadaverine",
+                        "Choose One: Deal 2 damage to an enemy and all units that share its categories; or Destroy a Bronze or Silver Neutral unit.")},
+        {"162211", Info(
+                        "Joachim de Wett",
+                        "Spying. Play the top non-Spying Bronze or Silver unit from your deck and boost it by 10.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.19.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.18.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.17.mp3",
+                        })},
+        {"163201", Info(
+                        "Treason",
+                        "Force 2 adjacent enemies to Duel each other.")},
+        {"162207", Info(
+                        "Vanhemar",
+                        "Spawn Biting Frost, Clear Skies or Shrike.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/VO_NM01_200057_0187.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_NM01_200996_0005.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_NM01_200049_0007.mp3",
+                        })},
+        {"201664", Info(
+                        "Vrygheff",
+                        "Play a Bronze Machine from your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.256.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.255.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.253.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.254.mp3",
+                        })},
+        {"162311", Info(
+                        "Alba Pikeman",
+                        "Summon all copies of this unit to this row.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514121.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514091.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514113.mp3",
+                        })},
+        {"162313", Info(
+                        "Combat Engineer",
+                        "Boost an ally by 5. Crew.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/NILF2_Q502_00556520.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513907.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF2_VSET_01072393.mp3",
+                        })},
+        {"200044", Info(
+                        "Magne Division",
+                        "Play a random Bronze Item from your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.35.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.37.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.36.mp3",
+                        })},
+        {"162310", Info(
+                        "Nauzicaa Brigade",
+                        "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513916.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513914.mp3",
+                            "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513922.mp3",
+                        })},
+        {"201612", Info(
+                        "Slave Driver",
+                        "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.113.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.114.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.115.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.116.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.117.mp3",
+                        })},
+        {"201609", Info(
+                        "Slave Hunter",
+                        "Charm a Bronze enemy with 3 power or less.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.105.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.104.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.103.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.106.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.107.mp3",
+                        })},
+        {"200124", Info(
+                        "Viper Witcher",
+                        "Deal 1 damage for each Alchemy card in your starting deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.339.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.338.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.337.mp3",
+                        })},
+        {"162302", Info(
+                        "Rot Tosser",
+                        "Spawn a Cow Carcass on an enemy row.")},
+        {"162402", Info(
+                        "Cow Carcass",
+                        "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.")},
+        {"200294", Info(
+                        "Standard Bearer",
+                        "Boost an ally by 2 whenever you play a Soldier.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.338.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.339.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.340.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.341.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.342.mp3",
+                        })},
+        {"122211", Info(
+                        "Margarita of Aretuza",
+                        "Reset a unit and toggle its Lock status.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/MGLA_Q210_00584250.mp3",
+                            "https://gwent.one/audio/card/ob/en/MGLA_Q310_00562485.mp3",
+                            "https://gwent.one/audio/card/ob/en/MGLA_MARGARITTA_01012961.mp3",
+                        })},
+        {"122212", Info(
+                        "Nenneke",
+                        "Return 3 Bronze or Silver units from the graveyard to your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.43.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.42.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries.44.mp3",
+                        })},
+        {"201650", Info(
+                        "Sabrina's Specter",
+                        "Resurrect a Bronze Cursed unit.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+                        })},
+        {"122206", Info(
+                        "Sabrina Glevissig",
+                        "Spying. Deathwish: Set the power of all units on the row to the power of the Lowest unit on the row.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
+                            "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+                        })},
+        {"122203", Info(
+                        "Thaler",
+                        "Spying. Single-Use: Draw 2 cards, keep one and return the other to your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067599.mp3",
+                            "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067657.mp3",
+                            "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067677.mp3",
+                        })},
+        {"200540", Info(
+                        "Aedirnian Mauler",
+                        "Deal 4 damage to an enemy.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.82.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.81.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.80.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.79.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.78.mp3",
+                        })},
+        {"200033", Info(
+                        "Aretuza Adept",
+                        "Play a random Bronze Hazard from your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.376.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.377.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.378.mp3",
+                        })},
+        {"201648", Info(
+                        "Vandergrift's Blade",
+                        "Choose One: Destroy a Bronze or Silver Cursed enemy; or Deal 9 damage and, if the unit was destroyed,,Banish it.")},
+        {"122315", Info(
+                        "Reinforced Trebuchet",
+                        "Deal 1 damage to a random enemy on turn end.")},
+        {"122301", Info(
+                        "Ballista",
+                        "Deal 1 damage to an enemy and 4 other random enemies with the same power. Crewed: Repeat its,ability.")},
+        {"201633", Info(
+                        "Bloody Flail",
+                        "Deal 5 damage and Spawn a Specter on a random row.")},
+        {"201633", Info("Specter")},
+        {"200049", Info(
+                        "Battering Ram",
+                        "Deal 3 damage to an enemy. If it's destroyed, deal 3 damage to another enemy. Crewed: Increase,initial damage by 1.")},
+        {"122303", Info(
+                        "Trebuchet",
+                        "Deal 1 damage to 3 adjacent enemies. Crewed: Increase damage by 1.")},
+        {"200048", Info(
+                        "Ban Ard Tutor",
+                        "Swap a card in your hand with a Bronze special card from your deck.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.13.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.14.mp3",
+                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.15.mp3",
+                        })},
+        {"122312", Info(
+                        "Field Medic",
+                        "Boost Soldier allies by 1.",
+                        Urls{
+                            "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00566917.mp3",
+                            "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
+                            "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
+                        })},
+
+    };
     // return infos;
 }
