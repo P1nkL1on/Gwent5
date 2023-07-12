@@ -445,6 +445,21 @@ std::vector<Card *> Cards::createAll()
         createStandardBearer(),
         createCursedKnight(),
         createWerewolf(),
+        createMargaritaOfAretuza(),
+        createNenneke(),
+        createSabrinasSpecter(),
+        createSabrinaGlevissig(),
+        createThaler(),
+        createAedirnianMauler(),
+        createAretuzaAdept(),
+        createVandergriftsBlade(),
+        createReinforcedTrebuchet(),
+        createBallista(),
+        createBloodyFlail(),
+        createBatteringRam(),
+        createTrebuchet(),
+        createBanArdTutor(),
+        createFieldMedic(),
     };
     return cards;
 }
@@ -8015,7 +8030,7 @@ Card *Cards::createReinforcedBallista()
     res->tags = { Machine };
 
     res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-        int n = nCrewed(self, ally);
+        int n = 1 + nCrewed(self, ally);
         while (n--)
             startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
@@ -8416,8 +8431,13 @@ Card *Cards::createGarrison()
     res->tags = { Tactics };
 
     res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
-        // FIXME: implenemt an ability
-        //startChoiceCreateOptions(ally, self);
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isUnit}, EnemyDeckStarting);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        boost(copy, 2, ally, enemy, self);
+        spawnNewCard(copy, ally, enemy, self);
     };
     return res;
 }
@@ -9025,7 +9045,12 @@ Card *Cards::createTrissTelekinesis()
     res->rarity = Gold;
 
     res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-        // FIXME: implenemt an ability
+        startChoiceCreateOptions(ally, enemy, self, {isBronze, ::isSpecial}, BothDeckStarting);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *copy = target->defaultCopy();
+        spawnNewCard(copy, ally, enemy, self);
     };
     return res;
 }
@@ -12115,6 +12140,399 @@ Card *Cards::createCursedKnight()
     res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         transform(target, self->defaultCopy(), ally, enemy, self);
         gainArmor(target, 2, ally, enemy, target);
+    };
+    return res;
+}
+
+Card *Cards::createMargaritaOfAretuza()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMargaritaOfAretuza, this);
+
+    res->id = "122211";
+    res->tags = { Temeria, Mage };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, self);
+        toggleLock(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createNenneke()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNenneke, this);
+
+    res->id = "122212";
+    res->tags = { Temeria, Support };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyDiscard, 3);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, self);
+    };
+    return res;
+}
+
+Card *Cards::createSabrinasSpecter()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSabrinasSpecter, this);
+
+    res->id = "201650";
+    res->tags = { Mage, Cursed };
+    res->isDoomed = true;
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Cursed)}, AllyDiscard);
+    };
+
+    res->_onTargetChoosen = [=](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSabrinaGlevissig()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSabrinaGlevissig, this);
+
+    res->id = "122206";
+    res->tags = { Kaedwen, Mage };
+    res->isLoyal = false;
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        const std::vector<Card *> cards = ally.row(rowAndPos.row());
+        const int power = lowest(cards, ally.rng)->power;
+        for (Card *card : cards)
+            setPower(card, power, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createThaler()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createThaler, this);
+
+    res->id = "122203";
+    res->tags = { Temeria };
+    res->isLoyal = false;
+    res->timer = 1;
+    res->power = res->powerBase = 13;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (tick(self, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
+    };
+    return res;
+}
+
+Card *Cards::createAedirnianMauler()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAedirnianMauler, this);
+
+    res->id = "200540";
+    res->tags = { Aedirn, Soldier };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createAretuzaAdept()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAretuzaAdept, this);
+
+    res->id = "200033";
+    res->tags = { Temeria, Mage };
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createVandergriftsBlade()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVandergriftsBlade, this);
+
+    res->id = "201648";
+    res->tags = { Item };
+    res->isSpecial = true;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { Destroy, Damage };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Destroy);
+        option1->text = "Destroy a Bronze or Silver Cursed enemy.";
+
+        auto *option2 = createOption(self, Damage);
+        option2->text = "Deal 9 damage and, if the unit was destroyed, Banish it.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        _choosen = target;
+        if (isOption(_choosen, Destroy)) {
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
+            return;
+        }
+        if (isOption(_choosen, Damage)) {
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+            return;
+        }
+        assert(false);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        assert(_choosen);
+
+        if (isOption(_choosen, Destroy)) {
+            putToDiscard(target, ally, enemy, self);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        if (isOption(_choosen, Damage)) {
+            if (damage(target, 9, ally, enemy, self))
+                banish(target, ally, enemy, self);
+
+            delete _choosen;
+            _choosen = nullptr;
+            return;
+        }
+
+        assert(false);
+    };
+    return res;
+}
+
+Card *Cards::createReinforcedTrebuchet()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReinforcedTrebuchet, this);
+
+    res->id = "122315";
+    res->tags = { Machine };
+    res->power = res->powerBase = 8;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
+            return;
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBallista()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBallista, this);
+
+    res->id = "122301";
+    res->tags = { Machine };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        int n = 1 + nCrewed(self, ally);
+        while (n--)
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> cards = randoms(cardsFiltered(ally, enemy, {hasPowerX(target->power), otherThan(target)}, EnemyBoard), 4, ally.rng);
+        cards.push_back(target);
+        for (Card *card : cards)
+            damage(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBloodyFlail()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBloodyFlail, this);
+
+    res->id = "201633";
+    res->tags = { Item };
+    res->isSpecial = true;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
+        spawnNewUnitToPos(createSpecter(), rowAndPosRandom(ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSpecter()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpecter, this);
+
+    // FIXME: missing picture
+    res->id = "201633";
+    res->tags = { Cursed };
+    res->isDoomed = true;
+    res->power = res->powerBase = 5;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    return res;
+}
+
+Card *Cards::createBatteringRam()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBatteringRam, this);
+
+    res->id = "200049";
+    res->tags = { Machine };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { bool _isFirstChoice = false; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_isFirstChoice = true;
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        bool &_isFirstChoice = self->stateAs<State>()->_isFirstChoice;
+        int x = 3 + _isFirstChoice * nCrewed(self, ally);
+        if (damage(target, x, ally, enemy, self) && _isFirstChoice) {
+            _isFirstChoice = false;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+        }
+    };
+
+    return res;
+}
+
+Card *Cards::createTrebuchet()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrebuchet, this);
+
+    res->id = "122303";
+    res->tags = { Machine };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int x = 1 + nCrewed(self, ally);
+        Card *left = cardNextTo(target, ally, enemy, -1);
+        Card *right = cardNextTo(target, ally, enemy, 1);
+        for (Card *card : std::vector<Card *>{left, target, right})
+            if (card != nullptr)
+                damage(card, x, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createBanArdTutor()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBanArdTutor, this);
+
+    res->id = "200048";
+    res->tags = { Kaedwen, Mage };
+    res->power = res->powerBase = 9;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, self);
+        putToHand(first(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck)), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createFieldMedic()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFieldMedic, this);
+
+    res->id = "122312";
+    res->tags = { Support };
+    res->power = res->powerBase = 8;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card* card : cardsFiltered(ally, enemy, {hasTag(Soldier)}, AllyBoard))
+            boost(card, 1, ally, enemy, self);
     };
     return res;
 }

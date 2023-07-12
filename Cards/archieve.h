@@ -490,6 +490,21 @@ public:
     virtual Card *createCowCarcass();
     virtual Card *createStandardBearer();
     virtual Card *createCursedKnight();
+    virtual Card *createMargaritaOfAretuza();
+    virtual Card *createNenneke();
+    virtual Card *createSabrinasSpecter();
+    virtual Card *createSabrinaGlevissig();
+    virtual Card *createThaler();
+    virtual Card *createAedirnianMauler();
+    virtual Card *createAretuzaAdept();
+    virtual Card *createVandergriftsBlade();
+    virtual Card *createReinforcedTrebuchet();
+    virtual Card *createBallista();
+    virtual Card *createBloodyFlail();
+    virtual Card *createSpecter();
+    virtual Card *createBatteringRam();
+    virtual Card *createTrebuchet();
+    virtual Card *createBanArdTutor();
+    virtual Card *createFieldMedic();
 };
-
 #endif // CARDS_H

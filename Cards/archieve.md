@@ -24,7 +24,7 @@
 - [x] Uma's Curse
 - [x] Triss Merigold
 - [x] Triss: Butterflies
-- [x] Triss: Telekinesis __{NO ABILITY}__
+- [x] Triss: Telekinesis __{NOT EXACT ABILITY}__
 - [x] Dandelion: Poet
 - [x] Dandelion: Vainglory
 - [x] Hanmarvyn's Dream
@@ -55,7 +55,7 @@
 - [x] Lacerate
 - [x] Gaunter O'Dimm
 - [x] Dorregaray of Vole
-- [x] Garrison  __{NO ABILITY}__
+- [x] Garrison  __{NOT EXACT ABILITY}__
 - [x] Iris' Companions
 - [x] Johnny
 - [x] Stregobor
@@ -129,42 +129,42 @@
 - [x] Priscilla
 - [x] Roche: Merciless
 - [x] Seltkirk of Gulet
-- [x] Shani _(easy card)_
+- [x] Shani
 - [x] Sigismund Dijkstra
 - [x] Vandergrift
 - [x] Vernon Roche
-- [x] Botchling _(easy card)_
+- [x] Botchling
 - [x] Dethmold
 - [ ] Foltest's Pride
 - [x] Hubert Rejk
-- [x] Lubberkin _(easy card)_
-- [ ] Margarita of Aretuza
-- [ ] Nenneke
+- [x] Lubberkin
+- [x] Margarita of Aretuza
+- [x] Nenneke
 - [x] Odrin
 - [x] Prince Stennis
 - [x] Princess Pavetta
 - [x] Ronvid the Incessant
-- [ ] Sabrina Glevissig
-- [ ] Sabrina's Specter
+- [x] Sabrina Glevissig
+- [x] Sabrina's Specter
 - [x] Sile de Tansarville
-- [ ] Thaler
+- [x] Thaler
 - [x] Trollololo
-- [ ] Vandergrift's Blade
+- [x] Vandergrift's Blade
 - [x] Ves
 - [x] Vincent Meis
 - [x] Zoria Runestone
-- [ ] Aedirnian Mauler _(easy card)_
-- [ ] Aretuza Adept _(easy card)_
-- [ ] Ballista
-- [ ] Ban Ard Tutor
-- [ ] Battering Ram
-- [ ] Bloody Flail _(easy card)_
+- [x] Aedirnian Mauler
+- [x] Aretuza Adept
+- [x] Ballista
+- [x] Ban Ard Tutor
+- [x] Battering Ram
+- [x] Bloody Flail
 - [x] Blue Stripe Commando
 - [x] Blue Stripe Scout
 - [ ] Cursed Knight
 - [ ] Damned Sorceress
 - [x] Dun Banner
-- [ ] Field Medic _(easy card)_
+- [x] Field Medic
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
 - [ ] Kaedweni Revenant
@@ -176,14 +176,14 @@
 - [x] Redanian Knight
 - [x] Redanian Knight-Elect
 - [x] Reinforced Ballista
-- [ ] Reinforced Trebuchet
+- [x] Reinforced Trebuchet
 - [ ] Siege Master
 - [ ] Siege Support
 - [ ] Siege Tower
 - [x] Temerian Drummer
 - [x] Temerian Infantry
 - [ ] Tormented Mage _(easy card)_
-- [ ] Trebuchet
+- [x] Trebuchet
 - [x] Tridam Infantry
 - [ ] Witch Hunter
 
