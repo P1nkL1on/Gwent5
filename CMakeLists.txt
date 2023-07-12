@@ -3,8 +3,9 @@ project(GwentTests)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_CXX_FLAGS "-Wreturn-type -Werror=return-type")
 
-set (SOURCE_FILES
+set(SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/Cards/archieve.cpp
     ${PROJECT_SOURCE_DIR}/Cards/card.cpp
     ${PROJECT_SOURCE_DIR}/Cards/view.cpp

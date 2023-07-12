@@ -1029,7 +1029,7 @@ Card *Cards::createDolBlathannaArcher()
             damage(target, 1, ally, enemy, self);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -1883,7 +1883,8 @@ Card *Cards::createMandrake()
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Buff)) {
             heal(target, ally, enemy, self);
@@ -1903,7 +1904,7 @@ Card *Cards::createMandrake()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -1942,12 +1943,13 @@ Card *Cards::createBoneTalisman()
         if (isOption(target, Buff))
             return startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Resurrect)) {
             playExistedCard(target, ally, enemy, self);
@@ -1966,7 +1968,7 @@ Card *Cards::createBoneTalisman()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -2064,12 +2066,13 @@ Card *Cards::createShupeHunter()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Play)) {
             playExistedCard(target, ally, enemy, self);
@@ -2094,7 +2097,7 @@ Card *Cards::createShupeHunter()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -2164,12 +2167,13 @@ Card *Cards::createShupeMage()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Meteor)) {
             Card *left = cardNextTo(target, ally, enemy, -1);
@@ -2196,7 +2200,7 @@ Card *Cards::createShupeMage()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -2265,12 +2269,13 @@ Card *Cards::createShupeKnight()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Reset)) {
             //target->power = target->powerBase;
@@ -2287,7 +2292,7 @@ Card *Cards::createShupeKnight()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -2356,7 +2361,7 @@ Card *Cards::createFirstLight()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -2439,7 +2444,7 @@ Card *Cards::createMoonlight()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
@@ -3429,12 +3434,13 @@ Card *Cards::createLethoKingslayer()
         if (isOption(target, Play))
             return startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         if (isOption(choosen, Destroy)) {
             putToDiscard(target, ally, enemy, self);
@@ -3453,7 +3459,7 @@ Card *Cards::createLethoKingslayer()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -4280,12 +4286,13 @@ Card *Cards::createHym()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(isOption(choosen, Play));
+        if (!isOption(choosen, Play))
+            throw Error(Error::Assert, self);
 
         playExistedCard(target, ally, enemy, self);
         delete choosen;
@@ -5282,7 +5289,7 @@ Card *Cards::createWeavessIncantation()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
@@ -6804,7 +6811,7 @@ Card *Cards::createParasite()
         else if (isOnBoard(target, enemy))
             damage(target, 12, ally, enemy, self);
         else
-            assert(false);
+            throw Error(Error::Unreachable, self);
     };
 
     return res;
@@ -6977,7 +6984,9 @@ Card *Cards::createDraug()
 
     res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
         // TODO: check interaction w/ Cyris
-        assert(isOnBoard(self, ally));
+        if (!isOnBoard(self, ally))
+            throw Error(Error::Assert, self);
+
         const Row row = _findRowAndPos(self, ally).row();
         for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
@@ -8226,12 +8235,13 @@ Card *Cards::createBlackBlood()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(isOption(choosen, Destroy));
+        if (!isOption(choosen, Destroy))
+            throw Error(Error::Assert, self);
 
         putToDiscard(target, ally, enemy, self);
 
@@ -8748,7 +8758,8 @@ Card *Cards::createMardroeme()
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(choosen);
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
         reset(target, ally, enemy, self);
         if (isOption(choosen, Strengthen))
@@ -8807,7 +8818,7 @@ Card *Cards::createSihil()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -9251,7 +9262,7 @@ Card *Cards::createZoltanChivay()
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -9998,7 +10009,9 @@ Card *Cards::createIsengrimOutlaw()
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(isOption(choosen, Create));
+        if (!isOption(choosen, Create))
+            throw Error(Error::Assert, self);
+
         delete choosen;
         choosen = nullptr;
         spawnNewCard(target, ally, enemy, self);
@@ -10483,12 +10496,13 @@ Card *Cards::createMahakamHorn()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(isOption(choosen, Strengthen));
+        if (!isOption(choosen, Strengthen))
+            throw Error(Error::Assert, self);
 
         strengthen(target, 7, ally, enemy, self);
 
@@ -11341,7 +11355,7 @@ Card *Cards::createAssireVarAnahid()
             putToDeck(target, enemy, ally, DeckPosRandom, self);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -11472,7 +11486,7 @@ Card *Cards::createKiyan()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
@@ -11519,10 +11533,6 @@ Card *Cards::createRocheMerciless()
     res->power = res->powerBase = 6;
     res->faction = NothernRealms;
     res->rarity = Gold;
-    res->sounds = {
-        "https://gwent.one/audio/self/ob/en/ROCH_ROCHE_00541126.mp3",
-        "https://gwent.one/audio/self/ob/en/ROCH_MQ3035_01064844.mp3",
-    };
 
     res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         // FIXME: test, because it won't work
@@ -11673,7 +11683,7 @@ Card *Cards::createPeterSaarGwynleve()
         else if (isOnBoard(target, enemy))
             weaken(target, 3, ally, enemy, self);
         else
-            assert(false);
+            throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -11742,28 +11752,29 @@ Card *Cards::createCadaverine()
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(_choosen);
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (isOption(_choosen, DealDamage)) {
+        if (isOption(choosen, DealDamage)) {
             for (Card *self : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
                 damage(self, 2, ally, enemy, self);
-            delete _choosen;
-            _choosen = nullptr;
-            return;_choosen;
+            delete choosen;
+            choosen = nullptr;
+            return;choosen;
         }
 
-        if (isOption(_choosen, Destroy)) {
+        if (isOption(choosen, Destroy)) {
             putToDiscard(target, ally, enemy, self);
-            _choosen = nullptr;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }
@@ -11829,7 +11840,8 @@ Card *Cards::createTreason()
             if (Card *right = cardNextTo(target, ally, enemy, 1))
                 if(!right->isAmbush)
                     cards.push_back(right);
-            assert(cards.size() != 0);
+            if (!cards.size())
+                throw Error(Error::Assert, self);
             startChoiceToTargetCard(ally, enemy, self, cards);
             return;
         }
@@ -12328,31 +12340,32 @@ Card *Cards::createVandergriftsBlade()
             startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
-        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
-        assert(_choosen);
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (isOption(_choosen, Destroy)) {
+        if (isOption(choosen, Destroy)) {
             putToDiscard(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (isOption(_choosen, Damage)) {
+        if (isOption(choosen, Damage)) {
             if (damage(target, 9, ally, enemy, self))
                 banish(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
     return res;
 }

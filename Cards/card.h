@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include <random>
+#include <exception>
 
 #include "iterator.h"
 #include "view.h"
@@ -202,6 +203,24 @@ public:
     AllyEnemySrcChangable _onAllyConsume = nullptr;
     AllyEnemySrcPowerChangeType _onPowerChanged = nullptr;
 };
+
+
+struct Error : std::runtime_error
+{
+    enum Code
+    {
+        Assert,
+        Unreachable,
+        ChoosenIsNullptr,
+    };
+    Error(
+            const Code code,
+            const Card *card,
+            const char *message = nullptr) :
+        std::runtime_error(message)
+    {}
+};
+
 
 /// The Choice:
 ///     1) rows, rowFilters, adjacent = 0|1

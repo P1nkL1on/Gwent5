@@ -311,7 +311,7 @@ void startNextRound(Field &ally, Field &enemy)
         nDraw = 1;
         nSwap = 1;
     } else {
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "ally.nRounds out of bounds [1, 3]");
     }
 
     while (nDraw--) {
@@ -446,7 +446,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
             for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
-            assert(false);
+            throw Error(Error::Unreachable, card, "_putOnField loyal brach: invalid 'takenFrom'");
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherAllyAppears(card, ally, enemy);
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
@@ -466,7 +466,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
             if (triggerDeploy)
                 card->onDeploy(enemy, ally);
         } else
-            assert(false);
+            throw Error(Error::Unreachable, card, "_putOnField disloyal brach: invalid 'takenFrom'");
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherSpyAppears(card, ally, enemy);
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
@@ -560,7 +560,7 @@ int _findScreenRow(const Card *card, const Field &ally, const Field &enemy)
     if (isOnBoard(card, enemy))
         if (RowAndPos rowAndPos = _findRowAndPos(card, enemy))
             return (toScreenRow(rowAndPos.row(), false));
-    assert(false);
+    throw Error(Error::Unreachable, card, "_findScreenRow: card is neither in ally or enemy");
 }
 
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
@@ -740,7 +740,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
     }
-    assert(false);
+    throw Error(Error::Unreachable, card, "onChoiceDoneCard: invalid choice.type");
 }
 
 void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &enemy)
@@ -759,7 +759,7 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
         return;
     }
 
-    assert(false);
+    throw Error(Error::Unreachable, nullptr, "onChoiceDoneRowAndPlace: invalid choice.type");
 }
 
 void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
@@ -1200,26 +1200,18 @@ void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 void reset(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
-
-
-    // TODO: check if need smt else
-    // FIXME: fix on class -> function
-    assert(false);
     Card *copy = card->exactCopy(); // defaultCopy here is needed
-
     card->powerBase = copy->powerBase;
     card->power = copy->power;
     card->armor = copy->armor;
-
     card->isLocked = copy->isLocked;
     card->isSpy = copy->isSpy;
     card->isResilient = copy->isResilient;
     card->isImmune = copy->isImmune;
     card->isDoomed = copy->isDoomed;
-
-    // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
-    delete(copy);
+    delete copy;
+
     card->onPowerChanged(ally, enemy, src, Reset);
     saveFieldsSnapshot(ally, enemy, ResetAsInDeckBuilder, src, {card});
 }
@@ -1403,7 +1395,7 @@ int toScreenRow(const Row row, const bool isAlly)
     case Seige:
         return isAlly ? 0 : 5;
     default:
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "toScreenRow: invalid row");
     }
 }
 
@@ -2299,7 +2291,7 @@ RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
 {
     if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
         return field.rowEffect(rowAndPos.row());
-    assert(false);
+    throw Error(Error::Unreachable, card, "rowEffectUnderUnit: unit can't be found in given field");
     return NoRowEffect;
 }
 
@@ -2373,7 +2365,7 @@ void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, con
         return;
     }
     default:
-        assert(false);
+        throw Error(Error::Unreachable, card, "putToDeck: invalid deckPos");
     }
 }
 
