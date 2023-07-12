@@ -3,3077 +3,508 @@
 
 #include "card.h"
 
-
-/// returns all cards in games (no tokens included)
-std::vector<Card *> allCards(const Patch);
-std::map<std::string, std::string> keywordDescriptions(const Patch patch = PublicBeta_0_9_24_3_432);
-
-
-struct AddaStriga : CardCollectible<AddaStriga>
-{
-    AddaStriga();
-};
-
-
-struct Dao : CardCollectible<Dao>
-{
-    struct DaoLesser : CardCollectible<DaoLesser>
-    {
-        DaoLesser();
-    };
-    Dao();
-};
-
-
-struct PoorFingInfantry : CardCollectible<PoorFingInfantry>
-{
-    struct LeftFlankInfantry : CardCollectible<LeftFlankInfantry>
-    {
-        LeftFlankInfantry();
-
-    };
-    struct RightFlankInfantry : CardCollectible<RightFlankInfantry>
-    {
-        RightFlankInfantry();
-    };
-    PoorFingInfantry();
-};
-
-
-struct DeithwenArbalest : CardCollectible<DeithwenArbalest>
-{
-    DeithwenArbalest();
-};
-
-
-struct TemerianDrummer : CardCollectible<TemerianDrummer>
-{
-    TemerianDrummer();
-};
-
-
-struct TridamInfantry : CardCollectible<TridamInfantry>
-{
-    TridamInfantry();
-};
-
-
-struct DandelionPoet : CardCollectible<DandelionPoet>
-{
-    DandelionPoet();
-};
-
-
-struct SileDeTansarville : CardCollectible<SileDeTansarville>
-{
-    SileDeTansarville();
-};
-
-
-struct RedanianKnightElect : CardCollectible<RedanianKnightElect>
-{
-    RedanianKnightElect();
-};
-
-
-struct KaedweniKnight : CardCollectible<KaedweniKnight>
-{
-    KaedweniKnight();
-};
-
-
-struct AnCraiteMarauder : CardCollectible<AnCraiteMarauder>
-{
-    AnCraiteMarauder();
-};
-
-
-struct AnCraiteGreatsword : CardCollectible<AnCraiteGreatsword>
-{
-    AnCraiteGreatsword();
-};
-
-
-struct DimunLightLongship : CardCollectible<DimunLightLongship>
-{
-    DimunLightLongship();
-};
-
-
-struct Bear : CardCollectible<Bear>
-{
-    Bear();
-};
-
-
-struct Wolf : CardCollectible<Wolf>
-{
-    Wolf();
-};
-
-
-struct TuirseachBearmaster : CardCollectible<TuirseachBearmaster>
-{
-    TuirseachBearmaster();
-};
-
-
-struct TuirseachHunter : CardCollectible<TuirseachHunter>
-{
-    TuirseachHunter();
-};
-
-
-struct RedanianElite : CardCollectible<RedanianElite>
-{
-    RedanianElite();
-};
-
-
-struct RedanianKnight : CardCollectible<RedanianKnight>
-{
-    RedanianKnight();
-};
-
-
-struct KaedweniCavalry : CardCollectible<KaedweniCavalry>
-{
-    KaedweniCavalry();
-};
-
-
-struct AlzursThunder : CardCollectible<AlzursThunder>
-{
-    AlzursThunder();
-};
-
-
-struct Swallow : CardCollectible<Swallow>
-{
-    Swallow();
-};
-
-
-struct Thunderbolt : CardCollectible<Thunderbolt>
-{
-    Thunderbolt();
-};
-
-
-struct ArachasVenom : CardCollectible<ArachasVenom>
-{
-    ArachasVenom();
-};
-
-
-struct KeiraMetz : CardCollectible<KeiraMetz>
-{
-    KeiraMetz();
-};
-
-
-struct DolBlathannaArcher : CardCollectible<DolBlathannaArcher>
-{
-    DolBlathannaArcher();
-private:
-    int _nShots = 0;
-};
-
-
-struct HalfElfHunter : CardCollectible<HalfElfHunter>
-{
-    HalfElfHunter();
-};
-
-
-struct Ambassador : CardCollectible<Ambassador>
-{
-    Ambassador();
-};
-
-
-struct Assassin : CardCollectible<Assassin>
-{
-    Assassin();
-};
-
-
-struct Emissary : CardCollectible<Emissary>
-{
-    Emissary();
-};
-
-
-struct CeallachDyffryn : CardCollectible<CeallachDyffryn>
-{
-    CeallachDyffryn();
-};
-
-
-struct TuirseachArcher : CardCollectible<TuirseachArcher>
-{
-    TuirseachArcher();
-};
-
-
-struct Infiltrator : CardCollectible<Infiltrator>
-{
-    Infiltrator();
-};
-
-
-struct ImpenetrableFog : CardCollectible<ImpenetrableFog>
-{
-    ImpenetrableFog();
-};
-
-
-struct TorrentialRain : CardCollectible<TorrentialRain>
-{
-    TorrentialRain();
-};
-
-
-struct BitingFrost : CardCollectible<BitingFrost>
-{
-    BitingFrost();
-};
-
-
-struct GoldenFroth : CardCollectible<GoldenFroth>
-{
-    GoldenFroth();
-};
-
-
-struct SkelligeStorm : CardCollectible<SkelligeStorm>
-{
-    SkelligeStorm();
-};
-
-
-struct ImperialManticore : CardCollectible<ImperialManticore>
-{
-    ImperialManticore();
-};
-
-
-struct ManticoreVenom : CardCollectible<ManticoreVenom>
-{
-    ManticoreVenom();
-};
-
-
-struct GloriousHunt : CardCollectible<GloriousHunt>
-{
-    GloriousHunt();
-};
-
-
-struct Ves : CardCollectible<Ves>
-{
-    Ves();
-};
-
-
-struct Vaedermakar : CardCollectible<Vaedermakar>
-{
-    Vaedermakar();
-};
-
-
-struct Frightener : CardCollectible<Frightener>
-{
-    Frightener();
-};
-
-
-struct Cleaver : CardCollectible<Cleaver>
-{
-    Cleaver();
-};
-
-
-struct Scorch : CardCollectible<Scorch>
-{
-    Scorch();
-};
-
-
-struct Reinforcements : CardCollectible<Reinforcements>
-{
-    Reinforcements();
-};
-
-
-struct JohnNatalis : CardCollectible<JohnNatalis>
-{
-    JohnNatalis();
-};
-
-
-struct Eleyas : CardCollectible<Eleyas>
-{
-    Eleyas();
-};
-
-
-struct ReaverScout : CardCollectible<ReaverScout>
-{
-    ReaverScout();
-};
-
-
-struct HeymaeySpearmaiden : CardCollectible<HeymaeySpearmaiden>
-{
-    HeymaeySpearmaiden();
-};
-
-
-struct VriheddSappers : CardCollectible<VriheddSappers>
-{
-    VriheddSappers();
-};
-
-
-struct PriestessOfFreya : CardCollectible<PriestessOfFreya>
-{
-    PriestessOfFreya();
-};
-
-
-struct DimunCorsair : CardCollectible<DimunCorsair>
-{
-    DimunCorsair();
-};
-
-
-struct Sigrdrifa : CardCollectible<Sigrdrifa>
-{
-    Sigrdrifa();
-};
-
-
-struct DrummondQueensguard : CardCollectible<DrummondQueensguard>
-{
-    DrummondQueensguard();
-};
-
-
-struct Sage : CardCollectible<Sage>
-{
-    Sage();
-};
-
-
-struct Reconnaissance : CardCollectible<Reconnaissance>
-{
-    Reconnaissance();
-};
-
-
-struct ElvenMercenary : CardCollectible<ElvenMercenary>
-{
-    ElvenMercenary();
-};
-
-
-struct ChampionOfHov : CardCollectible<ChampionOfHov>
-{
-    ChampionOfHov();
-};
-
-
-struct Priscilla : CardCollectible<Priscilla>
-{
-    Priscilla();
-};
-
-
-struct SeltkirkOfGulet : CardCollectible<SeltkirkOfGulet>
-{
-    SeltkirkOfGulet();
-};
-
-
-struct AdrenalineRush : CardCollectible<AdrenalineRush>
-{
-    AdrenalineRush();
-};
-
-
-struct Mandrake : CardCollectible<Mandrake>
-{
-    Mandrake();
-private:
-    struct Buff : CardCollectible<Buff> {};
-    struct Debuff : CardCollectible<Debuff> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct BoneTalisman : CardCollectible<BoneTalisman>
-{
-    BoneTalisman();
-private:
-    struct Buff : CardCollectible<Buff> {};
-    struct Resurrect : CardCollectible<Resurrect> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct Restore : CardCollectible<Restore>
-{
-    Restore();
-};
-
-
-struct Decoy : CardCollectible<Decoy>
-{
-    Decoy();
-};
-
-
-struct ShupesDayOff : CardCollectible<ShupesDayOff>
-{
-    ShupesDayOff();
-};
-
-
-struct ShupeKnight : CardCollectible<ShupeKnight>
-{
-    ShupeKnight();
-private:
-    struct Destroy : CardCollectible<Destroy> {};
-    struct Reset : CardCollectible<Reset> {};
-    struct Duel : CardCollectible<Duel> {};
-    struct Strengthen : CardCollectible<Strengthen> {};
-    struct Resilient : CardCollectible<Resilient> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct ShupeHunter : CardCollectible<ShupeHunter>
-{
-    ShupeHunter();
-private:
-    struct Play : CardCollectible<Play> {};
-    struct Shot : CardCollectible<Shot> {};
-    struct Replay : CardCollectible<Replay> {};
-    struct Clear : CardCollectible<Clear> {};
-    struct Barrage : CardCollectible<Barrage> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct ShupeMage : CardCollectible<ShupeMage>
-{
-    ShupeMage();
-private:
-    struct Draw : CardCollectible<Draw> {};
-    struct Charm : CardCollectible<Charm> {};
-    struct Hazards : CardCollectible<Hazards> {};
-    struct Meteor : CardCollectible<Meteor> {};
-    struct Play : CardCollectible<Play> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct FirstLight : CardCollectible<FirstLight>
-{
-    FirstLight();
-private:
-    struct Clear : CardCollectible<Clear> {};
-    struct Play : CardCollectible<Play> {};
-};
-
-
-struct ClearSkies : CardCollectible<ClearSkies>
-{
-    ClearSkies();
-};
-
-
-struct Epidemic : CardCollectible<Epidemic>
-{
-    Epidemic();
-};
-
-
-struct Moonlight : CardCollectible<Moonlight>
-{
-    Moonlight();
-private:
-    struct FullMoon : CardCollectible<FullMoon> {};
-    struct BloodMoon : CardCollectible<BloodMoon> {};
-};
-
-
-struct CiriNova : CardCollectible<CiriNova>
-{
-    CiriNova();
-};
-
-
-struct HaraldTheCripple : CardCollectible<HaraldTheCripple>
-{
-    HaraldTheCripple();
-};
-
-
-struct BranTuirseach : CardCollectible<BranTuirseach>
-{
-    BranTuirseach();
-};
-
-
-struct DrummondWarmonger : CardCollectible<DrummondWarmonger>
-{
-    DrummondWarmonger();
-};
-
-
-struct DimunPirate : CardCollectible<DimunPirate>
-{
-    DimunPirate();
-};
-
-
-struct AnCraiteRaider : CardCollectible<AnCraiteRaider>
-{
-    AnCraiteRaider();
-};
-
-
-struct MadmanLugos : CardCollectible<MadmanLugos>
-{
-    MadmanLugos();
-private:
-    Card *_discarded = nullptr;
-};
-
-
-struct Ermion : CardCollectible<Ermion>
-{
-    Ermion();
-};
-
-
-struct CerysFearless : CardCollectible<CerysFearless>
-{
-    CerysFearless();
-};
-
-
-struct CerysAnCraite : CardCollectible<CerysAnCraite>
-{
-    CerysAnCraite();
-};
-
-
-struct WoodlandSpirit : CardCollectible<WoodlandSpirit>
-{
-    WoodlandSpirit();
-};
-
-
-struct Trollololo : CardCollectible<Trollololo>
-{
-    Trollololo();
-};
-
-
-struct PrinceStennis : CardCollectible<PrinceStennis>
-{
-    PrinceStennis();
-};
-
-struct VincentMeis : CardCollectible<VincentMeis>
-{
-    VincentMeis();
-};
-
-
-struct Morkvarg : CardCollectible<Morkvarg>
-{
-    Morkvarg();
-};
-
-
-struct ArtefactCompression : CardCollectible<ArtefactCompression>
-{
-    struct JadeFigurine : CardCollectible<JadeFigurine>
-    {
-        JadeFigurine();
-    };
-    ArtefactCompression();
-};
-
-
-struct HjalmarAnCraite : CardCollectible<HjalmarAnCraite>
-{
-    struct LordOfUndvik : CardCollectible<LordOfUndvik>
-    {
-        LordOfUndvik();
-
-    };
-    HjalmarAnCraite();
-};
-
-struct Regis : CardCollectible<Regis>
-{
-    Regis();
-};
-
-
-struct LethoOfGulet : CardCollectible<LethoOfGulet>
-{
-    LethoOfGulet();
-};
-
-
-struct Auckes : CardCollectible<Auckes>
-{
-    Auckes();
-};
-
-
-struct AnCraiteLongship : CardCollectible<AnCraiteLongship>
-{
-    AnCraiteLongship();
-};
-
-
-struct GeraltIgni : CardCollectible<GeraltIgni>
-{
-    GeraltIgni();
-};
-
-
-struct GeraltOfRivia : CardCollectible<GeraltOfRivia>
-{
-    GeraltOfRivia();
-};
-
-
-struct TuirseachVeteran : CardCollectible<TuirseachVeteran>
-{
-    TuirseachVeteran();
-};
-
-
-struct Udalryk : CardCollectible<Udalryk>
-{
-    Udalryk();
-private:
-    std::vector<Card *> _drawn;
-};
-
-
-struct BloodcurdlingRoar : CardCollectible<BloodcurdlingRoar>
-{
-    BloodcurdlingRoar();
-};
-
-
-struct Gremist : CardCollectible<Gremist>
-{
-    Gremist();
-};
-
-
-struct ZoriaRunestone : CardCollectible<ZoriaRunestone>
-{
-    ZoriaRunestone();
-};
-
-
-struct Operator : CardCollectible<Operator>
-{
-    Operator();
-};
-
-
-struct Renew : CardCollectible<Renew>
-{
-    Renew();
-};
-
-
-struct EistTuirseach : CardCollectible<EistTuirseach>
-{
-    EistTuirseach();
-};
-
-
-struct TuirseachAxeman : CardCollectible<TuirseachAxeman>
-{
-    TuirseachAxeman();
-};
-
-
-struct Derran : CardCollectible<Derran>
-{
-    Derran();
-};
-
-
-struct TuirseachSkirmisher : CardCollectible<TuirseachSkirmisher>
-{
-    TuirseachSkirmisher();
-};
-
-
-struct Roach : CardCollectible<Roach>
-{
-    Roach();
-};
-
-
-struct JanCalveit : CardCollectible<JanCalveit>
-{
-    JanCalveit();
-};
-
-
-struct CahirDyffryn : CardCollectible<CahirDyffryn>
-{
-    CahirDyffryn();
-};
-
-
-struct LethoKingslayer : CardCollectible<LethoKingslayer>
-{
-    LethoKingslayer();
-private:
-    struct Destroy : CardCollectible<Destroy> {};
-    struct Play : CardCollectible<Play> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct KingHenselt : CardCollectible<KingHenselt>
-{
-    KingHenselt();
-};
-
-
-struct BloodyBaron : CardCollectible<BloodyBaron>
-{
-    BloodyBaron();
-};
-
-
-struct Dethmold : CardCollectible<Dethmold>
-{
-    Dethmold();
-};
-
-
-struct RonvidTheIncessant : CardCollectible<Dethmold>
-{
-    RonvidTheIncessant();
-};
-
-
-struct HubertRejk : CardCollectible<HubertRejk>
-{
-    HubertRejk();
-};
-
-
-struct CrachAnCraite : CardCollectible<CrachAnCraite>
-{
-    CrachAnCraite();
-};
-
-
-struct BirnaBran : CardCollectible<BirnaBran>
-{
-    BirnaBran();
-};
-
-
-struct Coral : CardCollectible<Coral>
-{
-    Coral();
-};
-
-
-struct Vabjorn : CardCollectible<Vabjorn>
-{
-    Vabjorn();
-};
-
-
-struct BlueboyLugos : CardCollectible<BlueboyLugos>
-{
-    struct SpectralWhale : CardCollectible<SpectralWhale>
-    {
-        SpectralWhale();
-    };
-    BlueboyLugos();
-};
-
-
-struct DjengeFrett : CardCollectible<DjengeFrett>
-{
-    DjengeFrett();
-};
-
-
-struct DonarAnHindar : CardCollectible<DonarAnHindar>
-{
-    DonarAnHindar();
-};
-
-
-struct DraigBonDhu : CardCollectible<DraigBonDhu>
-{
-    DraigBonDhu();
-};
-
-
-struct HolgerBlackhand : CardCollectible<HolgerBlackhand>
-{
-    HolgerBlackhand();
-};
-
-
-struct JuttaAnDimun : CardCollectible<JuttaAnDimun>
-{
-    JuttaAnDimun();
-};
-
-
-struct SavageBear : CardCollectible<SavageBear>
-{
-    SavageBear();
-};
-
-
-struct SvanrigeTuirseach : CardCollectible<SvanrigeTuirseach>
-{
-    SvanrigeTuirseach();
-};
-
-
-struct Skjall : CardCollectible<Skjall>
-{
-    Skjall();
-};
-
-
-struct HaraldHoundsnout : CardCollectible<HaraldHoundsnout>
-{
-    struct Wilfred : CardCollectible<Wilfred>
-    {
-        Wilfred();
-    };
-    struct Wilhelm : CardCollectible<Wilhelm>
-    {
-        Wilhelm();
-    };
-    struct Wilmar : CardCollectible<Wilmar>
-    {
-        Wilmar();
-    };
-    HaraldHoundsnout();
-};
-
-
-struct Yoana : CardCollectible<Yoana>
-{
-    Yoana();
-};
-
-
-struct AnCraiteBlacksmith : CardCollectible<AnCraiteBlacksmith>
-{
-    AnCraiteBlacksmith();
-};
-
-
-struct AnCraiteWarcrier : CardCollectible<AnCraiteWarcrier>
-{
-    AnCraiteWarcrier();
-};
-
-
-struct AnCraiteWarrior : CardCollectible<AnCraiteWarrior>
-{
-    AnCraiteWarrior();
-};
-
-
-struct BerserkerMarauder : CardCollectible<BerserkerMarauder>
-{
-    BerserkerMarauder();
-};
-
-
-struct DimunPirateCaptain : CardCollectible<DimunPirateCaptain>
-{
-    DimunPirateCaptain();
-};
-
-
-struct DimunSmuggler : CardCollectible<DimunSmuggler>
-{
-    DimunSmuggler();
-};
-
-
-struct DrummondShieldmaid : CardCollectible<DrummondShieldmaid>
-{
-    DrummondShieldmaid();
-};
-
-
-struct HeymaeyFlaminica : CardCollectible<HeymaeyFlaminica>
-{
-    HeymaeyFlaminica();
-};
-
-
-struct HeymaeyHerbalist : CardCollectible<HeymaeyHerbalist>
-{
-    HeymaeyHerbalist();
-};
-
-
-struct HeymaeyProtector : CardCollectible<HeymaeyProtector>
-{
-    HeymaeyProtector();
-};
-
-
-struct HeymaeySkald : CardCollectible<HeymaeySkald>
-{
-    HeymaeySkald();
-};
-
-
-struct RagingBerserker : CardCollectible<RagingBerserker>
-{
-    struct RagingBear : CardCollectible<RagingBear>
-    {
-        RagingBear();
-    };
-    RagingBerserker();
-};
-
-
-struct Hym : CardCollectible<Hym>
-{
-    Hym();
-private:
-    struct Play : CardCollectible<Play> {};
-    struct Create : CardCollectible<Create> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct Kambi : CardCollectible<Kambi>
-{
-    struct Hemdall : CardCollectible<Hemdall>
-    {
-        Hemdall();
-    };
-    Kambi();
-};
-
-
-struct Olaf : CardCollectible<Olaf>
-{
-    Olaf();
-};
-
-
-struct Ulfhedinn : CardCollectible<Ulfhedinn>
-{
-    Ulfhedinn();
-};
-
-
-struct WildBoarOfTheSea : CardCollectible<WildBoarOfTheSea>
-{
-    WildBoarOfTheSea();
-};
-
-
-struct GiantBoar : CardCollectible<GiantBoar>
-{
-    GiantBoar();
-};
-
-
-struct OrnamentalSword : CardCollectible<OrnamentalSword>
-{
-    OrnamentalSword();
-};
-
-
-struct DimunWarship : CardCollectible<DimunWarship>
-{
-    DimunWarship();
-};
-
-
-struct Vilgefortz : CardCollectible<Vilgefortz>
-{
-    Vilgefortz();
-};
-
-
-struct TrissButterflies : CardCollectible<TrissButterflies>
-{
-    TrissButterflies();
-};
-
-
-struct Yennefer : CardCollectible<Yennefer>
-{
-    struct Chironex : CardCollectible<Chironex>
-    {
-        Chironex();
-
-    };
-    struct Unicorn : CardCollectible<Unicorn>
-    {
-        Unicorn();
-
-    };
-    Yennefer();
-};
-
-
-struct GermainPiquant : CardCollectible<GermainPiquant>
-{
-    struct Cow : CardCollectible<Cow>
-    {
-        Cow();
-    };
-    GermainPiquant();
-};
-
-
-struct CommandersHorn : CardCollectible<CommandersHorn>
-{
-    CommandersHorn();
-};
-
-
-struct MarchingOrders : CardCollectible<MarchingOrders>
-{
-    MarchingOrders();
-};
-
-
-struct AlzursDoubleCross : CardCollectible<AlzursDoubleCross>
-{
-    AlzursDoubleCross();
-};
-
-
-struct AlbaArmoredCavalry : CardCollectible<AlbaArmoredCavalry>
-{
-    AlbaArmoredCavalry();
-    // FIXME: ability isn't implemented
-};
-
-
-struct Sentry : CardCollectible<Sentry>
-{
-    Sentry();
-};
-
-
-struct Ciri : CardCollectible<Ciri>
-{
-    Ciri();
-};
-
-
-struct NauzicaaSergeant : CardCollectible<NauzicaaSergeant>
-{
-    NauzicaaSergeant();
-};
-
-
-struct SlaveInfantry : CardCollectible<SlaveInfantry>
-{
-    SlaveInfantry();
-};
-
-
-struct Recruit : CardCollectible<Recruit>
-{
-    Recruit();
-};
-
-
-struct Ointment : CardCollectible<Ointment>
-{
-    Ointment();
-};
-
-
-struct Vreemde : CardCollectible<Vreemde>
-{
-    Vreemde();
-};
-
-
-struct Eskel : CardCollectible<Eskel>
-{
-    Eskel();
-};
-
-
-struct Lambert : CardCollectible<Lambert>
-{
-    Lambert();
-};
-
-
-struct Vesemir : CardCollectible<Vesemir>
-{
-    Vesemir();
-};
-
-
-struct VriheddDragoon : CardCollectible<VriheddDragoon>
-{
-    VriheddDragoon();
-};
-
-
-struct Malena : CardCollectible<Malena>
-{
-    Malena();
-};
-
-
-struct UnseenElder : CardCollectible<UnseenElder>
-{
-    UnseenElder();
-};
-
-
-struct DevanaRunestone : CardCollectible<DevanaRunestone>
-{
-    DevanaRunestone();
-};
-
-
-struct DazhbogRunestone : CardCollectible<DazhbogRunestone>
-{
-    DazhbogRunestone();
-};
-
-
-struct MoranaRunestone : CardCollectible<MoranaRunestone>
-{
-    MoranaRunestone();
-};
-
-
-struct StribogRunestone : CardCollectible<StribogRunestone>
-{
-    StribogRunestone();
-};
-
-
-struct Muzzle : CardCollectible<Muzzle>
-{
-    Muzzle();
-};
-
-
-struct WhisperingHillock : CardCollectible<WhisperingHillock>
-{
-    WhisperingHillock();
-};
-
-
-struct Brewess : CardCollectible<Brewess>
-{
-    Brewess();
-};
-
-
-struct Weavess : CardCollectible<Weavess>
-{
-    Weavess();
-};
-
-
-struct Whispess : CardCollectible<Whispess>
-{
-    Whispess();
-};
-
-
-struct WeavessIncantation : CardCollectible<WeavessIncantation>
-{
-    WeavessIncantation();
-private:
-    struct StrengthenAll : CardCollectible<StrengthenAll> {};
-    struct PlayAndStrengthen : CardCollectible<PlayAndStrengthen> {};
-};
-
-
-struct BrewessRitual : CardCollectible<BrewessRitual>
-{
-    BrewessRitual();
-};
-
-
-struct WhispessTribute : CardCollectible<WhispessTribute>
-{
-    WhispessTribute();
-};
-
-
-struct RockBarrage : CardCollectible<RockBarrage>
-{
-    RockBarrage();
-};
-
-
-struct Nivellen : CardCollectible<Nivellen>
-{
-    Nivellen();
-};
-
-
-struct LeoBonhart : CardCollectible<LeoBonhart>
-{
-    LeoBonhart();
-private:
-    Card *_revealed = nullptr;
-};
-
-
-struct MorvranVoorhis : CardCollectible<MorvranVoorhis>
-{
-    MorvranVoorhis();
-};
-
-
-struct Cynthia : CardCollectible<Cynthia>
-{
-    Cynthia();
-};
-
-
-struct Serrit : CardCollectible<Serrit>
-{
-    Serrit();
-};
-
-
-struct Sweers : CardCollectible<Sweers>
-{
-    Sweers();
-};
-
-
-struct TiborEggebracht : CardCollectible<TiborEggebracht>
-{
-    TiborEggebracht();
-};
-
-
-struct VattierDeRideaux : CardCollectible<VattierDeRideaux>
-{
-    VattierDeRideaux();
-};
-
-
-struct Albrich : CardCollectible<Albrich>
-{
-    Albrich();
-};
-
-
-struct HeftyHelge : CardCollectible<HeftyHelge>
-{
-    HeftyHelge();
-};
-
-
-struct Alchemist : CardCollectible<Alchemist>
-{
-    Alchemist();
-};
-
-
-struct DaerlanSoldier : CardCollectible<DaerlanSoldier>
-{
-    DaerlanSoldier();
-};
-
-
-struct FireScorpion : CardCollectible<FireScorpion>
-{
-    FireScorpion();
-};
-
-
-struct Mangonel : CardCollectible<Mangonel>
-{
-    Mangonel();
-};
-
-
-struct NilfgaardianKnight : CardCollectible<NilfgaardianKnight>
-{
-    NilfgaardianKnight();
-};
-
-
-struct Spotter : CardCollectible<Spotter>
-{
-    Spotter();
-};
-
-
-struct VenendalElite : CardCollectible<VenendalElite>
-{
-    VenendalElite();
-};
-
-
-struct MasterOfDisguise : CardCollectible<MasterOfDisguise>
-{
-    MasterOfDisguise();
-};
-
-
-struct HenryVarAttre : CardCollectible<HenryVarAttre>
-{
-    HenryVarAttre();
-};
-
-
-struct SummoningCircle : CardCollectible<SummoningCircle>
-{
-    SummoningCircle();
-};
-
-
-struct XavierMoran : CardCollectible<XavierMoran>
-{
-    XavierMoran();
-};
-
-
-struct YenneferEnchantress : CardCollectible<YenneferEnchantress>
-{
-    YenneferEnchantress();
-};
-
-
-struct VernonRoche : CardCollectible<VernonRoche>
-{
-    VernonRoche();
-};
-
-
-struct BlueStripeScout : CardCollectible<BlueStripeScout>
-{
-    BlueStripeScout();
-};
-
-
-struct BlueStripeCommando : CardCollectible<BlueStripeCommando>
-{
-    BlueStripeCommando();
-private:
-    std::map<Card *, Card *> _allyPlayedToCopy;
-};
-
-
-struct ImperialGolem : CardCollectible<ImperialGolem>
-{
-    ImperialGolem();
-private:
-    std::map<Card *, Card *> _cardRevealedToCopy;
-};
-
-
-struct WildHuntHound : CardCollectible<WildHuntHound>
-{
-    WildHuntHound();
-};
-
-
-struct WildHuntWarrior : CardCollectible<WildHuntWarrior>
-{
-    WildHuntWarrior();
-};
-
-
-struct WildHuntNavigator : CardCollectible<WildHuntNavigator>
-{
-    WildHuntNavigator();
-};
-
-
-struct Nithral : CardCollectible<Nithral>
-{
-    Nithral();
-};
-
-
-struct Miruna : CardCollectible<Miruna>
-{
-    Miruna();
-};
-
-
-struct Imlerith : CardCollectible<Imlerith>
-{
-    Imlerith();
-};
-
-
-struct Caretaker : CardCollectible<Caretaker>
-{
-    Caretaker();
-};
-
-
-struct Ruehin : CardCollectible<Ruehin>
-{
-    Ruehin();
-};
-
-
-struct OldSpeartipAsleep : CardCollectible<OldSpeartipAsleep>
-{
-    OldSpeartipAsleep();
-};
-
-
-struct OldSpeartip : CardCollectible<OldSpeartip>
-{
-    OldSpeartip();
-};
-
-
-struct Golyat : CardCollectible<Golyat>
-{
-    Golyat();
-};
-
-
-struct Barbegazi : CardCollectible<Barbegazi>
-{
-    Barbegazi();
-};
-
-
-struct Ghoul : CardCollectible<Ghoul>
-{
-    Ghoul();
-};
-
-
-struct Forktail: CardCollectible<Forktail>
-{
-    Forktail();
-};
-
-
-struct ArachasQueen : CardCollectible<ArachasQueen>
-{
-    ArachasQueen();
-};
-
-
-
-struct Ozzrel : CardCollectible<Ozzrel>
-{
-    Ozzrel();
-};
-
-
-struct Kayran : CardCollectible<Kayran>
-{
-    Kayran();
-};
-
-
-struct Mourntart : CardCollectible<Mourntart>
-{
-    Mourntart();
-};
-
-
-struct ToadPrince : CardCollectible<ToadPrince>
-{
-    ToadPrince();
-};
-
-
-struct Fiend : CardCollectible<Fiend>
-{
-    Fiend();
-};
-
-
-struct Morvudd : CardCollectible<Morvudd>
-{
-    Morvudd();
-};
-
-
-struct Ekimmara : CardCollectible<Ekimmara>
-{
-    Ekimmara();
-};
-
-
-struct Rotfiend : CardCollectible<Rotfiend>
-{
-    Rotfiend();
-};
-
-
-struct Archespore : CardCollectible<Archespore>
-{
-    Archespore();
-};
-
-
-struct Cyclops : CardCollectible<Cyclops>
-{
-    Cyclops();
-private:
-    int _powerOfDestroyed = 0;
-};
-
-
-struct Maerolorn : CardCollectible<Maerolorn>
-{
-    Maerolorn();
-};
-
-
-struct MonsterNest : CardCollectible<MonsterNest>
-{
-    MonsterNest();
-};
-
-
-struct ArachasDrone : CardCollectible<ArachasDrone>
-{
-    ArachasDrone();
-};
-
-
-struct Werewolf : CardCollectible<Werewolf>
-{
-    Werewolf();
-};
-
-
-struct AlphaWerewolf : CardCollectible<AlphaWerewolf>
-{
-    AlphaWerewolf();
-};
-
-
-struct EredinBreaccGlas : CardCollectible<EredinBreaccGlas>
-{
-    EredinBreaccGlas();
-};
-
-
-struct CaranthirArFeiniel : CardCollectible<CaranthirArFeiniel>
-{
-    CaranthirArFeiniel();
-};
-
-
-struct ImlerithSabbath : CardCollectible<ImlerithSabbath>
-{
-    ImlerithSabbath();
-};
-
-
-struct Dagon : CardCollectible<Dagon>
-{
-    Dagon();
-};
-
-
-struct Ifrit : CardCollectible<Ifrit>
-{
-    Ifrit();
-    struct IfritLesser : CardCollectible<IfritLesser>
-    {
-        IfritLesser();
-    };
-};
-
-
-struct SheTrollOfVergen : CardCollectible<SheTrollOfVergen>
-{
-    SheTrollOfVergen();
-private:
-    bool _played = false;
-};
-
-
-struct Wyvern : CardCollectible<Wyvern>
-{
-    Wyvern();
-};
-
-
-struct Abaya : CardCollectible<Abaya>
-{
-    Abaya();
-};
-
-
-struct Parasite : CardCollectible<Parasite>
-{
-    Parasite();
-};
-
-
-struct Jotunn : CardCollectible<Jotunn>
-{
-    Jotunn();
-};
-
-
-struct IceGiant : CardCollectible<IceGiant>
-{
-    IceGiant();
-};
-
-
-struct IceTroll : CardCollectible<IceTroll>
-{
-    IceTroll();
-};
-
-
-struct Drowner : CardCollectible<Drowner>
-{
-    Drowner();
-};
-
-
-struct Foglet : CardCollectible<Foglet>
-{
-    Foglet();
-private:
-    std::map<Row, const Card *> _rowToCopy;
-};
-
-
-struct AncientFoglet : CardCollectible<AncientFoglet>
-{
-    AncientFoglet();
-};
-
-
-struct Draug : CardCollectible<Draug>
-{
-    Draug();
-private:
-    struct Draugir : CardCollectible<Draugir>
-    {
-        Draugir();
-    };
-};
-
-
-struct CelaenoHarpy : CardCollectible<CelaenoHarpy>
-{
-    CelaenoHarpy();
-private:
-    struct HarpyEgg : CardCollectible<HarpyEgg>
-    {
-        HarpyEgg();
-    };
-    struct HarpyHatchling : CardCollectible<HarpyHatchling>
-    {
-        HarpyHatchling();
-    };
-};
-
-
-struct ArachasBehemoth : CardCollectible<ArachasBehemoth>
-{
-    ArachasBehemoth();
-private:
-    struct ArachasHatchling : CardCollectible<ArachasHatchling>
-    {
-        ArachasHatchling();
-    };
-};
-
-
-struct Archgriffin : CardCollectible<Archgriffin>
-{
-    Archgriffin();
-};
-
-
-struct Griffin : CardCollectible<Griffin>
-{
-    Griffin();
-};
-
-
-struct BridgeTroll : CardCollectible<BridgeTroll>
-{
-    BridgeTroll();
-private:
-    int _rowSelected = -1;
-};
-
-
-struct Cockatrice : CardCollectible<Cockatrice>
-{
-    Cockatrice();
-};
-
-
-struct Nekurat : CardCollectible<Nekurat>
-{
-    Nekurat();
-};
-
-
-struct Siren : CardCollectible<Siren>
-{
-    Siren();
-};
-
-
-struct Lamia : CardCollectible<Lamia>
-{
-    Lamia();
-};
-
-
-struct Nekker : CardCollectible<Nekker>
-{
-    Nekker();
-};
-
-
-struct NekkerWarrior : CardCollectible<NekkerWarrior>
-{
-    NekkerWarrior();
-};
-
-
-struct Slyzard : CardCollectible<Slyzard>
-{
-    Slyzard();
-};
-
-
-struct Werecat : CardCollectible<Werecat>
-{
-    Werecat();
-};
-
-
-struct Harpy : CardCollectible<Harpy>
-{
-    Harpy();
-private:
-    std::map<Card *, Card *> _allyDestroyedToCopy;
-};
-
-
-struct WildHuntDrakkar : CardCollectible<WildHuntDrakkar>
-{
-    WildHuntDrakkar();
-};
-
-
-struct Geels : CardCollectible<Geels>
-{
-    Geels();
-private:
-    Card *_gold = nullptr;
-    Card *_silver = nullptr;
-};
-
-
-struct WildHuntRider : CardCollectible<WildHuntRider>
-{
-    WildHuntRider();
-};
-
-
-struct VranWarrior : CardCollectible<VranWarrior>
-{
-    VranWarrior();
-};
-
-
-struct AnCraiteArmorsmith : CardCollectible<AnCraiteArmorsmith>
-{
-    AnCraiteArmorsmith();
-};
-
-struct Avalach : CardCollectible<Avalach>
-{
-    Avalach();
-};
-
-
-struct AvalachSage : CardCollectible<AvalachSage>
-{
-    AvalachSage();
-};
-
-
-struct RaghNarRoog : CardCollectible<RaghNarRoog>
-{
-    RaghNarRoog();
-};
-
-
-struct GeraltProfessional : CardCollectible<GeraltProfessional>
-{
-    GeraltProfessional();
-};
-
-
-struct GeraltAard : CardCollectible<GeraltAard>
-{
-    GeraltAard();
-};
-
-
-struct GeraltYrden : CardCollectible<GeraltYrden>
-{
-    GeraltYrden();
-};
-
-
-struct CiriDash : CardCollectible<CiriDash>
-{
-    CiriDash();
-};
-
-
-struct Aguara : CardCollectible<Aguara>
-{
-    Aguara();
-private:
-    struct BoostLowest : CardCollectible<BoostLowest> {};
-    struct BoostInHand : CardCollectible<BoostInHand> {};
-    struct DamageHighest : CardCollectible<DamageHighest> {};
-    struct CharmElf : CardCollectible<CharmElf> {};
-    std::vector<Card *> _optionsSelected;
-};
-
-
-struct AguaraTrueForm : CardCollectible<AguaraTrueForm>
-{
-    AguaraTrueForm();
-};
-
-
-struct KorathiHeatwave : CardCollectible<KorathiHeatwave>
-{
-    KorathiHeatwave();
-};
-
-
-struct AleOfTheAncestors : CardCollectible<AleOfTheAncestors>
-{
-    AleOfTheAncestors();
-};
-
-
-struct MahakamAle : CardCollectible<MahakamAle>
-{
-    MahakamAle();
-};
-
-
-struct Odrin : CardCollectible<Odrin>
-{
-    Odrin();
-};
-
-
-struct Toruviel : CardCollectible<Toruviel>
-{
-    Toruviel();
-};
-
-
-struct Milva : CardCollectible<Milva>
-{
-    Milva();
-};
-
-
-struct PrincessPavetta : CardCollectible<PrincessPavetta>
-{
-    PrincessPavetta();
-};
-
-
-struct TheGuardian : CardCollectible<TheGuardian>
-{
-    struct LesserGuardian : CardCollectible<LesserGuardian>
-    {
-        LesserGuardian();
-    };
-    TheGuardian();
-};
-
-
-struct GaunterODimm : CardCollectible<GaunterODimm>
-{
-    GaunterODimm();
-private:
-    struct Less6 : CardCollectible<Less6> {};
-    struct Equal6 : CardCollectible<Equal6> {};
-    struct More6 : CardCollectible<More6> {};
-    Card *_picked = nullptr;
-};
-
-
-struct KaedweniSergeant : CardCollectible<KaedweniSergeant>
-{
-    KaedweniSergeant();
-};
-
-
-struct ReinforcedBallista : CardCollectible<ReinforcedBallista>
-{
-    ReinforcedBallista();
-};
-
-
-struct SigismundDijkstra : CardCollectible<SigismundDijkstra>
-{
-    SigismundDijkstra();
-};
-
-
-struct WhiteFrost : CardCollectible<WhiteFrost>
-{
-    WhiteFrost();  
-};
-
-
-struct Wolfsbane : CardCollectible<Wolfsbane>
-{
-    Wolfsbane();
-};
-
-
-struct DunBanner : CardCollectible<DunBanner>
-{
-    DunBanner();
-};
-
-
-struct Aelirenn : CardCollectible<Aelirenn>
-{
-    Aelirenn();
-};
-
-
-struct HanmarvynsDream : CardCollectible<HanmarvynsDream>
-{
-    HanmarvynsDream();
-};
-
-
-struct BlackBlood : CardCollectible<BlackBlood>
-{
-    BlackBlood();
-private:
-    struct Create : CardCollectible<Create> {};
-    struct Destroy : CardCollectible<Destroy> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct BekkersRockslide : CardCollectible<BekkersRockslide>
-{
-    BekkersRockslide();
-};
-
-
-struct BekkersDarkMirror : CardCollectible<BekkersDarkMirror>
-{
-    BekkersDarkMirror();
-};
-
-
-struct MerigoldsHailstorm: CardCollectible<MerigoldsHailstorm>
-{
-    MerigoldsHailstorm();
-};
-
-
-struct Necromancy: CardCollectible<Necromancy>
-{
-    Necromancy();
-private:
-    int transPower = 0;
-};
-
-
-struct StammelfordsTremor : CardCollectible<StammelfordsTremor>
-{
-    StammelfordsTremor();
-};
-
-
-struct ExpiredAle : CardCollectible<ExpiredAle>
-{
-    ExpiredAle();
-};
-
-
-struct TrialOfTheGrasses : CardCollectible<TrialOfTheGrasses>
-{
-    TrialOfTheGrasses();
-};
-
-
-struct DimeritiumBomb : CardCollectible<DimeritiumBomb>
-{
-    DimeritiumBomb();
-};
-
-
-struct Garrison : CardCollectible<Garrison>
-{
-    Garrison();
-};
-
-
-struct TheLastWish : CardCollectible<TheLastWish>
-{
-    TheLastWish();
-};
-
-
-struct DimeritiumShackles : CardCollectible<DimeritiumShackles>
-{
-    DimeritiumShackles();
-};
-
-
-struct WyvernScaleShield : CardCollectible<WyvernScaleShield>
-{
-    WyvernScaleShield();
-private:
-    int _boostAmount = 0;
-};
-
-
-struct MastercraftedSpear : CardCollectible<MastercraftedSpear>
-{
-    MastercraftedSpear();
-private:
-    int _damageAmount = 0;
-};
-
-
-struct PetrisPhilter : CardCollectible<PetrisPhilter>
-{
-    PetrisPhilter();
-};
-
-
-struct Shrike : CardCollectible<Shrike>
-{
-    Shrike();
-};
-
-
-struct RoyalDecree : CardCollectible<RoyalDecree>
-{
-    RoyalDecree();
-};
-
-
-struct UmasCurse : CardCollectible<UmasCurse>
-{
-    UmasCurse();
-};
-
-
-struct Lacerate : CardCollectible<Lacerate>
-{
-    Lacerate();
-};
-
-
-struct CrowsEye : CardCollectible<CrowsEye>
-{
-    CrowsEye();
-};
-
-
-struct Doppler : CardCollectible<Doppler>
-{
-    Doppler();
-};
-
-
-struct Spores : CardCollectible<Spores>
-{
-    Spores();
-};
-
-
-struct Mardroeme : CardCollectible<Mardroeme>
-{
-    Mardroeme();
-private:
-    struct Strengthen : CardCollectible<Strengthen> {};
-    struct Weaken : CardCollectible<Weaken> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct Sihil : CardCollectible<Sihil>
-{
-    Sihil();
-private:
-    struct DamageOdd : CardCollectible<DamageOdd> {};
-    struct DamageEven : CardCollectible<DamageEven> {};
-    struct PlayFromDeck : CardCollectible<PlayFromDeck> {};
-};
-
-
-struct DragonsDream : CardCollectible<DragonsDream>
-{
-    DragonsDream();
-};
-
-
-struct EskelPathfinder : CardCollectible<EskelPathfinder>
-{
-    EskelPathfinder();
-};
-
-
-struct VesemirMentor : CardCollectible<VesemirMentor>
-{
-    VesemirMentor();
-};
-
-
-struct LambertSwordmaster : CardCollectible<LambertSwordmaster>
-{
-    LambertSwordmaster();
-};
-
-
-struct RegisHigherVampire : CardCollectible<RegisHigherVampire>
-{
-    RegisHigherVampire();
-};
-
-
-struct ZoltanScoundrel : CardCollectible<ZoltanScoundrel>
-{
-
-    struct DudaCompanion : CardCollectible<DudaCompanion>
-    {
-        DudaCompanion();
-
-    };
-    struct DudaAgitator : CardCollectible<DudaAgitator>
-    {
-        DudaAgitator();
-
-    };
-    ZoltanScoundrel();
-};
-
-
-struct YenneferConjurer : CardCollectible<YenneferConjurer>
-{
-    YenneferConjurer();
-};
-
-
-struct TrissMerigold : CardCollectible<TrissMerigold>
-{
-    TrissMerigold();
-};
-
-struct TrissTelekinesis : CardCollectible<TrissTelekinesis>
-{
-    TrissTelekinesis();
-};
-
-
-struct DorregarayOfVole : CardCollectible<DorregarayOfVole>
-{
-    DorregarayOfVole();
-};
-
-
-struct DandelionVainglory : CardCollectible<DandelionVainglory>
-{
-    DandelionVainglory();
-};
-
-
-struct CyprianWiley : CardCollectible<CyprianWiley>
-{
-    CyprianWiley();
-};
-
-
-struct Dudu : CardCollectible<Dudu>
-{
-    Dudu();
-};
-
-
-struct Ihuarraquax : CardCollectible<Ihuarraquax>
-{
-    Ihuarraquax();
-private:
-    bool damageDone = false;
-};
-
-
-struct MahakamMarauder : CardCollectible<MahakamMarauder>
-{
-    MahakamMarauder();
-};
-
-
-struct ZoltanChivay : CardCollectible<ZoltanChivay>
-{
-    ZoltanChivay();
-};
-
-
-struct YenneferNecromancer : CardCollectible<YenneferNecromancer>
-{
-    YenneferNecromancer();
-};
-
-
-struct Phoenix : CardCollectible<Phoenix>
-{
-    Phoenix();
-};
-
-
-struct SaesenthessisBlaze : CardCollectible<SaesenthessisBlaze>
-{
-    SaesenthessisBlaze();
-};
-
-
-struct Villentretenmerth : CardCollectible<Villentretenmerth>
-{
-    Villentretenmerth();
-};
-
-
-struct Ocvist : CardCollectible<Ocvist>
-{
-    Ocvist();
-};
-
-
-struct Myrgtabrakke : CardCollectible<Myrgtabrakke>
-{
-    Myrgtabrakke();
-};
-
-
-struct KingOfBeggars : CardCollectible<KingOfBeggars>
-{
-    KingOfBeggars();
-};
-
-
-struct OlgierdVonEverec : CardCollectible<OlgierdVonEverec>
-{
-    OlgierdVonEverec();
-};
-
-
-struct IrisVonEverec : CardCollectible<IrisVonEverec>
-{
-    IrisVonEverec();
-};
-
-
-struct IrisCompanions : CardCollectible<IrisCompanions>
-{
-    IrisCompanions();
-};
-
-
-struct Johnny : CardCollectible<Johnny>
-{
-    Johnny();
-};
-
-
-struct Stregobor : CardCollectible<Stregobor>
-{
-    Stregobor();
-};
-
-
-struct Sarah : CardCollectible<Sarah>
-{
-    Sarah();
-};
-
-
-struct PeasantMilitia : CardCollectible<PeasantMilitia>
-{
-    PeasantMilitia();
-private:
-    struct Peasant : CardCollectible<Peasant>
-    {
-        Peasant();
-    };
-};
-
-
-struct PrizeWinningCow : CardCollectible<PrizeWinningCow>
-{
-    PrizeWinningCow();
-private:
-    struct Chort : CardCollectible<Chort>
-    {
-        Chort();
-    };
-};
-
-
-struct PrincessAdda : CardCollectible<PrincessAdda>
-{
-    PrincessAdda();
-};
-
-
-struct KingFoltest : CardCollectible<KingFoltest>
-{
-    KingFoltest();
-};
-
-
-struct KingRadovidV : CardCollectible<KingRadovidV>
-{
-    KingRadovidV();
-};
-
-
-struct EmhyrVarEmreis : CardCollectible<EmhyrVarEmreis>
-{
-    EmhyrVarEmreis();
-};
-
-
-struct Usurper : CardCollectible<Usurper>
-{
-    Usurper();
-};
-
-
-struct BrouverHoog : CardCollectible<BrouverHoog>
-{
-    BrouverHoog();
-};
-
-
-struct Eithne : CardCollectible<Eithne>
-{
-    Eithne();
-};
-
-
-struct Filavandrel : CardCollectible<Filavandrel>
-{
-    Filavandrel();
-};
-
-
-struct FrancescaFindabair : CardCollectible<FrancescaFindabair>
-{
-    FrancescaFindabair();
-private:
-    Card *_cardToSwap = nullptr;
-};
-
-
-struct Aglais : CardCollectible<Aglais>
-{
-    Aglais();
-};
-
-
-struct Iorveth : CardCollectible<Iorveth>
-{
-    Iorveth();
-};
-
-
-struct IorvethMeditation : CardCollectible<IorvethMeditation>
-{
-    IorvethMeditation();
-private:
-    Card *_choosen = nullptr;
-};
-
-
-struct IsengrimFaoiltiarna : CardCollectible<IsengrimFaoiltiarna>
-{
-    IsengrimFaoiltiarna();
-};
-
-
-struct IsengrimOutlaw : CardCollectible<IsengrimOutlaw>
-{
-    IsengrimOutlaw();
-private:
-    struct Create : CardCollectible<Create> {};
-    struct Play : CardCollectible<Play> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct IthlinneAegli : CardCollectible<IthlinneAegli>
-{
-    IthlinneAegli();
-};
-
-
-struct Schirru : CardCollectible<Schirru>
-{
-    Schirru();
-};
-
-
-struct Saesenthessis : CardCollectible<Saesenthessis>
-{
-    Saesenthessis();
-};
-
-
-struct Saskia : CardCollectible<Saskia>
-{
-    Saskia();
-};
-
-
-struct BarclayEls : CardCollectible<BarclayEls>
-{
-    BarclayEls();
-};
-
-
-struct DennisCranmer : CardCollectible<DennisCranmer>
-{
-    DennisCranmer();
-};
-
-
-struct SheldonSkaggs : CardCollectible<SheldonSkaggs>
-{
-    SheldonSkaggs();
-};
-
-
-struct YarpenZigrin : CardCollectible<YarpenZigrin>
-{
-    YarpenZigrin();
-};
-
-
-struct Yaevinn : CardCollectible<Yaevinn>
-{
-    Yaevinn();
-private:
-    std::vector<Card *>_drawn;
-};
-
-
-struct IdaEmeanAepSivney : CardCollectible<IdaEmeanAepSivney>
-{
-    IdaEmeanAepSivney();
-};
-
-
-struct PavkoGale : CardCollectible<PavkoGale>
-{
-    PavkoGale();
-};
-
-
-struct CiaranAepEasnillen : CardCollectible<CiaranAepEasnillen>
-{
-    CiaranAepEasnillen();
-};
-
-
-struct EibhearHattori : CardCollectible<EibhearHattori>
-{
-    EibhearHattori();
-};
-
-
-struct Milaen : CardCollectible<Milaen>
-{
-    Milaen();
-};
-
-
-struct Braenn : CardCollectible<Braenn>
-{
-    Braenn();
-};
-
-
-struct Morenn : CardCollectible<Morenn>
-{
-    Morenn();
-};
-
-
-struct PaulieDahlberg : CardCollectible<PaulieDahlberg>
-{
-    PaulieDahlberg();
-};
-
-
-struct MahakamHorn : CardCollectible<MahakamHorn>
-{
-    MahakamHorn();
-private:
-    struct Create : CardCollectible<Create> {};
-    struct Strengthen : CardCollectible<Strengthen> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct NaturesGift : CardCollectible<NaturesGift>
-{
-    NaturesGift();
-};
-
-
-struct PitTrap : CardCollectible<PitTrap>
-{
-    PitTrap();
-};
-
-
-struct CrushingTrap : CardCollectible<CrushingTrap>
-{
-    CrushingTrap();
-};
-
-
-struct ElvenBlade : CardCollectible<ElvenBlade>
-{
-    ElvenBlade();
-};
-
-
-struct IncineratingTrap : CardCollectible<IncineratingTrap>
-{
-    IncineratingTrap();
-};
-
-
-struct BlueMountainElite : CardCollectible<BlueMountainElite>
-{
-    BlueMountainElite();
-};
-
-
-struct DolBlathannaBomber : CardCollectible<DolBlathannaBomber>
-{
-    DolBlathannaBomber();
-};
-
-
-struct DolBlathannaBowman : CardCollectible<DolBlathannaBowman>
-{
-    DolBlathannaBowman();
-};
-
-
-struct DolBlathannaSentry : CardCollectible<DolBlathannaSentry>
-{
-    DolBlathannaSentry();
-};
-
-
-struct ElvenScout : CardCollectible<ElvenScout>
-{
-    ElvenScout();
-};
-
-
-struct ElvenSwordmaster : CardCollectible<ElvenSwordmaster>
-{
-    ElvenSwordmaster();
-};
-
-
-struct DwarvenAgitator : CardCollectible<DwarvenAgitator>
-{
-    DwarvenAgitator();
-};
-
-
-struct DwarvenMercenary : CardCollectible<DwarvenMercenary>
-{
-    DwarvenMercenary();
-};
-
-
-struct DwarvenSkirmisher : CardCollectible<DwarvenSkirmisher>
-{
-    DwarvenSkirmisher();
-};
-
-
-struct HawkerHealer : CardCollectible<HawkerHealer>
-{
-    HawkerHealer();
-};
-
-
-struct HawkerSupport : CardCollectible<HawkerSupport>
-{
-    HawkerSupport();
-};
-
-
-struct MahakamDefender : CardCollectible<MahakamDefender>
-{
-    MahakamDefender();
-};
-
-
-struct MahakamGuard : CardCollectible<MahakamGuard>
-{
-    MahakamGuard();
-};
-
-
-struct MahakamVolunteers : CardCollectible<MahakamVolunteers>
-{
-    MahakamVolunteers();
-};
-
-
-struct Pyrotechnician : CardCollectible<Pyrotechnician>
-{
-    Pyrotechnician();
-};
-
-
-struct Wardancer : CardCollectible<Wardancer>
-{
-    Wardancer();
-};
-
-
-struct VriheddVanguard : CardCollectible<VriheddVanguard>
-{
-    VriheddVanguard();
-};
-
-
-struct VriheddOfficer : CardCollectible<VriheddOfficer>
-{
-    VriheddOfficer();
-};
-
-
-struct VriheddNeophyte : CardCollectible<VriheddNeophyte>
-{
-    VriheddNeophyte();
-};
-
-
-struct VriheddBrigade : CardCollectible<VriheddBrigade>
-{
-    VriheddBrigade();
-};
-
-
-struct HawkerSmuggler : CardCollectible<HawkerSmuggler>
-{
-    HawkerSmuggler();
-};
-
-
-struct MennoCoehoorn : CardCollectible<MennoCoehoorn>
-{
-    MennoCoehoorn();
-};
-
-
-struct RainfarnOfAttre : CardCollectible<RainfarnOfAttre>
-{
-    RainfarnOfAttre();
-};
-
-
-struct Assassination : CardCollectible<Assassination>
-{
-    Assassination();
-};
-
-
-struct StefanSkellen : CardCollectible<StefanSkellen>
-{
-    StefanSkellen();
-};
-
-
-struct Shilard : CardCollectible<Shilard>
-{
-    Shilard();
-private:
-    Card * _allyCard = nullptr;
-    Card * _enemyCard = nullptr;
-};
-
-
-struct Xarthisius : CardCollectible<Xarthisius>
-{
-    Xarthisius();
-};
-
-
-struct Cantarella : CardCollectible<Cantarella>
-{
-    Cantarella();
-private:
-    std::vector<Card *>_drawn;
-};
-
-
-struct Panther : CardCollectible<Panther>
-{
-    Panther();
-};
-
-
-struct VicovaroMedic : CardCollectible<VicovaroMedic>
-{
-    VicovaroMedic();
-};
-
-
-struct AssireVarAnahid : CardCollectible<AssireVarAnahid>
-{
-    AssireVarAnahid();
-};
-
-
-struct FringillaVigo : CardCollectible<FringillaVigo>
-{
-    FringillaVigo();
-};
-
-
-struct FalseCiri : CardCollectible<FalseCiri>
-{
-    FalseCiri();
-};
-
-
-struct Dandelion : CardCollectible<Dandelion>
-{
-    Dandelion();
-};
-
-
-struct Kiyan : CardCollectible<Kiyan>
-{
-    Kiyan();
-private:
-    struct Play : CardCollectible<Play> {};
-    struct Create : CardCollectible<Create> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct PhilippaEilhart : CardCollectible<PhilippaEilhart>
-{
-    PhilippaEilhart();
-};
-
-
-struct RocheMerciless : CardCollectible<RocheMerciless>
-{
-    RocheMerciless();
-};
-
-
-struct Shani : CardCollectible<Shani>
-{
-    Shani();
-};
-
-
-struct Vandergrift : CardCollectible<Vandergrift>
-{
-    Vandergrift();
-};
-
-
-struct Botchling : CardCollectible<Botchling>
-{
-    Botchling();
-};
-
-
-struct Lubberkin : CardCollectible<Lubberkin>
-{
-    Lubberkin();
-};
-
-
-struct NilfgaardianGate : CardCollectible<NilfgaardianGate>
-{
-    NilfgaardianGate();
-};
-
-
-struct PeterSaarGwynleve : CardCollectible<PeterSaarGwynleve>
-{
-    PeterSaarGwynleve();
-};
-
-
-struct VicovaroNovice : CardCollectible<VicovaroNovice>
-{
-    VicovaroNovice();
-};
-
-
-struct Cadaverine : CardCollectible<Cadaverine>
-{
-    Cadaverine();
-private:
-    struct DealDamage : CardCollectible<DealDamage> {};
-    struct Destroy : CardCollectible<Destroy> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct JoachimDeWett : CardCollectible<JoachimDeWett>
-{
-    JoachimDeWett();
-};
-
-
-struct Treason : CardCollectible<Treason>
-{
-    Treason();
-private:
-    Card *_choosen = nullptr;
-};
-
-
-struct Vanhemar : CardCollectible<Vanhemar>
-{
-    Vanhemar();
-};
-
-
-struct Vrygheff : CardCollectible<Vrygheff>
-{
-    Vrygheff();
-};
-
-
-struct AlbaPikeman : CardCollectible<AlbaPikeman>
-{
-    AlbaPikeman();
-};
-
-
-struct CombatEngineer : CardCollectible<CombatEngineer>
-{
-    CombatEngineer();
-};
-
-
-struct MagneDivision : CardCollectible<MagneDivision>
-{
-    MagneDivision();
-};
-
-
-struct NauzicaaBrigade : CardCollectible<NauzicaaBrigade>
-{
-    NauzicaaBrigade();
-};
-
-
-struct SlaveDriver : CardCollectible<SlaveDriver>
-{
-    SlaveDriver();
-private:
-    int _lostPower= -1;
-};
-
-
-struct SlaveHunter : CardCollectible<SlaveHunter>
-{
-    SlaveHunter();
-};
-
-
-struct ViperWitcher : CardCollectible<ViperWitcher>
-{
-    ViperWitcher();
-};
-
-
-struct RotTosser : CardCollectible<RotTosser>
-{
-    RotTosser();
-    struct CowCarcass : CardCollectible<CowCarcass>
-    {
-        CowCarcass();
-    };
-};
-
-
-struct StandardBearer : CardCollectible<StandardBearer>
-{
-    StandardBearer();
-};
-
-
-struct MargaritaOfAretuza : CardCollectible<MargaritaOfAretuza>
-{
-    MargaritaOfAretuza();
-};
-
-
-struct Nenneke : CardCollectible<Nenneke>
-{
-    Nenneke();
-};
-
-
-struct SabrinasSpecter : CardCollectible<SabrinasSpecter>
-{
-    SabrinasSpecter();
-};
-
-
-struct SabrinaGlevissig : CardCollectible<SabrinaGlevissig>
-{
-    SabrinaGlevissig();
-};
-
-
-struct Thaler : CardCollectible<Thaler>
-{
-    Thaler();
-};
-
-
-struct AedirnianMauler : CardCollectible<AedirnianMauler>
-{
-    AedirnianMauler();
-};
-
-
-struct AretuzaAdept : CardCollectible<AretuzaAdept>
-{
-    AretuzaAdept();
-};
-
-
-struct VandergriftsBlade : CardCollectible<VandergriftsBlade>
-{
-    VandergriftsBlade();
-private:
-    struct Destroy : CardCollectible<Destroy> {};
-    struct Damage : CardCollectible<Damage> {};
-    Card *_choosen = nullptr;
-};
-
-
-struct ReinforcedTrebuchet : CardCollectible<ReinforcedTrebuchet>
-{
-    ReinforcedTrebuchet();
-};
-
-
-struct Ballista : CardCollectible<Ballista>
-{
-    Ballista();
-};
-
-
-struct BloodyFlail : CardCollectible<BloodyFlail>
-{
-    struct Specter : CardCollectible<Specter>
-    {
-        Specter();
-    };
-    BloodyFlail();
-};
-
-
-struct BatteringRam : CardCollectible<BatteringRam>
-{
-    BatteringRam();
-private:
-    bool _isFirstChoise = true;
-};
-
-
-struct Trebuchet : CardCollectible<Trebuchet>
-{
-    Trebuchet();
-};
-
-
-struct BanArdTutor : CardCollectible<BanArdTutor>
-{
-    BanArdTutor();
-};
-
-
-struct FieldMedic : CardCollectible<FieldMedic>
-{
-    FieldMedic();
+/// open-beta Gwent v0.9.24.3.432
+class Cards
+{
+public:
+    virtual ~Cards() = default;
+    virtual std::vector<Card *> createAll();
+
+    virtual Card *createAddaStriga();
+    virtual Card *createDaoLesser();
+    virtual Card *createDao();
+    virtual Card *createLeftFlankInfantry();
+    virtual Card *createRightFlankInfantry();
+    virtual Card *createPoorFingInfantry();
+    virtual Card *createDeithwenArbalest();
+    virtual Card *createTemerianDrummer();
+    virtual Card *createTridamInfantry();
+    virtual Card *createDandelionPoet();
+    virtual Card *createSileDeTansarville();
+    virtual Card *createRedanianKnightElect();
+    virtual Card *createKaedweniKnight();
+    virtual Card *createAnCraiteMarauder();
+    virtual Card *createAnCraiteGreatsword();
+    virtual Card *createDimunLightLongship();
+    virtual Card *createBear();
+    virtual Card *createWolf();
+    virtual Card *createTuirseachBearmaster();
+    virtual Card *createTuirseachHunter();
+    virtual Card *createRedanianElite();
+    virtual Card *createRedanianKnight();
+    virtual Card *createKaedweniCavalry();
+    virtual Card *createAlzursThunder();
+    virtual Card *createSwallow();
+    virtual Card *createThunderbolt();
+    virtual Card *createArachasVenom();
+    virtual Card *createKeiraMetz();
+    virtual Card *createDolBlathannaArcher();
+    virtual Card *createHalfElfHunter();
+    virtual Card *createAmbassador();
+    virtual Card *createAssassin();
+    virtual Card *createEmissary();
+    virtual Card *createCeallachDyffryn();
+    virtual Card *createTuirseachArcher();
+    virtual Card *createInfiltrator();
+    virtual Card *createImpenetrableFog();
+    virtual Card *createTorrentialRain();
+    virtual Card *createBitingFrost();
+    virtual Card *createGoldenFroth();
+    virtual Card *createSkelligeStorm();
+    virtual Card *createImperialManticore();
+    virtual Card *createManticoreVenom();
+    virtual Card *createGloriousHunt();
+    virtual Card *createVes();
+    virtual Card *createVaedermakar();
+    virtual Card *createFrightener();
+    virtual Card *createCleaver();
+    virtual Card *createScorch();
+    virtual Card *createReinforcements();
+    virtual Card *createJohnNatalis();
+    virtual Card *createEleyas();
+    virtual Card *createReaverScout();
+    virtual Card *createHeymaeySpearmaiden();
+    virtual Card *createVriheddSappers();
+    virtual Card *createPriestessOfFreya();
+    virtual Card *createDimunCorsair();
+    virtual Card *createSigrdrifa();
+    virtual Card *createDrummondQueensguard();
+    virtual Card *createSage();
+    virtual Card *createReconnaissance();
+    virtual Card *createElvenMercenary();
+    virtual Card *createChampionOfHov();
+    virtual Card *createPriscilla();
+    virtual Card *createSeltkirkOfGulet();
+    virtual Card *createAdrenalineRush();
+    virtual Card *createMandrake();
+    virtual Card *createBoneTalisman();
+    virtual Card *createRestore();
+    virtual Card *createDecoy();
+    virtual Card *createShupesDayOff();
+    virtual Card *createShupeKnight();
+    virtual Card *createShupeHunter();
+    virtual Card *createShupeMage();
+    virtual Card *createFirstLight();
+    virtual Card *createClearSkies();
+    virtual Card *createEpidemic();
+    virtual Card *createMoonlight();
+    virtual Card *createCiriNova();
+    virtual Card *createHaraldTheCripple();
+    virtual Card *createBranTuirseach();
+    virtual Card *createDrummondWarmonger();
+    virtual Card *createDimunPirate();
+    virtual Card *createAnCraiteRaider();
+    virtual Card *createMadmanLugos();
+    virtual Card *createErmion();
+    virtual Card *createCerysFearless();
+    virtual Card *createCerysAnCraite();
+    virtual Card *createWoodlandSpirit();
+    virtual Card *createTrollololo();
+    virtual Card *createPrinceStennis();
+    virtual Card *createVincentMeis();
+    virtual Card *createMorkvarg();
+    virtual Card *createJadeFigurine();
+    virtual Card *createArtefactCompression();
+    virtual Card *createLordOfUndvik();
+    virtual Card *createHjalmarAnCraite();
+    virtual Card *createRegis();
+    virtual Card *createLethoOfGulet();
+    virtual Card *createAuckes();
+    virtual Card *createAnCraiteLongship();
+    virtual Card *createGeraltIgni();
+    virtual Card *createGeraltOfRivia();
+    virtual Card *createTuirseachVeteran();
+    virtual Card *createUdalryk();
+    virtual Card *createBloodcurdlingRoar();
+    virtual Card *createGremist();
+    virtual Card *createZoriaRunestone();
+    virtual Card *createOperator();
+    virtual Card *createRenew();
+    virtual Card *createEistTuirseach();
+    virtual Card *createTuirseachAxeman();
+    virtual Card *createDerran();
+    virtual Card *createTuirseachSkirmisher();
+    virtual Card *createRoach();
+    virtual Card *createJanCalveit();
+    virtual Card *createCahirDyffryn();
+    virtual Card *createLethoKingslayer();
+    virtual Card *createKingHenselt();
+    virtual Card *createBloodyBaron();
+    virtual Card *createDethmold();
+    virtual Card *createRonvidTheIncessant();
+    virtual Card *createHubertRejk();
+    virtual Card *createCrachAnCraite();
+    virtual Card *createBirnaBran();
+    virtual Card *createCoral();
+    virtual Card *createVabjorn();
+    virtual Card *createSpectralWhale();
+    virtual Card *createBlueboyLugos();
+    virtual Card *createDjengeFrett();
+    virtual Card *createDonarAnHindar();
+    virtual Card *createDraigBonDhu();
+    virtual Card *createHolgerBlackhand();
+    virtual Card *createJuttaAnDimun();
+    virtual Card *createSavageBear();
+    virtual Card *createSvanrigeTuirseach();
+    virtual Card *createSkjall();
+    virtual Card *createWilfred();
+    virtual Card *createWilhelm();
+    virtual Card *createWilmar();
+    virtual Card *createHaraldHoundsnout();
+    virtual Card *createYoana();
+    virtual Card *createAnCraiteBlacksmith();
+    virtual Card *createAnCraiteWarcrier();
+    virtual Card *createAnCraiteWarrior();
+    virtual Card *createBerserkerMarauder();
+    virtual Card *createDimunPirateCaptain();
+    virtual Card *createDimunSmuggler();
+    virtual Card *createDrummondShieldmaid();
+    virtual Card *createHeymaeyFlaminica();
+    virtual Card *createHeymaeyHerbalist();
+    virtual Card *createHeymaeyProtector();
+    virtual Card *createHeymaeySkald();
+    virtual Card *createRagingBear();
+    virtual Card *createRagingBerserker();
+    virtual Card *createHym();
+    virtual Card *createHemdall();
+    virtual Card *createKambi();
+    virtual Card *createOlaf();
+    virtual Card *createUlfhedinn();
+    virtual Card *createWildBoarOfTheSea();
+    virtual Card *createGiantBoar();
+    virtual Card *createOrnamentalSword();
+    virtual Card *createDimunWarship();
+    virtual Card *createVilgefortz();
+    virtual Card *createTrissButterflies();
+    virtual Card *createChironex();
+    virtual Card *createUnicorn();
+    virtual Card *createYennefer();
+    virtual Card *createGermainPiquant();
+    virtual Card *createCow();
+    virtual Card *createCommandersHorn();
+    virtual Card *createMarchingOrders();
+    virtual Card *createAlzursDoubleCross();
+    virtual Card *createAlbaArmoredCavalry();
+    virtual Card *createSentry();
+    virtual Card *createCiri();
+    virtual Card *createNauzicaaSergeant();
+    virtual Card *createSlaveInfantry();
+    virtual Card *createRecruit();
+    virtual Card *createOintment();
+    virtual Card *createVreemde();
+    virtual Card *createEskel();
+    virtual Card *createLambert();
+    virtual Card *createVesemir();
+    virtual Card *createVriheddDragoon();
+    virtual Card *createMalena();
+    virtual Card *createUnseenElder();
+    virtual Card *createDevanaRunestone();
+    virtual Card *createDazhbogRunestone();
+    virtual Card *createMoranaRunestone();
+    virtual Card *createStribogRunestone();
+    virtual Card *createMuzzle();
+    virtual Card *createWhisperingHillock();
+    virtual Card *createBrewess();
+    virtual Card *createWeavess();
+    virtual Card *createWhispess();
+    virtual Card *createWeavessIncantation();
+    virtual Card *createBrewessRitual();
+    virtual Card *createWhispessTribute();
+    virtual Card *createRockBarrage();
+    virtual Card *createNivellen();
+    virtual Card *createLeoBonhart();
+    virtual Card *createMorvranVoorhis();
+    virtual Card *createCynthia();
+    virtual Card *createSerrit();
+    virtual Card *createSweers();
+    virtual Card *createTiborEggebracht();
+    virtual Card *createVattierDeRideaux();
+    virtual Card *createAlbrich();
+    virtual Card *createHeftyHelge();
+    virtual Card *createAlchemist();
+    virtual Card *createDaerlanSoldier();
+    virtual Card *createFireScorpion();
+    virtual Card *createMangonel();
+    virtual Card *createNilfgaardianKnight();
+    virtual Card *createSpotter();
+    virtual Card *createVenendalElite();
+    virtual Card *createMasterOfDisguise();
+    virtual Card *createHenryVarAttre();
+    virtual Card *createSummoningCircle();
+    virtual Card *createXavierMoran();
+    virtual Card *createYenneferEnchantress();
+    virtual Card *createVernonRoche();
+    virtual Card *createBlueStripeScout();
+    virtual Card *createBlueStripeCommando();
+    virtual Card *createImperialGolem();
+    virtual Card *createWildHuntHound();
+    virtual Card *createWildHuntWarrior();
+    virtual Card *createWildHuntNavigator();
+    virtual Card *createNithral();
+    virtual Card *createMiruna();
+    virtual Card *createImlerith();
+    virtual Card *createCaretaker();
+    virtual Card *createRuehin();
+    virtual Card *createOldSpeartipAsleep();
+    virtual Card *createOldSpeartip();
+    virtual Card *createGolyat();
+    virtual Card *createBarbegazi();
+    virtual Card *createGhoul();
+    virtual Card *createForktail();
+    virtual Card *createArachasQueen();
+    virtual Card *createOzzrel();
+    virtual Card *createKayran();
+    virtual Card *createMourntart();
+    virtual Card *createToadPrince();
+    virtual Card *createFiend();
+    virtual Card *createMorvudd();
+    virtual Card *createEkimmara();
+    virtual Card *createRotfiend();
+    virtual Card *createArchespore();
+    virtual Card *createCyclops();
+    virtual Card *createMaerolorn();
+    virtual Card *createMonsterNest();
+    virtual Card *createArachasDrone();
+    virtual Card *createWerewolf();
+    virtual Card *createAlphaWerewolf();
+    virtual Card *createEredinBreaccGlas();
+    virtual Card *createCaranthirArFeiniel();
+    virtual Card *createImlerithSabbath();
+    virtual Card *createDagon();
+    virtual Card *createIfritLesser();
+    virtual Card *createIfrit();
+    virtual Card *createSheTrollOfVergen();
+    virtual Card *createWyvern();
+    virtual Card *createAbaya();
+    virtual Card *createParasite();
+    virtual Card *createJotunn();
+    virtual Card *createIceGiant();
+    virtual Card *createIceTroll();
+    virtual Card *createDrowner();
+    virtual Card *createFoglet();
+    virtual Card *createAncientFoglet();
+    virtual Card *createDraugir();
+    virtual Card *createDraug();
+    virtual Card *createHarpyEgg();
+    virtual Card *createHarpyHatchling();
+    virtual Card *createCelaenoHarpy();
+    virtual Card *createArachasBehemoth();
+    virtual Card *createArachasHatchling();
+    virtual Card *createArchgriffin();
+    virtual Card *createGriffin();
+    virtual Card *createBridgeTroll();
+    virtual Card *createCockatrice();
+    virtual Card *createNekurat();
+    virtual Card *createSiren();
+    virtual Card *createLamia();
+    virtual Card *createNekker();
+    virtual Card *createNekkerWarrior();
+    virtual Card *createSlyzard();
+    virtual Card *createWerecat();
+    virtual Card *createHarpy();
+    virtual Card *createWildHuntDrakkar();
+    virtual Card *createGeels();
+    virtual Card *createWildHuntRider();
+    virtual Card *createVranWarrior();
+    virtual Card *createAnCraiteArmorsmith();
+    virtual Card *createAvalach();
+    virtual Card *createAvalachSage();
+    virtual Card *createRaghNarRoog();
+    virtual Card *createGeraltProfessional();
+    virtual Card *createGeraltAard();
+    virtual Card *createGeraltYrden();
+    virtual Card *createCiriDash();
+    virtual Card *createAguara();
+    virtual Card *createAguaraTrueForm();
+    virtual Card *createKorathiHeatwave();
+    virtual Card *createAleOfTheAncestors();
+    virtual Card *createMahakamAle();
+    virtual Card *createOdrin();
+    virtual Card *createToruviel();
+    virtual Card *createMilva();
+    virtual Card *createPrincessPavetta();
+    virtual Card *createLesserGuardian();
+    virtual Card *createTheGuardian();
+    virtual Card *createGaunterODimm();
+    virtual Card *createKaedweniSergeant();
+    virtual Card *createReinforcedBallista();
+    virtual Card *createSigismundDijkstra();
+    virtual Card *createWhiteFrost();
+    virtual Card *createWolfsbane();
+    virtual Card *createDunBanner();
+    virtual Card *createAelirenn();
+    virtual Card *createHanmarvynsDream();
+    virtual Card *createBlackBlood();
+    virtual Card *createBekkersRockslide();
+    virtual Card *createBekkersDarkMirror();
+    virtual Card *createMerigoldsHailstorm();
+    virtual Card *createNecromancy();
+    virtual Card *createStammelfordsTremor();
+    virtual Card *createExpiredAle();
+    virtual Card *createTrialOfTheGrasses();
+    virtual Card *createDimeritiumBomb();
+    virtual Card *createGarrison();
+    virtual Card *createTheLastWish();
+    virtual Card *createDimeritiumShackles();
+    virtual Card *createWyvernScaleShield();
+    virtual Card *createMastercraftedSpear();
+    virtual Card *createPetrisPhilter();
+    virtual Card *createShrike();
+    virtual Card *createRoyalDecree();
+    virtual Card *createUmasCurse();
+    virtual Card *createLacerate();
+    virtual Card *createCrowsEye();
+    virtual Card *createDoppler();
+    virtual Card *createSpores();
+    virtual Card *createMardroeme();
+    virtual Card *createSihil();
+    virtual Card *createDragonsDream();
+    virtual Card *createEskelPathfinder();
+    virtual Card *createVesemirMentor();
+    virtual Card *createLambertSwordmaster();
+    virtual Card *createRegisHigherVampire();
+    virtual Card *createDudaCompanion();
+    virtual Card *createDudaAgitator();
+    virtual Card *createZoltanScoundrel();
+    virtual Card *createYenneferConjurer();
+    virtual Card *createTrissMerigold();
+    virtual Card *createTrissTelekinesis();
+    virtual Card *createDorregarayOfVole();
+    virtual Card *createDandelionVainglory();
+    virtual Card *createCyprianWiley();
+    virtual Card *createDudu();
+    virtual Card *createIhuarraquax();
+    virtual Card *createMahakamMarauder();
+    virtual Card *createZoltanChivay();
+    virtual Card *createYenneferNecromancer();
+    virtual Card *createPhoenix();
+    virtual Card *createSaesenthessisBlaze();
+    virtual Card *createVillentretenmerth();
+    virtual Card *createOcvist();
+    virtual Card *createMyrgtabrakke();
+    virtual Card *createKingOfBeggars();
+    virtual Card *createOlgierdVonEverec();
+    virtual Card *createIrisVonEverec();
+    virtual Card *createIrisCompanions();
+    virtual Card *createJohnny();
+    virtual Card *createStregobor();
+    virtual Card *createSarah();
+    virtual Card *createPeasant();
+    virtual Card *createPeasantMilitia();
+    virtual Card *createChort();
+    virtual Card *createPrizeWinningCow();
+    virtual Card *createPrincessAdda();
+    virtual Card *createKingFoltest();
+    virtual Card *createKingRadovidV();
+    virtual Card *createEmhyrVarEmreis();
+    virtual Card *createUsurper();
+    virtual Card *createBrouverHoog();
+    virtual Card *createEithne();
+    virtual Card *createFilavandrel();
+    virtual Card *createFrancescaFindabair();
+    virtual Card *createAglais();
+    virtual Card *createIorveth();
+    virtual Card *createIorvethMeditation();
+    virtual Card *createIsengrimFaoiltiarna();
+    virtual Card *createIsengrimOutlaw();
+    virtual Card *createIthlinneAegli();
+    virtual Card *createSchirru();
+    virtual Card *createSaesenthessis();
+    virtual Card *createSaskia();
+    virtual Card *createBarclayEls();
+    virtual Card *createDennisCranmer();
+    virtual Card *createSheldonSkaggs();
+    virtual Card *createYarpenZigrin();
+    virtual Card *createYaevinn();
+    virtual Card *createIdaEmeanAepSivney();
+    virtual Card *createPavkoGale();
+    virtual Card *createCiaranAepEasnillen();
+    virtual Card *createEibhearHattori();
+    virtual Card *createMilaen();
+    virtual Card *createBraenn();
+    virtual Card *createMorenn();
+    virtual Card *createPaulieDahlberg();
+    virtual Card *createMahakamHorn();
+    virtual Card *createNaturesGift();
+    virtual Card *createPitTrap();
+    virtual Card *createCrushingTrap();
+    virtual Card *createElvenBlade();
+    virtual Card *createIncineratingTrap();
+    virtual Card *createBlueMountainElite();
+    virtual Card *createDolBlathannaBomber();
+    virtual Card *createDolBlathannaBowman();
+    virtual Card *createDolBlathannaSentry();
+    virtual Card *createElvenScout();
+    virtual Card *createElvenSwordmaster();
+    virtual Card *createDwarvenAgitator();
+    virtual Card *createDwarvenMercenary();
+    virtual Card *createDwarvenSkirmisher();
+    virtual Card *createHawkerHealer();
+    virtual Card *createHawkerSupport();
+    virtual Card *createMahakamDefender();
+    virtual Card *createMahakamGuard();
+    virtual Card *createMahakamVolunteers();
+    virtual Card *createPyrotechnician();
+    virtual Card *createWardancer();
+    virtual Card *createVriheddVanguard();
+    virtual Card *createVriheddOfficer();
+    virtual Card *createVriheddNeophyte();
+    virtual Card *createVriheddBrigade();
+    virtual Card *createHawkerSmuggler();
+    virtual Card *createMennoCoehoorn();
+    virtual Card *createRainfarnOfAttre();
+    virtual Card *createAssassination();
+    virtual Card *createStefanSkellen();
+    virtual Card *createShilard();
+    virtual Card *createXarthisius();
+    virtual Card *createCantarella();
+    virtual Card *createPanther();
+    virtual Card *createVicovaroMedic();
+    virtual Card *createAssireVarAnahid();
+    virtual Card *createFringillaVigo();
+    virtual Card *createFalseCiri();
+    virtual Card *createDandelion();
+    virtual Card *createKiyan();
+    virtual Card *createPhilippaEilhart();
+    virtual Card *createRocheMerciless();
+    virtual Card *createShani();
+    virtual Card *createVandergrift();
+    virtual Card *createBotchling();
+    virtual Card *createLubberkin();
+    virtual Card *createNilfgaardianGate();
+    virtual Card *createPeterSaarGwynleve();
+    virtual Card *createVicovaroNovice();
+    virtual Card *createCadaverine();
+    virtual Card *createJoachimDeWett();
+    virtual Card *createTreason();
+    virtual Card *createVanhemar();
+    virtual Card *createVrygheff();
+    virtual Card *createAlbaPikeman();
+    virtual Card *createCombatEngineer();
+    virtual Card *createMagneDivision();
+    virtual Card *createNauzicaaBrigade();
+    virtual Card *createSlaveDriver();
+    virtual Card *createSlaveHunter();
+    virtual Card *createViperWitcher();
+    virtual Card *createRotTosser();
+    virtual Card *createCowCarcass();
+    virtual Card *createStandardBearer();
+    virtual Card *createCursedKnight();
+    virtual Card *createMargaritaOfAretuza();
+    virtual Card *createNenneke();
+    virtual Card *createSabrinasSpecter();
+    virtual Card *createSabrinaGlevissig();
+    virtual Card *createThaler();
+    virtual Card *createAedirnianMauler();
+    virtual Card *createAretuzaAdept();
+    virtual Card *createVandergriftsBlade();
+    virtual Card *createReinforcedTrebuchet();
+    virtual Card *createBallista();
+    virtual Card *createBloodyFlail();
+    virtual Card *createSpecter();
+    virtual Card *createBatteringRam();
+    virtual Card *createTrebuchet();
+    virtual Card *createBanArdTutor();
+    virtual Card *createFieldMedic();
 };
-
-
 #endif // CARDS_H

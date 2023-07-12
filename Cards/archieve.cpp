@@ -1,7454 +1,6964 @@
-#include "archieve.h"
+﻿#include "archieve.h"
 
 #include <cassert>
 #include <random>
 
 #include "filters.h"
 
-std::vector<Card *> allCards(const Patch)
+std::vector<Card *> Cards::createAll()
 {
-    return {
-        new AddaStriga(),
-        new Dao(),
-        new PoorFingInfantry(),
-        new DeithwenArbalest(),
-        new TemerianDrummer(),
-        new DandelionPoet(),
-        new SileDeTansarville(),
-        new RedanianKnightElect(),
-        new KaedweniKnight(),
-        new AnCraiteMarauder(),
-        new AnCraiteGreatsword(),
-        new DimunLightLongship(),
-        new TuirseachBearmaster(),
-        new TuirseachHunter(),
-        new RedanianElite(),
-        new RedanianKnight(),
-        new KaedweniCavalry(),
-        new AlzursThunder(),
-        new Swallow(),
-        new Thunderbolt(),
-        new ArachasVenom(),
-        new KeiraMetz(),
-        new DolBlathannaArcher(),
-        new HalfElfHunter(),
-        new Ambassador(),
-        new Assassin(),
-        new Emissary(),
-        new CeallachDyffryn(),
-        new TuirseachArcher(),
-        new Infiltrator(),
-        new ImpenetrableFog(),
-        new TorrentialRain(),
-        new BitingFrost(),
-        new GoldenFroth(),
-        new SkelligeStorm(),
-        new ImperialManticore(),
-        new ManticoreVenom(),
-        new GloriousHunt(),
-        new Ves(),
-        new Vaedermakar(),
-        new Frightener(),
-        new Cleaver(),
-        new Scorch(),
-        new Reinforcements(),
-        new JohnNatalis(),
-        new Eleyas(),
-        new ReaverScout(),
-        new HeymaeySpearmaiden(),
-        new VriheddSappers(),
-        new PriestessOfFreya(),
-        new DimunCorsair(),
-        new Sigrdrifa(),
-        new DrummondQueensguard(),
-        new Sage(),
-        new Reconnaissance(),
-        new ElvenMercenary(),
-        new ChampionOfHov(),
-        new Priscilla(),
-        new SeltkirkOfGulet(),
-        new AdrenalineRush(),
-        new Mandrake(),
-        new BoneTalisman(),
-        new Restore(),
-        new Decoy(),
-        new ShupesDayOff(),
-        new FirstLight(),
-        new Epidemic(),
-        new Moonlight(),
-        new CiriNova(),
-        new HaraldTheCripple(),
-        new BranTuirseach(),
-        new DrummondWarmonger(),
-        new DimunPirate(),
-        new AnCraiteRaider(),
-        new MadmanLugos(),
-        new Ermion(),
-        new CerysFearless(),
-        new CerysAnCraite(),
-        new WoodlandSpirit(),
-        new Trollololo(),
-        new PrinceStennis(),
-        new VincentMeis(),
-        new Morkvarg(),
-        new ArtefactCompression(),
-        new HjalmarAnCraite(),
-        new Regis(),
-        new LethoOfGulet(),
-        new AnCraiteLongship(),
-        new GeraltIgni(),
-        new GeraltOfRivia(),
-        new TuirseachVeteran(),
-        new Udalryk(),
-        new BloodcurdlingRoar(),
-        new Gremist(),
-        new ZoriaRunestone(),
-        new Operator(),
-        new Renew(),
-        new EistTuirseach(),
-        new TuirseachAxeman(),
-        new Derran(),
-        new TuirseachSkirmisher(),
-        new Roach(),
-        new JanCalveit(),
-        new CahirDyffryn(),
-        new LethoKingslayer(),
-        new KingHenselt(),
-        new BloodyBaron(),
-        new HubertRejk(),
-        new Dethmold(),
-        new RonvidTheIncessant(),
-        new CrachAnCraite(),
-        new BirnaBran(),
-        new Coral(),
-        new Vabjorn(),
-        new BlueboyLugos(),
-        new DjengeFrett(),
-        new DonarAnHindar(),
-        new DraigBonDhu(),
-        new HolgerBlackhand(),
-        new JuttaAnDimun(),
-        new SavageBear(),
-        new SvanrigeTuirseach(),
-        new Skjall(),
-        new HaraldHoundsnout(),
-        new Yoana(),
-        new AnCraiteBlacksmith(),
-        new AnCraiteWarcrier(),
-        new AnCraiteWarrior(),
-        new BerserkerMarauder(),
-        new DimunPirateCaptain(),
-        new DimunSmuggler(),
-        new DrummondShieldmaid(),
-        new HeymaeyFlaminica(),
-        new HeymaeyHerbalist(),
-        new HeymaeyProtector(),
-        new HeymaeySkald(),
-        new RagingBerserker(),
-        new Hym(),
-        new Kambi(),
-        new Olaf(),
-        new Ulfhedinn(),
-        new WildBoarOfTheSea(),
-        new GiantBoar(),
-        new OrnamentalSword(),
-        new DimunWarship(),
-        new Vilgefortz(),
-        new TrissButterflies(),
-        new Yennefer(),
-        new GermainPiquant(),
-        new CommandersHorn(),
-        new MarchingOrders(),
-        new AlzursDoubleCross(),
-        new AlbaArmoredCavalry(),
-        new Sentry(),
-        new NauzicaaSergeant(),
-        new SlaveInfantry(),
-        new Recruit(),
-        new Ointment(),
-        new Vreemde(),
-        new Lambert(),
-        new Eskel(),
-        new Vesemir(),
-        new TridamInfantry(),
-        new VriheddDragoon(),
-        new Malena(),
-        new UnseenElder(),
-        new DevanaRunestone(),
-        new DazhbogRunestone(),
-        new MoranaRunestone(),
-        new StribogRunestone(),
-        new Muzzle(),
-        new WhisperingHillock(),
-        new Brewess(),
-        new Weavess(),
-        new Whispess(),
-        new WeavessIncantation(),
-        new BrewessRitual(),
-        new WhispessTribute(),
-        new Nivellen(),
-        new LeoBonhart(),
-        new MorvranVoorhis(),
-        new Cynthia(),
-        new Serrit(),
-        new Sweers(),
-        new TiborEggebracht(),
-        new VattierDeRideaux(),
-        new Albrich(),
-        new HeftyHelge(),
-        new Alchemist(),
-        new DaerlanSoldier(),
-        new FireScorpion(),
-        new Mangonel(),
-        new NilfgaardianKnight(),
-        new Spotter(),
-        new VenendalElite(),
-        new MasterOfDisguise(),
-        new HenryVarAttre(),
-        new WildHuntHound(),
-        new WildHuntWarrior(),
-        new WildHuntNavigator(),
-        new Nithral(),
-        new Miruna(),
-        new Imlerith(),
-        new Caretaker(),
-        new Ruehin(),
-        new OldSpeartipAsleep(),
-        new OldSpeartip(),
-        new Golyat(),
-        new Barbegazi(),
-        new Ghoul(),
-        new Forktail(),
-        new ArachasQueen(),
-        new Ozzrel(),
-        new Kayran(),
-        new Mourntart(),
-        new ToadPrince(),
-        new Fiend(),
-        new Morvudd(),
-        new Ekimmara(),
-        new Rotfiend(),
-        new Archespore(),
-        new Cyclops(),
-        new Maerolorn(),
-        new MonsterNest(),
-        new ArachasDrone(),
-        new EredinBreaccGlas(),
-        new CaranthirArFeiniel(),
-        new ImlerithSabbath(),
-        new Dagon(),
-        new Ifrit(),
-        new SheTrollOfVergen(),
-        new Wyvern(),
-        new Abaya(),
-        new Parasite(),
-        new Jotunn(),
-        new IceGiant(),
-        new IceTroll(),
-        new Drowner(),
-        new Foglet(),
-        new AncientFoglet(),
-        new Draug(),
-        new CelaenoHarpy(),
-        new ArachasBehemoth(),
-        new Archgriffin(),
-        new Griffin(),
-        new BridgeTroll(),
-        new Cockatrice(),
-        new Siren(),
-        new Lamia(),
-        new Nekker(),
-        new NekkerWarrior(),
-        new Slyzard(),
-        new Werecat(),
-        new Harpy(),
-        new WildHuntDrakkar(),
-        new Geels(),
-        new WildHuntRider(),
-        new VranWarrior(),
-        new AnCraiteArmorsmith(),
-        new Avalach(),
-        new AvalachSage(),
-        new Nekurat(),
-        new RaghNarRoog(),
-        new GeraltProfessional(),
-        new GeraltAard(),
-        new GeraltYrden(),
-        new CiriDash(),
-        new Aguara(),
-        new AguaraTrueForm(),
-        new KorathiHeatwave(),
-        new AleOfTheAncestors(),
-        new MahakamAle(),
-        new Odrin(),
-        new Toruviel(),
-        new Ciri(),
-        new Milva(),
-        new PrincessPavetta(),
-        new TheGuardian(),
-        new GaunterODimm(),
-        new KaedweniSergeant(),
-        new ReinforcedBallista(),
-        new SigismundDijkstra(),
-        new WhiteFrost(),
-        new Wolfsbane(),
-        new DunBanner(),
-        new Aelirenn(),
-        new HanmarvynsDream(),
-        new BlackBlood(),
-        new BekkersRockslide(),
-        new BekkersDarkMirror(),
-        new MerigoldsHailstorm(),
-        new Necromancy(),
-        new StammelfordsTremor(),
-        new ExpiredAle(),
-        new TrialOfTheGrasses(),
-        new DimeritiumBomb(),
-        new Garrison(),
-        new TheLastWish(),
-        new DimeritiumShackles(),
-        new WyvernScaleShield(),
-        new MastercraftedSpear(),
-        new PetrisPhilter(),
-        new Shrike(),
-        new RoyalDecree(),
-        new UmasCurse(),
-        new Lacerate(),
-        new CrowsEye(),
-        new Doppler(),
-        new Spores(),
-        new Mardroeme(),
-        new Sihil(),
-        new EskelPathfinder(),
-        new VesemirMentor(),
-        new LambertSwordmaster(),
-        new RegisHigherVampire(),
-        new ZoltanScoundrel(),
-        new YenneferConjurer(),
-        new TrissMerigold(),
-        new TrissTelekinesis(),
-        new DorregarayOfVole(),
-        new DandelionVainglory(),
-        new CyprianWiley(),
-        new Dudu(),
-        new Ihuarraquax(),
-        new MahakamMarauder(),
-        new ZoltanChivay(),
-        new YenneferNecromancer(),
-        new Phoenix(),
-        new SaesenthessisBlaze(),
-        new Villentretenmerth(),
-        new Ocvist(),
-        new Myrgtabrakke(),
-        new KingOfBeggars(),
-        new OlgierdVonEverec(),
-        new IrisVonEverec(),
-        new IrisCompanions(),
-        new Johnny(),
-        new Stregobor(),
-        new Sarah(),
-        new PeasantMilitia(),
-        new PrizeWinningCow(),
-        new PrincessAdda(),
-        new KingFoltest(),
-        new KingRadovidV(),
-        new EmhyrVarEmreis(),
-        new Usurper(),
-        new BrouverHoog(),
-        new Eithne(),
-        new Filavandrel(),
-        new FrancescaFindabair(),
-        new Aglais(),
-        new Iorveth(),
-        new IorvethMeditation(),
-        new IsengrimFaoiltiarna(),
-        new IsengrimOutlaw(),
-        new Schirru(),
-        new Saesenthessis(),
-        new Saskia(),
-        new BarclayEls(),
-        new DennisCranmer(),
-        new SheldonSkaggs(),
-        new YarpenZigrin(),
-        new Yaevinn(),
-        new IdaEmeanAepSivney(),
-        new PavkoGale(),
-        new CiaranAepEasnillen(),
-        new EibhearHattori(),
-        new Milaen(),
-        new Braenn(),
-        new Morenn(),
-        new PaulieDahlberg(),
-        new MahakamHorn(),
-        new NaturesGift(),
-        new PitTrap(),
-        new CrushingTrap(),
-        new ElvenBlade(),
-        new IncineratingTrap(),
-        new BlueMountainElite(),
-        new DolBlathannaBomber(),
-        new DolBlathannaBowman(),
-        new DolBlathannaSentry(),
-        new ElvenScout(),
-        new ElvenSwordmaster(),
-        new DwarvenAgitator(),
-        new DwarvenMercenary(),
-        new DwarvenSkirmisher(),
-        new HawkerHealer(),
-        new HawkerSupport(),
-        new MahakamDefender(),
-        new MahakamGuard(),
-        new MahakamVolunteers(),
-        new Pyrotechnician(),
-        new Wardancer(),
-        new VriheddVanguard(),
-        new VriheddOfficer(),
-        new VriheddNeophyte(),
-        new VriheddBrigade(),
-        new HawkerSmuggler(),
-        new MennoCoehoorn(),
-        new RainfarnOfAttre(),
-        new Assassination(),
-        new StefanSkellen(),
-        new Shilard(),
-        new Cantarella(),
-        new Panther(),
-        new VicovaroMedic(),
-        new AssireVarAnahid(),
-        new FringillaVigo(),
-        new FalseCiri(),
-        new Dandelion(),
-        new Kiyan(),
-        new PhilippaEilhart(),
-        new RocheMerciless(),
-        new Shani(),
-        new Vandergrift(),
-        new Botchling(),
-        new Lubberkin(),
-        new NilfgaardianGate(),
-        new PeterSaarGwynleve(),
-        new VicovaroNovice(),
-        new Cadaverine(),
-        new JoachimDeWett(),
-        new Treason(),
-        new Vanhemar(),
-        new Vrygheff(),
-        new AlbaPikeman(),
-        new CombatEngineer(),
-        new MagneDivision(),
-        new NauzicaaBrigade(),
-        new SlaveDriver(),
-        new SlaveHunter(),
-        new ViperWitcher(),
-        new RotTosser(),
-        new StandardBearer(),
-        new MargaritaOfAretuza(),
-        new Nenneke(),
-        new SabrinasSpecter(),
-        new SabrinaGlevissig(),
-        new Thaler(),
-        new AedirnianMauler(),
-        new AretuzaAdept(),
-        new VandergriftsBlade(),
-        new ReinforcedTrebuchet(),
-        new Ballista(),
-        new BloodyFlail(),
-        new BatteringRam(),
-        new Trebuchet(),
-        new BanArdTutor(),
-        new FieldMedic(),
+    const std::vector<Card *> cards {
+        createAddaStriga(),
+        createDao(),
+        createPoorFingInfantry(),
+        createDeithwenArbalest(),
+        createTemerianDrummer(),
+        createDandelionPoet(),
+        createSileDeTansarville(),
+        createRedanianKnightElect(),
+        createKaedweniKnight(),
+        createAnCraiteMarauder(),
+        createAnCraiteGreatsword(),
+        createDimunLightLongship(),
+        createTuirseachBearmaster(),
+        createTuirseachHunter(),
+        createRedanianElite(),
+        createRedanianKnight(),
+        createKaedweniCavalry(),
+        createAlzursThunder(),
+        createSwallow(),
+        createThunderbolt(),
+        createArachasVenom(),
+        createKeiraMetz(),
+        createDolBlathannaArcher(),
+        createHalfElfHunter(),
+        createAmbassador(),
+        createAssassin(),
+        createEmissary(),
+        createCeallachDyffryn(),
+        createTuirseachArcher(),
+        createInfiltrator(),
+        createImpenetrableFog(),
+        createTorrentialRain(),
+        createBitingFrost(),
+        createGoldenFroth(),
+        createSkelligeStorm(),
+        createImperialManticore(),
+        createManticoreVenom(),
+        createGloriousHunt(),
+        createVes(),
+        createVaedermakar(),
+        createFrightener(),
+        createCleaver(),
+        createScorch(),
+        createReinforcements(),
+        createJohnNatalis(),
+        createEleyas(),
+        createReaverScout(),
+        createHeymaeySpearmaiden(),
+        createVriheddSappers(),
+        createPriestessOfFreya(),
+        createDimunCorsair(),
+        createSigrdrifa(),
+        createDrummondQueensguard(),
+        createSage(),
+        createReconnaissance(),
+        createElvenMercenary(),
+        createChampionOfHov(),
+        createPriscilla(),
+        createSeltkirkOfGulet(),
+        createAdrenalineRush(),
+        createMandrake(),
+        createBoneTalisman(),
+        createRestore(),
+        createDecoy(),
+        createShupesDayOff(),
+        createFirstLight(),
+        createEpidemic(),
+        createMoonlight(),
+        createCiriNova(),
+        createHaraldTheCripple(),
+        createBranTuirseach(),
+        createDrummondWarmonger(),
+        createDimunPirate(),
+        createAnCraiteRaider(),
+        createMadmanLugos(),
+        createErmion(),
+        createCerysFearless(),
+        createCerysAnCraite(),
+        createWoodlandSpirit(),
+        createTrollololo(),
+        createPrinceStennis(),
+        createVincentMeis(),
+        createMorkvarg(),
+        createArtefactCompression(),
+        createHjalmarAnCraite(),
+        createRegis(),
+        createLethoOfGulet(),
+        createAnCraiteLongship(),
+        createGeraltIgni(),
+        createGeraltOfRivia(),
+        createTuirseachVeteran(),
+        createUdalryk(),
+        createBloodcurdlingRoar(),
+        createGremist(),
+        createZoriaRunestone(),
+        createOperator(),
+        createRenew(),
+        createEistTuirseach(),
+        createTuirseachAxeman(),
+        createDerran(),
+        createTuirseachSkirmisher(),
+        createRoach(),
+        createJanCalveit(),
+        createCahirDyffryn(),
+        createLethoKingslayer(),
+        createKingHenselt(),
+        createBloodyBaron(),
+        createHubertRejk(),
+        createDethmold(),
+        createRonvidTheIncessant(),
+        createCrachAnCraite(),
+        createBirnaBran(),
+        createCoral(),
+        createVabjorn(),
+        createBlueboyLugos(),
+        createDjengeFrett(),
+        createDonarAnHindar(),
+        createDraigBonDhu(),
+        createHolgerBlackhand(),
+        createJuttaAnDimun(),
+        createSavageBear(),
+        createSvanrigeTuirseach(),
+        createSkjall(),
+        createHaraldHoundsnout(),
+        createYoana(),
+        createAnCraiteBlacksmith(),
+        createAnCraiteWarcrier(),
+        createAnCraiteWarrior(),
+        createBerserkerMarauder(),
+        createDimunPirateCaptain(),
+        createDimunSmuggler(),
+        createDrummondShieldmaid(),
+        createHeymaeyFlaminica(),
+        createHeymaeyHerbalist(),
+        createHeymaeyProtector(),
+        createHeymaeySkald(),
+        createRagingBerserker(),
+        createHym(),
+        createKambi(),
+        createOlaf(),
+        createUlfhedinn(),
+        createWildBoarOfTheSea(),
+        createGiantBoar(),
+        createOrnamentalSword(),
+        createDimunWarship(),
+        createVilgefortz(),
+        createTrissButterflies(),
+        createYennefer(),
+        createGermainPiquant(),
+        createCommandersHorn(),
+        createMarchingOrders(),
+        createAlzursDoubleCross(),
+        createAlbaArmoredCavalry(),
+        createSentry(),
+        createNauzicaaSergeant(),
+        createSlaveInfantry(),
+        createRecruit(),
+        createOintment(),
+        createVreemde(),
+        createLambert(),
+        createEskel(),
+        createVesemir(),
+        createTridamInfantry(),
+        createVriheddDragoon(),
+        createMalena(),
+        createUnseenElder(),
+        createDevanaRunestone(),
+        createDazhbogRunestone(),
+        createMoranaRunestone(),
+        createStribogRunestone(),
+        createMuzzle(),
+        createWhisperingHillock(),
+        createBrewess(),
+        createWeavess(),
+        createWhispess(),
+        createWeavessIncantation(),
+        createBrewessRitual(),
+        createWhispessTribute(),
+        createNivellen(),
+        createLeoBonhart(),
+        createMorvranVoorhis(),
+        createCynthia(),
+        createSerrit(),
+        createSweers(),
+        createTiborEggebracht(),
+        createVattierDeRideaux(),
+        createAlbrich(),
+        createHeftyHelge(),
+        createAlchemist(),
+        createDaerlanSoldier(),
+        createFireScorpion(),
+        createMangonel(),
+        createNilfgaardianKnight(),
+        createSpotter(),
+        createVenendalElite(),
+        createMasterOfDisguise(),
+        createHenryVarAttre(),
+        createWildHuntHound(),
+        createWildHuntWarrior(),
+        createWildHuntNavigator(),
+        createNithral(),
+        createMiruna(),
+        createImlerith(),
+        createCaretaker(),
+        createRuehin(),
+        createOldSpeartipAsleep(),
+        createOldSpeartip(),
+        createGolyat(),
+        createBarbegazi(),
+        createGhoul(),
+        createForktail(),
+        createArachasQueen(),
+        createOzzrel(),
+        createKayran(),
+        createMourntart(),
+        createToadPrince(),
+        createFiend(),
+        createMorvudd(),
+        createEkimmara(),
+        createRotfiend(),
+        createArchespore(),
+        createCyclops(),
+        createMaerolorn(),
+        createMonsterNest(),
+        createArachasDrone(),
+        createEredinBreaccGlas(),
+        createCaranthirArFeiniel(),
+        createImlerithSabbath(),
+        createDagon(),
+        createIfrit(),
+        createSheTrollOfVergen(),
+        createWyvern(),
+        createAbaya(),
+        createParasite(),
+        createJotunn(),
+        createIceGiant(),
+        createIceTroll(),
+        createDrowner(),
+        createFoglet(),
+        createAncientFoglet(),
+        createDraug(),
+        createCelaenoHarpy(),
+        createArachasBehemoth(),
+        createArchgriffin(),
+        createGriffin(),
+        createBridgeTroll(),
+        createCockatrice(),
+        createSiren(),
+        createLamia(),
+        createNekker(),
+        createNekkerWarrior(),
+        createSlyzard(),
+        createWerecat(),
+        createHarpy(),
+        createWildHuntDrakkar(),
+        createGeels(),
+        createWildHuntRider(),
+        createVranWarrior(),
+        createAnCraiteArmorsmith(),
+        createAvalach(),
+        createAvalachSage(),
+        createNekurat(),
+        createRaghNarRoog(),
+        createGeraltProfessional(),
+        createGeraltAard(),
+        createGeraltYrden(),
+        createCiriDash(),
+        createAguara(),
+        createAguaraTrueForm(),
+        createKorathiHeatwave(),
+        createAleOfTheAncestors(),
+        createMahakamAle(),
+        createOdrin(),
+        createToruviel(),
+        createCiri(),
+        createMilva(),
+        createPrincessPavetta(),
+        createTheGuardian(),
+        createGaunterODimm(),
+        createKaedweniSergeant(),
+        createReinforcedBallista(),
+        createSigismundDijkstra(),
+        createWhiteFrost(),
+        createWolfsbane(),
+        createDunBanner(),
+        createAelirenn(),
+        createHanmarvynsDream(),
+        createBlackBlood(),
+        createBekkersRockslide(),
+        createBekkersDarkMirror(),
+        createMerigoldsHailstorm(),
+        createNecromancy(),
+        createStammelfordsTremor(),
+        createExpiredAle(),
+        createTrialOfTheGrasses(),
+        createDimeritiumBomb(),
+        createGarrison(),
+        createTheLastWish(),
+        createDimeritiumShackles(),
+        createWyvernScaleShield(),
+        createMastercraftedSpear(),
+        createPetrisPhilter(),
+        createShrike(),
+        createRoyalDecree(),
+        createUmasCurse(),
+        createLacerate(),
+        createCrowsEye(),
+        createDoppler(),
+        createSpores(),
+        createMardroeme(),
+        createSihil(),
+        createEskelPathfinder(),
+        createVesemirMentor(),
+        createLambertSwordmaster(),
+        createRegisHigherVampire(),
+        createZoltanScoundrel(),
+        createYenneferConjurer(),
+        createTrissMerigold(),
+        createTrissTelekinesis(),
+        createDorregarayOfVole(),
+        createDandelionVainglory(),
+        createCyprianWiley(),
+        createDudu(),
+        createIhuarraquax(),
+        createMahakamMarauder(),
+        createZoltanChivay(),
+        createYenneferNecromancer(),
+        createPhoenix(),
+        createSaesenthessisBlaze(),
+        createVillentretenmerth(),
+        createOcvist(),
+        createMyrgtabrakke(),
+        createKingOfBeggars(),
+        createOlgierdVonEverec(),
+        createIrisVonEverec(),
+        createIrisCompanions(),
+        createJohnny(),
+        createStregobor(),
+        createSarah(),
+        createPeasantMilitia(),
+        createPrizeWinningCow(),
+        createPrincessAdda(),
+        createKingFoltest(),
+        createKingRadovidV(),
+        createEmhyrVarEmreis(),
+        createUsurper(),
+        createBrouverHoog(),
+        createEithne(),
+        createFilavandrel(),
+        createFrancescaFindabair(),
+        createAglais(),
+        createIorveth(),
+        createIorvethMeditation(),
+        createIsengrimFaoiltiarna(),
+        createIsengrimOutlaw(),
+        createSchirru(),
+        createSaesenthessis(),
+        createSaskia(),
+        createBarclayEls(),
+        createDennisCranmer(),
+        createSheldonSkaggs(),
+        createYarpenZigrin(),
+        createYaevinn(),
+        createIdaEmeanAepSivney(),
+        createPavkoGale(),
+        createCiaranAepEasnillen(),
+        createEibhearHattori(),
+        createMilaen(),
+        createBraenn(),
+        createMorenn(),
+        createPaulieDahlberg(),
+        createMahakamHorn(),
+        createNaturesGift(),
+        createPitTrap(),
+        createCrushingTrap(),
+        createElvenBlade(),
+        createIncineratingTrap(),
+        createBlueMountainElite(),
+        createDolBlathannaBomber(),
+        createDolBlathannaBowman(),
+        createDolBlathannaSentry(),
+        createElvenScout(),
+        createElvenSwordmaster(),
+        createDwarvenAgitator(),
+        createDwarvenMercenary(),
+        createDwarvenSkirmisher(),
+        createHawkerHealer(),
+        createHawkerSupport(),
+        createMahakamDefender(),
+        createMahakamGuard(),
+        createMahakamVolunteers(),
+        createPyrotechnician(),
+        createWardancer(),
+        createVriheddVanguard(),
+        createVriheddOfficer(),
+        createVriheddNeophyte(),
+        createVriheddBrigade(),
+        createHawkerSmuggler(),
+        createMennoCoehoorn(),
+        createRainfarnOfAttre(),
+        createAssassination(),
+        createStefanSkellen(),
+        createShilard(),
+        createCantarella(),
+        createPanther(),
+        createVicovaroMedic(),
+        createAssireVarAnahid(),
+        createFringillaVigo(),
+        createFalseCiri(),
+        createDandelion(),
+        createKiyan(),
+        createPhilippaEilhart(),
+        createRocheMerciless(),
+        createShani(),
+        createVandergrift(),
+        createBotchling(),
+        createLubberkin(),
+        createNilfgaardianGate(),
+        createPeterSaarGwynleve(),
+        createVicovaroNovice(),
+        createCadaverine(),
+        createJoachimDeWett(),
+        createTreason(),
+        createVanhemar(),
+        createVrygheff(),
+        createAlbaPikeman(),
+        createCombatEngineer(),
+        createMagneDivision(),
+        createNauzicaaBrigade(),
+        createSlaveDriver(),
+        createSlaveHunter(),
+        createViperWitcher(),
+        createRotTosser(),
+        createCowCarcass(),
+        createStandardBearer(),
+        createCursedKnight(),
+        createWerewolf(),
+        createMargaritaOfAretuza(),
+        createNenneke(),
+        createSabrinasSpecter(),
+        createSabrinaGlevissig(),
+        createThaler(),
+        createAedirnianMauler(),
+        createAretuzaAdept(),
+        createVandergriftsBlade(),
+        createReinforcedTrebuchet(),
+        createBallista(),
+        createBloodyFlail(),
+        createBatteringRam(),
+        createTrebuchet(),
+        createBanArdTutor(),
+        createFieldMedic(),
     };
+    return cards;
+}
+
+Card *Cards::createAddaStriga()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAddaStriga, this);
+
+    res->id = "200073";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Relict, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonMonsterFaction});
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 8, ally, enemy, self);
+    };
+
+    return res;
+}
+
+Card *Cards::createDaoLesser()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDaoLesser, this);
+
+    res->id = "132405";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Construct };
+    res->isDoomed = true;
+    return res;
+}
+
+Card *Cards::createDao()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDao, this);
+
+    res->id = "132213";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Construct };
+
+    res->_onDestroy = [this](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        spawnNewUnitToPos(createDaoLesser(), rowAndPos, ally, enemy, self);
+        spawnNewUnitToPos(createDaoLesser(), rowAndPos, ally, enemy, self);
+    };
+
+    return res;
 }
 
 
-std::map<std::string, std::string> keywordDescriptions(const Patch patch)
+Card *Cards::createLeftFlankInfantry()
 {
-    if (patch == PublicBeta_0_9_24_3_432)
-        return {
-            {"Charm", "Move an enemy to the opposite row."},
-            {"Highest", "Highest power, ties are resolved randomly."},
-            {"Lowest", "Lowest power, ties are resolved randomly."},
-            {"Truce", "If neither player has passed."},
-            {"Spawn", "Add a card to the game."},
-            {"Armor", "Absorbs a given amount of damage, then is removed."},
-            {"Discard", "Move a card from your hand to the graveyard. Note: Related abilities are not triggered when discarding manually."},
-            {"Strengthen", "Increase the base power of a unit."},
-            {"Weaken", "Decrease the base power of a unit. If it falls below 1, remove it from the game. Does not trigger Deathwish abilities."},
-            {"Reset", "Restore a card to its default state (as it would appear in the Deck Builder)."},
-            {"Drain", "Deal damage and boost self by the same amount."},
-            {"Consume", "Eat a unit and boost by its power. If it's on the battlefield, destroy it. If in hand or deck, move it to the graveyard. If in the graveyard, remove it from the game."},
-            {"Create", "Spawn one of three randomly selected cards from the specified source."},
-            {"Summon", "Move automatically to the battlefield (not considered played)."},
-            {"Deathwish", "Trigger this ability when destroyed and moved from the battlefield to the graveyard. Note: Banished units are not sent to the graveyard."},
-            {"Spying", "Status for a unit played on or moved to the opposite side of the battlefield."},
-            {"Single-Use", "This card's ability can be used only once per game."},
-            {"Resurrect", "Play from your graveyard."},
-            {"Hazard", "Negative row effect. Replaced by other row effects and removed on round end."},
-            {"Banish", "Remove from the game. Note: Does not count as being destroyed."},
-            {"Heal", "If a unit's current power is lower than its base power, restore it either to base power or by the amount specified."},
-            {"Lock", "Status that disables a unit's abilities."},
-            {"Boon", "Positive row effect. Replaced by other row effects and removed on round end."},
-            {"Duel", "Units take turns dealing damage equal to their power until one of them is destroyed."},
-            {"Reveal", "Show a card to both players, then hide it back in the hand or deck."},
-            {"Conceal", "Turn over a face-up card in hand."},
-            {"Revealed", "A card in the hand that has been turned over."},
-            {"Crew", "This unit triggers the ability of Crewed units played adjacent to it."},
-            {"Ambush", "Played face down, then flips over when the ability's condition is met."},
-            {"Crewed", "When played, trigger this ability once for each adjacent Crew unit."},
-            {"Swap", "Move a card from hand to deck and draw another in its place during your turn."},
-            {"Resilience", "Status that allows a unit to remain on the board at round end, and if boosted restores it to its base power."},
-            {"Doomed", "Banish instead of putting in a Discard."},
-            {"Immunity", "Status whereby this card cannot be manually targeted."},
-        };
-    return {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLeftFlankInfantry, this);
+
+    res->id = "200302";
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Soldier };
+    res->isDoomed = true;
+    return res;
+};
+
+
+
+Card *Cards::createRightFlankInfantry()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRightFlankInfantry, this);
+
+    res->id = "200303";
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Soldier };
+    res->isDoomed = true;
+    return res;
+};
+
+Card *Cards::createPoorFingInfantry()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPoorFingInfantry, this);
+
+    res->id = "200234";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Soldier };
+
+
+    res->_onDeploy = [this](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createLeftFlankInfantry(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createRightFlankInfantry(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+    };
+    return res;
 }
 
-AddaStriga::AddaStriga()
+Card *Cards::createDeithwenArbalest()
 {
-    id = "200073";
-    name = "Adda: Striga";
-    text = "Deal 8 damage to a non-Monster faction unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Relict, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDeithwenArbalest, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonMonsterFaction});
+    res->id = "162305";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
-        damage(card, 8, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, target->isSpy ? 6 : 3, ally, enemy, self);
     };
-}
-
-
-Dao::Dao()
-{
-    id = "132213";
-    name = "D'ao";
-    text = "Deathwish: Spawn 2 Lesser D'ao on this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Construct };
-
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPos(new DaoLesser(), rowAndPos, ally, enemy, this);
-    };
+    return res;
 }
 
 
-Dao::DaoLesser::DaoLesser()
+Card *Cards::createTemerianDrummer()
 {
-    id = "132405";
-    name = "D'ao Lesser";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Construct };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTemerianDrummer, this);
+
+    res->id = "200299";
+    res->power = res->powerBase = 5;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 6, ally, enemy, self);
+    };
+    return res;
 }
 
 
-PoorFingInfantry::LeftFlankInfantry::LeftFlankInfantry()
+Card *Cards::createDandelionPoet()
 {
-    id = "200302";
-    name = "Left Flank Infantry";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Temeria, Soldier };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDandelionPoet, this);
+
+    res->id = "201776";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (drawACard(ally, enemy,  self))
+            startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
 }
 
 
-PoorFingInfantry::RightFlankInfantry::RightFlankInfantry()
+Card *Cards::createSileDeTansarville()
 {
-    id = "200303";
-    name = "Right Flank Infantry";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Temeria, Soldier };
-    isDoomed = true;
-}
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSileDeTansarville, this);
 
-PoorFingInfantry::PoorFingInfantry()
-{
-    id = "200234";
-    name = "Poor F'ing Infantry";
-    text = "Spawn Left Flank Infantry and Right Flank Infantry to the left and right of this unit, respectively.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00521643.mp3",
-        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00519831.mp3",
-        "https://gwent.one/audio/card/ob/en/VPEA1_VSET_00518009.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Temeria, Soldier };
+    res->id = "122205";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Mage };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new LeftFlankInfantry(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new RightFlankInfantry(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-    };
-}
-
-DeithwenArbalest::DeithwenArbalest()
-{
-    id = "162305";
-    name = "Deithwen Arbalest";
-    text = "Deal 3 damage to an enemy. If it's Spying, deal 6 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514109.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF3_SQ102_00591494.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514105.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyHand);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, target->isSpy ? 6 : 3, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        drawACard(ally, enemy,  self);
     };
+    return res;
 }
 
 
-TemerianDrummer::TemerianDrummer()
+Card *Cards::createRedanianKnightElect()
 {
-    id = "200299";
-    name = "Temerian Drummer";
-    text = "Boost an ally by 6.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.407.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.408.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.409.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Temeria, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRedanianKnightElect, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "123301";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Redania, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 6, ally, enemy, this);
-    };
-}
-
-
-DandelionPoet::DandelionPoet()
-{
-    id = "201776";
-    name = "Dandelion: Poet";
-    text = "Draw a card, then play a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Support };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (drawACard(ally, enemy,  this))
-            startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
-}
-
-
-SileDeTansarville::SileDeTansarville()
-{
-    id = "122205";
-    name = "S'ile de Tansarville";
-    text = "Play a Bronze or Silver special card, then draw a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.29.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.30.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.31.mp3",
-    };
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Mage };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        drawACard(ally, enemy,  this);
-    };
-}
-
-
-RedanianKnightElect::RedanianKnightElect()
-{
-    id = "123301";
-    name = "Redanian Knight Elect";
-    text = "If this unit has Armor on turn end, boost adjacent units by 1. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.320.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.321.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.322.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.323.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.324.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Redania, Soldier };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
-    };
-
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (armor == 0)
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (self->armor == 0)
             return;
 
-        Card *left = cardNextTo(this, ally, enemy, -1);
-        Card *right = cardNextTo(this, ally, enemy, 1);
-
+        Card *left = cardNextTo(self, ally, enemy, -1);
         if (left != nullptr)
-            boost(left, 1, ally, enemy, this);
+            boost(left, 1, ally, enemy, self);
+
+        Card *right = cardNextTo(self, ally, enemy, 1);
         if (right != nullptr)
-            boost(right, 1, ally, enemy, this);
+            boost(right, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-AnCraiteMarauder::AnCraiteMarauder()
+Card *Cards::createAnCraiteMarauder()
 {
-    id = "201578";
-    name = "An Craite Marauder";
-    text = "Deal 4 damage. If Resurrected, deal 6 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.395.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.396.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.397.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteMarauder, this);
+
+    res->id = "201578";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Soldier };
+
+    // FIXME: no ability
+    return res;
 }
 
 
-AnCraiteGreatsword::AnCraiteGreatsword()
+Card *Cards::createAnCraiteGreatsword()
 {
-    id = "200040";
-    name = "An Craite Greatsword";
-    text = "Every 2 turns, if damaged, Heal self and Strengthen by 2 on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.314.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.315.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.316.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteGreatsword, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 2);
+    res->id = "200040";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 2);
     };
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !tick(this, ally, enemy, 2))
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !tick(self, ally, enemy, 2))
             return;
 
-        if (power >= powerBase)
+        if (self->power >= self->powerBase)
             return;
 
-        heal(this, ally, enemy, this);
-        strengthen(this, 2, ally, enemy, this);
+        heal(self, ally, enemy, self);
+        strengthen(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-DimunLightLongship::DimunLightLongship()
+Card *Cards::createDimunLightLongship()
 {
-    id = "152309";
-    name = "Dimun Light Longship";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    text = "On turn end, damage the unit to the right by 1, then boost self by 2.";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanDimun, Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunLightLongship, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (Card *right = cardNextTo(this, ally, enemy, 1)) {
-            damage(right, 1, ally, enemy, this);
-            boost(this, 2, ally, enemy, this);
+    res->id = "152309";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanDimun, Machine };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *right = cardNextTo(self, ally, enemy, 1)) {
+            damage(right, 1, ally, enemy, self);
+            boost(self, 2, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-Bear::Bear()
+Card *Cards::createBear()
 {
-    id = "152406";
-    name = "Bear";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBear, this);
+
+    res->id = "152406";
+    res->power = res->powerBase = 11;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Beast, Cursed };
+    return res;
 }
 
 
-Wolf::Wolf()
+Card *Cards::createWolf()
 {
-    id = "132403";
-    name = "Wolf";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    isDoomed = true;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWolf, this);
+
+    res->id = "132403";
+    res->power = res->powerBase = 1;
+    res->isDoomed = true;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+    return res;
 }
 
 
-TuirseachBearmaster::TuirseachBearmaster()
+Card *Cards::createTuirseachBearmaster()
 {
-    id = "200144";
-    name = "Tuirseach Bearmaster";
-    text = "Spawn a Bear.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.26.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.27.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.28.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.29.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.30.mp3",
-    };
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachBearmaster, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewCard(new Bear(), ally, enemy, this);
+    res->id = "200144";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Soldier };
+
+    res->_onDeploy = [this](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createBear(), ally, enemy, self);
     };
+    return res;
 }
 
 
-RedanianElite::RedanianElite()
+Card *Cards::createRedanianElite()
 {
-    id = "122317";
-    name = "Redanian Elite";
-    text = "Whenever this unit's Armor reaches 0, boost self by 5. 4 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516089.mp3",
-        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516091.mp3",
-        "https://gwent.one/audio/card/ob/en/REOF1_VSET_00516093.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Redania, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRedanianElite, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 4, ally, enemy, this);
+    res->id = "122317";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Redania, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 4, ally, enemy, self);
     };
 
-    _onArmorLost = [=](Field &ally, Field &enemy) {
-        boost(this, 5, ally, enemy, this);
+    res->_onArmorLost = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 5, ally, enemy, self);
     };
+    return res;
 }
 
 
-RedanianKnight::RedanianKnight()
+Card *Cards::createRedanianKnight()
 {
-    id = "122308";
-    name = "Redanian Knight";
-    text = "If this unit has no Armor, boost it by 2 and give it 2 Armor on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508445.mp3",
-        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508451.mp3",
-        "https://gwent.one/audio/card/ob/en/RES1_VSET_00508237.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Redania, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRedanianKnight, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (armor != 0)
+    res->id = "122308";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Redania, Soldier };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (self->armor != 0)
             return;
-        boost(this, 2, ally, enemy, this);
-        gainArmor(this, 2, ally, enemy, this);
+        boost(self, 2, ally, enemy, self);
+        gainArmor(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-KaedweniCavalry::KaedweniCavalry()
+Card *Cards::createKaedweniCavalry()
 {
-    id = "122314";
-    name = "Kaedweni Cavalry";
-    text = "Destroy a unit's Armor, then boost self by the amount destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0003.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_KG02_202929_0004.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_KG02_200565_0005.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Kaedwen, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKaedweniCavalry, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasArmor});
+    res->id = "122314";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasArmor});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int armorTarget = target->armor;
-        damage(target, armorTarget, ally, enemy, this);
-        boost(this, armorTarget, ally, enemy, this);
+        damage(target, armorTarget, ally, enemy, self);
+        boost(self, armorTarget, ally, enemy, self);
     };
+    return res;
 }
 
 
-AlzursThunder::AlzursThunder()
+Card *Cards::createAlzursThunder()
 {
-    id = "113301";
-    name = "Alzur's Thunder";
-    text = "Deal 9 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Spell };
-    isSpecial = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlzursThunder, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113301";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Spell };
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 9);
-        damage(target, 9, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        saveFieldsSnapshot(ally, enemy, DealDamage, self, {target}, "", 9);
+        damage(target, 9, ally, enemy, self);
     };
+    return res;
 }
 
 
-Swallow::Swallow()
+Card *Cards::createSwallow()
 {
-    id = "113310";
-    name = "Swallow";
-    text = "Boost a unit by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Alchemy, Item };
-    isSpecial = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSwallow, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113310";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Alchemy, Item };
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 10, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 10, ally, enemy, self);
     };
+    return res;
 }
 
 
-Thunderbolt::Thunderbolt()
+Card *Cards::createThunderbolt()
 {
-    id = "113311";
-    name = "Thunderbolt";
-    text = "Boost 3 adjacent units by 3 and give them 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Alchemy, Item };
-    isSpecial = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createThunderbolt, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113311";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Alchemy, Item };
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 3, ally, enemy, this);
-        gainArmor(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
+        gainArmor(target, 2, ally, enemy, self);
 
         Card *left = cardNextTo(target, ally, enemy, -1);
-        Card *right = cardNextTo(target, ally, enemy, 1);
-
         if (left != nullptr) {
-            boost(left, 3, ally, enemy, this);
-            gainArmor(left, 2, ally, enemy, this);
+            boost(left, 3, ally, enemy, self);
+            gainArmor(left, 2, ally, enemy, self);
         }
+
+        Card *right = cardNextTo(target, ally, enemy, 1);
         if (right != nullptr) {
-            boost(right, 3, ally, enemy, this);
-            gainArmor(right, 2, ally, enemy, this);
+            boost(right, 3, ally, enemy, self);
+            gainArmor(right, 2, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-ArachasVenom::ArachasVenom()
+Card *Cards::createArachasVenom()
 {
-    id = "200023";
-    name = "Arachas Venom";
-    text = "Deal 4 damage to 3 adjacent units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze ;
-    faction = Neutral;
-    tags = { Organic };
-    isSpecial = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArachasVenom, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "200023";
+    res->rarity = Bronze ;
+    res->faction = Neutral;
+    res->tags = { Organic };
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *left = cardNextTo(target, ally, enemy, -1);
         Card *right = cardNextTo(target, ally, enemy, 1);
-        for (Card *card : std::vector<Card *>{left, target, right})
+        for (Card *card: std::vector<Card *>{left, target, right})
             if (card != nullptr)
-                damage(card, 4, ally, enemy, this);
+                damage(card, 4, ally, enemy, card);
     };
+    return res;
 }
 
 
-KeiraMetz::KeiraMetz()
+Card *Cards::createKeiraMetz()
 {
-    id = "122108";
-    name = "Keira Metz";
-    text = "Spawn Alzur's Thunder, Thunderbolt or Arachas Venom.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_01040781.mp3",
-        "https://gwent.one/audio/card/ob/en/KEIR_SQ101_00565661.mp3",
-        "https://gwent.one/audio/card/ob/en/KEIR_KEIRA_00475332.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Temeria, Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKeiraMetz, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new AlzursThunder(), new Thunderbolt(), new ArachasVenom()});
+    res->id = "122108";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Mage };
+
+    res->_onDeploy = [this](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createAlzursThunder(), createThunderbolt(), createArachasVenom()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DolBlathannaArcher::DolBlathannaArcher()
+Card *Cards::createDolBlathannaArcher()
 {
-    id = "142310";
-    name = "Dol Blathanna Archer";
-    text = "Deal 3 damage, then deal 1 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Elf, Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0011.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.801.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF07_100515_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF07_108969_0002.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.802.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.803.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaArcher, this);
+
+    res->id = "142310";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Soldier };
+
+    struct State : StateCopy<State> { int _nShots = 0; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_nShots = 0;
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        _nShots = 0;
-        startChoiceToTargetCard(ally, enemy, this);
-        startChoiceToTargetCard(ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &nShots = self->stateAs<State>()->_nShots;
+        ++nShots;
+        if (nShots == 1) {
+            damage(target, 3, ally, enemy, self);
+            startChoiceToTargetCard(ally, enemy, self);
+            return;
+        }
+        if (nShots == 2) {
+            damage(target, 1, ally, enemy, self);
+            return;
+        }
+        throw Error(Error::Unreachable, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, ++_nShots == 1 ? 3 : 1, ally, enemy, this);
-    };
+    return res;
 }
 
 
-HalfElfHunter::HalfElfHunter()
+Card *Cards::createHalfElfHunter()
 {
-    id = "201636";
-    name = "Half-Elf Hunter";
-    text = "Spawn a Doomed default copy of this unit to the right of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Elf, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHalfElfHunter, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        Card *copy = defaultCopy();
+    res->id = "201636";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Card *copy = self->defaultCopy();
         copy->isDoomed = true;
-        summonNewUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+        summonNewUnitToPos(copy, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
 
-Ambassador::Ambassador()
+Card *Cards::createAmbassador()
 {
-    id = "162315";
-    name = "Ambassador";
-    text = "Spying. Boost an ally by 12.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    isLoyal = false;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAmbassador, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "162315";
+    res->power = res->powerBase = 2;
+    res->isLoyal = false;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = {};
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 12, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 12, ally, enemy, self);
     };
+    return res;
 }
 
 
-Assassin::Assassin()
+Card *Cards::createAssassin()
 {
-    id = "200115";
-    name = "Assassin";
-    text = "Spying. Deal 10 damage to the unit to the left.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    isLoyal = false;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAssassin, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-            damage(left, 10, ally, enemy, this);
+    res->id = "200115";
+    res->power = res->powerBase = 1;
+    res->isLoyal = false;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = {};
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *left = cardNextTo(self, ally, enemy, -1)) {
+            damage(left, 10, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-TuirseachArcher::TuirseachArcher()
+Card *Cards::createTuirseachArcher()
 {
-    id = "152315";
-    name = "Tuirseach Archer";
-    text = "Deal 1 damage to 3 units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachArcher, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
+    res->id = "152315";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 3);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        saveFieldsSnapshot(ally, enemy, DealDamage, this, {target}, "", 1);
-        damage(target, 1, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-Infiltrator::Infiltrator()
+Card *Cards::createInfiltrator()
 {
-    id = "200118";
-    name = "Infiltrator";
-    text = "Toggle a unit's Spying status.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createInfiltrator, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "200118";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = {};
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        toggleSpy(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleSpy(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-ImpenetrableFog::ImpenetrableFog()
+Card *Cards::createImpenetrableFog()
 {
-    id = "113305";
-    name = "Impenetrable Fog";
-    text = "Apply a Hazard to an enemy row that deals 2 damage to the Highest unit on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createImpenetrableFog, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "113305";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, ImpenetrableFogEffect);
     };
+    return res;
 }
 
 
-TorrentialRain::TorrentialRain()
+Card *Cards::createTorrentialRain()
 {
-    id = "113312";
-    name = "Torrential Rain";
-    text = "Apply a Hazard to an enemy row that deals 1 damage to 2 random units on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTorrentialRain, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "113312";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, TorrentialRainEffect);
     };
+    return res;
 }
 
 
-BitingFrost::BitingFrost()
+Card *Cards::createBitingFrost()
 {
-    id = "113302";
-    name = "Biting Frost";
-    text = "Apply a Hazard to an enemy row that deals 2 damage to the Lowest unit on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBitingFrost, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "113302";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, BitingFrostEffect);
     };
+    return res;
 }
 
 
-GoldenFroth::GoldenFroth()
+Card *Cards::createGoldenFroth()
 {
-    id = "201749";
-    name = "Golden Froth";
-    text = "Apply a Boon to an allied row that boosts 2 random units by 1 on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Boon };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGoldenFroth, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
+    res->id = "201749";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Boon };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {0, 1, 2});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, GoldenFrothEffect);
     };
+    return res;
 }
 
 
-SkelligeStorm::SkelligeStorm()
+Card *Cards::createSkelligeStorm()
 {
-    id = "113203";
-    name = "Skellige Storm";
-    text = "Apply a Hazard to an enemy row that deals 2, 1 and 1 damage to the leftmost units on the row on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSkelligeStorm, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "113203";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
+    return res;
 }
 
 
-ImperialManticore::ImperialManticore()
+Card *Cards::createImperialManticore()
 {
-    id = "132209";
-    name = "Imperial Manticore";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createImperialManticore, this);
+
+    res->id = "132209";
+    res->power = res->powerBase = 13;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Beast };
+    return res;
 }
 
 
-ManticoreVenom::ManticoreVenom()
+Card *Cards::createManticoreVenom()
 {
-    id = "113306";
-    name = "Manticore Venom";
-    text = "Deal 13 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createManticoreVenom, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113306";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 13, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 13, ally, enemy, self);
     };
+    return res;
 }
 
 
-GloriousHunt::GloriousHunt()
+Card *Cards::createGloriousHunt()
 {
-    id = "201635";
-    name = "Glorious Hunt";
-    text = "If losing, Spawn an Imperial Manticore, otherwise Spawn Manticore Venom.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGloriousHunt, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        if (powerField(ally) < powerField(enemy))
-            return spawnNewCard(new ImperialManticore(), ally, enemy, this);
+    res->id = "201635";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Tactics };
 
-        return spawnNewCard(new ManticoreVenom(), ally, enemy, this);
+    res->_onPlaySpecial = [this](Card *self, Field &ally, Field &enemy) {
+        const bool isLoosing = powerField(ally) < powerField(enemy);
+        Card *card = isLoosing ? createImperialManticore() : createManticoreVenom();
+        return spawnNewCard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-Ves::Ves()
+Card *Cards::createVes()
 {
-    id = "122204";
-    name = "Ves";
-    text = "Swap up to 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VESS_Q403_00546798.mp3",
-        "https://gwent.one/audio/card/ob/en/VESS_VES_01070698.mp3",
-        "https://gwent.one/audio/card/ob/en/VESS_MQ3035_01064809.mp3",
-        "https://gwent.one/audio/card/ob/en/VESS_MQ3035_01071150.mp3",
-    };
-    power = powerBase = 12;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Temeria, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVes, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2, true);
+    res->id = "122204";
+    res->power = res->powerBase = 12;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand, 2, true);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        swapACard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        swapACard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Vaedermakar::Vaedermakar()
+Card *Cards::createVaedermakar()
 {
-    id = "113208";
-    name = "Vaedermakar";
-    text = "Spawn Biting Frost, Impenetrable Fog or Alzur's Thunder.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVaedermakar, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ImpenetrableFog(), new AlzursThunder()});
+    res->id = "113208";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Mage };
+
+    res->_onDeploy = [this](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createBitingFrost(), createImpenetrableFog(), createAlzursThunder()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Frightener::Frightener()
+Card *Cards::createFrightener()
 {
-    id = "132204";
-    name = "Frightener";
-    text = "Spying. Single-Use: Move an enemy to this row and draw a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    isLoyal = false;
-    timer = 1;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Construct, Agent };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFrightener, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
-            drawACard(ally, enemy,  this);
+    res->id = "132204";
+    res->power = res->powerBase = 13;
+    res->isLoyal = false;
+    res->timer = 1;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Construct, Agent };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (tick(self, ally, enemy))
+            drawACard(ally, enemy,  self);
 
         /// can't move another to this row, if its already full
-        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&enemy, this)}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {isOnAnotherRow(&enemy, self)}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, enemy), enemy, ally, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(self, enemy), enemy, ally, self);
     };
+    return res;
 }
 
 
-Cleaver::Cleaver()
+Card *Cards::createCleaver()
 {
-    id = "122216";
-    name = "Cleaver";
-    text = "Deal 1 damage for each card in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Dwarf };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCleaver, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "122216";
+    res->power = res->powerBase = 7;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Dwarf };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.hand.size() != 0)
-            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, int(ally.hand.size()), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, int(ally.hand.size()), ally, enemy, self);
     };
+    return res;
 }
 
 
-Scorch::Scorch()
+Card *Cards::createScorch()
 {
-    id = "113309";
-    name = "Scorch";
-    text = "Destroy all the Highest units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createScorch, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113309";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : highests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-            putToDiscard(card, ally, enemy, this);
+            putToDiscard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-Reinforcements::Reinforcements()
+Card *Cards::createReinforcements()
 {
-    id = "123201";
-    name = "Reinforcements";
-    text = "Play a Bronze or Silver Soldier, Machine, Officer or Support unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReinforcements, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Soldier, Support, Machine, Officer})}, AllyDeckShuffled);
+    res->id = "123201";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({Soldier, Support, Machine, Officer})}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-JohnNatalis::JohnNatalis()
+Card *Cards::createJohnNatalis()
 {
-    id = "122103";
-    name = "John Natalis";
-    text = "Play a Bronze or Silver Tactic from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_JANT_900381_0141.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_JANT_300862_0253.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Temeria, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJohnNatalis, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
+    res->id = "122103";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Eleyas::Eleyas()
+Card *Cards::createEleyas()
 {
-    id = "142214";
-    name = "Ele'yas";
-    text = "Whenever you draw this unit or return it to your deck, boost self by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Silver;
-    faction = Scoiatael;
-    tags = { Elf, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEleyas, this);
 
-    // NOTE: when Eleyas goes to deck, it loses all the boosts - so it doesn't work properly
-    _onDraw = [=](Field &ally, Field &enemy) {
-        boost(this, 2, ally, enemy, this);
+    res->id = "142214";
+    res->power = res->powerBase = 10;
+    res->rarity = Silver;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Soldier };
+
+    // FIXME: when Eleyas goes to deck, it loses all the boosts - so it doesn't work properly
+    res->_onDraw = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 2, ally, enemy, self);
     };
 
-    _onSwap = [=](Field &ally, Field &enemy) {
-        boost(this, 2, ally, enemy, this);
+    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-ReaverScout::ReaverScout()
+Card *Cards::createReaverScout()
 {
-    id = "122307";
-    name = "Reaver Scout";
-    text = "Choose a different Bronze ally and play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0126.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0060.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_NG01_003478_0008.mp3",
-    };
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Redania, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReaverScout, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasCopyInADeck(&ally)}, AllyBoard);
+    res->id = "122307";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Redania, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, otherThan(self->id), hasCopyInADeck(&ally)}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (Card *copy = findCopy(target, ally.deck))
-            playExistedCard(copy, ally, enemy, this);
+            playExistedCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
 
-HeymaeySpearmaiden::HeymaeySpearmaiden()
+Card *Cards::createHeymaeySpearmaiden()
 {
-    id = "200528";
-    name = "Heymaey Spearmaiden";
-    text = "Deal 1 damage to a Bronze Machine or Soldier ally, then play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.83.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.84.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.85.mp3",
-    };
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeymaeySpearmaiden, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, AllyBoard);
+    res->id = "200528";
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Soldier, Machine}), hasCopyInADeck(&ally)}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 1, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 1, ally, enemy, self);
         if (Card *copy = findCopy(target, ally.deck))
-            playExistedCard(copy, ally, enemy, this);
+            playExistedCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
 
-KaedweniKnight::KaedweniKnight()
+Card *Cards::createKaedweniKnight()
 {
-    id = "201622";
-    name = "Kaedweni Knight";
-    text = "Boost self by 5 if played from the deck. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.9.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.10.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.11.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Kaedwen, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKaedweniKnight, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
+    res->id = "201622";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
     };
 
-    _onDeployFromDeck = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
-        boost(this, 5, ally, enemy, this);
+    res->_onDeployFromDeck = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
+        boost(self, 5, ally, enemy, self);
     };
+    return res;
 }
 
 
-VriheddSappers::VriheddSappers()
+Card *Cards::createVriheddSappers()
 {
-    id = "142307";
-    name = "Vrihedd Sappers";
-    text = "Ambush: After 2 turns, flip over on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    isAmbush = true;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Elf, Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0006.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SMV2_202963_0007.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SMV2_202544_0022.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddSappers, this);
+
+    res->id = "142307";
+    res->power = res->powerBase = 11;
+    res->isAmbush = true;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->isAmbush = true;
+        setTimer(self, ally, enemy, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        isAmbush = true;
-        setTimer(this, ally, enemy, 2);
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || tick(self, ally, enemy))
+            flipOver(self, ally, enemy);
     };
-
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || tick(this, ally, enemy))
-            flipOver(this, ally, enemy);
-    };
+    return res;
 }
 
 
-PriestessOfFreya::PriestessOfFreya()
+Card *Cards::createPriestessOfFreya()
 {
-    id = "152310";
-    name = "Priestess of Freya";
-    text = "Resurrect a Bronze Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553534.mp3",
-        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553573.mp3",
-        "https://gwent.one/audio/card/ob/en/SPR2_VSET_00553583.mp3",
-    };
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanHeymaey, Support };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPriestessOfFreya, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Soldier)}, AllyDiscard);
+    res->id = "152310";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanHeymaey, Support };
+    res->isDoomed = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Soldier)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DimunCorsair::DimunCorsair()
+Card *Cards::createDimunCorsair()
 {
-    id = "200145";
-    name = "Dimun Corsair";
-    text = "Resurrect a Bronze Machine.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.71.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.72.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.73.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanDimun, Support };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunCorsair, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Machine)}, AllyDiscard);
+    res->id = "200145";
+    res->power = res->powerBase = 3;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanDimun, Support };
+    res->isDoomed = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Machine)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Sigrdrifa::Sigrdrifa()
+Card *Cards::createSigrdrifa()
 {
-    id = "152211";
-    name = "Sigrdrifa";
-    text = "Resurrect a Bronze or Silver Clan unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SPR1_VSET_00553157.mp3",
-        "https://gwent.one/audio/card/ob/en/SPR1_SQ201_00499249.mp3",
-        "https://gwent.one/audio/card/ob/en/SPR1_SHOP_00437650.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Support };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSigrdrifa, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyDiscard);
+    res->id = "152211";
+    res->power = res->powerBase = 3;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Support };
+    res->isDoomed = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Sage::Sage()
+Card *Cards::createSage()
 {
-    id = "200138";
-    name = "Sage";
-    text = "Resurrect a Bronze Alchemy or Spell card, then Banish it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Elf, Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSage, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Alchemy, Spell})}, AllyDiscard);
+    res->id = "200138";
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Alchemy, Spell})}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         target->isDoomed = true;
-        playExistedCard(target, ally, enemy, this);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Reconnaissance::Reconnaissance()
+Card *Cards::createReconnaissance()
 {
-    id = "201704";
-    name = "Reconnaissance";
-    text = "Look at 2 random Bronze units in your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReconnaissance, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng));
+    res->id = "201704";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeck), 2, ally.rng));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-ElvenMercenary::ElvenMercenary()
+Card *Cards::createElvenMercenary()
 {
-    id = "142308";
-    name = "Elven Mercenary";
-    text = "Look at 2 random Bronze special cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Elf, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenMercenary, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng));
+    res->id = "142308";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck), 2, ally.rng));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-ChampionOfHov::ChampionOfHov()
+Card *Cards::createChampionOfHov()
 {
-    id = "152202";
-    name = "Champion of Hov";
-    text = "Duel an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053125.mp3",
-        "https://gwent.one/audio/card/ob/en/TRL3_FF205_01053127.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createChampionOfHov, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "152202";
+    res->power = res->powerBase = 7;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        duel(this, target, ally, enemy);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        duel(self, target, ally, enemy);
     };
+    return res;
 }
 
 
-GeraltIgni::GeraltIgni()
+Card *Cards::createGeraltIgni()
 {
-    id = "112102";
-    name = "Geralt: Igni";
-    text = "Destroy the Highest units on an enemy row if that row has a total of 25 or more.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeraltIgni, this);
+
+    res->id = "112102";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
 
     const auto isOkRow = [](const std::vector<Card *> &cards) {
         return powerRow(cards) >= 25;
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5}, {isOkRow});
+    res->_onDeploy = [isOkRow](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5}, {isOkRow});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : highests(cardsInRow(ally, enemy, screenRow)))
-            putToDiscard(card, ally, enemy, this);
+            putToDiscard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-GeraltOfRivia::GeraltOfRivia()
+Card *Cards::createGeraltOfRivia()
 {
-    id = "112103";
-    name = "Geralt of Rivia";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-    };
-    power = powerBase = 15;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeraltOfRivia, this);
+
+    res->id = "112103";
+    res->power = res->powerBase = 15;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+    return res;
 }
 
 
-Priscilla::Priscilla()
+Card *Cards::createPriscilla()
 {
-    id = "122202";
-    name = "Priscilla";
-    text = "Boost 5 random allies by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/PRIS_Q305_00489643.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.9.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.10.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.11.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPriscilla, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : randoms(cardsFiltered(ally, enemy, {[=](Card *card){ return card != this; }}, AllyBoard), 5, ally.rng))
-            boost(card, 3, ally, enemy, this);
+    res->id = "122202";
+    res->power = res->powerBase = 3;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {otherThan(self)}, AllyBoard), 5, ally.rng))
+            boost(card, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-SeltkirkOfGulet::SeltkirkOfGulet()
+Card *Cards::createSeltkirkOfGulet()
 {
-    id = "201618";
-    name = "Seltkirk of Gulet";
-    text = "Duel an enemy. 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.117.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.118.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.119.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Aedirn, Officer, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSeltkirkOfGulet, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 3, ally, enemy, this);
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "201618";
+    res->power = res->powerBase = 8;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Aedirn, Officer, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 3, ally, enemy, self);
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        duel(this, target, ally, enemy);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        duel(self, target, ally, enemy);
     };
+    return res;
 }
 
 
-AdrenalineRush::AdrenalineRush()
+Card *Cards::createAdrenalineRush()
 {
-    id = "113307";
-    name = "Adrenaline Rush";
-    text = "Toggle a unit's Resilience status.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAdrenalineRush, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113307";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &, Field &) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &, Field &) {
         target->isResilient = !target->isResilient;
     };
+    return res;
 }
 
 
-ShupesDayOff::ShupesDayOff()
-{
-    id = "201627";
-    name = "Shupe's Day Off";
-    text = "If your starting deck has no duplicates, Spawn a Shupe: Knight, Shupe: Hunter or Supe: Mage";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.168.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.169.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.170.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.171.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.172.mp3",
-    };
-    isSpecial = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Organic };
+struct StateChoosen : StateCopy<StateChoosen> { Card *_choosen = nullptr; };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+
+Card *Cards::createMandrake()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMandrake, this);
+
+    res->id = "200223";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Alchemy, Organic };
+    res->state = new StateChoosen();
+
+    enum { Buff, Debuff };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        Card *option1 = createOption(self, Buff);
+        option1->text = "Heal a unit and and Strengthen it by 6.";
+
+        Card *option2 = createOption(self, Debuff);
+        option2->text = "Reset a unit and Weaken it by 6.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        self->stateAs<StateChoosen>()->_choosen = target;
+        startChoiceToTargetCard(ally, enemy, self);
+        return;
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
+
+        if (isOption(choosen, Buff)) {
+            heal(target, ally, enemy, self);
+            strengthen(target, 6, ally, enemy, self);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        if (isOption(choosen, Debuff)) {
+            reset(target, ally, enemy, self);
+            weaken(target, 6, ally, enemy, self);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        throw Error(Error::Unreachable, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createBoneTalisman()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBoneTalisman, this);
+
+    res->id = "201598";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { Item };
+    res->state = new StateChoosen();
+
+    enum { Resurrect, Buff };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Resurrect);
+        option1->text = "Resurrect a Bronze Beast or Cultist.";
+
+        auto *option2 = createOption(self, Buff);
+        option2->text = "Heal an ally and Strengthen it by 3.";
+
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
+    };
+
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        self->stateAs<StateChoosen>()->_choosen = target;
+
+        if (isOption(target, Resurrect))
+            return startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
+
+        if (isOption(target, Buff))
+            return startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
+
+        throw Error(Error::Unreachable, self);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
+
+        if (isOption(choosen, Resurrect)) {
+            playExistedCard(target, ally, enemy, self);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        if (isOption(choosen, Buff)) {
+            heal(target, ally, enemy, self);
+            strengthen(target, 3, ally, enemy, self);
+
+            delete choosen;
+            choosen = nullptr;
+            return;
+        }
+
+        throw Error(Error::Unreachable, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createShupesDayOff()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShupesDayOff, this);
+
+    res->id = "201627";
+    res->isSpecial = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [this](Card *self, Field &ally, Field &enemy) {
         if (!hasNoDuplicates(ally.deckStarting))
             return;
 
-        startChoiceToSelectOption(ally, enemy, this, {new ShupeKnight(), new ShupeHunter(), new ShupeMage()});
+        startChoiceToSelectOption(ally, enemy, self, {createShupeKnight(), createShupeHunter(), createShupeMage()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-ShupeHunter::ShupeHunter()
+Card *Cards::createShupeHunter()
 {
-    id = "201731";
-    name = "Shupe: Hunter";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    isDoomed = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShupeHunter, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new ShupeHunter::Play;
-        copyCardText(this, option1);
+    res->id = "201731";
+    res->power = res->powerBase = 8;
+    res->isDoomed = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Ogroid };
+    res->state = new StateChoosen();
+
+    enum { Play, Shot, Replay, Clear, Barrage };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Play);
         option1->text = "Play a Bronze or Silver unit from Deck.";
 
-        auto *option2 = new ShupeHunter::Shot;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Shot);
         option2->text = "Deal 15 damage.";
 
-        auto *option3 = new ShupeHunter::Replay;
-        copyCardText(this, option3);
+        auto *option3 = createOption(self, Replay);
         option3->text = "Replay a Bronze or Silver unit and Boost it by 5.";
 
-        auto *option4 = new ShupeHunter::Clear;
-        copyCardText(this, option4);
+        auto *option4 = createOption(self, Clear);
         option4->text = "Clear all Hazards from your side and Boost allies by 1.";
 
-        auto *option5 = new ShupeHunter::Barrage;
-        copyCardText(this, option5);
+        auto *option5 = createOption(self, Barrage);
         option5->text = "Deal 2 damage to a random enemy. Repeat 8 times.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<ShupeHunter::Play *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDeck);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, Play)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyDeck);
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Shot *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this);
+        if (isOption(target, Shot)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyBoard);
+        if (isOption(target, Replay)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyBoard);
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Clear *>(target)) {
+        if (isOption(target, Clear)) {
             for (Card *card : cardsFiltered(ally, enemy, {}, AllyBoard))
-                boost(card, 1, ally, enemy, this);
+                boost(card, 1, ally, enemy, self);
             clearAllHazards(ally);
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Barrage *>(target)) {
+        if (isOption(target, Barrage)) {
             for (int n = 0; n < 8; ++n)
-                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng)) {
-                    damage(card, 2, ally, enemy, this);
-                }
+                if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                    damage(card, 2, ally, enemy, self);
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<ShupeHunter::Play *>(_choosen)) {
-            playExistedCard(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Play)) {
+            playExistedCard(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Shot *>(_choosen)) {
-            damage(target, 15, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Shot)) {
+            damage(target, 15, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<ShupeHunter::Replay *>(_choosen)) {
-            putToHand(target, ally, enemy,  this);
-            boost(target, 5, ally, enemy, this);
-            playExistedCard(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Replay)) {
+            putToHand(target, ally, enemy,  self);
+            boost(target, 5, ally, enemy, self);
+            playExistedCard(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
 
-ShupeMage::ShupeMage()
+Card *Cards::createShupeMage()
 {
-    id = "201725";
-    name = "Shupe: Mage";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    isDoomed = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShupeMage, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new ShupeMage::Draw;
-        copyCardText(this, option1);
-        option1->text = "Draw a card.";
+    res->id = "201725";
+    res->power = res->powerBase = 4;
+    res->isDoomed = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Ogroid };
+    res->state = new StateChoosen();
 
-        auto *option2 = new ShupeMage::Charm;
-        copyCardText(this, option2);
+    enum { Draw, Charm, Hazards, Meteor, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Draw);
+        option1->text = "Draw a self.";
+
+        auto *option2 = createOption(self, Charm);
         option2->text = "Charm a random enemy.";
 
-        auto *option3 = new ShupeMage::Hazards;
-        copyCardText(this, option3);
+        auto *option3 = createOption(self, Hazards);
         option3->text = "Spawn a random Hazard on each enemy row.";
 
-        auto *option4 = new ShupeMage::Meteor;
-        copyCardText(this, option4);
+        auto *option4 = createOption(self, Meteor);
         option4->text = "Deal 10 damage to an enemy and 5 damage to each adjacent enemy.";
 
-        auto *option5 = new ShupeMage::Play;
-        copyCardText(this, option5);
-        option5->text = "Play a Bronze or Silver special card from your deck.";
+        auto *option5 = createOption(self, Play);
+        option5->text = "Play a Bronze or Silver special self from your deck.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<ShupeMage::Draw *>(target)) {
-            drawACard(ally, enemy,  this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, Draw)) {
+            drawACard(ally, enemy,  self);
             return;
         }
 
-        if (dynamic_cast<ShupeMage::Charm *>(target)) {
-            if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-                charm(card, ally, enemy, this);
+        if (isOption(target, Charm)) {
+            if (Card *self = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                charm(self, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<ShupeMage::Hazards *>(target)) {
+        if (isOption(target, Hazards)) {
             for (int screenRow = 3; screenRow < 6; ++screenRow)
                 applyRowEffect(ally, enemy, screenRow, randomHazardEffect(ally.rng));
             return;
         }
 
-        if (dynamic_cast<ShupeMage::Meteor *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        if (isOption(target, Meteor)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
 
-        if (dynamic_cast<ShupeMage::Play *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+        if (isOption(target, Play)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<ShupeMage::Meteor *>(_choosen)) {
+        if (isOption(choosen, Meteor)) {
             Card *left = cardNextTo(target, ally, enemy, -1);
             Card *right = cardNextTo(target, ally, enemy, 1);
 
-            damage(target, 10, ally, enemy, this);
+            damage(target, 10, ally, enemy, self);
             if (left != nullptr) {
-                damage(left, 5, ally, enemy, this);
+                damage(left, 5, ally, enemy, self);
             }
             if (right != nullptr) {
-                damage(right, 5, ally, enemy, this);
+                damage(right, 5, ally, enemy, self);
             }
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<ShupeMage::Play *>(_choosen)) {
-            playExistedCard(target, ally, enemy, this);
+        if (isOption(choosen, Play)) {
+            playExistedCard(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
 
-Mandrake::Mandrake()
+Card *Cards::createShupeKnight()
 {
-    id = "200223";
-    name = "Mandrake";
-    text = "Choose One: Heal a unit and Strengthen it by 6; or Reset a unit and Weaken it by 6.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Alchemy, Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShupeKnight, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Mandrake::Buff;
-        copyCardText(this, option1);
-        option1->text = "Heal a unit and and Strengthen it by 6.";
+    res->id = "201737";
+    res->power = res->powerBase = 12;
+    res->isDoomed = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Ogroid };
+    res->state = new StateChoosen();
 
-        auto *option2 = new Mandrake::Debuff;
-        copyCardText(this, option2);
-        option2->text = "Reset a unit and Weaken it by 6.";
-
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
-    };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        _choosen = target;
-        startChoiceToTargetCard(ally, enemy, this);
-        return;
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
-
-        if (dynamic_cast<Mandrake::Buff *>(_choosen)) {
-            heal(target, ally, enemy, this);
-            strengthen(target, 6, ally, enemy, this);
-
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
-
-        if (dynamic_cast<Mandrake::Debuff *>(_choosen)) {
-            reset(target, ally, enemy, this);
-            weaken(target, 6, ally, enemy, this);
-
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
-
-        assert(false);
-    };
-}
-
-
-BoneTalisman::BoneTalisman()
-{
-    id = "201598";
-    name = "Bone Talisman";
-    text = "Choose One: Resurrect a Bronze Beast or Cultist; or Heal an ally and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { Item };
-
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new BoneTalisman::Resurrect;
-        copyCardText(this, option1);
-        option1->text = "Resurrect a Bronze Beast or Cultist.";
-
-        auto *option2 = new BoneTalisman::Buff;
-        copyCardText(this, option2);
-        option2->text = "Heal an ally and Strengthen it by 3.";
-
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
-    };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        _choosen = target;
-
-        if (dynamic_cast<BoneTalisman::Resurrect *>(target))
-            return startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Beast, Cultist})}, AllyDiscard);
-
-        if (dynamic_cast<BoneTalisman::Buff *>(target))
-            return startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-
-        assert(false);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
-
-        if (dynamic_cast<BoneTalisman::Resurrect *>(_choosen)) {
-            playExistedCard(target, ally, enemy, this);
-
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
-
-        if (dynamic_cast<BoneTalisman::Buff *>(_choosen)) {
-            heal(target, ally, enemy, this);
-            strengthen(target, 3, ally, enemy, this);
-
-            delete _choosen;
-            _choosen = nullptr;
-            return;
-        }
-
-        assert(false);
-    };
-}
-
-
-ShupeKnight::ShupeKnight()
-{
-    id = "201737";
-    name = "Shupe: Knight";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 12;
-    isDoomed = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Ogroid };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new ShupeKnight::Destroy;
-        copyCardText(this, option1);
+    enum { Destroy, Reset, Duel, Strengthen, Resilient };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Destroy);
         option1->text = "Destroy enemies with 4 or less power.";
 
-        auto *option2 = new ShupeKnight::Reset;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Reset);
         option2->text = "Reset a unit.";
 
-        auto *option3 = new ShupeKnight::Duel;
-        copyCardText(this, option3);
+        auto *option3 = createOption(self, Duel);
         option3->text = "Duel an enemy.";
 
-        auto *option4 = new ShupeKnight::Strengthen;
-        copyCardText(this, option4);
+        auto *option4 = createOption(self, Strengthen);
         option4->text = "Strengthen self to 25.";
 
-        auto *option5 = new ShupeKnight::Resilient;
-        copyCardText(this, option5);
+        auto *option5 = createOption(self, Resilient);
         option5->text = "Resilent.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4, option5}, 1, 3);
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3, option4, option5}, 1, 3);
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<ShupeKnight::Destroy *>(target)) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, Destroy)) {
             for (Card *card : cardsFiltered(ally, enemy, {hasPowerXorLess(4)}, EnemyBoard))
-                putToDiscard(card, ally, enemy, this);
+                putToDiscard(card, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<ShupeKnight::Reset *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this);
+        if (isOption(target, Reset)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<ShupeKnight::Duel *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        if (isOption(target, Duel)) {
+            self->stateAs<StateChoosen>()->_choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
 
-        if (dynamic_cast<ShupeKnight::Strengthen *>(target)) {
-            strengthen(this, 25 - powerBase, ally, enemy, this);
+        if (isOption(target, Strengthen)) {
+            strengthen(self, 25 - self->powerBase, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<ShupeKnight::Resilient *>(target)) {
-            isResilient = true;
+        if (isOption(target, Resilient)) {
+            self->isResilient = true;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<ShupeKnight::Reset *>(_choosen)) {
+        if (isOption(choosen, Reset)) {
             //target->power = target->powerBase;
-            reset(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+            reset(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<ShupeKnight::Duel *>(_choosen)) {
-            duel(this, target, ally, enemy);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Duel)) {
+            duel(self, target, ally, enemy);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
 
-Decoy::Decoy()
+Card *Cards::createDecoy()
 {
-    id = "113201";
-    name = "Decoy";
-    text = "Replay a Bronze or Silver ally and boost it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDecoy, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, { isBronzeOrSilver }, AllyBoard);
+    res->id = "113201";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, { isBronzeOrSilver }, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy,  this);
-        boost(target, 3, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
+        boost(target, 3, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-FirstLight::FirstLight()
+Card *Cards::createFirstLight()
 {
-    id = "113303";
-    name = "First Light";
-    text = "Choose One: Boost all damaged allies under Hazards by 2 and clear all Hazards from your side; or Play a random Bronze unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFirstLight, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new FirstLight::Clear;
-        copyCardText(this, option1);
+    res->id = "113303";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Tactics };
+
+    enum { Clear, Play };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Clear);
         option1->text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
 
-        auto *option2 = new FirstLight::Play;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Play);
         option2->text = "Play a random Bronze unit from your deck.";
 
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<FirstLight::Clear *>(target)) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, Clear)) {
             std::vector<Card *> damagedUnitsUnderHazards;
             clearAllHazards(ally, &damagedUnitsUnderHazards);
             for (Card *card : damagedUnitsUnderHazards)
-                boost(card, 2, ally, enemy, this);
+                boost(card, 2, ally, enemy, self);
             delete target;
             return;
         }
 
-        if (dynamic_cast<FirstLight::Play *>(target)) {
+        if (isOption(target, Play)) {
             if (Card *card = random(cardsFiltered(ally, enemy, { isBronze, isUnit }, AllyDeck), ally.rng))
-                playExistedCard(card, ally, enemy, this);
+                playExistedCard(card, ally, enemy, self);
             delete target;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
 
-ClearSkies::ClearSkies()
+Card *Cards::createClearSkies()
 {
-    id = "113303";
-    name = "Clear Skies";
-    text = "Boost all damaged allies under Hazards by 2 and clear all Hazards from your side.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createClearSkies, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113303";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         std::vector<Card *> damagedUnitsUnderHazards;
         clearAllHazards(ally, &damagedUnitsUnderHazards);
         for (Card *card : damagedUnitsUnderHazards)
-            boost(card, 2, ally, enemy, this);
+            boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-Epidemic::Epidemic()
+Card *Cards::createEpidemic()
 {
-    id = "113308";
-    name = "Epidemic";
-    text = "Destroy all the Lowest units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Organic, Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEpidemic, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113308";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Organic, Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AnyBoard)))
-            putToDiscard(card, ally, enemy, this);
+            putToDiscard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-Moonlight::Moonlight()
+Card *Cards::createMoonlight()
 {
-    id = "200067";
-    name = "Moonlight";
-    text = "Choose One: Apply a Full Moon Boon; or Apply a Blood Moon Hazard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Hazard, Boon };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMoonlight, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Moonlight::FullMoon;
-        copyCardText(this, option1);
+    res->id = "200067";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Hazard, Boon };
+
+    enum { FullMoon, BloodMoon };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, FullMoon);
         option1->name = "Full Moon";
         option1->text = "Apply a Boon to an allied row that boosts a random Beast or Vampire by 2 on turn start.";
 
-        auto *option2 = new Moonlight::BloodMoon;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, BloodMoon);
         option2->name = "Blood Moon";
         option2->text = "Apply a Hazard to an enemy row that deals 2 damage to all units on contact.";
 
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<Moonlight::FullMoon *>(target)) {
-            startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, FullMoon)) {
+            startChoiceToSelectRow(ally, enemy, self, {0, 1, 2});
             delete target;
             return;
         }
 
-        if (dynamic_cast<Moonlight::BloodMoon *>(target)) {
-            startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+        if (isOption(target, BloodMoon)) {
+            startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
             delete target;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, screenRow < 3 ? FullMoonEffect : BloodMoonEffect);
     };
+    return res;
 }
 
 
-CiriNova::CiriNova()
+Card *Cards::createCiriNova()
 {
-    id = "201626";
-    name = "Ciri: Nova";
-    text = "If you have exactly 2 copies of each Bronze card in your starting deck, set base power to 22.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
-    };
-    power = powerBase = 1;
-    isDoomed = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Cintra, Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCiriNova, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201626";
+    res->power = res->powerBase = 1;
+    res->isDoomed = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Cintra, Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (!hasExactTwoDuplicatesOfBronze(ally.deckStarting))
             return;
 
-        strengthen(this, 22 - powerBase, ally, enemy, this);
+        strengthen(self, 22 - self->powerBase, ally, enemy, self);
     };
+    return res;
 }
 
 
-HaraldTheCripple::HaraldTheCripple()
+Card *Cards::createHaraldTheCripple()
 {
-    id = "200161";
-    name = "Harald the Cripple";
-    text = "Deal 1 damage to a random enemy on the opposite row. Repeat 9 times.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.196.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.197.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.198.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanAnCraite, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHaraldTheCripple, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200161";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         Row row;
         Pos pos;
-        if (!_findRowAndPos(this, ally, row, pos))
+        if (!_findRowAndPos(self, ally, row, pos))
             return;
         for (int n = 0; n < 9; ++n)
             if (Card *card = random(enemy.row(row), ally.rng))
-                damage(card, 1, ally, enemy, this);
+                damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-Emissary::Emissary()
+Card *Cards::createEmissary()
 {
-    id = "162314";
-    name = "Emissary";
-    text = "Look at 2 random Bronze units from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526372.mp3",
-        "https://gwent.one/audio/card/ob/en/NIS1_Q002_01048548.mp3",
-        "https://gwent.one/audio/card/ob/en/NIS1_VSET_00526356.mp3",
-    };
-    isLoyal = false;
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEmissary, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng));
+    res->id = "162314";
+    res->isLoyal = false;
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, AllyDeckShuffled), 2, ally.rng));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-CeallachDyffryn::CeallachDyffryn()
+Card *Cards::createCeallachDyffryn()
 {
-    id = "162213";
-    name = "Ceallach Dyffryn";
-    text = "Spawn an Ambassador, Assassin or Emissary.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.109.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.110.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.111.mp3",
-    };
-    power = powerBase = 2;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCeallachDyffryn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new Ambassador(), new Assassin(), new Emissary()});
+    res->id = "162213";
+    res->power = res->powerBase = 2;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Officer };
+
+    res->_onDeploy = [this](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createAmbassador(), createAssassin(), createEmissary()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Restore::Restore()
+Card *Cards::createRestore()
 {
-    id = "153201";
-    name = "Restore";
-    text = "Return a Bronze or Silver Skellige unit from your graveyard to your hand, add the Doomed category to it, and set its base power to 8. Then play a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRestore, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isSkelligeFaction}, AllyDiscard);
+    res->id = "153201";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit, isSkelligeFaction}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy,  this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
         target->isDoomed = true;
         target->powerBase = target->power = 8;
-        playExistedCard(target, ally, enemy, this);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DrummondQueensguard::DrummondQueensguard()
+Card *Cards::createDrummondQueensguard()
 {
-    id = "152307";
-    name = "Drummond Queensguard";
-    text = "Resurrect all copies of this unit on this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SWO5_Q205_00482375.mp3",
-        "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521383.mp3",
-        "https://gwent.one/audio/card/ob/en/SWO5_FF201_00521512.mp3",
-    };
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanDrummond, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDrummondQueensguard, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DrummondQueensguard>}, AllyDiscard))
-            moveExistedUnitToPos(card, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "152307";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanDrummond, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDiscard))
+            moveExistedUnitToPos(card, rowAndPosToTheRight(card, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
 
-BranTuirseach::BranTuirseach()
+Card *Cards::createBranTuirseach()
 {
-    id = "200159";
-    name = "Bran Tuirseach";
-    text = "Discard up to 3 cards from your deck and Strengthen them by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.193.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.194.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.195.mp3",
-    };
-    power = powerBase = 2;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanTuirseach, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBranTuirseach, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled, 3, true);
+    res->id = "200159";
+    res->power = res->powerBase = 2;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled, 3, true);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
         if (!target->isSpecial)
-            strengthen(target, 1, ally, enemy, this);
+            strengthen(target, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-DrummondWarmonger::DrummondWarmonger()
+Card *Cards::createDrummondWarmonger()
 {
-    id = "200036";
-    name = "Drummond Warmonger";
-    text = "Discard a Bronze card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.6.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.7.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanDrummond, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDrummondWarmonger, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyDeckShuffled);
+    res->id = "200036";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanDrummond, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DimunPirate::DimunPirate()
+Card *Cards::createDimunPirate()
 {
-    id = "152305";
-    name = "Dimun Pirate";
-    text = "Discard all copies of this unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SBD3_VSET_00526925.mp3",
-        "https://gwent.one/audio/card/ob/en/SBD3_VSET_00527400.mp3",
-        "https://gwent.one/audio/card/ob/en/SBD3_MQ2034_01013429.mp3",
-    };
-    power = powerBase = 11;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanDimun, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunPirate, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DimunPirate>}, AllyDeck))
-            putToDiscard(card, ally, enemy, this);
+    res->id = "152305";
+    res->power = res->powerBase = 11;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanDimun, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck))
+            putToDiscard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-AnCraiteRaider::AnCraiteRaider()
+Card *Cards::createAnCraiteRaider()
 {
-    id = "152316";
-    name = "An Craite Raider";
-    text = "Whenever you Discard this unit, Resurrect it on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SGD1_CHAT_01024106.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD1_VSET_00541470.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD1_FF204_00523558.mp3",
-    };
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteRaider, this);
 
-    _onDiscard = [=](Field &ally, Field &enemy) {
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    res->id = "152316";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Soldier };
+
+    res->_onDiscard = [](Card *self, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
 
-MadmanLugos::MadmanLugos()
+Card *Cards::createMadmanLugos()
 {
-    id = "152106";
-    name = "Madman Lugos";
-    text = "Discard a Bronze unit from your deck, then deal damage equal to its base power to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LUTM_Q210_00561116.mp3",
-        "https://gwent.one/audio/card/ob/en/LUTM_SQ209_00593785.mp3",
-        "https://gwent.one/audio/card/ob/en/LUTM_LUGOS_01016673.mp3",
-        "https://gwent.one/audio/card/ob/en/LUTM_LUGOS_00437813.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanDrummond, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMadmanLugos, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDeckShuffled);
+    res->id = "152106";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanDrummond, Officer };
+
+    struct State : StateCopy<State> { Card *_discarded = nullptr; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_discarded == nullptr) {
-            _discarded = target;
-            putToDiscard(target, ally, enemy, this);
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&discarded = self->stateAs<State>()->_discarded;
+        if (discarded == nullptr) {
+            discarded = target;
+            putToDiscard(target, ally, enemy, self);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        damage(target, _discarded->powerBase, ally, enemy, this);
+        damage(target, discarded->powerBase, ally, enemy, self);
     };
+    return res;
 }
 
 
-Ermion::Ermion()
+Card *Cards::createErmion()
 {
-    id = "152103";
-    name = "Ermion";
-    text = "Draw 2 cards, then Discard 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/MOUS_Q203_01040282.mp3",
-        "https://gwent.one/audio/card/ob/en/MOUS_Q403_00566059.mp3",
-        "https://gwent.one/audio/card/ob/en/MOUS_Q201_00439012.mp3",
-        "https://gwent.one/audio/card/ob/en/MOUS_Q210_00558067.mp3",
-    };
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanAnCraite, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createErmion, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        drawACard(ally, enemy,  this);
-        drawACard(ally, enemy,  this);
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand, 2);
+    res->id = "152103";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        drawACard(ally, enemy,  self);
+        drawACard(ally, enemy,  self);
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-CerysFearless::CerysFearless()
+Card *Cards::createCerysFearless()
 {
-    id = "201778";
-    name = "Cerys: Fearless";
-    text = "Resurrect the next unit you Discard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040275.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanAnCraite, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCerysFearless, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 1);
+    res->id = "201778";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 1);
     };
 
-    _onOtherAllyDiscarded = [=](Card *other, Field &ally, Field &enemy) {
-        if (other->isSpecial || !isOnBoard(this, ally))
+    res->_onOtherAllyDiscarded = [](Card *self, Card *other, Field &ally, Field &enemy) {
+        if (other->isSpecial || !isOnBoard(self, ally))
             return;
 
-        if (tick(this, ally, enemy))
-            playExistedCard(other, ally, enemy, this);
+        if (tick(self, ally, enemy))
+            playExistedCard(other, ally, enemy, self);
     };
+    return res;
 }
 
 
-CerysAnCraite::CerysAnCraite()
+Card *Cards::createCerysAnCraite()
 {
-    id = "200177";
-    name = "Cerys An Craite";
-    text = "When 4 units are Resurrected while this unit is in the graveyard, Resurrect it on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500731.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_Q201_00500712.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040277.mp3",
-        "https://gwent.one/audio/card/ob/en/BECC_BECCA_01040275.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanAnCraite, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCerysAnCraite, this);
 
-    _onDiscard = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 4);
+    res->id = "200177";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Officer };
+
+    res->_onDiscard = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 4);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        setTimer(this, ally, enemy, 4);
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        setTimer(self, ally, enemy, 4);
     };
 
-    _onOtherAllyResurrecteded = [=](Card *, Field &ally, Field &enemy) {
-        if (!isIn(this, ally.discard))
+    res->_onOtherAllyResurrecteded = [](Card *self, Card *, Field &ally, Field &enemy) {
+        if (!isIn(self, ally.discard))
             return;
 
-        if (tick(this, ally, enemy))
-            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (tick(self, ally, enemy))
+            moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
 
-WoodlandSpirit::WoodlandSpirit()
+Card *Cards::createWoodlandSpirit()
 {
-    id = "132103";
-    name = "Woodland Spirit";
-    text = "Spawn 3 Wolves on the melee row and apply Impenetrable Fog to the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWoodlandSpirit, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132103";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Relict };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
         Row row;
         Pos pos;
-        if (!_findRowAndPos(this, ally, row, pos))
+        if (!_findRowAndPos(self, ally, row, pos))
             return;
         applyRowEffect(ally, enemy, 3 + row, ImpenetrableFogEffect);
         for (int n = 0; n < 3; ++n)
-            spawnNewUnitToPos(new Wolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, this);
+            spawnNewUnitToPos(createWolf(), rowAndPosLastInExactRow(ally, Meele), ally, enemy, self);
     };
+    return res;
 }
 
 
-Trollololo::Trollololo()
+Card *Cards::createTrollololo()
 {
-    id = "122209";
-    name = "Trollololo";
-    text = "9 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00411733.mp3",
-        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468246.mp3",
-        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00466604.mp3",
-        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468244.mp3",
-        "https://gwent.one/audio/card/ob/en/TRL1_MQ1022_00468248.mp3",
-    };
-    power = powerBase = 11;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Redania, Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrollololo, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 9, ally, enemy, this);
+    res->id = "122209";
+    res->power = res->powerBase = 11;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Redania, Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 9, ally, enemy, self);
     };
+    return res;
 }
 
 
-PrinceStennis::PrinceStennis()
+Card *Cards::createPrinceStennis()
 {
-    id = "122208";
-    name = "Prince Stennis";
-    text = "Play the top non-Spying Bronze or Silver unit from your deck and give it 5 Armor. 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0302.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_STEN_200098_0258.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_STEN_200046_0316.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Aedirn, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrinceStennis, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 3, ally, enemy, this);
+    res->id = "122208";
+    res->power = res->powerBase = 3;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Aedirn, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 3, ally, enemy, self);
         const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isNonSpying, isBronzeOrSilver, isUnit}, AllyDeck);
         if (cards.size() == 0)
             return;
 
         Card *target = cards.front();
-        playExistedCard(target, ally, enemy, this);
-        gainArmor(target, 5, ally, enemy, this);
+        playExistedCard(target, ally, enemy, self);
+        gainArmor(target, 5, ally, enemy, self);
     };
+    return res;
 }
 
 
-VincentMeis::VincentMeis()
+Card *Cards::createVincentMeis()
 {
-    id = "200098";
-    name = "Vincent Meis";
-    text = "Destroy the Armor of all units, then boost self by half the value destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.203.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.202.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.201.mp3",
-    };
-    power = powerBase = 9;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVincentMeis, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200098";
+    res->power = res->powerBase = 9;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Beast, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         int _armor = 0;
         for (Card *target: cardsFiltered(ally, enemy, {hasArmor}, AnyBoard)) {
             const int armorTarget = target->armor;
-            damage(target, armorTarget, ally, enemy, this);
+            damage(target, armorTarget, ally, enemy, self);
             _armor += armorTarget;
         }
         if (_armor)
-            boost(this, _armor / 2, ally, enemy, this);
+            boost(self, _armor / 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-Morkvarg::Morkvarg()
+Card *Cards::createMorkvarg()
 {
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMorkvarg, this);
+
     // BUG: isn't carry over...
     // Add a onPutOnDiscard for Morkvarg and golden spell which strikes after 3 turns
-    id = "152209";
-    name = "Morkvarg";
-    text = "Whenever Discarded, Resurrect on a random row; and whenever destroyed, Resurrect in the same position. Then, Weaken self by half.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00499647.mp3",
-        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00501979.mp3",
-        "https://gwent.one/audio/card/ob/en/MRKV_SQ201_00504630.mp3",
-    };
-    power = powerBase = 9;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Beast, Cursed };
+    res->id = "152209";
+    res->power = res->powerBase = 9;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Beast, Cursed };
 
-    _onDiscard = [=](Field &ally, Field &enemy) {
-        if (!weaken(this, half(powerBase), ally, enemy, this))
-            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    res->_onDiscard = [](Card *self, Field &ally, Field &enemy) {
+        if (!weaken(self, half(self->powerBase), ally, enemy, self))
+            moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (!weaken(this, half(powerBase), ally, enemy, this))
-            moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (!weaken(self, half(self->powerBase), ally, enemy, self))
+            moveExistedUnitToPos(self, rowAndPos, ally, enemy, self);
     };
+    return res;
 }
 
 
-ArtefactCompression::ArtefactCompression()
+Card *Cards::createArtefactCompression()
 {
-    id = "200053";
-    name = "Artefact Compression";
-    text = "Transform a Bronze or Silver unit into a Jade Figurine.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArtefactCompression, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver});
+    res->id = "200053";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver});
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        transform(target, JadeFigurine(), ally, enemy, this);
+    res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
+        transform(target, createJadeFigurine(), ally, enemy, self);
     };
+    return res;
 }
 
 
-ArtefactCompression::JadeFigurine::JadeFigurine()
+Card *Cards::createJadeFigurine()
 {
-    id = "200053";
-    name = "Jade Figurine";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isDoomed = true;
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = {};
-}
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJadeFigurine, this);
 
-HjalmarAnCraite::LordOfUndvik::LordOfUndvik()
-{
-    name = "Lord of Undvik";
-    text = "Spying. Deathwish: Boost enemy Hjalmars by 10.";
-    isLoyal = false;
-    isDoomed = true;
-    power = powerBase = 5;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Ogroid };
-
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<HjalmarAnCraite>}, EnemyBoard))
-            boost(card, 10, ally, enemy, this);
-    };
+    res->id = "200053";
+    res->isDoomed = true;
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = {};
+    return res;
 }
 
 
-HjalmarAnCraite::HjalmarAnCraite()
+Card *Cards::createLordOfUndvik()
 {
-    id = "152101";
-    name = "Hjalmar an Craite";
-    text = "Spawn the Lord of Undvik on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037900.mp3",
-        "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037904.mp3",
-        "https://gwent.one/audio/card/ob/en/HJAL_HJALMAR_01037912.mp3",
-        "https://gwent.one/audio/card/ob/en/HJAL_Q501_00568598.mp3",
-    };
-    power = powerBase = 16;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanAnCraite, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLordOfUndvik, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new LordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
+    res->isLoyal = false;
+    res->isDoomed = true;
+    res->power = res->powerBase = 5;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Ogroid };
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        // NOTE: 152101 is Hjalmar An Craite
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy("152101")}, EnemyBoard))
+            boost(card, 10, ally, enemy, self);
     };
+    return res;
 }
 
 
-Regis::Regis()
+Card *Cards::createHjalmarAnCraite()
 {
-    id = "112104";
-    name = "Regis";
-    text = "Drain all boosts from a unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/REGI_Q702_01155490.mp3",
-        "https://gwent.one/audio/card/ob/en/REGI_Q702_01155230.mp3",
-        "https://gwent.one/audio/card/ob/en/REGI_Q702_01178597.mp3",
-    };
-    power = powerBase = 1;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Vampire };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHjalmarAnCraite, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBoosted}, AnyBoard);
+    res->id = "152101";
+    res->power = res->powerBase = 16;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Officer };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createLordOfUndvik(), rowAndPosLastInExactRow(enemy, _findRowAndPos(self, ally).row()), enemy, ally, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createRegis()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRegis, this);
+
+    res->id = "112104";
+    res->power = res->powerBase = 1;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Vampire };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBoosted}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int x = target->power - target->powerBase;
-        drain(target, x, ally, enemy, this);
+        drain(target, x, ally, enemy, self);
     };
+    return res;
 }
 
 
-LethoOfGulet::LethoOfGulet()
+Card *Cards::createLethoOfGulet()
 {
-    id = "162101";
-    name = "Letho of Gulet";
-    text = "Spying. Apply Lock status to 2 units on this row, then Drain all their power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00593857.mp3",
-    };
-    isLoyal = false;
-    power = powerBase = 1;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLethoOfGulet, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isOnSameRow(&enemy, this)}, EnemyBoard, 2);
+    res->id = "162101";
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isOnSameRow(&enemy, self)}, EnemyBoard, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        lock(target, ally, enemy, this);
-        drain(target, target->power, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        lock(target, ally, enemy, self);
+        drain(target, target->power, ally, enemy, self);
     };
+    return res;
 }
 
 
-AnCraiteLongship::AnCraiteLongship()
+Card *Cards::createAnCraiteLongship()
 {
-    id = "152314";
-    name = "An Craite Longship";
-    text = "Deal 2 damage to a random enemy. Repeat this ability whenever you Discard a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteLongship, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-            damage(card, 2, ally, enemy, this);
+    res->id = "152314";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Machine };
+
+    const auto onDeploy = [=](Field &ally, Field &enemy) {
+        if (Card *self = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+            damage(self, 2, ally, enemy, self);
     };
 
-    _onOtherAllyDiscarded = [=](Card *, Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally))
-            AnCraiteLongship::onDeploy(ally, enemy);
+    res->_onOtherAllyDiscarded = [](Card *self, Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally))
+            self->onDeploy(ally, enemy);
     };
+    return res;
 }
 
 
-TuirseachVeteran::TuirseachVeteran()
+Card *Cards::createTuirseachVeteran()
 {
-    id = "200046";
-    name = "Tuirseach Veteran";
-    text = "Strengthen all your other Clan Tuirseach units in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.410.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.411.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.412.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachVeteran, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(this)}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy, this);
+    res->id = "200046";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(ClanTuirseach), otherThan(self)}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-TuirseachHunter::TuirseachHunter()
+Card *Cards::createTuirseachHunter()
 {
-    id = "152304";
-    name = "Tuirseach Hunter";
-    text = "Deal 5 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544501.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544569.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD6_VSET_00544491.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachHunter, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "152304";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
     };
+    return res;
 }
 
 
-Udalryk::Udalryk()
+Card *Cards::createUdalryk()
 {
-    id = "152214";
-    name = "Udalryk";
-    text = "Spying. Single-Use: Look at 2 cards from your deck. Draw one and Discard the other.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    isLoyal = false;
-    timer = 1;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { ClanBrokvar, Cursed, Agent };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUdalryk, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
-            startChoiceToTargetCard(ally, enemy, this, _drawn = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    res->id = "152214";
+    res->power = res->powerBase = 13;
+    res->isLoyal = false;
+    res->timer = 1;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { ClanBrokvar, Cursed, Agent };
+
+    struct State : StateCopy<State> { std::vector<Card *> _drawn; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
+            return;
+        const std::vector<Card *> cards = randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng);
+        self->stateAs<State>()->_drawn = cards;
+        startChoiceToTargetCard(ally, enemy, self, cards);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy,  this);
-        for (Card *card : _drawn)
-            if (card != target)
-                putToDiscard(card, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
+        for (Card *self : self->stateAs<State>()->_drawn)
+            if (self != target)
+                putToDiscard(self, ally, enemy, self);
 
-        _drawn.clear();
+        self->stateAs<State>()->_drawn.clear();
     };
+    return res;
 }
 
 
-BloodcurdlingRoar::BloodcurdlingRoar()
+Card *Cards::createBloodcurdlingRoar()
 {
-    id = "152406";
-    name = "Bloodcurdling Roar";
-    text = "Destroy an ally. Spawn a bear.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBloodcurdlingRoar, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "152406";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
-        spawnNewCard(new Bear(), ally, enemy, this);
+    res->_onTargetChoosen = [=](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
+        spawnNewCard(createBear(), ally, enemy, self);
     };
+    return res;
 }
 
 
-Gremist::Gremist()
+Card *Cards::createGremist()
 {
-    id = "152206";
-    name = "Gremist";
-    text = "Spawn Torrential Rain, Clear Skies or Bloodcurdling Roar.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.828.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.829.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.830.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.834.mp3",
-    };
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGremist, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new BloodcurdlingRoar()});
+    res->id = "152206";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Support };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createTorrentialRain(), createClearSkies(), createBloodcurdlingRoar()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Operator::Operator()
+Card *Cards::createOperator()
 {
-    id = "112208";
-    name = "Operator";
-    text = "Single-Use, Truce: Make a default copy of a Bronze unit in your hand for both players.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_OPRT_204113_0012.mp3",
-    };
-    power = powerBase = 5;
-    timer = 1;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOperator, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112208";
+    res->power = res->powerBase = 5;
+    res->timer = 1;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
-        if (tick(this, ally, enemy))
-            startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyHand);
+        if (tick(self, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, AllyHand);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *copyAlly = target->defaultCopy();
         ally.cardsAdded.push_back(copyAlly);
-        putToHand(copyAlly, ally, enemy,  this);
+        putToHand(copyAlly, ally, enemy,  self);
 
         Card *copyEnemy = target->defaultCopy();
         enemy.cardsAdded.push_back(copyEnemy);
-        putToHand(copyEnemy, enemy, ally,  this);
+        putToHand(copyEnemy, enemy, ally,  self);
     };
+    return res;
 }
 
 
-ZoriaRunestone::ZoriaRunestone()
+Card *Cards::createZoriaRunestone()
 {
-    id = "201582";
-    name = "Zoria Runestone";
-    text = "Create a Bronze or Silver Northern Realms card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createZoriaRunestone, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isNothernRealmsFaction});
+    res->id = "201582";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isNothernRealmsFaction});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Renew::Renew()
+Card *Cards::createRenew()
 {
-    id = "113316";
-    name = "Renew";
-    text = "Resurrect a non-Leader Gold unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRenew, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isGold, isNonLeader}, AllyDiscard);
+    res->id = "113316";
+    res->isSpecial = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isGold, isNonLeader}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-EistTuirseach::EistTuirseach()
+Card *Cards::createEistTuirseach()
 {
-    id = "201597";
-    name = "Eist Tuirseach";
-    text = "Spawn a Bronze Clan Tuirseach Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.47.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.48.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.49.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Skellige;
-    tags = { ClanTuirseach, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEistTuirseach, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new TuirseachArcher, new TuirseachAxeman, new TuirseachBearmaster, new TuirseachHunter, new TuirseachSkirmisher});
+    res->id = "201597";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Leader };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createTuirseachArcher(), createTuirseachAxeman(), createTuirseachBearmaster(), createTuirseachHunter(), createTuirseachSkirmisher()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-TuirseachAxeman::TuirseachAxeman()
+Card *Cards::createTuirseachAxeman()
 {
-    id = "152312";
-    name = "Tuirseach Axeman";
-    text = "Whenever an enemy on the opposite row is damaged, boost self by 1. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.807.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.808.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.809.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachAxeman, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
+    res->id = "152312";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
     };
 
-    _onOtherEnemyDamaged = [=](Card *other, Field &ally, Field &enemy) {
+    res->_onOtherEnemyDamaged = [](Card *self, Card *other, Field &ally, Field &enemy) {
         Pos _;
         Row row;
         if (!_findRowAndPos(other, enemy, row, _))
             return;
-        if (isIn(this, ally.row(row)))
-            boost(this, 1, ally, enemy, this);
+        if (isIn(self, ally.row(row)))
+            boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-TuirseachSkirmisher::TuirseachSkirmisher()
+Card *Cards::createTuirseachSkirmisher()
 {
-    id = "152313";
-    name = "Tuirseach Skirmisher";
-    text = "Whenever this unit is Resurrected, Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00165758.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00526547.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165400.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanTuirseach, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTuirseachSkirmisher, this);
 
-    _onDeployFromDiscard = [=](Field &ally, Field &enemy) {
-        strengthen(this, 3, ally, enemy, this);
+    res->id = "152313";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Soldier };
+
+    res->_onDeployFromDiscard = [](Card *self, Field &ally, Field &enemy) {
+        strengthen(self, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-Derran::Derran()
+Card *Cards::createDerran()
 {
-    id = "201646";
-    name = "Derran";
-    text = "Whenever an enemy is damaged, boost self by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.232.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.233.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.234.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { ClanTuirseach, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDerran, this);
 
-    _onOtherEnemyDamaged = [=](Card *, Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally))
-            boost(this, 1, ally, enemy, this);
+    res->id = "201646";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { ClanTuirseach, Cursed };
+
+    res->_onOtherEnemyDamaged = [](Card *self, Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally))
+            boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-Roach::Roach()
+Card *Cards::createRoach()
 {
-    id = "112210";
-    name = "Roach";
-    text = "Whenever you play a Gold unit from your hand, Summon this unit to a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRoach, this);
 
-    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
+    res->id = "112210";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Beast };
+
+    res->_onOtherAllyPlayedFromHand = [](Card *self, Card *other, Field &ally, Field &enemy) {
         if (other->rarity != Gold)
             return;
 
-        if (!isIn(this, ally.deck))
+        if (!isIn(self, ally.deck))
             return;
 
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
 
-JanCalveit::JanCalveit()
+Card *Cards::createJanCalveit()
 {
-    id = "200164";
-    name = "Jan Calveit";
-    text = "Look at the top 3 cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.55.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.56.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.57.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Officer, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJanCalveit, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        const std::vector<Card *> topThreeCards(ally.deck.begin(), ally.deck.begin() + std::min(int(ally.deck.size()), 3));
-        startChoiceToTargetCard(ally, enemy, this, topThreeCards);
+    res->id = "200164";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Officer, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, firsts(ally.deck, 3));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-CahirDyffryn::CahirDyffryn()
+Card *Cards::createCahirDyffryn()
 {
-    id = "162104";
-    name = "Cahir Dyffryn";
-    text = "Resurrect a Leader.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.69.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.70.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.71.mp3",
-    };
-    power = powerBase = 1;
-    isDoomed = true;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCahirDyffryn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, AllyDiscard);
+    res->id = "162104";
+    res->power = res->powerBase = 1;
+    res->isDoomed = true;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasTag(Leader)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-LethoKingslayer::LethoKingslayer()
+Card *Cards::createLethoKingslayer()
 {
-    id = "201603";
-    name = "Letho: Kingslayer";
-    text = "Choose One: Destroy an enemy Leader, then boost self by 5; or Play a Bronze or Silver Tactic from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LETO_Q403_00319901.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00590678.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_LETHO_01038588.mp3",
-        "https://gwent.one/audio/card/ob/en/LETO_SQ102_00593857.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLethoKingslayer, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new LethoKingslayer::Destroy;
-        copyCardText(this, option1);
+    res->id = "201603";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Witcher };
+    res->state = new StateChoosen();
+
+    enum { Destroy, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Destroy);
         option1->text = "Destroy an enemy Leader, then boost self by 5.";
 
-        auto *option2 = new LethoKingslayer::Play;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Play);
         option2->text = "Play a Bronze or Silver Tactic from your deck.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        _choosen = target;
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        self->stateAs<StateChoosen>()->_choosen = target;
 
-        if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen))
-            return startChoiceToTargetCard(ally, enemy, this, {hasTag(Leader)}, EnemyBoard);
+        if (isOption(target, Destroy))
+            return startChoiceToTargetCard(ally, enemy, self, {hasTag(Leader)}, EnemyBoard);
 
-        if (dynamic_cast<LethoKingslayer::Play *>(_choosen))
-            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
+        if (isOption(target, Play))
+            return startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Tactics)}, AllyDeckShuffled);
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<LethoKingslayer::Destroy *>(_choosen)) {
-            putToDiscard(target, ally, enemy, this);
-            boost(this, 5, ally, enemy, this);
+        if (isOption(choosen, Destroy)) {
+            putToDiscard(target, ally, enemy, self);
+            boost(self, 5, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<LethoKingslayer::Play *>(_choosen)) {
-            playExistedCard(target, ally, enemy, this);
+        if (isOption(choosen, Play)) {
+            playExistedCard(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
 
-KingHenselt::KingHenselt()
+Card *Cards::createKingHenselt()
 {
-    id = "200170";
-    name = "King Henselt";
-    text = "Choose a Bronze Machine or Kaedweni ally and play all copies of it from your deck. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0265.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_HSLT_200497_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_HSLT_200098_0254.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Gold;
-    isCrew = true;
-    faction = NothernRealms;
-    tags = { Kaedwen, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingHenselt, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
+    res->id = "200170";
+    res->power = res->powerBase = 3;
+    res->rarity = Gold;
+    res->isCrew = true;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Machine, Kaedwen})}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         for (Card *copy : findCopies(target, ally.deck))
-            playExistedCard(copy, ally, enemy, this);
+            playExistedCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
 
-BloodyBaron::BloodyBaron()
+Card *Cards::createBloodyBaron()
 {
-    id = "122101";
-    name = "Bloody Baron";
-    text = "If in hand, deck, or on board, boost self by 1 whenever an enemy is destroyed.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/BARN_Q103_00473473.mp3",
-        "https://gwent.one/audio/card/ob/en/BARN_Q107_00515406.mp3",
-        "https://gwent.one/audio/card/ob/en/BARN_BARON_00402523.mp3",
-        "https://gwent.one/audio/card/ob/en/BARN_Q102_00408798.mp3",
-        "https://gwent.one/audio/card/ob/en/BARN_Q103_00487067.mp3",
-    };
-    power = powerBase = 9;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Temeria, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBloodyBaron, this);
 
-    _onOtherEnemyDestroyed = [=](Card *, Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally) || isIn(this, ally.deck) || isIn(this, ally.hand))
-            boost(this, 1, ally, enemy, this);
+    res->id = "122101";
+    res->power = res->powerBase = 9;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Temeria, Officer };
+
+    res->_onOtherEnemyDestroyed = [](Card *self, Card *, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally) || isIn(self, ally.deck) || isIn(self, ally.hand))
+            boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-Dethmold::Dethmold()
+Card *Cards::createDethmold()
 {
-    id = "122207";
-    name = "Dethmold";
-    text = "Spawn Torrential Rain, Clear Skies or Alzur's Thunder.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_DETM_200219_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_DETM_200182_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_DETM_200338_0412.mp3",
-    };
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Kaedwen, Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDethmold, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new AlzursThunder()});
+    res->id = "122207";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Mage };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createTorrentialRain(), createClearSkies(), createAlzursThunder()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-RonvidTheIncessant::RonvidTheIncessant()
+Card *Cards::createRonvidTheIncessant()
 {
-    id = "200529";
-    name = "Ronvid the Incessant";
-    text = "Resurrect on a random row with 1 power on turn end. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.401.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.402.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.403.mp3",
-    };
-    power = powerBase = 11;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Kaedwen, Soldier };
-    isCrew = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRonvidTheIncessant, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isIn(this, ally.discard))
+    res->id = "200529";
+    res->power = res->powerBase = 11;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Soldier };
+    res->isCrew = true;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isIn(self, ally.discard))
             return;
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
-        if (powerBase > 1)
-            weaken(this, powerBase - 1, ally, enemy, this);
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
+        if (self->powerBase > 1)
+            weaken(self, self->powerBase - 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-HubertRejk::HubertRejk()
+Card *Cards::createHubertRejk()
 {
-    id = "200088";
-    name = "Hubert Rejk";
-    text = "Drain all boosts from units in your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.177.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.175.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.176.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Vampire };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHubertRejk, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
-            drain(card, card->power - card->powerBase, ally, enemy, this);
+    res->id = "200088";
+    res->power = res->powerBase = 7;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Vampire };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *self : cardsFiltered(ally, enemy, {isBoosted}, AllyDeck))
+            drain(self, self->power - self->powerBase, ally, enemy, self);
     };
+    return res;
 }
 
 
-CrachAnCraite::CrachAnCraite()
+Card *Cards::createCrachAnCraite()
 {
-    id = "200160";
-    name = "Crach an Craite";
-    text = "Strengthen the Highest non-Spying Bronze or Silver unit in your deck by 2 and play it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040579.mp3",
-        "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040589.mp3",
-        "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01040591.mp3",
-        "https://gwent.one/audio/card/ob/en/CRCH_CRACH_01001923.mp3",
-    };
-    power = powerBase = 5;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { ClanAnCraite, Leader };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCrachAnCraite, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
-            strengthen(card, 2, ally, enemy, this);
-            playExistedCard(card, ally, enemy, this);
+    res->id = "200160";
+    res->power = res->powerBase = 5;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { ClanAnCraite, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *self = highest(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonSpying}, AllyDeck), ally.rng)) {
+            strengthen(self, 2, ally, enemy, self);
+            playExistedCard(self, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-BirnaBran::BirnaBran()
+Card *Cards::createBirnaBran()
 {
-    id = "152105";
-    name = "Birna Bran";
-    text = "Apply Skellige Storm to an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.206.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.207.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.205.mp3",
-    };
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { ClanTuirseach, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBirnaBran, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "152105";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { ClanTuirseach, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, SkelligeStormEffect);
     };
+    return res;
 }
 
 
-Coral::Coral()
+Card *Cards::createCoral()
 {
-    id = "152107";
-    name = "Coral";
-    text = "Transform a Bronze or Silver unit into a Jade Figurine.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.202.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.204.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.203.mp3",
-    };
-    power = powerBase = 5;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCoral, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AnyBoard);
+    res->id = "152107";
+    res->power = res->powerBase = 5;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        transform(target, ArtefactCompression::JadeFigurine(), ally, enemy, this);
+    res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
+        transform(target, createJadeFigurine(), ally, enemy, self);
     };
+    return res;
 }
 
 
-Kambi::Hemdall::Hemdall()
+Card *Cards::createVabjorn()
 {
-    id = "152402";
-    name = "Hemdall";
-    text = "Destroy all other units and clear all Boons and Hazards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.199.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.201.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.200.mp3"
-    };
-    isDoomed = true;
-    power = powerBase = 20;
-    faction = Skellige;
-    rarity = Gold;
-    tags = {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVabjorn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (int screenRow = 0; screenRow < 6; ++screenRow)
-            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
-        for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            putToDiscard(card, ally, enemy, this);
-    };
-}
+    res->id = "200028";
+    res->power = res->powerBase = 11;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { Cursed, Cultist };
 
-
-Vabjorn::Vabjorn()
-{
-    id = "200028";
-    name = "Vabjorn";
-    text = "Deal 2 damage to an enemy. If it was already damaged, destroy it instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.211.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.213.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.214.mp3",
-    };
-    power = powerBase = 11;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { Cursed, Cultist };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (isDamaged(target))
-            putToDiscard(target, ally, enemy, this);
+            putToDiscard(target, ally, enemy, self);
         else
-            damage(target, 2, ally, enemy, this);
+            damage(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-BlueboyLugos::BlueboyLugos()
+Card *Cards::createSpectralWhale()
 {
-    id = "152201";
-    name = "Blueboy Lugos";
-    text = "Spawn a Spectral Whale on an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LUTG_SQ209_00594723.mp3",
-        "https://gwent.one/audio/card/ob/en/LUTG_LUGOS_01038779.mp3",
-    };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanDrummond, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpectralWhale, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewCard(new SpectralWhale(), ally, enemy, this);
+    res->id = "152403";
+    res->isDoomed = true;
+    res->power = res->powerBase = 3;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { Cursed };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !moveToRandomRow(self, ally, enemy, self))
+            return;
+        for (Card *self : cardsFiltered(ally, enemy, {isOnSameRow(&ally, self)}, AllyBoard))
+            damage(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-DjengeFrett::DjengeFrett()
+Card *Cards::createBlueboyLugos()
 {
-    id = "152203";
-    name = "Djenge Frett";
-    text = "Deal 1 damage to 2 allies and Strengthen self by 2 for each.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.806.mp3",
-        "https://gwent.one/audio/card/ob/en/SWR3_MQ2013_00349800.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.804.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.805.mp3",
-    };
-    power = powerBase = 10;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { Soldier, ClanDimun };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlueboyLugos, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
-    };
+    res->id = "152201";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanDrummond, Soldier };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 1, ally, enemy, this);
-        strengthen(this, 2, ally, enemy, this);
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createSpectralWhale(), ally, enemy, self);
     };
+    return res;
 }
 
 
-DonarAnHindar::DonarAnHindar()
+Card *Cards::createDjengeFrett()
 {
-    id = "152204";
-    name = "Donar an Hindar";
-    text = "Toggle a unit's Lock status, then move a Bronze unit from your opponent's graveyard to yours.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DONR_Q206_00587479.mp3",
-        "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037057.mp3",
-        "https://gwent.one/audio/card/ob/en/DONR_DONAR_01037055.mp3",
-    };
-    power = powerBase = 8;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanHeymaey, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDjengeFrett, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "152203";
+    res->power = res->powerBase = 10;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { Soldier, ClanDimun };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 1, ally, enemy, self);
+        strengthen(self, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createDonarAnHindar()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDonarAnHindar, this);
+
+    res->id = "152204";
+    res->power = res->powerBase = 8;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanHeymaey, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, EnemyDiscard);
+        startChoiceToTargetCard(ally, enemy, self);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (!isIn(target, enemy.discard)) {
-            toggleLock(target, ally, enemy, this);
+            toggleLock(target, ally, enemy, self);
             return;
         }
         // FIXME: discard moving will crash
-        putToDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DraigBonDhu::DraigBonDhu()
+Card *Cards::createDraigBonDhu()
 {
-    id = "152205";
-    name = "Draig Bon-Dhu";
-    text = "Strengthen 2 non-Leader units in your graveyard by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SBR1_VSET_00527986.mp3",
-        "https://gwent.one/audio/card/ob/en/SBR1_VSET_00528002.mp3",
-    };
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDraigBonDhu, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonLeader, isUnit}, AllyDiscard, 2);
+    res->id = "152205";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonLeader, isUnit}, AllyDiscard, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 3, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-HolgerBlackhand::HolgerBlackhand()
+Card *Cards::createHolgerBlackhand()
 {
-    id = "152207";
-    name = "Holger Blackhand";
-    text = "Deal 6 damage. If the unit was destroyed, Strengthen the Highest unit in your graveyard by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/HOLG_Q201_00387298.mp3",
-        "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038014.mp3",
-        "https://gwent.one/audio/card/ob/en/HOLG_HOLGER_01038016.mp3",
-    };
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanDimun, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHolgerBlackhand, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->id = "152207";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanDimun, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (damage(target, 6, ally, enemy, this))
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 6, ally, enemy, self))
             if (Card *card = highest(ally.discard, ally.rng))
-                strengthen(card, 3, ally, enemy, this);
+                strengthen(card, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-JuttaAnDimun::JuttaAnDimun()
+Card *Cards::createJuttaAnDimun()
 {
-    id = "152208";
-    name = "Jutta an Dimun";
-    text = "Deal 1 damage to self.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509731.mp3",
-        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00507987.mp3",
-        "https://gwent.one/audio/card/ob/en/SWO4_MQ2038_00509565.mp3",
-    };
-    power = powerBase = 13;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanDimun, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJuttaAnDimun, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        damage(this, 1, ally, enemy, this);
+    res->id = "152208";
+    res->power = res->powerBase = 13;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanDimun, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        damage(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-SavageBear::SavageBear()
+Card *Cards::createSavageBear()
 {
-    id = "152210";
-    name = "Savage Bear";
-    text = "Whenever a unit is played from either hand on your opponent's side, deal 1 damage to it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSavageBear, this);
 
-    _onOtherEnemyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally))
-            damage(other, 1, ally, enemy, this);
+    res->id = "152210";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { Beast, Cursed };
+
+    res->_onOtherEnemyPlayedFromHand = [](Card *self, Card *other, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally))
+            damage(other, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-SvanrigeTuirseach::SvanrigeTuirseach()
+Card *Cards::createSvanrigeTuirseach()
 {
-    id = "152213";
-    name = "Svanrige Tuirseach";
-    text = "Draw a card, then Discard a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.209.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.210.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.208.mp3",
-        "https://gwent.one/audio/card/ob/en/SVAN_Q210_00558425.mp3",
-        "https://gwent.one/audio/card/ob/en/SVAN_Q210_01069128.mp3",
-    };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanTuirseach, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSvanrigeTuirseach, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (drawACard(ally, enemy,  this))
-            startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    res->id = "152213";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanTuirseach, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (drawACard(ally, enemy,  self))
+            startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Skjall::Skjall()
+Card *Cards::createSkjall()
 {
-    id = "200212";
-    name = "Skjall";
-    text = "Play a random Bronze or Silver Cursed unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.822.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.823.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.825.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.827.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.824.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.826.mp3",
-    };
-    power = powerBase = 5;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanHeymaey, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSkjall, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200212";
+    res->power = res->powerBase = 5;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanHeymaey, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, hasTag(Cursed)}, AllyDeck), ally.rng))
-            playExistedCard(card, ally, enemy, this);
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-HaraldHoundsnout::HaraldHoundsnout()
+Card *Cards::createHaraldHoundsnout()
 {
-    id = "200043";
-    name = "Harald Houndsnout";
-    text = "Spawn Wilfred to the left of this unit, Wilhelm to the right, and Wilmar on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.130.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.131.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.129.mp3",
-    };
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanTordarroch, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHaraldHoundsnout, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new Wilfred(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Wilhelm(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Wilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(this, ally).row()), enemy, ally, this);
+    res->id = "200043";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanTordarroch, Cursed };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createWilfred(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createWilhelm(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createWilmar(), rowAndPosLastInExactRow(enemy, _findRowAndPos(self, ally).row()), enemy, ally, self);
     };
+    return res;
 }
 
 
-HaraldHoundsnout::Wilfred::Wilfred()
+Card *Cards::createWilfred()
 {
-    name = "Wilfred";
-    text = "Deathwish: damage all unit on the opposite row by 1.";
-    power = powerBase = 1;
-    faction = Skellige;
-    rarity = Bronze;
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWilfred, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+    res->power = res->powerBase = 1;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->isDoomed = true;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
         for (Card *card : enemy.row(rowAndPos.row()))
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-HaraldHoundsnout::Wilhelm::Wilhelm()
+Card *Cards::createWilhelm()
 {
-    name = "Wilhelm";
-    text = "Deathwish: strengthen a random ally by 3.";
-    power = powerBase = 1;
-    faction = Skellige;
-    rarity = Bronze;
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWilhelm, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+    res->power = res->powerBase = 1;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->isDoomed = true;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
         if (Card *card = random(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-            strengthen(card, 3, ally, enemy, this);
+            strengthen(card, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-HaraldHoundsnout::Wilmar::Wilmar()
+Card *Cards::createWilmar()
 {
-    name = "Wilmar";
-    text = "Deathwish: spawn a Bear on a random opponent row.";
-    power = powerBase = 1;
-    faction = Skellige;
-    rarity = Bronze;
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWilmar, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        spawnNewUnitToPos(new Bear(), rowAndPosRandom(enemy), ally, enemy, this);
+    res->power = res->powerBase = 1;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->isDoomed = true;
+
+    res->_onDestroy = [=](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        spawnNewUnitToPos(createBear(), rowAndPosRandom(enemy), ally, enemy, self);
     };
+    return res;
 }
 
 
-Yoana::Yoana()
+Card *Cards::createYoana()
 {
-    id = "201644";
-    name = "Yoana";
-    text = "Heal an ally, then boost it by the amount Healed.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.20.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.24.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.22.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.21.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.23.mp3",
-    };
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { ClanTordarroch, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYoana, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, isDamaged}, AllyBoard);
+    res->id = "201644";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { ClanTordarroch, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, isDamaged}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int x = target->powerBase - target->power;
-        heal(target, ally, enemy, this);
-        boost(target, x, ally, enemy, this);
+        heal(target, ally, enemy, self);
+        boost(target, x, ally, enemy, self);
     };
+    return res;
 }
 
 
-AnCraiteBlacksmith::AnCraiteBlacksmith()
+Card *Cards::createAnCraiteBlacksmith()
 {
-    id = "152311";
-    name = "An Craite Blacksmith";
-    text = "Strengthen an ally by 2 and give it 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550878.mp3",
-        "https://gwent.one/audio/card/ob/en/SAR3_CHAT_01050115.mp3",
-        "https://gwent.one/audio/card/ob/en/SAR3_VSET_00550859.mp3",
-    };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanAnCraite, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteBlacksmith, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "152311";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanAnCraite, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 2, ally, enemy, this);
-        gainArmor(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 2, ally, enemy, self);
+        gainArmor(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-AnCraiteWarcrier::AnCraiteWarcrier()
+Card *Cards::createAnCraiteWarcrier()
 {
-    id = "113313";
-    name = "An Craite Warcrier";
-    text = "Boost an ally by half its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.327.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.330.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.329.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.326.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.328.mp3",
-    };
-    power = powerBase = 5;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanAnCraite, Support};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteWarcrier, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "113313";
+    res->power = res->powerBase = 5;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanAnCraite, Support};
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, int(std::floor(target->power / 2.0)), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, int(std::floor(target->power / 2.0)), ally, enemy, self);
     };
+    return res;
 }
 
-AnCraiteWarrior::AnCraiteWarrior()
-{
-    id = "152303";
-    name = "An Craite Warrior";
-    text = "Deal 1 damage to self.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SGD2_CHAT2_00165312.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD2_VSET_00541769.mp3",
-        "https://gwent.one/audio/card/ob/en/SGD2_Q208_01071227.mp3",
-    };
-    power = powerBase = 12;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanAnCraite, Soldier };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        damage(this, 1, ally, enemy, this);
+Card *Cards::createAnCraiteWarrior()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteWarrior, this);
+
+    res->id = "152303";
+    res->power = res->powerBase = 12;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanAnCraite, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        damage(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
-BerserkerMarauder::BerserkerMarauder()
-{
-    id = "152302";
-    name = "Berserker Marauder";
-    text = "Boost self by 1 for each damaged or Cursed ally.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536097.mp3",
-        "https://gwent.one/audio/card/ob/en/SBE1_Q206_00413021.mp3",
-        "https://gwent.one/audio/card/ob/en/SBE1_VSET_00536089.mp3",
-    };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { Cursed, Soldier, Cultist };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        const auto isDamagedOrCursed = [=](Card *card) {
-            return (card != this) && (isDamaged(card) || hasTag(card, Cursed));
+Card *Cards::createBerserkerMarauder()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBerserkerMarauder, this);
+
+    res->id = "152302";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { Cursed, Soldier, Cultist };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const auto isDamagedOrCursed = [](Card *self) {
+            return (self != self) && (isDamaged(self) || hasTag(self, Cursed));
         };
         const int nUnits = int(cardsFiltered(ally, enemy, {isDamagedOrCursed}, AllyBoard).size());
         if (nUnits)
-            boost(this, nUnits, ally, enemy, this);
+            boost(self, nUnits, ally, enemy, self);
     };
+    return res;
 }
 
-DimunPirateCaptain::DimunPirateCaptain()
+
+Card *Cards::createDimunPirateCaptain()
 {
-    id = "152306";
-    name = "Dimun Pirate Captain";
-    text = "Play a different Bronze Dimun unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SBD1_MQ2003_01054136.mp3",
-        "https://gwent.one/audio/card/ob/en/SBD1_Q202_00307483.mp3",
-        "https://gwent.one/audio/card/ob/en/SBD1_MQ2002_00442097.mp3",
-        "https://gwent.one/audio/card/ob/en/SBD1_MQ2034_01028167.mp3",
-    };
-    power = powerBase = 1;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanDimun, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunPirateCaptain, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, otherThan(name), hasTag(ClanDimun)}, AllyDeckShuffled);
+    res->id = "152306";
+    res->power = res->powerBase = 1;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanDimun, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, otherThan(self->id), hasTag(ClanDimun)}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-DimunSmuggler::DimunSmuggler()
+
+Card *Cards::createDimunSmuggler()
 {
-    id = "200146";
-    name = "Dimun Smuggler";
-    text = "Return a Bronze unit from your graveyard to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.76.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.75.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.77.mp3",
-    };
-    power = powerBase = 10;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanDimun, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunSmuggler, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    res->id = "200146";
+    res->power = res->powerBase = 10;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanDimun, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, ally, enemy, DeckPosRandom, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, self);
     };
+    return res;
 }
 
-DrummondShieldmaid::DrummondShieldmaid()
+Card *Cards::createDrummondShieldmaid()
 {
-    id = "152318";
-    name = "Drummond Shieldmaid";
-    text = "Summon all copies of this unit to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.3.mp3",
-    };
-    power = powerBase = 3;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanDrummond, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDrummondShieldmaid, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    res->id = "152318";
+    res->power = res->powerBase = 3;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanDrummond, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
     };
+    return res;
 }
 
-HeymaeyFlaminica::HeymaeyFlaminica()
+Card *Cards::createHeymaeyFlaminica()
 {
-    id = "200147";
-    name = "Heymaey Flaminica";
-    text = "Clear Hazards from the row and move 2 allies to it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.89.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.88.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.87.mp3",
-    };
-    power = powerBase = 10;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanHeymaey, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeymaeyFlaminica, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        clearHazardsFromItsRow(this, ally);
-        startChoiceToTargetCard(ally, enemy, this, {isOnAnotherRow(&ally, this)}, AllyBoard, 2);
+    res->id = "200147";
+    res->power = res->powerBase = 10;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanHeymaey, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(self, ally);
+        startChoiceToTargetCard(ally, enemy, self, {isOnAnotherRow(&ally, self)}, AllyBoard, 2);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(this, ally), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(target, rowAndPosLastInTheSameRow(self, ally), ally, enemy, self);
     };
+    return res;
 }
 
-HeymaeyHerbalist::HeymaeyHerbalist()
+Card *Cards::createHeymaeyHerbalist()
 {
-    id = "200081";
-    name = "Heymaey Herbalist";
-    text = "Play a random Bronze Organic or Hazard card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.121.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.123.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.122.mp3",
-    };
-    power = powerBase = 3;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanHeymaey, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeymaeyHerbalist, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *target = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
-            playExistedCard(target, ally, enemy, this);
+    res->id = "200081";
+    res->power = res->powerBase = 3;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanHeymaey, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags({Organic, Hazard})}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
-HeymaeyProtector::HeymaeyProtector()
+Card *Cards::createHeymaeyProtector()
 {
-    id = "200149";
-    name = "Heymaey Protector";
-    text = "Play a Bronze Item from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.80.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.81.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.79.mp3",
-    };
-    power = powerBase = 2;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanHeymaey, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeymaeyProtector, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Item)}, AllyDeck);
+    res->id = "200149";
+    res->power = res->powerBase = 2;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanHeymaey, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Item)}, AllyDeck);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-HeymaeySkald::HeymaeySkald()
+Card *Cards::createHeymaeySkald()
 {
-    id = "152308";
-    name = "Heymaey Skald";
-    text = "Boost all allies from a Clan of your choice by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DROG_Q206_01072830.mp3",
-        "https://gwent.one/audio/card/ob/en/DROG_BARD_01036857.mp3",
-        "https://gwent.one/audio/card/ob/en/DROG_Q206_00329460.mp3",
-    };
-    power = powerBase = 9;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanHeymaey, Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeymaeySkald, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyBoard);
+    res->id = "152308";
+    res->power = res->powerBase = 9;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanHeymaey, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasAnyOfTags({ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch})}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         for (const Tag tag : std::vector<Tag>{ClanAnCraite, ClanDimun, ClanDrummond, ClanHeymaey, ClanTuirseach, ClanBrokvar, ClanTordarroch}) {
             if (!hasTag(target, tag))
                 continue;
-            for (Card *card : cardsFiltered(ally, enemy, {hasTag(tag), otherThan(this)}, AllyBoard))
-                boost(card, 1, ally, enemy, this);
+            for (Card *card : cardsFiltered(ally, enemy, {hasTag(tag), otherThan(self)}, AllyBoard))
+                boost(card, 1, ally, enemy, self);
             break;
         }
     };
+    return res;
 }
 
-RagingBerserker::RagingBerserker()
+Card *Cards::createRagingBerserker()
 {
-    id = "152301";
-    name = "Raging Berserker";
-    text = "When this unit is damaged or Weakened, transform into a Raging Bear.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536507.mp3",
-        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536513.mp3",
-        "https://gwent.one/audio/card/ob/en/SBE2_VSET_00536587.mp3",
-    };
-    power = powerBase = 8;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { Cursed, Soldier, Cultist };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRagingBerserker, this);
 
-    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *) {
-        transform(this, RagingBear(), ally, enemy, this);
+    res->id = "152301";
+    res->power = res->powerBase = 8;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { Cursed, Soldier, Cultist };
+
+    res->_onDamaged = [this](Card *self, const int, Field &ally, Field &enemy, const Card *) {
+        transform(self, createRagingBear(), ally, enemy, self);
     };
 
-    _onWeakened = [=](const int x, Field &ally, Field &enemy, const Card *src) {
-        onDamaged(x, ally, enemy, src);
+    res->_onWeakened = [](Card *self, const int x, Field &ally, Field &enemy, const Card *src) {
+        self->onDamaged(x, ally, enemy, src);
     };
+    return res;
 }
 
-RagingBerserker::RagingBear::RagingBear()
+Card *Cards::createRagingBear()
 {
-    id = "152405";
-    name = "Raging Bear";
-    text = "No ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 12;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { Cursed, Beast, Cultist };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRagingBear, this);
+
+    res->id = "152405";
+    res->power = res->powerBase = 12;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { Cursed, Beast, Cultist };
+    return res;
 }
 
-Hym::Hym()
+Card *Cards::createHym()
 {
-    id = "200102";
-    name = "Hym";
-    text = "Choose One: Play a Bronze or Silver Cursed unit from your deck; or Create a Silver unit from your opponent's starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHym, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Hym::Play;
-        copyCardText(this, option1);
+    res->id = "200102";
+    res->power = res->powerBase = 3;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { Cursed };
+    res->state = new StateChoosen();
+
+    enum { Play, Create };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Play);
         option1->text = "Play a Bronze or Silver Cursed unit from your deck.";
 
-        auto *option2 = new Hym::Create;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Create);
         option2->text = "Create a Silver unit from your opponent's starting deck.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-
-        if (!_choosen && dynamic_cast<Hym::Play *>(target)) {
-            _choosen = target;
-            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Play)) {
+            choosen = target;
+            return startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Cursed)}, AllyDeckShuffled);
         }
 
-        if (!_choosen && dynamic_cast<Hym::Create *>(target)) {
-            _choosen = target;
-            return startChoiceCreateOptions(ally, enemy, this, {isSilver, isUnit, isNonAgent}, EnemyDeckStarting);
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            return startChoiceCreateOptions(ally, enemy, self, {isSilver, isUnit, isNonAgent}, EnemyDeckStarting);
         }
 
-        if (dynamic_cast<Hym::Create *>(_choosen)) {
-            spawnNewCard(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Create)) {
+            spawnNewCard(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(dynamic_cast<Hym::Play *>(_choosen));
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!isOption(choosen, Play))
+            throw Error(Error::Assert, self);
 
-        playExistedCard(target, ally, enemy, this);
-        delete _choosen;
-        _choosen = nullptr;
+        playExistedCard(target, ally, enemy, self);
+        delete choosen;
+        choosen = nullptr;
     };
+    return res;
 }
 
-Kambi::Kambi()
-{
-    id = "152104";
-    name = "Kambi";
-    text = "Spying. Deathwish: Spawn Hemdall on a random row on this unit's side.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isLoyal = false;
-    power = powerBase = 1;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        spawnNewUnitToPos(new Hemdall(), rowAndPosRandom(ally), ally, enemy, this);
+Card *Cards::createHemdall()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHemdall, this);
+
+    res->id = "152402";
+    res->isDoomed = true;
+    res->power = res->powerBase = 20;
+    res->faction = Skellige;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (int screenRow = 0; screenRow < 6; ++screenRow)
+            applyRowEffect(ally, enemy, screenRow, NoRowEffect);
+        for (Card *self : cardsFiltered(ally, enemy, {}, AnyBoard))
+            putToDiscard(self, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKambi()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKambi, this);
+
+    res->id = "152104";
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->faction = Skellige;
+    res->rarity = Gold;
+
+    res->_onDestroy = [=](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        spawnNewUnitToPos(createHemdall(), rowAndPosRandom(ally), ally, enemy, self);
         // TODO: Check if Hemdall doesn't wipe a board!
     };
+    return res;
 }
 
-Olaf::Olaf()
+Card *Cards::createOlaf()
 {
-    id = "200103";
-    name = "Olaf";
-    text = "Deal 10 damage to self. Reduce the damage inflicted by 2 for each Beast you played this match.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 20;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOlaf, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200103";
+    res->power = res->powerBase = 20;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { Beast, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const int n = cardsFiltered(ally, enemy, {hasTag(Beast)}, AllyAppeared).size();
         const int x = std::max(0, 10 - 2 * n);
-        damage(this, x, ally, enemy, this);
+        damage(self, x, ally, enemy, self);
     };
+    return res;
 }
 
-Ulfhedinn::Ulfhedinn()
+Card *Cards::createUlfhedinn()
 {
-    id = "200104";
-    name = "Ulfhedinn";
-    text = "Deal 1 damage to all enemies. If they were already damaged, deal 2 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUlfhedinn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200104";
+    res->power = res->powerBase = 6;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { Beast, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const std::vector<Card *> damaged = cardsFiltered(ally, enemy, {isDamaged}, EnemyBoard);
         const std::vector<Card *> other   = cardsFiltered(ally, enemy, {isUndamaged}, EnemyBoard);
         for (Card *card : other)
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
         for (Card *card : damaged)
-            damage(card, 2, ally, enemy, this);
+            damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-WildBoarOfTheSea::WildBoarOfTheSea()
+Card *Cards::createWildBoarOfTheSea()
 {
-    id = "152109";
-    name = "Wild Boar of the Sea";
-    text = "On turn end, Strengthen the unit to the left by 1, then deal 1 damage to the unit to the right. 5 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    faction = Skellige;
-    rarity = Gold;
-    tags = { ClanAnCraite, Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildBoarOfTheSea, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 5, ally, enemy, this);
+    res->id = "152109";
+    res->power = res->powerBase = 8;
+    res->faction = Skellige;
+    res->rarity = Gold;
+    res->tags = { ClanAnCraite, Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 5, ally, enemy, self);
     };
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (Card *left = cardNextTo(this, ally, enemy, -1)) {
-            strengthen(left, 1, ally, enemy, this);
-            if (Card *right = cardNextTo(this, ally, enemy, 1))
-                damage(right, 1, ally, enemy, this);
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *left = cardNextTo(self, ally, enemy, -1)) {
+            strengthen(left, 1, ally, enemy, self);
+            if (Card *right = cardNextTo(self, ally, enemy, 1))
+                damage(right, 1, ally, enemy, self);
         }
     };
+    return res;
 }
 
-GiantBoar::GiantBoar()
+Card *Cards::createGiantBoar()
 {
-    id = "201623";
-    name = "Giant Boar";
-    text = "Destroy a random ally, excluding this unit, then boost self by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGiantBoar, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard), ally.rng)) {
-            putToDiscard(card, ally, enemy, this);
-            boost(this, 10, ally, enemy, this);
+    res->id = "201623";
+    res->power = res->powerBase = 8;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {otherThan(self)}, AllyBoard), ally.rng)) {
+            putToDiscard(card, ally, enemy, self);
+            boost(card, 10, ally, enemy, self);
         }
     };
+    return res;
 }
 
-OrnamentalSword::OrnamentalSword()
+Card *Cards::createOrnamentalSword()
 {
-    id = "201642";
-    name = "Ornamental Sword";
-    text = "Create a Bronze or Silver Skellige Soldier and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOrnamentalSword, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
+    res->id = "201642";
+    res->isSpecial = true;
+    res->faction = Skellige;
+    res->rarity = Silver;
+    res->tags = { Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isSkelligeFaction, hasTag(Soldier)});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 3, ally, enemy, this);
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 3, ally, enemy, self);
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-BlueboyLugos::SpectralWhale::SpectralWhale()
+Card *Cards::createDimunWarship()
 {
-    id = "152403";
-    name = "Spectral Whale";
-    text = "Spying. Move to a random row and deal 1 damage to all other units on it on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isDoomed = true;
-    power = powerBase = 3;
-    faction = Skellige;
-    rarity = Silver;
-    tags = { Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimunWarship, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !moveToRandomRow(this, ally, enemy, this))
-            return;
-        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this)}, AllyBoard))
-            damage(card, 1, ally, enemy, this);
-    };
-}
+    res->id = "200105";
+    res->power = res->powerBase = 7;
+    res->faction = Skellige;
+    res->rarity = Bronze;
+    res->tags = { ClanDimun, Machine };
 
-DimunWarship::DimunWarship()
-{
-    id = "200105";
-    name = "Dimun Warship";
-    text = "Deal 1 damage to the same unit 4 times.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    faction = Skellige;
-    rarity = Bronze;
-    tags = { ClanDimun, Machine };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        /// break if killed already
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // NOTE: break if kille
         for (int n = 0; n < 4; ++n)
-            if (damage(target, 1, ally, enemy, this))
+            if (damage(target, 1, ally, enemy, self))
                 break;
     };
+    return res;
 }
 
-TrissButterflies::TrissButterflies()
+Card *Cards::createTrissButterflies()
 {
-    id = "122107";
-    name = "Triss: Butterflies";
-    text = "Boost the Lowest allies by 1 on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/122107.png";
-    tags = { Mage, Temeria };
-    power = powerBase = 8;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
-        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrissButterflies, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "122107";
+    res->tags = { Mage, Temeria };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
         for (Card *card : lowests(cardsFiltered(ally, enemy, {}, AllyBoard)))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Yennefer::Yennefer()
+Card *Cards::createYennefer()
 {
-    id = "112108";
-    name = "Yennefer";
-    text = "Choose One: Spawn a Unicorn that boosts all other units by 2; or Spawn a Chironex that deals 2 damage to all other units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Aedirn };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYennefer, this);
+
+    res->id = "112108";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createUnicorn(), createChironex()});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new Unicorn(), new Chironex()});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Yennefer::Chironex::Chironex()
+Card *Cards::createChironex()
 {
-    id = "112402";
-    name = "Chironex";
-    text = "Deal 2 damage to all other units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    isDoomed = true;
-    power = powerBase = 4;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createChironex, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112402";
+    res->tags = { Cursed };
+    res->isDoomed = true;
+    res->power = res->powerBase = 4;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            damage(card, 2, ally, enemy, this);
+            damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-Yennefer::Unicorn::Unicorn()
+Card *Cards::createUnicorn()
 {
-    id = "112401";
-    name = "Unicorn";
-    text = "Boost all other units by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUnicorn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112401";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {}, AnyBoard))
-            boost(card, 2, ally, enemy, this);
+            boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-GermainPiquant::GermainPiquant()
+Card *Cards::createGermainPiquant()
 {
-    id = "200523";
-    name = "Germain Piquant";
-    text = "Spawn 2 Cows on each side of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 10;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.261.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.260.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.262.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.244.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGermainPiquant, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Cow(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Cow(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "200523";
+    res->tags = { Officer };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createCow(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createCow(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createCow(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createCow(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
 
-CommandersHorn::CommandersHorn()
+Card *Cards::createCommandersHorn()
 {
-    id = "113207";
-    name = "Commander's Horn";
-    text = "Boost 5 adjacent units by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Tactics };
-    isSpecial = true;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCommandersHorn, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "113207";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const std::vector<Card *> cardsToBoost {
             cardNextTo(target, ally, enemy, -2),
-            cardNextTo(target, ally, enemy, -1),
-            target,
-            cardNextTo(target, ally, enemy, 1),
-            cardNextTo(target, ally, enemy, 2),
+                    cardNextTo(target, ally, enemy, -1),
+                    target,
+                    cardNextTo(target, ally, enemy, 1),
+                    cardNextTo(target, ally, enemy, 2),
         };
         for (Card *card : cardsToBoost)
             if (card != nullptr)
-                boost(card, 3, ally, enemy, this);
+                boost(card, 3, ally, enemy, self);
     };
+    return res;
 }
 
 
-MarchingOrders::MarchingOrders()
+Card *Cards::createMarchingOrders()
 {
-    id = "200019";
-    name = "Marching Orders";
-    text = "Boost the Lowest Bronze or Silver unit in your deck by 2, then play it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Tactics };
-    isSpecial = true;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMarchingOrders, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200019";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
         if (card != nullptr) {
-            boost(card, 2, ally, enemy, this);
-            playExistedCard(card, ally, enemy, this);
+            boost(card, 2, ally, enemy, self);
+            playExistedCard(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-AlzursDoubleCross::AlzursDoubleCross()
+Card *Cards::createAlzursDoubleCross()
 {
-    id = "113209";
-    name = "Alzur's Double Cross";
-    text = "Boost the Highest Bronze or Silver unit in your deck by 2, then play it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Spell };
-    isSpecial = true;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlzursDoubleCross, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113209";
+    res->tags = { Spell };
+    res->isSpecial = true;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng);
         if (card != nullptr) {
-            boost(card, 2, ally, enemy, this);
-            playExistedCard(card, ally, enemy, this);
+            boost(card, 2, ally, enemy, self);
+            playExistedCard(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-AlbaArmoredCavalry::AlbaArmoredCavalry()
+Card *Cards::createAlbaArmoredCavalry()
 {
-    id = "200296";
-    name = "Alba Armored Cavalry";
-    text = "Whenever an ally appears, boost self by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 7;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.379.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.380.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.381.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlbaArmoredCavalry, this);
+
+    res->id = "200296";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 7;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    // FIXME: missing ability
+    return res;
 }
 
 
-Sentry::Sentry()
+Card *Cards::createSentry()
 {
-    id = "201661";
-    name = "Sentry";
-    text = "Boost all allied copies of a Soldier by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 8;
-    faction = Nilfgaard;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSentry, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasTag(Soldier), hasCopyOnABoard(&ally)}, AllyBoard);
+    res->id = "201661";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasTag(Soldier), hasCopyOnABoard(&ally)}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(this)}, AllyBoard))
-            boost(card, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(target->name), otherThan(self)}, AllyBoard))
+            boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-NauzicaaSergeant::NauzicaaSergeant()
+Card *Cards::createNauzicaaSergeant()
 {
-    id = "162309";
-    name = "Nauzicaa Sergeant";
-    text = "Clear Hazards from its row and boost an ally or a Revealed unit in your hand by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 7;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.439.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.440.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.438.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNauzicaaSergeant, this);
+
+    res->id = "162309";
+    res->tags = { Officer };
+    res->power = res->powerBase = 7;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        clearHazardsFromItsRow(self, ally);
+        startChoiceToTargetCard(ally, enemy, self, {isUnit}, AllyBoardAndHandRevealed);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        clearHazardsFromItsRow(this, ally);
-        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyBoardAndHandRevealed);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 3, ally, enemy, this);
-    };
+    return res;
 }
 
 
-SlaveInfantry::SlaveInfantry()
+Card *Cards::createSlaveInfantry()
 {
-    id = "201610";
-    name = "Slave Infantry";
-    text = "Spawn a Doomed default copy of this unit on your other rows.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 3;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.108.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.110.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.112.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.109.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.111.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlaveInfantry, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201610";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         Row row;
         Pos pos;
-        if (!_findRowAndPos(this, ally, row, pos))
+        if (!_findRowAndPos(self, ally, row, pos))
             return;
 
         for (int _row = Meele; _row <= Seige; ++_row)
             if (_row != row) {
-                Card *copy = defaultCopy();
+                Card *copy = self->defaultCopy();
                 copy->isDoomed = true;
-                summonNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, this);
+                summonNewUnitToPos(copy, rowAndPosLastInExactRow(ally, Row(_row)), ally, enemy, self);
             }
     };
+    return res;
 }
 
 
-Recruit::Recruit()
+Card *Cards::createRecruit()
 {
-    id = "201617";
-    name = "Recruit";
-    text = "Play a random different Bronze Soldier from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 1;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.36.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.35.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.34.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.33.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.32.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRecruit, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(this->name)}, AllyDeckShuffled), ally.rng))
-            playExistedCard(card, ally, enemy, this);
+    res->id = "201617";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 1;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Soldier), otherThan(self->name)}, AllyDeckShuffled), ally.rng))
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-Ointment::Ointment()
+Card *Cards::createOintment()
 {
-    id = "201619";
-    name = "Ointment";
-    text = "Resurrect a Bronze unit with 5 power or less.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Alchemy, Item };
-    isSpecial = true;
-    faction = Nilfgaard;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOintment, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasPowerXorLess(5)}, AllyDiscard);
+    res->id = "201619";
+    res->tags = { Alchemy, Item };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit, hasPowerXorLess(5)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Vilgefortz::Vilgefortz()
+Card *Cards::createVilgefortz()
 {
-    id = "162105";
-    name = "Vilgefortz";
-    text = "Destroy an ally, then play the top card of your deck; or Truce: Destroy an enemy, then your opponent draws and Reveals a Bronze card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage };
-    power = powerBase = 9;
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.72.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.73.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.74.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVilgefortz, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "162105";
+    res->tags = { Mage };
+    res->power = res->powerBase = 9;
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const bool isTruce = !ally.passed && !enemy.passed;
         const ChoiceGroup choiceGroup = isTruce ? AnyBoard : AllyBoard;
-        startChoiceToTargetCard(ally, enemy, this, {}, choiceGroup);
+        startChoiceToTargetCard(ally, enemy, self, {}, choiceGroup);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const bool isAlly = isOnBoard(target, ally);
-        putToDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, self);
         if (isAlly) {
             if (Card *copy = first(ally.deck))
-                playExistedCard(copy, ally, enemy, this);
+                playExistedCard(copy, ally, enemy, self);
         } else {
             if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
-                putToHand(card, enemy, ally,  this);
-                reveal(card, ally, enemy, this);
+                putToHand(card, enemy, ally,  self);
+                reveal(card, ally, enemy, self);
             }
         }
     };
+    return res;
 }
 
 
-Vreemde::Vreemde()
+Card *Cards::createVreemde()
 {
-    id = "200050";
-    name = "Vreemde";
-    text = "Create a Bronze Nilfgaardian Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 4;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.109.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.110.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.111.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVreemde, this);
+
+    res->id = "200050";
+    res->tags = { Officer };
+    res->power = res->powerBase = 4;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronze, isNilfgaardFaction, hasTag(Soldier)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
-}
-
-GermainPiquant::Cow::Cow()
-{
-    id = "201576";
-    name = "Cow";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Bronze;
+    return res;
 }
 
 
-Auckes::Auckes()
+Card *Cards::createCow()
 {
-    id = "162208";
-    name = "Auckes";
-    text = "Toggle 2 units' Lock statuses.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 7;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.112.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.113.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.114.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCow, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        toggleLock(target, ally, enemy, this);
-    };
+    res->id = "201576";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Bronze;
+    return res;
 }
 
 
-Eskel::Eskel()
+Card *Cards::createAuckes()
 {
-    id = "112202";
-    name = "Eskel";
-    text = "Summon Vesemir and Lambert to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
-        "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAuckes, this);
+
+    res->id = "162208";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 7;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy<Lambert>}, AllyDeck))
-            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-
-        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy<Vesemir>}, AllyDeck))
-            moveExistedUnitToPos(vesemir, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Lambert::Lambert()
+Card *Cards::createEskel()
 {
-    id = "112204";
-    name = "Lambert";
-    text = "Summon Eskel and Vesemir to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00572964.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEskel, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy<Eskel>}, AllyDeck))
-            moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "112202";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Silver;
 
-        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy<Vesemir>}, AllyDeck))
-            moveExistedUnitToPos(vesemir, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("112204")}, AllyDeck))
+            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("112203")}, AllyDeck))
+            moveExistedUnitToPos(vesemir, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
 
-Vesemir::Vesemir()
+Card *Cards::createLambert()
 {
-    id = "112203";
-    name = "Vesemir";
-    text = "Summon Eskel and Lambert to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 7;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
-        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
-        "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLambert, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy<Lambert>}, AllyDeck))
-            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->id = "112204";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Silver;
 
-        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy<Eskel>}, AllyDeck))
-            moveExistedUnitToPos(eskel, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
-    };
-}
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("112202")}, AllyDeck))
+            moveExistedUnitToPos(eskel, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
 
-TridamInfantry::TridamInfantry()
-{
-    id = "200171";
-    name = "Tridam Infantry";
-    text = "4 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 10;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.230.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.231.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.226.mp3",
+        for (Card *vesemir : cardsFiltered(ally, enemy, {isCopy("112203")}, AllyDeck))
+            moveExistedUnitToPos(vesemir, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 4, ally, enemy, this);
-    };
+    return res;
 }
 
 
-VriheddDragoon::VriheddDragoon()
+Card *Cards::createVesemir()
 {
-    id = "142205";
-    name = "Vrihedd Dragoon";
-    text = "Boost a random non-Spying unit in your hand by 1 on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Elf, Soldier };
-    power = powerBase = 8;
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.779.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.781.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.780.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVesemir, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "112203";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 7;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *lambert : cardsFiltered(ally, enemy, {isCopy("112204")}, AllyDeck))
+            moveExistedUnitToPos(lambert, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+
+        for (Card *eskel : cardsFiltered(ally, enemy, {isCopy("112202")}, AllyDeck))
+            moveExistedUnitToPos(eskel, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createTridamInfantry()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTridamInfantry, this);
+
+    res->id = "200171";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 4, ally, enemy, self);
+    };
+    return res;
+}
+
+
+Card *Cards::createVriheddDragoon()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddDragoon, this);
+
+    res->id = "142205";
+    res->tags = { Elf, Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
         if (Card *card = random(cardsFiltered(ally, enemy, {isUnit, isNonSpying}, AllyHand), ally.rng))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
 
-Malena::Malena()
+Card *Cards::createMalena()
 {
-    id = "142210";
-    name = "Malena";
-    text = "Ambush: After 2 turns, flip over and Charm the Highest Bronze or Silver enemy with 5 power or less on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    isAmbush = true;
-    rarity = Silver;
-    faction = Scoiatael;
-    tags = { Elf };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_MALN_106817_0005.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_MALN_106745_0017.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_MALN_106657_0009.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMalena, this);
+
+    res->id = "142210";
+    res->power = res->powerBase = 7;
+    res->isAmbush = true;
+    res->rarity = Silver;
+    res->faction = Scoiatael;
+    res->tags = { Elf };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->isAmbush = true;
+        setTimer(self, ally, enemy, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        isAmbush = true;
-        setTimer(this, ally, enemy, 2);
-    };
-
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !tick(self, ally, enemy))
             return;
-        flipOver(this, ally, enemy);
+        flipOver(self, ally, enemy);
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver, hasPowerXorLess(5)}, EnemyBoard), ally.rng))
-            charm(card, ally, enemy, this);
+            charm(card, ally, enemy, self);
     };
+    return res;
 }
 
 
-UnseenElder::UnseenElder()
+Card *Cards::createUnseenElder()
 {
-    id = "200055";
-    name = "Unseen Elder";
-    text = "Drain a unit by half.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Vampire, Leader };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.255.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.256.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.257.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUnseenElder, this);
+
+    res->id = "200055";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Vampire, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        drain(target, half(target->power), ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        drain(target, half(target->power), ally, enemy, this);
-    };
+    return res;
 }
 
 
-DevanaRunestone::DevanaRunestone()
+Card *Cards::createDevanaRunestone()
 {
-    id = "201584";
-    name = "Devana Runestone";
-    text = "Create a Bronze or Silver Monster card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDevanaRunestone, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isMonsterFaction});
+    res->id = "201584";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isMonsterFaction});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-DazhbogRunestone::DazhbogRunestone()
+Card *Cards::createDazhbogRunestone()
 {
-    id = "201583";
-    name = "Dazhbog Runestone";
-    text = "Create a Bronze or Silver Nilfgaard card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDazhbogRunestone, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isNilfgaardFaction});
+    res->id = "201583";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isNilfgaardFaction});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-MoranaRunestone::MoranaRunestone()
+Card *Cards::createMoranaRunestone()
 {
-    id = "201585";
-    name = "Morana Runestone";
-    text = "Create a Bronze or Silver Scoia'tael card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Scoiatael;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMoranaRunestone, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isScoiataelFaction});
+    res->id = "201585";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Scoiatael;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isScoiataelFaction});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-StribogRunestone::StribogRunestone()
+Card *Cards::createStribogRunestone()
 {
-    id = "201581";
-    name = "Stribog Runestone";
-    text = "Create a Bronze or Silver Skellige card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Skellige;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStribogRunestone, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isSkelligeFaction});
+    res->id = "201581";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Skellige;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isSkelligeFaction});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-Muzzle::Muzzle()
+Card *Cards::createMuzzle()
 {
-    id = "200225";
-    name = "Muzzle";
-    text = "Charm a Bronze or Silver enemy with 8 power or less.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMuzzle, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasPowerXorLess(8)}, EnemyBoard);
+    res->id = "200225";
+    res->isSpecial = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasPowerXorLess(8)}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        charm(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, self);
     };
+    return res;
 }
 
 
-RockBarrage::RockBarrage()
+Card *Cards::createRockBarrage()
 {
-    id = "201647";
-    name = "Rock Barrage";
-    text = "Deal 7 damage to an enemy and move it to the row above. If the row is full, destroy the enemy instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = {};
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRockBarrage, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "201647";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = {};
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
         const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
 
         const bool shouldDestroy = isRowFull(enemy.row(rowAbove));
         if (shouldDestroy) {
-            putToDiscard(target, ally, enemy, this);
+            putToDiscard(target, ally, enemy, self);
             return;
         }
 
-        if (!damage(target, 7, ally, enemy, this) && (rowAndPos.row() != Seige))
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
+        if (!damage(target, 7, ally, enemy, self) && (rowAndPos.row() != Seige))
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, self);
     };
+    return res;
 }
 
 
-WhisperingHillock::WhisperingHillock()
+Card *Cards::createWhisperingHillock()
 {
-    id = "201587";
-    name = "Whispering Hillock";
-    text = "Create a Bronze or Silver Organic card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Leader, Relict };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.4.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.3.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.1.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWhisperingHillock, this);
+
+    res->id = "201587";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Leader, Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Organic)});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Organic)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Brewess::Brewess()
+Card *Cards::createBrewess()
 {
-    id = "132207";
-    name = "Brewess";
-    text = "Summon Whispess and Weavess to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 8;
-    faction = Monster;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
-        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
-        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBrewess, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy<Weavess>}, AllyDeck))
-            moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "132207";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 8;
+    res->faction = Monster;
+    res->rarity = Silver;
 
-        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy<Whispess>}, AllyDeck))
-            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("132208")}, AllyDeck))
+            moveExistedUnitToPos(weavess, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("132206")}, AllyDeck))
+            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-Weavess::Weavess()
+Card *Cards::createWeavess()
 {
-    id = "132208";
-    name = "Weavess";
-    text = "Summon Brewess and Whispess to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 6;
-    faction = Monster;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
-        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
-        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
-    };
-    
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy<Whispess>}, AllyDeck))
-            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWeavess, this);
 
-        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy<Brewess>}, AllyDeck))
-            moveExistedUnitToPos(brewess, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->id = "132208";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 6;
+    res->faction = Monster;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *whispess : cardsFiltered(ally, enemy, {isCopy("132206")}, AllyDeck))
+            moveExistedUnitToPos(whispess, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("132207")}, AllyDeck))
+            moveExistedUnitToPos(brewess, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
 
-Whispess::Whispess()
+Card *Cards::createWhispess()
 {
-    id = "132206";
-    name = "Whispess";
-    text = "Summon Brewess and Weavess to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 6;
-    faction = Monster;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWhispess, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy<Weavess>}, AllyDeck))
-            moveExistedUnitToPos(weavess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "132206";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 6;
+    res->faction = Monster;
+    res->rarity = Silver;
 
-        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy<Brewess>}, AllyDeck))
-            moveExistedUnitToPos(brewess, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *weavess: cardsFiltered(ally, enemy, {isCopy("132208")}, AllyDeck))
+            moveExistedUnitToPos(weavess, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+
+        for (Card *brewess: cardsFiltered(ally, enemy, {isCopy("132207")}, AllyDeck))
+            moveExistedUnitToPos(brewess, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-WeavessIncantation::WeavessIncantation()
-{
-    id = "200222";
-    name = "Weavess: Incantation";
-    text = "Choose One: Strengthen all your other Relicts in hand, deck, and on board by 2; or Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 4;
-    faction = Monster;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WEAV_Q105_00531814.mp3",
-        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00579064.mp3",
-        "https://gwent.one/audio/card/ob/en/WEAV_Q503_00578937.mp3",
-    };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new WeavessIncantation::StrengthenAll;
-        copyCardText(this, option1);
+Card *Cards::createWeavessIncantation()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWeavessIncantation, this);
+
+    res->id = "200222";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 4;
+    res->faction = Monster;
+    res->rarity = Gold;
+
+    enum { Strengthen, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Strengthen);
         option1->text = "Strengthen all your other Relicts in hand, deck, and on board by 2.";
 
-        auto *option2 = new WeavessIncantation::PlayAndStrengthen;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Play);
         option2->text = "Play a Bronze or Silver Relict from your deck and Strengthen it by 2.";
 
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<WeavessIncantation::StrengthenAll *>(target)) {
-            for (Card *card : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(this)}, AllyBoardHandDeck))
-                strengthen(card, 2, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, Strengthen)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasTag(Relict), otherThan(self)}, AllyBoardHandDeck))
+                strengthen(self, 2, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<WeavessIncantation::PlayAndStrengthen *>(target)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
+        if (isOption(target, Play)) {
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Relict)}, AllyDeckShuffled);
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        strengthen(target, 2, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        strengthen(target, 2, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-BrewessRitual::BrewessRitual()
+Card *Cards::createBrewessRitual()
 {
-    id = "200221";
-    name = "Brewess: Ritual";
-    text = "Resurrect 2 Bronze Deathwish units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 1;
-    faction = Monster;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/BREW_Q105_00418675.mp3",
-        "https://gwent.one/audio/card/ob/en/BREW_Q105_00531820.mp3",
-        "https://gwent.one/audio/card/ob/en/BREW_Q111_00576135.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBrewessRitual, this);
+
+    res->id = "200221";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 1;
+    res->faction = Monster;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isDeathwish, isBronze, isUnit}, AllyDiscard, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isDeathwish, isBronze, isUnit}, AllyDiscard, 2);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-WhispessTribute::WhispessTribute()
+Card *Cards::createWhispessTribute()
 {
-    id = "200220";
-    name = "Whispess: Tribute";
-    text = "Play a Bronze or Silver Organic card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Relict };
-    power = powerBase = 6;
-    faction = Monster;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419061.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00531816.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00419057.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382577.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
-        "https://gwent.one/audio/card/ob/en/WHSP_Q105_00382587.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWhispessTribute, this);
+
+    res->id = "200220";
+    res->tags = { Mage, Relict };
+    res->power = res->powerBase = 6;
+    res->faction = Monster;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Organic)}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Organic)}, AllyDeckShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Nivellen::Nivellen() 
+
+Card *Cards::createNivellen()
 {
-    id = "200089";
-    name = "Nivellen";
-    text = "Move all units on a row to random rows.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Cursed };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.167.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.168.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.169.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNivellen, this);
+
+    res->id = "200089";
+    res->power = res->powerBase = 10;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
-    };
-
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             if (isOnBoard(card, ally)) {
-                moveToRandomRow(card, ally, enemy, this);
+                moveToRandomRow(card, ally, enemy, self);
             } else {
-                moveToRandomRow(card, enemy, ally, this);
+                moveToRandomRow(card, enemy, ally, self);
             }
         }
     };
+    return res;
 }
 
 
-
-LeoBonhart::LeoBonhart()
+Card *Cards::createLeoBonhart()
 {
-    id = "200031";
-    name = "Leo Bonhart";
-    text = "Reveal one of your units and deal damage equal to its base power to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.13.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.14.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.15.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLeoBonhart, this);
+
+    res->id = "200031";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    struct State : StateCopy<State> { Card *_revealed = nullptr; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonRevealed, isUnit}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed, isUnit}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_revealed == nullptr) {
-            _revealed = target;
-            reveal(target, ally, enemy, this);
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&revealed = self->stateAs<State>()->_revealed;
+        if (revealed == nullptr) {
+            revealed = target;
+            reveal(target, ally, enemy, self);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        damage(target, _revealed->powerBase, ally, enemy, this);
+        damage(target, revealed->powerBase, ally, enemy, self);
     };
+    return res;
 }
 
 
 
-MorvranVoorhis::MorvranVoorhis()
+Card *Cards::createMorvranVoorhis()
 {
-    id = "200163";
-    name = "Morvran Voorhis";
-    text = "Reveal up to 4 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Officer, Leader };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.52.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.53.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.54.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMorvranVoorhis, this);
+
+    res->id = "200163";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Officer, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonRevealed}, AnyHandShuffled, 4, true);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandShuffled, 4, true);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reveal(target, ally, enemy, this);
-    };
+    return res;
 }
 
 
-
-Cynthia::Cynthia()
+Card *Cards::createCynthia()
 {
-    id = "162203";
-    name = "Cynthia";
-    text = "Reveal the Highest unit in your opponent's hand and boost self by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Mage };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_CNTH_303653_0335.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_CNTH_303743_0002.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_CNTH_303656_0001.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCynthia, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "162203";
+    res->power = res->powerBase = 5;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = highest(cardsFiltered(ally, enemy, {isUnit, isNonRevealed}, EnemyHand), ally.rng)) {
-            reveal(card, ally, enemy, this);
-            boost(this, card->power, ally, enemy, this);
+            reveal(card, ally, enemy, self);
+            boost(self, card->power, ally, enemy, self);
         }
     };
+    return res;
 }
 
 
-Serrit::Serrit()
+Card *Cards::createSerrit()
 {
-    id = "162209";
-    name = "Serrit";
-    text = "Deal 7 damage to an enemy; or Set a Revealed opposing unit's power to 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Witcher };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.115.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.116.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.117.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSerrit, this);
+
+    res->id = "162209";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit}, EnemyBoardAndHandRevealed);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit}, EnemyBoardAndHandRevealed);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const int x = isOnBoard(target, enemy) ? 7 : (target->power - 1);
+        damage(target, x, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (isOnBoard(target, enemy))
-            damage(target, 7, ally, enemy, this);
-        else
-            setPower(target, 1, ally, enemy, this);
-    };
+    return res;
 }
 
 
-Sweers::Sweers()
+Card *Cards::createSweers()
 {
-    id = "162206";
-    name = "Sweers";
-    text = "Choose an enemy or a Revealed unit in your opponent's hand, then move all copies of it from their deck to the graveyard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.100.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.101.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.102.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSweers, this);
+
+    res->id = "162206";
+    res->power = res->powerBase = 9;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, hasCopyInADeck(&enemy)}, EnemyBoardAndHandRevealed);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, hasCopyInADeck(&enemy)}, EnemyBoardAndHandRevealed);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         for (Card *copy : findCopies(target, enemy.deck))
-            putToDiscard(copy, ally, enemy, this);
+            putToDiscard(copy, ally, enemy, self);
     };
+    return res;
 }
 
 
-TiborEggebracht::TiborEggebracht()
+Card *Cards::createTiborEggebracht()
 {
-    id = "162107";
-    name = "Tibor Eggebracht";
-    text = "Truce: Boost self by 15, then your opponent draws a Revealed Bronze card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.66.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.67.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.68.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTiborEggebracht, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "162107";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
         if (Card *card = random(cardsFiltered(ally, enemy, {isBronze}, EnemyDeck), ally.rng)) {
-            putToHand(card, enemy, ally,  this);
-            reveal(card, ally, enemy, this);
+            putToHand(card, enemy, ally,  self);
+            reveal(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
-VattierDeRideaux::VattierDeRideaux()
+Card *Cards::createVattierDeRideaux()
 {
-    id = "162103";
-    name = "Vattier de Rideaux";
-    text = "Reveal up to 2 of your cards, then Reveal the same number of your opponent's randomly.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.106.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.107.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.108.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVattierDeRideaux, this);
+
+    res->id = "162103";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonRevealed}, AllyHand, 2, true);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AllyHand, 2, true);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reveal(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, self);
         if (Card *card = random(cardsFiltered(ally, enemy, {isNonRevealed}, EnemyHand), ally.rng))
-            reveal(card, ally, enemy, this);
+            reveal(card, ally, enemy, self);
     };
+    return res;
 }
 
-Albrich::Albrich()
+Card *Cards::createAlbrich()
 {
-    id = "162201";
-    name = "Albrich";
-    text = "Truce: Each player draws a card. The opponent's card is Revealed.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Mage };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.78.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.79.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.80.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlbrich, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "162201";
+    res->power = res->powerBase = 10;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
-        drawACard(ally, enemy,  this);
+        drawACard(ally, enemy,  self);
         if (Card *card = first(enemy.deck)) {
-            putToHand(card, ally, enemy,  this);
-            reveal(card, ally, enemy, this);
+            putToHand(card, ally, enemy,  self);
+            reveal(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
-HeftyHelge::HeftyHelge()
+Card *Cards::createHeftyHelge()
 {
-    id = "200041";
-    name = "Hefty Helge";
-    text = "Deal 1 damage to all enemies except those on the opposite row. If this unit was Revealed, deal damage to all enemies instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHeftyHelge, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&ally, &enemy, this)};
+    res->id = "200041";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        const Filters filters = isRevealed ? Filters{} : Filters{isOnAnotherRow(&ally, &enemy, self)};
         for (Card *card : cardsFiltered(ally, enemy, filters, EnemyBoard))
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Alchemist::Alchemist()
+Card *Cards::createAlchemist()
 {
-    id = "162316";
-    name = "Alchemist";
-    text = "Reveal up to 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Mage };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423237.mp3",
-        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00459610.mp3",
-        "https://gwent.one/audio/card/ob/en/MAG1_SHOP_00423227.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlchemist, this);
+
+    res->id = "162316";
+    res->power = res->powerBase = 9;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isNonRevealed}, AnyHandShuffled, 2, true);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isNonRevealed}, AnyHandShuffled, 2, true);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reveal(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reveal(target, ally, enemy, this);
-    };
+    return res;
 }
 
-DaerlanSoldier::DaerlanSoldier()
+Card *Cards::createDaerlanSoldier()
 {
-    id = "162301";
-    name = "Daerlan Soldier";
-    text = "Whenever you Reveal this unit, play it automatically on a random row and draw a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.417.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.418.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.419.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDaerlanSoldier, this);
 
-    _onRevealed = [=](Field &ally, Field &enemy, const Card *src) {
+    res->id = "162301";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    res->_onRevealed = [](Card *self, Field &ally, Field &enemy, const Card *src) {
         /// reveal is possible only by units on a board
         /// check if revealed by an you
         if (!isOnBoard(src, ally))
             return;
-        /// don't jump and draw a card, if no place on a field
-        if (moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this))
-            drawACard(ally, enemy,  this);
+        /// don't jump and draw a self, if no place on a field
+        if (moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self))
+            drawACard(ally, enemy,  self);
     };
+    return res;
 }
 
-FireScorpion::FireScorpion()
+Card *Cards::createFireScorpion()
 {
-    id = "162306";
-    name = "Fire Scorpion";
-    text = "Deal 5 damage to an enemy. Whenever you Reveal this unit, trigger its ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFireScorpion, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "162306";
+    res->power = res->powerBase = 5;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
     };
-    _onRevealed = [=](Field &ally, Field &enemy, const Card *src) {
+    res->_onRevealed = [](Card *self, Field &ally, Field &enemy, const Card *src) {
         if (isOnBoard(src, ally))
-            onDeploy(ally, enemy);
+            self->onDeploy(ally, enemy);
     };
+    return res;
 }
 
-WildHuntHound::WildHuntHound()
+Card *Cards::createWildHuntHound()
 {
-    id = "132402";
-    name = "Wild Hunt Hound";
-    text = "Play Biting Frost from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { WildHunt, Construct };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildHuntHound, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132402";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { WildHunt, Construct };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = random(cardsFiltered(ally, enemy, {isCopy("Biting Frost")}, AllyDeck), ally.rng))
-            playExistedCard(card, ally, enemy, this);
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
-WildHuntWarrior::WildHuntWarrior()
+Card *Cards::createWildHuntWarrior()
 {
-    id = "132309";
-    name = "Wild Hunt Warrior";
-    text = "Deal 3 damage to an enemy. If the enemy is destroyed or is under Biting Frost, boost self by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { WildHunt, Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.793.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.792.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.794.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildHuntWarrior, this);
+
+    res->id = "132309";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { WildHunt, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const bool isUnderFrost = rowEffectUnderUnit(target, enemy) == BitingFrostEffect;
-        if (damage(target, 3, ally, enemy, this) || isUnderFrost)
-            boost(this, 2, ally, enemy, this);
+        if (damage(target, 3, ally, enemy, self) || isUnderFrost)
+            boost(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
 
-Mangonel::Mangonel()
+Card *Cards::createMangonel()
 {
-    id = "162317";
-    name = "Mangonel";
-    text = "Deal 2 damage to a random enemy. Repeat this ability whenever you Reveal a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMangonel, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "162317";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-            damage(card, 2, ally, enemy, this);
+            damage(card, 2, ally, enemy, self);
     };
 
-    _onOtherRevealed = [=](Field &ally, Field &enemy, Card *, const Card *) {
-        if (isOnBoard(this, ally))
-            onDeploy(ally, enemy);
+    res->_onOtherRevealed = [](Card *self, Field &ally, Field &enemy, Card *, const Card *) {
+        if (isOnBoard(self, ally))
+            self->onDeploy(ally, enemy);
     };
+    return res;
 }
 
-NilfgaardianKnight::NilfgaardianKnight()
+Card *Cards::createNilfgaardianKnight()
 {
-    id = "162318";
-    name = "Nilfgaardian Knight";
-    text = "Reveal a random card in your hand, with priority given to Bronze, then Silver, then Gold. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 12;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.441.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.442.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.443.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNilfgaardianKnight, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
+    res->id = "162318";
+    res->power = res->powerBase = 12;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
 
-        for (const Filter &filter : Filters{isBronze, isSilver, isGold})
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
+
+        for (const Filter &filter : Filters{isBronze, isSilver, isGold}) {
             if (Card *card = random(cardsFiltered(ally, enemy, {filter, isNonRevealed}, AllyHand), ally.rng)) {
-                reveal(card, ally, enemy, this);
+                reveal(card, ally, enemy, self);
                 break;
             }
+        }
     };
+    return res;
 }
 
-Spotter::Spotter()
+Card *Cards::createSpotter()
 {
-    id = "162303";
-    name = "Spotter";
-    text = "Boost self by the base power of a Revealed Bronze or Silver unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051421.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF4_VSET_00514238.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF4_CHAT_01051417.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpotter, this);
+
+    res->id = "162303";
+    res->power = res->powerBase = 5;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, isBronzeOrSilver, ::isRevealed}, AnyHandShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, ::isRevealed}, AnyHandShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, target->powerBase, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(this, target->powerBase, ally, enemy, this);
-    };
+    return res;
 }
 
-VenendalElite::VenendalElite()
+Card *Cards::createVenendalElite()
 {
-    id = "200518";
-    name = "Venendal Elite";
-    text = "Switch this unit's power with that of a Revealed unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.383.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.384.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.382.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVenendalElite, this);
+
+    res->id = "200518";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, ::isRevealed}, AnyHandShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, ::isRevealed}, AnyHandShuffled);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int powerTarget = target->power;
         // TODO: check if triggered onDamaged and onDamaged of other units,
         // because it shouldn't
-        setPower(target, power, ally, enemy, this);
-        setPower(this, powerTarget, ally, enemy, this);
+        setPower(target, self->power, ally, enemy, self);
+        setPower(self, powerTarget, ally, enemy, self);
     };
+    return res;
 }
 
-MasterOfDisguise::MasterOfDisguise()
+
+Card *Cards::createMasterOfDisguise()
 {
-    id = "201616";
-    name = "Master of Disguise";
-    text = "Conceal 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.359.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.360.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.361.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMasterOfDisguise, this);
+
+    res->id = "201616";
+    res->power = res->powerBase = 11;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {::isRevealed}, AnyHandShuffled, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {::isRevealed}, AnyHandShuffled, 2);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        conceal(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        conceal(target, ally, enemy, this);
-    };
+    return res;
 }
 
-HenryVarAttre::HenryVarAttre()
-{
-    id = "200227";
-    name = "Henry var Attre";
-    text = "Conceal any number of units. If allies, boost by 2. If enemies, deal 2 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Support };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.435.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.436.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.437.mp3",
-    };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+Card *Cards::createHenryVarAttre()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHenryVarAttre, this);
+
+    res->id = "200227";
+    res->power = res->powerBase = 9;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const Filters filters {::isRevealed, isUnit};
         const int nRevealed = int(cardsFiltered(ally, enemy, filters, AnyHandShuffled).size());
         if (nRevealed)
-            startChoiceToTargetCard(ally, enemy, this, filters, AnyHandShuffled, nRevealed);
+            startChoiceToTargetCard(ally, enemy, self, filters, AnyHandShuffled, nRevealed);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.hand)) {
-            boost(target, 2, ally, enemy, this);
-            conceal(target, ally, enemy, this);
+            boost(target, 2, ally, enemy, self);
+            conceal(target, ally, enemy, self);
             return;
         }
-        damage(target, 2, ally, enemy, this);
-        conceal(target, ally, enemy, this);
+        damage(target, 2, ally, enemy, self);
+        conceal(target, ally, enemy, self);
     };
+    return res;
 }
 
-SummoningCircle::SummoningCircle()
-{
-    id = "200022";
-    name = "Summoning Circle";
-    text = "Spawn a default copy of the last Bronze or Silver non-Agent unit that appeared.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Spell };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        if (Card *card = last(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonAgent, otherThan(this)}, BothAppeared)))
-            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+Card *Cards::createSummoningCircle()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSummoningCircle, this);
+
+    res->id = "200022";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = last(cardsFiltered(ally, enemy, {isUnit, isBronzeOrSilver, isNonAgent, otherThan(self)}, BothAppeared)))
+            spawnNewCard(card->defaultCopy(), ally, enemy, self);
     };
+    return res;
 }
 
-XavierMoran::XavierMoran()
-{
-    id = "200080";
-    name = "Xavier Moran";
-    text = "Boost this unit by the default power of the last other Dwarf you played.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Scoiatael;
-    tags = { Dwarf };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.290.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.291.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.292.mp3",
-    };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = last(cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(this)}, AllyAppeared)))
-            boost(this, card->powerBase, ally, enemy, this);
+Card *Cards::createXavierMoran()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createXavierMoran, this);
+
+    res->id = "200080";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Scoiatael;
+    res->tags = { Dwarf };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = last(cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(self)}, AllyAppeared)))
+            boost(self, card->powerBase, ally, enemy, self);
     };
+    return res;
 }
 
-YenneferEnchantress::YenneferEnchantress()
+Card *Cards::createYenneferEnchantress()
 {
-    id = "201601";
-    name = "Yennefer";
-    text = "Spawn the last Bronze or Silver Spell you played.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Aedirn };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYenneferEnchantress, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201601";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = last(cardsFiltered(ally, enemy, {hasTag(Spell), isBronzeOrSilver}, AllyAppeared)))
-            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+            spawnNewCard(card->defaultCopy(), ally, enemy, self);
     };
+    return res;
 }
 
-VernonRoche::VernonRoche()
+Card *Cards::createVernonRoche()
 {
-    id = "122102";
-    name = "Vernon Roche";
-    text = "Deal 7 damage to an enemy. At game start, add a Blue Stripe Commando to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Officer };
-    power = powerBase = 3;
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
-        "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVernonRoche, this);
 
-    _onGameStart = [=](Field &ally, Field &enemy) {
-        Card *card = new BlueStripeCommando();
+    res->id = "122102";
+    res->tags = { Temeria, Officer };
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onGameStart = [=](Card *self, Field &ally, Field &enemy) {
+        Card *card = createBlueStripeCommando();
         addAsNew(ally, card);
-        putToDeck(card, ally, enemy, DeckPosRandom, this);
+        putToDeck(card, ally, enemy, DeckPosRandom, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
-        damage(card, 7, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, self);
     };
+    return res;
 }
 
-BlueStripeScout::BlueStripeScout()
+Card *Cards::createBlueStripeScout()
 {
-    id = "122310";
-    name = "Blue Stripe Scout";
-    text = "Boost all Temerian allies and your non-Spying Temerian units in hand and deck with the same power as this unit by 1. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Soldier };
-    power = powerBase = 3;
-    isCrew = true;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_RS01_101992_0004.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_ROS1_102779_0005.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_RS01_106541_0014.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlueStripeScout, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Temeria), isNonSpying, hasPowerX(power)}, AllyBoardHandDeck))
-            boost(card, 1, ally, enemy, this);
+    res->id = "122310";
+    res->tags = { Temeria, Soldier };
+    res->power = res->powerBase = 3;
+    res->isCrew = true;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *self : cardsFiltered(ally, enemy, {hasTag(Temeria), isNonSpying, hasPowerX(self->power)}, AllyBoardHandDeck))
+            boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
-BlueStripeCommando::BlueStripeCommando()
+Card *Cards::createBlueStripeCommando()
 {
-    id = "122311";
-    name = "Blue Stripe Commando";
-    text = "Whenever a different Temerian ally with the same power is played, Summon a copy of this unit to a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Soldier };
-    power = powerBase = 3;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_ROS3_102779_0003.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0003.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_RS03_106543_0004.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlueStripeCommando, this);
 
-    _onOtherAllyPlayedFromHand = [=](Card *target, Field &ally, Field &enemy) {
-        if (!hasTag(Temeria) || !hasPowerX(power) || !isIn(this, ally.deck))
+    res->id = "122311";
+    res->tags = { Temeria, Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { std::map<Card *, Card *> _allyPlayedToCopy; };
+    res->state = new State();
+
+    res->_onOtherAllyPlayedFromHand = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::map<Card *, Card *> &allyPlayedToCopy = self->stateAs<State>()->_allyPlayedToCopy;
+        if (!hasTag(Temeria) || !hasPowerX(self->power) || !isIn(self, ally.deck))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<BlueStripeCommando>, otherThan(this)}, AllyDeckShuffled)) {
-            BlueStripeCommando *commando = static_cast<BlueStripeCommando *>(card);
-            commando->_allyPlayedToCopy.insert({target, this});
-        }
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id), otherThan(self)}, AllyDeckShuffled))
+            copy->stateAs<State>()->_allyPlayedToCopy.insert({target, self});
 
-        if (_allyPlayedToCopy.find(target) == _allyPlayedToCopy.end())
-            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (allyPlayedToCopy.find(target) == allyPlayedToCopy.end())
+            moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
 
-        _allyPlayedToCopy.clear();
+        allyPlayedToCopy.clear();
     };
+    return res;
 }
 
-ImperialGolem::ImperialGolem()
+Card *Cards::createImperialGolem()
 {
-    id = "132407";
-    name = "Imperial Golem";
-    text = "Summon a copy of this unit to a random row whenever you Reveal a card in your opponent's hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Construct };
-    power = powerBase = 3;
-    faction = Nilfgaard;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createImperialGolem, this);
 
-    _onOtherRevealed = [=](Field &ally, Field &enemy, Card *target, const Card *) {
-        if (!isIn(this, ally.deck) || !isIn(target, enemy.hand))
+    res->id = "132407";
+    res->tags = { Construct };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { std::map<Card *, Card *> _cardRevealedToCopy; };
+    res->state = new State();
+
+    res->_onOtherRevealed = [](Card *self, Field &ally, Field &enemy, Card *target, const Card *) {
+        std::map<Card *, Card *> &cardRevealedToCopy = self->stateAs<State>()->_cardRevealedToCopy;
+        if (!isIn(self, ally.deck) || !isIn(target, enemy.hand))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<ImperialGolem>, otherThan(this)}, AllyDeckShuffled)) {
-            ImperialGolem *golem = static_cast<ImperialGolem *>(card);
-            golem->_cardRevealedToCopy.insert({target, this});
-        }
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id), otherThan(self)}, AllyDeckShuffled))
+            copy->stateAs<State>()->_cardRevealedToCopy.insert({target, self});
 
-        if (_cardRevealedToCopy.find(target) == _cardRevealedToCopy.end())
-            moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        if (cardRevealedToCopy.find(target) == cardRevealedToCopy.end())
+            moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
 
-        _cardRevealedToCopy.clear();
+        cardRevealedToCopy.clear();
     };
+    return res;
 }
 
-WildHuntNavigator::WildHuntNavigator()
+Card *Cards::createWildHuntNavigator()
 {
-    id = "200026";
-    name = "Wild Hunt Navigator";
-    text = "Choose a Bronze non-Mage Wild Hunt ally and play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { WildHunt, Mage };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.45.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.44.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.43.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildHuntNavigator, this);
+
+    res->id = "200026";
+    res->power = res->powerBase = 3;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { WildHunt, Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(WildHunt), hasNoTag(Mage), hasCopyInADeck(&ally)}, AllyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(WildHunt), hasNoTag(Mage), hasCopyInADeck(&ally)}, AllyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (Card *copy = findCopy(target, ally.deck))
-            playExistedCard(copy, ally, enemy, this);
+            playExistedCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
-Nithral::Nithral()
+Card *Cards::createNithral()
 {
-    id = "132214";
-    name = "Nithral";
-    text = "Deal 6 damage to an enemy. Increase damage by 1 for each Wild Hunt unit in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Monster;
-    tags = { WildHunt, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555151.mp3",
-        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555148.mp3",
-        "https://gwent.one/audio/card/ob/en/WHW1_Q104_00555150.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNithral, this);
+
+    res->id = "132214";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { WildHunt, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int nWildHuntUnits = cardsFiltered(ally, enemy, {hasTag(WildHunt), isUnit}, AllyHand).size();
-        damage(target, 6 + nWildHuntUnits, ally, enemy, this);
+        damage(target, 6 + nWildHuntUnits, ally, enemy, self);
     };
+    return res;
 }
 
-Miruna::Miruna()
+Card *Cards::createMiruna()
 {
-    id = "132108";
-    name = "Miruna";
-    text = "After 2 turns, Charm the Highest enemy on the opposite row on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Beast };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053075.mp3",
-        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053091.mp3",
-        "https://gwent.one/audio/card/ob/en/SCC3_VSET_01053077.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMiruna, this);
+
+    res->id = "132108";
+    res->power = res->powerBase = 4;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 2);
-    };
-
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !tick(self, ally, enemy))
             return;
-        if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), ally.rng))
-            charm(card, ally, enemy, this);
+        if (Card *card = highest(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, self)}, EnemyBoard), ally.rng))
+            charm(card, ally, enemy, self);
     };
+    return res;
 }
 
-Imlerith::Imlerith()
+Card *Cards::createImlerith()
 {
-    id = "132102";
-    name = "Imlerith";
-    text = "Deal 4 damage to an enemy. If the enemy is under Biting Frost, deal 8 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Gold;
-    faction = Monster;
-    tags = { WildHunt, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524739.mp3",
-        "https://gwent.one/audio/card/ob/en/IMLR_Q403_00524776.mp3",
-        "https://gwent.one/audio/card/ob/en/IMLR_Q111_01062046.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createImlerith, this);
+
+    res->id = "132102";
+    res->power = res->powerBase = 9;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { WildHunt, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const bool isUnderFrost = rowEffectUnderUnit(target, enemy) == BitingFrostEffect;
-        damage(target, isUnderFrost ? 8 : 4, ally, enemy, this);
+        damage(target, isUnderFrost ? 8 : 4, ally, enemy, self);
     };
+    return res;
 }
 
-Caretaker::Caretaker()
+Card *Cards::createCaretaker()
 {
-    id = "132106";
-    name = "Caretaker";
-    text = "Resurrect a Bronze or Silver unit from your opponent's graveyard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Gold;
-    faction = Monster;
-    isDoomed = true;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCaretaker, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver}, EnemyDiscard);
+    res->id = "132106";
+    res->power = res->powerBase = 4;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->isDoomed = true;
+    res->tags = { Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, isBronzeOrSilver}, EnemyDiscard);
     };
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Ruehin::Ruehin()
+Card *Cards::createRuehin()
 {
-    id = "201660";
-    name = "Ruehin";
-    text = "Strengthen all your other Insectoids and Cursed units in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Insectoid, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRuehin, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy, this);
+    res->id = "201660";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Insectoid, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags({Insectoid, Cursed}), otherThan(self), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-OldSpeartipAsleep::OldSpeartipAsleep()
+Card *Cards::createOldSpeartipAsleep()
 {
-    id = "132218";
-    name = "Old Speartip: Asleep";
-    text = "Strengthen all your other Ogroids in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 12;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOldSpeartipAsleep, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy, this);
+    res->id = "132218";
+    res->power = res->powerBase = 12;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Ogroid), otherThan(self), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-OldSpeartip::OldSpeartip()
+Card *Cards::createOldSpeartip()
 {
-    id = "132408";
-    name = "Old Speartip";
-    text = "Deal 2 damage to 5 random enemies on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOldSpeartip, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for(Card *card : randoms(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard), 5, ally.rng))
-            damage(card, 2, ally, enemy, this);
+    res->id = "132408";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for(Card *card : randoms(cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, self)}, EnemyBoard), 5, ally.rng))
+            damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Golyat::Golyat()
+Card *Cards::createGolyat()
 {
-    id = "200052";
-    name = "Golyat";
-    text = "Boost self by 7. Whenever this unit is damaged, deal 2 damage to self.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGolyat, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        boost(this, 7, ally, enemy, this);
+    res->id = "200052";
+    res->power = res->powerBase = 10;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 7, ally, enemy, self);
     };
 
-    _onDamaged = [=](const int, Field &ally, Field &enemy, const Card *src) {
-        if (src != this)
-            damage(this, 2, ally, enemy, this);
+    res->_onDamaged = [](Card *self, const int, Field &ally, Field &enemy, const Card *src) {
+        if (src != self)
+            damage(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Barbegazi::Barbegazi()
+Card *Cards::createBarbegazi()
 {
-    id = "201701";
-    name = "Barbegazi";
-    text = "Resilience. Consume an ally and boost self by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Insectoid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBarbegazi, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        isResilient = true;
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "201701";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->isResilient = true;
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Ghoul::Ghoul()
+Card *Cards::createGhoul()
 {
-    id = "132306";
-    name = "Ghoul";
-    text = "Consume a Bronze or Silver unit from your graveyard and boost self by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGhoul, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard);
+    res->id = "132306";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Forktail::Forktail()
+Card *Cards::createForktail()
 {
-    id = "201606";
-    name = "Forktail";
-    text = "Consume 2 allies and boost self by their power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Draconid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createForktail, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    res->id = "201606";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Draconid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-ArachasQueen::ArachasQueen()
+Card *Cards::createArachasQueen()
 {
-    id = "201743";
-    name = "Arachas Queen";
-    text = "Immune. Consume 3 allies and boost self by their power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Leader, Insectoid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArachasQueen, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        isImmune = true;
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 3);
+    res->id = "201743";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Leader, Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->isImmune = true;
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 3);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Ozzrel::Ozzrel()
+Card *Cards::createOzzrel()
 {
-    id = "201698";
-    name = "Ozzrel";
-    text = "Consume a Bronze or Silver unit from either graveyard and boost by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOzzrel, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, BothDiscard);
+    res->id = "201698";
+    res->power = res->powerBase = 5;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, BothDiscard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Kayran::Kayran()
+Card *Cards::createKayran()
 {
-    id = "132107";
-    name = "Kayran";
-    text = "Consume a unit with 7 power or less and boost self by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Insectoid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKayran, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasPowerXorLess(7)}, AnyBoard);
+    res->id = "132107";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasPowerXorLess(7)}, AnyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Mourntart::Mourntart()
+Card *Cards::createMourntart()
 {
-    id = "132202";
-    name = "Mourntart";
-    text = "Consume all Bronze and Silver units in your graveyard and boost self by 1 for each.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMourntart, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132202";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const std::vector<Card *> cards = cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDiscard);
 
         for (Card *card : cards)
-            consume(card, ally, enemy, this);
+            consume(card, ally, enemy, self);
 
-        boost(this, cards.size(), ally, enemy, this);
+        boost(self, cards.size(), ally, enemy, self);
     };
+    return res;
 }
 
-ToadPrince::ToadPrince()
+Card *Cards::createToadPrince()
 {
-    id = "132216";
-    name = "Toad Prince";
-    text = "Draw a unit, then Consume a unit in your hand and boost self by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createToadPrince, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132216";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-            putToHand(unit, ally, enemy,  this);
-            startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyHand);
+            putToHand(unit, ally, enemy,  self);
+            startChoiceToTargetCard(ally, enemy, self, {isUnit}, AllyHand);
         }
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Fiend::Fiend()
+Card *Cards::createFiend()
 {
-    id = "112405";
-    name = "Fiend";
-    text = "No ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFiend, this);
+
+    res->id = "112405";
+    res->power = res->powerBase = 11;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Relict };
+    return res;
 }
 
-Morvudd::Morvudd()
+Card *Cards::createMorvudd()
 {
-    id = "112405";
-    name = "Morvudd";
-    text = "Toggle a unit's Lock status. If it was an enemy, halve its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMorvudd, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->id = "112405";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        toggleLock(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
         if (isOnBoard(target, enemy))
-            setPower(target, target->power - half(target->power), ally, enemy, this);
+            setPower(target, target->power - half(target->power), ally, enemy, self);
     };
+    return res;
 }
 
-Ekimmara::Ekimmara()
+Card *Cards::createEkimmara()
 {
-    id = "132313";
-    name = "Ekimmara";
-    text = "Drain a unit by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Vampire };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEkimmara, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->id = "132313";
+    res->power = res->powerBase = 5;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Vampire };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        drain(target, 3, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        drain(target, 3, ally, enemy, self);
     };
+    return res;
 }
 
-Rotfiend::Rotfiend()
+Card *Cards::createRotfiend()
 {
-    id = "200295";
-    name = "Rotfiend";
-    text = "Deathwish: Deal 2 damage to units on the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRotfiend, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        for(Card *target : cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, this)}, EnemyBoard))
-            damage(target, 2, ally, enemy, this);
+    res->id = "200295";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        for(Card *target : cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, self)}, EnemyBoard))
+            damage(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Archespore::Archespore()
+Card *Cards::createArchespore()
 {
-    id = "200038";
-    name = "Archespore";
-    text = "Move to a random row and deal 1 damage to a random enemy on turn start. Deathwish: Deal 4 damage to a random enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArchespore, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
-               4, ally, enemy, this);
+    res->id = "200038";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Cursed };
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 4, ally, enemy, self);
     };
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally) && moveToRandomRow(this, ally, enemy, this))
-            damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng),
-                   1, ally, enemy, this);
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally) && moveToRandomRow(self, ally, enemy, self))
+            damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, self);
     };
+    return res;
 }
 
-Cyclops::Cyclops()
+Card *Cards::createCyclops()
 {
-    id = "200037";
-    name = "Cyclops";
-    text = "Destroy an ally and deal damage equal to its power to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCyclops, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->id = "200037";
+    res->power = res->powerBase = 11;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    struct State : StateCopy<State> { int _powerOfDestroyed = 0; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if(!_powerOfDestroyed) {
-            _powerOfDestroyed = target->power;
-            putToDiscard(target, ally, enemy, this);
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &powerOfDestroyed = self->stateAs<State>()->_powerOfDestroyed;
+        if(!powerOfDestroyed) {
+            powerOfDestroyed = target->power;
+            putToDiscard(target, ally, enemy, self);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        damage(target, _powerOfDestroyed, ally, enemy, this);
-        _powerOfDestroyed = 0;
+        damage(target, powerOfDestroyed, ally, enemy, self);
+        powerOfDestroyed = 0;
     };
+    return res;
 }
 
-Maerolorn::Maerolorn()
+Card *Cards::createMaerolorn()
 {
-    id = "132406";
-    name = "Maerolorn";
-    text = "Play a Bronze Deathwish unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMaerolorn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
+    res->id = "132406";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isDeathwish}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-MonsterNest::MonsterNest()
+Card *Cards::createMonsterNest()
 {
-    id = "133302";
-    name = "Monster Nest";
-    text = "Spawn a Bronze Necrophage or Insectoid and boost it by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMonsterNest, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronze, hasAnyOfTags({Necrophage, Insectoid})}, AnyCard, -1);
+    res->id = "133302";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronze, hasAnyOfTags({Necrophage, Insectoid})}, AnyCard, -1);
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 1, ally, enemy, this);
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 1, ally, enemy, self);
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-ArachasDrone::ArachasDrone()
+Card *Cards::createArachasDrone()
 {
-    id = "132304";
-    name = "Arachas Drone";
-    text = "Summon all copies of this unit to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Insectoid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArachasDrone, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "132304";
+    res->power = res->powerBase = 3;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-AlphaWerewolf::AlphaWerewolf()
+Card *Cards::createAlphaWerewolf()
 {
-    id = "200114";
-    name = "Alpha Werewolf";
-    text = "Spawn a Wolf on each side of this unit on contact with Full Moon.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlphaWerewolf, this);
 
-    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new Wolf(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new Wolf(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "200114";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast, Cursed };
+
+    res->_onContactWithFullMoon = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createWolf(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createWolf(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-Werewolf::Werewolf()
+Card *Cards::createWerewolf()
 {
-    id = "201600";
-    name = "Werewolf";
-    text = "Immune. Boost this unit by 7 on first contact with Full Moon.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast, Cursed };
-    isImmune = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWerewolf, this);
 
-    _onContactWithFullMoon = [=](Field &ally, Field &enemy) {
-        boost(this, 7, ally, enemy, this);
+    res->id = "201600";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast, Cursed };
+    res->isImmune = true;
+
+    res->_onContactWithFullMoon = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 7, ally, enemy, self);
     };
+    return res;
 }
 
-EredinBreaccGlas::EredinBreaccGlas()
+Card *Cards::createEredinBreaccGlas()
 {
-    id = "131101";
-    name = "Eredin Br??acc Glas";
-    text = "Spawn a Bronze Wild Hunt unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Monster;
-    tags = { WildHunt, Leader };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ERDN_Q501_00534051.mp3",
-        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040841.mp3",
-        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040845.mp3",
-        "https://gwent.one/audio/card/ob/en/ERDN_Q311_00312654.mp3",
-        "https://gwent.one/audio/card/ob/en/ERDN_EREDIN_01040754.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEredinBreaccGlas, this);
+
+    res->id = "131101";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { WildHunt, Leader };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronze, hasTag(WildHunt)}, AnyCard, -1);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronze, hasTag(WildHunt)}, AnyCard, -1);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-CaranthirArFeiniel::CaranthirArFeiniel()
+Card *Cards::createCaranthirArFeiniel()
 {
-    id = "132104";
-    name = "Caranthir Ar-Feiniel";
-    text = "Move an enemy to the row opposite this unit and apply Biting Frost to that row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Gold;
-    faction = Monster;
-    tags = { WildHunt, Mage, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.192.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.191.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.189.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCaranthirArFeiniel, this);
+
+    res->id = "132104";
+    res->power = res->powerBase = 9;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { WildHunt, Mage, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const Row row = _findRowAndPos(this, ally).row();
-        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this))
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(self, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self))
             applyRowEffect(ally, enemy, 3 + row, BitingFrostEffect);
     };
+    return res;
 }
 
-ImlerithSabbath::ImlerithSabbath()
+Card *Cards::createImlerithSabbath()
 {
-    id = "201781";
-    name = "Imlerith: Sabbath";
-    text = "Every turn, Duel the Highest enemy on turn end. If this unit survives, Heal it by 2 and give it 2 Armor. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Monster;
-    tags = { WildHunt, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.852.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.853.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.851.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createImlerithSabbath, this);
+
+    res->id = "201781";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { WildHunt, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
-    };
-
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
-        if (duel(this, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
-            heal(this, 2, ally, enemy, this);
-            gainArmor(this, 2, ally, enemy, this);
+        if (duel(self, highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), ally, enemy)) {
+            heal(self, 2, ally, enemy, self);
+            gainArmor(self, 2, ally, enemy, self);
         }
     };
+    return res;
 }
 
-Dagon::Dagon()
+Card *Cards::createDagon()
 {
-    id = "200158";
-    name = "Dagon";
-    text = "Spawn Impenetrable Fog or Torrential Rain.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Leader, Vodyanoi };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDagon, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new ImpenetrableFog(), new TorrentialRain()});
+    res->id = "200158";
+    res->power = res->powerBase = 8;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Leader, Vodyanoi };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createImpenetrableFog(), createTorrentialRain()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Ifrit::Ifrit()
+Card *Cards::createIfrit()
 {
-    id = "132210";
-    name = "Ifrit";
-    text = "Spawn 3 Lesser Ifrits to the right of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Construct };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIfrit, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        const Row row = _findRowAndPos(this, ally).row();
+    res->id = "132210";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Construct };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(self, ally).row();
         const RowAndPos rowAndPos(row, Pos(ally.row(row).size()));
-        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
-        spawnNewUnitToPos(new IfritLesser(), rowAndPos, ally, enemy, this);
+        spawnNewUnitToPos(createIfritLesser(), rowAndPos, ally, enemy, self);
+        spawnNewUnitToPos(createIfritLesser(), rowAndPos, ally, enemy, self);
+        spawnNewUnitToPos(createIfritLesser(), rowAndPos, ally, enemy, self);
     };
+    return res;
 }
 
-Ifrit::IfritLesser::IfritLesser()
+Card *Cards::createIfritLesser()
 {
-    id = "132404";
-    name = "Lesser Ifrit";
-    text = "Deal 1 damage to a random enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Construct };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIfritLesser, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+    res->id = "132404";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Construct };
+    res->isDoomed = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, self);
     };
+    return res;
 }
 
-SheTrollOfVergen::SheTrollOfVergen()
+Card *Cards::createSheTrollOfVergen()
 {
-    id = "200534";
-    name = "She-Troll of Vergen";
-    text = "Play a Bronze Deathwish unit from your deck, Consume it and boost self by its base power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Ogroid };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.406.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.405.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.404.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSheTrollOfVergen, this);
+
+    res->id = "200534";
+    res->power = res->powerBase = 1;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    struct State : StateCopy<State> { bool _played = false; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_played = false;
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isDeathwish}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        _played = false;
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyDeckShuffled);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!_played) {
-            _played = true;
-            startChoiceToTargetCard(ally, enemy, this, {target});
-            playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        bool &played = self->stateAs<State>()->_played;
+        if (!played) {
+            played = true;
+            startChoiceToTargetCard(ally, enemy, self, {target});
+            playExistedCard(target, ally, enemy, self);
             return;
         }
 
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
+    return res;
 }
 
-Wyvern::Wyvern()
+Card *Cards::createWyvern()
 {
-    id = "132303";
-    name = "Wyvern";
-    text = "Deal 5 damage to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Draconid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWyvern, this);
 
-    _onDeploy = [=] (Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "132303";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Draconid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
     };
+    return res;
 }
 
-Abaya::Abaya()
+Card *Cards::createAbaya()
 {
-    id = "132203";
-    name = "Abaya";
-    text = "Spawn Torrential Rain, Clear Skies or Arachas Venom.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAbaya, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new TorrentialRain(), new ClearSkies(), new ArachasVenom()});
+    res->id = "132203";
+    res->power = res->powerBase = 4;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createTorrentialRain(), createClearSkies(), createArachasVenom()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Parasite::Parasite()
+Card *Cards::createParasite()
 {
-    id = "201657";
-    name = "Parasite";
-    text = "Deal 12 damage to an enemy; or Boost an ally by 12.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createParasite, this);
 
-    _onPlaySpecial = [=] (Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->id = "201657";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (isOnBoard(target, ally))
-            boost(target, 12, ally, enemy, this);
+            boost(target, 12, ally, enemy, self);
         else if (isOnBoard(target, enemy))
-            damage(target, 12, ally, enemy, this);
+            damage(target, 12, ally, enemy, self);
         else
-            assert(false);
+            throw Error(Error::Unreachable, self);
     };
 
+    return res;
 }
 
-Jotunn::Jotunn()
+Card *Cards::createJotunn()
 {
-    id = "200218";
-    name = "Jotunn";
-    text = "Move 3 enemies to the row opposite this unit and deal 2 damage to them. If that row is under Biting Frost, deal 3 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJotunn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        Row rowSelf = _findRowAndPos(this, ally).row();
-        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard, 3);
+    res->id = "200218";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(self, ally).row();
+        startChoiceToTargetCard(ally, enemy, self, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard, 3);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        Row rowSelf = _findRowAndPos(this, ally).row();
-        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
-           damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(self, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, self))
+            damage(target, rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 3 : 2, ally, enemy, self);
     };
+    return res;
 }
 
-IceGiant::IceGiant()
+Card *Cards::createIceGiant()
 {
-    id = "132212";
-    name = "Ice Giant";
-    text = "Boost by 6 if Biting Frost is anywhere on the board.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ice_giant_aggro07.mp3",
-        "https://gwent.one/audio/card/ob/en/ice_giant_aggro06.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIceGiant, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132212";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (enemy.rowEffect(Meele) == BitingFrostEffect
                 || enemy.rowEffect(Range) == BitingFrostEffect
                 || enemy.rowEffect(Seige) == BitingFrostEffect
                 || ally.rowEffect(Meele) == BitingFrostEffect
                 || ally.rowEffect(Range) == BitingFrostEffect
                 || ally.rowEffect(Seige) == BitingFrostEffect)
-            boost(this, 6, ally, enemy, this);
+            boost(self, 6, ally, enemy, self);
     };
+    return res;
 }
 
-IceTroll::IceTroll()
+Card *Cards::createIceTroll()
 {
-    id = "200502";
-    name = "Ice Troll";
-    text = "Duel an enemy. If it's under Biting Frost, deal double damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIceTroll, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "200502";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        // NOTE: just duel with multiplied damage
         const int mult = rowEffectUnderUnit(target, enemy) == BitingFrostEffect ? 2 : 1;
         while (true) {
-            if (damage(target, power * mult, ally, enemy, this))
+            if (damage(target, self->power * mult, ally, enemy, self))
                 return true;
-            if (damage(this, target->power, ally, enemy, target))
+            if (damage(self, target->power, ally, enemy, target))
                 return false;
         }
     };
+    return res;
 }
 
-Drowner::Drowner()
+Card *Cards::createDrowner()
 {
-    id = "132314";
-    name = "Drowner";
-    text = "Move an enemy to the row opposite this unit and deal 2 damage to it. If that row is under a Hazard, deal 4 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDrowner, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        Row rowSelf = _findRowAndPos(this, ally).row();
-        startChoiceToTargetCard(ally, enemy, this, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard);
+    res->id = "132314";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(self, ally).row();
+        startChoiceToTargetCard(ally, enemy, self, {isNotOnRow(&enemy, rowSelf)}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        Row rowSelf = _findRowAndPos(this, ally).row();
-        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, this))
-           damage(target, (rowEffectUnderUnit(target, enemy) > 0 && rowEffectUnderUnit(target, enemy) <= 9) ? 4 : 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Row rowSelf = _findRowAndPos(self, ally).row();
+        if (moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowSelf), enemy, ally, self))
+            damage(target, (rowEffectUnderUnit(target, enemy) > 0 && rowEffectUnderUnit(target, enemy) <= 9) ? 4 : 2, ally, enemy, self);
     };
+    return res;
 }
 
-Foglet::Foglet()
+Card *Cards::createFoglet()
 {
-    id = "132301";
-    name = "Foglet";
-    text = "Whenever you apply Impenetrable Fog to an enemy row, Summon a copy of this unit to the opposite row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFoglet, this);
 
-    _onAllyAppliedRowEffect = [=](const RowEffect rowEffect, Field &ally, Field &enemy, const Row row) {
-        if (rowEffect != ImpenetrableFogEffect || !isIn(this, ally.deck))
+    res->id = "132301";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    struct State : StateCopy<State> { std::map<Row, const Card *> _rowToCopy; };
+    res->state = new State();
+
+    res->_onAllyAppliedRowEffect = [](Card *self, const RowEffect rowEffect, Field &ally, Field &enemy, const Row row) {
+        std::map<Row, const Card *> &rowToCopy = self->stateAs<State>()->_rowToCopy;
+        if (rowEffect != ImpenetrableFogEffect || !isIn(self, ally.deck))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Foglet>, otherThan(this)}, AllyDeckShuffled)) {
-            Foglet *foglet = static_cast<Foglet *>(card);
-            foglet->_rowToCopy.insert({row, this});
-        }
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id), otherThan(self)}, AllyDeckShuffled))
+            copy->stateAs<State>()->_rowToCopy.insert({row, self});
 
-        if (_rowToCopy.find(row) == _rowToCopy.end())
-            moveExistedUnitToPos(this, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+        if (rowToCopy.find(row) == rowToCopy.end())
+            moveExistedUnitToPos(self, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
 
-        _rowToCopy.clear();
+        rowToCopy.clear();
     };
+    return res;
 }
 
-AncientFoglet::AncientFoglet()
+Card *Cards::createAncientFoglet()
 {
-    id = "132302";
-    name = "Ancient Foglet";
-    text = "Boost by 1 if Impenetrable Fog is on the board on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Necrophage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAncientFoglet, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "132302";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Necrophage };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
         if (enemy.rowEffect(Meele) == ImpenetrableFogEffect
                 || enemy.rowEffect(Range) == ImpenetrableFogEffect
@@ -7456,184 +6966,203 @@ AncientFoglet::AncientFoglet()
                 || ally.rowEffect(Meele) == ImpenetrableFogEffect
                 || ally.rowEffect(Range) == ImpenetrableFogEffect
                 || ally.rowEffect(Seige) == ImpenetrableFogEffect)
-            boost(this, 1, ally, enemy, this);
+            boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Draug::Draug()
+Card *Cards::createDraug()
 {
-    id = "132101";
-    name = "Draug";
-    text = "Resurrect units as 1-power Draugirs until you fill this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Monster;
-    tags = { Cursed, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDraug, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132101";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { Cursed, Officer };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
         // TODO: check interaction w/ Cyris
-        assert(isOnBoard(this, ally));
-        const Row row = _findRowAndPos(this, ally).row();
+        if (!isOnBoard(self, ally))
+            throw Error(Error::Assert, self);
+
+        const Row row = _findRowAndPos(self, ally).row();
         for (Card *card : cardsFiltered(ally, enemy, {isUnit}, AllyDiscard)) {
             if (isRowFull(ally.row(row)))
                 return;
-            banish(card, ally, enemy, this);
-            if (!spawnNewUnitToPos(new Draugir(), rowAndPosToTheRight(this, ally, 1), ally, enemy, this))
+            banish(card, ally, enemy, self);
+            if (!spawnNewUnitToPos(createDraugir(), rowAndPosToTheRight(self, ally, 1), ally, enemy, self))
                 break;
         }
     };
+    return res;
 }
 
-Draug::Draugir::Draugir()
+Card *Cards::createDraugir()
 {
-    // TODO: find picture
-    id = "132101";
-    name = "Draugir";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Cursed };
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDraugir, this);
+
+    // FIXME: incorrect picture
+    res->id = "132101";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Cursed };
+    res->isDoomed = true;
+    return res;
 }
 
-CelaenoHarpy::CelaenoHarpy()
+Card *Cards::createCelaenoHarpy()
 {
-    id = "132217";
-    name = "Celaeno Harpy";
-    text = "Spawn 2 Harpy Eggs to the left of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCelaenoHarpy, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
-        spawnNewUnitToPos(new HarpyEgg(), rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->id = "132217";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewUnitToPos(createHarpyEgg(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
+        spawnNewUnitToPos(createHarpyEgg(), rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-CelaenoHarpy::HarpyEgg::HarpyEgg()
+Card *Cards::createHarpyEgg()
 {
-    id = "132316";
-    name = "Harpy Egg";
-    text = "When Consumed, boost Consuming unit by 4. Deathwish: Spawn a Harpy Hatchling on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Bronze;
-    faction = Monster;
-    isDoomed = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHarpyEgg, this);
 
-    _onConsumed = [=](Field &ally, Field &enemy, Card *src) {
-        boost(src, 4, ally, enemy, this);
-    };
+    res->id = "132316";
+    res->power = res->powerBase = 1;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->isDoomed = true;
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        spawnNewUnitToPos(new HarpyHatchling(), rowAndPosRandom(ally), ally, enemy, this);
-    };
-}
-
-CelaenoHarpy::HarpyHatchling::HarpyHatchling()
-{
-    id = "132315";
-    name = "Harpy Hatchling";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
-}
-
-ArachasBehemoth::ArachasBehemoth()
-{
-    id = "132201";
-    name = "Arachas Behemoth";
-    text = "The next 4 times you Consume a unit, Spawn an Arachas Hatchling on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Insectoid };
-
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 4);
+    res->_onConsumed = [](Card *self, Field &ally, Field &enemy, Card *src) {
+        boost(src, 4, ally, enemy, self);
     };
 
-    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if (!isOnBoard(this, ally))
+    res->_onDestroy = [=](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        spawnNewUnitToPos(createHarpyHatchling(), rowAndPosRandom(ally), ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createHarpyHatchling()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHarpyHatchling, this);
+
+    res->id = "132315";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+    return res;
+}
+
+
+Card *Cards::createArachasBehemoth()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArachasBehemoth, this);
+
+    res->id = "132201";
+    res->power = res->powerBase = 8;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 4);
+    };
+
+    res->_onAllyConsume = [=](Card *self, Field &ally, Field &enemy, Card *) {
+        if (!isOnBoard(self, ally))
             return;
-        if (!tick(this, ally, enemy))
-            spawnNewUnitToPos(new ArachasHatchling(), rowAndPosRandom(ally), ally, enemy, this);
+        if (!tick(self, ally, enemy))
+            spawnNewUnitToPos(createArachasHatchling(), rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-ArachasBehemoth::ArachasHatchling::ArachasHatchling()
-{
-    id = "132304";
-    name = "Arachas Hatchling";
-    text = "Summon all Arachas Drones.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Insectoid };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy<ArachasDrone>}, AllyDeck))
-            moveExistedUnitToPos(copy, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+Card *Cards::createArachasHatchling()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArachasHatchling, this);
+
+    res->id = "132304";
+    res->power = res->powerBase = 3;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Insectoid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck))
+            moveExistedUnitToPos(copy, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-Archgriffin::Archgriffin()
+Card *Cards::createArchgriffin()
 {
-    id = "132307";
-    name = "Archgriffin";
-    text = "Clear Hazards on its row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createArchgriffin, this);
 
-    _onDeploy = [=](Field &ally, Field &) {
-        clearHazardsFromItsRow(this, ally);
+    res->id = "132307";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &) {
+        clearHazardsFromItsRow(self, ally);
     };
+    return res;
 }
 
-Griffin::Griffin()
+Card *Cards::createGriffin()
 {
-    id = "132312";
-    name = "Griffin";
-    text = "Trigger the Deathwish of a Bronze ally.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGriffin, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isDeathwish}, AllyBoard);
+    res->id = "132312";
+    res->power = res->powerBase = 9;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isDeathwish}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         target->onDestroy(ally, enemy, _findRowAndPos(target, ally));
     };
+    return res;
 }
 
-BridgeTroll::BridgeTroll()
+Card *Cards::createBridgeTroll()
 {
-    id = "201700";
-    name = "Bridge Troll";
-    text = "Move a Hazard on an enemy row to a different enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBridgeTroll, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201700";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    struct State : StateCopy<State> { int _rowSelected = -1; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         std::vector<int> rowsWithHazzards;
         for (int rowInd = 0; rowInd < 3; ++rowInd) {
             const RowEffect rowEffect = enemy.rowEffect(Row(rowInd));
@@ -7642,5027 +7171,4666 @@ BridgeTroll::BridgeTroll()
                 continue;
             rowsWithHazzards.push_back(rowInd + 3);
         }
-        _rowSelected = -1;
-        startChoiceToSelectRow(ally, enemy, this, rowsWithHazzards);
+        self->stateAs<State>()->_rowSelected = -1;
+        startChoiceToSelectRow(ally, enemy, self, rowsWithHazzards);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
-        if (_rowSelected == -1) {
-            _rowSelected = screenRow;
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
+        int &rowSelected = self->stateAs<State>()->_rowSelected;
+        if (rowSelected == -1) {
+            rowSelected = screenRow;
             std::vector<int> otherRows = {3, 4, 5};
             otherRows.erase(otherRows.begin() + screenRow - 3);
-            startChoiceToSelectRow(ally, enemy, this, otherRows);
+            startChoiceToSelectRow(ally, enemy, self, otherRows);
             return;
         }
-        applyRowEffect(ally, enemy, screenRow, enemy.rowEffect(Row(_rowSelected - 3)));
-        applyRowEffect(ally, enemy, _rowSelected, NoRowEffect);
+        applyRowEffect(ally, enemy, screenRow, enemy.rowEffect(Row(rowSelected - 3)));
+        applyRowEffect(ally, enemy, rowSelected, NoRowEffect);
     };
+    return res;
 }
 
-Cockatrice::Cockatrice()
+Card *Cards::createCockatrice()
 {
-    id = "200233";
-    name = "Cockatrice";
-    text = "Reset a unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Draconid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCockatrice, this);
 
+    res->id = "200233";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Draconid };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, self);
     };
+    return res;
 }
 
-Nekurat::Nekurat()
+Card *Cards::createNekurat()
 {
-    id = "132220";
-    name = "Nekurat";
-    text = "Spawn Moonlight.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Silver;
-    faction = Monster;
-    tags = { Vampire };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNekurat, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewCard(new Moonlight(), ally, enemy, this);
+    res->id = "132220";
+    res->power = res->powerBase = 5;
+    res->rarity = Silver;
+    res->faction = Monster;
+    res->tags = { Vampire };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createMoonlight(), ally, enemy, self);
     };
+    return res;
 }
 
-Siren::Siren()
+Card *Cards::createSiren()
 {
-    id = "200112";
-    name = "Siren";
-    text = "Play Moonlight from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.91.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.93.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.92.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSiren, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy<Moonlight>}, AllyDeck), ally.rng))
-            playExistedCard(moonlight, ally, enemy, this);
+    res->id = "200112";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: 200067 is Moonlight
+        if (Card *moonlight = random(cardsFiltered(ally, enemy, {isCopy("200067")}, AllyDeck), ally.rng))
+            playExistedCard(moonlight, ally, enemy, self);
     };
+    return res;
 }
 
-Lamia::Lamia()
+Card *Cards::createLamia()
 {
-    id = "132409";
-    name = "Lamia";
-    text = "Deal 4 damage to an enemy. If the enemy is under Blood Moon, deal 7 damage instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLamia, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "132409";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, rowEffectUnderUnit(target, enemy) == BloodMoonEffect ? 7 : 4 , ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, rowEffectUnderUnit(target, enemy) == BloodMoonEffect ? 7 : 4 , ally, enemy, self);
     };
+    return res;
 }
 
-Nekker::Nekker()
+Card *Cards::createNekker()
 {
-    id = "132305";
-    name = "Nekker";
-    text = "If in hand, deck, or on board, boost self by 1 whenever you Consume a card. Deathwish: Summon a copy of this unit to the same position.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/nekker_mumble_003.mp3",
-        "https://gwent.one/audio/card/ob/en/nekker_attack_004.mp3",
-        "https://gwent.one/audio/card/ob/en/nekker_attack_009.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNekker, this);
+
+    res->id = "132305";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onAllyConsume = [](Card *self, Field &ally, Field &enemy, Card *) {
+        if (!isIn(self, ally.discard))
+            boost(self, 1, ally, enemy, self);
     };
 
-    _onAllyConsume = [=](Field &ally, Field &enemy, Card *) {
-        if (!isIn(this, ally.discard))
-            boost(this, 1, ally, enemy, this);
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck), ally.rng))
+            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, self);
     };
-
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy<Nekker>}, AllyDeck), ally.rng))
-            moveExistedUnitToPos(copy, rowAndPos, ally, enemy, this);
-    };
+    return res;
 }
 
-NekkerWarrior::NekkerWarrior()
+Card *Cards::createNekkerWarrior()
 {
-    id = "132211";
-    name = "Nekker Warrior";
-    text = "Choose a Bronze ally and add 2 copies of it to the bottom of your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Ogroid };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/nekker_scream_006.mp3",
-        "https://gwent.one/audio/card/ob/en/nekker_scream_004.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNekkerWarrior, this);
+
+    res->id = "132211";
+    res->power = res->powerBase = 9;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Ogroid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze}, AllyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         int n = 2;
         while (n--) {
-            Card *card = target->defaultCopy();
-            addAsNew(ally, card);
-            putToDeck(card, ally, enemy, DeckPosBottom, this);
+            Card *self = target->defaultCopy();
+            addAsNew(ally, self);
+            putToDeck(self, ally, enemy, DeckPosBottom, self);
         }
     };
+    return res;
 }
 
-Slyzard::Slyzard()
+Card *Cards::createSlyzard()
 {
-    id = "200539";
-    name = "Slyzard";
-    text = "Consume a different Bronze unit from your graveyard, then play a copy of it from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Draconid };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlyzard, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, AllyDiscard);
+    res->id = "200539";
+    res->power = res->powerBase = 2;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Draconid };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        consume(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        consume(target, ally, enemy, self);
         if (Card *copy = random(cardsFiltered(ally, enemy, {isCopy(target->name)}, AllyDeck), ally.rng))
-            playExistedCard(copy, ally, enemy, this);
+            playExistedCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
-Werecat::Werecat()
+Card *Cards::createWerecat()
 {
-    id = "201599";
-    name = "Werecat";
-    text = "Deal 5 damage to an enemy, then deal 1 damage to all enemies under Blood Moon.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWerecat, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "201599";
+    res->power = res->powerBase = 5;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
         for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
             if (rowEffectUnderUnit(card, enemy) == BloodMoonEffect)
-                damage(card, 1, ally, enemy, this);
+                damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Harpy::Harpy()
+Card *Cards::createHarpy()
 {
-    id = "132315";
-    name = "Harpy";
-    text = "Whenever you destroy an allied Beast, Summon a copy of this unit to the same position.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Beast };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHarpy, this);
 
-    _onOtherAllyDestroyed = [=](Card *other, Field &ally, Field &enemy, const RowAndPos rowAndPos) {
-        if (!isIn(this, ally.deck) || !hasTag(other, Beast))
+    res->id = "132315";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Beast };
+
+    struct State : StateCopy<State> { std::map<Card *, Card *> _allyDestroyedToCopy; };
+    res->state = new State();
+
+    res->_onOtherAllyDestroyed = [](Card *self, Card *other, Field &ally, Field &enemy, const RowAndPos rowAndPos) {
+        std::map<Card *, Card *> &allyDestroyedToCopy = self->stateAs<State>()->_allyDestroyedToCopy;
+        if (!isIn(self, ally.deck) || !hasTag(other, Beast))
             return;
 
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<Harpy>, otherThan(this)}, AllyDeckShuffled)) {
-            Harpy *harpy = static_cast<Harpy *>(card);
-            harpy->_allyDestroyedToCopy.insert({other, this});
-        }
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id), otherThan(self)}, AllyDeckShuffled))
+            copy->stateAs<State>()->_allyDestroyedToCopy.insert({other, self});
 
-        if (_allyDestroyedToCopy.find(other) == _allyDestroyedToCopy.end())
-            moveExistedUnitToPos(this, rowAndPos, ally, enemy, this);
+        if (allyDestroyedToCopy.find(other) == allyDestroyedToCopy.end())
+            moveExistedUnitToPos(self, rowAndPos, ally, enemy, self);
 
-        _allyDestroyedToCopy.clear();
+        allyDestroyedToCopy.clear();
     };
+    return res;
 }
 
-WildHuntDrakkar::WildHuntDrakkar()
+Card *Cards::createWildHuntDrakkar()
 {
-    id = "200301";
-    name = "Wild Hunt Drakkar";
-    text = "Boost all Wild Hunt allies by 1. Whenever another Wild Hunt ally appears, boost it by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { WildHunt, Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildHuntDrakkar, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200301";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { WildHunt, Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(WildHunt)}, AllyBoard))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
 
-    _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !hasTag(card, WildHunt))
+    res->_onOtherAllyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !hasTag(target, WildHunt))
             return;
-        boost(card, 1, ally, enemy, this);
+        boost(target, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Geels::Geels()
+Card *Cards::createGeels()
 {
-    id = "131102";
-    name = "Ge'els";
-    text = "Look at a random Gold and Silver card from your deck, then play 1 and move the other to the top of the deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Gold;
-    faction = Monster;
-    tags = { WildHunt, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312005.mp3",
-        "https://gwent.one/audio/card/ob/en/GEEL_Q311_00312236.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeels, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "131102";
+    res->power = res->powerBase = 1;
+    res->rarity = Gold;
+    res->faction = Monster;
+    res->tags = { WildHunt, Officer };
+
+    struct State : StateCopy<State>
+    {
+        Card *_gold = nullptr;
+        Card *_silver = nullptr;
+    };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Card *&gold = self->stateAs<State>()->_gold;
+        Card *&silver = self->stateAs<State>()->_silver;
         std::vector<Card *> variants;
-        if ((_gold = random(cardsFiltered(ally, enemy, {isGold}, AllyDeck), ally.rng)))
-            variants.push_back(_gold);
-        if ((_silver = random(cardsFiltered(ally, enemy, {isSilver}, AllyDeck), ally.rng)))
-            variants.push_back(_silver);
-        startChoiceToTargetCard(ally, enemy, this, variants);
+        if ((gold = random(cardsFiltered(ally, enemy, {isGold}, AllyDeck), ally.rng)))
+            variants.push_back(gold);
+        if ((silver = random(cardsFiltered(ally, enemy, {isSilver}, AllyDeck), ally.rng)))
+            variants.push_back(silver);
+        startChoiceToTargetCard(ally, enemy, self, variants);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        if (target == _gold && _silver)
-            putToDeck(_silver, ally, enemy, DeckPosTop, this);
-        else if (target == _silver && _gold)
-            putToDeck(_gold, ally, enemy, DeckPosTop, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        Card *gold = self->stateAs<State>()->_gold;
+        Card *silver= self->stateAs<State>()->_silver;
+        if (target == gold && silver)
+            putToDeck(silver, ally, enemy, DeckPosTop, self);
+        else if (target == silver && gold)
+            putToDeck(gold, ally, enemy, DeckPosTop, self);
     };
 
+    return res;
 }
 
-WildHuntRider::WildHuntRider()
+Card *Cards::createWildHuntRider()
 {
-    id = "132310";
-    name = "Wild Hunt Rider";
-    text = "Increase the damage dealt by Biting Frost on the opposite row by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { WildHunt, Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.798.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.796.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.797.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWildHuntRider, this);
+
+    res->id = "132310";
+    res->power = res->powerBase = 10;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { WildHunt, Soldier };
 
     // NOTE: ability is implemented inside the weather trigger
+    return res;
 }
 
-VranWarrior::VranWarrior()
+Card *Cards::createVranWarrior()
 {
-    id = "132308";
-    name = "Vran Warrior";
-    text = "Consume the unit to the right and boost self by its power. Every 2 turns, repeat its ability on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Monster;
-    tags = { Draconid, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVranWarrior, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 2);
-        if (Card *card = cardNextTo(this, ally, enemy, 1))
-            boost(this, consume(card, ally, enemy, this), ally, enemy, this);
+    res->id = "132308";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Monster;
+    res->tags = { Draconid, Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 2);
+        if (Card *card = cardNextTo(self, ally, enemy, 1))
+            boost(self, consume(card, ally, enemy, self), ally, enemy, self);
     };
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (isOnBoard(this, ally) && tick(this, ally, enemy))
-            onDeploy(ally, enemy);
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally) && tick(self, ally, enemy))
+            self->onDeploy(ally, enemy);
     };
+    return res;
 }
 
-AnCraiteArmorsmith::AnCraiteArmorsmith()
+Card *Cards::createAnCraiteArmorsmith()
 {
-    id = "152317";
-    name = "An Craite Armorsmith";
-    text = "Heal 2 allies and give them 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Skellige;
-    tags = { ClanAnCraite, Support };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00422532.mp3",
-        "https://gwent.one/audio/card/ob/en/SAR1_VSET_00550731.mp3",
-        "https://gwent.one/audio/card/ob/en/SAR1_SHOP_00434397.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAnCraiteArmorsmith, this);
+
+    res->id = "152317";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Skellige;
+    res->tags = { ClanAnCraite, Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        heal(target, ally, enemy, self);
+        gainArmor(target, 3, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        heal(target, ally, enemy, this);
-        gainArmor(target, 3, ally, enemy, this);
-    };
+    return res;
 }
 
-Avalach::Avalach()
+Card *Cards::createAvalach()
 {
-    id = "132105";
-    name = "Avallac'h";
-    text = "Truce: Each player draws 2 cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Elf, Mage };
-    isDoomed = true;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAvalach, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "132105";
+    res->power = res->powerBase = 8;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Elf, Mage };
+    res->isDoomed = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
 
-        drawACard(ally, enemy,  this);
-        drawACard(enemy, ally,  this);
+        drawACard(ally, enemy,  self);
+        drawACard(enemy, ally,  self);
 
-        drawACard(ally, enemy,  this);
-        drawACard(enemy, ally,  this);
+        drawACard(ally, enemy,  self);
+        drawACard(enemy, ally,  self);
     };
+    return res;
 }
 
-AvalachSage::AvalachSage()
+Card *Cards::createAvalachSage()
 {
-    id = "112112";
-    name = "Avallac'h: Sage";
-    text = "Spawn a default copy of a random Gold or Silver unit from your opponent's starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Elf, Mage };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_01022646.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00454814.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00584753.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_AVALLACH_01040188.mp3",
-        "https://gwent.one/audio/card/ob/en/AVLC_Q311_00312745.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAvalachSage, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112112";
+    res->power = res->powerBase = 3;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Elf, Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = random(cardsFiltered(ally, enemy, {isSilverOrGold, isUnit}, EnemyDeckStarting), ally.rng))
-            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+            spawnNewCard(card->defaultCopy(), ally, enemy, self);
     };
+    return res;
 }
 
-RaghNarRoog::RaghNarRoog()
+Card *Cards::createRaghNarRoog()
 {
-    id = "113101";
-    name = "Ragh Nar Roog";
-    text = "Apply a Hazard to each enemy row that deals 2 damage to the Highest unit on turn start..";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Hazard, Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRaghNarRoog, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113101";
+    res->isSpecial = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Hazard, Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (int screenRow = 3; screenRow < 6; ++screenRow)
             applyRowEffect(ally, enemy, screenRow, RaghNarRoogEffect);
     };
+    return res;
 }
 
-GeraltProfessional::GeraltProfessional()
+Card *Cards::createGeraltProfessional()
 {
-    id = "201772";
-    name = "Geralt: Professional";
-    text = "Deal 4 damage to an enemy. If it's a Monster faction unit, destroy it instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeraltProfessional, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "201772";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (target->faction == Monster)
-            return putToDiscard(target, ally, enemy, this);
+            return putToDiscard(target, ally, enemy, self);
 
-        damage(target, 4, ally, enemy, this);
+        damage(target, 4, ally, enemy, self);
     };
+    return res;
 }
 
-GeraltAard::GeraltAard()
+Card *Cards::createGeraltAard()
 {
-    id = "112111";
-    name = "Geralt: Aard";
-    text = "Deal 3 damage to 3 enemies and move them to the row above.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeraltAard, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard, 3);
+    res->id = "112111";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard, 3);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!damage(target, 3, ally, enemy, this)) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, self)) {
             const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
             const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
             if (rowAbove != rowAndPos.row())
-                moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, this);
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, self);
         }
     };
+    return res;
 }
 
-GeraltYrden::GeraltYrden()
+Card *Cards::createGeraltYrden()
 {
-    id = "201523";
-    name = "Geralt: Yrden";
-    text = "Reset all units on a row and remove their statuses.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01129033.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.2.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.1.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.3.mp3",
-        "https://gwent.one/audio/card/ob/en/GRLT_GERALT_01054169.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGeraltYrden, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "201523";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
-            reset(card, ally, enemy, this);
-            removeAllStatuses(card, ally, enemy, this);
+            reset(card, ally, enemy, self);
+            removeAllStatuses(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
-CiriDash::CiriDash()
+Card *Cards::createCiriDash()
 {
-    id = "112110";
-    name = "Ciri: Dash";
-    text = "Whenever this unit is Discarded or destroyed, return it to your deck and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
-    };
-    power = powerBase = 11;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Cintra, Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCiriDash, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        onDiscard(ally, enemy);
+    res->id = "112110";
+    res->power = res->powerBase = 11;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Cintra, Witcher };
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        self->onDiscard(ally, enemy);
     };
 
-    _onDiscard = [=](Field &ally, Field &enemy) {
-        putToDeck(this, ally, enemy, DeckPosRandom, this);
-        strengthen(this, 3, ally, enemy, this);
+    res->_onDiscard = [](Card *self, Field &ally, Field &enemy) {
+        putToDeck(self, ally, enemy, DeckPosRandom, self);
+        strengthen(self, 3, ally, enemy, self);
     };
+    return res;
 }
 
-Aguara::Aguara()
+Card *Cards::createAguara()
 {
-    id = "200062";
-    name = "Aguara";
-    text = "Choose Two: Boost the Lowest ally by 5; Boost a random unit in your hand by 5; Deal 5 damage to the Highest enemy; Charm a random enemy Elf with 5 power or less.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.156.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.155.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.154.mp3",
-    };
-    power = powerBase = 5;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Relict, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAguara, this);
 
-    _onDeploy = [=](Field & ally, Field &enemy) {
-        auto *option1 = new Aguara::BoostLowest;
-        copyCardText(this, option1);
+    res->id = "200062";
+    res->power = res->powerBase = 5;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Relict, Cursed };
+
+    struct State : StateCopy<State> { std::vector<Card *> _optionsSelected; };
+    res->state = new State();
+
+    enum { BoostLowest, BoostInHand, DamageHighest, CharmElf };
+    res->_onDeploy = [](Card *self, Field & ally, Field &enemy) {
+        auto *option1 = createOption(self, BoostLowest);
         option1->text = "Boost the Lowest ally by 5.";
 
-        auto *option2 = new Aguara::BoostInHand;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, BoostInHand);
         option2->text = "Boost a random unit in your hand by 5.";
 
-        auto *option3 = new Aguara::DamageHighest;
-        copyCardText(this, option3);
+        auto *option3 = createOption(self, DamageHighest);
         option3->text = "Deal 5 damage to the Highest enemy.";
 
-        auto *option4 = new Aguara::CharmElf;
-        copyCardText(this, option4);
+        auto *option4 = createOption(self, CharmElf);
         option4->text = "Charm a random enemy Elf with 5 power or less.";
 
-        _optionsSelected.clear();
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3, option4}, 2);
+        self->stateAs<State>()->_optionsSelected.clear();
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3, option4}, 2);
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<Aguara::BoostLowest *>(target))
-            if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-                boost(card, 5, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, BoostLowest))
+            if (Card *self = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
+                boost(self, 5, ally, enemy, self);
 
-        if (dynamic_cast<Aguara::BoostInHand *>(target))
-            if (Card *card = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
-                boost(card, 5, ally, enemy, this);
+        if (isOption(target, BoostInHand))
+            if (Card *self = random(cardsFiltered(ally, enemy, {isUnit}, AllyHand), ally.rng))
+                boost(self, 5, ally, enemy, self);
 
-        if (dynamic_cast<Aguara::DamageHighest *>(target))
-            if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-                damage(card, 5, ally, enemy, this);
+        if (isOption(target, DamageHighest))
+            if (Card *self = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
+                damage(self, 5, ally, enemy, self);
 
-        if (dynamic_cast<Aguara::CharmElf *>(target))
-            if (Card *card = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
-                charm(card, ally, enemy, this);
+        if (isOption(target, CharmElf))
+            if (Card *self = random(cardsFiltered(ally, enemy, {hasTag(Elf), hasPowerXorLess(5)}, EnemyBoard), ally.rng))
+                charm(self, ally, enemy, self);
 
-        _optionsSelected.push_back(target);
+        std::vector<Card *> &optionsSelected = self->stateAs<State>()->_optionsSelected;
+        optionsSelected.push_back(target);
 
         /// after 2 choices done, delete selected options
-        if (_optionsSelected.size() == 2) {
-            delete _optionsSelected[0];
-            delete _optionsSelected[1];
-            _optionsSelected.clear();
+        if (optionsSelected.size() == 2) {
+            delete optionsSelected[0];
+            delete optionsSelected[1];
+            optionsSelected.clear();
         }
     };
+    return res;
 }
 
-AguaraTrueForm::AguaraTrueForm()
+Card *Cards::createAguaraTrueForm()
 {
-    id = "200056";
-    name = "Aguara: True Form";
-    text = "Create any Bronze or Silver Spell.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Relict, Cursed };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAguaraTrueForm, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Spell)});
+    res->id = "200056";
+    res->power = res->powerBase = 2;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Relict, Cursed };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Spell)});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-KorathiHeatwave::KorathiHeatwave()
+Card *Cards::createKorathiHeatwave()
 {
-    id = "200018";
-    name = "Korathi Heatwave";
-    text = "Apply a Hazard to each enemy row that deals 2 damage to the Lowest unit on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKorathiHeatwave, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200018";
+    res->isSpecial = true;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (int screenRow = 3; screenRow < 6; ++screenRow)
             applyRowEffect(ally, enemy, screenRow, KorathiHeatwaveEffect);
     };
 
+    return res;
 }
 
-AleOfTheAncestors::AleOfTheAncestors()
+Card *Cards::createAleOfTheAncestors()
 {
-    id = "200532";
-    name = "Ale of the Ancestors";
-    text = "Apply Golden Froth to the row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    rarity = Gold;
-    faction = Neutral;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAleOfTheAncestors, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        applyRowEffect(ally, enemy, 2 - int(_findRowAndPos(this, ally).row()), GoldenFrothEffect);
+    res->id = "200532";
+    res->power = res->powerBase = 10;
+    res->rarity = Gold;
+    res->faction = Neutral;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        applyRowEffect(ally, enemy, 2 - int(_findRowAndPos(self, ally).row()), GoldenFrothEffect);
     };
+    return res;
 }
 
-MahakamAle::MahakamAle()
+Card *Cards::createMahakamAle()
 {
-    id = "200519";
-    name = "Mahakam Ale";
-    text = "Boost a random ally on each row by 4.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Bronze;
-    faction = Neutral;
-    tags = { Alchemy };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamAle, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200519";
+    res->isSpecial = true;
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = random(ally.row(row), ally.rng))
-                boost(card, 4, ally, enemy, this);
+                boost(card, 4, ally, enemy, self);
     };
+    return res;
 }
 
-Odrin::Odrin()
+Card *Cards::createOdrin()
 {
-    id = "122213";
-    name = "Odrin";
-    text = "Move to a random row and boost all other allies on it by 1 on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0002.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_ODRI_200481_0002.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_ODRI_200546_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_ODRI_200559_0001.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Kaedwen, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOdrin, this);
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "122213";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Soldier };
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
-        if (!moveToRandomRow(this, ally, enemy, this))
+        if (!moveToRandomRow(self, ally, enemy, self))
             return;
-        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, this), otherThan(this)}, AllyBoard))
-            boost(card, 1, ally, enemy, this);
+        for (Card *card : cardsFiltered(ally, enemy, {isOnSameRow(&ally, self), otherThan(self)}, AllyBoard))
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Toruviel::Toruviel()
+Card *Cards::createToruviel()
 {
-    id = "142204";
-    name = "Toruviel";
-    text = "Ambush: When your opponent passes, flip over and boost 2 units on each side by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.775.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.777.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.776.mp3",
-    };
-    power = powerBase = 6;
-    isAmbush = true;
-    rarity = Silver;
-    faction = Scoiatael;
-    tags = { Elf, Officer };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createToruviel, this);
 
-    _onDeploy = [=](Field &, Field &) {
-        isAmbush = true;
+    res->id = "142204";
+    res->power = res->powerBase = 6;
+    res->isAmbush = true;
+    res->rarity = Silver;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Officer };
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isAmbush = true;
     };
 
-    _onOpponentPass = [=](Field &ally, Field &enemy) {
-        flipOver(this, ally, enemy);
+    res->_onOpponentPass = [](Card *self, Field &ally, Field &enemy) {
+        flipOver(self, ally, enemy);
 
         const std::vector<Card *> cardsToBoost {
-            cardNextTo(this, ally, enemy, -2),
-            cardNextTo(this, ally, enemy, -1),
-            cardNextTo(this, ally, enemy, 1),
-            cardNextTo(this, ally, enemy, 2),
+            cardNextTo(self, ally, enemy, -2),
+            cardNextTo(self, ally, enemy, -1),
+            cardNextTo(self, ally, enemy, 1),
+            cardNextTo(self, ally, enemy, 2),
         };
         for (Card *card : cardsToBoost)
             if (card != nullptr)
-                boost(card, 2, ally, enemy, this);
+                boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Ciri::Ciri()
+Card *Cards::createCiri()
 {
-    id = "112101";
-    name = "Ciri";
-    text = "Whenever you lose a round, return this unit to your hand. 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040512.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q310_00579530.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_CIRILLA_01040548.mp3",
-        "https://gwent.one/audio/card/ob/en/CIRI_Q111_00536478.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Cintra, Witcher };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCiri, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 2, ally, enemy, this);
+    res->id = "112101";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Cintra, Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
     };
+
+    // FIXME: lost second ability
+    return res;
 }
 
-Milva::Milva()
+Card *Cards::createMilva()
 {
-    id = "142104";
-    name = "Milva";
-    text = "Return each player's Highest Bronze or Silver unit to their deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.142.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.144.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.143.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Scoiatael;
-    tags = { Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMilva, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "142104";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Scoiatael;
+    res->tags = { Soldier };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, AllyBoard), ally.rng))
-            putToDeck(card, ally, enemy, DeckPosRandom, this);
+            putToDeck(card, ally, enemy, DeckPosRandom, self);
         if (Card *card = highest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, EnemyBoard), ally.rng))
-            putToDeck(card, enemy, ally, DeckPosRandom, this);
+            putToDeck(card, enemy, ally, DeckPosRandom, self);
     };
+    return res;
 }
 
 
-PrincessPavetta::PrincessPavetta()
+Card *Cards::createPrincessPavetta()
 {
-    id = "122210";
-    name = "Princess Pavetta";
-    text = "Return each player's Lowest Bronze or Silver unit to their deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.38.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.40.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.37.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.39.mp3",
-    };
-    power = powerBase = 3;
-    rarity = Silver;
-    faction = NothernRealms;
-    tags = { Cintra, Mage };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrincessPavetta, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "122210";
+    res->power = res->powerBase = 3;
+    res->rarity = Silver;
+    res->faction = NothernRealms;
+    res->tags = { Cintra, Mage };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, AllyBoard), ally.rng))
-            putToDeck(card, ally, enemy, DeckPosRandom, this);
+            putToDeck(card, ally, enemy, DeckPosRandom, self);
         if (Card *card = lowest(cardsFiltered(ally, enemy, {isBronzeOrSilver}, EnemyBoard), ally.rng))
-            putToDeck(card, enemy, ally, DeckPosRandom, this);
+            putToDeck(card, enemy, ally, DeckPosRandom, self);
     };
+    return res;
 }
 
-TheGuardian::TheGuardian()
+Card *Cards::createTheGuardian()
 {
-    id = "162401";
-    name = "The Guardian";
-    text = "Add a Lesser Guardian to the top of your opponent's deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.386.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.387.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.385.mp3",
-    };
-    power = powerBase = 11;
-    rarity = Silver;
-    faction = Nilfgaard;
-    tags = { Construct };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTheGuardian, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *guardian = new LesserGuardian();
-        addAsNew(enemy, guardian);
-        putToDeck(guardian, enemy, ally, DeckPosTop, this);
+    res->id = "162401";
+    res->power = res->powerBase = 11;
+    res->rarity = Silver;
+    res->faction = Nilfgaard;
+    res->tags = { Construct };
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        Card *card = createLesserGuardian();
+        addAsNew(enemy, card);
+        putToDeck(card, enemy, ally, DeckPosTop, self);
     };
+    return res;
 }
 
-TheGuardian::LesserGuardian::LesserGuardian()
+Card *Cards::createLesserGuardian()
 {
-    id = "162401";
-    name = "Lesser Guardian";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Bronze;
-    faction = Nilfgaard;
-    tags = { Construct };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLesserGuardian, this);
+
+    res->id = "162401";
+    res->power = res->powerBase = 6;
+    res->rarity = Bronze;
+    res->faction = Nilfgaard;
+    res->tags = { Construct };
+    return res;
 }
 
-GaunterODimm::GaunterODimm()
+Card *Cards::createGaunterODimm()
 {
-    id = "132215";
-    name = "Gaunter O'Dimm";
-    text = "Gamble with Gaunter: Guess the power of the card he's picked to play it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/MRRR_Q602_01116657.mp3",
-        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01108178.mp3",
-        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01132010.mp3",
-        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01108152.mp3",
-        "https://gwent.one/audio/card/ob/en/MRRR_Q605_01110505.mp3",
-    };
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGaunterODimm, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        _picked = random(allCards(patch), ally.rng);
+    res->id = "132215";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Relict };
 
-        auto *option1 = new GaunterODimm::Less6;
-        copyCardText(this, option1);
-        option1->text = "Picked card power is less than 6.";
+    struct State : StateCopy<State> { Card *_picked = nullptr; };
+    res->state = new State();
 
-        auto *option2 = new GaunterODimm::Equal6;
-        copyCardText(this, option2);
-        option2->text = "Picked card power is 6.";
+    enum { Less6, Equal6, More6 };
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_picked = random(createAll(), ally.rng);
 
-        auto *option3 = new GaunterODimm::More6;
-        copyCardText(this, option3);
-        option3->text = "Picked card power is more than 6.";
+        auto *option1 = createOption(self, Less6);
+        option1->text = "Picked self power is less than 6.";
 
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3});
+        auto *option2 = createOption(self, Equal6);
+        option2->text = "Picked self power is 6.";
+
+        auto *option3 = createOption(self, More6);
+        option3->text = "Picked self power is more than 6.";
+
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_picked = self->stateAs<State>()->_picked;
         const bool guessed =
-                (dynamic_cast<GaunterODimm::Less6 *>(target) && (_picked->power < 6))
-                || (dynamic_cast<GaunterODimm::Equal6 *>(target) && (_picked->power == 6))
-                || (dynamic_cast<GaunterODimm::More6 *>(target) && (_picked->power > 6));
+                (isOption(target, Less6) && (_picked->power < 6))
+                || (isOption(target, Equal6) && (_picked->power == 6))
+                || (isOption(target, More6) && (_picked->power > 6));
         delete target;
         if (!guessed) {
             _picked = nullptr;
             return;
         }
-        spawnNewCard(_picked, ally, enemy, this);
+        spawnNewCard(_picked, ally, enemy, self);
         _picked = nullptr;
     };
+    return res;
 }
 
-KaedweniSergeant::KaedweniSergeant()
+Card *Cards::createKaedweniSergeant()
 {
-    id = "122214";
-    name = "Kaedweni Sergeant";
-    text = "Clear Hazards from its row. 3 Armor. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.46.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.47.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.48.mp3",
-    };
-    power = powerBase = 9;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Kaedwen };
-    isCrew = true;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKaedweniSergeant, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        gainArmor(this, 3, ally, enemy, this);
-        clearHazardsFromItsRow(this, ally);
+    res->id = "122214";
+    res->power = res->powerBase = 9;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen };
+    res->isCrew = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 3, ally, enemy, self);
+        clearHazardsFromItsRow(self, ally);
     };
+    return res;
 }
 
-ReinforcedBallista::ReinforcedBallista()
+Card *Cards::createReinforcedBallista()
 {
-    id = "122302";
-    name = "Reinforced Ballista";
-    text = "Deal 2 damage to an enemy. Crewed: Repeat its ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Machine };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReinforcedBallista, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        int n = 1 + nCrewed(this, ally);
+    res->id = "122302";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Machine };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        int n = 1 + nCrewed(self, ally);
         while (n--)
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-SigismundDijkstra::SigismundDijkstra()
+Card *Cards::createSigismundDijkstra()
 {
-    id = "122105";
-    name = "Sigismund Dijkstra";
-    text = "Spying. Play the top 2 cards from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00486613.mp3",
-        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00378559.mp3",
-        "https://gwent.one/audio/card/ob/en/DJKS_MQ3035_01067766.mp3",
-        "https://gwent.one/audio/card/ob/en/DJKS_Q303_00417640.mp3",
-    };
-    isLoyal = false;
-    power = powerBase = 4;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Redania };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSigismundDijkstra, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        // FIXME: 2 deikstras ni a row won't work correctly!
-        // or any other combo, when 1st Dijkstra card
-        // drawing card or interacts with a deck
-        for (Card *card : firsts(ally.deck, 2))
-            playExistedCard(card, ally, enemy, this);
+    res->id = "122105";
+    res->isLoyal = false;
+    res->power = res->powerBase = 4;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Redania };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *self : firsts(ally.deck, 2))
+            playExistedCard(self, ally, enemy, self);
     };
+    return res;
 }
 
-WhiteFrost::WhiteFrost()
+Card *Cards::createWhiteFrost()
 {
-    id = "113206";
-    name = "White Frost";
-    text = "Apply Biting Frost to 2 adjacent enemy rows.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Hazard };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWhiteFrost, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "113206";
+    res->isSpecial = true;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Hazard };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (int _screenRow = std::max(3, screenRow - 1); _screenRow <= screenRow; ++_screenRow)
             applyRowEffect(ally, enemy, _screenRow, BitingFrostEffect);
     };
+    return res;
 }
 
 
-Wolfsbane::Wolfsbane()
+Card *Cards::createWolfsbane()
 {
-    id = "200226";
-    name = "Wolfsbane";
-    text = "After 3 turns in the graveyard, deal 6 damage to the Highest enemy and boost the Lowest ally by 6 on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Organic, Alchemy };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWolfsbane, this);
 
-    _onDiscard = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 3);
+    res->id = "200226";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Organic, Alchemy };
+
+    res->_onDiscard = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 3);
     };
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isIn(this, ally.discard))
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isIn(self, ally.discard))
             return;
-        if (!tick(this, ally, enemy))
+        if (!tick(self, ally, enemy))
             return;
         if (Card *card = highest(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng))
-            damage(card, 6, ally, enemy, this);
+            damage(card, 6, ally, enemy, self);
         if (Card *card = lowest(cardsFiltered(ally, enemy, {}, AllyBoard), ally.rng))
-            boost(card, 6, ally, enemy, this);
+            boost(card, 6, ally, enemy, self);
     };
+    return res;
 }
 
-DunBanner::DunBanner()
+Card *Cards::createDunBanner()
 {
-    id = "122313";
-    name = "Dun Banner";
-    text = "If you are losing by more than 25 on turn start, Summon this unit to a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    rarity = Bronze;
-    faction = NothernRealms;
-    tags = { Kaedwen, Soldier };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0012.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_KG06_200420_0005.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_KG06_202931_0005.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDunBanner, this);
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isIn(this, ally.deck))
+    res->id = "122313";
+    res->power = res->powerBase = 4;
+    res->rarity = Bronze;
+    res->faction = NothernRealms;
+    res->tags = { Kaedwen, Soldier };
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isIn(self, ally.deck))
             return;
         const int scoreDiff = powerField(enemy) - powerField(ally);
         if (scoreDiff <= 25)
             return;
-        for (Card *card : cardsFiltered(ally, enemy, {isCopy<DunBanner>}, AllyDeck))
-           moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
+        for (Card *card : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck))
+            moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-Aelirenn::Aelirenn()
+Card *Cards::createAelirenn()
 {
-    id = "142211";
-    name = "Aelirenn";
-    text = "If 5 Elf allies are on the board on any turn end, Summon this unit to a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Silver;
-    faction = Scoiatael;
-    tags = { Elf, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.183.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.184.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.185.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAelirenn, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isIn(this, ally.deck))
+    res->id = "142211";
+    res->power = res->powerBase = 6;
+    res->rarity = Silver;
+    res->faction = Scoiatael;
+    res->tags = { Elf, Officer };
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isIn(self, ally.deck))
             return;
         const int nElfs = int(cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size());
         if (nElfs < 5)
             return;
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-HanmarvynsDream::HanmarvynsDream()
+Card *Cards::createHanmarvynsDream()
 {
-    id = "200079";
-    name = "HanmarvynsDream";
-    text = "Spawn a default copy of a non-Leader Gold unit from your opponent's graveyard and boost it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHanmarvynsDream, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit, hasNoTag(Leader)}, EnemyDiscard);
+    res->id = "200079";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isGold, isUnit, hasNoTag(Leader)}, EnemyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *copy = target->defaultCopy();
-        spawnNewCard(copy, ally, enemy, this);
-        boost(copy, 2, ally, enemy, this);
+        spawnNewCard(copy, ally, enemy, self);
+        boost(copy, 2, ally, enemy, self);
     };
+    return res;
 }
 
-BlackBlood::BlackBlood()
+Card *Cards::createBlackBlood()
 {
-    id = "201697";
-    name = "Black Blood";
-    text = "Choose One: Create a Bronze Necrophage or Vampire and boost it by 2; or Destroy a Bronze or Silver Necrophage or Vampire.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlackBlood, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new BlackBlood::Create;
-        copyCardText(this, option1);
+    res->id = "201697";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+    res->state = new StateChoosen();
+
+    enum { Create, Destroy };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
         option1->text = "Create a Bronze Necrophage or Vampire and boost it by 2";
 
-        auto *option2 = new BlackBlood::Destroy;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Destroy);
         option2->text = "Destroy a Bronze or Silver Necrophage or Vampire.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!_choosen && dynamic_cast<BlackBlood::Create *>(target)) {
-            _choosen = target;
-            startChoiceCreateOptions(ally, enemy, this, {isBronze, hasAnyOfTags({Necrophage, Vampire})});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            startChoiceCreateOptions(ally, enemy, self, {isBronze, hasAnyOfTags({Necrophage, Vampire})});
             return;
         }
 
-        if (!_choosen && dynamic_cast<BlackBlood::Destroy *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Necrophage, Vampire})}, AnyBoard);
+        if (!choosen && isOption(target, Destroy)) {
+            choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({Necrophage, Vampire})}, AnyBoard);
             return;
         }
 
-        if (dynamic_cast<BlackBlood::Create *>(_choosen)) {
-            boost(target, 2, ally, enemy, this);
-            spawnNewCard(target, ally, enemy, this);
+        if (isOption(choosen, Create)) {
+            boost(target, 2, ally, enemy, self);
+            spawnNewCard(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(dynamic_cast<BlackBlood::Destroy *>(_choosen));
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!isOption(choosen, Destroy))
+            throw Error(Error::Assert, self);
 
-        putToDiscard(target, ally, enemy, this);
+        putToDiscard(target, ally, enemy, self);
 
-        delete _choosen;
-        _choosen = nullptr;
+        delete choosen;
+        choosen = nullptr;
     };
+    return res;
 }
 
-BekkersRockslide::BekkersRockslide()
+Card *Cards::createBekkersRockslide()
 {
-    id = "201634";
-    name = "Bekker's Rockslide";
-    text = "Deal 2 damage to 10 random enemies.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBekkersRockslide, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        for (Card * card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 10, ally.rng))
-             damage(card, 2, ally, enemy, this);
+    res->id = "201634";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 10, ally.rng))
+            damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-BekkersDarkMirror::BekkersDarkMirror()
+Card *Cards::createBekkersDarkMirror()
 {
-    id = "113315";
-    name = "Bekker's Dark Mirror";
-    text = "Transfer up to 10 power between the Highest and Lowest unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBekkersDarkMirror, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113315";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         Card *high = highest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
-        Card *low = lowest(cardsFiltered(ally, enemy, {}, AnyBoard), ally.rng);
-        if (/*highest == nullptr ||*/ high == low)
+        Card *low = lowest(cardsFiltered(ally, enemy, {otherThan(high)}, AnyBoard), ally.rng);
+        if (high == low)
             return;
         int transPower = std::min(10, high->power - low->power);
-        setPower(high, high->power - transPower, ally, enemy, this);
-        setPower(low, low->power + transPower, ally, enemy, this);
+        setPower(high, high->power - transPower, ally, enemy, self);
+        setPower(low, low->power + transPower, ally, enemy, self);
     };
+    return res;
 }
 
-MerigoldsHailstorm::MerigoldsHailstorm()
+Card *Cards::createMerigoldsHailstorm()
 {
-    id = "113202";
-    name = "Merigold's Hailstorm";
-    text = "Halve the power of all Bronze and Silver units on a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMerigoldsHailstorm, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "113202";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             if (isBronzeOrSilver(card))
-                setPower(card, card->power - half(card->power), ally, enemy, this);
+                setPower(card, card->power - half(card->power), ally, enemy, self);
         }
     };
+    return res;
 }
 
-Necromancy::Necromancy()
+Card *Cards::createNecromancy()
 {
-    id = "200020";
-    name = "Necromancy";
-    text = "Banish a Bronze or Silver unit from either graveyard, then boost an ally by its power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNecromancy, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, BothDiscard);
+    res->id = "200020";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    struct State : StateCopy<State> { int transPower = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, BothDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if(isOnBoard(target, ally)) {
-            boost(target, transPower, ally, enemy, this);
+            boost(target, self->stateAs<State>()->transPower, ally, enemy, self);
             return;
         }
-        transPower = target->power;
-        banish(target, ally, enemy, this);
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+        self->stateAs<State>()->transPower = target->power;
+        banish(target, ally, enemy, self);
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
+    return res;
 }
 
-StammelfordsTremor::StammelfordsTremor()
+Card *Cards::createStammelfordsTremor()
 {
-    id = "113204";
-    name = "Stammelford's Tremor";
-    text = "Deal 1 damage to all enemies.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStammelfordsTremor, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "113204";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-ExpiredAle::ExpiredAle()
+Card *Cards::createExpiredAle()
 {
-    id = "200530";
-    name = "Expired Ale";
-    text = "Deal 6 damage to the Highest enemy on each row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createExpiredAle, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200530";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = highest(enemy.row(row), enemy.rng))
-                damage(card, 6, ally, enemy, this);
+                damage(card, 6, ally, enemy, self);
     };
+    return res;
 }
 
-TrialOfTheGrasses::TrialOfTheGrasses()
+Card *Cards::createTrialOfTheGrasses()
 {
-    id = "200078";
-    name = "Trial of the Grasses";
-    text = "Boost a Witcher to 25 power; or Deal 10 damage to a non-Witcher unit. If it survives, boost it to 25 power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrialOfTheGrasses, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->id = "200078";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, this)) && target->power < 25)
-            setPower(target, 25, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if ((hasTag(target, Witcher) || !damage(target, 10, ally, enemy, self)) && target->power < 25)
+            setPower(target, 25, ally, enemy, self);
     };
+    return res;
 }
 
-DimeritiumBomb::DimeritiumBomb()
+Card *Cards::createDimeritiumBomb()
 {
-    id = "113205";
-    name = "Dimeritium Bomb";
-    text = "Reset all boosted units on a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimeritiumBomb, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "113205";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow)) {
             if (isBoosted(card))
-                reset(card, ally, enemy, this);
+                reset(card, ally, enemy, self);
         }
     };
+    return res;
 }
 
-Garrison::Garrison()
+Card *Cards::createGarrison()
 {
-    id = "201639";
-    name = "Garrison";
-    text = "Create a Bronze or Silver unit from your opponent's starting deck and boost it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createGarrison, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        // TODO: imitating of an ability
-        // NOTE: the same ability in TrissTelekinesis
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, EnemyDeckStarting), 3, ally.rng));
-        // NOTE: if smt increases this 3, it will be a magic number
+    res->id = "201639";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isUnit}, EnemyDeckStarting);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *copy = target->defaultCopy();
-        boost(copy, 2, ally, enemy, this);
-        spawnNewCard(copy, ally, enemy, this);
+        boost(copy, 2, ally, enemy, self);
+        spawnNewCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
-TheLastWish::TheLastWish()
+Card *Cards::createTheLastWish()
 {
-    id = "113102";
-    name = "The Last Wish";
-    text = "Look at 2 random cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTheLastWish, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    res->id = "113102";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-DimeritiumShackles::DimeritiumShackles()
+Card *Cards::createDimeritiumShackles()
 {
-    id = "113319";
-    name = "Dimeritium Shackles";
-    text = "Toggle a unit's Lock status. If an enemy, deal 4 damage to it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDimeritiumShackles, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->id = "113319";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        toggleLock(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
         if (isOnBoard(target, enemy))
-            damage(target, 4, ally, enemy, this);
+            damage(target, 4, ally, enemy, self);
     };
+    return res;
 }
 
-WyvernScaleShield::WyvernScaleShield()
+Card *Cards::createWyvernScaleShield()
 {
-    id = "133301";
-    name = "Wyvern Scale Shield";
-    text = "Boost a unit by the base power of a Bronze or Silver unit in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWyvernScaleShield, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "133301";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    struct State : StateCopy<State> { int _boostAmount = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
             return;
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
-        _boostAmount = 0;
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
+        self->stateAs<State>()->_boostAmount = 0;
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        if (_boostAmount <= 0) {
-            _boostAmount = target->powerBase;
-            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &boostAmount = self->stateAs<State>()->_boostAmount;
+        if (boostAmount <= 0) {
+            boostAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
             return;
         }
-        boost(target, _boostAmount, ally, enemy, this);
-        _boostAmount = 0;
+        boost(target, boostAmount, ally, enemy, self);
+        boostAmount = 0;
     };
+    return res;
 }
 
-MastercraftedSpear::MastercraftedSpear()
+Card *Cards::createMastercraftedSpear()
 {
-    id = "201656";
-    name = "Mastercrafted Spear";
-    text = "Deal damage equal to the base power of a Bronze or Silver unit in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMastercraftedSpear, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "201656";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    struct State : StateCopy<State> { int _damageAmount = 0; };
+    res->state = new State();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         if (cardsFiltered(ally, enemy, {}, AnyBoard).size() == 0)
             return;
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyHand);
-        _damageAmount = 0;
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyHand);
+        self->stateAs<State>()->_damageAmount = 0;
     };
 
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        if (_damageAmount <= 0) {
-            _damageAmount = target->powerBase;
-            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &damageAmount = self->stateAs<State>()->_damageAmount;
+        if (damageAmount <= 0) {
+            damageAmount = target->powerBase;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
             return;
         }
-        damage(target, _damageAmount, ally, enemy, this);
-        _damageAmount = 0;
+        damage(target, damageAmount, ally, enemy, self);
+        damageAmount = 0;
     };
+    return res;
 }
 
-PetrisPhilter::PetrisPhilter()
+Card *Cards::createPetrisPhilter()
 {
-    id = "200008";
-    name = "Petri's Philter";
-    text = "Boost 6 random allies by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPetrisPhilter, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200008";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyBoard), 6, ally.rng))
-            boost(card, 2, ally, enemy, this);
+            boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Shrike::Shrike()
+Card *Cards::createShrike()
 {
-    id = "200009";
-    name = "Shrike";
-    text = "Deal 2 damage to 6 random enemies.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShrike, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "200009";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 6, ally.rng))
-            damage(card, 2, ally, enemy, this);
+            damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-RoyalDecree::RoyalDecree()
+Card *Cards::createRoyalDecree()
 {
-    id = "200154";
-    name = "Royal Decree";
-    text = "Play a Gold unit from your deck and boost it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Tactics };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRoyalDecree, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isGold, isUnit}, AllyDeck);
+    res->id = "200154";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Tactics };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isGold, isUnit}, AllyDeck);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 2, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-UmasCurse::UmasCurse()
+Card *Cards::createUmasCurse()
 {
-    id = "200058";
-    name = "Uma's Curse";
-    text = "Create any non-Leader Gold unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Spell };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUmasCurse, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isGold, isUnit, hasNoTag(Leader)});
+    res->id = "200058";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Spell };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isGold, isUnit, hasNoTag(Leader)});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Lacerate::Lacerate()
+Card *Cards::createLacerate()
 {
-    id = "153301";
-    name = "Lacerate";
-    text = "Deal 3 damage to all units on a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLacerate, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "153301";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow))
-            damage(card, 3, ally, enemy, this);
+            damage(card, 3, ally, enemy, self);
     };
+    return res;
 }
 
-CrowsEye::CrowsEye()
+Card *Cards::createCrowsEye()
 {
-    id = "200224";
-    name = "Crow's Eye";
-    text = "Deal 4 damage to the Highest enemy on each row. Deal 1 extra damage for each copy of this card in your graveyard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCrowsEye, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        const int extraDamage = int(cardsFiltered(ally, enemy, {isCopy<CrowsEye>}, AllyDiscard).size());
+    res->id = "200224";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        const int extraDamage = int(cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDiscard).size());
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = highest(enemy.row(row), enemy.rng))
-                damage(card, 4 + extraDamage, ally, enemy, this);
+                damage(card, 4 + extraDamage, ally, enemy, self);
     };
+    return res;
 }
 
-Doppler::Doppler()
+Card *Cards::createDoppler()
 {
-    id = "201631";
-    name = "Doppler";
-    text = "Spawn a random Bronze unit from your faction.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDoppler, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "201631";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+
+    res->_onPlaySpecial = [=](Card *self, Field &ally, Field &enemy) {
         const int currentFaction = ally.leader ? ally.leader->faction : Neutral;
-        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, allCards(this->patch)), ally.rng)->defaultCopy();
-        spawnNewCard(card, ally, enemy, this);
+        Card *card = random(_filtered({isFaction(currentFaction), isBronze, isUnit}, createAll()), ally.rng)->defaultCopy();
+        spawnNewCard(card, ally, enemy, self);
     };
+    return res;
 }
 
-Spores::Spores()
+Card *Cards::createSpores()
 {
-    id = "201744";
-    name = "Spores";
-    text = "Deal 2 damage to all units on a row and clear a Boon from it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpores, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "201744";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Organic };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for (Card *card : cardsInRow(ally, enemy, screenRow))
-            damage(card, 2, ally, enemy, this);
+            damage(card, 2, ally, enemy, self);
         if (rowEffectInSreenRow(ally, enemy, screenRow) > 9)
             applyRowEffect(ally, enemy, screenRow, NoRowEffect);
     };
+    return res;
 }
 
-Mardroeme::Mardroeme()
+Card *Cards::createMardroeme()
 {
-    id = "113320";
-    name = "Mardroeme";
-    text = "Choose One: Reset a unit and Strengthen it by 3; or Reset a unit and Weaken it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Bronze;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Organic };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMardroeme, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Mardroeme::Strengthen;
-        copyCardText(this, option1);
+    res->id = "113320";
+    res->rarity = Bronze;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Organic };
+    res->state = new StateChoosen();
+
+    enum { Strengthen, Weaken };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Strengthen);
         option1->text = "Reset a unit and Strengthen it by 3.";
 
-        auto *option2 = new Mardroeme::Weaken;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Weaken);
         option2->text = "Reset a unit and Weaken it by 3.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        _choosen = target;
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        self->stateAs<StateChoosen>()->_choosen = target;
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        reset(target, ally, enemy, this);
-        if (dynamic_cast<Mardroeme::Strengthen *>(_choosen))
-            strengthen(target, 3, ally, enemy, this);
+        reset(target, ally, enemy, self);
+        if (isOption(choosen, Strengthen))
+            strengthen(target, 3, ally, enemy, self);
 
-        if (dynamic_cast<Mardroeme::Weaken *>(_choosen))
-            weaken(target, 3, ally, enemy, this);
+        if (isOption(choosen, Weaken))
+            weaken(target, 3, ally, enemy, self);
 
-        delete _choosen;
-        _choosen = nullptr;
+        delete choosen;
+        choosen = nullptr;
     };
+    return res;
 }
 
-Sihil::Sihil()
+Card *Cards::createSihil()
 {
-    id = "201632";
-    name = "Sihil";
-    text = "Choose One: Deal 3 damage to all enemies with odd power; or Deal 3 damage to all enemies with even power; or Play a random Bronze or Silver unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Gold;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSihil, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Sihil::DamageOdd;
-        copyCardText(this, option1);
+    res->id = "201632";
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Item };
+
+    enum { DamageOdd, DamageEven, PlayFromDeck };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, DamageOdd);
         option1->text = "Deal 3 damage to all enemies with odd power.";
 
-        auto *option2 = new Sihil::DamageEven;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, DamageEven);
         option2->text = "Deal 3 damage to all enemies with even power.";
 
-        auto *option3 = new Sihil::PlayFromDeck;
-        copyCardText(this, option3);
+        auto *option3 = createOption(self, PlayFromDeck);
         option3->text = "Play a random Bronze or Silver unit from your deck.";
 
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2, option3});
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2, option3});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (dynamic_cast<Sihil::DamageOdd *>(target)) {
-            for (Card *card : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
-                damage(card, 3, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOption(target, DamageOdd)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasOddPower}, EnemyBoard))
+                damage(self, 3, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<Sihil::DamageEven *>(target)) {
-            for (Card *card : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
-                damage(card, 3, ally, enemy, this);
+        if (isOption(target, DamageEven)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasEvenPower}, EnemyBoard))
+                damage(self, 3, ally, enemy, self);
             return;
         }
 
-        if (dynamic_cast<Sihil::PlayFromDeck *>(target)) {
-            if (Card *card = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
-                playExistedCard(card, ally, enemy, this);
+        if (isOption(target, PlayFromDeck)) {
+            if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit}, AllyDeck), ally.rng))
+                playExistedCard(self, ally, enemy, self);
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-DragonsDream::DragonsDream()
+Card *Cards::createDragonsDream()
 {
-    id = "201637";
-    name = "Dragon's Dream";
-    text = "Apply a Hazard to an enemy row that will explode and deal 4 damage to all units when a different special card is played.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    rarity = Silver;
-    faction = Neutral;
-    isSpecial = true;
-    tags = { Alchemy, Item };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDragonsDream, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {3, 4, 5});
+    res->id = "201637";
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->isSpecial = true;
+    res->tags = { Alchemy, Item };
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {3, 4, 5});
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, DragonsDreamEffect);
     };
+    return res;
 }
 
-EskelPathfinder::EskelPathfinder()
+Card *Cards::createEskelPathfinder()
 {
-    id = "200236";
-    name = "Eskel: Pathfinder";
-    text = "Destroy a Bronze or Silver enemy that is not boosted.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Witcher };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.23.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.21.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.22.mp3",
-        "https://gwent.one/audio/card/ob/en/ESKL_ESKEL_01037262.mp3"
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEskelPathfinder, this);
+
+    res->id = "200236";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Witcher };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isNotBoosted}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-VesemirMentor::VesemirMentor()
+Card *Cards::createVesemirMentor()
 {
-    id = "200237";
-    name = "Vesemir: Mentor";
-    text = "Play a Bronze or Silver Alchemy card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01040765.mp3",
-        "https://gwent.one/audio/card/ob/en/VSMR_VESEMIR_01000012.mp3",
-        "https://gwent.one/audio/card/ob/en/VSMR_Q001_00546725.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVesemirMentor, this);
+
+    res->id = "200237";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AllyDeckShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-LambertSwordmaster::LambertSwordmaster()
+Card *Cards::createLambertSwordmaster()
 {
-    id = "200235";
-    name = "Lambert";
-    text = "Deal 4 damage to all copies of an enemy unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 8;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00523875.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_SQ106_00586496.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_01058899.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00572964.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q401_00531130.mp3",
-        "https://gwent.one/audio/card/ob/en/LMBT_Q403_00550012.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createLambertSwordmaster, this);
+
+    res->id = "200235";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        for (Card *copy : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
+            damage(copy, 4, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        for (Card *card : findCopies(target, cardsFiltered(ally, enemy, {}, EnemyBoard)))
-            damage(card, 4, ally, enemy, this);
-    };
+    return res;
 }
 
-RegisHigherVampire::RegisHigherVampire()
+Card *Cards::createRegisHigherVampire()
 {
-    id = "112105";
-    name = "Regis: Higher Vampire";
-    text = "Look at 3 Bronze units from your opponent's deck. Consume 1, then boost self by its base power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/katakan_taunt_short_003.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRegisHigherVampire, this);
+
+    res->id = "112105";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, isUnit}, EnemyDeck), 3, ally.rng));
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, consume(target, ally, enemy, self), ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(this, consume(target, ally, enemy, this), ally, enemy, this);
-    };
+    return res;
 }
 
-ZoltanScoundrel::ZoltanScoundrel()
+Card *Cards::createZoltanScoundrel()
 {
-    id = "112109";
-    name = "Zoltan: Scoundrel";
-    text = "Choose One: Spawn a Duda: Companion that boosts 2 units on each side of it by 2; or Spawn a Duda: Agitator that deals 2 damage to 2 units on each side of it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Dwarf };
-    power = powerBase = 8;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_Q403_00575678.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040657.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createZoltanScoundrel, this);
+
+    res->id = "112109";
+    res->tags = { Dwarf };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createDudaCompanion(), createDudaAgitator()});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new DudaCompanion(), new DudaAgitator()});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-ZoltanScoundrel::DudaCompanion::DudaCompanion()
+Card *Cards::createDudaCompanion()
 {
-    id = "112403";
-    name = "Duda: Companion";
-    text = "Boost 2 units on each side of this unit by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudaCompanion, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112403";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const std::vector<Card *> cardsToBoost {
-            cardNextTo(this, ally, enemy, -2),
-            cardNextTo(this, ally, enemy, -1),
-            cardNextTo(this, ally, enemy, 1),
-            cardNextTo(this, ally, enemy, 2),
+            cardNextTo(self, ally, enemy, -2),
+            cardNextTo(self, ally, enemy, -1),
+            cardNextTo(self, ally, enemy, 1),
+            cardNextTo(self, ally, enemy, 2),
         };
         for (Card *card : cardsToBoost)
             if (card != nullptr)
-                boost(card, 2, ally, enemy, this);
+                boost(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-ZoltanScoundrel::DudaAgitator::DudaAgitator()
+Card *Cards::createDudaAgitator()
 {
-    id = "112404";
-    name = "Duda: Agitator";
-    text = "Deal 2 damage to 2 units on each side of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    isDoomed = true;
-    isLoyal = false;
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudaAgitator, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112404";
+    res->tags = { Beast };
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const std::vector<Card *> cardsToDamage {
-            cardNextTo(this, ally, enemy, -2),
-            cardNextTo(this, ally, enemy, -1),
-            cardNextTo(this, ally, enemy, 1),
-            cardNextTo(this, ally, enemy, 2),
+            cardNextTo(self, ally, enemy, -2),
+            cardNextTo(self, ally, enemy, -1),
+            cardNextTo(self, ally, enemy, 1),
+            cardNextTo(self, ally, enemy, 2),
         };
         for (Card *card : cardsToDamage)
             if (card != nullptr)
-                damage(card, 2, ally, enemy, this);
+                damage(card, 2, ally, enemy, self);
     };
+    return res;
 }
 
-YenneferConjurer::YenneferConjurer()
+Card *Cards::createYenneferConjurer()
 {
-    id = "112113";
-    name = "Yennefer: Conjurer";
-    text = "Deal 1 damage to the Highest enemies on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Aedirn };
-    power = powerBase = 10;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYenneferConjurer, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "112113";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
         for (Card *card : highests(cardsFiltered(ally, enemy, {}, EnemyBoard)))
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-TrissMerigold::TrissMerigold()
+Card *Cards::createTrissMerigold()
 {
-    id = "112106";
-    name = "Triss Merigold";
-    text = "Deal 5 damage.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Temeria };
-    power = powerBase = 10;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
-        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrissMerigold, this);
+
+    res->id = "112106";
+    res->tags = { Mage, Temeria };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
-    };
+    return res;
 }
 
-TrissTelekinesis::TrissTelekinesis()
+Card *Cards::createTrissTelekinesis()
 {
-    id = "201773";
-    name = "Triss: Telekinesis";
-    text = "Create a Bronze special card from either player's starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Temeria };
-    power = powerBase = 6;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
-        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrissTelekinesis, this);
+
+    res->id = "201773";
+    res->tags = { Mage, Temeria };
+    res->power = res->powerBase = 6;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronze, ::isSpecial}, BothDeckStarting);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        // TODO: implenemt an ability
-        // NOTE: the same ability in Garrison
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze}, BothDeckStarting), 3, ally.rng));
-        // NOTE: if smt increases this 3, it will be a magic number
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         Card *copy = target->defaultCopy();
-        spawnNewCard(copy, ally, enemy, this);
+        spawnNewCard(copy, ally, enemy, self);
     };
+    return res;
 }
 
-DorregarayOfVole::DorregarayOfVole()
+Card *Cards::createDorregarayOfVole()
 {
-    id = "200087";
-    name = "Dorregaray of Vole";
-    text = "Create any Bronze or Silver Beast or Draconid.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage };
-    power = powerBase = 1;
-    faction = Neutral;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_104122_2446.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.17.mp3",
-        "https://gwent.one/audio/card/ob/en/TRSS_Q310_00545347.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.18.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.19.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TRIS_100285_0008.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDorregarayOfVole, this);
+
+    res->id = "200087";
+    res->tags = { Mage };
+    res->power = res->powerBase = 1;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasAnyOfTags({Beast, Draconid})});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-DandelionVainglory::DandelionVainglory()
+Card *Cards::createDandelionVainglory()
 {
-    id = "201774";
-    name = "Dandelion: Vainglory";
-    text = "Boost self by 3 for each Geralt, Yennefer, Triss and Zoltan card in your starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
-    };
-    power = powerBase = 9;
-    rarity = Gold;
-    faction = Neutral;
-    tags = { Support };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDandelionVainglory, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201774";
+    res->power = res->powerBase = 9;
+    res->rarity = Gold;
+    res->faction = Neutral;
+    res->tags = { Support };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const auto isFellow = [](Card *card) {
-            return isCopy<GeraltAard>(card)
-                    || isCopy<GeraltIgni>(card)
-                    || isCopy<GeraltYrden>(card)
-                    || isCopy<GeraltOfRivia>(card)
-                    || isCopy<GeraltProfessional>(card)
-                    || isCopy<Yennefer>(card)
-                    || isCopy<YenneferConjurer>(card)
-                    || isCopy<YenneferEnchantress>(card)
-                    || isCopy<YenneferNecromancer>(card)
-                    || isCopy<TrissMerigold>(card)
-                    || isCopy<TrissButterflies>(card)
-                    || isCopy<TrissTelekinesis>(card)
-                    || isCopy<ZoltanChivay>(card)
-                    || isCopy<ZoltanScoundrel>(card);
+            /// NOTE: GeraltAard
+            return isCopy("112111")(card)
+                    /// NOTE: GeraltIgni
+                    || isCopy("112102")(card)
+                    /// NOTE: GeraltYrden
+                    || isCopy("201523")(card)
+                    /// NOTE: GeraltOfRivia
+                    || isCopy("112103")(card)
+                    /// NOTE: GeraltProfessional
+                    || isCopy("201772")(card)
+                    /// NOTE: Yennefer
+                    || isCopy("112108")(card)
+                    /// NOTE: YenneferConjurer
+                    || isCopy("112113")(card)
+                    /// NOTE: YenneferEnchantress
+                    || isCopy("201601")(card)
+                    /// NOTE: YenneferNecromancer
+                    || isCopy("201780")(card)
+                    /// NOTE: TrissMerigold
+                    || isCopy("112106")(card)
+                    /// NOTE: TrissButterflies
+                    || isCopy("122107")(card)
+                    /// NOTE: TrissTelekinesis
+                    || isCopy("201773")(card)
+                    /// NOTE: ZoltanChivay
+                    || isCopy("142105")(card)
+                    /// NOTE: ZoltanScoundrel
+                    || isCopy("112109")(card);
         };
 
         int boostNumber = cardsFiltered(ally, enemy, {isFellow}, AllyDeckStarting).size();
         if (boostNumber <= 0)
             return;
-        boost(this, boostNumber * 3, ally, enemy, this);
+        boost(self, boostNumber * 3, ally, enemy, self);
     };
+    return res;
 }
 
-CyprianWiley::CyprianWiley()
+Card *Cards::createCyprianWiley()
 {
-    id = "112214";
-    name = "Cyprian Wiley";
-    text = "Weaken a unit by 4.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00514329.mp3",
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00443324.mp3",
-        "https://gwent.one/audio/card/ob/en/WILY_Q302_00547590.mp3",
-    };
-    power = powerBase = 8;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Redania };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCyprianWiley, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "112214";
+    res->power = res->powerBase = 8;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Redania };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        weaken(target, 4, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        weaken(target, 4, ally, enemy, self);
     };
+    return res;
 }
 
-Dudu::Dudu()
+Card *Cards::createDudu()
 {
-    id = "112201";
-    name = "Dudu";
-    text = "Copy the power of an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.816.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.818.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.817.mp3",
-    };
-    power = powerBase = 1;
-    rarity = Silver;
-    faction = Neutral;
-    tags = { Relict };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDudu, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "112201";
+    res->power = res->powerBase = 1;
+    res->rarity = Silver;
+    res->faction = Neutral;
+    res->tags = { Relict };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        setPower(this, target->power, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        setPower(self, target->power, ally, enemy, self);
     };
+    return res;
 }
 
-Ihuarraquax::Ihuarraquax()
+Card *Cards::createIhuarraquax()
 {
-    id = "201817";
-    name = "Ihuarraquax";
-    text = "Deal 5 damage to self. The next time this unit's current power equals its base power, deal 7 damage to 3 random enemies on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Beast };
-    power = powerBase = 7;
-    faction = Neutral;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIhuarraquax, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        damageDone = false;
-        setTimer(this, ally, enemy, 1);
-        damage(this, 5, ally, enemy, this);
+    res->id = "201817";
+    res->tags = { Beast };
+    res->power = res->powerBase = 7;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State> { bool damageDone = false; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->damageDone = false;
+        setTimer(self, ally, enemy, 1);
+        damage(self, 5, ally, enemy, self);
     };
 
-    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *, const PowerChangeType) {
-        if ((timer > 0) && (power == powerBase))
-            tick(this, ally, enemy);
+    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *, const PowerChangeType) {
+        if ((self->timer > 0) && (self->power == self->powerBase))
+            tick(self, ally, enemy);
     };
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if((timer != -1) || (damageDone) || (!isOnBoard(this, ally)))
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        bool &damageDone = self->stateAs<State>()->damageDone;
+        if((self->timer != -1) || (damageDone) || (!isOnBoard(self, ally)))
             return;
-        for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
-            damage(card, 7, ally, enemy, this);
+        for (Card *self : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 3, ally.rng))
+            damage(self, 7, ally, enemy, self);
         damageDone = true;
     };
+    return res;
 }
 
-MahakamMarauder::MahakamMarauder()
+Card *Cards::createMahakamMarauder()
 {
-    id = "200042";
-    name = "Mahakam Marauder";
-    text = "Whenever this unit's power changes, except when Reset, boost self by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.41.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.39.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.40.mp3",
-    };
-    power = powerBase = 7;
-    rarity = Bronze;
-    faction = Scoiatael;
-    tags = { Dwarf, Soldier };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamMarauder, this);
 
-    _onPowerChanged = [=](Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
-        if((!isOnBoard(this, ally)) || (type == Reset) || (src == this))
+    res->id = "200042";
+    res->power = res->powerBase = 7;
+    res->rarity = Bronze;
+    res->faction = Scoiatael;
+    res->tags = { Dwarf, Soldier };
+
+    res->_onPowerChanged = [](Card *self, Field &ally, Field &enemy, const Card *src, const PowerChangeType type) {
+        if((!isOnBoard(self, ally)) || (type == Reset) || (src == self))
             return;
-        boost(this, 2, ally, enemy, this);
+        boost(self, 2, ally, enemy, self);
     };
+    return res;
 }
 
-ZoltanChivay::ZoltanChivay()
+Card *Cards::createZoltanChivay()
 {
-    id = "142105";
-    name = "Zoltan Chivay";
-    text = "Choose 3 units. Strengthen allies by 2 and move them to this row. Deal 2 damage to enemies and move them to the row opposite this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Dwarf };
-    power = powerBase = 8;
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ZOLT_Q310_01062198.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040651.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040649.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_Q403_00575678.mp3",
-        "https://gwent.one/audio/card/ob/en/ZOLT_ZOLTAN_01040657.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createZoltanChivay, this);
+
+    res->id = "142105";
+    res->tags = { Dwarf };
+    res->power = res->powerBase = 8;
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 3);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 3);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        const Row row = _findRowAndPos(this, ally).row();
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const Row row = _findRowAndPos(self, ally).row();
         if (isOnBoard(target, ally)) {
-            strengthen(target, 2, ally, enemy, this);
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            strengthen(target, 2, ally, enemy, self);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
             return;
         }
         if (isOnBoard(target, enemy)) {
-            damage(target, 2, ally, enemy, this);
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            damage(target, 2, ally, enemy, self);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-YenneferNecromancer::YenneferNecromancer()
+Card *Cards::createYenneferNecromancer()
 {
-    id = "201780";
-    name = "Yennefer: Necromancer";
-    text = "Resurrect a Bronze or Silver Soldier from your opponent's graveyard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Aedirn };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041495.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041488.mp3",
-        "https://gwent.one/audio/card/ob/en/YENN_YENNEFER_01041493.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYenneferNecromancer, this);
+
+    res->id = "201780";
+    res->tags = { Mage, Aedirn };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Soldier)}, EnemyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Soldier)}, EnemyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Phoenix::Phoenix()
+Card *Cards::createPhoenix()
 {
-    id = "201579";
-    name = "Phoenix";
-    text = "                                                                          a Bronze or Silver Draconid.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Draconid };
-    isDoomed = true;
-    power = powerBase = 5;
-    faction = Neutral;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPhoenix, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Draconid)}, AllyDiscard);
+    res->id = "201579";
+    res->tags = { Draconid };
+    res->isDoomed = true;
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Draconid)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-SaesenthessisBlaze::SaesenthessisBlaze()
+Card *Cards::createSaesenthessisBlaze()
 {
-    id = "201613";
-    name = "Saesenthessis: Blaze";
-    text = "Banish your hand and draw that many cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Aedirn, Draconid };
-    power = powerBase = 11;
-    faction = Neutral;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaesenthessisBlaze, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201613";
+    res->tags = { Aedirn, Draconid };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const std::vector<Card *> hand = ally.hand;
         const int64_t nCards = hand.size();
         for (Card *card : hand)
-            banish(card, ally, enemy, this);
+            banish(card, ally, enemy, self);
         for (int cardInd = 0; cardInd < nCards; ++cardInd)
-            drawACard(ally, enemy,  this);
+            drawACard(ally, enemy,  self);
     };
+    return res;
 }
 
-Villentretenmerth::Villentretenmerth()
+Card *Cards::createVillentretenmerth()
 {
-    id = "112107";
-    name = "Villentretenmerth";
-    text = "After 3 turns, destroy all the other Highest units on turn start. 3 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Draconid };
-    power = powerBase = 10;
-    faction = Neutral;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVillentretenmerth, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 3);
+    res->id = "112107";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 3);
     };
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
             return;
-        for (Card *card : highests(cardsFiltered(ally, enemy, {otherThan(this)}, AnyBoard)))
-            putToDiscard(card, ally, enemy, this);
+        for (Card *card : highests(cardsFiltered(ally, enemy, {otherThan(self)}, AnyBoard)))
+            putToDiscard(card, ally, enemy, self);
     };
+    return res;
 }
 
-Ocvist::Ocvist()
+Card *Cards::createOcvist()
 {
-    id = "112206";
-    name = "Ocvist";
-    text = "Single-Use: After 4 turns, deal 1 damage to all enemies, then return to your hand on turn start.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Draconid };
-    power = powerBase = 8;
-    faction = Neutral;
-    rarity = Silver;
-    timer = 4;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008.mp3",
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009.mp3",
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOcvist, this);
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !tick(this, ally, enemy))
+    res->id = "112206";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 8;
+    res->faction = Neutral;
+    res->rarity = Silver;
+    res->timer = 4;
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !tick(self, ally, enemy))
             return;
         for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard))
-            damage(card, 1, ally, enemy, this);
-        putToHand(this, ally, enemy,  this);
+            damage(card, 1, ally, enemy, self);
+        putToHand(self, ally, enemy,  self);
     };
+    return res;
 }
 
-Myrgtabrakke::Myrgtabrakke()
+Card *Cards::createMyrgtabrakke()
 {
-    id = "112205";
-    name = "Myrgtabrakke";
-    text = "Deal 2 damage. Repeat 2 times.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Draconid };
-    power = powerBase = 7;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_009_OB.mp3",
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_010_OB.mp3",
-        "https://gwent.one/audio/card/ob/en/wyvern_v2_vo_ADD_008_OB.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMyrgtabrakke, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112205";
+    res->tags = { Draconid };
+    res->power = res->powerBase = 7;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (int n = 0; n < 3; ++n)
-            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-KingOfBeggars::KingOfBeggars()
+Card *Cards::createKingOfBeggars()
 {
-    id = "112213";
-    name = "King of Beggars";
-    text = "If losing, Strengthen self up to a maximum of 15 until scores are tied.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Support };
-    power = powerBase = 5;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/KGBG_Q302_00487960.mp3",
-        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00486502.mp3",
-        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00499725.mp3",
-        "https://gwent.one/audio/card/ob/en/KGBG_Q301_00487409.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingOfBeggars, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "112213";
+    res->tags = { Support };
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const int boost = std::min(powerField(enemy) - powerField(ally), 10);
         if (boost > 0)
-            strengthen(this, boost, ally, enemy, this);
+            strengthen(self, boost, ally, enemy, self);
     };
+    return res;
 }
 
-OlgierdVonEverec::OlgierdVonEverec()
+Card *Cards::createOlgierdVonEverec()
 {
-    id = "112207";
-    name = "Olgierd von Everec";
-    text = "Deathwish: Resurrect this unit on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Redania, Cursed };
-    power = powerBase = 5;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101145.mp3",
-        "https://gwent.one/audio/card/ob/en/OLGD_Q604_01137773.mp3",
-        "https://gwent.one/audio/card/ob/en/OLGD_Q603_01101591.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createOlgierdVonEverec, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    res->id = "112207";
+    res->tags = { Redania, Cursed };
+    res->power = res->powerBase = 5;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-IrisVonEverec::IrisVonEverec()
+Card *Cards::createIrisVonEverec()
 {
-    id = "112215";
-    name = "Iris von Everec";
-    text = "Spying. Deathwish: Boost 5 random units on the opposite side by 5.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Redania, Cursed };
-    isLoyal = false;
-    power = powerBase = 3;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106159.mp3",
-        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106875.mp3",
-        "https://gwent.one/audio/card/ob/en/IRIS_Q604_01106944.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIrisVonEverec, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
+    res->id = "112215";
+    res->tags = { Redania, Cursed };
+    res->isLoyal = false;
+    res->power = res->powerBase = 3;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, EnemyBoard), 5, ally.rng))
-            boost(card, 5, ally, enemy, this);
+            boost(card, 5, ally, enemy, self);
     };
+    return res;
 }
 
-IrisCompanions::IrisCompanions()
+Card *Cards::createIrisCompanions()
 {
-    id = "200083";
-    name = "Iris' Companions";
-    text = "Move a card from your deck to your hand, then Discard a random card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Relict };
-    power = powerBase = 11;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.268.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.265.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.264.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.267.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIrisCompanions, this);
+
+    res->id = "200083";
+    res->tags = { Relict };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeck);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeck);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
+        putToDiscard(random(ally.hand, ally.rng), ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy,  this);
-        putToDiscard(random(ally.hand, ally.rng), ally, enemy, this);
-    };
+    return res;
 }
 
-Johnny::Johnny()
+Card *Cards::createJohnny()
 {
-    id = "112211";
-    name = "Johnny";
-    text = "Discard a card. Then make a default copy of a card of the same color from your opponent's starting deck in your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Relict };
-    power = powerBase = 9;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00420525.mp3",
-        "https://gwent.one/audio/card/ob/en/GJHN_Q111_01011367.mp3",
-        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00417768.mp3",
-        "https://gwent.one/audio/card/ob/en/GJHN_GODLING_01059659.mp3",
-        "https://gwent.one/audio/card/ob/en/GJHN_Q105_00373361.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createJohnny, this);
+
+    res->id = "112211";
+    res->tags = { Relict };
+    res->power = res->powerBase = 9;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDiscard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
         if(Card *card = random(cardsFiltered(ally, enemy, {isColor(target->rarity)}, EnemyDeckStarting), ally.rng)) {
             Card *cardCopy = card->defaultCopy();
             addAsNew(ally, cardCopy);
-            putToHand(cardCopy, ally, enemy,  this);
+            putToHand(cardCopy, ally, enemy,  self);
         }
     };
+    return res;
 }
 
-Stregobor::Stregobor()
+Card *Cards::createStregobor()
 {
-    id = "200091";
-    name = "Stregobor";
-    text = "Truce: Each player draws a unit and sets its power to 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage };
-    power = powerBase = 10;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.165.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.162.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.163.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.164.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStregobor, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200091";
+    res->tags = { Mage };
+    res->power = res->powerBase = 10;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck))) {
-            putToHand(unit, ally, enemy,  this);
-            setPower(unit, 1, ally, enemy, this);
+            putToHand(unit, ally, enemy,  self);
+            setPower(unit, 1, ally, enemy, self);
         }
         if (Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, EnemyDeck))) {
-            putToHand(unit, enemy, ally,  this);
-            setPower(unit, 1, ally, enemy, this);
+            putToHand(unit, enemy, ally,  self);
+            setPower(unit, 1, ally, enemy, self);
         }
     };
 
+    return res;
 }
 
-Sarah::Sarah()
+Card *Cards::createSarah()
 {
-    id = "112212";
-    name = "Sarah";
-    text = "Swap a card for one of the same color.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Relict };
-    power = powerBase = 11;
-    faction = Neutral;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/GSAR_Q301_00493632.mp3",
-        "https://gwent.one/audio/card/ob/en/GSAR_Q301_00484178.mp3",
-        "https://gwent.one/audio/card/ob/en/GSAR_GODLING_01059640.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSarah, this);
+
+    res->id = "112212";
+    res->tags = { Relict };
+    res->power = res->powerBase = 11;
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (Card *card = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
-            putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
-            putToHand(card, ally, enemy,  this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (Card *self = first(cardsFiltered(ally, enemy, {isColor(target->rarity)}, AllyDeck))) {
+            putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
+            putToHand(self, ally, enemy,  self);
             // TODO: check if here we need to trigger onSwap or etc.
         }
     };
+    return res;
 }
 
-PeasantMilitia::PeasantMilitia()
+Card *Cards::createPeasantMilitia()
 {
-    id = "201753";
-    name = "Peasant Militia";
-    text = "Spawn 3 Peasants on a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Tactics };
-    isSpecial = true;
-    faction = Neutral;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.86.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.87.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.84.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.85.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.83.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeasantMilitia, this);
+
+    res->id = "201753";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Neutral;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, {0, 1, 2});
     };
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, {0, 1, 2});
-    };
-
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [=](Card *self, Field &ally, Field &enemy, const int screenRow) {
         for(int i = 0; i < 3; i++) {
             if (isRowFull(cardsInRow(ally, enemy, screenRow)))
                 return;
-            Card *card = new Peasant();
-            addAsNew(ally, card);
-            moveExistedUnitToPos(card, rowAndPosLastInExactRow(screenRow, ally, enemy), ally, enemy, this);
+            Card *peasant = createPeasant();
+            addAsNew(ally, peasant);
+            moveExistedUnitToPos(peasant, rowAndPosLastInExactRow(screenRow, ally, enemy), ally, enemy, self);
         }
     };
+    return res;
 }
 
-PeasantMilitia::Peasant::Peasant()
+Card *Cards::createPeasant()
 {
-    id = "201753";
-    name = "Peasant Militia";
-    text = "No ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { };
-    isDoomed = true;
-    faction = Neutral;
-    rarity = Bronze;
-//    sounds = {
-//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.86.mp3",
-//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.87.mp3",
-//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.84.mp3",
-//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.85.mp3",
-//        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.83.mp3",
-//    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeasant, this);
+
+    res->id = "201753";
+    res->power = res->powerBase = 3;
+    res->isDoomed = true;
+    res->faction = Neutral;
+    res->rarity = Bronze;
+    return res;
 }
 
-PrizeWinningCow::PrizeWinningCow()
+Card *Cards::createPrizeWinningCow()
 {
-    //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
-    id = "112209";
-    name = "Prize-Winning Cow";
-    text = "Deathwish: Spawn a Chort on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    tags = { Beast };
-    faction = Neutral;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrizeWinningCow, this);
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &) {
-        Card *card = new Chort();
-        addAsNew(ally, card);
-        moveExistedUnitToPos(card, rowAndPosRandom(ally), ally, enemy, this);
+    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
+    res->id = "112209";
+    res->power = res->powerBase = 1;
+    res->tags = { Beast };
+    res->faction = Neutral;
+    res->rarity = Silver;
+
+    res->_onDestroy = [=](Card *self, Field &ally, Field &enemy, const RowAndPos &) {
+        Card *chort = createChort();
+        addAsNew(ally, chort);
+        moveExistedUnitToPos(chort, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-PrizeWinningCow::Chort::Chort()
+Card *Cards::createChort()
 {
-    // FIXME: check all the details
-    id = "112209";
-    name = "Chort";
-    text = "No ability.";
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createChort, this);
+
+    // FIXME: missing image and incorrect id
+    res->id = "112209";
     // TODO: place this picture somehow
-    //https://gwent.one/image/gwent/assets/card/art/medium/1498.jpg
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 15;
-    tags = { Relict };
-    faction = Neutral;
-    rarity = Bronze;
+    //https://gwent.one/image/gwent/assets/self/art/medium/1498.jpg
+    res->power = res->powerBase = 15;
+    res->tags = { Relict };
+    res->faction = Neutral;
+    res->rarity = Bronze;
+    return res;
 }
 
-PrincessAdda::PrincessAdda()
+Card *Cards::createPrincessAdda()
 {
-    id = "201595";
-    name = "Princess Adda";
-    text = "Create a Bronze or Silver Cursed unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Leader, Cursed };
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.194.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.195.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.193.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPrincessAdda, this);
+
+    res->id = "201595";
+    res->power = res->powerBase = 6;
+    res->tags = { Leader, Cursed };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, isUnit, hasTag(Cursed)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-KingFoltest::KingFoltest()
+Card *Cards::createKingFoltest()
 {
-    id = "200168";
-    name = "King Foltest";
-    text = "Boost all other allies and your non-Spying units in hand and deck by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Leader, Temeria };
-    isCrew = true;
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0002.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0004.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0012.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLTS_000811_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLTS_000006_0068.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingFoltest, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        std::vector<Card *> cards = cardsFiltered(ally, enemy, {otherThan(this)}, AllyBoard);
-        std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyDeck);
-        std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(this), isNonSpying}, AllyHand);
+    res->id = "200168";
+    res->power = res->powerBase = 5;
+    res->tags = { Leader, Temeria };
+    res->isCrew = true;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        std::vector<Card *> cards = cardsFiltered(ally, enemy, {otherThan(self)}, AllyBoard);
+        std::vector<Card *> cardsDeck = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyDeck);
+        std::vector<Card *> cardsHand = cardsFiltered(ally, enemy, {isUnit, otherThan(self), isNonSpying}, AllyHand);
         cards.insert(cards.end(), cardsDeck.begin(), cardsDeck.end());
         cards.insert(cards.end(), cardsHand.begin(), cardsHand.end());
         for (Card *card : cards)
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-KingRadovidV::KingRadovidV()
+Card *Cards::createKingRadovidV()
 {
-    id = "200169";
-    name = "King Radovid V";
-    text = "Toggle 2 units' Lock statuses. If enemies, deal 4 damage to them. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    rarity = Gold;
-    faction = NothernRealms;
-    tags = { Leader, Redania };
-    isCrew = true;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/RADV_SQ302_00302977.mp3",
-        "https://gwent.one/audio/card/ob/en/RADV_Q302_00512777.mp3",
-        "https://gwent.one/audio/card/ob/en/RADV_RADOVID_01040720.mp3",
-        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064783.mp3",
-        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064777.mp3",
-        "https://gwent.one/audio/card/ob/en/RADV_MQ3035_01064716.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKingRadovidV, this);
+
+    res->id = "200169";
+    res->power = res->powerBase = 6;
+    res->rarity = Gold;
+    res->faction = NothernRealms;
+    res->tags = { Leader, Redania };
+    res->isCrew = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard, 2);
-    };
-
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
-        toggleLock(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        toggleLock(target, ally, enemy, self);
         if (isOnBoard(target, enemy))
-            damage(target, 4, ally, enemy, this);
+            damage(target, 4, ally, enemy, self);
     };
+    return res;
 }
 
-EmhyrVarEmreis::EmhyrVarEmreis()
+Card *Cards::createEmhyrVarEmreis()
 {
-    id = "200162";
-    name = "Emhyr var Emreis";
-    text = "Play a card, then return a Bronze or Silver ally to your hand.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Leader, Officer };
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.236.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.238.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.237.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEmhyrVarEmreis, this);
+
+    res->id = "200162";
+    res->power = res->powerBase = 7;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Leader, Officer };
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-    };
-
-    _onTargetChoosen = [=] (Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.hand)) {
-            // reverse due to choice stack: play a card, then return something to hand
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyBoard);
-            playExistedCard(target, ally, enemy, this);
+            // reverse due to choice stack: play a self, then return something to hand
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyBoard);
+            playExistedCard(target, ally, enemy, self);
             return;
         }
-        putToHand(target, ally, enemy,  this);
+        putToHand(target, ally, enemy,  self);
     };
+    return res;
 }
 
-Usurper::Usurper()
+Card *Cards::createUsurper()
 {
-    id = "201580";
-    name = "Usurper";
-    text = "Spying. Create any Leader and boost it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    rarity = Gold;
-    faction = Nilfgaard;
-    tags = { Leader, Officer };
-    isLoyal = false;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.433.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.432.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.434.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createUsurper, this);
+
+    res->id = "201580";
+    res->power = res->powerBase = 1;
+    res->rarity = Gold;
+    res->faction = Nilfgaard;
+    res->tags = { Leader, Officer };
+    res->isLoyal = false;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {hasTag(Leader)});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {hasTag(Leader)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 2, ally, enemy, this);
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-BrouverHoog::BrouverHoog()
+Card *Cards::createBrouverHoog()
 {
-    id = "200167";
-    name = "Brouver Hoog";
-    text = "Play a non-Spying Silver unit or a Bronze Dwarf from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Leader, Dwarf };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.136.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.137.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.138.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBrouverHoog, this);
 
-    const auto isOk = [=](Card *card) {
+    res->id = "200167";
+    res->power = res->powerBase = 4;
+    res->tags = { Leader, Dwarf };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    const auto isOk = [](Card *card) {
         return isUnit(card) && ((isNonSpying(card) && isSilver(card)) || (hasTag(card, Dwarf) && isBronze(card)));
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isOk}, AllyDeckShuffled);
+    res->_onDeploy = [isOk](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isOk}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Eithne::Eithne()
+Card *Cards::createEithne()
 {
-    id = "200166";
-    name = "Eithne";
-    text = "Resurrect a Bronze or Silver special card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Leader, Dryad };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.133.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.135.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.134.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEithne, this);
+
+    res->id = "200166";
+    res->power = res->powerBase = 5;
+    res->tags = { Leader, Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Filavandrel::Filavandrel()
+Card *Cards::createFilavandrel()
 {
-    id = "201589";
-    name = "Filavandrel";
-    text = "Create a Silver special card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Leader, Elf };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.279.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.278.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.280.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFilavandrel, this);
+
+    res->id = "201589";
+    res->power = res->powerBase = 4;
+    res->tags = { Leader, Elf };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceCreateOptions(ally, enemy, self, {isSilver, ::isSpecial});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceCreateOptions(ally, enemy, this, {isSilver, ::isSpecial});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-FrancescaFindabair::FrancescaFindabair()
+Card *Cards::createFrancescaFindabair()
 {
-    id = "200165";
-    name = "Francesca Findabair";
-    text = "Swap a card with one of your choice and boost it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    tags = { Leader, Mage, Elf };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.130.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.131.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.132.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFrancescaFindabair, this);
+
+    res->id = "200165";
+    res->power = res->powerBase = 7;
+    res->tags = { Leader, Mage, Elf };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State> { Card *_cardToSwap = nullptr; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_cardToSwap = nullptr;
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        _cardToSwap = nullptr;
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_cardToSwap == nullptr) {
-            _cardToSwap = target;
-            startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&cardToSwap = self->stateAs<State>()->_cardToSwap;
+        if (cardToSwap == nullptr) {
+            cardToSwap = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
             return;
         }
-        putToDeck(_cardToSwap, ally, enemy, DeckPosRandom, this);
-        putToHand(target, ally, enemy,  this);
-        boost(target, 3, ally, enemy, this);
+        putToDeck(cardToSwap, ally, enemy, DeckPosRandom, self);
+        putToHand(target, ally, enemy,  self);
+        boost(target, 3, ally, enemy, self);
     };
+    return res;
 }
 
-Aglais::Aglais()
+Card *Cards::createAglais()
 {
-    id = "142106";
-    name = "Aglais";
-    text = "Resurrect a Bronze or Silver special card from your opponent's graveyard, then Banish it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Dryad };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.154.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.153.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.152.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAglais, this);
+
+    res->id = "142106";
+    res->power = res->powerBase = 8;
+    res->tags = { Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, EnemyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, EnemyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        banish(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        banish(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Iorveth::Iorveth()
+Card *Cards::createIorveth()
 {
-    id = "142103";
-    name = "Iorveth";
-    text = "Deal 8 damage to an enemy. If the unit was destroyed, boost all Elves in your hand by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Elf, Officer };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_100241_4474.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIorveth, this);
+
+    res->id = "142103";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (damage(target, 8, ally, enemy, this))
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 8, ally, enemy, self))
             for (Card *card : cardsFiltered(ally, enemy, {isUnit, hasTag(Elf)}, AllyHand))
-                boost(card, 1, ally, enemy, this);
+                boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-IorvethMeditation::IorvethMeditation()
+Card *Cards::createIorvethMeditation()
 {
-    id = "201611";
-    name = "Iorveth: Meditation";
-    text = "Force 2 enemies on the same row to Duel each other.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    tags = { Elf, Officer };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_IORW_101064_0046.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_101048_0181.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_102216_0006.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_IORW_100241_4474.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIorvethMeditation, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201611";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         // TODO: check for new choices system and overall tests required
         std::vector<Card *>cards;
         for (const int _screenRow : std::vector<int>{3, 4, 5}) {
             std::vector<Card *> rowCards = cardsInRow(ally, enemy, _screenRow);
-             if (rowCards.size() >= 2)
+            if (rowCards.size() >= 2)
                 cards.insert(cards.end(), rowCards.begin(), rowCards.end());
         }
         if (cards.size() <= 0)
             return;
-        startChoiceToTargetCard(ally, enemy, this, cards);
+        startChoiceToTargetCard(ally, enemy, self, cards);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (_choosen == nullptr) {
-            _choosen = target;
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (choosen == nullptr) {
+            choosen = target;
             const int screenRow = _findScreenRow(target, ally, enemy);
             std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
             for (int i = 0; i < int(cards.size()); i++)
-                if (cards[i] == _choosen)
+                if (cards[i] == choosen)
                     cards.erase(cards.begin() + i);
-            startChoiceToTargetCard(ally, enemy, this, cards);
+            startChoiceToTargetCard(ally, enemy, self, cards);
             return;
         }
-        duel(_choosen, target, ally, enemy);
+        duel(choosen, target, ally, enemy);
     };
+    return res;
 }
 
-IsengrimFaoiltiarna::IsengrimFaoiltiarna()
+Card *Cards::createIsengrimFaoiltiarna()
 {
-    id = "142102";
-    name = "Isengrim Faoiltiarna";
-    text = "Play a Bronze or Silver Ambush from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    tags = { Elf, Officer };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIsengrimFaoiltiarna, this);
 
-    const auto isCardAmbush = [=](Card *card) {
+    res->id = "142102";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    const auto isCardAmbush = [](Card *card) {
         return card->defaultCopy()->isAmbush;
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
+    res->_onDeploy = [isCardAmbush](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isCardAmbush}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-IsengrimOutlaw::IsengrimOutlaw()
+Card *Cards::createIsengrimOutlaw()
 {
-    id = "201615";
-    name = "Isengrim: Outlaw";
-    text = "Choose One: Play a Bronze or Silver special card from your deck; or Create a Silver Elf.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    tags = { Elf, Officer };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.141.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.140.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.139.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIsengrimOutlaw, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new IsengrimOutlaw::Create;
-        copyCardText(this, option1);
+    res->id = "201615";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
+
+    enum { Create, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
         option1->text = "Create a Silver Elf.";
 
-        auto *option2 = new IsengrimOutlaw::Play;
-        copyCardText(this, option2);
-        option2->text = "Play a Bronze or Silver special card from your deck.";
+        auto *option2 = createOption(self, Play);
+        option2->text = "Play a Bronze or Silver special self from your deck.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!_choosen && dynamic_cast<IsengrimOutlaw::Create *>(target)) {
-            _choosen = target;
-            startChoiceCreateOptions(ally, enemy, this, {isSilver, hasTag(Elf)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            startChoiceCreateOptions(ally, enemy, self, {isSilver, hasTag(Elf)});
             return;
         }
-        if (!_choosen && dynamic_cast<IsengrimOutlaw::Play *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+        if (!choosen && isOption(target, Play)) {
+            choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
             return;
         }
 
-        if (dynamic_cast<IsengrimOutlaw::Create *>(_choosen)) {
-            delete _choosen;
-            _choosen = nullptr;
-            spawnNewCard(target, ally, enemy, this);
+        if (isOption(choosen, Create)) {
+            delete choosen;
+            choosen = nullptr;
+            spawnNewCard(target, ally, enemy, self);
         }
         return;
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(dynamic_cast<IsengrimOutlaw::Create *>(_choosen));
-        delete _choosen;
-        _choosen = nullptr;
-        spawnNewCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!isOption(choosen, Create))
+            throw Error(Error::Assert, self);
+
+        delete choosen;
+        choosen = nullptr;
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-IthlinneAegli::IthlinneAegli()
+Card *Cards::createIthlinneAegli()
 {
-    id = "142107";
-    name = "Ithlinne Aegli";
-    text = "Play a Bronze Spell, Boon or Hazard from your deck twice.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    tags = { Elf, Mage };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.170.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.172.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.171.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIthlinneAegli, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasAnyOfTags({Boon, Hazard, Spell})}, AllyDeckShuffled);
+    res->id = "142107";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Mage };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasAnyOfTags({Boon, Hazard, Spell})}, AllyDeckShuffled);
     };
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Schirru::Schirru()
+Card *Cards::createSchirru()
 {
-    id = "142108";
-    name = "Schirru";
-    text = "Spawn Scorch or Epidemic.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.187.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.186.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.188.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSchirru, this);
+
+    res->id = "142108";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createScorch(), createEpidemic()});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new Scorch(), new Epidemic()});
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
-
+    return res;
 }
 
-Saesenthessis::Saesenthessis()
+Card *Cards::createSaesenthessis()
 {
-    id = "142108";
-    name = "Saesenthessis";
-    text = "Boost self by 1 for each Dwarf ally and deal 1 damage to an enemy for each Elf ally.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    tags = { Aedirn, Draconid };
-    faction = Scoiatael;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaesenthessis, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "142108";
+    res->power = res->powerBase = 10;
+    res->tags = { Aedirn, Draconid };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (const int dwarfsCount = cardsFiltered(ally, enemy, {hasTag(Dwarf)}, AllyBoard).size() > 0)
-            boost(this, dwarfsCount, ally, enemy, this);
+            boost(self, dwarfsCount, ally, enemy, self);
         if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (const int elfsCount = cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard).size() > 0)
-            damage(target, elfsCount, ally, enemy, this);
+            damage(target, elfsCount, ally, enemy, self);
     };
+    return res;
 }
 
-Saskia::Saskia()
+Card *Cards::createSaskia()
 {
-    id = "200209";
-    name = "Saskia";
-    text = "Swap up to 2 cards for Bronze cards.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    tags = { Aedirn, Draconid };
-    faction = Scoiatael;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0023.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TARM_200154_0192.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0011.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TARM_200991_0019.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_TARM_200423_0024.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSaskia, this);
+
+    res->id = "200209";
+    res->power = res->powerBase = 11;
+    res->tags = { Aedirn, Draconid };
+    res->faction = Scoiatael;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze}, AllyHand, 2, true);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze}, AllyHand, 2, true);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        Card *newBronze;
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *newBronze = nullptr;
         if (!(newBronze = first(cardsFiltered(ally, enemy, {isBronze}, AllyDeck))))
             return;
-        putToHand(newBronze, ally, enemy,  this);
-        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, this);
+        putToHand(newBronze, ally, enemy,  self);
+        putToDeck(target, ally, enemy, DeckPosRandomButNotFirst, self);
     };
+    return res;
 }
 
-BarclayEls::BarclayEls()
+Card *Cards::createBarclayEls()
 {
-    id = "142207";
-    name = "Barclay Els";
-    text = "Play a random Bronze or Silver Dwarf from your deck and Strengthen it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    tags = { Dwarf, Officer };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.162.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.163.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.161.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBarclayEls, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit, hasTag(Dwarf)}, AllyDeck), ally.rng)) {
-            strengthen(card, 3, ally, enemy, this);
-            playExistedCard(card, ally, enemy, this);
+    res->id = "142207";
+    res->power = res->powerBase = 2;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *self = random(cardsFiltered(ally, enemy, {isBronzeOrSilver, isUnit, hasTag(Dwarf)}, AllyDeck), ally.rng)) {
+            strengthen(self, 3, ally, enemy, self);
+            playExistedCard(self, ally, enemy, self);
         }
     };
+    return res;
 }
 
-DennisCranmer::DennisCranmer()
+Card *Cards::createDennisCranmer()
 {
-    id = "142211";
-    name = "Dennis Cranmer";
-    text = "Strengthen all your other Dwarves in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Dwarf, Officer };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.157.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.156.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.155.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDennisCranmer, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(this), isUnit}, AllyBoardHandDeck))
-            strengthen(card, 1, ally, enemy, this);
+    res->id = "142211";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *card : cardsFiltered(ally, enemy, {hasTag(Dwarf), otherThan(self), isUnit}, AllyBoardHandDeck))
+            strengthen(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-SheldonSkaggs::SheldonSkaggs()
+Card *Cards::createSheldonSkaggs()
 {
-    id = "142212";
-    name = "Sheldon Skaggs";
-    text = "Move all allies on this row to random rows and boost self by 1 for each.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    tags = { Dwarf, Officer };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.33.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.34.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.35.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSheldonSkaggs, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "142212";
+    res->power = res->powerBase = 9;
+    res->tags = { Dwarf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         int boostAmount = 0;
-        const int screenRow = _findScreenRow(this, ally, enemy);
-        std::vector<Card *>cards = cardsInRow(ally, enemy, screenRow);
+        const int screenRow = _findScreenRow(self, ally, enemy);
+        const std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
         for (Card *card : cards)
-            if (card != this)
-                if (moveToRandomRow(card, ally, enemy, this))
+            if (card != self)
+                if (moveToRandomRow(card, ally, enemy, self))
                     boostAmount++;
         if (boostAmount > 0)
-            boost(this, boostAmount, ally, enemy, this);
+            boost(self, boostAmount, ally, enemy, self);
     };
+    return res;
 }
 
-YarpenZigrin::YarpenZigrin()
+Card *Cards::createYarpenZigrin()
 {
-    id = "142213";
-    name = "Yarpen Zigrin";
-    text = "Resilience. Whenever a Dwarf ally appears, boost self by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYarpenZigrin, this);
+
+    res->id = "142213";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isResilient = true;
     };
 
-    _onDeploy = [=](Field &, Field &) {
-        isResilient = true;
-    };
-
-    _onOtherAllyAppears = [=](Card *card, Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally) || !hasTag(card, Dwarf))
+    res->_onOtherAllyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally) || !hasTag(target, Dwarf))
             return;
-        boost(card, 1, ally, enemy, this);
+        boost(target, 1, ally, enemy, self);
     };
+    return res;
 }
 
-Yaevinn::Yaevinn()
+Card *Cards::createYaevinn()
 {
-    id = "142203";
-    name = "Yaevinn";
-    text = "Spying. Single-Use: Draw a special card and a unit. Keep one and return the other to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    tags = { Elf };
-    isLoyal = false;
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.786.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.784.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.785.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createYaevinn, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy)) {
-            Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
-            Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
-            if (unit) {
-                putToHand(unit, ally, enemy,  this);
-            }
-            if (special) {
-                putToHand(special, ally, enemy,  this);
-            }
-            if (!unit || !special)
-                return;
-            _drawn.push_back(unit);
-            _drawn.push_back(special);
-            startChoiceToTargetCard(ally, enemy, this, _drawn);
+    res->id = "142203";
+    res->power = res->powerBase = 13;
+    res->tags = { Elf };
+    res->isLoyal = false;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    struct State : StateCopy<State> { std::vector<Card *> _drawn; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
+            return;
+
+        Card *unit = first(cardsFiltered(ally, enemy, {isUnit}, AllyDeck));
+        Card *special = first(cardsFiltered(ally, enemy, {::isSpecial}, AllyDeck));
+        if (unit) {
+            putToHand(unit, ally, enemy,  self);
         }
+        if (special) {
+            putToHand(special, ally, enemy,  self);
+        }
+        if (!unit || !special)
+            return;
+
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        drawn.push_back(unit);
+        drawn.push_back(special);
+        startChoiceToTargetCard(ally, enemy, self, drawn);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        for (Card *card : _drawn)
-            if (card != target)
-                putToDeck(card, ally, enemy, DeckPosRandom, this);
-        _drawn.clear();
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        for (Card *self : drawn)
+            if (self != target)
+                putToDeck(self, ally, enemy, DeckPosRandom, self);
+        drawn.clear();
     };
+    return res;
 }
 
-IdaEmeanAepSivney::IdaEmeanAepSivney()
+Card *Cards::createIdaEmeanAepSivney()
 {
-    id = "142202";
-    name = "Ida Emean aep Sivney";
-    text = "Spawn Impenetrable Fog, Clear Skies or Alzur's Thunder.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Elf, Mage };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/IDEM_Q401_00532088.mp3",
-        "https://gwent.one/audio/card/ob/en/IDEM_Q401_00517579.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIdaEmeanAepSivney, this);
+
+    res->id = "142202";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf, Mage };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createImpenetrableFog(), createClearSkies(), createAlzursThunder()});
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new ImpenetrableFog(), new ClearSkies(), new AlzursThunder()});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
-
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-PavkoGale::PavkoGale()
+Card *Cards::createPavkoGale()
 {
-    id = "201676";
-    name = "Pavko Gale";
-    text = "Play a Bronze or Silver Item from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Soldier };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.32.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.31.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.34.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.35.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.33.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPavkoGale, this);
+
+    res->id = "201676";
+    res->power = res->powerBase = 5;
+    res->tags = { Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-CiaranAepEasnillen::CiaranAepEasnillen()
+Card *Cards::createCiaranAepEasnillen()
 {
-    id = "142206";
-    name = "Ciaran aep Easnillen";
-    text = "Toggle a unit's Lock status and move it to this row on its side.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.159.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.160.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.158.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCiaranAepEasnillen, this);
+
+    res->id = "142206";
+    res->power = res->powerBase = 9;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         // TODO: fix the in-same-line moving issue (DwarvenMercenary has the same)
-        toggleLock(target, ally, enemy, this);
-        const Row row = _findRowAndPos(this, ally).row();
+        toggleLock(target, ally, enemy, self);
+        const Row row = _findRowAndPos(self, ally).row();
         if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
             return;
         }
         if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
             return;
         }
     };
+    return res;
 }
 
-EibhearHattori::EibhearHattori()
+Card *Cards::createEibhearHattori()
 {
-    id = "200520";
-    name = "Eibhear Hattori";
-    text = "Resurrect a lower or equal Bronze or Silver Scoia'tael unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { Elf, Support };
-    isDoomed = true;
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_00507925.mp3",
-        "https://gwent.one/audio/card/ob/en/HTRI_SQ304_00539954.mp3",
-        "https://gwent.one/audio/card/ob/en/HTRI_HATTORI_01032235.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createEibhearHattori, this);
+
+    res->id = "200520";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Support };
+    res->isDoomed = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit, isFaction(Scoiatael), hasPowerXorLess(self->power)}, AllyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit, isFaction(Scoiatael), hasPowerXorLess(power)}, AllyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
 
-Milaen::Milaen()
+Card *Cards::createMilaen()
 {
-    id = "200030";
-    name = "Milaen";
-    text = "Deal 6 damage to the units at the end of a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Elf };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.220.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.222.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.221.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMilaen, this);
+
+    res->id = "200030";
+    res->power = res->powerBase = 4;
+    res->tags = { Elf };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
-    };
-
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
         if (cards.size() <= 0)
             return;
         Card *first;
-        damage(first = cards[0], 6, ally, enemy, this);
+        damage(first = cards[0], 6, ally, enemy, self);
         if (cards[cards.size()] != first)
-            damage(cards[cards.size()], 6, ally, enemy, this);
+            damage(cards[cards.size()], 6, ally, enemy, self);
     };
+    return res;
 }
 
-Braenn::Braenn()
+Card *Cards::createBraenn()
 {
-    id = "142209";
-    name = "Braenn";
-    text = "Deal damage equal to this unit's power. If a unit was destroyed, boost all your other Dryads and Ambush units in hand, deck, and on board by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Dryad };
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.168.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.169.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.167.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBraenn, this);
+
+    res->id = "142209";
+    res->power = res->powerBase = 6;
+    res->tags = { Dryad };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    const auto isCardOk = [](Card *self) {
+        return hasTag(self, Dryad) || self->defaultCopy()->isAmbush;
+        // || (self->defaultCopy()->isAmbush && !isOnBoard(self, ally)); // don't know how to get '&ally' here
+        // TODO: check how does the Braenn buff allies in Ambush on board
     };
 
-    const auto isCardOk = [=](Card *card) {
-            return hasTag(card, Dryad) || card->defaultCopy()->isAmbush;
-             // || (card->defaultCopy()->isAmbush && !isOnBoard(card, ally)); // don't know how to get '&ally' here
-             // TODO: check how does the Braenn buff allies in Ambush on board
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onTargetChoosen = [isCardOk](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, self->power, ally, enemy, self))
+            for (Card *self : cardsFiltered(ally, enemy, {isCardOk}, AllyBoardHandDeck))
+                boost(self, 1, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (damage(target, power, ally, enemy, this))
-            for (Card *card : cardsFiltered(ally, enemy, {isCardOk}, AllyBoardHandDeck))
-                boost(card, 1, ally, enemy, this);
-    };
+    return res;
 }
 
-Morenn::Morenn()
+Card *Cards::createMorenn()
 {
-    id = "142208";
-    name = "Morenn";
-    text = "Ambush: When a unit is played on your opponent's side, flip over and deal 7 damage to it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Dryad };
-    isAmbush = true;
-    faction = Scoiatael;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.165.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.164.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.166.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMorenn, this);
+
+    res->id = "142208";
+    res->power = res->powerBase = 8;
+    res->tags = { Dryad };
+    res->isAmbush = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isAmbush = true;
     };
 
-    _onDeploy = [=](Field &, Field &) {
-        isAmbush = true;
-    };
-
-    _onOtherEnemyAppears = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onOtherEnemyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
         // TODO: check how should it works with cases like resurrect, spawn, summon
         // maybe have to replace onOtherEnemyAppears call
-        if (!isOnBoard(this, ally) || !isAmbush)
+        if (!isOnBoard(self, ally) || !self->isAmbush)
             return;
-        flipOver(this, ally, enemy);
-        damage (target, 7, ally, enemy, this);
+        flipOver(self, ally, enemy);
+        damage (target, 7, ally, enemy, self);
     };
 
-    _onOtherSpyAppears = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onOtherSpyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (!isOnBoard(target, enemy))
             return;
-        onOtherEnemyAppears(target, ally, enemy);
+        self->onOtherEnemyAppears(target, ally, enemy);
     };
+    return res;
 }
 
-PaulieDahlberg::PaulieDahlberg()
+Card *Cards::createPaulieDahlberg()
 {
-    id = "201696";
-    name = "Paulie Dahlberg";
-    text = "Resurrect a non-Support Bronze Dwarf.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { Dwarf, Support };
-    isDoomed = true;
-    faction = Scoiatael;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPaulieDahlberg, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit, hasTag(Dwarf), hasNoTag(Support)}, AllyDiscard);
+    res->id = "201696";
+    res->power = res->powerBase = 3;
+    res->tags = { Dwarf, Support };
+    res->isDoomed = true;
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit, hasTag(Dwarf), hasNoTag(Support)}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card * target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card * target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-MahakamHorn::MahakamHorn()
+Card *Cards::createMahakamHorn()
 {
-    id = "201653";
-    name = "Mahakam Horn";
-    text = "Choose One: Create a Bronze or Silver Dwarf; or Strengthen a unit by 7.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Item };
-    faction = Scoiatael;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamHorn, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new MahakamHorn::Create;
-        copyCardText(this, option1);
+    res->id = "201653";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { Create, Strengthen };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
         option1->text = "Create a Bronze or Silver Dwarf.";
 
-        auto *option2 = new MahakamHorn::Strengthen;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Strengthen);
         option2->text = "Strengthen a unit by 7.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!_choosen && dynamic_cast<MahakamHorn::Create *>(target)) {
-            _choosen = target;
-            startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Dwarf)});
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen && isOption(target, Create)) {
+            choosen = target;
+            startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Dwarf)});
             return;
         }
 
-        if (!_choosen && dynamic_cast<MahakamHorn::Strengthen *>(target)) {
-            _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+        if (!choosen && isOption(target, Strengthen)) {
+            choosen = target;
+            startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
             return;
         }
 
-        if (dynamic_cast<MahakamHorn::Create *>(_choosen)) {
-            spawnNewCard(target, ally, enemy, this);
-            delete _choosen;
-            _choosen = nullptr;
+        if (isOption(choosen, Create)) {
+            spawnNewCard(target, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(dynamic_cast<MahakamHorn::Strengthen *>(_choosen));
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!isOption(choosen, Strengthen))
+            throw Error(Error::Assert, self);
 
-        strengthen(target, 7, ally, enemy, this);
+        strengthen(target, 7, ally, enemy, self);
 
-        delete _choosen;
-        _choosen = nullptr;
+        delete choosen;
+        choosen = nullptr;
     };
+    return res;
 }
 
-NaturesGift::NaturesGift()
+Card *Cards::createNaturesGift()
 {
-    id = "143201";
-    name = "Nature's Gift";
-    text = "Play a Bronze or Silver special card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Spell };
-    faction = Scoiatael;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNaturesGift, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
+    res->id = "143201";
+    res->isSpecial = true;
+    res->tags = { Spell };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, ::isSpecial}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-PitTrap::PitTrap()
+Card *Cards::createPitTrap()
 {
-    id = "200228";
-    name = "Pit Trap";
-    text = "Apply a Hazard to an enemy row that deals 3 damage to units on contact.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Item };
-    faction = Scoiatael;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPitTrap, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this, { 3, 4, 5 });
+    res->id = "200228";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Silver;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self, { 3, 4, 5 });
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         applyRowEffect(ally, enemy, screenRow, PitTrapEffect);
     };
+    return res;
 }
 
-CrushingTrap::CrushingTrap()
+Card *Cards::createCrushingTrap()
 {
-    id = "201645";
-    name = "Crushing Trap";
-    text = "Deal 6 damage to the units at the end of an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Item };
-    faction = Scoiatael;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCrushingTrap, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectRow(ally, enemy, this);
+    res->id = "201645";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectRow(ally, enemy, self);
     };
 
-    _onTargetRowChoosen = [=](Field &ally, Field &enemy, const int screenRow) {
+    res->_onTargetRowChoosen = [](Card *self, Field &ally, Field &enemy, const int screenRow) {
         std::vector<Card *> cards = cardsInRow(ally, enemy, screenRow);
         if (cards.size() <= 0)
             return;
         Card *first;
-        damage(first = cards[0], 6, ally, enemy, this);
+        damage(first = cards[0], 6, ally, enemy, self);
         if (cards[cards.size()] != first)
-            damage(cards[cards.size()], 6, ally, enemy, this);
+            damage(cards[cards.size()], 6, ally, enemy, self);
     };
+    return res;
 }
 
-ElvenBlade::ElvenBlade()
+Card *Cards::createElvenBlade()
 {
-    id = "201643";
-    name = "Elven Blade";
-    text = "Deal 10 damage to a non-Elf unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Item };
-    faction = Scoiatael;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenBlade, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasNoTag(Elf)}, AnyBoard);
+    res->id = "201643";
+    res->isSpecial = true;
+    res->tags = { Item };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasNoTag(Elf)}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 10, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 10, ally, enemy, self);
     };
+    return res;
 }
 
-IncineratingTrap::IncineratingTrap()
+Card *Cards::createIncineratingTrap()
 {
-    id = "143301";
-    name = "Incinerating Trap";
-    text = "Spying. Damage all other units on its row by 2 and Banish self on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    tags = { Machine };
-    isDoomed = true;
-    isLoyal = false;
-    faction = Scoiatael;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createIncineratingTrap, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, enemy))
+    res->id = "143301";
+    res->power = res->powerBase = 1;
+    res->tags = { Machine };
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, enemy))
             return;
-        for (Card *card : cardsInRow(ally, enemy, _findScreenRow(this, ally, enemy)))
-            if (card != this)
-                damage(card, 2, ally, enemy, this);
-        banish(this, ally, enemy, this);
+        for (Card *card : cardsInRow(ally, enemy, _findScreenRow(self, ally, enemy)))
+            if (card != self)
+                damage(card, 2, ally, enemy, self);
+        banish(self, ally, enemy, self);
     };
+    return res;
 }
 
-BlueMountainElite::BlueMountainElite()
+Card *Cards::createBlueMountainElite()
 {
-    id = "142316";
-    name = "Blue Mountain Elite";
-    text = "Summon all copies of this unit to this row. Whenever this unit moves, boost it by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0006.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0004.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWV5_202972_0007.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBlueMountainElite, this);
+
+    res->id = "142316";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
+        boost(self, 2, ally, enemy, self);
     };
-
-    _onMoveFromRowToRow = [=](Field &ally, Field &enemy) {
-        boost(this, 2, ally, enemy, this);
-    };
+    return res;
 }
 
-DolBlathannaBomber::DolBlathannaBomber()
+Card *Cards::createDolBlathannaBomber()
 {
-    id = "142316";
-    name = "Dol Blathanna Bomber";
-    text = "Spawn an Incinerating Trap on an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SWF1_107697_0003.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWF1_100532_0009.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWF1_109383_0001.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaBomber, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewCard(new IncineratingTrap(), ally, enemy, this);
+    res->id = "142316";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createIncineratingTrap(), ally, enemy, self);
     };
+    return res;
 }
 
-DolBlathannaBowman::DolBlathannaBowman()
+Card *Cards::createDolBlathannaBowman()
 {
-    id = "142314";
-    name = "Dol Blathanna Bowman";
-    text = "Deal 2 damage to an enemy. Whenever an enemy moves, deal 2 damage to it. Whenever this unit moves, deal 2 damage to a random enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0006.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0007.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SWV1_202968_0012.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaBowman, this);
+
+    res->id = "142314";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 2, ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 2, ally, enemy, this);
+    res->_onMoveFromRowToRow = [](Card *self, Field &ally, Field &enemy) {
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 2, ally, enemy, self);
     };
 
-    _onMoveFromRowToRow = [=](Field &ally, Field &enemy) {
-        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 2, ally, enemy, this);
-    };
-
-    _onEnemyMoved = [=](Card *target, Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->_onEnemyMoved = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
-        damage(target, 2, ally, enemy, this);
+        damage(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-DolBlathannaSentry::DolBlathannaSentry()
+Card *Cards::createDolBlathannaSentry()
 {
-    id = "200039";
-    name = "Dol Blathanna Bowman";
-    text = "If in hand, deck or on board, boost self by 1 whenever you play a special card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 2;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.310.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.312.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.311.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDolBlathannaSentry, this);
 
-    _onSpecialPlayed = [=](Card *target, Field &ally, Field &enemy) {
-        if(!isOnBoard(this, ally) && !isIn(this, ally.deck) && !isIn(this, ally.hand))
+    res->id = "200039";
+    res->power = res->powerBase = 2;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onSpecialPlayed = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if(!isOnBoard(self, ally) && !isIn(self, ally.deck) && !isIn(self, ally.hand))
             return;
         if (!target->isSpecial || !(isIn(target, ally.discard) || isIn(target, ally.hand)))
-        //(target != ally.cardsAppeared.end()) ??
+            //(target != ally.cardsAppeared.end()) ??
             return;
-        boost(this, 1, ally, enemy, this);
+        boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
-ElvenScout::ElvenScout()
+Card *Cards::createElvenScout()
 {
-    id = "201638";
-    name = "Elven Scout";
-    text = "Swap a card.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.92.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.91.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.89.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.90.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.88.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenScout, this);
+
+    res->id = "201638";
+    res->power = res->powerBase = 10;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        swapACard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        swapACard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-ElvenSwordmaster::ElvenSwordmaster()
+Card *Cards::createElvenSwordmaster()
 {
-    id = "200535";
-    name = "Elven Swordmaster";
-    text = "Deal damage equal to this unit's power to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.398.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.400.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.399.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createElvenSwordmaster, this);
+
+    res->id = "200535";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, self->power, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, power, ally, enemy, this);
-    };
+    return res;
 }
 
-DwarvenAgitator::DwarvenAgitator()
+Card *Cards::createDwarvenAgitator()
 {
-    id = "200293";
-    name = "Dwarven Agitator";
-    text = "Spawn a default copy of a random different Bronze Dwarf from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    tags = { Dwarf, Support };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.96.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.94.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.97.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.95.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.93.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenAgitator, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy<DwarvenAgitator>}, AllyDeck), ally.rng))
-            spawnNewCard(card->defaultCopy(), ally, enemy, this);
+    res->id = "200293";
+    res->power = res->powerBase = 1;
+    res->tags = { Dwarf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Dwarf), isNotCopy(self->id)}, AllyDeck), ally.rng))
+            spawnNewCard(card->defaultCopy(), ally, enemy, self);
     };
+    return res;
 }
 
-DwarvenMercenary::DwarvenMercenary()
+Card *Cards::createDwarvenMercenary()
 {
-    id = "142311";
-    name = "Dwarven Mercenary";
-    text = "Move a unit to this row on its side. If it's an ally, boost it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526104.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00526102.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525272.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenMercenary, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        // NOTE: check if otherThan(this) required
+    res->id = "142311";
+    res->power = res->powerBase = 8;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: check if otherThan(self) required
         // TODO: fix ability, wrong filters
-        startChoiceToTargetCard(ally, enemy, this, {otherThan(this)}, AnyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {otherThan(self)}, AnyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         // TODO: fix the in-same-line moving issue (CiaranAepEasnillen has the same)
-        const Row row = _findRowAndPos(this, ally).row();
+        const Row row = _findRowAndPos(self, ally).row();
         if (isOnBoard(target, ally)) {
-            boost(target, 3, ally, enemy, this);
+            boost(target, 3, ally, enemy, self);
             // TODO: check if it's check really needed, and can `moveExistedUnitToPos` work with both fields?
             if (_findRowAndPos(target, ally).row() != row)
-                moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+                moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
             return;
         }
         if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
             return;
         }
     };
+    return res;
 }
 
-DwarvenSkirmisher::DwarvenSkirmisher()
+Card *Cards::createDwarvenSkirmisher()
 {
-    id = "142305";
-    name = "Dwarven Skirmisher";
-    text = "Deal 3 damage to an enemy. If the unit was not destroyed, boost self by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525271.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525421.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525423.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDwarvenSkirmisher, this);
+
+    res->id = "142305";
+    res->power = res->powerBase = 6;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!damage(target, 3, ally, enemy, self))
+            boost(self, 3, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!damage(target, 3, ally, enemy, this))
-            boost(this, 3, ally, enemy, this);
-    };
+    return res;
 }
 
-HawkerHealer::HawkerHealer()
+Card *Cards::createHawkerHealer()
 {
-    id = "142301";
-    name = "Hawker Healer";
-    text = "Boost 2 allies by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Elf, Support };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523670.mp3",
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523680.mp3",
-        "https://gwent.one/audio/card/ob/en/VSCF2_VSET_00523672.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerHealer, this);
+
+    res->id = "142301";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard, 2);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard, 2);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 3, ally, enemy, this);
-    };
+    return res;
 }
 
-HawkerSupport::HawkerSupport()
+Card *Cards::createHawkerSupport()
 {
-    id = "142312";
-    name = "Hawker Support";
-    text = "Boost a unit in your hand by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    tags = { Elf, Support };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00358151.mp3",
-        "https://gwent.one/audio/card/ob/en/VBAN1_MQ1005_00357973.mp3",
-        "https://gwent.one/audio/card/ob/en/VBAN1_VSET_00592242.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerSupport, this);
+
+    res->id = "142312";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 3, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 3, ally, enemy, this);
-    };
+    return res;
 }
 
-MahakamDefender::MahakamDefender()
+Card *Cards::createMahakamDefender()
 {
-    id = "142306";
-    name = "Mahakam Defender";
-    text = "Resilience.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525429.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525431.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD1_VSET_00525279.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamDefender, this);
 
-    _onDeploy = [=](Field &, Field &) {
-        isResilient = true;
+    res->id = "142306";
+    res->power = res->powerBase = 6;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->isResilient = true;
     };
+    return res;
 }
 
-MahakamGuard::MahakamGuard()
+Card *Cards::createMahakamGuard()
 {
-    id = "142317";
-    name = "Mahakam Guard";
-    text = "Boost an ally by 7.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013381.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013385.mp3",
-        "https://gwent.one/audio/card/ob/en/SCD34_VSET_01013371.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamGuard, this);
+
+    res->id = "142317";
+    res->power = res->powerBase = 4;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 7, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 7, ally, enemy, this);
-    };
+    return res;
 }
 
-MahakamVolunteers::MahakamVolunteers()
+Card *Cards::createMahakamVolunteers()
 {
-    id = "201559";
-    name = "Mahakam Volunteers";
-    text = "Summon all copies of this unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.101.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.99.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.102.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.100.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.98.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMahakamVolunteers, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    res->id = "201559";
+    res->power = res->powerBase = 3;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->name)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
     };
+    return res;
 }
 
-Pyrotechnician::Pyrotechnician()
+Card *Cards::createPyrotechnician()
 {
-    id = "200135";
-    name = "Pyrotechnician";
-    text = "Deal 3 damage to a random enemy on each row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Dwarf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.318.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.320.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.319.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPyrotechnician, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200135";
+    res->power = res->powerBase = 5;
+    res->tags = { Dwarf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (const Row row : std::vector<Row>{Meele, Range, Seige})
             if (Card *card = random(enemy.row(row), enemy.rng))
-                damage(card, 3, ally, enemy, this);
+                damage(card, 3, ally, enemy, self);
     };
 
+    return res;
 }
 
-Wardancer::Wardancer()
+Card *Cards::createWardancer()
 {
-    id = "142313";
-    name = "Wardancer";
-    text = "Whenever you Swap this unit, play it automatically on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 3;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.4.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.3.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.2.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createWardancer, this);
 
-    _onSwap = [=](Field &ally, Field &enemy) {
-        moveExistedUnitToPos(this, rowAndPosRandom(ally), ally, enemy, this);
+    res->id = "142313";
+    res->power = res->powerBase = 3;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
+        moveExistedUnitToPos(self, rowAndPosRandom(ally), ally, enemy, self);
     };
+    return res;
 }
 
-VriheddVanguard::VriheddVanguard()
+Card *Cards::createVriheddVanguard()
 {
-    id = "142309";
-    name = "Vrihedd Vanguard";
-    text = "Boost Elf allies by 1. Whenever you Swap this card, trigger its ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 6;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SF01_107685_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0042.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0054.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddVanguard, this);
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
+    res->id = "142309";
+    res->power = res->powerBase = 6;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
         for (Card *card : cardsFiltered(ally, enemy, {hasTag(Elf)}, AllyBoard))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
 
-    _onSwap = [=](Field &ally, Field &enemy) {
-        onDeploy(ally, enemy);
+    res->_onSwap = [](Card *self, Field &ally, Field &enemy) {
+        self->onDeploy(ally, enemy);
     };
+    return res;
 }
 
-VriheddOfficer::VriheddOfficer()
+Card *Cards::createVriheddOfficer()
 {
-    id = "142303";
-    name = "Vrihedd Officer";
-    text = "Swap a card and boost self by its base power.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Elf, Officer };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SF02_108969_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF02_101662_0066.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddOfficer, this);
+
+    res->id = "142303";
+    res->power = res->powerBase = 5;
+    res->tags = { Elf, Officer };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(self, target->powerBase, ally, enemy, self);
+        swapACard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(this, target->powerBase, ally, enemy, this);
-        swapACard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-VriheddNeophyte::VriheddNeophyte()
+Card *Cards::createVriheddNeophyte()
 {
-    id = "142301";
-    name = "Vrihedd Neophyte";
-    text = "Boost 2 random units in your hand by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.788.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.789.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.790.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddNeophyte, this);
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
+    res->id = "142301";
+    res->power = res->powerBase = 10;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
         for (Card *card : randoms(cardsFiltered(ally, enemy, {}, AllyHand), 2, ally.rng))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-VriheddBrigade::VriheddBrigade()
+Card *Cards::createVriheddBrigade()
 {
-    id = "142302";
-    name = "Vrihedd Brigade";
-    text = "Clear Hazards from its row and move a unit to this row on its side.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    tags = { Elf, Soldier };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SF01_102780_0001.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0035.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SF01_102746_0038.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVriheddBrigade, this);
+
+    res->id = "142302";
+    res->power = res->powerBase = 9;
+    res->tags = { Elf, Soldier };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        clearHazardsFromItsRow(self, ally);
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
-        clearHazardsFromItsRow(this, ally);
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         // TODO: fix the in-same-line moving issue (CiaranAepEasnillen and DwarvenMecenary has the same)
-        const Row row = _findRowAndPos(this, ally).row();
+        const Row row = _findRowAndPos(self, ally).row();
         if (isOnBoard(target, ally) && _findRowAndPos(target, ally).row() != row) {
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(ally, row), ally, enemy, self);
             return;
         }
         if (isOnBoard(target, enemy) && _findRowAndPos(target, ally).row() != row) {
-            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
             return;
         }
     };
+    return res;
 }
 
-HawkerSmuggler::HawkerSmuggler()
+Card *Cards::createHawkerSmuggler()
 {
-    id = "142315";
-    name = "Hawker Smuggler";
-    text = "Whenever an enemy appears, boost self by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 7;
-    tags = { Elf, Support };
-    faction = Scoiatael;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.6.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part2.7.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createHawkerSmuggler, this);
 
-    _onOtherEnemyAppears = [=](Card *, Field &ally, Field &enemy) {
+    res->id = "142315";
+    res->power = res->powerBase = 7;
+    res->tags = { Elf, Support };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onOtherEnemyAppears = [](Card *self, Card *, Field &ally, Field &enemy) {
         // TODO: check how should it works with cases like resurrect, spawn, summon
         // maybe have to replace onOtherEnemyAppears call
-        if (!isOnBoard(this, ally))
+        if (!isOnBoard(self, ally))
             return;
-        boost(this, 1, ally, enemy, this);
+        boost(self, 1, ally, enemy, self);
     };
+    return res;
 }
 
-MennoCoehoorn::MennoCoehoorn()
+Card *Cards::createMennoCoehoorn()
 {
-    id = "162102";
-    name = "Menno Coehoorn";
-    text = "Deal 4 damage to an enemy. If it's Spying, destroy it instead.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    tags = { Officer };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.59.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.58.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.60.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMennoCoehoorn, this);
+
+    res->id = "162102";
+    res->power = res->powerBase = 8;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (target->isSpy == false)
-            return putToDiscard(target, ally, enemy, this);
-        damage(target, 4, ally, enemy, this);
+            return putToDiscard(target, ally, enemy, self);
+        damage(target, 4, ally, enemy, self);
     };
+    return res;
 }
 
-RainfarnOfAttre::RainfarnOfAttre()
+Card *Cards::createRainfarnOfAttre()
 {
-    id = "200032";
-    name = "Rainfarn of Attre";
-    text = "Play a Bronze or Silver Spying unit from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 5;
-    tags = { Officer };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.91.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.93.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.92.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createRainfarnOfAttre, this);
+
+    res->id = "200032";
+    res->power = res->powerBase = 5;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field & enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isSpying, isBronzeOrSilver}, AllyDeckShuffled);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Assassination::Assassination()
+Card *Cards::createAssassination()
 {
-    id = "163101";
-    name = "Assassination";
-    text = "Deal 8 damage to an enemy. Repeat once.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isSpecial = true;
-    tags = { Tactics };
-    faction = Nilfgaard;
-    rarity = Gold;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAssassination, this);
 
-    _onPlaySpecial = [=](Field &ally, Field & enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "163101";
+    res->isSpecial = true;
+    res->tags = { Tactics };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field & enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 8, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 8, ally, enemy, self);
     };
 
+    return res;
 }
 
-StefanSkellen::StefanSkellen()
+Card *Cards::createStefanSkellen()
 {
-    id = "162106";
-    name = "Stefan Skellen";
-    text = "Move any card in your deck to the top. If it's a non-Spying unit, boost it by 5.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 10;
-    tags = { Officer };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.98.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.99.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.97.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createStefanSkellen, this);
+
+    res->id = "162106";
+    res->power = res->powerBase = 10;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyDeckShuffled);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyDeckShuffled);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, ally, enemy, DeckPosTop, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosTop, self);
         if (!target->isSpecial && !target->isSpy)
-            boost(target, 5, ally, enemy, this);
+            boost(target, 5, ally, enemy, self);
     };
+    return res;
 }
 
-Shilard::Shilard()
+Card *Cards::createShilard()
 {
-    id = "200071";
-    name = "Shilard";
-    text = "Truce: Draw a card from both decks. Keep one and give the other to your opponent.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 9;
-    tags = { Officer };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.96.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.94.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.95.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createShilard, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200071";
+    res->power = res->powerBase = 9;
+    res->tags = { Officer };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    struct State : StateCopy<State>
+    {
+        Card *_allyCard = nullptr;
+        Card *_enemyCard = nullptr;
+    };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (ally.passed || enemy.passed)
             return;
         std::vector<Card *> variants;
-        if ((_allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
-            variants.push_back(_allyCard);
-        if ((_enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
-            variants.push_back(_enemyCard);
-        startChoiceToTargetCard(ally, enemy, this, variants);
+        Card *&allyCard = self->stateAs<State>()->_allyCard;
+        Card *&enemyCard = self->stateAs<State>()->_enemyCard;
+        if ((allyCard = first(cardsFiltered(ally, enemy, {}, AllyDeck))))
+            variants.push_back(allyCard);
+        if ((enemyCard = random(cardsFiltered(ally, enemy, {}, EnemyDeck), ally.rng)))
+            variants.push_back(enemyCard);
+        startChoiceToTargetCard(ally, enemy, self, variants);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy, this);
-        if (target == _allyCard && _enemyCard)
-            putToHand(_enemyCard, enemy, ally, this);
-        else if (target == _enemyCard && _allyCard)
-            putToHand(_allyCard, enemy, ally, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy, self);
+        Card *allyCard = self->stateAs<State>()->_allyCard;
+        Card *enemyCard = self->stateAs<State>()->_enemyCard;
+        if (target == allyCard && enemyCard)
+            putToHand(enemyCard, enemy, ally, self);
+        else if (target == enemyCard && allyCard)
+            putToHand(allyCard, enemy, ally, self);
     };
+    return res;
 }
 
-Xarthisius::Xarthisius()
+Card *Cards::createXarthisius()
 {
-    id = "162108";
-    name = "Xarthisius";
-    text = "Look at your opponent's deck and move a card to the bottom.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    tags = { Mage };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.118.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.119.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.120.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createXarthisius, this);
+
+    res->id = "162108";
+    res->power = res->powerBase = 13;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyDeck);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyDeck);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, enemy, ally, DeckPosBottom, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, enemy, ally, DeckPosBottom, this);
-    };
+    return res;
 }
 
-Cantarella::Cantarella()
+Card *Cards::createCantarella()
 {
-    id = "162108";
-    name = "Cantarella";
-    text = "Spying. Single-Use: Draw 2 cards. Keep one and move the other to the bottom of your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 13;
-    tags = {};
-    isLoyal = false;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.127.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.128.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.129.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCantarella, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy)) {
+    res->id = "162108";
+    res->power = res->powerBase = 13;
+    res->tags = {};
+    res->isLoyal = false;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    struct State : StateCopy<State> { std::vector<Card *> _drawn; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (tick(self, ally, enemy)) {
             Card *firstCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
             Card *secondCard = first(cardsFiltered(ally, enemy, {}, AllyDeck));
             if (firstCard) {
-                putToHand(firstCard, ally, enemy,  this);
+                putToHand(firstCard, ally, enemy,  self);
             }
             if (secondCard) {
-                putToHand(secondCard, ally, enemy,  this);
+                putToHand(secondCard, ally, enemy,  self);
             }
             if (!firstCard || !secondCard)
                 return;
-            _drawn.push_back(firstCard);
-            _drawn.push_back(secondCard);
-            startChoiceToTargetCard(ally, enemy, this, _drawn);
+            std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+            drawn.push_back(firstCard);
+            drawn.push_back(secondCard);
+            startChoiceToTargetCard(ally, enemy, self, drawn);
         }
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        for (Card *card : _drawn)
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        std::vector<Card *> &drawn = self->stateAs<State>()->_drawn;
+        for (Card *card : drawn)
             if (card != target)
-                putToDeck(card, ally, enemy, DeckPosBottom, this);
-        _drawn.clear();
+                putToDeck(card, ally, enemy, DeckPosBottom, self);
+        drawn.clear();
     };
+    return res;
 }
 
-Panther::Panther()
+Card *Cards::createPanther()
 {
-    id = "200139";
-    name = "Panther";
-    text = "Deal 7 damage to an enemy on a row with less than 4 units.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Beast };
-    faction = Scoiatael;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createPanther, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200139";
+    res->power = res->powerBase = 4;
+    res->tags = { Beast };
+    res->faction = Scoiatael;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         const Field *enemyPtr = &enemy;
-        const auto isOk = [enemyPtr](Card *card) {
-            const Row row = _findRowAndPos(card, *enemyPtr).row();
+        const auto isOk = [enemyPtr](Card *self) {
+            const Row row = _findRowAndPos(self, *enemyPtr).row();
             return enemyPtr->row(row).size() < 4;
         };
-        startChoiceToTargetCard(ally, enemy, this, {isOk}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {isOk}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 7, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, self);
     };
+    return res;
 }
 
-VicovaroMedic::VicovaroMedic()
+Card *Cards::createVicovaroMedic()
 {
-    id = "162304";
-    name = "Vicovaro Medic";
-    text = "Resurrect a Bronze unit from your opponent's graveyard.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    tags = { Support };
-    isDoomed = true;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.431.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.430.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.429.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVicovaroMedic, this);
+
+    res->id = "162304";
+    res->power = res->powerBase = 1;
+    res->tags = { Support };
+    res->isDoomed = true;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, isUnit}, EnemyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, isUnit}, EnemyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-AssireVarAnahid::AssireVarAnahid()
+Card *Cards::createAssireVarAnahid()
 {
-    id = "162202";
-    name = "Assire var Anahid";
-    text = "Return 2 Bronze or Silver cards from either graveyard to their respective decks.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    tags = { Mage };
-    faction = Nilfgaard;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.76.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.77.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.75.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAssireVarAnahid, this);
+
+    res->id = "162202";
+    res->power = res->powerBase = 11;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, AllyDiscard);
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver}, EnemyDiscard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, AllyDiscard);
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver}, EnemyDiscard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         if (isIn(target, ally.discard)){
-            putToDeck(target, ally, enemy, DeckPosRandom, this);
+            putToDeck(target, ally, enemy, DeckPosRandom, self);
             return;
         }
-        else if (isIn(target, enemy.discard)){
-            putToDeck(target, enemy, ally, DeckPosRandom, this);
+        if (isIn(target, enemy.discard)){
+            putToDeck(target, enemy, ally, DeckPosRandom, self);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-FringillaVigo::FringillaVigo()
+Card *Cards::createFringillaVigo()
 {
-    id = "162205";
-    name = "Fringilla Vigo";
-    text = "Spying. Copy the power from the unit to the left to the unit to the right.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    isLoyal = false;
-    tags = { Mage };
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.90.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.88.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.89.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFringillaVigo, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        Card *left = cardNextTo(this, ally, enemy, -1);
-        Card *right = cardNextTo(this, ally, enemy, 1);
+    res->id = "162205";
+    res->power = res->powerBase = 1;
+    res->isLoyal = false;
+    res->tags = { Mage };
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        Card *left = cardNextTo(self, ally, enemy, -1);
+        Card *right = cardNextTo(self, ally, enemy, 1);
         if (left != nullptr && right != nullptr)
-            setPower(right, left->power, ally, enemy, this);
+            setPower(right, left->power, ally, enemy, self);
     };
+    return res;
 }
 
-FalseCiri::FalseCiri()
+Card *Cards::createFalseCiri()
 {
-    id = "162212";
-    name = "False Ciri";
-    text = "Spying. If Spying, boost self by 1 on turn start and when this player passes, move to the opposite row. Deathwish: Destroy the Lowest unit on the row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 8;
-    isLoyal = false;
-    tags = { };
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.105.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.107.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.106.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFalseCiri, this);
+
+    res->id = "162212";
+    res->power = res->powerBase = 8;
+    res->isLoyal = false;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onTurnStart = [](Card *self, Field &ally, Field &enemy) {
+        if (!self->isLoyal)
+            boost(self, 1, ally, enemy, self);
     };
 
-    _onTurnStart = [=](Field &ally, Field &enemy) {
-        if (!this->isLoyal)
-            boost(this, 1, ally, enemy, this);
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+        if (Card *self = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
+            putToDiscard(self, ally, enemy, self);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
-        if (Card *card = lowest(cardsInRow(ally, enemy, rowAndPos.row()), ally.rng))
-            putToDiscard(card, ally, enemy, this);
-    };
-
-    _onAllyPass = [=](Field &ally, Field &enemy) {
+    res->_onAllyPass = [](Card *self, Field &ally, Field &enemy) {
         // NOTE: for spying creatures logic of this event is inverted
         // so an ally is an original enemy for FalseCiri
-        if (!this->isLoyal) {
-            const Row row = _findRowAndPos(this, ally).row();
-            moveExistedUnitToPos(this, rowAndPosLastInExactRow(enemy, row), enemy, ally, this);
-        }
+        if (self->isLoyal)
+            return;
+        const Row row = _findRowAndPos(self, ally).row();
+        moveExistedUnitToPos(self, rowAndPosLastInExactRow(enemy, row), enemy, ally, self);
     };
+    return res;
 }
 
-Dandelion::Dandelion()
+Card *Cards::createDandelion()
 {
-    id = "122201";
-    name = "Dandelion";
-    text = "Boost 3 units in your deck by 2.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 11;
-    tags = { Support };
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00490269.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_DANDELION_00429307.mp3",
-        "https://gwent.one/audio/card/ob/en/DAND_Q302_00489393.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_JSKR_100926_0188.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.5.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.6.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.7.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createDandelion, this);
+
+    res->id = "122201";
+    res->power = res->powerBase = 11;
+    res->tags = { Support };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/DAND_Q302_00490269.mp3",
+        "https://gwent.one/audio/self/ob/en/DAND_DANDELION_00429307.mp3",
+        "https://gwent.one/audio/self/ob/en/DAND_Q302_00489393.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_JSKR_100926_0188.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.5.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.6.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.7.mp3",
     };
 
-    _onDeploy = [this](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit}, AllyDeckShuffled, 3, false);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit}, AllyDeckShuffled, 3, false);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Kiyan::Kiyan()
+Card *Cards::createKiyan()
 {
-    id = "201621";
-    name = "Kiyan";
-    text = "Choose One: Create a Bronze or Silver Alchemy card; or Play a Bronze or Silver Item from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 4;
-    tags = { Cursed, Witcher };
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.14.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.15.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.16.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.17.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.18.mp3",
-    };
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createKiyan, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Kiyan::Create;
-        copyCardText(this, option1);
-        option1->text = "Create a Bronze or Silver Alchemy card.";
+    res->id = "201621";
+    res->power = res->powerBase = 4;
+    res->tags = { Cursed, Witcher };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->state = new StateChoosen();
 
-        auto *option2 = new Kiyan::Play;
-        copyCardText(this, option2);
+    enum { Create, Play };
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Create);
+        option1->text = "Create a Bronze or Silver Alchemy self.";
+
+        auto *option2 = createOption(self, Play);
         option2->text = "Play a Bronze or Silver Item from your deck.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-
-        if (!_choosen && dynamic_cast<Kiyan::Play *>(target)) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!_choosen && isOption(target, Play)) {
             _choosen = target;
-            return startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
+            return startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Item)}, AllyDeckShuffled);
         }
 
-        if (!_choosen && dynamic_cast<Kiyan::Create *>(target)) {
+        if (!_choosen && isOption(target, Create)) {
             _choosen = target;
-            return startChoiceCreateOptions(ally, enemy, this, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
+            return startChoiceCreateOptions(ally, enemy, self, {isBronzeOrSilver, hasTag(Alchemy)}, AnyCard);
         }
 
-        if (dynamic_cast<Kiyan::Create *>(_choosen)) {
-            spawnNewCard(target, ally, enemy, this);
+        if (isOption(_choosen, Create)) {
+            spawnNewCard(target, ally, enemy, self);
             delete _choosen;
             _choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-PhilippaEilhart::PhilippaEilhart()
+Card *Cards::createPhilippaEilhart()
 {
-    id = "122104";
-    name = "Philippa Eilhart";
-    text = "Deal 5 damage to an enemy, then deal 4, 3, 2 and 1 damage to random enemies. Cannot damage the same enemy twice in a row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    power = powerBase = 1;
-    tags = { Mage, Redania };
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/PHIL_Q502_00555967.mp3",
-        "https://gwent.one/audio/card/ob/en/PHIL_Q310_00533376.mp3",
-        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041426.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLPA_200102_0065.mp3",
-        "https://gwent.one/audio/card/ob/en/PHIL_PHILIPPA_01041424.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_FLPA_300358_0012.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createPhilippaEilhart, this);
+
+    res->id = "122104";
+    res->power = res->powerBase = 1;
+    res->tags = { Mage, Redania };
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
 
         for (int dmg = 4; dmg > 0; --dmg) {
             target = random(cardsFiltered(ally, enemy, {otherThan(target)}, EnemyBoard), ally.rng);
             if (!target)
                 return;
-            damage(target, dmg, ally, enemy, this);
+            damage(target, dmg, ally, enemy, self);
         }
     };
+    return res;
 }
 
-RocheMerciless::RocheMerciless()
+Card *Cards::createRocheMerciless()
 {
-    id = "201777";
-    name = "Roche: Merciless";
-    text = "Destroy a face-down Ambush enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Officer };
-    power = powerBase = 6;
-    faction = NothernRealms;
-    rarity = Gold;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/ROCH_ROCHE_00541126.mp3",
-        "https://gwent.one/audio/card/ob/en/ROCH_MQ3035_01064844.mp3",
-    };
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createRocheMerciless, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "201777";
+    res->tags = { Temeria, Officer };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         // FIXME: test, because it won't work
-        startChoiceToTargetCard(ally, enemy, this, {isAmbushing}, EnemyBoard);
+        startChoiceToTargetCard(ally, enemy, self, {isAmbushing}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *card, Field &ally, Field &enemy) {
-        putToDiscard(card, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDiscard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Shani::Shani()
+Card *Cards::createShani()
 {
-    id = "122106";
-    name = "Shani";
-    text = "Resurrect a non-Cursed Bronze or Silver unit and give it 2 Armor.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Redania, Support };
-    power = powerBase = 4;
-    faction = NothernRealms;
-    rarity = Gold;
-    isDoomed = true;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createShani, this);
 
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SHNI_SHANI_01130725.mp3",
-        "https://gwent.one/audio/card/ob/en/SHNI_Q601_01101942.mp3",
-        "https://gwent.one/audio/card/ob/en/SHNI_Q602_01119358.mp3",
+    res->id = "122106";
+    res->tags = { Redania, Support };
+    res->power = res->powerBase = 4;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
+    res->isDoomed = true;
+
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SHNI_SHANI_01130725.mp3",
+        "https://gwent.one/audio/self/ob/en/SHNI_Q601_01101942.mp3",
+        "https://gwent.one/audio/self/ob/en/SHNI_Q602_01119358.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isUnit, isBronzeOrSilver, hasNoTag(Cursed),}, AllyDiscard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-        gainArmor(target, 2, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+        gainArmor(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-Vandergrift::Vandergrift()
+Card *Cards::createVandergrift()
 {
-    id = "201620";
-    name = "Vandergrift";
-    text = "Deal 1 damage to all enemies. If a unit is destroyed, apply Ragh Nar Roog to its row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed, Kaedwen, Officer };
-    power = powerBase = 7;
-    faction = NothernRealms;
-    rarity = Gold;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVandergrift, this);
 
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.11.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.10.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.9.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.8.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.7.mp3",
-    };
+    res->id = "201620";
+    res->tags = { Cursed, Kaedwen, Officer };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Gold;
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
-            if (damage(card, 1, ally, enemy, this)) {
-                const Row row = _findRowAndPos(this, enemy).row();
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (damage(self, 1, ally, enemy, self)) {
+                const Row row = _findRowAndPos(self, enemy).row();
                 applyRowEffect(ally, enemy, toScreenRow(row, false), RaghNarRoogEffect);
             }
         }
     };
+    return res;
 }
 
-Botchling::Botchling()
+Card *Cards::createBotchling()
 {
-    id = "122401";
-    name = "Botchling";
-    text = "Summon a Lubberkin to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    power = powerBase = 10;
-    faction = NothernRealms;
-    rarity = Silver;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createBotchling, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy<Lubberkin>}, AllyDeck))
-            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(this, ally, 1), ally, enemy, this);
+    res->id = "122401";
+    res->tags = { Cursed };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: 122402 is Lubberkin
+        for (Card *lubberkin : cardsFiltered(ally, enemy, {isCopy("122402")}, AllyDeck))
+            moveExistedUnitToPos(lubberkin, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-Lubberkin::Lubberkin()
+Card *Cards::createLubberkin()
 {
-    id = "122402";
-    name = "Lubberkin";
-    text = "Summon a Botchling to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    power = powerBase = 5;
-    faction = NothernRealms;
-    rarity = Silver;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createLubberkin, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy<Botchling>}, AllyDeck))
-            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(this, ally, 1), ally, enemy, this);
+    res->id = "122402";
+    res->tags = { Cursed };
+    res->power = res->powerBase = 5;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        // NOTE: 122401 is Botchling
+        for (Card *botchling : cardsFiltered(ally, enemy, {isCopy("122401")}, AllyDeck))
+            moveExistedUnitToPos(botchling, rowAndPosToTheLeft(self, ally, 1), ally, enemy, self);
     };
+    return res;
 }
 
-NilfgaardianGate::NilfgaardianGate()
+Card *Cards::createNilfgaardianGate()
 {
-    id = "201699";
-    name = "Nilfgaardian Gate";
-    text = "Play a Bronze or Silver Officer from your deck and boost it by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Tactics };
-    isSpecial = true;
-    faction = Nilfgaard;
-    rarity = Silver;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createNilfgaardianGate, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
+    res->id = "201699";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {hasTag(Officer), isBronzeOrSilver}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 1, ally, enemy, this);
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 1, ally, enemy, self);
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-PeterSaarGwynleve::PeterSaarGwynleve()
+Card *Cards::createPeterSaarGwynleve()
 {
-    id = "162204";
-    name = "Peter Saar Gwynleve";
-    text = "Reset an ally and Strengthen it by 3; or Reset an enemy and Weaken it by 3.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 6;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.426.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.427.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.428.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createPeterSaarGwynleve, this);
+
+    res->id = "162204";
+    res->tags = { Officer };
+    res->power = res->powerBase = 6;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.426.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.427.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.428.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, self);
         if (isOnBoard(target, ally))
-            strengthen(target, 3, ally, enemy, this);
+            strengthen(target, 3, ally, enemy, self);
         else if (isOnBoard(target, enemy))
-            weaken(target, 3, ally, enemy, this);
+            weaken(target, 3, ally, enemy, self);
         else
-            assert(false);
+            throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-VicovaroNovice::VicovaroNovice()
+Card *Cards::createVicovaroNovice()
 {
-    id = "122403";
-    name = "Vicovaro Novice";
-    text = "Look at 2 random Bronze Alchemy cards from your deck, then play 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage };
-    power = powerBase = 2;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.820.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.821.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.819.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVicovaroNovice, this);
+
+    res->id = "122403";
+    res->tags = { Mage };
+    res->power = res->powerBase = 2;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.820.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.821.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries.819.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, hasTag(Alchemy)}, AllyDeck), 2, ally.rng));
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Cadaverine::Cadaverine()
+Card *Cards::createCadaverine()
 {
-    id = "201662";
-    name = "Cadaverine";
-    text = "Choose One: Deal 2 damage to an enemy and all units that share its categories; or Destroy a Bronze or Silver Neutral unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Alchemy, Item };
-    isSpecial = true;
-    faction = Nilfgaard;
-    rarity = Silver;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCadaverine, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new Cadaverine::DealDamage;
-        copyCardText(this, option1);
+    res->id = "201662";
+    res->tags = { Alchemy, Item };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { DealDamage, Destroy };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, DealDamage);
         option1->text = "Deal 2 damage to an enemy and all units that share its categories.";
 
-        auto *option2 = new Cadaverine::Destroy;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Destroy);
         option2->text = "Destroy a Bronze or Silver Neutral unit.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (!_choosen && dynamic_cast<Cadaverine::DealDamage *>(target)) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!_choosen && isOption(target, DealDamage)) {
             _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
 
-        if (!_choosen && dynamic_cast<Cadaverine::Destroy *>(target)) {
+        if (!_choosen && isOption(target, Destroy)) {
             _choosen = target;
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isFaction(Neutral)}, AnyBoard);
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<Cadaverine::DealDamage *>(_choosen))
-            for (Card *card : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
-                damage(card, 2, ally, enemy, this);
+        if (isOption(choosen, DealDamage)) {
+            for (Card *self : cardsFiltered(ally, enemy, {hasAnyOfTags(target->tags)}, EnemyBoard))
+                damage(self, 2, ally, enemy, self);
+            delete choosen;
+            choosen = nullptr;
+            return;choosen;
+        }
 
-        if (dynamic_cast<Cadaverine::Destroy *>(_choosen))
-            putToDiscard(target, ally, enemy, this);
+        if (isOption(choosen, Destroy)) {
+            putToDiscard(target, ally, enemy, self);
+            choosen = nullptr;
+            return;
+        }
 
-        delete _choosen;
-        _choosen = nullptr;
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-JoachimDeWett::JoachimDeWett()
+Card *Cards::createJoachimDeWett()
 {
-    id = "162211";
-    name = "Joachim de Wett";
-    text = "Spying. Play the top non-Spying Bronze or Silver unit from your deck and boost it by 10.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.19.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.18.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.17.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createJoachimDeWett, this);
+
+    res->id = "162211";
+    res->tags = { Officer };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.19.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.18.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part3.17.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (Card* card = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
-            boost(card, 10, ally, enemy, this);
-            playExistedCard(card, ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card* self = first(cardsFiltered(ally, enemy, {isBronzeOrSilver, isNonSpying, isUnit}, AllyDeck))) {
+            boost(self, 10, ally, enemy, self);
+            playExistedCard(self, ally, enemy, self);
         }
     };
+    return res;
 }
 
-Treason::Treason()
+Card *Cards::createTreason()
 {
-    id = "163201";
-    name = "Treason";
-    text = "Force 2 adjacent enemies to Duel each other.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Tactics };
-    isSpecial = true;
-    faction = Nilfgaard;
-    rarity = Silver;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createTreason, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
+    res->id = "163201";
+    res->tags = { Tactics };
+    res->isSpecial = true;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
         std::vector<Card *> cardsToChoice;
-        for(Card *card : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
-            if (!card->isAmbush) {
-                Card *left = cardNextTo(card, ally, enemy, -1);
-                Card *right = cardNextTo(card, ally, enemy, 1);
+        for(Card *self : cardsFiltered(ally, enemy, {}, EnemyBoard)) {
+            if (!self->isAmbush) {
+                Card *left = cardNextTo(self, ally, enemy, -1);
+                Card *right = cardNextTo(self, ally, enemy, 1);
                 if ((left != nullptr && !left->isAmbush) || (right != nullptr && !right->isAmbush))
-                   cardsToChoice.push_back(card);
+                   cardsToChoice.push_back(self);
             }
         }
-        startChoiceToTargetCard(ally, enemy, this, cardsToChoice);
+        startChoiceToTargetCard(ally, enemy, self, cardsToChoice);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
         if (_choosen == nullptr) {
             _choosen = target;
             std::vector<Card *> cards;
@@ -12672,728 +11840,712 @@ Treason::Treason()
             if (Card *right = cardNextTo(target, ally, enemy, 1))
                 if(!right->isAmbush)
                     cards.push_back(right);
-            assert(cards.size() != 0);
-            startChoiceToTargetCard(ally, enemy, this, cards);
+            if (!cards.size())
+                throw Error(Error::Assert, self);
+            startChoiceToTargetCard(ally, enemy, self, cards);
             return;
         }
         duel(_choosen, target, ally, enemy);
     };
+    return res;
 }
 
-Vanhemar::Vanhemar()
+Card *Cards::createVanhemar()
 {
-    id = "162207";
-    name = "Vanhemar";
-    text = "Spawn Biting Frost, Clear Skies or Shrike.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage };
-    power = powerBase = 4;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_NM01_200057_0187.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_NM01_200996_0005.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_NM01_200049_0007.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVanhemar, this);
+
+    res->id = "162207";
+    res->tags = { Mage };
+    res->power = res->powerBase = 4;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200057_0187.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200996_0005.mp3",
+        "https://gwent.one/audio/self/ob/en/VO_NM01_200049_0007.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToSelectOption(ally, enemy, this, {new BitingFrost(), new ClearSkies(), new Shrike()});
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToSelectOption(ally, enemy, self, {createBitingFrost(), createClearSkies(), createShrike()});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        spawnNewCard(target, ally, enemy, this);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        spawnNewCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-Vrygheff::Vrygheff()
+Card *Cards::createVrygheff()
 {
-    id = "201664";
-    name = "Vrygheff";
-    text = "Play a Bronze Machine from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.256.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.255.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.253.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.254.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createVrygheff, this);
+
+    res->id = "201664";
+    res->tags = { Officer };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Silver;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.256.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.255.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.253.mp3",
+        "https://gwent.one/audio/self/ob/en/SAY.Battlecries_part4.254.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag({Machine})}, AllyDeckShuffled);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
     };
+    return res;
 }
 
-AlbaPikeman::AlbaPikeman()
+Card *Cards::createAlbaPikeman()
 {
-    id = "162311";
-    name = "Alba Pikeman";
-    text = "Summon all copies of this unit to this row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 3;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514121.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514091.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF3_VSET_00514113.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createAlbaPikeman, this);
+
+    res->id = "162311";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514121.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514091.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF3_VSET_00514113.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(this->name)}, AllyDeck))
-            moveExistedUnitToPos(copy, _findRowAndPos(this, ally), ally, enemy, this);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (Card *copy : cardsFiltered(ally, enemy, {isCopy(self->id)}, AllyDeck))
+            moveExistedUnitToPos(copy, _findRowAndPos(self, ally), ally, enemy, self);
     };
+    return res;
 }
 
-CombatEngineer::CombatEngineer()
+Card *Cards::createCombatEngineer()
 {
-    id = "162313";
-    name = "Combat Engineer";
-    text = "Boost an ally by 5. Crew.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Support };
-    isCrew = true;
-    power = powerBase = 6;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NILF2_Q502_00556520.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513907.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF2_VSET_01072393.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCombatEngineer, this);
+
+    res->id = "162313";
+    res->tags = { Support };
+    res->isCrew = true;
+    res->power = res->powerBase = 6;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+    res->sounds = {
+        "https://gwent.one/audio/self/ob/en/NILF2_Q502_00556520.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF2_VSET_00513907.mp3",
+        "https://gwent.one/audio/self/ob/en/NILF2_VSET_01072393.mp3",
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        boost(target, 5, ally, enemy, this);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        boost(target, 5, ally, enemy, self);
     };
+    return res;
 }
 
-MagneDivision::MagneDivision()
+Card *Cards::createMagneDivision()
 {
-    id = "200044";
-    name = "Magne Division";
-    text = "Play a random Bronze Item from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 3;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.35.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.37.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.36.mp3",
-    };
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createMagneDivision, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200044";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 3;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Item)}, AllyDeck), ally.rng))
-            playExistedCard(card, ally, enemy, this);
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
-NauzicaaBrigade::NauzicaaBrigade()
+Card *Cards::createNauzicaaBrigade()
 {
-    id = "162310";
-    name = "Nauzicaa Brigade";
-    text = "Deal 7 damage to a Spying unit. If it was destroyed, Strengthen self by 4.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513916.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513914.mp3",
-        "https://gwent.one/audio/card/ob/en/NILF2_VSET_00513922.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createNauzicaaBrigade, this);
+
+    res->id = "162310";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isSpying}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isSpying}, AnyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (damage(target, 7, ally, enemy, self))
+            strengthen(self, 4, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        if (damage(target, 7, ally, enemy, this))
-            strengthen(this, 4, ally, enemy, this);
-    };
+    return res;
 }
 
-SlaveDriver::SlaveDriver()
+Card *Cards::createSlaveDriver()
 {
-    id = "201612";
-    name = "Slave Driver";
-    text = "Set an ally's power to 1 and deal damage to an enemy by the amount of power lost.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Officer };
-    power = powerBase = 10;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.113.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.114.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.115.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.116.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.117.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlaveDriver, this);
+
+    res->id = "201612";
+    res->tags = { Officer };
+    res->power = res->powerBase = 10;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { int _lostPower = -1; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyBoard);
-    };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int &_lostPower = self->stateAs<State>()->_lostPower;
         if (_lostPower == -1) {
             _lostPower = target->power - 1;
-            setPower(target, 1, ally, enemy, this);
+            setPower(target, 1, ally, enemy, self);
             if (_lostPower == 0)
                 return;
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        damage(target, _lostPower, ally, enemy, this);
+        damage(target, _lostPower, ally, enemy, self);
     };
+    return res;
 }
 
-SlaveHunter::SlaveHunter()
+Card *Cards::createSlaveHunter()
 {
-    id = "201609";
-    name = "Slave Hunter";
-    text = "Charm a Bronze enemy with 3 power or less.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 8;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.105.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.104.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.103.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.106.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.107.mp3",
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createSlaveHunter, this);
+
+    res->id = "201609";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasPowerXorLess(3)}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        charm(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        charm(target, ally, enemy, this);
-    };
+    return res;
 }
 
-ViperWitcher::ViperWitcher()
+Card *Cards::createViperWitcher()
 {
-    id = "200124";
-    name = "Viper Witcher";
-    text = "Deal 1 damage for each Alchemy card in your starting deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Witcher };
-    power = powerBase = 5;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.339.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.338.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.337.mp3",
-    };
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createViperWitcher, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "200124";
+    res->tags = { Witcher };
+    res->power = res->powerBase = 5;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         if (cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size() > 0)
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         const int dmg = cardsFiltered(ally, enemy, {hasTag(Alchemy)}, AllyDeckStarting).size();
-        damage(target, dmg, ally, enemy, this);
+        damage(target, dmg, ally, enemy, self);
     };
+    return res;
 }
 
-RotTosser::RotTosser()
+Card *Cards::createRotTosser()
 {
-    id = "162302";
-    name = "Rot Tosser";
-    text = "Spawn a Cow Carcass on an enemy row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Machine };
-    power = powerBase = 8;
-    faction = Nilfgaard;
-    rarity = Bronze;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createRotTosser, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        spawnNewCard(new CowCarcass(), ally, enemy, this);
+    res->id = "162302";
+    res->tags = { Machine };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        spawnNewCard(createCowCarcass(), ally, enemy, self);
     };
+    return res;
 }
 
-RotTosser::CowCarcass::CowCarcass()
+Card *Cards::createCowCarcass()
 {
-    id = "162402";
-    name = "Cow Carcass";
-    text = "Spying. After 2 turns, destroy all the other Lowest units on the row and Banish self on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    isDoomed = true;
-    isLoyal = false;
-    power = powerBase = 1;
-    faction = Nilfgaard;
-    rarity = Bronze;
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createCowCarcass, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        setTimer(this, ally, enemy, 2);
+    res->id = "162402";
+    res->isDoomed = true;
+    res->isLoyal = false;
+    res->power = res->powerBase = 1;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        setTimer(self, ally, enemy, 2);
     };
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!tick(this, ally, enemy))
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!tick(self, ally, enemy))
             return;
-        for (Card *card : lowests(cardsFiltered(ally, enemy,  {otherThan(this), isOnSameRow(&ally, this)}, AllyBoard)))
-            putToDiscard(card, ally, enemy, this);
-        banish(this, ally, enemy, this);
+        for (Card *self : lowests(cardsFiltered(ally, enemy,  {otherThan(self), isOnSameRow(&ally, self)}, AllyBoard)))
+            putToDiscard(self, ally, enemy, self);
+        banish(self, ally, enemy, self);
     };
+    return res;
 }
 
-StandardBearer::StandardBearer()
+Card *Cards::createStandardBearer()
 {
-    id = "200294";
-    name = "Standard Bearer";
-    text = "Boost an ally by 2 whenever you play a Soldier.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Soldier };
-    power = powerBase = 8;
-    faction = Nilfgaard;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.338.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.339.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.340.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.341.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.342.mp3",
-    };
+    Card *res = new Card();
+    res->_constructor = std::bind(&Cards::createStandardBearer, this);
 
-    _onOtherAllyPlayedFromHand = [=](Card *other, Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "200294";
+    res->tags = { Soldier };
+    res->power = res->powerBase = 8;
+    res->faction = Nilfgaard;
+    res->rarity = Bronze;
+
+    res->_onOtherAllyPlayedFromHand = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
-        if (hasTag(other, Soldier))
-            boost(this, 2, ally, enemy, this);
+        if (hasTag(target, Soldier))
+            boost(target, 2, ally, enemy, self);
     };
+    return res;
 }
 
-MargaritaOfAretuza::MargaritaOfAretuza()
+Card *Cards::createCursedKnight()
 {
-    id = "122211";
-    name = "Margarita of Aretuza";
-    text = "Reset a unit and toggle its Lock status.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Mage };
-    power = powerBase = 6;
-    faction = NothernRealms;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/MGLA_Q210_00584250.mp3",
-        "https://gwent.one/audio/card/ob/en/MGLA_Q310_00562485.mp3",
-        "https://gwent.one/audio/card/ob/en/MGLA_MARGARITTA_01012961.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createCursedKnight, this);
+
+    res->id = "201625";
+    res->power = res->powerBase = 8;
+    res->tags = { Cursed, Aedirn };
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        gainArmor(self, 2, ally, enemy, self);
+        startChoiceCreateOptions(ally, enemy, self, {hasTag(Cursed)}, AllyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AnyBoard);
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        transform(target, self->defaultCopy(), ally, enemy, self);
+        gainArmor(target, 2, ally, enemy, target);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        reset(target, ally, enemy, this);
-        toggleLock(target, ally, enemy, this);
-    };
+    return res;
 }
 
-Nenneke::Nenneke()
+Card *Cards::createMargaritaOfAretuza()
 {
-    id = "122212";
-    name = "Nenneke";
-    text = "Return 3 Bronze or Silver units from the graveyard to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Support };
-    power = powerBase = 10;
-    faction = NothernRealms;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.43.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.42.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries.44.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createMargaritaOfAretuza, this);
+
+    res->id = "122211";
+    res->tags = { Temeria, Mage };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [=](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AnyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, isUnit}, AllyDiscard, 3);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        reset(target, ally, enemy, self);
+        toggleLock(target, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, ally, enemy, DeckPosRandom, this);
-    };
+    return res;
 }
 
-SabrinasSpecter::SabrinasSpecter()
+Card *Cards::createNenneke()
 {
-    id = "201650";
-    name = "Sabrina's Specter";
-    text = "Resurrect a Bronze Cursed unit.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Mage, Cursed };
-    isDoomed = true;
-    power = powerBase = 3;
-    faction = NothernRealms;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createNenneke, this);
+
+    res->id = "122212";
+    res->tags = { Temeria, Support };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, isUnit}, AllyDiscard, 3);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {isBronze, hasTag(Cursed)}, AllyDiscard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        playExistedCard(target, ally, enemy, this);
-    };
+    return res;
 }
 
-SabrinaGlevissig::SabrinaGlevissig()
+Card *Cards::createSabrinasSpecter()
 {
-    id = "122206";
-    name = "Sabrina Glevissig";
-    text = "Spying. Deathwish: Set the power of all units on the row to the power of the Lowest unit on the row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Kaedwen, Mage };
-    isLoyal = false;
-    power = powerBase = 3;
-    faction = NothernRealms;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0064.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0101.mp3",
-        "https://gwent.one/audio/card/ob/en/VO_SABR_200216_0037.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSabrinasSpecter, this);
+
+    res->id = "201650";
+    res->tags = { Mage, Cursed };
+    res->isDoomed = true;
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Cursed)}, AllyDiscard);
     };
 
-    _onDestroy = [=](Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
+    res->_onTargetChoosen = [=](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSabrinaGlevissig()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSabrinaGlevissig, this);
+
+    res->id = "122206";
+    res->tags = { Kaedwen, Mage };
+    res->isLoyal = false;
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDestroy = [](Card *self, Field &ally, Field &enemy, const RowAndPos &rowAndPos) {
         const std::vector<Card *> cards = ally.row(rowAndPos.row());
         const int power = lowest(cards, ally.rng)->power;
         for (Card *card : cards)
-            setPower(card, power, ally, enemy, this);
+            setPower(card, power, ally, enemy, self);
     };
+    return res;
 }
 
-Thaler::Thaler()
+Card *Cards::createThaler()
 {
-    id = "122203";
-    name = "Thaler";
-    text = "Spying. Single-Use: Draw 2 cards, keep one and return the other to your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria };
-    isLoyal = false;
-    timer = 1;
-    power = powerBase = 13;
-    faction = NothernRealms;
-    rarity = Silver;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067599.mp3",
-        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067657.mp3",
-        "https://gwent.one/audio/card/ob/en/TALA_SQ315_01067677.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createThaler, this);
+
+    res->id = "122203";
+    res->tags = { Temeria };
+    res->isLoyal = false;
+    res->timer = 1;
+    res->power = res->powerBase = 13;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (tick(self, ally, enemy))
+            startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        if (tick(this, ally, enemy))
-            startChoiceToTargetCard(ally, enemy, this, randoms(cardsFiltered(ally, enemy, {}, AllyDeck), 2, ally.rng));
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToHand(target, ally, enemy,  self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToHand(target, ally, enemy,  this);
-    };
+    return res;
 }
 
-AedirnianMauler::AedirnianMauler()
+Card *Cards::createAedirnianMauler()
 {
-    id = "200540";
-    name = "Aedirnian Mauler";
-    text = "Deal 4 damage to an enemy.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Aedirn, Soldier };
-    power = powerBase = 7;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.82.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.81.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.80.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.79.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part4.78.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAedirnianMauler, this);
+
+    res->id = "200540";
+    res->tags = { Aedirn, Soldier };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 4, ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 4, ally, enemy, this);
-    };
+    return res;
 }
 
-AretuzaAdept::AretuzaAdept()
+Card *Cards::createAretuzaAdept()
 {
-    id = "200033";
-    name = "Aretuza Adept";
-    text = "Play a random Bronze Hazard from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Temeria, Mage };
-    power = powerBase = 3;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.376.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.377.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.378.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createAretuzaAdept, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        playExistedCard(random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng), ally, enemy, this);
+    res->id = "200033";
+    res->tags = { Temeria, Mage };
+    res->power = res->powerBase = 3;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (Card *card = random(cardsFiltered(ally, enemy, {isBronze, hasTag(Hazard)}, AllyDeck), ally.rng))
+            playExistedCard(card, ally, enemy, self);
     };
+    return res;
 }
 
-VandergriftsBlade::VandergriftsBlade()
+Card *Cards::createVandergriftsBlade()
 {
-    id = "201648";
-    name = "Vandergrift's Blade";
-    text = "Choose One: Destroy a Bronze or Silver Cursed enemy; or Deal 9 damage and, if the unit was destroyed, Banish it.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Item };
-    isSpecial = true;
-    faction = NothernRealms;
-    rarity = Silver;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createVandergriftsBlade, this);
 
-    _onPlaySpecial = [=](Field &ally, Field &enemy) {
-        auto *option1 = new VandergriftsBlade::Destroy;
-        copyCardText(this, option1);
+    res->id = "201648";
+    res->tags = { Item };
+    res->isSpecial = true;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+    res->state = new StateChoosen();
+
+    enum { Destroy, Damage };
+    res->_onPlaySpecial = [](Card *self, Field &ally, Field &enemy) {
+        auto *option1 = createOption(self, Destroy);
         option1->text = "Destroy a Bronze or Silver Cursed enemy.";
 
-        auto *option2 = new VandergriftsBlade::Damage;
-        copyCardText(this, option2);
+        auto *option2 = createOption(self, Damage);
         option2->text = "Deal 9 damage and, if the unit was destroyed, Banish it.";
 
-        _choosen = nullptr;
-        startChoiceToSelectOption(ally, enemy, this, {option1, option2});
+        self->stateAs<StateChoosen>()->_choosen = nullptr;
+        startChoiceToSelectOption(ally, enemy, self, {option1, option2});
     };
 
-    _onOptionChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onOptionChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&_choosen = self->stateAs<StateChoosen>()->_choosen;
         _choosen = target;
-        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
+        if (isOption(_choosen, Destroy)) {
+            startChoiceToTargetCard(ally, enemy, self, {isBronzeOrSilver, hasTag(Cursed)}, EnemyBoard);
             return;
         }
-        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+        if (isOption(_choosen, Damage)) {
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
             return;
         }
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        assert(_choosen);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        Card *&choosen = self->stateAs<StateChoosen>()->_choosen;
+        if (!choosen)
+            throw Error(Error::ChoosenIsNullptr, self);
 
-        if (dynamic_cast<VandergriftsBlade::Destroy *>(_choosen)) {
-            putToDiscard(target, ally, enemy, this);
+        if (isOption(choosen, Destroy)) {
+            putToDiscard(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        if (dynamic_cast<VandergriftsBlade::Damage *>(_choosen)) {
-            if (damage(target, 9, ally, enemy, this))
-                banish(target, ally, enemy, this);
+        if (isOption(choosen, Damage)) {
+            if (damage(target, 9, ally, enemy, self))
+                banish(target, ally, enemy, self);
 
-            delete _choosen;
-            _choosen = nullptr;
+            delete choosen;
+            choosen = nullptr;
             return;
         }
 
-        assert(false);
+        throw Error(Error::Unreachable, self);
     };
+    return res;
 }
 
-ReinforcedTrebuchet::ReinforcedTrebuchet()
+Card *Cards::createReinforcedTrebuchet()
 {
-    id = "122315";
-    name = "Reinforced Trebuchet";
-    text = "Deal 1 damage to a random enemy on turn end.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Machine };
-    power = powerBase = 8;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createReinforcedTrebuchet, this);
 
-    _onTurnEnd = [=](Field &ally, Field &enemy) {
-        if (!isOnBoard(this, ally))
+    res->id = "122315";
+    res->tags = { Machine };
+    res->power = res->powerBase = 8;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onTurnEnd = [](Card *self, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
             return;
-        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, this);
+        damage(random(cardsFiltered(ally, enemy, {}, EnemyBoard), ally.rng), 1, ally, enemy, self);
     };
+    return res;
 }
 
-Ballista::Ballista()
+Card *Cards::createBallista()
 {
-    id = "122301";
-    name = "Ballista";
-    text = "Deal 1 damage to an enemy and 4 other random enemies with the same power. Crewed: Repeat its ability.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Machine };
-    power = powerBase = 6;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBallista, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        int n = 1 + nCrewed(this, ally);
+    res->id = "122301";
+    res->tags = { Machine };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        int n = 1 + nCrewed(self, ally);
         while (n--)
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
         std::vector<Card *> cards = randoms(cardsFiltered(ally, enemy, {hasPowerX(target->power), otherThan(target)}, EnemyBoard), 4, ally.rng);
         cards.push_back(target);
         for (Card *card : cards)
-            damage(card, 1, ally, enemy, this);
+            damage(card, 1, ally, enemy, self);
     };
+    return res;
 }
 
-BloodyFlail::BloodyFlail()
+Card *Cards::createBloodyFlail()
 {
-    id = "201633";
-    name = "Bloody Flail";
-    text = "Deal 5 damage and Spawn a Specter on a random row.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Item };
-    isSpecial = true;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBloodyFlail, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "201633";
+    res->tags = { Item };
+    res->isSpecial = true;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        damage(target, 5, ally, enemy, this);
-        spawnNewUnitToPos(new Specter(), rowAndPosRandom(ally), ally, enemy, this);
+    res->_onTargetChoosen = [this](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 5, ally, enemy, self);
+        spawnNewUnitToPos(createSpecter(), rowAndPosRandom(ally), ally, enemy, self);
     };
-
+    return res;
 }
 
-BloodyFlail::Specter::Specter()
+Card *Cards::createSpecter()
 {
-    // TODO: find a real picture
-    id = "201633";
-    name = "Specter";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Cursed };
-    isDoomed = true;
-    power = powerBase = 5;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSpecter, this);
+
+    // FIXME: missing picture
+    res->id = "201633";
+    res->tags = { Cursed };
+    res->isDoomed = true;
+    res->power = res->powerBase = 5;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    return res;
 }
 
-BatteringRam::BatteringRam()
+Card *Cards::createBatteringRam()
 {
-    id = "200049";
-    name = "Battering Ram";
-    text = "Deal 3 damage to an enemy. If it's destroyed, deal 3 damage to another enemy. Crewed: Increase initial damage by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Machine };
-    power = powerBase = 6;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBatteringRam, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        _isFirstChoise = true;
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "200049";
+    res->tags = { Machine };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { bool _isFirstChoice = false; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        self->stateAs<State>()->_isFirstChoice = true;
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int x = 3 + _isFirstChoise * nCrewed(this, ally);
-        if (damage(target, x, ally, enemy, this) && _isFirstChoise) {
-            _isFirstChoise = false;
-            startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        bool &_isFirstChoice = self->stateAs<State>()->_isFirstChoice;
+        int x = 3 + _isFirstChoice * nCrewed(self, ally);
+        if (damage(target, x, ally, enemy, self) && _isFirstChoice) {
+            _isFirstChoice = false;
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
         }
     };
+
+    return res;
 }
 
-Trebuchet::Trebuchet()
+Card *Cards::createTrebuchet()
 {
-    id = "122303";
-    name = "Trebuchet";
-    text = "Deal 1 damage to 3 adjacent enemies. Crewed: Increase damage by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Machine };
-    power = powerBase = 7;
-    faction = NothernRealms;
-    rarity = Bronze;
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTrebuchet, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, EnemyBoard);
+    res->id = "122303";
+    res->tags = { Machine };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
     };
 
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        int x = 1 + nCrewed(this, ally);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        int x = 1 + nCrewed(self, ally);
         Card *left = cardNextTo(target, ally, enemy, -1);
         Card *right = cardNextTo(target, ally, enemy, 1);
         for (Card *card : std::vector<Card *>{left, target, right})
             if (card != nullptr)
-                damage(card, x, ally, enemy, this);
+                damage(card, x, ally, enemy, self);
     };
+    return res;
 }
 
-BanArdTutor::BanArdTutor()
+Card *Cards::createBanArdTutor()
 {
-    id = "200048";
-    name = "Ban Ard Tutor";
-    text = "Swap a card in your hand with a Bronze special card from your deck.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Kaedwen, Mage };
-    power = powerBase = 9;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.13.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.14.mp3",
-        "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part3.15.mp3",
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createBanArdTutor, this);
+
+    res->id = "200048";
+    res->tags = { Kaedwen, Mage };
+    res->power = res->powerBase = 9;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {}, AllyHand);
     };
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, this, {}, AllyHand);
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        putToDeck(target, ally, enemy, DeckPosRandom, self);
+        putToHand(first(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck)), ally, enemy, self);
     };
-
-    _onTargetChoosen = [=](Card *target, Field &ally, Field &enemy) {
-        putToDeck(target, ally, enemy, DeckPosRandom, this);
-        putToHand(first(cardsFiltered(ally, enemy, {isBronze, ::isSpecial}, AllyDeck)), ally, enemy, this);
-    };
+    return res;
 }
 
-FieldMedic::FieldMedic()
+Card *Cards::createFieldMedic()
 {
-    id = "122312";
-    name = "Field Medic";
-    text = "Boost Soldier allies by 1.";
-    url = "https://gwent.one/image/card/low/cid/png/" + id + ".png";
-    tags = { Support };
-    power = powerBase = 8;
-    faction = NothernRealms;
-    rarity = Bronze;
-    sounds = {
-        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00566917.mp3",
-        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
-        "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
-    };
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFieldMedic, this);
 
-    _onDeploy = [=](Field &ally, Field &enemy) {
+    res->id = "122312";
+    res->tags = { Support };
+    res->power = res->powerBase = 8;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (Card* card : cardsFiltered(ally, enemy, {hasTag(Soldier)}, AllyBoard))
-            boost(card, 1, ally, enemy, this);
+            boost(card, 1, ally, enemy, self);
     };
+    return res;
 }

@@ -233,7 +233,8 @@ CardView &FieldView::cardView(const int id)
     for (CardView &cardView : cards)
         if (cardView.id == id)
             return cardView;
-    assert(false);
+
+    throw Error(Error::Unreachable, nullptr, "cardView: can't find card by id");
 }
 
 const CardView &FieldView::cardView(const int id) const
@@ -242,7 +243,8 @@ const CardView &FieldView::cardView(const int id) const
     for (const CardView &cardView : cards)
         if (cardView.id == id)
             return cardView;
-    assert(false);
+
+    throw Error(Error::Unreachable, nullptr, "cardView (const): can't find card by id");
 }
 
 bool FieldView::idAtRowAndPos(const Row screenRow, const Pos screenPos, int *id, int *n) const
@@ -393,7 +395,7 @@ std::string ChoiceView::toString() const
     case CardRoundStartSwap:
         return "Choose a card to swap [" + std::to_string(nTargets) + " left]";
     }
-    assert(false);
+    throw Error(Error::Unreachable, nullptr, "ChoiceView::toString: invalid choiceType");
 }
 
 std::string stringRarity(const Rarity rarity)
@@ -403,7 +405,7 @@ std::string stringRarity(const Rarity rarity)
     case Silver: return "Silver";
     case Gold: return "Gold";
     default:
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "stringRarity: invalid rarity");
         return "Rarity?";
     }
 }
@@ -460,7 +462,7 @@ std::string stringTag(const Tag tag)
     case Scoiatael: return "Scoia'tael";
     case Skellige: return "Skellige";
     default:
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "stringTag: invalid tag");
         return "Tag?";
     }
 }

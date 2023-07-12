@@ -115,7 +115,8 @@ void triggerRowEffects(Field &ally, Field &enemy)
             break;
         case BitingFrostEffect:
             if (Card *target = lowest(rowFiltered, ally.rng)) {
-                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy<WildHuntRider>, isNotLocked}, EnemyBoard).size();
+                // NOTE: 132310 is a WildHuntRider
+                const size_t n = cardsFiltered(ally, enemy, {isOnOppositeRow(&ally, &enemy, target), isCopy("132310"), isNotLocked}, EnemyBoard).size();
                 damage(target, 2 + int(n), ally, enemy, nullptr);
             }
             break;
@@ -310,7 +311,7 @@ void startNextRound(Field &ally, Field &enemy)
         nDraw = 1;
         nSwap = 1;
     } else {
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "ally.nRounds out of bounds [1, 3]");
     }
 
     while (nDraw--) {
@@ -445,7 +446,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
             for (Card *other : cardsFiltered(ally, enemy, {}, EnemyAnywhere))
                 other->onOtherEnemyPlayedFromHand(card, enemy, ally);
         } else
-            assert(false);
+            throw Error(Error::Unreachable, card, "_putOnField loyal brach: invalid 'takenFrom'");
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherAllyAppears(card, ally, enemy);
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
@@ -465,7 +466,7 @@ bool _putOnField(Card *card, const RowAndPos &rowAndPos, Field &ally, Field &ene
             if (triggerDeploy)
                 card->onDeploy(enemy, ally);
         } else
-            assert(false);
+            throw Error(Error::Unreachable, card, "_putOnField disloyal brach: invalid 'takenFrom'");
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
             other->onOtherSpyAppears(card, ally, enemy);
         for (Card *other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
@@ -559,7 +560,7 @@ int _findScreenRow(const Card *card, const Field &ally, const Field &enemy)
     if (isOnBoard(card, enemy))
         if (RowAndPos rowAndPos = _findRowAndPos(card, enemy))
             return (toScreenRow(rowAndPos.row(), false));
-    assert(false);
+    throw Error(Error::Unreachable, card, "_findScreenRow: card is neither in ally or enemy");
 }
 
 RowAndPos rowAndPosToTheRight(const Card *card, const Field &field, const int offset)
@@ -637,6 +638,7 @@ void startChoiceCreateOptions(Field &ally, Field &enemy, Card *src, const Filter
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters &filters, const ChoiceGroup group, const int nTargets, const bool isOptional)
@@ -653,6 +655,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const Filters
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::vector<Card *> &options, const int nTargets, const bool isOptional)
@@ -670,6 +673,7 @@ void startChoiceToTargetCard(Field &ally, Field &enemy, Card *src, const std::ve
     choice.isOptional = isOptional;
 
     ally.cardStack2.push(choice);
+    ally.cardStack2.expandNextChoiceAndTryResolveIt();
 }
 
 void startChoiceToSelectRow(Field &ally, Field &enemy, Card *self, const std::vector<int> &screenRowsOptions, const RowFilters &rowFilters)
@@ -736,7 +740,7 @@ void onChoiceDoneCard(Card *card, Field &ally, Field &enemy)
             return;
         }
     }
-    assert(false);
+    throw Error(Error::Unreachable, card, "onChoiceDoneCard: invalid choice.type");
 }
 
 void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &enemy)
@@ -755,7 +759,7 @@ void onChoiceDoneRowAndPlace(const RowAndPos &rowAndPos, Field &ally, Field &ene
         return;
     }
 
-    assert(false);
+    throw Error(Error::Unreachable, nullptr, "onChoiceDoneRowAndPlace: invalid choice.type");
 }
 
 void onChoiceDoneRow(const int screenRow, Field &ally, Field &enemy)
@@ -895,7 +899,7 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
             return _united(Rows{ally.deckStarting, enemy.deckStarting});
 
         if (group == AnyCard)
-            return allCards(PublicBeta_0_9_24_3_432);
+            return ally.cardsAll;
 
         assert(group == AnyBoard);
         return _united(Rows{ally.rowMeele, ally.rowRange, ally.rowSeige, enemy.rowMeele, enemy.rowRange, enemy.rowSeige});
@@ -906,12 +910,14 @@ std::vector<Card *> cardsFiltered(Field &ally, Field &enemy, const Filters &filt
 
 std::vector<Card *> highests(const std::vector<Card *> &row)
 {
+    const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
+
     int powerMax = INT_MIN;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         powerMax = std::max(card->power, powerMax);
 
     std::vector<Card *> res;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         if (card->power == powerMax)
             res.push_back(card);
 
@@ -929,12 +935,14 @@ Card *highest(const std::vector<Card *> &row, Rng &rng)
 
 std::vector<Card *> lowests(const std::vector<Card *> &row)
 {
+    const std::vector<Card *> rowFiltered = _filtered(canBeCount(), row);
+
     int powerMin = INT_MAX;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         powerMin = std::min(card->power, powerMin);
 
     std::vector<Card *> res;
-    for (Card *card : row)
+    for (Card *card : rowFiltered)
         if (card->power == powerMin)
             res.push_back(card);
 
@@ -1192,22 +1200,18 @@ void heal(Card *card, const int x, Field &ally, Field &enemy, const Card *src)
 void reset(Card *card, Field &ally, Field &enemy, const Card *src)
 {
     assert(!card->isSpecial);
-
-    // TODO: check if need smt else
-    Card *copy = card->defaultCopy();
+    Card *copy = card->exactCopy(); // defaultCopy here is needed
     card->powerBase = copy->powerBase;
     card->power = copy->power;
     card->armor = copy->armor;
-
     card->isLocked = copy->isLocked;
     card->isSpy = copy->isSpy;
     card->isResilient = copy->isResilient;
     card->isImmune = copy->isImmune;
     card->isDoomed = copy->isDoomed;
-
-    // TODO: check if it produce a correct behevior
     card->tags = copy->tags;
-    delete(copy);
+    delete copy;
+
     card->onPowerChanged(ally, enemy, src, Reset);
     saveFieldsSnapshot(ally, enemy, ResetAsInDeckBuilder, src, {card});
 }
@@ -1391,7 +1395,7 @@ int toScreenRow(const Row row, const bool isAlly)
     case Seige:
         return isAlly ? 0 : 5;
     default:
-        assert(false);
+        throw Error(Error::Unreachable, nullptr, "toScreenRow: invalid row");
     }
 }
 
@@ -1434,24 +1438,6 @@ void charm(Card *card, Field &ally, Field &enemy, const Card *src)
         spy(card, ally, enemy, card);
 }
 
-void copyCardText(const Card *card, Card *dst)
-{
-    assert(card->armor == 0);
-    assert(card->timer == 0);
-    dst->power = card->power;
-    dst->powerBase = card->powerBase;
-    dst->rarity = card->rarity;
-    dst->faction = card->faction;
-    dst->tags = card->tags;
-    dst->isLoyal = card->isLoyal;
-    dst->isSpecial = card->isSpecial;
-    dst->name = card->name;
-    dst->text = card->text;
-    dst->url = card->url;
-    dst->id = card->id;
-    dst->sounds = card->sounds;
-}
-
 std::string randomSound(const Card *card, Rng &rng)
 {
     /// don't talk, when ambushed
@@ -1469,34 +1455,32 @@ RowEffect randomHazardEffect(Rng &rng)
 
 bool hasNoDuplicates(const std::vector<Card *> &cards)
 {
-    std::map<std::string, int> nameToCount;
+    std::map<std::string, int> idToCount;
     for (Card *card : cards) {
-        auto it = nameToCount.find(card->name);
-        if (it != nameToCount.end()) {
+        auto it = idToCount.find(card->id);
+        if (it != idToCount.end())
             return false;
-        } else {
-            nameToCount.insert({card->name, 1});
-        }
+        idToCount.insert({card->id, 1});
     }
     return true;
 }
 
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards)
 {
-    std::map<std::string, int> nameToCount;
+    std::map<std::string, int> idToCount;
     for (Card *card : cards) {
         if (card->rarity != Bronze)
             continue;
-        auto it = nameToCount.find(card->name);
-        if (it != nameToCount.end()) {
+        auto it = idToCount.find(card->id);
+        if (it != idToCount.end()) {
             ++it->second;
         } else {
-            nameToCount.insert({card->name, 1});
+            idToCount.insert({card->id, 1});
         }
     }
 
-    for (const std::pair<std::string, int> &nameAndCount : nameToCount)
-        if (nameAndCount.second != 2)
+    for (const std::pair<std::string, int> &idAndCount : idToCount)
+        if (idAndCount.second != 2)
             return false;
 
     return true;
@@ -1613,9 +1597,9 @@ bool isOnBoard(const Card *card, const Field &field)
     return isIn(card, field.rowMeele) || isIn(card, field.rowRange) || isIn(card, field.rowSeige);
 }
 
-void transform(Card *card, const Card &target, Field &ally, Field &enemy, const Card *src)
+void transform(Card *card, Card *target, Field &ally, Field &enemy, const Card *src)
 {
-    *card = target;
+    card->transform(target);
     saveFieldsSnapshot(ally, enemy, Transform, src, {card});
 }
 
@@ -1969,259 +1953,345 @@ void conceal(Card *card, Field &ally, Field &enemy, const Card *src)
     card->isRevealed = false;
 }
 
+Card::~Card()
+{
+    delete state;
+}
+
 void Card::onGameStart(Field &ally, Field &enemy)
 {
     if (_onGameStart)
-        return _onGameStart(ally, enemy);
+        return _onGameStart(this, ally, enemy);
 }
 
 void Card::onDeploy(Field &ally, Field &enemy)
 {
     if (_onDeploy && !isLocked)
-        return _onDeploy(ally, enemy);
+        return _onDeploy(this, ally, enemy);
 }
 
 void Card::onDeployFromDiscard(Field &ally, Field &enemy)
 {
     if (_onDeployFromDiscard && !isLocked)
-        return _onDeployFromDiscard(ally, enemy);
+        return _onDeployFromDiscard(this, ally, enemy);
     return onDeploy(ally, enemy);
 }
 
 void Card::onDeployFromDeck(Field &ally, Field &enemy)
 {
     if (_onDeployFromDeck && !isLocked)
-        return _onDeployFromDeck(ally, enemy);
+        return _onDeployFromDeck(this, ally, enemy);
     return onDeploy(ally, enemy);
 }
 
 void Card::onMoveFromRowToRow(Field &ally, Field &enemy)
 {
     if (_onMoveFromRowToRow && !isLocked)
-        return _onMoveFromRowToRow(ally, enemy);
+        return _onMoveFromRowToRow(this, ally, enemy);
 }
 
 void Card::onTurnStart(Field &ally, Field &enemy)
 {
     if (_onTurnStart && !isLocked)
-        return _onTurnStart(ally, enemy);
+        return _onTurnStart(this, ally, enemy);
 }
 
 void Card::onTurnEnd(Field &ally, Field &enemy)
 {
     if (_onTurnEnd && !isLocked)
-        return _onTurnEnd(ally, enemy);
+        return _onTurnEnd(this, ally, enemy);
 }
 
 void Card::onTargetChoosen(Card *card, Field &ally, Field &enemy)
 {
     if (_onTargetChoosen && !isLocked)
-        return _onTargetChoosen(card, ally, enemy);
+        return _onTargetChoosen(this, card, ally, enemy);
 }
 
 void Card::onOptionChoosen(Card *card, Field &ally, Field &enemy)
 {
     if (_onOptionChoosen)
-        return _onOptionChoosen(card, ally, enemy);
+        return _onOptionChoosen(this, card, ally, enemy);
 }
 
 void Card::onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow)
 {
     if (_onTargetRowChoosen && !isLocked)
-        return _onTargetRowChoosen(ally, enemy, screenRow);
+        return _onTargetRowChoosen(this, ally, enemy, screenRow);
 }
 
 void Card::onDraw(Field &ally, Field &enemy)
 {
     if (_onDraw && !isLocked)
-        return _onDraw(ally, enemy);
+        return _onDraw(this, ally, enemy);
 }
 
 void Card::onSwap(Field &ally, Field &enemy)
 {
     if (_onSwap && !isLocked)
-        return _onSwap(ally, enemy);
+        return _onSwap(this, ally, enemy);
 }
 
 void Card::onDiscard(Field &ally, Field &enemy)
 {
     if (_onDiscard && !isLocked)
-        return _onDiscard(ally, enemy);
+        return _onDiscard(this, ally, enemy);
 }
 
 void Card::onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     if (_onDestroy && !isLocked)
-        return _onDestroy(ally, enemy, rowAndPos);
+        return _onDestroy(this, ally, enemy, rowAndPos);
 }
 
 void Card::onPlaySpecial(Field &ally, Field &enemy)
 {
     if (_onPlaySpecial && !isLocked)
-        return _onPlaySpecial(ally, enemy);
+        return _onPlaySpecial(this, ally, enemy);
 }
 
 void Card::onBoost(const int x, Field &ally, Field &enemy)
 {
     if (_onBoost && !isLocked)
-        return _onBoost(x, ally, enemy);
+        return _onBoost(this, x, ally, enemy);
 }
 
 void Card::onDamaged(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onDamaged && !isLocked)
-        return _onDamaged(x, ally, enemy, src);
+        return _onDamaged(this, x, ally, enemy, src);
 }
 
 void Card::onWeakened(const int x, Field &ally, Field &enemy, const Card *src)
 {
     if (_onWeakened && !isLocked)
-        return _onWeakened(x, ally, enemy, src);
+        return _onWeakened(this, x, ally, enemy, src);
 }
 
 void Card::onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type)
 {
     if (_onPowerChanged && !isLocked)
-        return _onPowerChanged(ally, enemy, src, type);
+        return _onPowerChanged(this, ally, enemy, src, type);
 }
 
 void Card::onRevealed(Field &ally, Field &enemy, const Card *src)
 {
     if (_onRevealed && !isLocked)
-        return _onRevealed(ally, enemy, src);
+        return _onRevealed(this, ally, enemy, src);
 }
 
 void Card::onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src)
 {
     if (_onOtherRevealed && !isLocked)
-        return _onOtherRevealed(ally, enemy, card, src);
+        return _onOtherRevealed(this, ally, enemy, card, src);
 }
 
 void Card::onArmorLost(Field &ally, Field &enemy)
 {
     if (_onArmorLost && !isLocked)
-        return _onArmorLost(ally, enemy);
+        return _onArmorLost(this, ally, enemy);
 }
 
 void Card::onContactWithFullMoon(Field &ally, Field &enemy)
 {
     if (_onContactWithFullMoon && !isLocked)
-        return _onContactWithFullMoon(ally, enemy);
+        return _onContactWithFullMoon(this, ally, enemy);
 }
 
 void Card::onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyDamaged && !isLocked)
-        return _onOtherEnemyDamaged(card, ally, enemy);
+        return _onOtherEnemyDamaged(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyDestroyed && !isLocked)
-        return _onOtherEnemyDestroyed(card, ally, enemy);
+        return _onOtherEnemyDestroyed(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyDiscarded && !isLocked)
-        return _onOtherAllyDiscarded(card, ally, enemy);
+        return _onOtherAllyDiscarded(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyDestroyed(Card *card, Field &ally, Field &enemy, const RowAndPos &rowAndPos)
 {
     if (_onOtherAllyDestroyed && !isLocked)
-        return _onOtherAllyDestroyed(card, ally, enemy, rowAndPos);
+        return _onOtherAllyDestroyed(this, card, ally, enemy, rowAndPos);
 }
 
 void Card::onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyPlayedFromHand && !isLocked)
-        return _onOtherAllyPlayedFromHand(card, ally, enemy);
+        return _onOtherAllyPlayedFromHand(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyAppears && !isLocked)
-        return _onOtherAllyAppears(card, ally, enemy);
+        return _onOtherAllyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyAppears && !isLocked)
-        return _onOtherEnemyAppears(card, ally, enemy);
+        return _onOtherEnemyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherSpyAppears(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherSpyAppears && !isLocked)
-        return _onOtherSpyAppears(card, ally, enemy);
+        return _onOtherSpyAppears(this, card, ally, enemy);
 }
 
 void Card::onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherEnemyPlayedFromHand && !isLocked)
-        return _onOtherEnemyPlayedFromHand(card, ally, enemy);
+        return _onOtherEnemyPlayedFromHand(this, card, ally, enemy);
 }
 
 void Card::onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy)
 {
     if (_onOtherAllyResurrecteded && !isLocked)
-        return _onOtherAllyResurrecteded(card, ally, enemy);
+        return _onOtherAllyResurrecteded(this, card, ally, enemy);
 }
 
 void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
 {
     if (_onSpecialPlayed && !isLocked)
-        return _onSpecialPlayed(card, ally, enemy);
+        return _onSpecialPlayed(this, card, ally, enemy);
 }
 
 void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)
 {
     if (_onEnemyMoved && !isLocked)
-        return _onEnemyMoved(card, ally, enemy);
+        return _onEnemyMoved(this, card, ally, enemy);
 }
 
 void Card::onOpponentPass(Field &ally, Field &enemy)
 {
     if (_onOpponentPass && !isLocked)
-        return _onOpponentPass(ally, enemy);
+        return _onOpponentPass(this, ally, enemy);
 }
 
 void Card::onAllyPass(Field &ally, Field &enemy)
 {
     if (_onAllyPass && !isLocked)
-        return _onAllyPass(ally, enemy);
+        return _onAllyPass(this, ally, enemy);
 }
 
 void Card::onRoundLose(Field &ally, Field &enemy)
 {
     if (_onRoundLose && !isLocked)
-        return _onRoundLose(ally, enemy);
+        return _onRoundLose(this, ally, enemy);
 }
 
 void Card::onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row)
 {
     if (_onAllyAppliedRowEffect && !isLocked)
-        return _onAllyAppliedRowEffect(rowEffect, ally, enemy, row);
+        return _onAllyAppliedRowEffect(this, rowEffect, ally, enemy, row);
 }
 
 void Card::onConsumed(Field &ally, Field &enemy, Card *src)
 {
     if (_onConsumed && !isLocked)
-        return _onConsumed(ally, enemy, src);
+        return _onConsumed(this, ally, enemy, src);
 }
 
 void Card::onAllyConsume(Field &ally, Field &enemy, Card *src)
 {
     if (_onAllyConsume && !isLocked)
-        return _onAllyConsume(ally, enemy, src);
+        return _onAllyConsume(this, ally, enemy, src);
+}
+
+Card *Card::exactCopy() const
+{
+    Card *res = defaultCopy();
+
+    delete res->state;
+    res->state = state ? state->exactCopy() : nullptr;
+
+    res->power = power;
+    res->powerBase = powerBase;
+    res->armor = armor;
+    res->timer = timer;
+    res->isLocked = isLocked;
+    res->isSpy = isSpy;
+    res->isResilient = isResilient;
+    res->isAmbush = isAmbush;
+    res->isImmune = isImmune;
+    res->isDoomed = isDoomed;
+    res->isRevealed = isRevealed;
+
+    // NOTE: commented out due to regular cards
+    // can't change any of this non-const props
+    //    res->rarity = rarity;
+    //    res->faction = faction;
+    //    res->isLoyal = isLoyal;
+    //    res->isSpecial = isSpecial;
+    //    res->isCrew = isCrew;
+    return res;
+}
+
+Card *Card::defaultCopy() const
+{
+    assert(_constructor);
+    return _constructor();
+}
+
+void Card::transform(Card *target)
+{
+    assert(target);
+    *this = std::move(*target);
+    target->state = nullptr;
+    delete target;
+}
+
+struct StateOption : StateCopy<StateOption>
+{
+    int _option = -1;
+};
+
+
+Card *createOption(const Card *card, const int optionInd)
+{
+    assert(isSpecial);
+    assert(card->armor == 0);
+    assert(card->timer == 0);
+    Card *res = new Card();
+
+    auto *stateOption = new StateOption;
+    stateOption->_option = optionInd;
+    res->state = stateOption;
+
+    res->power = card->power;
+    res->powerBase = card->powerBase;
+    res->rarity = card->rarity;
+    res->faction = card->faction;
+    res->tags = card->tags;
+    res->isLoyal = card->isLoyal;
+    res->name = card->name;
+    res->text = card->text;
+    res->url = card->url;
+    res->id = card->id;
+    res->sounds = card->sounds;
+    res->isSpecial = card->isSpecial;
+    return res;
+}
+
+int isOption(const Card *card, const int optionInd)
+{
+    assert(card->state);
+    return static_cast<StateOption *>(card->state)->_option == optionInd;
 }
 
 RowEffect rowEffectUnderUnit(const Card *card, const Field &field)
 {
     if (const RowAndPos rowAndPos = _findRowAndPos(card, field))
         return field.rowEffect(rowAndPos.row());
-    assert(false);
+    throw Error(Error::Unreachable, card, "rowEffectUnderUnit: unit can't be found in given field");
     return NoRowEffect;
 }
 
@@ -2295,7 +2365,7 @@ void putToDeck(Card *card, Field &ally, Field &enemy, const DeckPos deckPos, con
         return;
     }
     default:
-        assert(false);
+        throw Error(Error::Unreachable, card, "putToDeck: invalid deckPos");
     }
 }
 

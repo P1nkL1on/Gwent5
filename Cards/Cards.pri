@@ -13,7 +13,8 @@ HEADERS += \
     $$PWD/filters.h \
     $$PWD/demos.h \
     $$PWD/io.h \
-    $$PWD/testcase.h
+    $$PWD/testcase.h \
+    $$PWD/textsen.h
 
 SOURCES += \
     $$PWD/card.cpp \
@@ -21,7 +22,9 @@ SOURCES += \
     $$PWD/view.cpp \
     $$PWD/demos.cpp \
     $$PWD/io.cpp \
-    $$PWD/testcase.cpp
+    $$PWD/testcase.cpp \
+    $$PWD/textsen.cpp
+
 
 DISTFILES += \
     $$PWD/archieve.md

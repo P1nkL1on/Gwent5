@@ -1,6 +1,8 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <string>
+
 enum Row
 {
     Meele,
@@ -17,6 +19,7 @@ enum Row
 
 
 using Pos = int;
+using Id = std::string;
 
 enum Rarity
 {
