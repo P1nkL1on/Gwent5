@@ -9,10 +9,10 @@
 
 
 struct Field;
+struct IGame;
 
 
-struct RowAndPos
-{
+struct RowAndPos {
     static const int posMax = 9;
     RowAndPos() = default;
     RowAndPos(const Row row, const Pos pos);
@@ -25,8 +25,7 @@ private:
 };
 
 
-struct State
-{
+struct State {
     virtual ~State() = default;
     virtual State *exactCopy() const = 0;
     virtual State *defaultCopy() const = 0;
@@ -34,8 +33,7 @@ struct State
 
 
 template <class T>
-struct StateCopy : State
-{
+struct StateCopy : State {
     StateCopy<T> *exactCopy() const override
     {
         return new T(*dynamic_cast<const T *>(this));
@@ -47,8 +45,7 @@ struct StateCopy : State
 };
 
 
-struct Card
-{
+struct Card {
     Card() = default;
     virtual ~Card();
     Card *exactCopy() const;
@@ -88,52 +85,52 @@ struct Card
     /// temporary created options
     std::vector<Card *> _options;
 
-    void onGameStart(Field &ally, Field &enemy);
-    void onDeploy(Field &ally, Field &enemy);
-    void onDeployFromDiscard(Field &ally, Field &enemy);
-    void onDeployFromDeck(Field &ally, Field &enemy);
-    void onMoveFromRowToRow(Field &ally, Field &enemy);
-    void onTurnStart(Field &ally, Field &enemy);
-    void onTurnEnd(Field &ally, Field &enemy);
-    void onTargetChoosen(Card *card, Field &ally, Field &enemy);
-    void onOptionChoosen(Card *card, Field &ally, Field &enemy);
-    void onTargetRowChoosen(Field &ally, Field &enemy, const int screenRow);
-    void onDraw(Field &ally, Field &enemy);
-    void onSwap(Field &ally, Field &enemy);
-    void onDiscard(Field &ally, Field &enemy);
-    void onDestroy(Field &ally, Field &enemy, const RowAndPos &rowAndPos);
-    void onPlaySpecial(Field &ally, Field &enemy);
-    void onBoost(const int x, Field &ally, Field &enemy);
-    void onRevealed(Field &ally, Field &enemy, const Card *src);
-    void onOtherRevealed(Field &ally, Field &enemy, Card *card, const Card *src);
-    void onDamaged(const int x, Field &ally, Field &enemy, const Card *src);
-    void onWeakened(const int x, Field &ally, Field &enemy, const Card *src);
-    void onPowerChanged(Field &ally, Field &enemy, const Card *src, const PowerChangeType type);
-    void onArmorLost(Field &ally, Field &enemy);
-    void onContactWithFullMoon(Field &ally, Field &enemy);
+    void onGameStart(IGame &);
+    void onDeploy(IGame &);
+    void onDeployFromDiscard(IGame &);
+    void onDeployFromDeck(IGame &);
+    void onMoveFromRowToRow(IGame &);
+    void onTurnStart(IGame &);
+    void onTurnEnd(IGame &);
+    void onTargetChoosen(Card *card, IGame &);
+    void onOptionChoosen(Card *card, IGame &);
+    void onTargetRowChoosen(IGame &, const int screenRow);
+    void onDraw(IGame &);
+    void onSwap(IGame &);
+    void onDiscard(IGame &);
+    void onDestroy(IGame &, const RowAndPos &rowAndPos);
+    void onPlaySpecial(IGame &);
+    void onBoost(const int x, IGame &);
+    void onRevealed(IGame &, const Card *src);
+    void onOtherRevealed(IGame &, Card *card, const Card *src);
+    void onDamaged(const int x, IGame &, const Card *src);
+    void onWeakened(const int x, IGame &, const Card *src);
+    void onPowerChanged(IGame &, const Card *src, const PowerChangeType type);
+    void onArmorLost(IGame &);
+    void onContactWithFullMoon(IGame &);
     /// check whether self on board, in hand/deck/discard
-    void onOtherEnemyDamaged(Card *card, Field &ally, Field &enemy);
-    void onOtherEnemyDestroyed(Card *card, Field &ally, Field &enemy);
-    void onOtherAllyDiscarded(Card *card, Field &ally, Field &enemy);
-    void onOtherAllyDestroyed(Card * card, Field &ally, Field &enemy, const RowAndPos &rowAndPos);
-    void onOtherAllyPlayedFromHand(Card *card, Field &ally, Field &enemy);
-    void onOtherAllyAppears(Card *card, Field &ally, Field &enemy);
-    void onOtherEnemyAppears(Card *card, Field &ally, Field &enemy);
-    void onOtherSpyAppears(Card *card, Field &ally, Field &enemy);
-    void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
-    void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
-    void onSpecialPlayed(Card *card, Field &ally, Field &enemy);
-    void onEnemyMoved(Card *card, Field &ally, Field &enemy);
-    void onOpponentPass(Field &ally, Field &enemy);
-    void onAllyPass(Field &ally, Field &enemy);
-    void onRoundLose(Field &ally, Field &enemy);
+    void onOtherEnemyDamaged(Card *card, IGame &);
+    void onOtherEnemyDestroyed(Card *card, IGame &);
+    void onOtherAllyDiscarded(Card *card, IGame &);
+    void onOtherAllyDestroyed(Card *card, IGame &, const RowAndPos &rowAndPos);
+    void onOtherAllyPlayedFromHand(Card *card, IGame &);
+    void onOtherAllyAppears(Card *card, IGame &);
+    void onOtherEnemyAppears(Card *card, IGame &);
+    void onOtherSpyAppears(Card *card, IGame &);
+    void onOtherEnemyPlayedFromHand(Card *card, IGame &);
+    void onOtherAllyResurrecteded(Card *card, IGame &);
+    void onSpecialPlayed(Card *card, IGame &);
+    void onEnemyMoved(Card *card, IGame &);
+    void onOpponentPass(IGame &);
+    void onAllyPass(IGame &);
+    void onRoundLose(IGame &);
     // TODO: test and find all the cases
     /// check whether self on board, in hand/deck/discard
-    void onAllyAppliedRowEffect(const RowEffect rowEffect, Field &ally, Field &enemy, const Row row);
+    void onAllyAppliedRowEffect(const RowEffect rowEffect, IGame &, const Row row);
     // TODO: test and find all the cases
     /// check whether self on board, in hand/deck/discard
-    void onConsumed(Field &ally, Field &enemy, Card *src);
-    void onAllyConsume(Field &ally, Field &enemy, Card *src);
+    void onConsumed(IGame &, Card *src);
+    void onAllyConsume(IGame &, Card *src);
 
     inline bool hasDeathwish() const { return _onDestroy != nullptr; }
     inline bool hasOnAllyApplyEffect() const { return _onAllyAppliedRowEffect != nullptr; }
@@ -148,18 +145,18 @@ public:
 public:
     using Self = Card;
     using Constructor = std::function<Card *()>;
-    using AllyEnemyRowAndPos = std::function<void(Self *, Field &, Field &, const RowAndPos &)>;
-    using CardAllyEnemy = std::function<void(Self *, Card *, Field &, Field &)>;
-    using CardAllyEnemyRowAndPos = std::function<void(Self *, Card *, Field &, Field &, const RowAndPos &)>;
-    using AllyEnemy = std::function<void(Self *, Field &, Field &)>;
-    using IntAllyEnemy = std::function<void(Self *, const int, Field &, Field &)>;
-    using AllyEnemyCardSrc = std::function<void(Self *, Field &, Field &, Card *, const Card *)>;
-    using AllyEnemySrc = std::function<void(Self *, Field &, Field &, const Card *)>;
-    using AllyEnemySrcChangable = std::function<void(Self *, Field &, Field &, Card *)>;
-    using IntAllyEnemySrc = std::function<void(Self *, const int, Field &, Field &, const Card *)>;
-    using AllyEnemyInt = std::function<void(Self *, Field &, Field &, const int)>;
-    using RowEffectAllyEnemyRow = std::function<void(Self *, const RowEffect, Field &, Field &, const Row)>;
-    using AllyEnemySrcPowerChangeType = std::function<void(Self *, Field &, Field &, const Card *src, const PowerChangeType)>;
+    using AllyEnemyRowAndPos = std::function<void(Self *, IGame &, const RowAndPos &)>;
+    using CardAllyEnemy = std::function<void(Self *, Card *, IGame &)>;
+    using CardAllyEnemyRowAndPos = std::function<void(Self *, Card *, IGame &, const RowAndPos &)>;
+    using AllyEnemy = std::function<void(Self *, IGame &)>;
+    using IntAllyEnemy = std::function<void(Self *, const int, IGame &)>;
+    using AllyEnemyCardSrc = std::function<void(Self *, IGame &, Card *, const Card *)>;
+    using AllyEnemySrc = std::function<void(Self *, IGame &, const Card *)>;
+    using AllyEnemySrcChangable = std::function<void(Self *, IGame &, Card *)>;
+    using IntAllyEnemySrc = std::function<void(Self *, const int, IGame &, const Card *)>;
+    using AllyEnemyInt = std::function<void(Self *, IGame &, const int)>;
+    using RowEffectAllyEnemyRow = std::function<void(Self *, const RowEffect, IGame &, const Row)>;
+    using AllyEnemySrcPowerChangeType = std::function<void(Self *, IGame &, const Card *src, const PowerChangeType)>;
     Constructor _constructor = nullptr;
     AllyEnemyRowAndPos _onDestroy = nullptr;
     CardAllyEnemyRowAndPos _onOtherAllyDestroyed = nullptr;
@@ -205,10 +202,67 @@ public:
 };
 
 
-struct Error : std::runtime_error
+using Filters = std::vector<std::function<bool(Card *)> >;
+using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
+
+
+class IGame
 {
-    enum Code
-    {
+public:
+    virtual ~IGame() = default;
+    virtual void startChoiceToTargetCard(
+            Card *src,
+            const std::vector<Card *> &options,
+            const int nTargets = 1,
+            const bool isOptional = false) = 0;
+    virtual void startChoiceToTargetCard(
+            Card *src,
+            const Filters &filters = {},
+            const ChoiceGroup group = AnyBoard,
+            const int nTargets = 1,
+            const bool isOptional = false) = 0;
+    virtual void startChoiceToSelectOption(
+            Card *src,
+            const std::vector<Card *> &options,
+            const int nTargets = 1,
+            const int nWindow = -1,
+            const bool isOptional = false) = 0;
+    virtual void startChoiceCreateOptions(
+            Card *src,
+            const Filters &filters = {},
+            const ChoiceGroup group = AnyCard,
+            const int nWindow = 3,
+            const bool isOptional = false) = 0;
+
+
+    /// returns true if destroyed a unit
+    virtual bool damage(Card *card, const int x, const Card *src) = 0;
+    virtual void boost(Card *card, const int x, const Card *src) = 0;
+    virtual void resetPower(Card *card, const Card *src) = 0;
+    virtual void removeAllStatuses(Card *card, const Card *src) = 0;
+    virtual void putToHand(Card *card, const Card *src) = 0;
+    virtual bool weaken(Card *card, const int x, const Card *src) = 0;
+    virtual void gainArmor(Card *card, const int x, const Card *src) = 0;
+    virtual bool drawACard(const Card *src) = 0;
+    virtual void swapACard(Card *card, const Card *src) = 0;
+    virtual void banish(Card *card, const Card *src = 0);
+    /// returns true if wins a duel
+    virtual bool duel(Card *first, Card *second) = 0;
+    virtual void charm(Card *card, const Card *src) = 0;
+    virtual void toggleLock(Card *card, const Card *src) = 0;
+    virtual void lock(Card *card, const Card *src) = 0;
+    virtual void toggleSpy(Card *card, const Card *src) = 0;
+    virtual void toggleResilient(Card *card, const Card *src) = 0;
+
+    /// returns false if ...?
+    virtual bool spawnNewUnitToPos(Card *card, const RowAndPos &rowAndPos, const Card *src) = 0;
+    virtual void spawnNewCard(Card *card, const Card *src) = 0;
+    virtual void playExistedCard(Card *card, const Card *src) = 0;
+};
+
+
+struct Error : std::runtime_error {
+    enum Code {
         Assert,
         Unreachable,
         ChoosenIsNullptr,
@@ -231,12 +285,7 @@ struct Error : std::runtime_error
 ///     6) target, filters, options, nTargets, isOptional
 
 
-using Filters = std::vector<std::function<bool(Card *)> >;
-using RowFilters = std::vector<std::function<bool(const std::vector<Card *> &)>>;
-
-
-struct Choice
-{
+struct Choice {
     ChoiceType type = CardTarget;
     Card *src = nullptr;
     std::vector<Card *> options;
@@ -284,8 +333,7 @@ private:
 
 using Rng = std::default_random_engine;
 
-struct Field
-{
+struct Field {
     std::vector<Card *> rowMeele;
     std::vector<Card *> rowRange;
     std::vector<Card *> rowSeige;
@@ -379,7 +427,7 @@ std::string randomSound(const Card *card, Rng &rng);
 RowEffect randomHazardEffect(Rng &rng);
 bool hasNoDuplicates(const std::vector<Card *> &cards);
 bool hasExactTwoDuplicatesOfBronze(const std::vector<Card *> &cards);
-RowEffect rowEffectUnderUnit(const Card* card, const Field &field);
+RowEffect rowEffectUnderUnit(const Card *card, const Field &field);
 RowEffect rowEffectInSreenRow(const Field &ally, const Field &enemy, const int screenRow);
 
 /// find a place of a card in the field. returns false if non found
