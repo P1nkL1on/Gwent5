@@ -3086,7 +3086,9 @@ void allCardsInfos(const Patch)
                             "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
                             "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
                         })},
-
+        {"122312", Info(
+                       "Foltest's Pride",
+                       "Deal 2 damage to an enemy and move it to the row above. Crewed: Repeat its ability.")},
     };
     // return infos;
 }

@@ -1574,9 +1574,11 @@ void demoNennekeAndMages(Field &ally, Field &enemy)
     auto *th = cards.createTuirseachHunter();
     auto *c = cards.createBear();
 
-    ally.cardsAdded = {n, m1, m2, m3, m4, m5, ch1, ch2, ch3, th, c};
+    auto *fp = cards.createFoltestsPride();
+
+    ally.cardsAdded = {n, m1, m2, m3, m4, m5, ch1, ch2, ch3, th, c, fp};
     ally.rowMeele = {m1};
-    ally.hand = {n, ch1, ch2, ch3, th};
+    ally.hand = {n, ch1, ch2, ch3, th, fp};
     ally.discard = {m2, m3, m4, m5, c};
 
     auto *m6 = cards.createReinforcedBallista();

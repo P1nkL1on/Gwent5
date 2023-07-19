@@ -135,7 +135,7 @@
 - [x] Vernon Roche
 - [x] Botchling
 - [x] Dethmold
-- [ ] Foltest's Pride
+- [x] Foltest's Pride
 - [x] Hubert Rejk
 - [x] Lubberkin
 - [x] Margarita of Aretuza

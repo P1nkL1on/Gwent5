@@ -460,6 +460,7 @@ std::vector<Card *> Cards::createAll()
         createTrebuchet(),
         createBanArdTutor(),
         createFieldMedic(),
+        createFoltestsPride(),
     };
     return cards;
 }
@@ -12546,6 +12547,32 @@ Card *Cards::createFieldMedic()
     res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
         for (Card* card : cardsFiltered(ally, enemy, {hasTag(Soldier)}, AllyBoard))
             boost(card, 1, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createFoltestsPride()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createFoltestsPride, this);
+
+    res->id = "201748";
+    res->tags = { Temeria, Machine };
+    res->power = res->powerBase = 10;
+    res->faction = NothernRealms;
+    res->rarity = Silver;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        for (int n = 0; n < 1 + nCrewed(self, ally); ++n)
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        const RowAndPos rowAndPos = _findRowAndPos(target, enemy);
+        const Row rowAbove = std::min(Row(rowAndPos.row() + 1), Seige);
+
+        if (!damage(target, 2, ally, enemy, self) && (rowAndPos.row() != Seige))
+            moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, self);
     };
     return res;
 }

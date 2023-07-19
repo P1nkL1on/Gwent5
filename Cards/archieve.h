@@ -506,5 +506,6 @@ public:
     virtual Card *createTrebuchet();
     virtual Card *createBanArdTutor();
     virtual Card *createFieldMedic();
+    virtual Card *createFoltestsPride();
 };
 #endif // CARDS_H
