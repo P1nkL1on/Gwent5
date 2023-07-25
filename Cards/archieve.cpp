@@ -461,6 +461,8 @@ std::vector<Card *> Cards::createAll()
         createBanArdTutor(),
         createFieldMedic(),
         createFoltestsPride(),
+        createDamnedSorceress(),
+        createKaedweniRevenant(),
     };
     return cards;
 }
@@ -12573,6 +12575,60 @@ Card *Cards::createFoltestsPride()
 
         if (!damage(target, 2, ally, enemy, self) && (rowAndPos.row() != Seige))
             moveExistedUnitToPos(target, rowAndPosLastInExactRow(enemy, rowAbove), enemy, ally, self);
+    };
+    return res;
+}
+
+Card *Cards::createDamnedSorceress()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createDamnedSorceress, this);
+
+    res->id = "201630";
+    res->tags = { Cursed, Mage };
+    res->power = res->powerBase = 4;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        if (cardsFiltered(ally, enemy, {isOnSameRow(&ally, self), otherThan(self), hasTag(Cursed)}, AllyBoard).size() > 0)
+            startChoiceToTargetCard(ally, enemy, self, {}, EnemyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        damage(target, 7, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createKaedweniRevenant()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createKaedweniRevenant, this);
+
+    res->id = "201624";
+    res->tags = { Cursed, Kaedwen };
+    res->power = res->powerBase = 4;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    struct State : StateCopy<State> { bool spawned; };
+    res->state = new State();
+
+    res->_onDeploy = [](Card *self, Field &, Field &) {
+        self->stateAs<State>()->spawned = false;
+        self->armor = 1;
+    };
+
+    res->_onAllySpecialPlayed = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (isOnBoard(self, ally) && !self->stateAs<State>()->spawned
+            && (hasTag(target, Spell) || hasTag(target, Item)))
+        {
+            self->stateAs<State>()->spawned = true;
+            Card *copy = self->defaultCopy();
+            copy->isDoomed = true;
+            spawnNewUnitToPos(copy, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
+        }
     };
     return res;
 }

@@ -1593,3 +1593,32 @@ void demoNennekeAndMages(Field &ally, Field &enemy)
 
     startDemo(ally, enemy, true, true);
 }
+
+void demoCursed(Field &ally, Field &enemy)
+{
+    Cards cards;
+    auto *s1 = cards.createDamnedSorceress();
+    auto *s2 = cards.createDamnedSorceress();
+    auto *s3 = cards.createDamnedSorceress();
+    auto *s4 = cards.createDamnedSorceress();
+    auto *kr1 = cards.createKaedweniRevenant();
+    auto *kr2 = cards.createKaedweniRevenant();
+    auto *kr3 = cards.createKaedweniRevenant();
+    auto *s = cards.createSwallow();
+    auto *vb = cards.createVandergriftsBlade();
+
+    ally.cardsAdded = {s1, s2, s3, s4, kr1, kr2, kr3, s, vb};
+    ally.hand = {s1, s2, s3, s4, kr1, kr2, kr3, s, vb};
+
+    auto *m1 = cards.createImperialManticore();
+    auto *m2 = cards.createImperialManticore();
+    auto *m3 = cards.createImperialManticore();
+
+    enemy.cardsAdded = {m1, m2, m3};
+    enemy.rowMeele = {m1, m2};
+    enemy.discard = {m3};
+
+    boost(m1, 5, ally, enemy, m1);
+
+    startDemo(ally, enemy, true, true);
+}

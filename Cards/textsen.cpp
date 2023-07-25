@@ -3086,9 +3086,29 @@ void allCardsInfos(const Patch)
                             "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564889.mp3",
                             "https://gwent.one/audio/card/ob/en/NCIW1_VSET_00564891.mp3",
                         })},
-        {"122312", Info(
+        {"201748", Info(
                        "Foltest's Pride",
                        "Deal 2 damage to an enemy and move it to the row above. Crewed: Repeat its ability.")},
+        {"201630", Info(
+                       "Damned Sorceress",
+                       "If there is a Cursed unit on this row, deal 7 damage.",
+                       Urls{
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.52.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.51.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.53.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.50.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.54.mp3",
+                       })},
+        {"201624", Info(
+                       "Kaedweni Revenant",
+                       "When you play your next Spell or Item, Spawn a Doomed default copy of this unit on its row. 1 Armor.",
+                       Urls{
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.41.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.40.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.42.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.38.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.39.mp3",
+                       })},
     };
     // return infos;
 }

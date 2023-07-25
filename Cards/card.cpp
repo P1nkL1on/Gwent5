@@ -363,8 +363,10 @@ void _activateSpecial(Card *card, Field &ally, Field &enemy, const Card *src)
     card->onPlaySpecial(ally, enemy);
 
     // TODO: others trigger special
-    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere))
+    for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, AllyAnywhere)) {
         other->onSpecialPlayed(card, ally, enemy);
+        other->onAllySpecialPlayed(card, ally, enemy);
+    }
     for (Card * other : cardsFiltered(ally, enemy, {otherThan(card)}, EnemyAnywhere))
         other->onSpecialPlayed(card, enemy, ally);
 
@@ -2162,6 +2164,12 @@ void Card::onSpecialPlayed(Card *card, Field &ally, Field &enemy)
 {
     if (_onSpecialPlayed && !isLocked)
         return _onSpecialPlayed(this, card, ally, enemy);
+}
+
+void Card::onAllySpecialPlayed(Card *card, Field &ally, Field &enemy)
+{
+    if (_onAllySpecialPlayed && !isLocked)
+        return _onAllySpecialPlayed(this, card, ally, enemy);
 }
 
 void Card::onEnemyMoved(Card *card, Field &ally, Field &enemy)

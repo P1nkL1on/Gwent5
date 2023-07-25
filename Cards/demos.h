@@ -70,6 +70,7 @@ void demoClassToFuncRefactoring(Field &ally, Field &enemy);
 void demoNothern(Field &ally, Field &enemy);
 void demoTreason(Field &ally, Field &enemy);
 void demoNennekeAndMages(Field &ally, Field &enemy);
+void demoCursed(Field &ally, Field &enemy);
 
 
 #endif // DEMOS_H

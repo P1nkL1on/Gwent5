@@ -507,5 +507,7 @@ public:
     virtual Card *createBanArdTutor();
     virtual Card *createFieldMedic();
     virtual Card *createFoltestsPride();
+    virtual Card *createDamnedSorceress();
+    virtual Card *createKaedweniRevenant();
 };
 #endif // CARDS_H

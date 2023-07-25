@@ -123,6 +123,7 @@ struct Card
     void onOtherEnemyPlayedFromHand(Card *card, Field &ally, Field &enemy);
     void onOtherAllyResurrecteded(Card *card, Field &ally, Field &enemy);
     void onSpecialPlayed(Card *card, Field &ally, Field &enemy);
+    void onAllySpecialPlayed(Card *card, Field &ally, Field &enemy);
     void onEnemyMoved(Card *card, Field &ally, Field &enemy);
     void onOpponentPass(Field &ally, Field &enemy);
     void onAllyPass(Field &ally, Field &enemy);
@@ -197,6 +198,7 @@ public:
     CardAllyEnemy _onOtherEnemyPlayedFromHand = nullptr;
     CardAllyEnemy _onOtherAllyResurrecteded = nullptr;
     CardAllyEnemy _onSpecialPlayed = nullptr;
+    CardAllyEnemy _onAllySpecialPlayed = nullptr;
     CardAllyEnemy _onEnemyMoved = nullptr;
     RowEffectAllyEnemyRow _onAllyAppliedRowEffect = nullptr;
     AllyEnemySrcChangable _onConsumed = nullptr;

@@ -161,13 +161,13 @@
 - [x] Bloody Flail
 - [x] Blue Stripe Commando
 - [x] Blue Stripe Scout
-- [ ] Cursed Knight
-- [ ] Damned Sorceress
+- [x] Cursed Knight
+- [x] Damned Sorceress
 - [x] Dun Banner
 - [x] Field Medic
 - [x] Kaedweni Cavalry
 - [x] Kaedweni Knight
-- [ ] Kaedweni Revenant
+- [x] Kaedweni Revenant
 - [x] Kaedweni Sergeant
 - [x] Poor F'ing Infantry
 - [ ] Reaver Hunter
