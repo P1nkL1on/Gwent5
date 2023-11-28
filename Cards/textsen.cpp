@@ -3109,6 +3109,20 @@ void allCardsInfos(const Patch)
                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.38.mp3",
                            "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.39.mp3",
                        })},
+        {"201628", Info(
+                       "Tormented Mage",
+                       "Look at 2 Bronze Spells or Items from your deck, then play 1.",
+                       Urls{
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.58.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.59.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.57.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.56.mp3",
+                           "https://gwent.one/audio/card/ob/en/SAY.Battlecries_part5.60.mp3",
+                       })},
+        {"122304", Info(
+                       "Siege Tower",
+                       "Boost self by 2. Crewed: Repeat its ability.",
+                       )},
     };
     // return infos;
 }

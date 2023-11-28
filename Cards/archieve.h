@@ -509,5 +509,7 @@ public:
     virtual Card *createFoltestsPride();
     virtual Card *createDamnedSorceress();
     virtual Card *createKaedweniRevenant();
+    virtual Card *createTormentedMage();
+    virtual Card *createSiegeTower();
 };
 #endif // CARDS_H

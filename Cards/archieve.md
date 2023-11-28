@@ -179,10 +179,10 @@
 - [x] Reinforced Trebuchet
 - [ ] Siege Master
 - [ ] Siege Support
-- [ ] Siege Tower
+- [x] Siege Tower
 - [x] Temerian Drummer
 - [x] Temerian Infantry
-- [ ] Tormented Mage _(easy card)_
+- [x] Tormented Mage
 - [x] Trebuchet
 - [x] Tridam Infantry
 - [ ] Witch Hunter

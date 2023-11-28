@@ -1,4 +1,4 @@
-﻿#include "archieve.h"
+#include "archieve.h"
 
 #include <cassert>
 #include <random>
@@ -463,6 +463,7 @@ std::vector<Card *> Cards::createAll()
         createFoltestsPride(),
         createDamnedSorceress(),
         createKaedweniRevenant(),
+        createTormentedMage(),
     };
     return cards;
 }
@@ -12629,6 +12630,46 @@ Card *Cards::createKaedweniRevenant()
             copy->isDoomed = true;
             spawnNewUnitToPos(copy, rowAndPosToTheRight(self, ally, 1), ally, enemy, self);
         }
+    };
+    return res;
+}
+
+Card *Cards::createTormentedMage()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createTormentedMage, this);
+
+    res->id = "201628";
+    res->tags = { Cursed, Mage };
+    res->power = res->powerBase = 2;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags(Item, Spell)}, AllyDeck), 2, ally.rng));
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        playExistedCard(target, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSiegeTower()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSiegeTower, this);
+
+    res->id = "122304";
+    res->tags = { Machine };
+    res->power = res->powerBase = 8;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        int n = 1 + nCrewed(self, ally);
+        while (n--)
+            boost(self, 2, ally, enemy, self);
     };
     return res;
 }
