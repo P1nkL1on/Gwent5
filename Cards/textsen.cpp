@@ -3129,6 +3129,14 @@ void allCardsInfos(const Patch)
                            "https://gwent.one/audio/card/ob/en/VO_KE01_203352_0006.mp3",
                            "https://gwent.one/audio/card/ob/en/VO_KE01_203352_0004.mp3",
                        })},
+        {"122309", Info(
+                       "Siege Support",
+                       "Whenever an ally appears, boost it by 1. If it's a Machine, also give it 1 Armor. Crew.",
+                       Urls{
+                           "https://gwent.one/audio/card/ob/en/VO_KG01_202928_0014.mp3",
+                           "https://gwent.one/audio/card/ob/en/VO_KG01_202928_0016.mp3",
+                           "https://gwent.one/audio/card/ob/en/VO_KG01_200564_0001.mp3",
+                       })},
     };
     // return infos;
 }

@@ -178,7 +178,7 @@
 - [x] Reinforced Ballista
 - [x] Reinforced Trebuchet
 - [x] Siege Master
-- [ ] Siege Support
+- [x] Siege Support
 - [x] Siege Tower
 - [x] Temerian Drummer
 - [x] Temerian Infantry

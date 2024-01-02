@@ -12698,3 +12698,25 @@ Card *Cards::createSiegeMaster()
     };
     return res;
 }
+
+Card *Cards::createSiegeSupport()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSiegeMaster, this);
+
+    res->id = "122309";
+    res->tags = { Kaedwen, Support };
+    res->power = res->powerBase = 7;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+    res->isCrew = true;
+
+    res->_onOtherAllyAppears = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        if (!isOnBoard(self, ally))
+            return;
+        boost(target, 1, ally, enemy, self);
+        if (hasTag(target, Machine))
+            gainArmor(target, 1, ally, enemy, self);
+    };
+    return res;
+}
