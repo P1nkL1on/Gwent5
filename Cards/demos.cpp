@@ -899,8 +899,16 @@ void demoCrewAndCrewed(Field &ally, Field &enemy)
     auto *b3 = cards.createReinforcedBallista();
     auto *s3 = cards.createRonvidTheIncessant();
     auto *s = cards.createScorch();
+    auto *st = cards.createSiegeTower();
+    auto *sm1 = cards.createSiegeMaster();
+    auto *sm2 = cards.createSiegeMaster();
+    auto *sm3 = cards.createSiegeMaster();
+    auto *dmg1 = cards.createTuirseachArcher();
+    auto *dmg2 = cards.createTuirseachArcher();
+    auto *dmg3 = cards.createTuirseachHunter();
+    auto *dmg4 = cards.createTuirseachHunter();
 
-    ally.cardsAdded = {s1, s2, b1, b2, b3, s3, s};
+    ally.cardsAdded = {s1, s2, b1, b2, b3, s3, s, st, sm1, sm2, sm3, dmg1, dmg2, dmg3, dmg4};
     ally.hand = ally.cardsAdded;
 
     auto *m1 = cards.createImperialManticore();

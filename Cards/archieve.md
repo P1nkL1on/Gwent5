@@ -177,7 +177,7 @@
 - [x] Redanian Knight-Elect
 - [x] Reinforced Ballista
 - [x] Reinforced Trebuchet
-- [ ] Siege Master
+- [x] Siege Master
 - [ ] Siege Support
 - [x] Siege Tower
 - [x] Temerian Drummer

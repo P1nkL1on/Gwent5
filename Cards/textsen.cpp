@@ -3121,8 +3121,14 @@ void allCardsInfos(const Patch)
                        })},
         {"122304", Info(
                        "Siege Tower",
-                       "Boost self by 2. Crewed: Repeat its ability.",
-                       )},
+                       "Boost self by 2. Crewed: Repeat its ability.")},
+        {"122318", Info(
+                       "Siege Master",
+                       "Heal an allied Bronze or Silver Machine and repeat its ability. Crew.",
+                       Urls{
+                           "https://gwent.one/audio/card/ob/en/VO_KE01_203352_0006.mp3",
+                           "https://gwent.one/audio/card/ob/en/VO_KE01_203352_0004.mp3",
+                       })},
     };
     // return infos;
 }

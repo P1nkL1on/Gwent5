@@ -464,6 +464,8 @@ std::vector<Card *> Cards::createAll()
         createDamnedSorceress(),
         createKaedweniRevenant(),
         createTormentedMage(),
+        createSiegeTower(),
+        createSiegeMaster(),
     };
     return cards;
 }
@@ -12646,7 +12648,7 @@ Card *Cards::createTormentedMage()
     res->rarity = Bronze;
 
     res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
-        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags(Item, Spell)}, AllyDeck), 2, ally.rng));
+        startChoiceToTargetCard(ally, enemy, self, randoms(cardsFiltered(ally, enemy, {isBronze, hasAnyOfTags(std::vector<Tag>{Item, Spell})}, AllyDeck), 2, ally.rng));
     };
 
     res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
@@ -12670,6 +12672,29 @@ Card *Cards::createSiegeTower()
         int n = 1 + nCrewed(self, ally);
         while (n--)
             boost(self, 2, ally, enemy, self);
+    };
+    return res;
+}
+
+Card *Cards::createSiegeMaster()
+{
+    auto *res = new Card();
+    res->_constructor = std::bind(&Cards::createSiegeMaster, this);
+
+    res->id = "122318";
+    res->tags = { Kaedwen, Support };
+    res->power = res->powerBase = 6;
+    res->faction = NothernRealms;
+    res->rarity = Bronze;
+    res->isCrew = true;
+
+    res->_onDeploy = [](Card *self, Field &ally, Field &enemy) {
+        startChoiceToTargetCard(ally, enemy, self, {isBronze, hasTag(Machine)}, AllyBoard);
+    };
+
+    res->_onTargetChoosen = [](Card *self, Card *target, Field &ally, Field &enemy) {
+        heal(target, ally, enemy, self);
+        target->onDeploy(ally, enemy);
     };
     return res;
 }

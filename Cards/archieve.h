@@ -511,5 +511,6 @@ public:
     virtual Card *createKaedweniRevenant();
     virtual Card *createTormentedMage();
     virtual Card *createSiegeTower();
+    virtual Card *createSiegeMaster();
 };
 #endif // CARDS_H
