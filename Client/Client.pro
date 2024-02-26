@@ -1,4 +1,4 @@
-QT       += core gui widgets opengl network
+QT       += core gui widgets opengl multimedia network
 
 TARGET = Client
 TEMPLATE = app

@@ -15,33 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Install Qt
-      #   uses: jurplel/install-qt-action@v3
-      #   with:
-      #     version: 5.15.2
-      #     target: desktop
-      #     install-deps: true
-      #     cache: true
-      #     cache-key-prefix: install-qt-action
-      #     set-env: true
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: 5.15.2
+          target: desktop
+          install-deps: true
+          cache: true
+          cache-key-prefix: install-qt-action
+          set-env: true
 
       - name: Build project
         run: |
           cd ${{github.workspace}}/Client
           qmake Client.pro
           make
-
-# - name: Run tests
-#   run: |
-#     cd repo/MyName/Project
-#     ./Project
-
-# - name: Catch return result
-#   run: |
-#     exit_code=$?
-#     if [ $exit_code -eq 0 ]; then
-#       echo "Build and tests passed!"
-#     else
-#       echo "Build or tests failed with exit code: $exit_code"
-#       exit $exit_code
-#     fi
