@@ -32,7 +32,7 @@ All art and audio is property of their respective artists and/or CD PROJEKT RED.
 
 Hotseat app with hardcoded deck. Controls by mouse only. Use wheel to switch views.
 
-<img src="https://user-images.githubusercontent.com/22278488/166415736-eaba6d91-fc44-49e0-a428-5c4c1ae7d1e1.png" width="640" height="720" />
+<img src="https://user-images.githubusercontent.com/22278488/166415736-eaba6d91-fc44-49e0-a428-5c4c1ae7d1e1.png" width="720" height="640" />
 
 ## Widgets
 
